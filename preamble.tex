@@ -1,0 +1,122 @@
+% START WITH BASIC DOCUMENT SETUP
+\usepackage{geometry}
+\geometry{
+a4paper,
+total={170mm,257mm},
+left=20mm,
+top=20mm,
+}
+\setlength\parindent{0pt} % get rid of the stupid indent
+
+% INCLUDE PACKAGES
+
+\usepackage[utf8]{inputenc}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{fontawesome}
+\usepackage[colorlinks=true, linkcolor=magenta]{hyperref}
+
+\usepackage[framemethod=default]{mdframed}
+\mdfsetup{skipabove=\topskip,
+skipbelow=\topskip,
+leftmargin=0cm,
+rightmargin=0cm,
+linewidth=3pt
+}
+
+
+% DEFINITION
+\mdfdefinestyle{definition}{%
+linecolor=Gray,
+backgroundcolor=Gray!10,
+topline=false,
+bottomline=false,
+rightline=false
+}
+\newcommand{\define}[2]{\begin{mdframed}[style=definition,frametitle={#1}]%
+    #2
+    \end{mdframed}
+}
+
+% KEY CONCEPT
+\mdfdefinestyle{keyconcept}{%
+linecolor=Blue,
+backgroundcolor=Blue!10,
+topline=false,
+bottomline=false,
+rightline=false
+}
+\newenvironment{keyconcept}[1]
+    {\begin{mdframed}[style=keyconcept,frametitle={#1}]
+        }
+        {
+    \end{mdframed}
+    }
+
+% EXAMPLE
+\mdfdefinestyle{example}{%
+linecolor=Red,
+backgroundcolor=Red!10,
+topline=false,
+bottomline=false,
+rightline=false
+}
+\newenvironment{example}[1]
+    {\begin{mdframed}[style=example,frametitle={#1}]
+        }
+        {
+    \end{mdframed}
+    }
+
+% QUESTION
+\mdfdefinestyle{question}{%
+linecolor=Green,
+backgroundcolor=Green!10,
+topline=false,
+bottomline=false,
+rightline=false
+}
+\newenvironment{question}[1]
+    {\begin{mdframed}[style=question,frametitle={#1}]
+        }
+        {
+    \end{mdframed}
+    }
+
+% LINK
+\mdfdefinestyle{link}{%
+linecolor=Plum,
+backgroundcolor=Plum!10,
+topline=false,
+bottomline=false,
+rightline=false
+}
+\newenvironment{link}[1]
+    {\begin{mdframed}[style=link,frametitle={#1}]
+        }
+        {
+    \end{mdframed}
+    }
+
+
+% COMMAND FOR LECTURE HEADER
+\newcommand{\lecture}[5]{\newpage%
+    \addcontentsline{toc}{chapter}{#1 (#2)}
+    \textsc{\huge #1}\\ %title of session
+    \begin{figure}[H]
+        \begin{minipage}[t]{0.2\textwidth}
+            \textbf{\faCalendar}\ #2
+        \end{minipage}\hfill
+        \begin{minipage}[t]{0.2\textwidth}
+            \textbf{\faClockO}\ #3
+        \end{minipage}\hfill
+        \begin{minipage}[t]{0.2\textwidth}
+            \textbf{\faMortarBoard}\ #4
+        \end{minipage}\hfill
+        \begin{minipage}[t]{0.2\textwidth}
+            \textbf{\faMapMarker}\ #5
+        \end{minipage}\hfill
+    \end{figure}
+    } %end of new command
