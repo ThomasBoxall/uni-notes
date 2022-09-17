@@ -103,8 +103,9 @@ rightline=false
 
 % COMMAND FOR LECTURE HEADER
 \newcommand{\lecture}[5]{\newpage%
-    \addcontentsline{toc}{chapter}{#1 (#2)}
-    \textsc{\huge #1}\\ %title of session
+    \addtocounter{lectureCounter}{1}
+    \addcontentsline{toc}{chapter}{\arabic{lectureCounter} \quad #1 (#2)}
+    \textsc{\huge \arabic{lectureCounter} \ #1}\\ %title of session
     \begin{figure}[H]
         \begin{minipage}[t]{0.2\textwidth}
             \textbf{\faCalendar}\ #2
@@ -119,4 +120,24 @@ rightline=false
             \textbf{\faMapMarker}\ #5
         \end{minipage}\hfill
     \end{figure}
+    \fancyhead[R]{\arabic{lectureCounter} \ \textsc{#1}}
     } %end of new command
+
+
+
+% HEADER FOOTER
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Thomas Boxall}
+\fancyhead[R]{} %put project title here
+\fancyfoot[R]{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\footrulewidth}{0.4pt}
+\addtolength{\topmargin}{-1.59999pt} % This and line below changes margins to accomondate for headers and footers
+\setlength{\headheight}{13.59999pt}
+
+
+%setup counter for counting classes
+
+\newcounter{lectureCounter}
