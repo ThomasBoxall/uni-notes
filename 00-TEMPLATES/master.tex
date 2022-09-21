@@ -3,12 +3,34 @@
 \input{../preamble.tex}
 \fancyfoot[R]{MODULE CODE}
 
-\title{\textbf{Module xxx}\\Name}
-\author{Thomas Boxall}
-\date{Sept 2022 - Nov 2022 (12 hours)}
+
 
 \begin{document}
-\maketitle
+
+\begin{titlepage}
+    \rule{\textwidth}{1px}
+    \vspace{0.025\textheight}\\
+    \huge{University Of Portsmouth}\\
+    \huge{BSc (Hons) Computer Science}\\
+    \huge{xxx Year}\\
+    \vfill
+    \LARGE{\textbf{Module name}}\\
+    \Large{module code}\\
+    \large{startDate - endDate}\\
+    \large{xx Credits}
+    \vfill
+
+    
+    \begin{FlushRight}
+        \large{Thomas Boxall}\\
+        \textit{up2108121@myport.ac.uk}\\
+        
+    \end{FlushRight}
+    \vspace{0.2\textheight}
+    \rule{\textwidth}{1px}
+    
+\end{titlepage}
+
 \tableofcontents
 \chapter*{Colourful boxes}
     
@@ -37,9 +59,56 @@
         A way that lectures can be linked to other lectures or other resources (e.g. slides, pages of a textbook, website etc)
     \end{link}
     There are lots of ways in which computing is important to modern society...
+\begin{pseudo}
+here is p
+s
+g
+
+h
+ENVIRONMENTSd
+sdsd
+\end{pseudo}
+
+\begin{python}
+# here is a python program
+print("Hello World")
+for x in range (1, 44):
+    print(x, " is current")
+
+def function
+\end{python}
+This code will result in the following output
+\begin{pseudo*}
+Hello World
+1 is current
+2 is current
+...
+/@The text at line 4 is not valid/@
+\end{pseudo*}
+
     \newpage
     This even continues onto the next page
     \newpage
     and the next.
 
+
+
+
+    \research{Pre-reading: pg 122-130}{20-09-2022}{Pre-reading}
+    Here is some research notes from doing some pre-reading.
+
+    \lecture{Drop-In: Blah blah}{20-09-2022}{90:52}{Joe Bloggs}{Room}
+
 \end{document}
+
+
+
+% research stuff
+% RESEARCH: {title}
+% type (eg, pre-reading/post-reading for lecture or something else), date 
+
+
+% CODE ENVIRONMENTS
+% pseudocode (plain black text on numbered white background)
+% python (visual studio colours and white text on black background)
+% create custom environments for both so can do \begin python etc and not have to think about the complex lstlisting syntax.

@@ -17,6 +17,7 @@ top=20mm,
 \usepackage{tabularx}
 \usepackage{fontawesome}
 \usepackage[colorlinks=true, linkcolor=magenta]{hyperref}
+\usepackage{ragged2e}
 
 \usepackage[framemethod=default]{mdframed}
 \mdfsetup{skipabove=\topskip,
@@ -29,11 +30,12 @@ linewidth=3pt
 
 % DEFINITION
 \mdfdefinestyle{definition}{%
-linecolor=Gray,
-backgroundcolor=Gray!10,
+linecolor=Yellow,
+backgroundcolor=Yellow!10,
 topline=false,
 bottomline=false,
-rightline=false
+rightline=false,
+frametitlebackgroundcolor=Yellow!30
 }
 \newcommand{\define}[2]{\begin{mdframed}[style=definition,frametitle={#1}]%
     #2
@@ -46,7 +48,8 @@ linecolor=Blue,
 backgroundcolor=Blue!10,
 topline=false,
 bottomline=false,
-rightline=false
+rightline=false,
+frametitlebackgroundcolor=Blue!30
 }
 \newenvironment{keyconcept}[1]
     {\begin{mdframed}[style=keyconcept,frametitle={#1}]
@@ -61,7 +64,8 @@ linecolor=Red,
 backgroundcolor=Red!10,
 topline=false,
 bottomline=false,
-rightline=false
+rightline=false,
+frametitlebackgroundcolor=Red!30
 }
 \newenvironment{example}[1]
     {\begin{mdframed}[style=example,frametitle={#1}]
@@ -76,7 +80,8 @@ linecolor=Green,
 backgroundcolor=Green!10,
 topline=false,
 bottomline=false,
-rightline=false
+rightline=false,
+frametitlebackgroundcolor=Green!30
 }
 \newenvironment{question}[1]
     {\begin{mdframed}[style=question,frametitle={#1}]
@@ -91,7 +96,8 @@ linecolor=Plum,
 backgroundcolor=Plum!10,
 topline=false,
 bottomline=false,
-rightline=false
+rightline=false,
+frametitlebackgroundcolor=Plum!30
 }
 \newenvironment{link}[1]
     {\begin{mdframed}[style=link,frametitle={#1}]
@@ -104,8 +110,8 @@ rightline=false
 % COMMAND FOR LECTURE HEADER
 \newcommand{\lecture}[5]{\newpage%
     \addtocounter{lectureCounter}{1}
-    \addcontentsline{toc}{chapter}{\arabic{lectureCounter} \quad #1 (#2)}
-    \textsc{\huge \arabic{lectureCounter} \ #1}\\ %title of session
+    \addcontentsline{toc}{chapter}{S.\arabic{lectureCounter}. \quad #1 (#2)}
+    \textsc{\huge S.\arabic{lectureCounter}. \ #1}\\ %title of session
     \begin{figure}[H]
         \begin{minipage}[t]{0.2\textwidth}
             \textbf{\faCalendar}\ #2
@@ -120,8 +126,23 @@ rightline=false
             \textbf{\faMapMarker}\ #5
         \end{minipage}\hfill
     \end{figure}
-    \fancyhead[R]{\arabic{lectureCounter} \ \textsc{#1}}
+    \fancyhead[R]{S.\arabic{lectureCounter}. \ \textsc{#1}}
     } %end of new command
+
+% COMMAND FOR RESEARCH HEADER
+\newcommand{\research}[3]{\newpage%
+    \textsc{\huge \textsc{#1}}
+    \begin{figure}[H]
+        \begin{minipage}[t]{0.4\textwidth}
+            \textbf{\faCalendar}\ #2
+        \end{minipage}\hfill
+        \begin{minipage}[t]{0.4\textwidth}
+            \textbf{\faEye}\ #3
+        \end{minipage}\hfill
+    \end{figure}
+    \fancyhead[R]{\textsc{#1}}
+} % end of new command
+
 
 
 
@@ -141,3 +162,92 @@ rightline=false
 %setup counter for counting classes
 
 \newcounter{lectureCounter}
+
+
+% DEFINE CODE ENVIRONMENTS
+
+% first, import listings package and other packages
+\usepackage{listings}
+\usepackage{amsmath}
+
+%now, define visual studio colours
+\definecolor{codegreen}{RGB}{87,166,74}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{RGB}{214,157,133}
+\definecolor{codeblue}{RGB}{86,156,214}
+\definecolor{backcolour}{RGB}{255,255,255}
+\definecolor{codenormal}{RGB}{0,0,0}
+
+% define the mdframed base style
+
+\mdfdefinestyle{code}{%
+linecolor=Gray,
+backgroundcolor=Gray!10,
+topline=false,
+bottomline=false,
+rightline=false,
+frametitlebackgroundcolor=Gray!30
+}
+
+% define the base listings style
+
+\lstset{backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeblue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small\color{codenormal},
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+    rulecolor=\color{black},
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+    moredelim=[is][\color{red}]{/@}{/@}
+}
+
+% now, define pseudocode style (black text on white background)
+\lstdefinestyle{pseudocode}{
+    captionpos=t,
+}
+\lstnewenvironment{pseudo}
+    {%
+        \mdframed[style=code, frametitle={Psuedocode Snippet}]%
+        \lstset{style = pseudocode}%
+    }
+    {\endmdframed}
+
+\lstnewenvironment{pseudo*}
+    {%
+        \mdframed[style=code]%
+        \lstset{style = pseudocode}%
+    }
+    {\endmdframed}
+
+
+  %  \lstnewenvironment{pseudo}
+  %  {\lstset{style = pseudocode}}
+  %  {}
+
+% define style and frame for python3
+
+\lstdefinestyle{python3}{
+    morekeywords={False, await, else, import, pass, None, break, except, in, raise, True, class, finally, is, return, and, continue, for, lambda, try, as, def, from, nonlocal, while, assert, del, global, not, with, async, elif, if, or, yield}
+}
+
+\lstnewenvironment{python}
+    {%
+        \mdframed[style=code, frametitle={Python Snippet}]%
+        \lstset{style = python3, language=Python}%
+    }
+    {\endmdframed}
+
+
+    % look at using lstset to define basic style then building onto that for each of the different languages.
+    % make an output box where outputs can be recorded (same as pseudo just with a different title.)
