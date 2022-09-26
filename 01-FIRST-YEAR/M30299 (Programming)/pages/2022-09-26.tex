@@ -1,0 +1,40 @@
+\lecture{Writing Simple Programs}{26-09-2022}{15:00}{Nadim}{RB LT1}
+
+This lecture introduces the basic steps involved in programming and provides some additional information about each stage.
+
+\section*{Stages of Algorithm Design}
+When presented a problem to solve programmatically, the first stage to doing so is to understand the problem and to ensure that this understanding is correct.
+To aid this, it can be useful to work out how the user interacts with the system, through listing the user inputs and outputs to screen. At this stage, it can also be beneficial to make a note of some inputs and their expected outputs as this can be used to test the program at the end of development.
+
+The next stage is to design an algorithm that accomplishes the task.
+\define{Algorithm}{A detailed sequence of actions which acomplish a task. Cna be written in plain English or any other language.}
+
+The next stage is to implement the algorithm. This is where the plain English algorithm is converted into programming statements which can be executed by the machine.
+
+The final stage is to test the program. This can be done ith the data noted down in stage one.
+
+\section*{Key Program Concepts}
+In programming, there are a number of key concepts. These will be illustrated using examples written in Python 3.
+
+\subsection*{Statements}
+Every line of a program is called a command or statement. These are executed (carried out) one after the other (there are ways in which the flow of the program can be altered, but this will be covered at a later date). Program execution ends after the last statement is executed.
+\subsection*{Variables}
+A variable is a name for a part of the computer memory where a value is stored. The variables have names in the programs.
+
+Statements in the program may create a new variable, use the value of a variable or change the value of a variable.
+
+\subsection*{Assignment Statements}
+Assignment statements are used to assign a value to a variable. The syntax is as follows:
+\begin{itemize}
+    \item The variable appears on the left hand size of the \verb|=|
+    \item The right hand side of is an expression, which has a value
+\end{itemize}
+\begin{python}
+variableName = expressionWhichHasAValue
+\end{python}
+
+Assignment statements are executed in two steps. First they evaluate the expression on the right hand side then second, assign the value to the variable on the left hand side.
+
+If the variable on the lft hand side doesn't already exist, then it is created. If the variable exists already, its old value is replaced.
+
+% continue from slide which is start of program concepts - numeric and string values (01b)
