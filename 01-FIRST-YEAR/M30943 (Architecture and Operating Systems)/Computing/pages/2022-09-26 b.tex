@@ -1,0 +1,314 @@
+\lecture{Binary Arithmetic}{26-09-2022}{16:15}{Farzad}{RB LT1}
+
+\section*{Number Systems}
+There are a number of different number systems and different methods to convert between them. 
+\subsection*{Denary (Base 10)}
+Used most commonly, this is the one most people learn.
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{0.4\linewidth}{r||X | X | X | X}
+        $10^x$ & $10^3$ & $10^2$ & $10^1$ & $10^0$\\
+        $10^x=$& 1000 & 100 & 10 & 1 \\
+        \hline
+        & 4 & 2 & 5 & 1
+    \end{tabularx}
+\end{table}
+\noindent The total of the numbers above would be calculated in the following way:\\
+$4251=(1000\times 4) + (100 \times 2) + (10 \times 5) + (1 \times 1)$\\
+Denary is also known as base 10, this means each column can have one of ten possible values (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+\subsection*{Binary (Base 2)}
+This is base 2, this means each column can have one of two possible values (0, 1). The columns are also different. Moving from right to left, the columns double each time.
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{0.6\linewidth}{r||X | X | X | X | X | X | X | X}
+        $2^{x}$ & $2^7$ & $2^6$ & $2^5$ & $2^4$ & $2^3$ & $2^2$ & $2^1$ & $2^0$\\
+        $2^x=$ & 128 & 64 & 32 & 16 & 8 & 4 & 2 & 1 \\
+        \hline
+        & 1 & 0 & 1 & 1 & 0 & 0 & 1 & 1
+    \end{tabularx}
+\end{table}
+\noindent The largest value which can be stored in 8-bits of binary is $11111111_2$ or $255_{10}$.
+\subsection*{Hexadecimal (Base 16)}
+Also known as Hex. Using this method, numbers up to 255 can be stored in two characters. This is used a lot in computing, especially in graphics and website development. Each column can have one of 16 values (1 2 3 4 5 6 7 8 9 A B C D E F). The letters are used to represent two-digit numbers as seen below.
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{0.8\linewidth}{rXXXXXXXXXXXXXXXX}
+        Hex: & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & A & B & C & D & E & F \\
+        Decimal: & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15
+    \end{tabularx}
+\end{table}
+To calculate the value held in a Hex number, we calculate in a similar way to Denary and Binary as seen below.
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{0.5\linewidth}{r||X|X|X|X}
+        $16^{x}$ & $16^3$ & $16^2$ & $16^1$ & $16^0$\\
+        $16^{x}=$ & 4096 & 256 & 16 & 1\\
+        \hline
+        & D & 3 & C & E
+    \end{tabularx}
+\end{table}
+$D3CE = (13 \times 4096) + (3 \times 256) + (12 \times 16) + (14 \times 1) = 54222$
+
+
+\subsection*{Converting Between Number Systems}
+\subsubsection*{Binary To Denary}
+Add together all the columns in which there is a 1. Using the example shown in the binary section, the total would be 179.
+\subsubsection*{Denary To Binary}
+This is the reverse of binary to denary. Work from right to left seeing if the value will fit into the column, if it won't then mark down an zero and move onto the next.
+\subsubsection*{Denary to Hex}
+The easiest way to do this is to go via Binary. Convert the number into binary, then split the binary into two nibbles. The values inputted in the previous step don't need to change. With the two nibbles of (4, 2, 1, 0), convert each of them back into denary, giving two individual digits, then convert each of those into Hex. 
+
+\section*{Binary Addition}
+\subsection*{Basic Rules}
+There are four basic rules to binary addition:
+\begin{verbatim}
+0 + 0 =  0
+0 + 1 =  1
+1 + 1 =  1
+1 + 1 = 10 
+\end{verbatim}
+The last one (1+1) is a special case; strictly speaking, the answer is 0 with the 1 carried over. This is particularly useful in digital circuitry.
+\begin{example}{Binary Addition Example}
+Add 100 + 011
+\begin{enumerate}
+    \item Draw out the binary addition columns
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.2\textwidth}{XXXXX}
+             &  & 1 & 1 & 0 \\
+            + &  & 0 & 1 & 1 \\
+            \hline
+            &  &  &  &  
+        \end{tabularx}
+    \end{table}
+    \item Start with the right-most column and add the digits
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.2\textwidth}{XXXXX}
+             &  & 1 & 1 & 0 \\
+            + &  & 0 & 1 & 1 \\
+            \hline
+            &  &  &  & 1 
+        \end{tabularx}
+    \end{table}
+    \item Move to the next column. Add those digits together. As this is 1+1 = 0 carry 1, we write a little 1 in the next column as a carry.
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.2\textwidth}{XXXXX}
+             &  & $^1$1 & 1 & 0 \\
+            + &  & 0 & 1 & 1 \\
+            \hline
+            &  &  & 0 & 1 
+        \end{tabularx}
+    \end{table}
+    \item Move to the next column and add that. Remember to add the carry (making the sum $1+1+0$). This results in 0 carry 1, so, again, we add a little 1 in the next column. It doesn't matter that there aren't any other numbers there to be added, we will make a column!
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.2\textwidth}{XXXXX}
+             & $^1$ & $^1$1 & 1 & 0 \\
+            + &  & 0 & 1 & 1 \\
+            \hline
+            &  & 0 & 0 & 1 
+        \end{tabularx}
+    \end{table}
+    \item Add the final column
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.2\textwidth}{XXXXX}
+             & $^1$ & $^1$1 & 1 & 0 \\
+            + &  & 0 & 1 & 1 \\
+            \hline
+            & 1 & 0 & 0 & 1 
+        \end{tabularx}
+    \end{table}
+\end{enumerate}
+This gives us out final answer of $110+011 = 1001$
+\end{example}
+
+\section*{Binary Multiplication}
+There are 4 basic rules for binary multiplication.
+\begin{verbatim}
+0 x 0 = 0
+0 x 1 = 0
+1 x 0 = 0 
+1 x 1 = 1
+\end{verbatim}
+
+\begin{example}{Binary Multiplication Example}
+Multiply $10 \times 11$
+\begin{enumerate}
+    \item Draw out the multiplication grid as you would for a standard column multiplication with decimal numbers.
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.2\textwidth}{XXXX}
+             &  & 1 & 1 \\
+            x &  & 1 & 0 \\
+            \hline
+             &  &  &  \\
+        \end{tabularx}
+    \end{table}
+    \item Take the right-most digit of the bottom binary number, we will multiply it with each of the digits above and place their results directly underneath. \\
+    $0\times 1 = 0$, place this directly under the 0\\
+    $0 \times 1 = 0$, place this to the left.
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.2\textwidth}{XXXX}
+             &  & 1 & 1 \\
+            x &  & 1 & 0 \\
+            \hline
+             &  & 0 & 0 \\
+        \end{tabularx}
+    \end{table}
+    \item Next, move to the next digit on the bottom row, repeat the same process as before.
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.2\textwidth}{XXXX}
+             &  & 1 & 1 \\
+            x &  & 1 & 0 \\
+            \hline
+             &  & 0 & 0 \\
+             & 1 & 1 & \\
+        \end{tabularx}
+    \end{table}
+    \item We then add our two answer rows together, using the rules of binary addition.
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.2\textwidth}{XXXX}
+             &  & 1 & 1 \\
+            x &  & 1 & 0 \\
+            \hline
+             &  & 0 & 0 \\
+            + & 1 & 1 & \\
+             \hline
+             & 1 & 1 & 0\\
+        \end{tabularx}
+    \end{table}
+\end{enumerate}
+This gives us the final answer of $11\times 10 = 110$
+\end{example}
+
+\section*{Binary Subtraction}
+At this stage, there are four basic rules for binary subtraction. At a later stage, there will be negative numbers introduced when we look at signed binary so more rules will be introduced. 
+\begin{verbatim}
+ 0 - 0 = 0
+ 1 - 0 = 1 
+ 1 - 1 = 0
+10 - 1 = 1
+\end{verbatim}
+\begin{example}{Binary Subtraction Example}
+Subtract $110-001$
+\begin{enumerate}
+    \item Draw out the subtraction columns as you would for a standard decimal column subtraction
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.2\textwidth}{XXXX}
+             & 1 & 1 & 0 \\
+             - & 0 & 0 & 1\\
+             \hline
+              & & & \\
+        \end{tabularx}
+    \end{table}
+    \item Start at the right hand most column ($0-1$). This is something which we can't do, so we have to borrow 1 from the left hand column. To represent this, cross out the borrowed digit, replace with a 0 and in the current column, add a little 1 to the left. \\
+    This leaves us with $10-1$, which we can do and know equals 1. 
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.2\textwidth}{XXXX}
+             & 1 & $^0\cancel{1}$ & $^10$ \\
+             - & 0 & 0 & 1\\
+             \hline
+              & & & 1 \\
+        \end{tabularx}
+    \end{table}
+    \item Now move to the next column, and perform that operation. This is the middle column which is $0-0=0$.
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.2\textwidth}{XXXX}
+             & 1 & $^0\cancel{1}$ & $^10$ \\
+             - & 0 & 0 & 1\\
+             \hline
+              & & 0 & 1 \\
+        \end{tabularx}
+    \end{table}
+    \item Move to the next column, and perform that operation. This is the left column which is $1-0=1$
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.2\textwidth}{XXXX}
+             & 1 & $^0\cancel{1}$ & $^10$ \\
+             - & 0 & 0 & 1\\
+             \hline
+              & 1 & 0 & 1 \\
+        \end{tabularx}
+    \end{table}
+\end{enumerate}
+This gives us the final answer of $110-001=101$
+\end{example}
+
+\section*{Binary Division}
+Binary division follows much the same procedure as `bus stop' decimal division. 
+\begin{example}{Binary Division Example}
+Divide $110 \div 10$
+\begin{enumerate}
+    \item Draw out the division columns as you would for a standard decimal `bus stop' division.
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.2\textwidth}{XXXXX}
+              &  &  &  &  \\
+            \cline{3-5}
+             1 & 0 & \multicolumn{1}{|X}{1} & 1 & 0 \\
+        \end{tabularx}
+    \end{table}
+    \item Start by looking for factors and find 11 is greater than 10. We then write the number of times the value goes into 11 at the top, and the value itself underneath.
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.2\textwidth}{XXXXX}
+              &  &  & 1 &  \\
+            \cline{3-5}
+             1 & 0 & \multicolumn{1}{|X}{1} & 1 & 0 \\
+              &  & 1 & 0 & \\
+        \end{tabularx}
+    \end{table}
+    \item We then subtract to see if there is a remainder. ($11-10=01$)\\
+    The remainder is written up on the top line  
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.2\textwidth}{XXXXX}
+              &  &  & 1 & 1 \\
+            \cline{3-5}
+             1 & 0 & \multicolumn{1}{|X}{1} & 1 & 0 \\
+              & - & 1 & 0 & \\
+            \cline{3-4}
+            &  & 0 & 1 & \\
+        \end{tabularx}
+    \end{table}
+    \item We then bring down the final digit in the division ($0$), to where we are working.
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.2\textwidth}{XXXXX}
+              &  &  & 1 & 1 \\
+            \cline{3-5}
+             1 & 0 & \multicolumn{1}{|X}{1} & 1 & 0 \\
+              &  & 1 & 0 & \\
+            \cline{3-4}
+            &  & 0 & 1 & 0 \\
+        \end{tabularx}
+    \end{table}
+    \item Now, we look to see if our divisor can fit in again. It does fit again, so we subtract it. ($010-10=0$) It leaves no remainder.
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.2\textwidth}{XXXXX}
+              &  &  & 1 & 1 \\
+            \cline{3-5}
+             1 & 0 & \multicolumn{1}{|X}{1} & 1 & 0 \\
+              &  & 1 & 0 & \\
+            \cline{3-4}
+            &  & 0 & 1 & 0 \\
+            & - & & 1 & 0 \\
+            \cline{4-5}
+            & & & & 0\\
+        \end{tabularx}
+    \end{table}
+\end{enumerate}
+This gives us the answer of $110 \div 10 = 11$.
+\end{example}
+
+\end{document}

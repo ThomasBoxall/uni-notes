@@ -37,4 +37,74 @@ Assignment statements are executed in two steps. First they evaluate the express
 
 If the variable on the lft hand side doesn't already exist, then it is created. If the variable exists already, its old value is replaced.
 
-% continue from slide which is start of program concepts - numeric and string values (01b)
+\subsection*{Numeric and String Values}
+Numeric values are numbers. They do not need any demarcation. For example, \verb|2.2| is a numeric value.\\
+String values are strings of characters. These can be any character. Strings need to be encased in single quotes or double quotes. Both are valid, however they can't be mixed. Lines 1 and 2 in the following example are valid, however line 3 is not.
+\begin{python}
+validStringOne = "I'm in double quotes, notice I can use single quotes where I like!"
+validStringTwo = 'Im in single quotes, notice I cant use single quotes in the string.'
+invalidString = "Im not valid'
+\end{python}
+
+\subsection*{Arithmetic Expressions}
+Standard arithmetic expressions can be formed using \verb|+|, \verb|-|, \verb|*|, \verb|/| and \verb|()|. Expressions are evaluated to give a value, this is commonly stored in a variable or outputted directly to the user.
+
+\subsection*{Built-In Functions}
+Python has a number of built-in functions. These are algorithms which are part of the Python language. They can be accessed by using its name. Sometimes they have parameters, sometimes they return a value and sometimes they do both. Common examples of built-in functions are shown below.
+\begin{python}
+print("I display information to the user")
+variable = input("I allow the user to enter text, then I store it in the variable")
+\end{python}
+
+\begin{link} {Example Execution}
+See Week 1, lecture 01c slides on Moodle for a detailed look at how programs execute and how the variable contents change. 
+\end{link}
+
+\section*{Example programs from Lecture}
+\subsection*{Program 01}
+This program introduces a count-controlled loop (for loop) and the print statement.
+\begin{python}
+total = 0
+for i in range(34):
+    #print("banana")
+    #print(i)
+    total = total + i
+
+print("The total is: ", total)
+\end{python}
+This program should output the following
+\begin{pseudo*}
+The total is:  561
+\end{pseudo*}
+The two commented out lines (lines which begin with the \verb|#|) symbol can be un-commented so that they run.
+\subsection*{Program 02}
+This program introduces the concept of \verb|input()|, \verb|int()| and subroutines.
+\begin{python}
+def simpleProgram():
+    
+    value = int(input("Please enter a whole number: "))
+
+    for loopCount in range (value):
+        print(loopCount)
+
+#################
+
+simpleProgram()
+\end{python}
+The program should output the following.
+\begin{pseudo*}
+Please enter a whole number: 12
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+\end{pseudo*}
+The number \verb|12| on line one is entered by the user.
