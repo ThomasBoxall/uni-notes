@@ -251,5 +251,15 @@ frametitlebackgroundcolor=Gray!30
     {\endmdframed}
 
 
-    % look at using lstset to define basic style then building onto that for each of the different languages.
-    % make an output box where outputs can be recorded (same as pseudo just with a different title.)
+% SQL environment
+
+\lstdefinestyle{sql}{
+    morekeywords={SELECT, DISTINCT, INTO, TOP, AS, FROM, WHERE, AND, OR, BETWEEN, LIKE, IN, CREATE, CREATE DATABASE, CREATE TABLE, CREATE INDEX, CREATE VIEW, DROP, DROP DATABASE, DROP TABLE, DROP INDEX, UPDATE, DELETE, ALTER TABLE, COUNT, SUM, AVG, MIN, MAX, GROUP BY, HAVING, ORDER BY, DESC, OFFSET, FETCH, INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL JOIN, EXISTS, GRANT, REVOKE, SAVEPOINT, COMMIT, ROLLBACK, TRUNCATE, UNION, }
+}
+
+\lstnewenvironment{sql}
+    {%
+        \mdframed[style=code, frametitle={SQL Snippet}]%
+        \lstset{style = sql, language=SQL}%
+    }
+    {\endmdframed}
