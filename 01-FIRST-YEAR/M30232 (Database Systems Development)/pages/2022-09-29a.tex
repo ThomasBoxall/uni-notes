@@ -1,0 +1,86 @@
+\lecture{Introduction to module}{29-09-22}{13:00}{Mark}{RB LT1}
+
+The Module Coordinator for this module is Mark (based in BK 3.09), he's assisted by Valentin and Roy in some sessions alongside others too.
+
+Mark is using a new piece of software to make his presentations with, this is currently in the test phases and he may change back to PowerPoint if people don't like it. Slides are available on Moodle as HTML format, they can be printed to PDF files for offline viewing.
+
+\section*{Module Aims}
+This module aims to help you understand where the database sits in modern systems. It does not train us to be database administrators. It gives us the skills to design a database and the knowledge of how to access it and do so safely.
+
+This module will start from the ground up.
+
+\section*{Learning Outcomes}
+\begin{itemize}
+    \item Demonstrate the fundamental principles of database design \& development
+    \item Use appropriate analysis techniques to identify the requirements of a database.
+    \item Design and build a relational database, given a set of requirements.
+    \item Understand how to apply data manipulation using SQL.
+\end{itemize}
+Historically, this module used to focus on the elements of Computer Science which relate to databases (for example, software development lifecycles). Now, it focuses on just databases.
+\section*{Content Overview}
+This module provides an understanding of the theory of relational database design using tools standard to the industry. We will be taught how to design databases using Crows Foot Entity Relationship Diagrams and SQL to create the database. This module will also cover normalisation.
+
+\section*{Teaching Overview}
+The module is a year long, worth 20 credits and has two different styles of teaching.
+
+There will be one, one hour lecture per week. In this session, we will be taught the knowledge which we can put into practice in the following weeks practical session.
+
+There will be one, one and a half hour practical session per week. In this session, we will practice the skills required for databases. \textit{(N.B. This session is timetabled for two hours on the timetable, generally the lecturers will leave after an hour and a half however students can remain in the room until the end of the two hours.)}
+
+If you are unable to make it to a lecture, you need to read the content provided on Moodle. If you are unable to make it to a practical, you need to read and do (most importantly, do) the content on Moodle; this is so you are able to complete the following practical as they all build on each other.
+
+\section*{Resources}
+There are a number of resources talked through:
+\begin{itemize}
+    \item Moodle - the universities Virtual Learning Environment. Notes from lectures and from practicals will be uploaded here along with quizzes and other resources.
+    \item Google Virtual Machine - the virtual machine in which our database lives. You do not need the university VPN to access it, as it requires a SSH connection. The data is hosted by Google, the module staff have some control over the machines. More detail on this will be provided in the first practical session.
+    \item Google Workspace
+    \item Microsoft Office. This is available free from the university. At some point, this will include Microsoft Visio, which is useful for coursework.
+\end{itemize}
+
+\section*{Expectations}
+\subsection*{Lecturers Expectations of Students}
+\begin{itemize}
+    \item Turn up for lectures (from next week, the content taught in the lectures will be used in the following weeks practical sessions)
+    \item Arrive on time (there is usually useful information given out at the beginning of sessions)
+    \item Participate and take notes in sessions
+    \item Catch up on sessions if you miss them
+    \item Finish the practical work before the following weeks practical sessions
+    \item Study for about 4 hours a week total
+\end{itemize}
+These things are proven to increase the likelihood that a student gets a better mark at the end of the year.
+\subsection*{Students Expectations of Lecturers}
+They are nice to students; start and end sessions on time; provide students with support and feedback on work throughout the module; and to return feedback and marks on work as quickly as they can (this usually should be within two weeks).
+
+\section*{Assessments}
+There are two forms of assessment in this module.
+\subsection*{Coursework}
+This will be worth 50\% of the overall module mark. It will be released in the next few weeks and will be due at the end of the first week after the January assessment period (probably the Friday of that week at 11pm). The content assessed will all be from the first teaching block. We will get extra marks if we include content which hasn't been taught yet.
+\subsection*{Exam}
+This will be worth 50\% of the overall module mark. It will take place in the May/June assessment period and be computer based. It can include anything from the entire year however we won't have to write code (probably will have to look at code and say whats wrong). It will be multiple choice questions. There will be quizzes available on Moodle which will be similar to this where we can practice.
+
+\section*{Brief Introduction to Databases}
+\define{Database}{"A single, possiblely large, repository of data that can be used simultaneuously by many departments and users" \textit{(Database Solutions: A Step by Step Guide to Databases - T Connolly \& C Begg)}}
+
+\subsection*{Spreadsheets}
+Spreadsheets are not databases. This is because a spreadsheet cannot hold the amount of data which a database can and eventhough though using some software, a database could be shared with multiple people, it cannot be edited by multiple people simultaneously.
+
+This also applies to Microsoft Access.
+
+\subsection*{Database Management System (DBMS)}
+\define{DBMS}{"The software which interacts with the users' application programs and the database" \textit{(Database Solutions: A Step by Step Guide to Databases - T Connolly \& C Begg)}}
+Examples of a DBMS include PostgreSQL, MySQL, SQL Server, Oracle and Mongo DB.
+
+\subsection*{Why Use a Database}
+An alternative to databases are file based systems.
+
+File based systems: are old fashioned; are not necessarily digital; they often contain duplicate data; are difficult to search; are very difficult to update; have the possibility to contain different file types which may not be compatible together; are inaccessible; and security may be an issue.
+
+A database is: a modern approach; digital; duplicates can be removed; easy to search; easy to update; comprised of only one file type; capable of having multiple levels of access control; able to limit user access.
+
+There are times at which a Database is not suitable for the setting. In this case, it may be more suitable to use a spreadsheet.
+
+\subsection*{Integrated Database Environment}
+In an integrated database environment, the DBMS sites as a communication hub between all nodes. The DBMS is the server on which the database is hosted.
+
+When the database is setup correctly, you can get more information out of it than you put in.

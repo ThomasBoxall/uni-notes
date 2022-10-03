@@ -1,0 +1,721 @@
+\research{Worksheet 1}{20-09-22}{Worksheet}
+
+\section*{Basic Exercises}
+\begin{enumerate}
+    \item Convert the following numbers to binary
+    \begin{enumerate}
+        \item 12 = \verb|1100|
+        \item 103 = \verb|1100111|
+        \item 97 = \verb|1100001|
+        \item 55 = \verb|0110111|
+        \item 395 = \verb|110001011|
+    \end{enumerate}
+    \item Convert the following binary numbers to decimal
+    \begin{enumerate}
+        \item 1101 = \verb|13|
+        \item 101001 = \verb|41|
+        \item 110111 = \verb|55|
+        \item 1000011 = \verb|135|
+        \item 11111110 = \verb|254|
+    \end{enumerate}
+    \item Convert the following decimal numbers to hexadecimal numbers
+    \begin{enumerate}
+        \item 1026
+        \begin{table}[H]
+            \hspace*{4em}\begin{tabularx}{0.4\textwidth}{XXX}
+                0100 & 0000 & 0010 \\
+                4 & 0 & 2
+            \end{tabularx}
+        \end{table}
+        = 402
+        \item 5678
+        \begin{table}[H]
+            \hspace*{4em}\begin{tabularx}{0.4\textwidth}{XXXX}
+                0001 & 0110 & 0010 & 1110 \\
+                1 & 6 & 2 & E
+            \end{tabularx}
+        \end{table}
+        = 162E
+        \item 9567
+        \begin{table}[H]
+            \hspace*{4em}\begin{tabularx}{0.4\textwidth}{XXXX}
+                0010 & 0101 & 0101 & 1111 \\
+                2 & 5 & 5 & F
+            \end{tabularx}
+        \end{table}
+        = 255E
+        \item 72627
+        \begin{table}[H]
+            \hspace*{4em}\begin{tabularx}{0.4\textwidth}{XXXXX}
+                0001 & 0001 & 1011 & 1011 & 0011 \\
+                1 & 1 & B & B & 3
+            \end{tabularx}
+        \end{table}
+        = 11BB3
+        \item 115497
+        \begin{table}[H]
+            \hspace*{4em}\begin{tabularx}{0.4\textwidth}{XXXXX}
+                0001 & 1100 & 0011 & 0010 & 1001 \\
+                1 & C & 3 & 2 & 9
+            \end{tabularx}
+        \end{table}
+        = 1C329
+    \end{enumerate}
+    \item Convert the following hexadecimal numbers to binary numbers
+    \begin{enumerate}
+        \item 2D = 0010 1101
+        \item F3A = 1111 0011 1010
+        \item 1BD = 0001 1011 1101
+        \item ABC = 1010 1011 1100
+        \item D3F2 = 1101 0011 1111 0010
+    \end{enumerate}
+\end{enumerate}
+
+\section*{Core Exercises}
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        a) 11 + 11
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{rXXX}
+                & & 1 & 1\\
+                + & & 1 & 1\\
+                \cline{2-4}
+                & 1 & 1 & 0 \\
+                \cline{2-4}
+                & 1 & 1 &
+            \end{tabularx}
+        \end{table}
+        = 110
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        b) 100 + 10
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{rXXX}
+                & & 1 & 0\\
+                + & 1 & 0 & 0\\
+                \cline{2-4}
+                & 1 & 1 & 0 \\
+                \cline{2-4}
+            \end{tabularx}
+        \end{table}
+        = 110
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        c) 111 + 11
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{rXXXX}
+                & & & 1 & 1\\
+                + &  & 1 & 1 & 1\\
+                \cline{2-5}
+               & 1 & 0 & 1 & 0 \\
+                \cline{2-5}
+                & & 1 & 1 &
+            \end{tabularx}
+        \end{table}
+        = 1010
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        d) 110 + 100
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{rXXXX}
+                & & 1 & 1 & 0\\
+                + &  & 1 & 0 & 0\\
+                \cline{2-5}
+               & 1 & 0 & 1 & 0 \\
+                \cline{2-5}
+                & 1 &  &  &
+            \end{tabularx}
+        \end{table}
+        = 1010
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        e) 
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{rXXXXX}
+                & & 1 & 1 & 1 & 1\\
+                + &  & 1 & 1 & 0 &0 \\
+                \cline{2-6}
+               & 1 & 1 & 0 & 1 & 1 \\
+                \cline{2-6}
+                & 1 & 1 &  & & 
+            \end{tabularx}
+        \end{table}
+        = 11011
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        f) 11 - 01
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{0.5\linewidth}{rXX}
+            & 1 & 1\\
+            - & 0 & 1\\
+            \cline{2-3}
+            & 1 & 0 \\
+            \cline{2-3}
+            &  &
+        \end{tabularx}
+    \end{table}
+    = 10
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        g) 11 - 10
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{rXX}
+                & 1 & 1\\
+                - & 1 & 0\\
+                \cline{2-3}
+                & 0 & 1 \\
+                \cline{2-3}
+                &  &
+            \end{tabularx}
+        \end{table}
+        = 10
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        h) 111-100
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{rXXX}
+                & 1 & 1 & 1 \\
+                - & 1 & 0 & 0\\
+                \cline{2-4}
+                & 0 & 1 & 1\\
+                \cline{2-4}
+                &  & & 
+            \end{tabularx}
+        \end{table}
+        = 011
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        i) 101 - 011
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{rXXX}
+                & $^0\cancel{1}$ & $^10$ & 1 \\
+                - & 0 & 1 & 1\\
+                \cline{2-4}
+                & 0 & 1 & 0\\
+                \cline{2-4}
+                &  & & 
+            \end{tabularx}
+        \end{table}
+        = 010
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        j) 11 $\times$ 11
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{rXXXX}
+                &  &  & 1 & 1 \\
+                $\times$ &  &  & 1 &1 \\
+                \cline{4-5}
+                &  &  & 1 & 1\\
+                + &  & 1 & 1 & \\
+                \cline{2-5}
+                & 1 & 0 & 0 & 1 \\
+                \cline{2-5}
+            \end{tabularx}
+        \end{table}
+        = 1001
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        k) 101 $\times$ 111
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.6\linewidth}{rXXXXXX}
+                &  &  &  & 1 & 0 & 1\\
+                $\times$ &  &  &  &1 & 1 & 1 \\
+                \cline{5-7}
+                &  &  &  & 1 & 0 & 1\\
+                &  &  & 1 & 0 & 1 &  \\
+                +&  & 1 & 0 & 1 &  &  \\
+                \cline{2-7}
+                & 1 & 0 & 0 & 0 & 1 & 1\\
+                \cline{2-7}
+                & 1 & 1 & 1 &  &  & \\
+            \end{tabularx}
+        \end{table}
+        = 100011
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        l) 1101 $\times$ 1010
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.8\linewidth}{rXXXXXXXX}
+                &  &  &  & & 1 & 1 & 0 & 1\\
+                $\times$ &  &  &  & & 1 & 0 & 1 &0 \\
+                \cline{6-9}
+                &  &  &  &  & 0 & 0 & 0 & 0 \\
+                &  &  &  & 1 & 1 & 0 & 1 & \\
+                &  &  & 0 & 0 & 0 & 0 &  & \\
+                + &  & 1 & 1 & 0 & 1 &  &  & \\
+                \cline{2-9}
+                & 1 & 0 & 0 & 1 & 0 & 0 & 1 &0 \\
+                \cline{2-9}
+                &  & 1 & 1 & 1 &  &  &  & \\
+            \end{tabularx}
+        \end{table} 
+        = 10000010
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        m) 110 $\div$ 11
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{XXXXX}
+                & & & 1 & 0 \\
+                \cline{3-5}
+                1 & 1 & \multicolumn{1}{|X}{1} & 1 & 0 \\
+                & & 1 & 1 &  \\
+                \cline{3-4}
+                & & 0 & 0 & 0 \\
+            \end{tabularx}
+        \end{table}
+        = 10
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        n) 110 $\div$ 10
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{XXXXX}
+                & & & 1 & 1 \\
+                \cline{3-5}
+                1 & 0 & \multicolumn{1}{|X}{1} & 1 & 0 \\
+                & & 1 & 0 &  \\
+                \cline{3-4}
+                & & 0 & 1 & 0\\
+                & & & 1 & 0\\
+                \cline{4-5}
+                & &  & 0 & 0 \\
+            \end{tabularx}
+        \end{table}
+        = 11
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        o) 1100 $\div$ 100
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.6\linewidth}{XXXXXXX}
+                  &   &   &   &   & 1 & 1 \\
+                \cline{4-7}
+                1 & 0 & 0 & \multicolumn{1}{|X}{1} & 1 & 0 & 0 \\
+                  &   &   & 1 & 0 & 0 &   \\
+                \cline{4-6}
+                  &   &   & 0 & 1 & 0 & 0  \\
+                  &   &   &   & 1 & 0 & 0 \\
+                \cline{5-7}
+                  &   &   &   & 0 & 0 & 0 \\
+            \end{tabularx}
+        \end{table}
+        = 11
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+
+    \end{minipage}\hfill
+\end{figure}
+
+\section*{More Core Exercises}
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        a) 11 + 01
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{rXXX}
+                & & 1 & 1\\
+                + & & 0 & 1\\
+                \cline{2-4}
+                & 1 & 0 & 0 \\
+                \cline{2-4}
+                & 1 & 1 &
+            \end{tabularx}
+        \end{table}
+        = 100
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        b) 10 + 10
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{rXXX}
+                & & 1 & 0\\
+                + & & 1 & 0\\
+                \cline{2-4}
+                & 1 & 0 & 0 \\
+                \cline{2-4}
+                & 1 &  &
+            \end{tabularx}
+        \end{table}
+        = 100
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        c) 101 + 11
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{rXXXX}
+                & & 1 & 0 & 1\\
+                + & & & 1 & 1\\
+                \cline{2-5}
+                & 1 & 0 & 0 & 0 \\
+                \cline{2-5}
+                & 1 & 1 & 1 & 
+            \end{tabularx}
+        \end{table}
+        = 1000
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        d) 111 + 110
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{rXXXX}
+                & & 1 & 1 & 1\\
+                + & & 1  & 1 & 0\\
+                \cline{2-5}
+                & 1 & 1 & 0 & 1 \\
+                \cline{2-5}
+                & 1 & 1 &  & 
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        e) 1001 + 101
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{rXXXX}
+                & 1 & 0 & 0 & 1\\
+                + & & 1  & 0 & 1\\
+                \cline{2-5}
+                & 1 & 1 & 1 & 0 \\
+                \cline{2-5}
+                &  &  & 1 & 
+            \end{tabularx}
+        \end{table}
+        = 1110
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        f) 1101 + 1011
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{rXXXXX}
+                & & 1 & 1 & 0 & 1\\
+                + & &1 & 0  & 1 & 1\\
+                \cline{2-6}
+                & 1 & 1 & 0 & 0 &0 \\
+                \cline{2-6}
+                & 1 & 1 & 1 & 1 & 
+            \end{tabularx}
+        \end{table}
+        = 11000
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        g) 11-1
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{rXX}
+                & 1 & 1\\
+                - &  & 1\\
+                \cline{2-3}
+                & 1 & 0 \\
+                \cline{2-3}
+                &  &
+            \end{tabularx}
+        \end{table}
+        = 10
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        h) 101 - 100
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{rXXX}
+                & 1 & 0 & 1 \\
+                - & 1 & 0 & 0\\
+                \cline{2-4}
+                & 0 & 0 & 1 \\
+                \cline{2-4}
+                &  & & 
+            \end{tabularx}
+        \end{table}
+        = 001
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        i) 110 - 101
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{rXXX}
+                & 1 & $^0\cancel{1}$ & $^{10}\cancel{0}$ \\
+                - & 1 & 0 & 1\\
+                \cline{2-4}
+                & 0 & 0 & 1 \\
+                \cline{2-4}
+                &  & & 
+            \end{tabularx}
+        \end{table}
+        = 001
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        j) 1110 - 11
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.6\linewidth}{rXXXX}
+                & 1 & $^0\cancel{1}$ & $^{1}\cancel{1}$ & $^{10}\cancel{0}$ \\
+                - &  &  & 1 & 1 \\
+                \cline{2-5}
+                & 1 & 0 & 1 & 1 \\
+                \cline{2-5}
+                &  & &  & 
+            \end{tabularx}
+        \end{table}
+        = 1011
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        k) 1100 - 1001
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.6\linewidth}{rXXXX}
+                & 1 & $^0\cancel{1}$ & $^{1}\cancel{0}$ & $^{10}\cancel{0}$ \\
+                - & 1 & 0 & 0 & 1 \\
+                \cline{2-5}
+                & 0 & 0 & 1 & 1 \\
+                \cline{2-5}
+                &  & &  & 
+            \end{tabularx}
+        \end{table}
+        = 0011
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        l) 11010 - 10111
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.7\linewidth}{rXXXXX}
+                & 1 & $^0\cancel{1}$ & $^1\cancel{0}$ & $^{10}\cancel{1}$ & $^{10}\cancel{0}$ \\
+                -& 1 & 0 & 1 & 1 & 1 \\
+                \cline{2-6}
+                & 0 & 0 & 0 & 1 & 1 \\
+                \cline{2-6}
+                &  &  &  & &
+            \end{tabularx}
+        \end{table}
+        = 00011
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        m) 11 $\times$ 11
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.6\linewidth}{rXXXX}
+                &  & & 1 & 1 \\
+                $\times$ &  &  & 1 & 1 \\
+                \cline{4-5}
+                &  &  & 1 & 1 \\
+                +&  & 1 & 1 &  \\
+                \cline{2-5}
+                & 1 & 0 & 0 &1 \\
+                \cline{2-5}
+                &  & 1 &  & \\
+            \end{tabularx}
+        \end{table}
+        = 1001
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        n) 100 $\times$ 10
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.6\linewidth}{rXXXX}
+                &  & 1 & 0 & 0 \\
+                $\times$ &  &  & 1 & 0 \\
+                \cline{3-5}
+                &  & 0 & 0 & 0 \\
+                +& 1 & 0 & 0 &  \\
+                \cline{2-5}
+                & 1 & 0 & 0 & 0 \\
+                \cline{2-5}
+                &  &  &  & \\
+            \end{tabularx}
+        \end{table}
+        = 1000
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        o) 111 $\times$ 101
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.6\linewidth}{rXXXXXX}
+                & & &  & 1 & 1 & 1 \\
+                $\times$ & & &  & 1 & 0 & 1 \\
+                \cline{4-7}
+                &  &  &  & 1 & 1 & 1 \\
+                &  &  & 0 & 0 & 0 & \\
+                +&  & 1 & 1 & 1 &  & \\
+                \cline{2-7}
+                & 1 & 0 & 0 & 0 & 1 & 1 \\
+                \cline{2-7}
+                &  & 1 & 1 &  &  & \\
+            \end{tabularx}
+        \end{table}
+        = 100011
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        p) 1000 $\times$ 110
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.6\linewidth}{rXXXXXX}
+                & & & 1 & 1 & 0 & 1 \\
+                $\times$ & & &  & 1 & 1 & 0 \\
+                \cline{5-7}
+                &  &  & 0 & 0 & 0 & 0 \\
+                &  & 1 & 0 & 0 & 1 & \\
+                +& 1 & 0 & 0 & 1 &  & \\
+                \cline{2-7}
+                & 1 & 1 & 0 & 1 & 1 & 0 \\
+                \cline{2-7}
+                &  &  &  &  &  & \\
+            \end{tabularx}
+        \end{table}
+        = 110110
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        q) 1101 $\times$ 1101
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.8\linewidth}{rXXXXXXXX}
+                &  &  &  &  & 1 & 1 & 0 & 1 \\
+                $\times$&  &  &  &  & 1 & 1 & 0 & 1 \\
+                \cline{6-9}
+                &  &  &  &  & 1 & 1 & 0 & 1 \\
+                &  &  &  & 0 & 0 & 0 & 0 &  \\
+                &  &  & 1 & 1 & 0 & 1 &  &  \\
+                +&  & 1 & 1 & 0 & 1 &  &  &  \\
+                \cline{2-9}
+                & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 1 \\
+                \cline{2-9}
+                & 1 & 1 & 1 & 1 & 1 &  &  &  \\
+            \end{tabularx}
+        \end{table}
+        = 10101001
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        r) 1110 $\times$ 1101
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.8\linewidth}{rXXXXXXXX}
+                &  &  &  &  & 1 & 1 & 1 & 0 \\
+                $\times$&  &  &  &  & 1 & 1 & 0 & 1 \\
+                \cline{6-9}
+                &  &  &  &  & 1 & 1 & 1 & 0 \\
+                &  &  &  & 0 & 0 & 0 & 0 &  \\
+                &  &  & 1 & 1 & 1 & 0 &  &  \\
+                +&  & 1 & 1 & 1 & 0 &  &  &  \\
+                \cline{2-9}
+                & 1 & 0 & 1 & 1 & 0 & 1 & 1 & 0 \\
+                \cline{2-9}
+                & 1 & 1 & 1 & 1 &  &  &  &  \\
+            \end{tabularx}
+        \end{table}
+        =10110110
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        s) 100 $\div$ 10
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\linewidth}{XXXXX}
+              &  &  & 1 & 0 \\
+            \cline{3-5}
+            1 & 0 & \multicolumn{1}{|X}{1} & 0 & 0 \\
+              &  & 1 & 0 &  \\
+              \cline{3-4}
+              &  & 0 & 0 & 0 \\
+            \end{tabularx}
+        \end{table}
+        = 10
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        t) 1001 $\div$ 11
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.75\linewidth}{XXXXXX}
+              &  &  &  & 1 & 1\\
+            \cline{3-6}
+            1 & 1 & \multicolumn{1}{|X}{$^0\cancel{1}$} & $^1\cancel{0}$ & $^{10}\cancel{0}$ & 1\\
+              &  &  & 1 & 1 & \\
+              \cline{4-5}
+              &  &  & 0 & 1 & 1 \\
+              &  &  &  & 1 & 1 \\
+              \cline{5-6}
+              &  &  &  & 0 & 0 \\  
+            \end{tabularx}
+        \end{table}
+        = 11
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        u) 1100 $\div$ 100
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.7\linewidth}{XXXXXXX}
+             & & & & & 1 & 1\\
+             \cline{4-7}
+             1& 0& 0&\multicolumn{1}{|X}{1} &1 &0 &0 \\
+             & & & 1& 0& 0& \\
+             \cline{4-6}
+             & & & 0&1 &0 &0 \\
+             & & & & 1& 0& 0\\
+            \cline{5-7}
+             & & & &0 &0 &0 \\
+            \end{tabularx}
+        \end{table}
+        =11
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        
+    \end{minipage}\hfill
+\end{figure}

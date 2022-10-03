@@ -16,7 +16,7 @@ top=20mm,
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{fontawesome}
-\usepackage[colorlinks=true, linkcolor=magenta]{hyperref}
+\usepackage[colorlinks=true, linkcolor=magenta, pdftex, pdfauthor={Thomas Boxall},]{hyperref}
 \usepackage{ragged2e}
 \usepackage{cancel} % used to cancel out numbers in maths mode.
 \usepackage{amssymb} % gives more maths symbols
@@ -198,7 +198,7 @@ frametitlebackgroundcolor=Gray!30
     keywordstyle=\color{codeblue},
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\small\color{codenormal},
+    basicstyle=\ttfamily\scriptsize\color{codenormal},
     breakatwhitespace=false,
     breaklines=true,
     captionpos=b,
@@ -220,7 +220,8 @@ frametitlebackgroundcolor=Gray!30
 }
 \lstnewenvironment{pseudo}
     {%
-        \mdframed[style=code, frametitle={Psuedocode Snippet}]%
+        \mdframed[style=code]%
+        \tiny{ LANGUAGE: Pseudocode}
         \lstset{style = pseudocode}%
     }
     {\endmdframed}
@@ -228,6 +229,7 @@ frametitlebackgroundcolor=Gray!30
 \lstnewenvironment{pseudo*}
     {%
         \mdframed[style=code]%
+        \tiny{ LANGUAGE: Unknown}
         \lstset{style = pseudocode}%
     }
     {\endmdframed}
@@ -245,7 +247,8 @@ frametitlebackgroundcolor=Gray!30
 
 \lstnewenvironment{python}
     {%
-        \mdframed[style=code, frametitle={Python Snippet}]%
+        \mdframed[style=code]%
+        \tiny{ LANGUAGE: Python3}
         \lstset{style = python3, language=Python}%
     }
     {\endmdframed}
@@ -259,7 +262,8 @@ frametitlebackgroundcolor=Gray!30
 
 \lstnewenvironment{sql}
     {%
-        \mdframed[style=code, frametitle={SQL Snippet}]%
+        \mdframed[style=code]%
+        \tiny{ LANGUAGE: SQL}
         \lstset{style = sql, language=SQL}%
     }
     {\endmdframed}

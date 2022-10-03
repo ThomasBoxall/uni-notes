@@ -1,0 +1,100 @@
+\lecture{Practical 1}{29-09-22}{14:00}{Mark \& team}{FTC 3rd floor}
+
+\section*{Introduction to Practical sessions}
+Practical documents are available on Moodle, make a copy of these and store within your university Google Drive so you can edit them during the sessions and make notes.
+
+\subsection*{Access Levels}
+In PostgreSQL, the first level of security is that a user cannot login unless they have been given access or there is a database with the same name as their username.
+
+We don't have \verb|sudo| access to linux, however we have full administrative access to PostgreSQL. 
+Don't drop the database called \verb|upxxxxxxx| (where \verb|xxxxxxx| is replaced with student number) or anything that is owned by \verb|postgres| as this breaks things. 
+
+\subsection*{PostgreSQL}
+PostgreSQL is ready to accept code when the prompt ends in \verb|=#|. If you enter part of a command and press enter, the prompt will change to \verb|-#|, this indicates that Postgres is waiting for you to finish the command.
+
+PostgreSQL gives some useful error messages, SQL does not. 
+
+\subsection*{Code Editors}
+A code editor should be used to write SQL into, then the SQL should be copied and pasted into the Linux machine. The only thing that should be directly entered into the shell is to connect to a different database.
+
+This is so that a. we have a copy of what we have done and b. so that if the VM is deleted, we are able to re-build our VM with less pain than if we didn't save all the code.
+
+A recommended setup is to use VS code, with a SQL syntax extension. VS Code comes with integrated Powershell, allowing you to ssh to the VM from the same window. 
+
+\subsection*{SQL}
+SQL works like a procedural programming language, in that it reads the code inputted line by line. This also means that long and complex lines of code can be split across many lines, making it easier to read them.
+
+\section*{Installing The First Database}
+Due to an issue with the image used to build the Virtual Machines, we have to create the database which we will use for the first few sessions. The code to do this was available on Moodle, copy and paste into the code editor then copy and paste again, this time into the Postgres prompt of the linux machine. This executes and creates the database, pre-populated with some sample data.
+\subsection*{Tasks}
+1. List the databases in your server
+\begin{sql}
+\l
+\end{sql}
+\begin{pseudo*}
+                                 List of databases
+    Name      |     Owner      | Encoding | Collate |  Ctype  |   Access privileges        
+----------------+----------------+----------+---------+---------+-----------------------     
+dsd_22         | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+mongo-2021-fix | mongo-2021-fix | UTF8     | C.UTF-8 | C.UTF-8 |
+postgres       | postgres       | UTF8     | C.UTF-8 | C.UTF-8 |
+template0      | postgres       | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres          +     
+               |                |          |         |         | postgres=CTc/postgres      
+template1      | postgres       | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres          +     
+               |                |          |         |         | postgres=CTc/postgres      
+up2108121      | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+(6 rows)
+\end{pseudo*}
+
+2. Connect to the database 
+\begin{sql}
+\c dsd_22
+\end{sql}
+\begin{pseudo*}
+You are now connected to database "dsd_22" as user "up2108121".
+\end{pseudo*}
+
+3. List everything in this database
+\begin{sql}
+\d
+\end{sql}
+\begin{pseudo*}
+                    List of relations
+Schema |            Name            |   Type   |   Owner   
+--------+----------------------------+----------+-----------
+public | category                   | table    | up2108121
+public | category_cat_id_seq        | sequence | up2108121
+public | cust_order                 | table    | up2108121
+public | cust_order_cust_ord_id_seq | sequence | up2108121
+public | customer                   | table    | up2108121
+public | customer_cust_id_seq       | sequence | up2108121
+public | manifest                   | table    | up2108121
+public | manifest_manifest_id_seq   | sequence | up2108121
+public | product                    | table    | up2108121
+public | product_prod_id_seq        | sequence | up2108121
+public | role                       | table    | up2108121
+public | role_role_id_seq           | sequence | up2108121
+public | staff                      | table    | up2108121
+public | staff_staff_id_seq         | sequence | up2108121
+(14 rows)
+\end{pseudo*}
+
+4. List just the tables
+\begin{sql}
+\dt
+\end{sql}
+\begin{pseudo*}
+           List of relations
+Schema |    Name    | Type  |   Owner   
+--------+------------+-------+-----------
+public | category   | table | up2108121
+public | cust_order | table | up2108121
+public | customer   | table | up2108121
+public | manifest   | table | up2108121
+public | product    | table | up2108121
+public | role       | table | up2108121
+public | staff      | table | up2108121
+(7 rows)
+\end{pseudo*}
+
+TO BE CONTINUED.
