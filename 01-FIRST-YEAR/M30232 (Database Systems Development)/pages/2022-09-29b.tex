@@ -97,4 +97,40 @@ public | staff      | table | up2108121
 (7 rows)
 \end{pseudo*}
 
-TO BE CONTINUED.
+5. Get a list of all the customers in the \verb|customer| table
+
+\begin{sql}
+SELECT * FROM customer;
+\end{sql}
+
+\begin{pseudo*}
+cust_id |   cust_fname    |    cust_lname    |        addr1         |    addr2     |      town      | postcode  |              email
+---------+-----------------+------------------+----------------------+--------------+ ----------------+-----------+---------------------------------
+        1 | Jobey           | Boeter           | 6 Claremont Park     | Truax        | La Mohammedia  | CV42 3EF  | jboeter0@mail.ru
+        2 | York            | O'Deegan         | 882 Hooker Trail     |              | Chemnitz       | YA92 2OJ  | yodeegan1@nydailynews.com
+        3 | Penelope        | Hexter           | 25 Jackson Lane      |              | Pingshan       | LY32 8LN  | phexter2@cbslocal.com
+        4 | Chadd           | Franz-Schoninger | 7 Division Point     | Texas        | Baojia         | XA22 0UR  | cfranzschoninger3@google.com.hk
+        5 | Vikky           | Eke              | 293 Colorado Drive   | Browning     | Kamenny Privoz | WQ12 3SF  | veke4@elegantthemes.com
+        6 | Marie-francoise | Currier          | 032 Eagan Junction   | Duke         | Waekolong      | NB52 4MV  | acurrier0@economist.com
+        7 | Benedicte       | Dozdill          | 579 Dryden Terrace   |              | Dawuhan        | GY32 6GQ  | cdozdill1@amazon.de
+        8 | Gorel           | Douthwaite       | 2946 Bluejay Parkway | Heath        | Sunbu          | PH02 3ZX  | edouthwaite2@feedburner.com
+        9 | Berengere       | Menendez         | 06154 Jackson Way    | Doe Crossing | Tsagaanders    | HO82 5XL  | amenendez3@dell.com
+        10 | Pelagie         | Hachard          | 1777 Hauk Center     |              | Jiantou        | NA52 4LM  | fhachard4@blinklist.com
+        11 | Adaobi          | Musa             | 6 Clariss Ave        |              | La Mohammedia  | CV4 3F    | amusa9@mail.ca
+(11 rows)
+\end{pseudo*}
+
+6. Choose a different table from the output of \verb|\dt| and get a list of all the records in that table.
+\begin{sql}
+SELECT * FROM role;
+\end{sql}
+\begin{pseudo*}
+role_id |    role_name
+---------+-----------------
+   1 | Order Picker
+    2 | Final Packer
+    3 | Post Sales
+    4 | Customer Retain
+    5 | Misc
+(5 rows)
+\end{pseudo*}

@@ -1,0 +1,107 @@
+\lecture{Computing with Data and Numbers}{03-10-22}{1500}{Nadim}{RB LT1}
+
+\section*{Data and Data Types}
+There is a lot of data which programs have to process. Different types of data are stored as different `Data Types', this allows them to be processed differently; an example of this is numerical data. In programming, we commonly distinguish between two different types of numerical data: integers (whole numbers, eg 55, 77, 88, -5) and fractional number (or floating point numbers, eg 4.6, 7.00956, -9.89). Words and other multi-character statements can be written within strings and truth values are stored as booleans.
+
+All data values belong to one single data type and in some contexts, we use Class rather than data type.
+
+\subsection*{Python Data Types}
+Python has all of the common data types within it. Each of the data types have a specific keyword:
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{0.45\textwidth}{c|c|c}
+        Type & Python Keyword & Example\\
+        \hline
+        Integer & \verb|int| & \verb|33|\\
+        Fractional & \verb|float| & \verb|2.3|\\
+        String & \verb|str| & \verb|"Spam"|\\
+        Boolean & \verb|bool| & \verb|True|        
+    \end{tabularx}
+\end{table}
+
+\subsection*{Operations on Data Types}
+Data types have operations associated with them, some of these are language specific functions however the majority are universal across most programming languages.
+
+For example, \verb|int| and \verb|float| both have the operations \verb|+|, \verb|-|, \verb|*| and \verb|/|. 
+
+Numeric data types follow the operator precedence rules, as a human would with mathematical equations. They follow BIDMAS. Where two operators have equal precedence, the calculations are carried out from left to right.
+
+\subsection*{Type Conversions}
+It is important to be able to convert between different data types. The following example code shows the different functions.
+\begin{python}
+# convert 5 (int) to float, equals 5.0
+floatVariable = float(5)
+
+# convert 4.5 to int, this truncates, so will equal 4
+intVariable = int(4.8)
+
+# convert 6.8 to a string, equals "6.8"
+strVariable = str(6.8)
+\end{python}
+
+It can be useful to find out what data type a variable or value is. To do this, use the \verb|type()| function as seen below.
+\begin{python}
+print(type(44)) # outputs <class 'int'>
+print(type("Banana")) # outputs <class 'str'>
+print(type(4.67)) # outputs <class 'float'>
+\end{python}
+
+\subsection*{User Input}
+The \verb|input()| function, returns a string. This can be really useful if we want to do something with a string. However, if we want to do something with a number, this is less useful. We can use the \verb|float()| or \verb|int()| functions to convert into floats or integers respectively. Examples of this can be seen below.
+
+There is another function which can be used. The \verb|eval()| function returns either a float or integer depending on the value passed into it. It can be useful in situations where the value entered by the user could be either floating point or integer.
+
+\begin{python}
+# convert to float
+floatInput = float(input("Enter a float here: "))
+
+# convert to an integer
+intInput = int(input("Enter an integer here: "))
+\end{python}
+
+\section*{Arithmetic Operations}
+Where an arithmetic operation involves both a float and integer, the integer is automatically converted to a float then the operation is carried out. For example, in the operation \verb|7+1.5|, the \verb|7| would be converted to \verb|7.0|. Therefore, the calculation would then be \verb|7.0 + 1.5 = 8.5|. 
+
+\subsection*{Division}
+The \verb|/| operator always performs floating point division, hence \verb|11 / 4 = 2.75|.
+
+The \verb|//| operator  performs integer division, where it is given two integers as inputs, the result will be a truncated integer; as seen in the following example \verb|11 // 4 = 2|
+
+The \verb|%| operator gives the remainder of an integer division, hence \verb|11 % 4 = 3|.
+
+\subsection*{Issues with Floating Point Arithmetic}
+Floating point numbers are represented within the computer using a fixed number of space (64 bits), this means that there is a limit to the range and accuracy of the number which is able to be stored.
+
+There are some numbers, 0.1 for example, which are unable to be represented within this size limit in binary, this can lead to issues with the value of a float number after performing mathematical operations on it.
+
+This problem is true of all programming languages that use floating point numbers. 
+
+\section*{Python's Numeric Functions}
+There are a number of useful built-in functions in Python which help with maths.
+
+The \verb|round()| function takes a float as a parameter and returns the rounded value to the nearest int. It takes a second optional parameter which allows you to specify the number of digits after the decimal point to round to, as seen below.
+\begin{python}
+intRound = round(5.6) # equals 6
+
+floatRound = round(6.3345742, 3) # equals 6.335
+\end{python}
+
+The \verb|abs()| function returns the absolute value of a number which is passed in as a parameter.
+
+The \verb|pow()| function takes two parameters, the first being the number and the second being the power of it we want to calculate, as seen below
+\begin{python}
+powerTwo = pow(2, 3) # equals 8
+powerThree = pow(3, 2) # equals 9
+\end{python}
+This function is the same as the \verb|**| operator.
+
+\subsection*{Math Module}
+Sometimes things we want to do mathematical things in Python which the base language can't do. To be able to do this, we import a library. This is some pre-written code which we can use in our programs.
+
+To be able to use the math library, we first have to import it
+\begin{python}
+import math
+# or alternatively, if the line above doesn't work, use line below
+from math import *
+\end{python}
+The math module provides a number of useful things including some constants (eg, \verb|math.pi|) and mathematical functions (eg, \verb|math.sqrt()|). 
