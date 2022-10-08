@@ -1,0 +1,117 @@
+\lecture{Computer Networks and Network Topologies}{04-10-22}{09:00}{Amanda}{Zoom}
+
+\section*{Communications Network}
+Every time we communicate, we use a network of some description. Communications networks are vehicles for exchanging information, collaborating and sharing access to information. 
+
+\section*{Networks}
+\define{Network}{A group of two or more devices, connected through infrastructure that are able to communicate and exchange informaiton bexause they agree to use software that observes the same set of protocols.}
+
+Within a network, the devices are connected via hardware and software. The hardware is what physically connects the devices together. For example, telephone lines, fibre-optic cables, routers and gateways and the computers themselves. Software is what enables us to use the hardware for communication and exchanging information. The software enables networks to follow a set of rules that are generally referred to as protocols.
+\define{Protocol}{A pre-determined set of rules that govern how devices communicate with eachother, ensureing interoperability between different brands, categories and types of device.}
+\subsection*{Interoperability}
+Permitting devices follow the protocols, different types of computers, using different operating systems, can be connected, communicate with each other and share information as long as they follow the network protocols.
+
+\section*{Network Topologies}
+\define{Toplogy}{A toplogy is the arrangement of devices and connections within the network.}
+
+It is common for modern networks to have a full-ish mesh topology at the core with a star topology at the edges.
+
+All of these topologies are in the context of LANs.
+
+Key to shapes:\\
+\tikz \node[cnode] at (0,0) (){}; Node\\
+\tikz \node[redcnode] at (0,0) (){}; Switch\\
+\tikz \node[lilBlackSquare] at (0,0) (){}; Terminator
+
+\subsection*{Star Topology}
+\begin{figure}[H]
+    \begin{minipage}[H]{0.6\textwidth}
+        In the star topology, all devices are connected to a single central node. This central node is usually a switch or hub. This topology is more common in todays networks, especially due to the fact that multiple `stars' can be interconnected. 
+        \subsubsection*{Advantages}
+        If one of the nodes fails, the network will still function; depending on the capacity of the central node, the network can accommodate heavy traffic; it is easy to add and remove nodes as necessary, the limit of numbers of nodes is the capacity of the central node.
+        \subsubsection*{Disadvantages}
+        They are very reliant on the operations of the central node as it is a single point of failure (if the central node fails, the whole network won't functions); the effectiveness of the whole network is determined by how effective the central node is.
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.35\textwidth}
+        \centering
+        \begin{tikzpicture}
+            \node[redcnode] (centrenode) {sw};
+            \node[cnode] (top) [above=of centrenode] {};
+            \node[cnode] (right) [right=of centrenode] {};
+            \node[cnode] (left) [left=of centrenode] {};
+            \node[cnode] (bttm) [below=of centrenode]{};
+            \node[cnode] (ne) [above right=of centrenode]{};
+            \node[cnode] (se) [below right=of centrenode]{};
+            \node[cnode] (sw) [below left=of centrenode]{};
+            \node[cnode] (nw) [above left=of centrenode]{};
+            
+            \draw[-] (top.south) -- (centrenode.north);
+            \draw[-] (right.west) -- (centrenode.east);
+            \draw[-] (left.east) -- (centrenode.west);
+            \draw[-] (bttm.north) -- (centrenode.south);
+            \draw[-] (ne.south west) -- (centrenode.north east);
+            \draw[-] (se.north west) -- (centrenode.south east);
+            \draw[-] (sw.north east) -- (centrenode.south west);
+            \draw[-] (nw.south east) -- (centrenode.north west);
+            
+            \end{tikzpicture}
+    \end{minipage}\hfill
+\end{figure}
+\subsection*{Bus Topology}
+\begin{figure}[H]
+    \begin{minipage}[H]{0.6\textwidth}
+        In a bus topology, there is a central backbone cable which runs the entire length of the network. Linked into this backbone are the nodes. At the end of the backbone, there have to be special terminators. This design is limited to a very low number of computers. This topology is no longer a popular method due to the limitations of the design.
+        \subsubsection*{Advantages}
+        Allows relatively good rate of data transmission; it is simple to implement; it uses less cable than a star topology; it uses a lower grade of cable than star topology, hence it is cheaper.
+        \subsubsection*{Disadvantages}
+        It doesn't cope well with heavy traffic; it is prone to collisions, where two nodes transmit at the same time; it is difficult to administer \& troubleshoot, as a broken backbone can render the network useless; the backbone has a limited length, this limits the number of nodes which can be connected to it; the performance degrades as additional nodes are added.
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.35\textwidth}
+        \centering
+        \begin{tikzpicture}
+            \draw (0,3) -- (0,-3);
+            \draw(0,2) -- (-1,2);
+            \draw(0,1) -- (1,1);
+            \draw(0,0) -- (-1,0);
+            \draw(0,-1) -- (1,-1);
+            \draw(0,-2) -- (-1,-2);
+
+            \node[lilBlackSquare] at (0,3) (a){};
+            \node[lilBlackSquare] at (0,-3) (b){};
+            \node[cnode] at (-1.2,2) (){};
+            \node[cnode] at (1.2,1) (){};
+            \node[cnode] at (-1.2,0) (){};
+            \node[cnode] at (1.2,-1) (){};
+            \node[cnode] at (-1.2,-2) (){};
+            
+
+
+        \end{tikzpicture}
+    \end{minipage}\hfill
+\end{figure}
+\subsection*{Token Ring Topology}
+\begin{figure}[H]
+    \begin{minipage}[H]{0.6\textwidth}
+        In this topology, all the nodes on the network connect together into a ring. Through software, a `token' is created. This is passed from node-to-node; and when a node has the token, it is able to communicate. This is no longer a popular method for designing a network as the design is limited.
+        \subsubsection*{Advantages}
+        All nodes on the network have equal chances of transmitting data; there is a good quality of service; there are no collisions.
+        \subsubsection*{Disadvantages}
+        If one of the nodes go down, the whole network may go down; as the token is virtual, it may get lost or corrupted; it is difficult to add or remove nodes from the ring.
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.35\textwidth}
+        \textit{image placeholder text}
+    \end{minipage}\hfill
+\end{figure}
+\subsection*{Mesh Topology}
+\begin{figure}[H]
+    \begin{minipage}[H]{0.6\textwidth}
+        In this topology, each node is connected to multiple other nodes directly. This required specialist software and hardware. Mesh topologies, can be either partially or fully meshed (meaning nodes only connect to some other nodes, or every node connects to every node directly). This topology is most commonly found in the core of networks, connecting switches together or meshing the routers together at an ISP level.
+        \subsubsection*{Advantages}
+        It provides a redundant path between devices; networks can be expanded without disruption to the users; if nodes or cables fail, traffic can be re-routed easily.
+        \subsubsection*{Disadvantages}
+        This requires more cables than the other topologies; there is a complicated implementation procedure; there are large amounts of redundancy through the network.
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.35\textwidth}
+        \textit{image placeholder text}
+    \end{minipage}\hfill
+\end{figure}

@@ -1,0 +1,248 @@
+\lecture{Practical 2}{06-10-22}{14:00}{Mark \& team}{FTC Floor 3}
+
+\section*{Introductory Tasks}
+1. After getting into PostgreSQL client, list the databases.
+\begin{sql}
+\l
+\end{sql}
+\begin{pseudo*}
+    List of databases
+    Name      |     Owner      | Encoding | Collate |  Ctype  |   Access privileges
+----------------+----------------+----------+---------+---------+-----------------------
+dsd_22         | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+mongo-2021-fix | mongo-2021-fix | UTF8     | C.UTF-8 | C.UTF-8 |
+postgres       | postgres       | UTF8     | C.UTF-8 | C.UTF-8 |
+template0      | postgres       | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres          +
+              |                |          |         |         | postgres=CTc/postgres
+template1      | postgres       | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres          +
+              |                |          |         |         | postgres=CTc/postgres
+up2108121      | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+(6 rows)
+\end{pseudo*}
+
+2. Connect to the \verb|dsd_22| database.
+\begin{sql}
+\c dsd_22
+\end{sql}
+\begin{pseudo*}
+You are now connected to database "dsd_22" as user "up2108121".
+\end{pseudo*}
+
+3. List the contents of the database
+\begin{sql}
+\d
+\end{sql}
+\begin{pseudo*}
+                    List of relations
+Schema |            Name            |   Type   |   Owner   
+--------+----------------------------+----------+-----------
+public | category                   | table    | up2108121
+public | category_cat_id_seq        | sequence | up2108121
+public | cust_order                 | table    | up2108121
+public | cust_order_cust_ord_id_seq | sequence | up2108121
+public | customer                   | table    | up2108121
+public | customer_cust_id_seq       | sequence | up2108121
+public | manifest                   | table    | up2108121
+public | manifest_manifest_id_seq   | sequence | up2108121
+public | product                    | table    | up2108121
+public | product_prod_id_seq        | sequence | up2108121
+public | role                       | table    | up2108121
+public | role_role_id_seq           | sequence | up2108121
+public | staff                      | table    | up2108121
+public | staff_staff_id_seq         | sequence | up2108121
+(14 rows)
+\end{pseudo*}
+5. List just the tables
+\begin{sql}
+\dt
+\end{sql}
+\begin{pseudo*}
+            List of relations
+Schema |    Name    | Type  |   Owner
+--------+------------+-------+-----------
+public | category   | table | up2108121
+public | cust_order | table | up2108121
+public | customer   | table | up2108121
+public | manifest   | table | up2108121
+public | product    | table | up2108121
+public | role       | table | up2108121
+public | staff      | table | up2108121
+(7 rows)
+\end{pseudo*}
+The \verb|\dt| command removes the sequences (which will be discussed further in a couple of weeks time).
+
+6. Look at the structure of the role table.
+\begin{sql}
+\d role
+\end{sql}
+\begin{pseudo*}
+Table "public.role"
+Column   |         Type          | Collation | Nullable |                Default
+-----------+-----------------------+-----------+----------+---------------------------------------
+role_id   | integer               |           | not null | nextval('role_role_id_seq'::regclass)
+role_name | character varying(20) |           |          |
+Indexes:
+    "role_pkey" PRIMARY KEY, btree (role_id)
+Referenced by:
+    TABLE "staff" CONSTRAINT "staff_role_fkey" FOREIGN KEY (role) REFERENCES role(role_id)
+\end{pseudo*}
+
+\section*{Using SQL To Access Data}
+Most of the commands used so far are PostgreSQL specific commands (these are the ones which begin with \verb|\|).
+
+If the output from a command is too long, PostgreSQL will show a colon (\verb|:|) at the bottom of the screen. To show the next screen, press the space bar. Once all the records have been seen, the screen will show \verb|(END)|. At this point, hit \verb|q| to exit back to the prompt. \verb|q| can also be pressed at the colon to exit back to the prompt from there too.
+
+1. Read all the records in the \verb|dsd_22| table \verb|category|.
+\begin{sql}
+SELECT * FROM CATEGORY;
+\end{sql}
+\begin{pseudo*}
+cat_id |  cat_name   
+--------+-------------
+    1 | Men's Wear
+    2 | Ladies Wear
+    3 | Kid's Wear
+    4 | Outdoor
+    5 | Sport
+    6 | Health
+(6 rows)
+\end{pseudo*}
+
+2. Run the following command and see if the output is different.
+\begin{sql}
+select * from category;
+\end{sql}
+\begin{pseudo*}
+cat_id |  cat_name   
+--------+-------------
+    1 | Men's Wear
+    2 | Ladies Wear
+    3 | Kid's Wear
+    4 | Outdoor
+    5 | Sport
+    6 | Health
+(6 rows)
+\end{pseudo*}
+
+3. Run the following command, and see if the output is different.
+\begin{sql}
+select * from 'Category';
+\end{sql}
+\begin{pseudo*}
+ERROR:  syntax error at or near "'Category'"
+LINE 1: select * from 'Category';
+                      ^
+\end{pseudo*}
+
+4. Run the following command and see if the output is different.
+\begin{sql}
+select * from "Category";
+\end{sql}
+\begin{pseudo*}
+ERROR:  relation "Category" does not exist
+LINE 1: select * from "Category";
+                      ^
+\end{pseudo*}
+
+5. Run the following command and see if the output is different.
+\begin{sql}
+select * from 'category';
+\end{sql}
+\begin{pseudo*}
+ERROR:  syntax error at or near "'category'"
+LINE 1: select * from 'category';
+                      ^
+\end{pseudo*}
+
+6. Run the following command and see if the output is different.
+\begin{sql}
+select * from "category";
+\end{sql}
+\begin{pseudo*}
+cat_id |  cat_name   
+--------+-------------
+    1 | Men's Wear
+    2 | Ladies Wear
+    3 | Kid's Wear
+    4 | Outdoor
+    5 | Sport
+    6 | Health
+(6 rows)
+\end{pseudo*}
+
+7. Run the \verb|\dt| command again, look at the case of the table names.
+
+8. Run the following command (nb, this is supposed to contain non-standard quote marks as copied from the Google Doc).
+\begin{sql}
+SELECT * FROM "category";
+\end{sql}
+\begin{pseudo*}
+ERROR:  relation ""category"" does not exist
+LINE 1: SELECT * FROM "category";
+\end{pseudo*}
+
+From these exercises, it is clear that case doesn't matter when the table name is not in quotes; and that the type of quotes used matter (there are extensions available for Google Docs which allow code to be stored in them and for it to keep its formatting).
+
+\section*{Table Structure}
+To see how tables are linked together, it is possible to view the table structures. This information tells you how the attributes are linked together and what the data types and sizes of said data types are (where this is applicable). 
+
+1. Run the following command.
+\begin{sql}
+\d customer
+\end{sql}
+\begin{pseudo*}
+    Table "public.customer"
+    Column   |          Type          | Collation | Nullable |                  Default
+ ------------+------------------------+-----------+----------+-------------------------------------------      
+  cust_id    | integer                |           | not null | nextval('customer_cust_id_seq'::regclass)       
+  cust_fname | character varying(25)  |           | not null |
+  cust_lname | character varying(35)  |           | not null |
+  addr1      | character varying(50)  |           | not null |
+  addr2      | character varying(50)  |           |          |
+  town       | character varying(60)  |           | not null |
+  postcode   | character(9)           |           | not null |
+  email      | character varying(255) |           | not null |
+ Indexes:
+     "customer_pkey" PRIMARY KEY, btree (cust_id)
+ Referenced by:
+     TABLE "cust_order" CONSTRAINT "cust_order_cust_id_fkey" FOREIGN KEY (cust_id) REFERENCES customer(cust_id) 
+\end{pseudo*}
+From the output, we can see that the data type of \verb|cust_id| is integer and the data type of \verb|postcode| is a fixed 9 length character.
+
+\section*{Creating new Tables in SQL}
+The syntax for creating a table (or relation, if we're being proper) is shown below.
+\begin{sql}
+CREATE TABLE tableName(
+attributeName dataType (options),
+attributeName dataType (options),
+...
+);
+\end{sql}
+
+\subsection*{Task}
+\begin{enumerate}
+    \item Create a new database with a name of your choice.
+    \item Connect to the database.
+    \item Create a new table with two attributes (one of data type INT, that is also the primary key and one that has a data type of your own choosing).
+\end{enumerate}
+\begin{sql}
+CREATE DATABASE week02;
+
+CREATE TABLE NEWTABLE(
+IAMNUMBER INT PRIMARY KEY,
+IAMSTRING VARCHAR(10)
+);
+\end{sql}
+
+Now, insert a record into the table.
+\begin{sql}
+INSERT INTO NEWTABLE (IAMNUMBER, IAMSTRING) VALUES(12, 'cheese');
+\end{sql}
+Now, insert another new record into the table, using the same INT value as the first record. Take note of the message which is displayed.
+\begin{sql}
+INSERT INTO NEWTABLE (IAMNUMBER, IAMSTRING) VALUES(12, 'ham');
+\end{sql}
+\begin{pseudo*}
+ERROR:  duplicate key value violates unique constraint "newtable_pkey"
+DETAIL:  Key (iamnumber)=(12) already exists.
+\end{pseudo*}

@@ -1,0 +1,72 @@
+\lecture{The Database Environment}{06-10-22}{13:00}{Mark}{RB LT1}
+
+\section*{Data or Information}
+When we think about real world things, we will generally think of these in terms of information, not data. Everyone and everything has information. We have to break information down into data to be able to store it. 
+\define{Data}{Facts and statistics collected together for reference or analysis \\\textit{(https://en.oxforddictionaries.com/definition/data)}}
+\define{Information}{The result of applying data processing to data, giving it context and meaning. Information can then be further processed to yield knowledge \textit{(http://foldoc.org/information)}}
+When we need to store information in a database, we first have to break it down into data items. These can be entered into the database then pulled out again in different states. When done right, these different states should be able to tell us more information than we put in. 
+
+We also have knowledge, this is the ability to find things.
+\subsection*{Processing Data}
+If we are given random data items, we can assume what they mean. For example, if we are given \verb|1.99|; \verb|cheeseburger|; and \verb|Bob's Midnight Burgers|, you could assume that you could purchase a cheeseburger from an establishment called Bob's Midnight Burger for £1.99. However, this might be completely wrong! It could in fact be three un-related pieces of information or we may have mis-interpreted the information completely. This shows that it is imperative we look at the context which surrounds data, before drawing information from it. 
+
+\section*{Database Management System}
+The Database Management System (DBMS) is the core of the database system. Every communication to the database is done through the DBMS, this includes queries, data in and data out. The DBMS also controls access to the data and schema (which is stored within the database itself).
+\define{Schema}{The `blueprint' of the database.}
+An advantage of using a DBMS is that different users can be restricted as to what they can access; the data can easily be managed and the DBMS provides an integrated view of an enterprise's operations. The DBMS also removes the risk of inconsistent data and improves the ease with security can be controlled.
+
+\section*{Database Languages}
+There are two different types of database languages (DDL and DML), each have a different purpose. SQL is both.
+
+Before we look at DDL and DML in more detail, we first need to understand what the term `Query' means.
+\begin{keyconcept}{Queries}
+A query is the code which interacts with the database. \\ This can be to read the contents of the database, you can `query the database'. However it is also the code that puts the data into the database and the code which is used to build the database in the first place. 
+\end{keyconcept}
+\subsection*{DDL}
+Data Definition Language (DDL) allows the DBA or users to describe and name entities, attributes and relationships required for the applications that access it and associated integrity and security constraints. It is the set of commands which are used to define the structure of the database. These are the commands used to create, modify or remove database objects (e.g., tables, users and indexes). Listed below are a number of the most commonly used DDL commands.
+\begin{sql}
+CREATE DATABASE
+CREATE TABLE
+ALTER TABLE
+DROP DATABASE
+DROP TABLE
+RENAME TABLE
+\end{sql}
+The following is an example of SQL code which creates a new table and as part of that defines the attributes within it.
+\begin{sql}
+create table property_for_rent (
+    Property_id varchar(4) PRIMARY KEY,
+    Street varchar(14) not null,
+    City varchar(10) not null,
+    Postcode varchar(10) not null,
+    Type varchar(6) not null,
+    Rooms integer not null,
+    Rent decimal(6,2) not null,
+    Owner_id varchar(4) not null REFERENCES private_owner(owner_id),
+    Staff_id varchar(4) REFERENCES staff(Staff_id),
+    branch_id varchar(4) REFERENCES branch(Branch_id)
+);
+\end{sql}
+
+\subsection*{DML}
+Data Manipulation Language (DML) provides the ability to manipulate data within the database. Its commands are used to select, insert, update and delete data items within a database. Listed below are a number of the most commonly used DML commands.
+
+When selecting attributes to display, do not use \verb|SELECT * FROM ...| as this selects everything. Instead, use \verb|SELECT attribute, anotherAttribute, yetAnotherAttribute FROM ...|. 
+
+Take care when entering commands, for the configuration of our Virtual Machines, we are super users within PostgreSQL. Whatever we enter will be executed without question by the machine, this includes dropping data.
+\begin{sql}
+DELETE
+INSERT
+REPLACE
+SELECT
+UPDATE
+\end{sql}
+The following is an example of SQL code which queries a table based on an attribute.
+\begin{sql}
+select property_id,
+street,
+city,
+postcode,
+owner_id from property_for_rent
+where city = 'Glasgow';
+\end{sql}

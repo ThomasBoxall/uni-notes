@@ -1,0 +1,500 @@
+\research{Worksheet 2/1}{04-10-22}{Worksheet}
+\section*{Core Exercises}
+Find the negative numbers using the sign and method for the following.
+\begin{enumerate}[label=(\alph*)]
+    \item -7 = 10000111
+    \item -12 = 10001100
+    \item -15 = 1001111
+    \item -46 = 10101110
+    \item -57 = 10111001
+    \item -112 = 11110000
+    \item -149 = 100010010101
+    \item -179 = 100010110011
+    \item -216 = 100011011000
+    \item -406 = 100110010110
+    \item -1001 = 11111101001
+    \item -1645 = 111001101101
+\end{enumerate}
+
+Find 1's Complement for the following.
+\begin{enumerate}[label=(\alph*)]
+    \item 01 = 10
+    \item 10 = 01
+    \item 111 = 000
+    \item 011 = 100
+    \item 100 = 011
+    \item 101 = 010
+    \item 0011 = 1100
+    \item 1001 = 0110
+    \item 10111 = 01000
+\end{enumerate}
+
+Find 2's Complement for the following.
+\begin{enumerate}[label=(\alph*)]
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \item 01
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.3\textwidth}{XXX}
+                & 1 & 0\\
+                + & & 1\\
+                \hline
+                & 1 & 1\\
+                \hline
+            \end{tabularx}
+        \end{table}
+        = 11
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \item 10
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.3\textwidth}{XXX}
+                & 0 & 1\\
+                + & & 1\\
+                \hline
+                & 1 & 0\\
+                \hline
+                & 1 & \\
+            \end{tabularx}
+        \end{table}
+        = 10
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \item  111
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.4\textwidth}{XXXX}
+                & 0 & 0 & 0\\    
+                + & & & 1 \\
+                \hline
+                & 0 & 0 & 1\\
+                \hline            
+            \end{tabularx}
+        \end{table}
+        = 001
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \item 011
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.4\textwidth}{XXXX}
+                & 1 & 0 & 0\\    
+                + & & & 1 \\
+                \hline
+                & 1 & 0 & 1\\
+                \hline            
+            \end{tabularx}
+        \end{table}
+        = 101
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \item 100
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.4\textwidth}{XXXX}
+                & 0 & 1 & 1\\    
+                + & & & 1 \\
+                \hline
+                & 1 & 0 & 0\\
+                \hline 
+                & 1 & 1 & 0\\           
+            \end{tabularx}
+        \end{table}
+        = 100
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \item 101
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.4\textwidth}{XXXX}
+                & 0 & 1 & 0\\    
+                + & & & 1 \\
+                \hline
+                & 0 & 1 & 1\\
+                \hline            
+            \end{tabularx}
+        \end{table}
+        = 011
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \item 0011
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.47\textwidth}{XXXXX}
+                & 1 & 1 & 0 &0 \\    
+                + & & & & 1 \\
+                \hline
+                & 1 & 1 & 0 &1 \\
+                \hline            
+            \end{tabularx}
+        \end{table}
+        = 1101
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \item 1001
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.47\textwidth}{XXXXX}
+                & 1 & 1 & 1 & 0 \\    
+                + & & & & 1 \\
+                \hline
+                & 0 & 1 & 1 &1 \\
+                \hline            
+            \end{tabularx}
+        \end{table}
+        = 0111
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \item 10111
+        
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.6\textwidth}{XXXXXX}
+                & 0 & 1 & 0 &0 &0 \\    
+                + & & & & & 1 \\
+                \hline
+                & 0 & 1 & 0 & 0 &1 \\
+                \hline            
+            \end{tabularx}
+        \end{table}
+        = 01001
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        
+    \end{minipage}\hfill
+\end{figure}
+\end{enumerate}
+
+Carry out the following subtractions using (i) 1's complement and then (ii) 2's complement. \\
+\textit{1's complement shown on the left and 2's complement shown on the right.}
+\begin{enumerate}[label=(\alph*)]
+    \item 11-01
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.3\textwidth}{XXX}
+                \ $^1$& 1 & 1\\
+                + & 1 & 0\\
+                \hline
+                & 0 & 1 \\
+                + & & 1\\
+                \hline
+                & 1 & 0\\
+                \hline
+                & 1 & \\
+            \end{tabularx}
+        \end{table}
+        = 10
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.3\textwidth}{XXX}
+                & $^1$1 & 1\\
+                + & 1 & 1\\
+                \hline
+                $\cancel{1}$ & 1 & 0 \\
+                \hline
+            \end{tabularx}
+        \end{table}
+        = 10
+    \end{minipage}\hfill
+\end{figure}
+\item 11-10
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.3\textwidth}{XXX}
+                \ $^1$& $^1$1 & 1\\
+                + & 0 & 1\\
+                \hline
+                & 0 & 0 \\
+                + & & 1\\
+                \hline
+                & 0 & 1\\
+                \hline
+                &  & \\
+            \end{tabularx}
+        \end{table}
+        = 01
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.3\textwidth}{XXX}
+                $^1$& 1 & 1\\
+                + & 1 & 0\\
+                \hline
+                $\cancel{1}$ & 0 & 1 \\
+                \hline
+            \end{tabularx}
+        \end{table}
+        = 01
+    \end{minipage}\hfill
+\end{figure}
+\item 101-011
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.4\textwidth}{XXXX}
+                &  1& 0 & 1\\
+                + & 1& 0 & 0\\
+                \hline
+                & 0 & 0 & 1 \\
+                + & & & 1\\
+                \hline
+                & 0 & 1 & 0\\
+                \hline
+                &  & \\
+            \end{tabularx}
+        \end{table}
+        = 010
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.4\textwidth}{XXXX}
+                $^1$& 1 & $^1$0 & 1\\
+                + & 1 & 0 & 1\\
+                \hline
+                $\cancel{1}$ & 0 & 1 & 0 \\
+                \hline
+            \end{tabularx}
+        \end{table}
+        = 010
+    \end{minipage}\hfill
+\end{figure}
+\item 101-100
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.4\textwidth}{XXXX}
+                \ $^1$&  $^1$1& $^1$0 & 1\\
+                + & 0& 1 & 1\\
+                \hline
+                & 0 & 0 & 0 \\
+                + & &  &1\\
+                \hline
+                & 0 & 0 & 1\\
+                \hline
+                &  & \\
+            \end{tabularx}
+        \end{table}
+        = 001
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.4\textwidth}{XXXX}
+                $^1$& 1 & 0 & 1\\
+                + & 1 & 0 & 0\\
+                \hline
+                $\cancel{1}$ & 0 & 0 & 1 \\
+                \hline
+            \end{tabularx}
+        \end{table}
+        = 001
+    \end{minipage}\hfill
+\end{figure}
+\item 110-101
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.4\textwidth}{XXXX}
+                \ $^1$&  $^1$1& 1 & 0\\
+                + & 0& 1 & 0\\
+                \hline
+                & 0 & 0 & 0 \\
+                + & & & 1\\
+                \hline
+                & 0 & 0 & 1\\
+                \hline
+                &  & \\
+            \end{tabularx}
+        \end{table}
+        = 001
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.4\textwidth}{XXXX}
+                $^1$& $^1$1 & 1 & 0\\
+                + & 0 & 1 & 1\\
+                \hline
+                $\cancel{1}$ & 0 & 0 & 1 \\
+                \hline
+            \end{tabularx}
+        \end{table}
+        = 001
+    \end{minipage}\hfill
+\end{figure}
+\item 1110 - 0011
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.5\textwidth}{XXXXX}
+                $^1$& $^1$1& 1 & 1 & 0\\
+                + & 1 & 1& 0 & 0\\
+                \hline
+                & 1 & 0 & 1 & 0 \\
+                + & & & &  1\\
+                \hline
+                & 1 & 0 & 1 & 1\\
+                \hline
+                &  & \\
+            \end{tabularx}
+        \end{table}
+        = 1011
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.5\textwidth}{XXXXX}
+                $^1$& $^1$1 & 1 & 1 & 0\\
+                + & 1 & 1 & 0 & 1\\
+                \hline
+                $\cancel{1}$ & 1 & 0 & 1 & 1 \\
+                \hline
+            \end{tabularx}
+        \end{table}
+        = 1011
+    \end{minipage}\hfill
+\end{figure}
+\item 1100 - 1001
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.5\textwidth}{XXXXX}
+                $^1$& $^1$1& 1 & 0 & 0\\
+                + & 0 & 1& 1 & 0\\
+                \hline
+                & 0 & 0 & 1 & 0 \\
+                + & & & &  1\\
+                \hline
+                & 0 & 0 & 1 & 1\\
+                \hline
+                &  & \\
+            \end{tabularx}
+        \end{table}
+        = 0011
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.5\textwidth}{XXXXX}
+                $^1$& $^1$1 & 1 & 0 & 0\\
+                + & 0 & 1 & 1 & 1\\
+                \hline
+                $\cancel{1}$ & 0 & 0 & 1 & 1 \\
+                \hline
+            \end{tabularx}
+        \end{table}
+        = 0011
+    \end{minipage}\hfill
+\end{figure}
+\item 11110 - 10011 %cc
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.6\textwidth}{XXXXXX}
+                $^1$ & $^1$1& $^1$1& 1 & 1 & 0\\
+                + & 0 & 1& 1 & 0 & 0\\
+                \hline
+                & 0 & 1 & 0 & 1 & 0\\
+                + & & & & & 1\\
+                \hline
+                & 0 & 1 & 0 & 1 & 1\\
+                \hline
+                &  & \\
+            \end{tabularx}
+        \end{table}
+        = 01011
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.6\textwidth}{XXXXXX}
+                $^1$& $^1$1 & $^1$1 & 1 & 1 & 0\\
+                + & 0 & 1 & 1 & 0 & 1\\
+                \hline
+                $\cancel{1}$ & 0 & 1 & 0 & 1 & 1 \\
+                \hline
+            \end{tabularx}
+        \end{table}
+        = 01011
+    \end{minipage}\hfill
+\end{figure}
+\item 10111 - 10110
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.6\textwidth}{XXXXXX}
+                $^1$ & $^1$1& $^1$0& $^1$1 & $^1$1 & 1\\
+                + & 0 & 1& 0 & 0 & 1\\
+                \hline
+                & 0 & 0 & 0 & 0 & 0\\
+                + & & & & & 1\\
+                \hline
+                & 0 & 0 & 0 & 0 & 1\\
+                \hline
+                &  & \\
+            \end{tabularx}
+        \end{table}
+        = 00001
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.6\textwidth}{XXXXXX}
+                $^1$& $^1$1 & $^1$0 & 1 & 1 & 1\\
+                + & 0 & 1 & 0 & 1 & 0\\
+                \hline
+                $\cancel{1}$ & 0 & 0 & 0 & 0 & 1 \\
+                \hline
+            \end{tabularx}
+        \end{table}
+        = 00001
+    \end{minipage}\hfill
+\end{figure}
+\end{enumerate}
+
+
+%%%%% WORKSHEET 2/2
+\research{Worksheet 2/2}{05-10-22}{Worksheet}
+
+1. Convert the decimal numbers to signed and unsigned 8-bit binary numbers.
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{r|XXXX}
+    \multirow{2}{*}{Decimal} & \multirow{2}{*}{Unsigned Binary} & \multicolumn{3}{c}{Signed} \\
+     &  & Sign-Magnitude & 1's Complement & 2's Complement \\
+     \hline
+    11 & 00001011 & 00001011 & 00001011 & 00001011 \\
+    -11 & ----- & 10001011 & 11110100 & 11110101 \\
+    29 & 00011101 & 00011101 & 00011101 & 00011101 \\
+    -29 & ----- & 10011101 & 11100010 & 11100011 \\
+    114 & 01110010 & 01110010 & 01110010 & 01110010 \\
+    -114 & ----- & 11110010 & 10001101 & 10001110 \\
+    111 & 01101111 & 01101111 & 01101111 & 01101111 \\
+    -111 & ----- & 11101111 & 10010000 & 10010001
+    \end{tabularx}
+\end{table}
+
+2. Convert the binary numbers using the required methods.
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{X|XXXX}
+    \multirow{2}{*}{Binary Numbers} & \multirow{2}{*}{Unsigned} & \multicolumn{3}{c}{Signed} \\
+     &  & Sign-Magnitude & 1's Complement & 2's Complement \\
+    \hline
+    00001101 & 13 & 13 & 13 & 13 \\
+    10001001 & 137 & -9 & -118 & -119 \\
+    11000100 & 196 & -68 & -59 & -60 \\
+    01000100 & 68 & 68 & 68 & 68 \\
+    11111111 & 255 & -127 & 0 & -1 \\
+    01111111 & 127 & 127 & 127 & 127 \\
+    10100101 & 165 & -37 & -90 & -91 \\
+    11001001 & 201 & -73 & -54 & -55
+    \end{tabularx}
+\end{table}

@@ -20,6 +20,11 @@ top=20mm,
 \usepackage{ragged2e}
 \usepackage{cancel} % used to cancel out numbers in maths mode.
 \usepackage{amssymb} % gives more maths symbols
+\usepackage{enumitem} % gives ability to have different enumerate bullets.
+\usepackage{multirow}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
 
 \usepackage[framemethod=default]{mdframed}
 \mdfsetup{skipabove=\topskip,
@@ -267,3 +272,14 @@ frametitlebackgroundcolor=Gray!30
         \lstset{style = sql, language=SQL}%
     }
     {\endmdframed}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SETUP TIKZ
+
+\tikzset{
+    cnode/.style={circle, draw=black, thick, minimum size=2mm},
+    redcnode/.style={circle, draw=red, thick, minimum size=2mm},
+    lilBlackSquare/.style={rectangle, draw=black, fill=black, minimum size=1mm},
+}
