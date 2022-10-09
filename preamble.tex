@@ -16,7 +16,7 @@ top=20mm,
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{fontawesome}
-\usepackage[colorlinks=true, linkcolor=magenta, pdftex, pdfauthor={Thomas Boxall},]{hyperref}
+\usepackage[colorlinks=true, linkcolor=magenta]{hyperref}
 \usepackage{ragged2e}
 \usepackage{cancel} % used to cancel out numbers in maths mode.
 \usepackage{amssymb} % gives more maths symbols
@@ -25,6 +25,43 @@ top=20mm,
 
 \usepackage{tikz}
 \usetikzlibrary{positioning}
+
+
+%%%%%%%%%%%%%%%%%%%%% PDF METADATA & TITLE %%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\bookTitle}[5]{\begin{titlepage}
+    \rule{\textwidth}{1px}
+    \vspace{0.025\textheight}\\
+    \huge{University Of Portsmouth}\\
+    \huge{BSc (Hons) Computer Science}\\
+    \huge{#1 Year}\\
+    \vfill
+    \LARGE{\textbf{#2}}\\
+    \Large{#3}\\
+    \large{#4}\\
+    \large{#5 Credits}
+    \vfill
+
+    
+    \begin{FlushRight}
+        \large{Thomas Boxall}\\
+        \textit{up2108121@myport.ac.uk}\\
+        
+    \end{FlushRight}
+    \vspace{0.2\textheight}
+    \rule{\textwidth}{1px}
+    
+\end{titlepage}
+}
+
+\newcommand{\docSetup}[1]{\fancyfoot[R]{#1}
+\hypersetup{
+pdftitle={#1},
+pdfauthor={Thomas Boxall}
+}}
+
+%%%%%%%%%%%%%%%%% MDFRAMED BOXES
 
 \usepackage[framemethod=default]{mdframed}
 \mdfsetup{skipabove=\topskip,
