@@ -1,0 +1,300 @@
+\lecture{Digital Gates}{10-10-22}{16:00}{Farzad}{RB LT1}
+
+Digital gates are used as the building block of digital systems. They manipulate inputs to provide outputs. 
+
+Throughout this lecture, its important to remember that a signal of 1 represents on (or high voltage) and a signal of 0 represents off (or low voltage). 
+
+Digital gates can be represented by a circuit symbol. Their inputs and outputs can be mapped onto a Truth Table and they have symbols which can be used in expressions to describe the circuit.
+
+\section*{NOT Gaate}
+This can also be called an inverter.
+
+As the name inverter suggests, the NOT gate inverts the bits. This means a 0 inputted, will output a 1 and a 1 inputted will output a 0.
+
+NOT gate can only have one input.
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{circuit}
+            \node[not port] (not) at (0,0){};
+            \draw (not.out) -- ++(0.5,0) node[right]{Q};
+            \draw (not.in) -- ++(-0.5,0) node[left]{A};
+        \end{circuit}
+        \[Q=\overline{A}\]
+        \[Q=A'\]
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \centering
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.2\textwidth}{X|X}
+                A & Q\\
+                \hline
+                0 & 1\\
+                1 & 0\\
+            \end{tabularx}
+        \end{table}
+        Truth table for the NOT gate.
+    \end{minipage}\hfill
+\end{figure}
+
+
+\section*{AND Gate}
+This gate compares two or more inputs. If all its inputs are 1, then it outputs 1; otherwise it outputs 0.
+
+The rules of binary multiplication are the same of the AND gate.
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{circuit}
+            \node[and port] (and) at (0,0){};
+            \draw (and.out) -- ++(0.5,0) node[right]{Q};
+            \draw (and.in 1) -- ++(-0.5,0) node[left]{A};
+            \draw (and.in 2) -- ++(-0.5,0) node[left]{B};
+        \end{circuit}
+        \[Q = A\bigwedge B\]
+        \[Q = A \cdot B\]
+        \[Q=AB\]
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \centering
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.3\textwidth}{XX|X}
+                B & A & Q\\
+                \hline
+                0 & 0 & 0\\
+                0 & 1 & 0\\
+                1 & 0 & 0 \\
+                1 & 1 & 1\\
+            \end{tabularx}
+        \end{table}
+        Truth table for the AND gate.
+    \end{minipage}\hfill
+\end{figure}
+
+\section*{OR Gate}
+This gate compares two or more inputs. If one or more input is 1, then it outputs 1; otherwise it outputs 0.
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{circuit}
+            \node[or port] (or) at (0,0){};
+            \draw (or.out) -- ++(0.5,0) node[right]{Q};
+            \draw (or.in 1) -- ++(-0.5,0) node[left]{A};
+            \draw (or.in 2) -- ++(-0.5,0) node[left]{B};
+        \end{circuit}
+        \[Q = A\bigvee B\]
+        \[Q = A + B\]
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \centering
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.3\textwidth}{XX|X}
+                B & A & Q\\
+                \hline
+                0 & 0 & 0\\
+                0 & 1 & 1\\
+                1 & 0 & 1 \\
+                1 & 1 & 1\\
+            \end{tabularx}
+        \end{table}
+        Truth table for the OR gate.
+    \end{minipage}\hfill
+\end{figure}
+
+\section*{NAND Gate}
+\textit{Not AND}\\
+This gate compares two or more inputs. It outputs 1 where at least one of the inputs are not 1 and 0 where all the inputs are 1.
+
+Through combinations of this gate, all the other logic gates can be made, due to this, it is called a Universal Gate.
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{circuit}
+            \node[nand port] (nand) at (0,0){};
+            \draw (nand.out) -- ++(0.5,0) node[right]{Q};
+            \draw (nand.in 1) -- ++(-0.5,0) node[left]{A};
+            \draw (nand.in 2) -- ++(-0.5,0) node[left]{B};
+        \end{circuit}
+        \[Q = \overline{AB} = (AB)'\]
+        \[Q = \overline{A\bigwedge B} = (A\bigwedge B)'\]
+        \[Q = \overline{A\cdot B} = (A\cdot B)'\]
+
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \centering
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.3\textwidth}{XX|X}
+                B & A & Q\\
+                \hline
+                0 & 0 & 1\\
+                0 & 1 & 1\\
+                1 & 0 & 1 \\
+                1 & 1 & 0\\
+            \end{tabularx}
+        \end{table}
+        Truth table for the NAND gate.
+    \end{minipage}\hfill
+\end{figure}
+
+\section*{NOR Gate}
+\textit{Not OR}\\
+This gate compares two or more inputs. Where all the inputs are 0, it outputs 1; otherwise it outputs 0. 
+
+Through combinations of this gate, all other logic gates can be constructed, due to this it can be called a Universal Gate.
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{circuit}
+            \node[nor port] (nor) at (0,0){};
+            \draw (nor.out) -- ++(0.5,0) node[right]{Q};
+            \draw (nor.in 1) -- ++(-0.5,0) node[left]{A};
+            \draw (nor.in 2) -- ++(-0.5,0) node[left]{B};
+        \end{circuit}
+        \[Q = \overline{A+B} = (A+B)'\]
+        \[Q = \overline{A\bigvee B} = (A\bigvee B)'\]
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \centering
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.3\textwidth}{XX|X}
+                B & A & Q\\
+                \hline
+                0 & 0 & 1\\
+                0 & 1 & 0\\
+                1 & 0 & 0 \\
+                1 & 1 & 0\\
+            \end{tabularx}
+        \end{table}
+        Truth table for the NOR gate.
+    \end{minipage}\hfill
+\end{figure}
+
+\section*{XOR Gate}
+\textit{eXclusive OR}\\
+This gate compares two or more inputs. For a 2-input XOR gate, where the two inputs are different, it outputs 1; otherwise it outputs 0.
+
+This gate is used for adder circuits.
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{circuit}
+            \node[xor port] (xor) at (0,0){};
+            \draw (xor.out) -- ++(0.5,0) node[right]{Q};
+            \draw (xor.in 1) -- ++(-0.5,0) node[left]{A};
+            \draw (xor.in 2) -- ++(-0.5,0) node[left]{B};
+        \end{circuit}
+        \[Q=A \oplus B\]
+        \[Q = AB' + A'B\]
+        \[Q = A\cdot \overline{B} + \overline{A} \cdot B\]
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \centering
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.3\textwidth}{XX|X}
+                B & A & Q\\
+                \hline
+                0 & 0 & 0\\
+                0 & 1 & 1\\
+                1 & 0 & 1 \\
+                1 & 1 & 0\\
+            \end{tabularx}
+        \end{table}
+        Truth table for the XOR gate.
+    \end{minipage}\hfill
+\end{figure}
+
+\section*{XNOR Gate}
+\textit{eXclusive Not OR}\\
+This gate compares two or more inputs and where the inputs are the same, it outputs 1 and where the inputs are different, it outputs 0.
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{circuit}
+            \node[xnor port] (xnor) at (0,0){};
+            \draw (xnor.out) -- ++(0.5,0) node[right]{Q};
+            \draw (xnor.in 1) -- ++(-0.5,0) node[left]{A};
+            \draw (xnor.in 2) -- ++(-0.5,0) node[left]{B};
+        \end{circuit}
+        \[Q=\overline{A \oplus B}\]
+        \[Q = \left(AB' + A'B\right)'\]
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \centering
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.3\textwidth}{XX|X}
+                B & A & Q\\
+                \hline
+                0 & 0 & 1\\
+                0 & 1 & 0\\
+                1 & 0 & 0 \\
+                1 & 1 & 1\\
+            \end{tabularx}
+        \end{table}
+        Truth table for the XNOR gate.
+    \end{minipage}\hfill
+\end{figure}
+
+\section*{Practice Questions}
+\subsection*{Question 1}
+Find the value of X where the inputs have the following values.
+\[A=0\ \ B=1\ \ C=1\]
+\begin{circuit}
+    \node[and port] (and) at (0,2){};
+    \node[or port] (or) at (3,1){};
+    \node[not port] (not) at (5,1){};
+
+    \draw(not.out) -- ++(0.5,0) node[right]{X};
+    \draw(or.out) -| (not.in);
+    \draw (and.out) -| (or.in 1);
+    \draw(and.in 1) -- ++(-0.5,0) node[left]{C};
+    \draw(and.in 2) -- ++(-0.5,0) node[left]{B};
+    \draw(or.in 2) -- ++(-3.5,0) node[left]{A};
+\end{circuit}
+
+X=0
+
+\subsection*{Question 2}
+Find the value of B where the logic system is as follows and has the following values.
+\[X=0 \ \ A = 0\]
+\begin{circuit}
+    \node[not port] (not1) at (1,2){};
+    \node[and port] (and) at (3,1){};
+    \node[not port] (not2) at (5,1){};
+
+    \draw (not1.in) -- (0,2) node[left]{A};
+    \draw (not1.out) -| (and.in 1);
+    \draw (and.in 2) -- (0,0.75) node[left]{B};
+    \draw (and.out) -- (not2.in);
+    \draw(not2.out) -- ++(0.5,0) node[right] {X};
+\end{circuit}\\
+B=1
+
+\subsection*{Question 3}
+Convert the following boolean logic expression to a circuit diagram.
+\[\overline{A\cdot B + C}\]
+
+\begin{circuit}
+    \node[and port] (and) at (1,2){};
+    \node[or port] (or) at (4,1){};
+    \node[not port] (not) at (6,1){};
+
+    \draw(not.out) -- ++(0.5,0) node[right]{Q};
+    \draw(or.out) -| (not.in);
+    \draw(and.out) -| (or.in 1);
+    \draw(or.in 2) -- ++(-3.5,0) node[left]{C};
+    \draw(and.in 1) -- ++(-0.5,0) node[left]{A};
+    \draw(and.in 2) -- ++(-0.5,0) node[left]{B};
+\end{circuit}

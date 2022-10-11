@@ -21,7 +21,8 @@ All of these topologies are in the context of LANs.
 Key to shapes:\\
 \tikz \node[cnode] at (0,0) (){}; Node\\
 \tikz \node[redcnode] at (0,0) (){}; Switch\\
-\tikz \node[lilBlackSquare] at (0,0) (){}; Terminator
+\tikz \node[lilBlackSquare] at (0,0) (){}; Terminator\\
+\tikz \node[reddot] at (0, 0) (){}; Token
 
 \subsection*{Star Topology}
 \begin{figure}[H]
@@ -83,9 +84,6 @@ Key to shapes:\\
             \node[cnode] at (-1.2,0) (){};
             \node[cnode] at (1.2,-1) (){};
             \node[cnode] at (-1.2,-2) (){};
-            
-
-
         \end{tikzpicture}
     \end{minipage}\hfill
 \end{figure}
@@ -99,7 +97,27 @@ Key to shapes:\\
         If one of the nodes go down, the whole network may go down; as the token is virtual, it may get lost or corrupted; it is difficult to add or remove nodes from the ring.
     \end{minipage}\hfill
     \begin{minipage}[H]{0.35\textwidth}
-        \textit{image placeholder text}
+        \centering
+        \begin{tikzpicture}
+            \node[cnode] at (0,0) (a) {};
+            \node[cnode] at (0,1) (b) {};
+            \node[cnode] at (0,2) (c) {};
+            \node[cnode] at (1,0) (d) {};
+            \node[cnode] at (1,2) (e) {};
+            \node[cnode] at (2,0) (f) {};
+            \node[cnode] at (2,1) (g) {};
+            \node[cnode] at (2,2) (h) {};
+            \node[reddot] at (2, 1.8) (red){};
+
+            \draw[-] (a.north) -- (b.south);
+            \draw[-] (b.north) -- (c.south);
+            \draw[-] (c.east) -- (e.west);
+            \draw[-] (e.east) -- (h.west);
+            \draw[-] (red.south) -- (g.north);
+            \draw[-] (g.south) -- (f.north);
+            \draw[-] (f.west) -- (d.east);
+            \draw[-] (d.west) -- (a.east);
+        \end{tikzpicture}
     \end{minipage}\hfill
 \end{figure}
 \subsection*{Mesh Topology}
@@ -112,6 +130,19 @@ Key to shapes:\\
         This requires more cables than the other topologies; there is a complicated implementation procedure; there are large amounts of redundancy through the network.
     \end{minipage}\hfill
     \begin{minipage}[H]{0.35\textwidth}
-        \textit{image placeholder text}
+        \centering
+        \begin{tikzpicture}
+            \node[cnode] at (0,0) (00) {};
+            \node[cnode] at (0,1) (01) {};
+            \node[cnode] at (1,0) (10) {};
+            \node[cnode] at (1,1) (11) {};
+            
+            \draw[-] (00.north) -- (01.south);
+            \draw[-] (00.north east) -- (11.south west);
+            \draw[-] (00.east) -- (10.west);
+            \draw[-] (01.east) -- (11.west);
+            \draw[-] (01.south east) -- (10.north west);
+            \draw[-] (11.south) -- (10.north);
+        \end{tikzpicture}
     \end{minipage}\hfill
 \end{figure}

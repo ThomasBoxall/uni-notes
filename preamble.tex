@@ -25,6 +25,7 @@ top=20mm,
 
 \usepackage{tikz}
 \usetikzlibrary{positioning}
+\usepackage{circuitikz}
 
 
 %%%%%%%%%%%%%%%%%%%%% PDF METADATA & TITLE %%%%%%%%%%%%%%%%%%%%%%
@@ -319,4 +320,15 @@ frametitlebackgroundcolor=Gray!30
     cnode/.style={circle, draw=black, thick, minimum size=2mm},
     redcnode/.style={circle, draw=red, thick, minimum size=2mm},
     lilBlackSquare/.style={rectangle, draw=black, fill=black, minimum size=1mm},
+    reddot/.style={circle, draw=red!40, fill=red!40, thick, minimum size=0.5mm},
 }
+
+
+\newenvironment{circuit}
+    {\begin{circuitikz}[]%
+    \ctikzset{logic ports origin=center, logic ports = ieee}%
+
+        }%
+        {
+    \end{circuitikz}%
+    }

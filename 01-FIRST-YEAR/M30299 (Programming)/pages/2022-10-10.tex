@@ -1,0 +1,73 @@
+\lecture{Graphics, objects and high quality code}{10-10-22}{15:00}{Nadim}{RB LT1}
+\section*{Graphics}
+\subsection*{Graphics Introduction}
+Python, by default, does not contain a graphics system. We have to load the graphics code into the program, much the same as we do for the maths module. The graphics module we will be using was written by John Zelle. This defines the new classes which we have to use. The line of code shown below needs to be used at the top of the working python file to import the graphics module.
+\begin{python}
+from graphics import *
+\end{python}
+The graphics module does not come pre-installed to Python 3 (like math) does. The package needs to be downloaded and saved either to where Python expects to find its modules or to the directory in which the file which uses it is saved.
+
+\subsection*{Using the Graphics Module}
+Now we have loaded the graphics module, we can use it. To start with, we need to create a graphics window. We should assign it to a variable so that we can access it later and use it. The code to do this is shown below.
+\begin{python}
+win = GraphWin("frameTitle", width, height)
+\end{python}
+The \verb|GraphWin()| constructor has a number of optional parameters. Where these are omitted, the window will default to be 200px by 200px.
+
+There are a number of different shapes available through the module. 
+
+To create a point object (which we need for a whole host of different things), you have to instantiate an object; the syntax for this is shown below.
+\begin{python}
+p = Point(10,20)
+\end{python} 
+Now we have a point (currently completely independent of the window we created earlier), we can do things with it. For example, we can draw it on the window, set its outline then move it to a different coordinate on the window.
+\begin{python}
+p.draw(win)
+p.setOutline("red")
+p.move(40,10)
+\end{python}
+Notice how when we want to do something with \verb|p|, we use the identifier (\verb|p|) followed by a dot (\verb|.|) followed by the name of the method which we want to apply to it (eg \verb|draw()|). 
+
+We can also create circles (and lots of other shapes too)! The creation process for this is much the same as for a point. The syntax for this is shown below.
+\begin{python}
+c = Circle(Point(10,10),30)
+c.setFill("blue")
+c.draw(win)
+\end{python}
+Notice how on line 1, we use a point to declare the coordinates of the circle. 
+
+\subsection*{Accessing Information}
+So far, the methods we have looked at manipulate the data, they set information. We can use get methods to get information about the various objects we are currently using. For example, we can use \verb|getX()| to get the x coordinate of an object.
+
+\section*{High Quality Code}
+\define{High Quality Code}{Code that is readable and code that is correct.}
+
+\subsection*{Readable Code}
+Program code is considered to be readable code where it can be easily understood by anyone who is familiar with programming in the language used but not necessarily familiar with what the code is supposed to be doing. This is important because in industry; software is often written and maintained by teams of people, the later can sometimes involve different people to the former.
+
+To write readable code, it is important to name everything (functions, variables, etc...) with sensible names, use whitespace, write documentation (comments throughout the code or an accompanying document) and avoid over-complicating the code/ write repetitive code.
+
+\subsubsection*{Good Names}
+Names of variables and functions must be legal. This means they must begin with either a letter or underscore, and only consist of letters, numbers and underscores. Also, they must not be keywords.
+
+It is recommended to stick to one style of variable naming, for example \verb|camelCase|. 
+
+When choosing names, it is good to choose something that relates to what the variable will be storing (eg \verb|name| for the name of a user). Try to avoid abbreviations and using single letter names (apart from where it would be silly not to use them).
+
+\subsubsection*{Whitespace}
+Where there is a block of code (e.g., functions, loops), these must be indented, with a \verb|tab|.
+
+There are a number of other standard conventions for whitespace: leave blank lines between functions; use a single space either side of an assignment operator; use a single space after commas.
+
+Do not put whitespace between function names and brackets or before colons.
+
+\subsubsection*{Length of Lines of Code}
+It is recommended to use 80 characters as a limit on how long a line of code can be. This makes the program easier to read and means that code will not be cropped or wrapped when you print it. 
+
+\subsubsection*{Documentation}
+When writing code, it is very good practice to document what your code should be doing. This helps when you return to your code in the future or if someone else has to do something with your code, it will help you understand what is going on with it. Documentation can be done in the form of comments.
+\define{Comment}{A line of code which is ignored when the program is run. It allows developers to annotate their code.}
+It is a common misconception that more comments mean better code. This is not the case. In fact, if the code is really well written then comments shouldn't be needed.
+
+\section*{Testing}
+When writing programs, it is a good idea to design test data (inputs which you can enter into the program where you know what the output should be so you can tell if the programme is working properly or not) before you begin programming. This allows you to test your program at various stages of development to make sure that your program is working correctly. 
