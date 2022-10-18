@@ -1,0 +1,361 @@
+\lecture{Practical 03}{13-10-22}{14:00}{Mark and team}{FTC Floor 3}
+
+Q1. using the \verb|count()| function demonstrated by your tutor, how many records are there in each of the tables in the dsd\_22 database. (Remember to use \verb|\dt| to give you a list of tables in the database.) Copy the outputs below.
+
+\begin{pseudo*}
+dsd_22=# select count(*) from category;
+count
+-------
+    6
+(1 row)
+dsd_22=# select count(*) from cust_order;
+count
+-------
+150
+(1 row)
+dsd_22=# select count(*) from customer;
+count
+-------
+11
+(1 row)
+dsd_22=# select count(*) from manifest;
+count
+-------
+150
+(1 row)
+
+dsd_22=# select count(*) from product;
+count 
+-------
+100
+(1 row)
+
+dsd_22=# select count(*) from role;
+count
+-------
+    5
+(1 row)
+
+dsd_22=# select count(*) from staff;
+count 
+-------
+10
+(1 row)
+\end{pseudo*}
+
+Q2. Use the max() function to find the highest value of the role\_id attribute in the role table. Copy the output below
+\begin{sql}
+select max(role_id) from role;
+\end{sql}
+\begin{pseudo*}
+max 
+-----
+    5
+(1 row)
+\end{pseudo*}
+
+Q3. Insert a new row of data into the role table with 
+\begin{sql}
+INSERT INTO ROLE (ROLE_NAME) VALUES ('Pre Sales'); 
+\end{sql}
+
+Q4. How many rows of data are now in the role table? Copy it below.
+\begin{sql}
+select count(*) from role;
+\end{sql}
+\begin{pseudo*}
+count
+-------
+    6
+(1 row)
+\end{pseudo*}
+
+Q5. What is the maximum value of the role\_id now? Copy it below.
+\begin{sql}
+select max(role_id) from role;
+\end{sql}
+\begin{pseudo*}
+max 
+-----
+    6
+(1 row)
+\end{pseudo*}
+
+Q6. Delete this new row with  
+\begin{sql}
+DELETE FROM ROLE WHERE ROLE_NAME = 'Pre Sales'; 
+\end{sql}
+\begin{pseudo*}
+DELETE 1
+\end{pseudo*}
+
+Q7. How many rows of data are now in the role table? Copy it below.
+\begin{pseudo*}
+count
+-------
+      5
+(1 row)
+\end{pseudo*}
+
+Q8. What is the maximum value of the role\_id now? Copy it below.
+\begin{pseudo*}
+max
+-----
+    5
+(1 row)
+\end{pseudo*}
+
+Q9. Reinsert the row of data into the role table again with   
+\begin{sql}
+INSERT INTO ROLE (ROLE_NAME) VALUES ('Cleaning Team');
+\end{sql}
+\begin{pseudo*}
+INSERT 0 1
+\end{pseudo*}
+
+Q10. How many rows of data are now in the role table? Copy it below.
+\begin{pseudo*}
+count
+-------
+        6
+(1 row)
+\end{pseudo*}
+
+Q11. What is the maximum value of the role\_id now? Copy it below.
+\begin{pseudo*}
+max
+-----
+    6
+(1 row)
+\end{pseudo*}
+
+Q12. Create a random value using the random function. Copy the value below
+\begin{sql}
+SELECT RANDOM(); 
+\end{sql}
+\begin{pseudo*}
+      random       
+-------------------
+ 0.175315219908953
+(1 row)
+\end{pseudo*}
+
+Q12a.  Create another random number. Copy the value below
+\begin{sql}
+SELECT RANDOM(); 
+\end{sql}
+\begin{pseudo*}
+      random
+-------------------
+ 0.272884896956384
+(1 row)
+\end{pseudo*}
+
+Q13. Create one more random value but now multiply it by 11. Remember that to multiply you do not use x but use the \verb|*| symbol. Run this code 5 times and copy the values below.
+\begin{pseudo*}
+dsd_22=# select random()*11;
+     ?column?
+------------------
+ 9.60335403773934
+(1 row)
+dsd_22=# select random()*11;
+     ?column?
+-------------------
+ 0.160588529892266
+(1 row)
+
+dsd_22=# select random()*11;
+     ?column?
+------------------
+ 5.25661591161042
+(1 row)
+
+dsd_22=# select random()*11;
+     ?column?
+------------------
+ 7.78145408304408
+(1 row)
+dsd_22=# select random()*11;
+     ?column?     
+------------------
+ 10.1819118564017
+(1 row)
+\end{pseudo*}
+
+Q14. Connect to your home database, upxxxxxxx and run the following code to create a new table and insert some random numbers into it. 
+\begin{sql}
+create table numb1(numb_id int primary key, ran_val decimal(17,15));
+
+insert into numb1(numb_id, ran_val) values
+(1,random()),(2,random()),(3,random()),(4,random()),(5,random()),(6,random()),(7,random()),(8,random()),(9,random()),(10,random());
+\end{sql}
+\begin{pseudo*}
+    INSERT 0 10
+\end{pseudo*}
+
+Q14a. Check that there are 10 rows of data with \verb|SELECT COUNT(*) FROM NUMB1;|  If not, check your output for any error messages. You should get responses below except the prompt will be your student id number.
+\begin{pseudo*}
+ count 
+-------
+    10
+(1 row)
+\end{pseudo*}
+
+Q15. Run a \verb|SELECT * FROM NUMB1;|  Copy the output below.
+\begin{pseudo*}
+ numb_id |      ran_val
+---------+-------------------
+       1 | 0.481754711363465
+       2 | 0.020102311857045
+       3 | 0.541421711910516
+       4 | 0.046512784436345
+       5 | 0.842869907151908
+       6 | 0.137599688488990
+       7 | 0.925696460530162
+       8 | 0.765472991392016
+       9 | 0.712954005226493
+      10 | 0.161490791942924
+(10 rows)
+\end{pseudo*}
+
+
+Q15a. Compare the values that you get with the values below. They should be different. This is because the code used inserts a fixed value, the numb\_id and a completely random value into the ran\_val attribute for each row. 
+\begin{pseudo*}
+test_num=# SELECT * FROM NUMB1;
+ numb_id |  	ran_val
+---------+-------------------
+   	1 | 0.477631121408194
+   	2 | 0.978080025874078
+   	3 | 0.516494689509273
+   	4 | 0.849129045847803
+   	5 | 0.484937957022339
+   	6 | 0.895700289402157
+   	7 | 0.852438564877957
+   	8 | 0.727535046637058
+   	9 | 0.062769805546850
+  	10 | 0.594313766807318
+(10 rows)
+\end{pseudo*}
+
+Q16. Find the highest value of ran\_val using the max() function. Copy it below.
+\begin{sql}
+select max(ran_val) from numb1;
+\end{sql}
+\begin{pseudo*}
+        max        
+-------------------
+ 0.925696460530162
+(1 row)
+\end{pseudo*}
+
+Q17. Find the lowest value of ran\_val using the min() function. Copy it below.
+\begin{sql}
+select min(ran_val) from numb1;
+\end{sql}
+\begin{pseudo*}
+        min
+-------------------
+ 0.020102311857045
+(1 row)
+\end{pseudo*}
+
+Q18. What is the average value of ran\_val. Reminder: look at the basic functions document for ideas.
+\begin{sql}
+select avg(ran_val) from numb1;
+\end{sql}
+
+\begin{pseudo*}
+          avg
+------------------------
+ 0.46358753642998640000
+(1 row)
+\end{pseudo*}
+
+Q19. What is the  current timestamp on your server? Copy it below
+\begin{sql}
+select now();
+\end{sql}
+\begin{pseudo*}
+              now
+-------------------------------
+ 2022-10-13 13:43:49.196518+00
+(1 row)
+\end{pseudo*}
+
+Q20. What is the first name of the customer with the ID number of 3?
+\begin{sql}
+select cust_fname from customer where cust_id=3;
+\end{sql}
+\begin{pseudo*}
+ cust_fname
+------------
+ Penelope
+(1 row)
+\end{pseudo*}
+
+Q21. What is the category id number of the outdoor category? Copy below.
+\begin{sql}
+select cat_id from category where cat_name='Outdoor';
+\end{sql}
+\begin{pseudo*}
+ cat_id
+--------
+      4
+(1 row)
+\end{pseudo*}
+
+Q22. How many orders in the cust\_order table are for cust\_id 15? Copy below.
+\begin{sql}
+select count(*) from cust_order where cust_id=15;
+\end{sql}
+\begin{pseudo*}
+ count
+-------
+     0
+(1 row)
+\end{pseudo*}
+
+Q23. List the first and last names of the staff members who live in Portsmouth. Copy below.
+\begin{sql}
+select staff_fname, staff_lname from staff where town='Portsmouth';
+\end{sql}
+\begin{pseudo*}
+ staff_fname | staff_lname
+-------------+-------------
+ Niel        | Welsby
+ Janeva      | Gillicuddy
+(2 rows)
+\end{pseudo*}
+
+Q24. What values does addr1 and addr2 have for the staff member whose id = 4?  Copy below.
+\begin{sql}
+    select addr1 , addr2 from staff where staff_id=4;
+\end{sql}
+\begin{pseudo*}
+      addr1       | addr2
+------------------+-------
+ 959 Algoma Plaza |
+(1 row)
+\end{pseudo*}
+
+Q25. How many members of staff have the role value of 3?  Copy below.
+\begin{sql}
+select count(*) from staff where role=3;
+\end{sql}
+\begin{pseudo*}
+ count
+-------
+     3
+(1 row)
+\end{pseudo*}
+
+Q26. How many products are in the product category = 2?
+\begin{sql}
+select count(*) from product where prod_id=2;
+\end{sql}
+\begin{pseudo*}
+ count
+-------
+     1
+(1 row)
+\end{pseudo*}

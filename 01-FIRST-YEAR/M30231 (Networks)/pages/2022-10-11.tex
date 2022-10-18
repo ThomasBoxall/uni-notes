@@ -1,0 +1,41 @@
+\lecture{Introduction to Protocols}{11-10-22}{09:00}{Amanda}{Zoom}
+
+\section*{Networking Protocols}
+Networking protocols are the rules for communications, they define the rules for component-to-component communication. They are common sense rule/etiquette. 
+
+Protocols smooth the communications process between the sender and receiver or overwhelm the receiver. Protocol developers have to consider many potential problems.
+
+Protocols are usually pieces of software that overcome problems raised by \textit{what ifs}.
+\subsection*{What If}
+Networking protocols control the \textit{what if} conditions. What if a packet gets corrupt; the receiver can't keep up with the sender; the communications medium fails? 
+
+\section*{Connection-Oriented Protocol}
+\begin{enumerate}
+    \item Connection established
+    \item Exchange information
+    \item Disconnect
+\end{enumerate}
+An example of the above would be a phone call, where the connection is established for the duration of the information exchange (phone call) and afterwards, the connection is `torn down'.
+
+This method makes use of virtual circuits. A virtual circuit is where the link between the sender and receiver is established and no other communications can use that transmission link for the duration of the transmission. After the sender and receiver finish communication, the virtual circuit is torn down and the transmission medium is available for another virtual circuit to claim.
+Virtual circuits give good quality of service when connected however they cost lots of money.
+
+TCP is an example of a connection-oriented protocol.
+
+\section*{Connectionless Protocol}
+This makes use of datagrams, where the two devices (sender and receiver) communicate over general use transmission mediums. This allows multiple different communications to be taking place simultaneously. However, using this protocol runs the risk of the packets not arriving at their destination. When we use this protocol, we hope that the packet will arrive at its destination.
+
+IP is an example of a connectionless protocols. 
+
+\section*{Tradeoffs between VCs and Datagrams}
+With datagrams, no prior establishment or clearning is involved however with virtual circuits, this is required.
+
+Datagrams require complete addressing information to be sent with each packet, whereas virtual circuits only require the circuit ID to be transmitted.
+
+Packets sent via datagrams can all go different routes however packets sent through a virtual circuit all have to go the same route.
+
+Datagrams are discarded if congestion occurs, whereas virtual circuits must take more elaborate precautions.
+
+\section*{Why do we need TCP/IP}
+
+\textcolor{red}{To finish after practical on Friday.}

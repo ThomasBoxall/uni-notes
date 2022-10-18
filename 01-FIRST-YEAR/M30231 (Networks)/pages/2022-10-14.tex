@@ -1,0 +1,8 @@
+\lecture{Practical 3}{14-10-22}{14:00}{Amanda}{PO 2.27}
+
+\section*{Collision Detection}
+Within a network, we need a way to be able to detect if a collision occurs. For bus topologies, there is an algorithm which does this for us.
+\subsection*{Carrier Sense Multi Access/ Collision Detection Algorithm}
+This algorithm starts when a node has a frame (packet of data) ready to transmit.
+
+The node starts by listening to the medium (listens to the backbone for voltage, which if present, is packets being transmitted) and looks for quiet. If the medium is idle, transmission can begin. The node begins to transmit the packets, and listens to the medium while doing so; through this process, it can detect collisions on the network due to voltages. If no collisions are detected, the node finishes transmitting data until all data has been transmitted. However, if collisions are detected, transmission continues until minimum packet time has been reached to ensure the other node transmitting has also detected the collision. Then the original transmitting node checks to see if the maximum number of transmission attempts has been reached. If it has, then the transmission is aborted. If it hasn't, the node waits a random backoff (this is random to ensure both nodes don't both attempt to transmit again at the same time), then it starts this entire transmission process again.

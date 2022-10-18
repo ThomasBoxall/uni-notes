@@ -1,0 +1,75 @@
+\lecture{Powers and Logarithms}{11-10-22}{10:00}{Zhaojie}{Zoom}
+
+\section*{Powers}
+$2^4$ rads as 2 to the power of 4 and it means
+\[2^4=2\times 2 \times 2\times 2=16\]
+In the example above, 2 is the base and 4 is the index (or power).
+\subsection*{Special Cases of Powers}
+$x^0 = 1$ This will be true for all cases except for where $x=0$, in this case $x^0=undefined$.
+
+$x^1 = 1$ This is true for all values of $x$.
+
+\subsection*{Laws Of Indices}
+There are three laws of indices.
+\begin{enumerate}
+    \item $a^n \times a^m = a^{n+m}$ (when multiplying, add the indices)
+    \item $\displaystyle \frac{a^n}{a^m} = a^{n-m}$ (when dividing, subtract the indices)
+    \item $\displaystyle (a^n)^m = a^{n\times m}$ (when raising one power to another, multiply the indices).
+\end{enumerate}
+
+\subsection*{Negative Powers}
+With negative powers, there is a general rule
+\[a^{-n} = \frac{1}{a^n}\]
+
+\subsection*{Fractional Powers}
+Where $a$ and $n$ are positive numbers, the general rule indices
+\[a^{\frac{1}{n}} = \sqrt[n]{a}\]
+
+\begin{example}{Simplify the following expression}
+    \begin{align*}
+        \sqrt{\frac{72a^{12}b^7c^2}{2a^2b^3c^{-10}}} &=\\
+        &= \sqrt{36a^{10}b^4c^{12}}\\
+        &= (36a^{10}b^4c^{12})^{\frac{1}{2}}\\
+        &= 6a^5b^2c^6
+    \end{align*}
+\end{example}
+
+
+\section*{Logarithms}
+\define{Logarithm}{A logarithm determines how many times a certain number must be multiplied by itself to reach another number.}
+The general rule for logarithms is shown below, this is applicable where $a>1$.
+\[y=a^x\]
+\[\log_{a}y = x\]
+\subsection*{Base of a logarithm}
+The most commonly used bases are
+\begin{itemize}
+    \item 10 ($\log_{10}$)
+    \item 2 ($\log_2$)
+    \item natural logarithm $e$ ($\log_e$ or $\ln$)
+\end{itemize}
+
+
+\subsection*{First Law Of Logs}
+\[\log_ax + \log_ay = \log_axy\]
+All bases must be the same.
+
+\subsection*{Second Law Of Logs}
+\[\log_ax - \log_ay = \log_a\frac{x}{y}\]
+All bases must be the same.
+
+\subsection*{Third Law Of Logs}
+\[n\log_ax=\log_ax^n\]
+This law applies of $n$ is an integer, fractional, positive or negative.
+
+
+\subsection*{Example}
+\begin{example}{Simplify}
+    \begin{align*}
+        \log_2 y -3\log_22y+2\log_24y &=\\
+        &= \log_2y-\log_2(2y)^3 +\log_2(4y)^2\\
+        &= \log_2y - \log_28y^3 + \log_216y^2\\
+        &= \log_2 \left(\frac{y\times 16y^2}{8y^3} \right)\\
+        &= \log_2 2\\
+        &=1
+    \end{align*}
+\end{example}

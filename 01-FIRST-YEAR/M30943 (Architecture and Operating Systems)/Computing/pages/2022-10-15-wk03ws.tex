@@ -1,0 +1,73 @@
+\research{Worksheet 03}{15-10-22}{Worksheet}
+\section*{Basic Exercises}
+1. Translate the following boolean expressions into a digital gate circuit and construct a truth table.
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        a. $A+\overline{B}$\\
+        \begin{circuit}
+            \node[elePort] (B) at (0,0){B};
+            \node[elePort] (A) at (0,2){A};
+            \node[not port] (not) at (2,0){};
+            \node[or port] (or) at (5,1){};
+
+            \draw(B.east) -| (not.in);
+            \draw(A.east) -| (or.in 1);
+            \draw(not.out) -| (or.in 2);
+            \draw(or.out) -- ++(0.5,0) node[right]{Q};
+        \end{circuit}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.3\textwidth}{XX|X}
+                B & A & Q\\
+                \hline
+                0 & 0 & 1\\
+                0 & 1 & 1\\
+                1 & 0 & 0 \\
+                1 & 1 & 1\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        b. $A\cdot \overline{B}$\\
+        \begin{circuit}
+            \node[elePort] (B) at (0,0){B};
+            \node[elePort] (A) at (0,2){A};
+            \node[not port] (not) at (2,0){};
+            \node[and port] (and) at (5,1){};
+
+            \draw(B.east) -| (not.in);
+            \draw(A.east) -| (and.in 1);
+            \draw(not.out) -| (and.in 2);
+            \draw(and.out) -- ++(0.5,0) node[right]{Q};
+        \end{circuit}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.3\textwidth}{XX|X}
+                B & A & Q\\
+                \hline
+                0 & 0 & 0\\
+                0 & 1 & 1\\
+                1 & 0 & 0 \\
+                1 & 1 & 0\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        
+    \end{minipage}\hfill
+\end{figure}

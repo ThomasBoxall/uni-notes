@@ -1,0 +1,42 @@
+\lecture{Database Concepts}{13-10-22}{13:00}{Mark}{RB LT1}
+
+Despite the fact that the relational database model was designed by Codd in the 1970s, it is a valid system and used widely.
+
+\section*{Key Terms}
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{0.8\textwidth}{l|X}
+        Database Term & Description\\
+        \hline
+        \hline
+        Entity & An object or a `thing' about which data is stored. \\
+        Attributes & Some quality associated with the entity (eg ID number, username, size). These have data types (eg number, string etc) and maximum sizes. Other terms are elements and properties.\\
+        Relation & A two dimensional representation (table) of entities and/ or relationships. Other terms used are relation table or table.\\
+        Entity Set & A set of entities of the same type.\\
+        Relationship & How two relations (tables) are related to each other. Relationships are represented in relations.\\
+        Tuple & Corresponds to rows of the table or records of a relation. Other terms used are record and row.\\
+        Domain & A pool of all legal values from which actual attribute values are drawn.\\
+        Primary Key & An attribute or combination of attributes for which values uniquely identify tuples in the relation. The primary key is chosen from a set of candidate keys. If you have a numeric value which the system can generate, let it do it for you.\\
+        Candidate Key & There may be more than one potential primary keys for a relation. Each is called a candidate key or super-key.\\
+        Alternate Key & An alternate access path to data that is not via the primary key.\\
+        Composite Key & A combination of attributes that act as a candidate key in a relation. Each participating attribute in the composite key (also known as candidate key) is called a simple key.\\
+        Foreign Key & An attribute (or combination of attributes) that is a primary key in another relation. They can appear many times.\\
+        Degree & Number of attributes in a relation; also called the arity.
+    \end{tabularx}
+\end{table}
+
+When designing a database, the first thing you need to think about is what entities do you need to store information about. Then think about the attributes which you need to store about each entity. Then create relations. At this point, think about the domain for any of the attributes (for example, month 1-12 or day 0-6 (Sunday to Saturday) or hours 0-23). Now think about keys.
+\section*{Entity}
+An entity is a thing, it could be a person or a specific type of person. 
+
+To identify entities, look at the information given to you and identify the nouns. The nouns give an idea of what the entities look like but they require fine tuning.
+
+There can be as many entities as needed. 
+
+We can describe entities using their attributes.
+
+We now think about keys.
+\subsection*{Primary Key}
+To identify what will be a primary key, we look for something that is unique. This should be something which cannot be changed. If there is nothing suitable, create your own primary key.
+\subsection*{Foreign key}
+Does not have to be primary key in other table, however it has to be unique within the other table.

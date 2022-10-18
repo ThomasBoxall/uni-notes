@@ -1,0 +1,110 @@
+\lecture{Comuting With Strings \& Files}{17-10-22}{15:00}{Nadim}{Zoom}
+
+\section*{Strings}
+Strings are kinds of sequences, there are other kinds of sequences which we will come across later in Python.
+\subsection*{String Operations}
+There are a number of different operations we can perform on strings. The \verb|+| operator concatenates two strings together and the \verb|*| operator allows a string to be repeated multiple times; both can be seen in the program below.
+\begin{python}
+words = "Hello"
+print(words+ "there")
+print(words * 3)
+\end{python}
+\begin{pseudo*}
+Hellothere
+HelloHelloHello
+\end{pseudo*}
+The function \verb|len(stringName)| returns the number of characters in a string.
+
+\subsection*{String Indexing}
+A string is a sequence of characters, each of the characters can be accessed individually using its index. Indexing begins at the first character, which has the index 0. Moving through the string, the indexes increase. We can access individual characters using the index notation, as seen below.
+\begin{python}
+phrase = "Alright Dave?"
+print(phrase[4])
+\end{python}
+\begin{pseudo*}
+g
+\end{pseudo*}
+Python strings can also be indexed with negative indices where \verb|-1| is the position of the final character, \verb|-2| is the position of the penultimate character, and so on.
+
+\subsection*{String Slicing}
+As well as being able to access individual character, we can access sub-sets of characters, also known as substrings. To do this, we use the notation \verb|string[start:endPlusOne]|. This gives us a substring starting at position \verb|start| and ending one position before \verb|endPlusOne|.
+
+\subsection*{String Methods}
+Along with the \verb|len()| operation described earlier, there are a number of other useful string methods built in to python. \verb|stringName.upper()| converts all letters within the string to uppercase. \verb|stringName.replace(old, new)| replaces all the occurrences of \verb|old| with \verb|new|. \verb|stringName.count(toFind)| counts all the occurrences of \verb|toFind| within the string. \verb|stringName.split()| splits the string into separate items in a list, split where the spaces were in the string.
+
+\subsection*{String Formatting}
+Often programs need to display nicely formatted outputs. This can be achieved using the \verb|.format()| method. The \verb|.format()| method takes parameters of variables which need to be inserted into the string the method is applied to. Within the string, curly braces are inserted which contain the index of variable to be inserted within the \verb|.format()| command; this can be seen below.
+\begin{python}
+a = 12.55
+b = 4
+myString = "It will cost {0} pounds for {1} bottles of wine".format(a, b)
+print(myString)
+\end{python}
+\begin{pseudo*}
+It will cost 12.55 pounds for 4 bottles of wine
+\end{pseudo*}
+We can use the \verb|.format()| method to format numbers and spaces too. This is done within the curly braces, where we add a colon then the formatting definition. The number before the decimal point is the total number of characters to include and after the decimal point tells python to use 2 decimal places. This can be seen below.
+\begin{python}
+myString = "It will cost {0:10.2f} pounds for {1} bottles of wine".format(a, b)
+print(myString)
+\end{python}
+\begin{pseudo*}
+It will cost      12.55 pounds for 4 bottles of wine
+\end{pseudo*}
+Where the number before the decimal point is greater than the total length of the data to be inserted, Python pads out the gap with spaces.
+
+If the number before the decimal point is smaller than the length of the data to be inserted, Python will ignore the number before the decimal point and will format the data as specified after the decimal point.
+
+We are able to control where the padding text is using \verb|<| (padding to the right), \verb|>| (padding to the left) and \verb|^| (equal padding each side). An example is shown below. The number is the total number of space allocated to the padding and the data to be inserted.
+\begin{python}
+print("Here is a {0:^8} for you!".format("WORD"))
+\end{python}
+\begin{pseudo*}
+Here is a   WORD   for you!
+\end{pseudo*}
+
+
+\section*{Sequences}
+Strings and lists are both examples of sequences, as a result of this, they share many properties. One such property being the ability to loop through all the indices within the sequence and perform an action with it. Another such property is the ability to concatenate, index and slice sequences.
+
+\section*{Basic File Processing}
+This section will only introduce the processing of basic text files, which contain sequences of characters.
+
+Text files are generally a few lines long, with each line ended by a special newline character. In python, this character is \verb|\n|.
+
+When Python reads in a text file, it reads it in as a single string, for example
+\begin{verbatim}
+to
+be or not
+to be
+\end{verbatim}
+would be read in as
+\begin{verbatim}
+"to\nbe or not\nto be\n"
+\end{verbatim}
+
+\subsection*{Basic file handling}
+In the following examples, the text file we are using will be called \verb|myfile.txt| and that it is in the current directory.
+
+To use the file, we first have to open it, as part of this we associate a variable with it and we have to declare the mode which we want to open the file in. The basic syntax is as follows
+\begin{python}
+variableName = open(fileName, mode)
+\end{python}
+In our example of wanting to open "myfile.txt" to read, we would use the following syntax
+\begin{python}
+inFile = open("myfile.txt", "r")
+\end{python}
+
+After we have processed the file, we have to close it. This ensures the correct correspondence between the file variable and what is actually on the disk.
+
+The syntax to close the file is \verb|.close()|
+
+\subsection*{Reading Data From A Text File}
+To read data in form the file, we have two options. We can either use \verb|.read()| which reads the entire file's contents into a single variable or use \verb|.readlines()| which reads the file line by line into a list where each line is a different element in the list. There is also a \verb|.readline()| method which only reads a single line at a time, this can be used where the file to be read in is very large and it would be detrimental to the memory of the system to read the whole file in at once. We can also use a for loop to iterate through the file, reading it line by line. 
+
+\subsection*{Writing to files}
+When we want to write something out to a file, we first have to open it for writing. This is done by using \verb|mode| as \verb|"w"|. This will either create the file, or if the file already exists, destroys its contents. We can then use a print statement to write out to the file, as seen below
+\begin{python}
+print(contentToWrite, file=variableNameOfFile)
+\end{python}
+We then have to remember to close the file, this will ensure that the data is written to disk.
