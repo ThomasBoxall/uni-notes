@@ -17,4 +17,7 @@ I'm typesetting my notes using LaTeX, with custom colourful boxes and syntax hig
 `/01-FIRST YEAR` contains folders for each module I'm taking. Within each folder there is a .pdf document which contains the full note set. 
 
 ## Distribution of my work
-Obviously, these aren't quick notes to write. If you pass them onto someone else, please be a decent human and share a link to GitHub where they're attributed to me. I'm putting a lot of effort into making them nice and I will take them offline if they are plagiarized.
+Obviously, these aren't quick notes to write. If you pass them onto someone else, please be a decent human and share a link to GitHub where they're attributed to me. I'm putting a lot of effort into making them nice and I will take them offline if they are plagiarized.  
+  
+## Worksheets  
+Some of the worksheets we have been given to complete outside of taught sessions have also been included here. The ideal end goal is to include all of the worksheets here however due to time constraints, and the time it takes to typeset certain elements of said worksheets, this may not always be possible. On occasion, notes will be left in the document stating where I need to add worksheets, however this will not always be the 

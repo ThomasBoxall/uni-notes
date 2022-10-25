@@ -1,0 +1,56 @@
+\lecture{Defining Functions}{24-10-22}{15:00}{RB LT1}{Nadim}
+
+\section*{Concept of Functions}
+In the programs we have written this far, we have been using functions to contain many smaller programs within one file. However, most programs out there in the `real world' are longer than the programs which we've written so far.
+
+Typically a program is a collection of several funciton definitions. Functions help us break large problems into smaller parts; improve the readability of code; and avoid repetition whereby we write similar code over and over again. 
+
+\section*{Breaking a large problem down using Functions}
+Often, when we are designing solutions to large problems we will break the problem down into smaller sub-problems. These sub-problems are much easier to solve, making the overall problem easier to solve. Some of the sub-problems which we first come up with, might be able to be broken down further into even smaller sub-problems, it is often these which can become programmed functions.
+
+\section*{Parameters}
+When calling a function, it is useful to be able to pass data into the function so that it can perform an action on this. To do this, we use something called a parameter. In the example code shown below, the function (\verb|greet()|) takes a single parameter, this is used in the print statement. Note that where the function is called from, we must supply an argument in the brackets or we will get an error.
+\begin{python}
+def greet(name):
+    print("Hey there " + name + "!")
+
+greet("Dave")
+\end{python}
+
+\begin{link}{Example Execution}
+In Lecture 08d notes on Moodle, there is an example line-by-line execution of a function with parameters.
+\end{link}
+
+\section*{Returning Values}
+Whilst it can be useful to have a function that does something, and doesn't feed back into the main program, this isn't useful in reality. Functions also have the option to return a value at the end of execution to where they were called from in the main program. There are examples of this throughout Python which we have used already (for example, \verb|float()|). The code below shows an example of a function which takes a parameter and returns a value.
+\begin{python}
+def addTwo(x):
+    y = x + 2
+    return y
+
+a = 3
+b = addTwo(a)
+print(b)  # outputs 5
+\end{python}
+Note that the \verb|return| keyword defines what will be returned to the main program and that within the main program, there needs to be somewhere for the returned value to go otherwise the program will throw an error.
+\subsection*{Returning Multiple Values}
+We may also find it useful at times to write functions which return multiple values. The code snippet shown below demonstrates how this is done.
+\begin{python}
+def sumDiff(n1,n2):
+    return n1+n2, n1-n2
+s, d = sumDiff(10,3)
+print(s)  # outputs 13
+print(d)  # outputs 7
+\end{python}
+
+\section*{Future Weeks}
+The concepts introduced in this week are used throughout the upcoming weeks and in the coursework.
+
+\section*{In Class Test}
+For the in class test this week, we will be instructed to download a python file from Moodle which will contain a stick man. 
+
+We will have to do something to the stick man (for example, add a top hat and a cane). This will be worth 6 marks. The sheet may not be photo copied in colour, pay attention to the colours written in the document. 
+
+The remaining marks in the test will come from making other things appear and move on the screen. This will be worth 4 marks.
+
+Code quality, as well as outputs, will be assessed. We will not be marked down for lack of comments at this stage however we may loose marks if the code is inefficient or repetitive. This would be one or two marks at most.

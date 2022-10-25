@@ -4,7 +4,7 @@
 
 \begin{figure}[H]
     \begin{minipage}[t]{0.45\textwidth}
-        a. $A+\overline{B}$\\
+        a. $A+\overline{B}$\\[7pt]
         \begin{circuit}
             \node[elePort] (B) at (0,0){B};
             \node[elePort] (A) at (0,2){A};
@@ -34,7 +34,7 @@
 
 \begin{figure}[H]
     \begin{minipage}[t]{0.45\textwidth}
-        b. $A\cdot \overline{B}$\\
+        b. $A\cdot \overline{B}$\\[7pt]
         \begin{circuit}
             \node[elePort] (B) at (0,0){B};
             \node[elePort] (A) at (0,2){A};
@@ -62,6 +62,332 @@
     \end{minipage}\hfill
 \end{figure}
 
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        c. $A\cdot B \cdot C$\\[7pt]
+        \begin{circuit}
+            \node[elePort] (C) at (0,0) {C};
+            \node[elePort] (B) at (0,2) {B};
+            \node[elePort] (A) at (0,4) {A};
+            \node[and port, number inputs=3] (and) at (2,2) {};
+
+            \draw(A.east) -| (and.in 1);
+            \draw(B.east) -| (and.in 2);
+            \draw(C.east) -| (and.in 3);
+            \draw(and.out) -- ++(0.5,0) node[right]{Q};
+        \end{circuit}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.4\textwidth}{XXX|X}
+                C & B & A & Q\\
+                \hline
+                0 & 0 & 0 & 0\\
+                0 & 0 & 1 & 0\\
+                0 & 1 & 0 & 0 \\
+                0 & 1 & 1 & 0\\
+                1 & 0 & 0 & 0\\
+                1 & 0 & 1 & 0\\
+                1 & 1 & 0 & 0 \\
+                1 & 1 & 1 & 1\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        d. $A + B + C$\\[7pt]
+        \begin{circuit}
+            \node[elePort] (C) at (0,0) {C};
+            \node[elePort] (B) at (0,2) {B};
+            \node[elePort] (A) at (0,4) {A};
+            \node[or port, number inputs=3] (or) at (2,2) {};
+
+            \draw(A.east) -| (or.in 1);
+            \draw(B.east) -| (or.in 2);
+            \draw(C.east) -| (or.in 3);
+            \draw(or.out) -- ++(0.5,0) node[right]{Q};
+        \end{circuit}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.4\textwidth}{XXX|X}
+                C & B & A & Q\\
+                \hline
+                0 & 0 & 0 & 0\\
+                0 & 0 & 1 & 1\\
+                0 & 1 & 0 & 1 \\
+                0 & 1 & 1 & 1\\
+                1 & 0 & 0 & 1\\
+                1 & 0 & 1 & 1\\
+                1 & 1 & 0 & 1 \\
+                1 & 1 & 1 & 1\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        e. $\overline{A} + B + C$\\[7pt]
+        \begin{circuit}
+            \node[elePort] (C) at (0,0) {C};
+            \node[elePort] (B) at (0,2) {B};
+            \node[elePort] (A) at (0,4) {A};
+            \node[or port, number inputs=3] (or) at (4,2) {};
+            \node[not port] (not) at (2,4) {};
+
+            \draw(A.east) -| (not.in);
+            \draw(not.out) -| (or.in 1);
+            \draw(B.east) -| (or.in 2);
+            \draw(C.east) -| (or.in 3);
+            \draw(or.out) -- ++(0.5,0) node[right]{Q};
+        \end{circuit}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.4\textwidth}{XXX|X}
+                C & B & A & Q\\
+                \hline
+                0 & 0 & 0 & 1\\
+                0 & 0 & 1 & 0\\
+                0 & 1 & 0 & 1 \\
+                0 & 1 & 1 & 1\\
+                1 & 0 & 0 & 1\\
+                1 & 0 & 1 & 1\\
+                1 & 1 & 0 & 1 \\
+                1 & 1 & 1 & 1\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        f. $A \cdot B \cdot C \cdot D$\\[7pt]
+        \begin{circuit}
+            \node[elePort] (D) at (0,0) {D};
+            \node[elePort] (C) at (0,2) {C};
+            \node[elePort] (B) at (0,4) {B};
+            \node[elePort] (A) at (0,6) {A};
+            \node[and port, number inputs=4] (and) at (3,3) {};
+
+            \draw(A.east) -| (and.in 1);
+            \draw(and.in 2) -- ++(-0.5, 0) |- (B.east);
+            \draw(and.in 3) -- ++(-0.5, 0) |- (C.east);
+            \draw(D.east) -| (and.in 4);
+            \draw(and.out) -- ++(0.5,0) node[right]{Q};
+        \end{circuit}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\textwidth}{XXXX|X}
+                D & C & B & A & Q\\
+                \hline
+                0 & 0 & 0 & 0 & 0\\
+                0 & 0 & 0 & 1 & 0\\
+                0 & 0 & 1 & 0 & 0 \\
+                0 & 0 & 1 & 1 & 0\\
+                0 & 1 & 0 & 0 & 0\\
+                0 & 1 & 0 & 1 & 0\\
+                0 & 1 & 1 & 0 & 0 \\
+                0 & 1 & 1 & 1 & 0\\
+                1 & 0 & 0 & 0 & 0\\
+                1 & 0 & 0 & 1 & 0\\
+                1 & 0 & 1 & 0 & 0 \\
+                1 & 0 & 1 & 1 & 0\\
+                1 & 1 & 0 & 0 & 0\\
+                1 & 1 & 0 & 1 & 0\\
+                1 & 1 & 1 & 0 & 0 \\
+                1 & 1 & 1 & 1 & 1\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        g. $A + B + C + D$\\[7pt]
+        \begin{circuit}
+            \node[elePort] (D) at (0,0) {D};
+            \node[elePort] (C) at (0,2) {C};
+            \node[elePort] (B) at (0,4) {B};
+            \node[elePort] (A) at (0,6) {A};
+            \node[or port, number inputs=4] (or) at (3,3) {};
+
+            \draw(A.east) -| (or.in 1);
+            \draw(or.in 2) -- ++(-0.5, 0) |- (B.east);
+            \draw(or.in 3) -- ++(-0.5, 0) |- (C.east);
+            \draw(D.east) -| (or.in 4);
+            \draw(or.out) -- ++(0.5,0) node[right]{Q};
+        \end{circuit}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.5\textwidth}{XXXX|X}
+                D & C & B & A & Q\\
+                \hline
+                0 & 0 & 0 & 0 & 0\\
+                0 & 0 & 0 & 1 & 1\\
+                0 & 0 & 1 & 0 & 1 \\
+                0 & 0 & 1 & 1 & 1\\
+                0 & 1 & 0 & 0 & 1\\
+                0 & 1 & 0 & 1 & 1\\
+                0 & 1 & 1 & 0 & 1 \\
+                0 & 1 & 1 & 1 & 1\\
+                1 & 0 & 0 & 0 & 1\\
+                1 & 0 & 0 & 1 & 1\\
+                1 & 0 & 1 & 0 & 1 \\
+                1 & 0 & 1 & 1 & 1\\
+                1 & 1 & 0 & 0 & 1\\
+                1 & 1 & 0 & 1 & 1\\
+                1 & 1 & 1 & 0 & 1 \\
+                1 & 1 & 1 & 1 & 1\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        h. $\overline{A \cdot B}$ \\[7pt]
+        \begin{circuit}
+            \node[elePort] (B) at (0,0) {B};
+            \node[elePort] (A) at (0,2) {A};
+            \node[and port] (and) at (2,1) {};
+            \node[not port] (not) at (4,1) {};
+
+            \draw(and.out) -- (not.in);
+            \draw(A.east) -| (and.in 1);
+            \draw(B.east) -| (and.in 2);
+            \draw(not.out) -- ++(0.5,0) node[right] {Q}; 
+        \end{circuit}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.3\textwidth}{XX|X}
+                B & A & Q\\
+                \hline
+                0 & 0 & 1\\
+                0 & 1 & 1\\
+                1 & 0 & 1 \\
+                1 & 1 & 0\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        i. $\overline{A + B}$ \\[7pt]
+        \begin{circuit}
+            \node[elePort] (B) at (0,0) {B};
+            \node[elePort] (A) at (0,2) {A};
+            \node[or port] (or) at (2,1) {};
+            \node[not port] (not) at (4,1) {};
+
+            \draw(or.out) -- (not.in);
+            \draw(A.east) -| (or.in 1);
+            \draw(B.east) -| (or.in 2);
+            \draw(not.out) -- ++(0.5,0) node[right] {Q}; 
+        \end{circuit}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.3\textwidth}{XX|X}
+                B & A & Q\\
+                \hline
+                0 & 0 & 1\\
+                0 & 1 & 0\\
+                1 & 0 & 0 \\
+                1 & 1 & 0\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        j. $A \cdot B + C$ \\[7pt]
+        \begin{circuit}
+            \node[elePort] (C) at (0,0) {C};
+            \node[elePort] (B) at (0,2) {B};
+            \node[elePort] (A) at (0,4) {A};
+            \node[and port] (and) at (2,3) {};
+            \node[or port] (or) at (5,1) {};
+
+            \draw(A.east) -| (and.in 1);
+            \draw(B.east) -| (and.in 2);
+            \draw(C.east) -| (or.in 2);
+            \draw(and.out) -| (or.in 1);
+            \draw(or.out) -- ++(0.5,0) node[right] {Q};
+        \end{circuit}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.4\textwidth}{XXX|X}
+                C & B & A & Q\\
+                \hline
+                0 & 0 & 0 & 0\\
+                0 & 0 & 1 & 0\\
+                0 & 1 & 0 & 0 \\
+                0 & 1 & 1 & 1\\
+                1 & 0 & 0 & 1\\
+                1 & 0 & 1 & 1\\
+                1 & 1 & 0 & 1 \\
+                1 & 1 & 1 & 1\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        k. $A \cdot B + A \cdot C$ \\[7pt]
+        \begin{circuit}
+            \node[elePort] (C) at (0,0) {C};
+            \node[elePort] (B) at (0,2) {B};
+            \node[elePort] (A) at (0,4) {A};
+            \node[and port] (and1) at (2,1) {};
+            \node[and port] (and2) at (2,3) {};
+            \node[or port] (or) at (5,2) {};
+
+            \draw(C.east) -| (and1.in 2);
+            \draw(B.east) -| (and2.in 2);
+            \draw(and1.in 1) -* ++(-0.2, 0) |- (A.east);
+            \draw(and1.in 1) -- ++(-0.2, 0) |- (and2.in 1);
+            \draw(and1.out) -| (or.in 2);
+            \draw(and2.out) -| (or.in 1);
+            \draw(or.out) -- ++(0.5,0) node[right] {Q};
+        \end{circuit}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \begin{table}[H]
+            \centering
+            \begin{tabularx}{0.4\textwidth}{XXX|X}
+                C & B & A & Q\\
+                \hline
+                0 & 0 & 0 & 0\\
+                0 & 0 & 1 & 0\\
+                0 & 1 & 0 & 0 \\
+                0 & 1 & 1 & 1\\
+                1 & 0 & 0 & 0\\
+                1 & 0 & 1 & 1\\
+                1 & 1 & 0 & 0 \\
+                1 & 1 & 1 & 1\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
 
 \begin{figure}[H]
     \begin{minipage}[t]{0.45\textwidth}

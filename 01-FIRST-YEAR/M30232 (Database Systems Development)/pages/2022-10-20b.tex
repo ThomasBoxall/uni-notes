@@ -1,0 +1,161 @@
+\lecture{Practical: SQL and Entities}{20-10-22}{14:00}{Mark \& Team}{FTC 3rd Floor}
+
+\section*{Task 1: Run the provided code and observe the outputs.}
+Run the following DDL code.
+\begin{sql}
+CREATE DATABASE customer_db;
+
+\c customer_db
+
+CREATE TABLE customer1 (cust_id SERIAL PRIMARY KEY, cust_fname VARCHAR(20) NOT NULL, cust_lname VARCHAR(20) NOT NULL);
+
+\d customer1
+
+ALTER TABLE customer1 ADD COLUMN cust_email varchar(100) NOT NULL UNIQUE;
+
+\d customer1
+
+DROP TABLE customer1;
+
+-- check that the table is gone now
+
+-- anything in the line after the two dashes is a comment by the way
+
+\l
+\d customer1
+\end{sql}
+
+Run the following DML code.
+
+Creating a new table and populating it with some dummy data.
+\begin{sql}
+CREATE TABLE customer (cust_id SERIAL PRIMARY KEY, cust_fname VARCHAR(20) NOT NULL, cust_lname VARCHAR(20) NOT NULL, cust_email varchar(60) NOT NULL);
+
+INSERT INTO customer (cust_id, cust_fname, cust_lname, cust_email) VALUES (22,'Kamil', 'Novak','kamnovak@gmail.com');
+
+INSERT INTO customer (cust_id, cust_fname, cust_lname, cust_email) VALUES (66,'Aarav', 'Anand','aanand98@gmail.com');
+
+INSERT INTO customer (cust_id, cust_fname, cust_lname, cust_email) VALUES (67,'Alia', 'Anand','aanand98@gmail.com');
+\end{sql}
+
+Viewing what is in the table
+\begin{sql}
+SELECT * FROM customer;
+
+SELECT cust_fname, cust_email from customer;
+\end{sql}
+Selecting only the attributes which we need, so we don't have to retrieve all of the data from a table.
+\begin{sql}
+SELECT cust_email, cust_id, cust_fname, cust_lname from customer;
+\end{sql}
+
+Insert more records, some of these return errors.
+\begin{sql}
+UPDATE customer SET cust_email = 'i_love_elephants_1@gmail.com' where cust_id = 66;
+SELECT * FROM customer;
+
+INSERT INTO customer (cust_id, cust_fname, cust_lname, cust_email) VALUES (67,'Alia', 'Anand','aanand98@gmail.com');
+
+INSERT INTO customer (cust_id, cust_fname, cust_lname, cust_email) VALUES (70,'Connor', 'Murphy','connormurphy99@gmail.com');
+
+INSERT INTO customer (cust_id, cust_fname, cust_lname, cust_email) VALUES (71,'Connor', 'Murphy','connormurphy199@gmail.com');
+
+INSERT INTO customer (cust_id, cust_fname, cust_lname, cust_email) VALUES (1,'Tim', 'Nice-but-Dimm','alongemailaddresswillfit@quitealongdomainnametoo.com');
+
+INSERT INTO customer ( cust_fname, cust_lname, cust_email) VALUES ('Tim', 'Nice-but-Dimm','averylongemailaddresswillnotfit11111111111111111111111111111111111111111a@quitealongdomainnametoo.com');
+\end{sql}
+
+
+\section*{Task 2: Write SQL code for the following questions.}
+\begin{enumerate}
+\item Create a new database called \verb|code_test|
+\begin{sql}
+CREATE DATABASE code_test;
+\end{sql}
+\item Connect to this new database
+\begin{sql}
+\c code_test
+\end{sql}
+\item Create a new table called \verb|table_one|, which has the following attributes
+\begin{enumerate}
+    \item \verb|Record_id| an integer
+    \item \verb|Att_1| a varchar that will hold upto 30 characters
+    \item \verb|Att_2| a char that will hold 10 characters
+    \item \verb|Att_3| a decimal that can hold the value of 9.99.
+\end{enumerate}
+\begin{sql}
+CREATE TABLE table_one(Record_id INT PRIMARY KEY, Att_1 VARCHAR(30), Att_2 CHAR(10), Att_3 DECIMAL(3,2));
+\end{sql}
+\item Look at the structure of this table once you have created it. Show the output below.
+\begin{sql}
+\d table_one
+\end{sql}
+\begin{pseudo*}
+                      Table "public.table_one"
+  Column   |         Type          | Collation | Nullable | Default
+-----------+-----------------------+-----------+----------+---------
+ record_id | integer               |           | not null |
+ att_1     | character varying(30) |           |          |
+ att_2     | character(10)         |           |          |
+ att_3     | numeric(3,2)          |           |          |
+Indexes:
+    "table_one_pkey" PRIMARY KEY, btree (record_id)
+\end{pseudo*}
+\item Alter the table by adding a new column called \verb|Att_4| that will hold another integer.
+\begin{sql}
+ALTER TABLE table_one ADD COLUMN Att_4 INT;
+\end{sql}
+\item Look at the structure of this table again once you have added this new column. Show the output below.
+\begin{sql}
+\d table_one
+\end{sql}
+\begin{pseudo*}
+                      Table "public.table_one"
+  Column   |         Type          | Collation | Nullable | Default
+-----------+-----------------------+-----------+----------+---------
+ record_id | integer               |           | not null |
+ att_1     | character varying(30) |           |          |
+ att_2     | character(10)         |           |          |
+ att_3     | numeric(3,2)          |           |          |
+ att_4     | integer               |           |          |
+Indexes:
+    "table_one_pkey" PRIMARY KEY, btree (record_id)
+\end{pseudo*}
+
+\item Insert two records into the table called \verb|table_one|
+\begin{enumerate}
+    \item Record\_id = 1, Att\_1 = continent , Att2 = 0olP\$fguj , Att\_3 = 9.99 , Att\_4 = 42
+    \item Record\_id = 2, Att\_1 = Portsmouth University , Att2 = Violet , Att\_3 = 9.99 , Att\_4 = 99999
+\end{enumerate}
+\begin{sql}
+INSERT INTO table_one (Record_id, Att_1, Att_2, Att_3, Att_4) VALUES (1, 'continent', '0olP[dollarSign]fguj', 9.99, 42);
+INSERT INTO table_one (Record_id, Att_1, Att_2, Att_3, Att_4) VALUES (2, 'Portsmouth University', 'Violet', 9.99, 9999);
+\end{sql}
+\item Get all fo the data from the table
+\begin{sql}
+SELECT * FROM table_one;
+\end{sql}
+\item Get a screenshot of the data
+\begin{pseudo*}
+ record_id |         att_1         |   att_2    | att_3 | att_4
+-----------+-----------------------+------------+-------+-------
+         1 | continent             | 0olP[dollarSign]fguj  |  9.99 |    42
+         2 | Portsmouth University | Violet     |  9.99 |  9999
+(2 rows)
+\end{pseudo*}
+\item Change the value of \verb|Att_4| in record 1 from \verb|44| to \verb|66|
+\begin{sql}
+UPDATE table_one SET Att_4 = 66 WHERE record_id = 1;
+\end{sql}
+\item Get the data from the table for only record 1
+\begin{sql}
+SELECT * FROM table_one WHERE record_id = 1;
+\end{sql}
+\item Get a screenshot of the results.
+\begin{pseudo*}
+ record_id |   att_1   |   att_2    | att_3 | att_4
+-----------+-----------+------------+-------+-------
+         1 | continent | 0olP[dollarSign]fguj  |  9.99 |    66
+(1 row)
+\end{pseudo*}
+\end{enumerate}

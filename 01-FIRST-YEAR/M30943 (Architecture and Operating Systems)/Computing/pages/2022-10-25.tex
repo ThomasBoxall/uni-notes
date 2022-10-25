@@ -1,0 +1,33 @@
+\lecture{Adders and Subtractors}{25-10-22}{16:00}{Farzad}{RB LT1}
+
+Within computers, there needs to be a way that numbers can be added together and subtracted. This is done using something called an adder subtractor. There are a number of different versions of the circuit which we need to look at first. 
+
+\section*{Half Adder}
+To start with, if we look at a truth table showing two inputs ($B$ and $A$) and two outputs ($sum$ and $carry$), we can show the combinations of gates which we need for a half adder. 
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{0.35\textwidth}{XX|XX}
+        B & A & sum & carry\\
+        \hline
+        0 & 0 & 0 & 0\\
+        0 & 1 & 1 & 0\\
+        1 & 0 & 1 & 0\\
+        1 & 1 & 0 & 1\\
+    \end{tabularx}
+\end{table}
+From the table, we can see that the sum column represents the truth table for an XOR gate and the carry column represents the truth table for an AND gate. We can draw this as a circuit diagram.
+\begin{circuit}
+    \node[] (A) at (0,2.25) {A};
+    \node[] (B) at (0,1.75) {B};
+    \node[xor port] (xor) at (3,2) {};
+    \node[and port] (and) at (3,0) {};
+
+    \draw(A.east) |- (xor.in 1);
+    \draw(B.east) |- (xor.in 2);
+    \draw(xor.in 1) ++(-0.5, 0) |- (and.in 1);
+    \draw(xor.in 2) ++(-0.7, 0) |- (and.in 2);
+    \draw(xor.out) -- ++(0.5,0) node[right] {Sum};
+    \draw(and.out) -- ++(0.5,0) node[right] {Carry};
+\end{circuit}
+
+\textcolor{red}{To be continued.}

@@ -1,0 +1,32 @@
+\lecture{Functions and Sequences}{19-10-22}{10:00}{Zhaojie}{Zoom}
+
+\section*{Functions}
+\define{Function}{A function is a rule that recieves an input and produces an output. A function can only produce a single output for any given input.}
+In maths, function are written as follows
+\[f(x) = x + 3\]
+We can use any different letters we want.
+\begin{example}{Calculating output when given an input}
+A function $f$ is defined by $f(x) = 3x+1$. Calculate the output when the input is 4.
+\[f(4) = 3\times 4 + 1 = 13\]
+\end{example}
+
+\section*{Composite Functions}
+A composite function is where the output of one function feeds directly into the input of another function. This can be expressed as follows
+\[g(f(x))\]
+\begin{example}{Composite Function eample}
+Given $f(x) = x^2$ and $g(x) = x+1$. Find a value of the composite function $f(g(x))$ and $g(f(x))$ for $x=3$.
+\[f(g(3)) = f(3+1) = f(4 = 4^2 = 16)\]
+\[g(f(3)) = g(3^2) = g(9) = 9+1 = 10\]
+\end{example}
+
+\section*{Sequences}
+\define{Sequence}{A sequence is a set of number written down in a specific order. Each element in the sequence is called a term.}
+
+There are two types of sequence, finite and infinite sequence. Finite sequences have a fixed number of elements and infinite sequences can go on forever. 
+\subsection*{Sequence Notation}
+We use subscript notation to refer to different terms in the sequence. The first term in the sequence can be called $x_1$, the second $x_2$ and so on. 
+
+\subsection*{Recurrence Relation}
+A recurrence relation is an equation that recursively defines a sequence. One or more initial terms are given and each further term of the sequence is defined as a function of the preceding terms. For example
+\[F_n = f_{n-1} + F_{n-2}\geq 2\]
+\[F_0 = 0, F_1 = 1\]
