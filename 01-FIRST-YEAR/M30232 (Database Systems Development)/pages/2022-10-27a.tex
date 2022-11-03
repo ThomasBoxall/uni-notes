@@ -1,0 +1,80 @@
+\lecture{ERD, Attributes \& Datatypes}{27-10-22}{13:00}{RB LT1}{Mark}
+
+\section*{Attributes}
+An entity is a thing. The attributes, of an entity, are the things which describe the thing. We need to be able to identify individual entities.
+\subsection*{Example: People}
+If we are having a person as an entity, the attributes we will probably need are: date of birth; given name; family name. There are attributes which we don't need to store (for example: weight, height).
+\subsubsection*{Addresses}
+When we store people, we will usually store their address in their record. This will be explored when do normalisation after consolidation week.
+
+\subsection*{GDPR}
+When we store data, we have to be sure we are being GDPR compliant and storing what what you need to store.
+
+GDPR states that you must ensure the personal data you are processing is:
+\begin{itemize}
+    \item adequate - sufficient to properly fulfil your stated purpose;
+    \item relevant - has a rational link to that purpose; and
+    \item limited to what is necessary - you do not hold more than you need for that purpose.
+\end{itemize}
+
+\section*{Data Types}
+Now we know what attributes we need to store about the attribute, we need to think about types of data that is. 
+\subsection*{Names}
+Names are made up from characters, these could include apostrophes and hyphens. There is a question here as to how long names can be. A rule of thumb would be to use 20 characters for first name and 25 for surnames.
+\subsection*{Numeric}
+There are a number of different numeric data types.
+\begin{itemize}
+    \item \texttt{smallint} - holds an integer range -32768 to +32767
+    \item \texttt{integer} - holds an integer range -2147483648 to +2147483647
+    \item \texttt{bigint} - holds an integer range -9223372036854775808 to +9223372036854775807
+    \item \texttt{decimal} - holds a decimal number with up to 131072 digits before the decimal point; up to 16383 digits after the decimal point
+    \item \texttt{real} - similar to decimal but provides 6 decimal digits precision
+    \item \texttt{double} - similar to real but provides 15 decimal digits precision
+    \item \texttt{serial} - holds an integer range 1 to 2147483647
+    \item \texttt{bigserial} - holds an integer range 1 to 9223372036854775807
+\end{itemize}
+\subsection*{Characters}
+There are a number of different character data types.\\
+Phone numbers should be stored as a character not as a numeric data type as they will often have leading zeros. 
+\begin{itemize}
+    \item \texttt{text} - variable `unlimited' length
+    \item \texttt{character/ char} - fixed length (blank padding is added if less than given size)
+    \item \texttt{varying character / varchar} - variable length with limit
+\end{itemize}
+\subsection*{Dates and Times}
+There are a number of different date/ time data types.
+\begin{itemize}
+    \item \texttt{timestamp without timezone} - both date and time (no time zone) range 4713 BC to 294276 AD with 1 microsecond resolution
+    \item \texttt{timestamp with timezone} - both date and time (with time zone) range 4713 BC to 294276 AD with 1 microsecond resolution
+    \item \texttt{date} - date without time range 4713 BC to 5874897 AD with 1 day resolution
+    \item \texttt{time without timezone} - time of day (no date) range 00:00:00 to 24:00:00 with 1 microsecond resolution
+    \item \texttt{time with timezone} - time of day (no date), with time zone range 00:00:00 to 24:00:00 with 1 microsecond resolution and adjustment for time zone
+\end{itemize}
+
+\section*{Example of drawing up an entity}
+If we have a draft entity with the following attributes \texttt{cust\_id}, \texttt{cust\_name}, \texttt{addeess}, \texttt{email}. This presents a number of problems.
+
+If we want to search for a specific name, this is more complicated because the customer name is stored as a single attribute where it should be multiple attributes.
+
+Addresses should not be stored as a single attribute.
+\subsection*{Break down data}
+We should break down information into usable data. For example, addresses should be broken down into: \texttt{address1}, \texttt{address2}, \texttt{town}, \texttt{county}, \texttt{postcode}, \texttt{country}.
+
+Names should be broken down into \texttt{firstName}, \texttt{lastName}. It could also be argued that a single middle name could also be included.
+
+\subsection*{Adding data types}
+\begin{itemize}
+    \item \texttt{cust\_id - int}
+    \item \texttt{cust\_fname - varchar}
+    \item \texttt{cust\_mname - varchar}
+    \item \texttt{cust\_lname - varchar}
+    \item \texttt{addr1 - varchar}
+    \item \texttt{addr2 - varchar}
+    \item \texttt{town - varchar}
+    \item \texttt{postcode - char} (could be a \texttt{varchar})
+    \item \texttt{email - varchar}
+\end{itemize}
+
+\subsection*{Sizes of data types}
+Now we have worked out what data types we want to use, we need to think about the sizes of those data types.
+
