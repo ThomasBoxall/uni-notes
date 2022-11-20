@@ -1,0 +1,232 @@
+\lecture{Boolean Algebra Simplification I}{07-11-22}{16:00}{Farzad}{RB LT1}
+
+Now we have covered all the different gates and how they interact, we need to look at ways to make the circuits simpler. There are a number of ways this can be done, either through Boolean Algebra Simplification or through Karnaugh Maps. We'll be looking at the former in this lecture.
+
+As a general principle of simplification, we need to get rid of the brackets to see exactly what we are dealing with then simplify (which may involve returning some things to brackets).
+
+\section*{Laws of Boolean Algebra}
+\subsection*{Law 1: Commutative}
+This law states that the order of terms is interchangable without changing the overall expression permitting the gates between them do not change.
+\[A + B = B + A\]
+\[A \cdot B = B \cdot A\]
+
+\subsection*{Law 2: Associative}
+This law states that where there are multiple of the same operator used brackets, and therefore gates, can be placed anywhere.
+\begin{align*}
+A + (B  + C) &= (A + B) + C\\
+&= A + B + C\\ \\
+A \cdot (B \cdot C) &= (A \cdot B) \cdot C\\
+&= A \cdot B \cdot C
+\end{align*}
+
+\subsection*{Law 3: Distributive (Associative)}
+This rule acts much like simplification in standard maths where a common term is `factored' out so that it only appears once in the equation.
+\[ A(B+C) = A\cdot B + A \cdot C \]
+
+\section*{Rules of Boolean Algebra}
+\subsection*{Operations with 0 and 1}
+\subsubsection*{Rule 1}
+\begin{figure}[H]
+    \begin{minipage}[t]{0.65\textwidth}
+        In this rule, the 0 bit means that the output will always be A.
+        \[A + 0 = A\]
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.25\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.5\textwidth}{XX|X}
+                A & 0 & Q\\
+                \hline
+                0 & 0 & 0\\
+                1 & 0 & 1\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\subsubsection*{Rule 2}
+\begin{figure}[H]
+    \begin{minipage}[t]{0.65\textwidth}
+        In this rule, the 1 bit means that the output will always be 1.
+        \[A + 1 = 1\]
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.25\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.5\textwidth}{XX|X}
+                A & 1 & Q\\
+                \hline
+                0 & 1 & 1\\
+                1 & 1 & 1\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\subsubsection*{Rule 3}
+\begin{figure}[H]
+    \begin{minipage}[t]{0.65\textwidth}
+        In this rule, the 0 bit means that the output will always be 0.
+        \[A \cdot 0 = 0\]
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.25\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.5\textwidth}{XX|X}
+                A & 0 & Q\\
+                \hline
+                0 & 0 & 0\\
+                1 & 0 & 0\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\subsubsection*{Rule 4}
+\begin{figure}[H]
+    \begin{minipage}[t]{0.65\textwidth}
+        In this rule, the 1 bit means that the output will always be A.
+        \[A \cdot 1 = A\]
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.25\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.5\textwidth}{XX|X}
+                A & 0 & Q\\
+                \hline
+                0 & 0 & 0\\
+                1 & 0 & 1\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\subsection*{Idempotent Rules}
+\subsubsection*{Rule 5}
+\begin{figure}[H]
+    \begin{minipage}[t]{0.65\textwidth}
+        \[A + A = A\]
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.25\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.5\textwidth}{XX|X}
+                A & A & Q\\
+                \hline
+                0 & 0 & 0\\
+                1 & 1 & 1\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\subsubsection*{Rule 6}
+\begin{figure}[H]
+    \begin{minipage}[t]{0.65\textwidth}
+        \[A \cdot A = A\]
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.25\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.5\textwidth}{XX|X}
+                A & 0 & Q\\
+                \hline
+                0 & 0 & 0\\
+                1 & 1 & 1\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\subsection*{Laws Of Complementarity}
+\subsubsection*{Rule 7}
+\begin{figure}[H]
+    \begin{minipage}[t]{0.65\textwidth}
+        \[A + \overline{A} = 1\]
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.25\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.5\textwidth}{XX|X}
+                A & $\overline{A}$ & Q\\
+                \hline
+                0 & 1 & 1\\
+                1 & 0 & 1\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\subsubsection*{Rule 8}
+\begin{figure}[H]
+    \begin{minipage}[t]{0.65\textwidth}
+        \[A \cdot \overline{A} = 0\]
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.25\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.5\textwidth}{XX|X}
+                A & $\overline{A}$ & Q\\
+                \hline
+                0 & 1 & 0\\
+                1 & 0 & 0\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\subsection*{Other Laws}
+\subsubsection*{Rule 9: Double Inversion}
+\begin{figure}[H]
+    \begin{minipage}[t]{0.65\textwidth}
+        In this rule, the 0 bit means that the output will always be A.
+        \[\overline{\overline{A}} = A\]
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.25\textwidth}
+        \begin{table}[H]
+            \begin{tabularx}{0.5\textwidth}{X|X}
+                $\overline{\overline{A}}$ & Q\\
+                \hline
+                0 & 0\\
+                1 & 1\\
+            \end{tabularx}
+        \end{table}
+    \end{minipage}\hfill
+\end{figure}
+
+\subsubsection*{Rule 10}
+This rule is applicable in both directions. The bits removed can also be added back where needed. This is useful for some simplifications.
+\[A + A\cdot B = A\]
+\[A = A \cdot B  + A \]
+\begin{example}{Derivation of Rule 10}
+\begin{align*}
+A &= A && rule\ 10\\
+A &= A + A \cdot B\\
+A &= A + (A+A\cdot B)\cdot B && rule\ 10\\
+A &= A + A\cdot B + A \cdot B \cdot B && rule\ 6\\
+A &= A + A \cdot B + A \cdot B\\
+A &= A + nA \cdot B +\\
+A &= A + A \cdot B +
+\end{align*}
+\end{example}
+
+\subsubsection*{Rule 11}
+\[A + \overline{A}\cdot B = A + B\]
+\begin{example}{Derivation of Rule 11}
+\begin{align*}
+A + \overline{A}\cdot B &=\\
+&= (A+A\cdot B)+\overline{A}\cdot B && rule\ 10\\
+&= A\cdot A + A \cdot B + \overline{A} \cdot B && rule\ 7\\
+&= A\cdot A + A \cdot B + A \cdot \overline{A} + \overline{A} \cdot B && rule\ 8\\
+&= A\cdot (A + B) + \overline{A}\cdot (A + B)\\
+&= (A + \overline{A})\cdot (A + B) && rule\ 6\\
+&= 1\cdot (A + B)\\
+&= A + B
+\end{align*}
+\end{example}
+
+\subsubsection*{Rule 12}
+\[(A+B)\cdot (A+C) = A+ B \cdot C\]
+\begin{example}{Derivation of Rule 12}
+\begin{align*}
+(A+B) \cdot (A+C) &=\\
+&= A\cdot A + A \cdot C + A\cdot B + B\cdot C && rule\ 7\\
+&= A + A\cdot C + A\cdot B + B \cdot C\\
+&= A\cdot (1+C) + A\cdot B + B \cdot C && rule\ 2\\
+&= A + A \cdot B + B \cdot C\\
+&= A \cdot (1 + B) + B\cdot C && rule\ 2\\
+&= A+ B\cdot C
+\end{align*}
+\end{example}

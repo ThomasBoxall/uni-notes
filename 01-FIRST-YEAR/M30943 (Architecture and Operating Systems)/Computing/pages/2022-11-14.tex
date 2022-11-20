@@ -1,0 +1,65 @@
+\lecture{Boolean Algebra Simplification II}{14-11-22}{16:00}{Farzad}{RB LT1}
+NEW: Drop-in's this week are there for support. They are timetabled as Drop-Ins therefore not compulsory.
+
+NB: From here-on, the $\overline{X}$ will be changing to $X'$ as I now know that this is the format which we will \textit{have} to use in the exam.
+
+\section*{DeMorgan's Theorem}
+\subsection*{Theorem 1}
+\[(A \cdot B)' = A' + B'\]
+\subsection*{Theorem 2}
+\[(A+B)' = A' \cdot B'\]
+
+\subsection*{Multi-Part DeMorgan's}
+\begin{example}{Simplify $(A \cdot B + C)'$}
+\begin{align*}
+    (A \cdot B + C)' &= (A \cdot B)' \cdot C' && \mathrm{Apply\ DeMorgan's\ to\ OR}\\
+    &= (A' + B') \cdot C' && \mathrm{Apply\ DeMorgan's\ to\ bracket}\\
+    &= A' \cdot C' + B' \cdot C' && \mathrm{Expand\ bracket}
+\end{align*}
+\end{example}
+
+\section*{How To Simplify}
+\begin{enumerate}
+    \item Apply De-Morgan's Theorem where possible. This will result in as single negated terms rather than bracketed negated terms
+    \item Remove brackets where possible by applying distributive laws
+    \item \label{ba-simp-rl} Apply rules \& laws to simplify
+    \item \label{ba-simp-fact} Factorise the expression
+    \item Iterate through steps \ref{ba-simp-rl} and \ref{ba-simp-fact} until the expression is simplified.
+\end{enumerate}
+
+\section*{Examples}
+\subsection*{Example 1: Simplify}
+\begin{align*}
+A \cdot B \cdot C' + B \cdot C' + B' \cdot A &=\\ 
+&= B \cdot C' \cdot (A + 1) + B' \cdot A\\
+&= B \cdot C' \cdot 1 + B' \cdot A\\
+&= B \cdot C' + B' \cdot A
+\end{align*}
+\subsection*{Example 2: Simplify}
+\begin{align*}
+A \cdot B + A \cdot (B+C) + B \cdot (B + C) &= \\
+&= A\cdot B + A\cdot B + A\cdot C + B \cdot B + B \cdot C\\
+&= A \cdot B + A \cdot C + B + B \cdot C \\
+&= A \cdot B + A \cdot C + B (1 + C)\\
+&= A \cdot B + A \cdot C + B\\
+&= B + A\cdot C
+\end{align*}
+\subsection*{Example 3: Simplify}
+\begin{align*}
+\left([(B \cdot D + C)\cdot (A \cdot B')] + (B' \cdot A')\right) \cdot C &= \\
+&= ([(B \cdot D + C)A\cdot B']+ A' \cdot B')\cdot C\\
+&= [(A\cdot B' \cdot B \cdot D + A \cdot B' \cdot C) + A' \cdot B']\cdot C\\
+&= A \cdot B \cdot B' \cdot C \cdot D + A \cdot B' \cdot C \cdot C + A' \cdot B' \cdot C\\
+&= A \cdot B' \cdot C + A' \cdot B' \cdot C\\
+&= B' \cdot C\cdot (A+A')\\
+&= B' \cdot C \cdot (1)\\
+&= B' \cdot C
+\end{align*}
+\subsection*{Example 4: Simplify}
+\begin{align*}
+A \cdot B' + A \cdot (B+C)' +B\cdot (B+C)' &= \\
+&= A\cdot B' + A\cdot B' \cdot C' + B \cdot B' \cdot C'\\
+&= A \cdot B' \cdot (1 + C')\\
+&= A \cdot B' \cdot 1\\
+&= A \cdot B'
+\end{align*}

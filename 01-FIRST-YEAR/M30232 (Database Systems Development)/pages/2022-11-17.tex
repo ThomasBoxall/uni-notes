@@ -1,0 +1,47 @@
+\lecture{Joins and Narrowing Focus}{17-11-22}{13:00}{Mark}{RB LT1}
+
+\section*{Introduction to Joins}
+Joins are key to understanding how to get useful information out of a database. Data in an individual table is of limited use, to get good data, we need to join multiple tables together. We might only want some information.
+
+To get these individual items from one table, we can do this with
+\begin{sql}
+SELECT firstName, lastName, emailAddress from TABLE;
+\end{sql}
+However, this will still return every record.
+
+We can narrow this down, using the \texttt{WHERE=condition} clause. For example, 
+\begin{sql}
+SELECT firstName, lastName, emailAddress WHERE town = 'Portsmouth';
+\end{sql}
+This will give us all the records where the town attribute is equal to Portsmouth
+
+What if we want to get data from multiple tables? Here we have to use Joins.
+
+\section*{Joins}
+To create a join between two tables, one table needs to have a foreign key where that is the primary key in the other table you wish to join. 
+
+When creating joins between tables, it's important to ensure that the correct attributes in each tables are joined. Just because an result is produced form the query, it doesn't necessarily mean its the right one.
+
+The data types between the two attributes which are being joined have to match whilst the names used in each table do not.
+
+\subsection*{Cartesian Product}
+This is the result of a wrong join.
+
+It is where every single record in one table is joined to every single table in another table. For example, two tables: customer and order. Customer has 11 records and order has 150. $150 \times 11$ gives 1650 rows as output.
+This provides a big problem when attempting to join two big tables together.
+
+\subsection*{The Correct Way}
+When joining two tables correctly, we have to tell the DMBS what values match.
+\begin{sql}
+SELECT CUSTOMER.CUST_ID, CUST_ORD_ID FROM CUSTOMER JOIN cust_order ON CUSTOMER.CUST_ID = CUST_ORDER.CUST_ID;
+\end{sql}
+Query above returns 150 rows of data. We know this is correct as it is the same as the number of rows in orders table.
+
+\subsection*{Another Correct Way}
+We do not have to use the \texttt{join} keyword, instead we can use the \texttt{WHERE} condition.
+\begin{sql}
+SELECT CUST_LNAME, CUST_ORD_ID FROM CUSTOMER, CUST_ORDER WHERE CUSTOMER.CUST_ID = CUST_ORDER.CUST_ID;
+\end{sql}
+This will happily produce 150 rows.
+
+To join more than two tables, we have to use an \texttt{AND} statement in the \texttt{WHERE} condition.

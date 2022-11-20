@@ -1,0 +1,12 @@
+\lecture{Network Capacity Calculations}{19-11-22}{14:00}{Amanda}{PO 2.27}
+\textit{This practical continues on from the previous weeks practical where we used OpNet to simulate a 16 node star topology network with a switch as the central node.}
+
+To calculate the amount of data sent per second from a single node, use the formula
+\[\frac{1}{\mathrm{time\ interval\ of\ packet\ being\ sent}} \times \mathrm{packet\ size} = \mathrm{bytes\ per\ second}\]
+To get the bits per second, we divide the bytes per second by 8.
+
+To get the kilobits per second, divide the bits per second by 1000.
+
+To get the total amount of traffic in a single second for the whole network, multiply the number of nodes by the amount of traffic per second for a single node. This is a really useful piece of information to have as it allows us to work out if the network is at capacity or not and so that we know if the network is able to cope with that amount of data or not. This is crucial to know as if the network cannot cope then in a business setting, this is really bad as the network will slow down productivity of employees therefore loose the business money.
+
+A solution to an over-capacity network is to add a second switch which takes some of the load off the original switch. In the example used of the previous weeks simulation, a second identical switch would take 8 of the connections. However, when doing this, its important to ensure that the original switch can cope with the speed of the new switch, so to not create a bottleneck. Provided the two switches can cope with each other, adding a second switch removes a single point of failure and adds some load balancing.

@@ -1,0 +1,32 @@
+\lecture{Normalisation}{10-11-22}{13:00}{Mark}{RB LT1}
+
+\section*{Introduction to Normalisation}
+Normalisation is the process of designing a database in a way that reduces data redundancy and makes the database more efficient. As part of doing this, we have set rules to follow which enables us to decide what is stored in an entity and then within a table.
+
+There are five levels of normalisation, information which has not been normalised is in zero form and a database that has been normalised will be in 3rd normal form. 
+
+\section*{First Normal Form}
+Rules for a table to be in 1NF:
+\begin{itemize}
+    \item It should only have single (atomic) valued attributes/ columns (each column should not hold more than one value)
+    \item Values stored in a column should be of the same domain (this means don't hold char data in one row and int in another, both in the same columns)
+    \item All the columns in a table should have unique names (there cannot be two or more columns or attributes with the same name)
+    \item The order in which data is stored doesn't matter
+\end{itemize}
+Whilst converting data to the first normal form, you may find that a new entity is created. This can be done to reduce data redundancy. 
+
+\section*{Second Normal Form}
+Rules for a table to be in 2NF:
+\begin{itemize}
+    \item Be in 1NF
+    \item Have no partial dependencies
+\end{itemize}
+A partial dependency is where part of an attribute can be identified by something other than the primary key.
+
+\section*{Third Normal Form}
+Rules for a table to be in 3NF:
+\begin{itemize}
+    \item Be in 2NF
+    \item Not have transitive dependencies
+\end{itemize}
+A transitive dependency is a n attribute which is dependent on an attribute which is not the primary key.

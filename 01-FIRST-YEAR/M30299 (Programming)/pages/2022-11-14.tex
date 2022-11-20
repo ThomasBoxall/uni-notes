@@ -1,0 +1,38 @@
+\lecture{While Loops, Booleans and Further Loops}{14-11-22}{15:00}{Nadim}{RB LT1}
+
+\section*{While Loops}
+Whilst it can be useful to iterate a defined number of times, often we need to iterate until a condition changes. The time taken for this condition to change may be different every runtime. For this reason, there's another type of loop. The \texttt{while} loop iterates until a condition is met. The basic syntax is as follows.
+\begin{verbatim}
+while condition:
+    statement(s)
+\end{verbatim}
+At every run of the loop, the condition is checked and if the statement is \texttt{True}, the body of the loop is executed, then the loop returns to the top to check the condition again and if the condition is \texttt{False}, the body is skipped and the loop terminates.
+
+When designing a while loop which iterates until the user instructs it to stop; the user can directly change the loop condition variable inside the loop. However, this isn't great; it would be better to use a sentinel loop.
+\subsection*{Sentinel Loop}
+Sentinel loops are loops in which the question is asked before the loop is entered, then the loop begins with the processing before asking the question at the end. This reduces unnecessary processing whereby if the loop is about to be exited from or it doesn't need to be entered, the processing of that input doesn't need to happen. The basic pattern is outlined below
+\begin{verbatim}
+value = input()
+while value != sentinel:
+    process value
+    value = input()
+\end{verbatim}
+
+\section*{Boolean Operators}
+Python includes the \texttt{and}, \texttt{or} and \texttt{not} boolean operators. These work exactly the same as the logic gates do, except a 1 is represented by \texttt{True} amd a 0 is represented by \texttt{False}.
+
+If we are writing a condition which uses multiple statements, joined by a boolean operator, all statements have to be written in full.
+
+\section*{Break}
+The \texttt{break} statement allows us to exit a loop as and where we want. The following code is an example of input validation within a while loop.
+\begin{python}
+def getOneToTen():
+    while True:
+        number = int(input("Enter a number: "))
+        if number >= 1 and number <= 10:
+            break
+        print("That’s not between 1 and 10")
+    return number
+\end{python}
+
+The decision to use a \texttt{break}, as above, or to use a different condition for the loop and change that to exit the loop is up to the developer and their opinions on readability of code.

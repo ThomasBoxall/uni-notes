@@ -1,0 +1,78 @@
+\lecture{Decision Structures, IF Statements and While Loops}{07-11-22}{1500}{Nadim}{RB LT1}
+
+Up to this point in the course, all the code we have been written is executed sequentially, one line after the other. In this lecture, we'll be looking at how we can control the flow through a program using decision structures and how we can use loop structures that allow us to execute statements repeatedly.
+
+\section*{Decisions}
+Algorithms can contain decisions. A commonly used decision structure is called an \texttt{if statement}. If statements take a condition (the thing which the output is dependent on) and they can have a number of possible outputs. An example of a simple if statement is shown below.
+\begin{python}
+x = 45
+if (x >= 40):
+    print("Your value of x is bigger than 40")
+\end{python}
+Flowcharts can also be used to represent decision structures.
+
+\section*{Conditions}
+Conditions are expressions of the data type \texttt{bool} of Boolean. This data type has just two values, \texttt{True} and \texttt{False}. 
+
+We can form Boolean expressions using the following operators.
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{0.9\textwidth}{|X|X|X|X|}
+        \hline
+        \textbf{Syntax} & \textbf{In English...} & \textbf{Code Example} & \textbf{Explanation}\\
+        \hline
+        \verb|==| & Equal-to & \verb|X == Y| & Returns True if X is equal to Y; otherwise returns False.\\
+        \hline
+        \verb|!=| & Not-equal to & \verb|X != Y| & Returns True if X is not equal to Y; otherwise returns False.\\
+        \hline
+        \verb|>| & Greater-than & \verb|X > Y| & Returns True if X is greater than Y; otherwise returns False. \\
+        \hline
+        \verb|>=| & Greater-than or equal-to & \verb|X >= Y| & Returns True if X is greater than or equal to Y; otherwise returns False. \\
+        \hline
+        \verb|<| & Less-than & \verb|X < Y|  & Returns True if X is less than Y; otherwise returns False. \\
+        \hline
+        \verb|<=| & Less-than or equal-to & \verb|X <= Y| & Returns True if X is less than or equal to Y; otherwise returns False.\\
+        \hline
+    \end{tabularx}
+\end{table}
+
+\section*{Multi-Way Decisions}
+We will often need to have multiple outcomes from a decision structure. There are two additional bits we can use in the \texttt{if} statement, \texttt{elif} and \texttt{else}.
+\subsection*{\texttt{elif}}
+ELse-IF structures allow us to have multiple conditions in one if statement.
+\subsection*{\texttt{else}}
+Else structures will be executed if no \texttt{if} or \texttt{elif} conditions are true. In the example below, a comment is outputted to the user based on the mark they entered.
+\begin{python}
+mark = int(input("Enter your mark: "))
+if mark >= 70:
+    print("Clever Cloggs")
+elif mark >= 60:
+    print("Try harder")
+elif mark >= 50:
+    print("Really, this is the best you could do?")
+elif mark >= 40:
+    print("Did you even try?")
+else:
+    print("Failure")
+\end{python}
+
+\section*{Designing Decision Structures}
+When designing decision structures, it is most efficient to write the if statement such that the code executed inside the if statement is executed in rarer cases than not executing it. For example, a kebab shop where orders over £50 get a 10\% discount, the discount application code would be placed inside an if statement, rather than always being applied then if the order is under £50, the discount is reversed.
+
+\section*{Review of For Loops}
+For Loops are used to iterate through a sequence of values. A for loop includes a loop variable, a sequence and a body.
+
+In most \texttt{for} loops we have written so far, we have been using the \texttt{range()} function to allow us to iterate through a series of numbers. The \texttt{range()} function is actually more complex than it looks. It can take three arguments, \texttt{range(m, n, s)} where \texttt{m} gives the start of the sequence, \texttt{n} the step after the stop point and \texttt{s} give steps. This can be seen in action, in the code below.
+\begin{python}
+for x in range (5, 0, -1):
+    print(x)
+\end{python}
+\begin{pseudo*}
+5
+4
+3
+2
+1
+\end{pseudo*}
+\subsection*{Nesting For Loops}
+We are able to nest \texttt{for} loops inside each other. When doing this, its important to ensure that the two loops have different loop variables, for example \texttt{x} and \texttt{y}.

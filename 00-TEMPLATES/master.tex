@@ -109,6 +109,67 @@ GROUP
 tableName
 \end{sql}
 
+\begin{htmlcssjs}
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Listings Style Test</title>
+        <meta charset="UTF-8">
+        <style>
+          /* CSS Test */
+          * {
+            padding: 0;
+            border: 0;
+            margin: 0;
+          }
+        </style>
+        <link rel="stylesheet" href="css/style.css" />
+      </head>
+      <header> hey </header>
+      <article> this is a article </article>
+      <body>
+        <!-- Paragraphs are fine -->
+        <div id="box">			
+                <p>
+                  Hello World
+                </p>
+          <p>Hello World</p>
+          <p id="test">Hello World</p>
+                <p></p>
+        </div>
+        <div>Test</div>
+        <!-- HTML script is not consistent -->
+        <script src="js/benchmark.js"></script>
+        <script>
+          function createSquare(x, y) {
+            // This is a comment.
+            var square = document.createElement('div');
+            square.style.width = square.style.height = '50px';
+            square.style.backgroundColor = 'blue';
+            
+            /*
+             * This is another comment.
+             */
+            square.style.position = 'absolute';
+            square.style.left = x + 'px'; 
+            square.style.top = y + 'px';
+            
+            var body = document.getElementsByTagName('body')[0];
+            body.appendChild(square);
+          };
+          
+          // Please take a look at +=
+          window.addEventListener('mousedown', function(event) {
+            // German umlaut test: Berührungspunkt ermitteln
+            var x = event.touches[0].pageX;
+            var y = event.touches[0].pageY;
+            var lookAtThis += 1;
+          });
+        </script>
+      </body>
+    </html>
+\end{htmlcssjs}
+
 \end{document}
 
 

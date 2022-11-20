@@ -1,0 +1,60 @@
+\lecture{OSI Reference Model}{15-11-22}{09:00}{Amanda}{Zoom}
+
+\section*{Standardisation}
+In the past, networks were built using many different hardware and software implementations, as a result the different networks were incompatible and it became difficult to effectively communicate between different networks. Effective networks devices must be able compatible and able to communicate with one another.
+
+The International Organisation for Standardisation (ISO) researched different network schemes to resolve this issue, through doing this they established the need to create a global Network Model; and thus the OSI Reference Model was formed.
+
+\subsection*{Importance of Networking Standards}
+Standards are fundamental to Open Systems. This provides independence from vendor proprietary approaches, allows open procurement and interoperability. Standards should be international in score.
+
+New standards should be tracked, so that we know when it is \textit{safe} to use a new standard.
+\subsection*{Network Standards Organisations}
+\begin{itemize}
+    \item International Standardisation Organisation (ISO)
+    \item European Telecommunications Standards Institute (ETSI)
+    \item The TCP/IP Internet Engineering Task Force (IETF)
+    \item Publishes Request For Comments (RFC)
+    \item Institute of Electrical and Electronics Engineers (IEEE)
+    \item American National Standards Institute (ANSI)
+\end{itemize}
+
+\subsection*{Fast Track For New Standards}
+The standardisation process is used to follow the successful development of some capability, this process can take 5 or 6 years. At the end of which, some products may be obsolete.
+
+It is possible that standards can be `Fast Tracked', which is a process where products and standards are developed in parallel. This can result in vendors releasing products before the standard is complete.
+
+\section*{History of the OSI Model}
+The Open Systems Interconnection (OSI) reference model was ratified in 1984 as an international standard. It provides common terminology and a framework for networking, which has become the primary architectural model for inter-computer communications. OSI is still widely used today.
+
+The OSI reference model describes how data makes its way from the application program, through the network medium to another application program on another device. It divides this problem of transmission of data into seven smaller, more manageable problems, called layers.
+
+\section*{Layers of the OSI Reference Model}
+Each of the seven layers of the OSI model have a specific function/ task to complete and through the use of layers, the complexity is reduced. Each layer provides a service to the layer above.
+
+The lower four layers are concerned with the flow of data from end to end and the upper three layers are focused more towards services to the application. 
+
+It is very common to refer to the layer by its number or name.
+
+At the different layers, different protocols are added to the `envelope' which contains the data. 
+
+\subsection*{LAYER 1: Physical}
+This layer deals with the physical characteristics of the transmission medium (the hardware). It defines the specifications for communication between the physical link and recipient node. The physical layer deals with characteristics such as: voltage levels; timing of voltage changes; physical data rates; maximum transmission distances; and physical connectors.
+
+\subsection*{LAYER 2: Data Link}
+This provides access to the networking media and physical layer. It deals with transmission across the media, to the intended destination on a network. The Data Link Layer can provide reliable transit of data across a physical link by using MAC addresses, through using MAC addresses, multiple stations can share the same medium and still uniquely identify each other. This layer is concerned with: network topology; network access; error notification; ordered delivery of frames; and flow control. This includes Ethernet, Frame Relay and FDDI.
+
+\subsection*{LAYER 3: Network}
+This layer is concerned with the end-to-end delivery of packets. It defines logical addressing and how routing works, as well as how routes are learned so that the packets can be delivered. It also defines how to fragment a packet into smaller packets to accommodate different media. Routers operate at this layer.
+
+\subsection*{LAYER 4: Transport}
+This layer regulates information flow to ensure end-to-end connectivity between host applications is reliable and accurate. It segments data from the sending host's system and reassembles the data into a data stream on the receiving host's system. The transport layer includes TCP and UDP.
+
+\subsection*{LAYER 5: Session}
+This layer defines how to start, control and end conversations (called sessions) between applications. It uses dialogue control for management of multiple bi-directional messages. It synchronises dialogue between two hosts' presentation layers and manages their data exchange sa well as offering provisions for efficient data transfer.
+
+\subsection*{LAYER 6: Presentation}
+This layer ensures that the information the application layer of one system sends out is readable by the application layer of another system. It translates between multiple data formats by using a common format and provides encryption \& compression of data.
+
+\subsection*{LAYER 7: Application}
+This layer is closest to the user. It provides network services to the user's applications however it doesn't provide services to any other OSI layer. It checks the availability of intended communication partners and synchronises \& establishes agreement on procedures for error recovery \& control of data integrity.
