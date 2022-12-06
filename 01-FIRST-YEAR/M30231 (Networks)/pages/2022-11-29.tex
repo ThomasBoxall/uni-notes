@@ -1,0 +1,85 @@
+\lecture{Communication Circuit Options}{29-11-22}{09:00}{Amanda}{Zoom}
+
+\section*{Media Selection}
+This is the process through which you decide what media you will use in the communications circuit. There are a number of factors which must be considered when doing so:
+\begin{itemize}
+    \item What maximum data rates can be supported?
+    \item What is the maximum length of a single cable run?
+    \item Is there any susceptibility to electrical interference?
+    \item What are the major cost components associated with the medium?
+    \item What are the infrastructure constraints?
+\end{itemize}
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{0.9\textwidth}{X|XXXX}
+    Media Type & Data Rate & Distance & Interference & Cost Issues \\
+    \hline
+    Radio-based wireless LAN & Typically up to 11 Mbit/s & Up to 50m indoors and 205m outdoors & Some interference is possible & NIC plus WAP \\
+    UTP & Up to 1Gbps (high dist) or up to 10 Gbps (low dist) & Up to 100m for low speed or 37.55m for high speed & Some interference is possible & Labour required \\
+    Multimode fibre & Up to 1 Gbit/s & Up to 2km at 100 Mbit/s and 500m at 1 Gbit/s & No interference problems & Labour costs plus expensive electro-optical adapters \\
+    Singele Mode Fibre & Up to 10 Gbps & Up to 40km & No interference problems & Labour costs plus expensive electro-optical adapter and high power laser \\
+    Sheilded & \textgreater 25 Gbps & 100m & Minimal Interference Problems & Labour costs
+    \end{tabularx}
+\end{table}
+
+\subsection*{Analogue Transmission}
+Analogue Transmission is done through systems based on technology developed in the 1800s. 42\% of businesses (2.4 million) are still reliant on analogue transmission; and 33\% of larger companies also still use ISDN or PSTN. BT plans to switch of analogue services in 2025 however not all providers will follow. 
+
+\subsection*{Dial-Up Telephone Links}
+Dial-up telephone links are still available in two forms: analogue and digital. Analogue telephone links require a digital-to-analogue modem card, where the PC provides a digital signal which can be converted to analogue. Digital links require a digital-to-digital adapter card, where the digital signal from the PC is converted to an alternative digital form.
+
+\section*{Modulation}
+Modulation converts a digital signal into an analogue signal which can then be sent across the analogue line. Demodulation converts the signal back to digital. This will be done by a modem (MOdulation-DEModulation).
+
+Modems are standardised by ITU-T, V-series recommendations. Typical modems include
+\begin{itemize}
+    \item V.34 at 28.8kbit/s and 33.6kbit/s
+    \item V.90 at somewhat less than 56kbit/s
+    \item V.92 for higher-speed uplink, faster connection time, and the ability to accept an incoming call
+\end{itemize}
+The data rate may fall back to lower rates. The modem will operate at the highest available dial-up line data accepted on an incoming call.
+
+The modem may perform V.42 error correction; V.42bis (4:1) or V.44 (6:1) data compression; V.54 loopback testing; V.250 command set.
+
+\section*{Reason for going Digital}
+Computer data is inherently digital (you are able to adapt it more easily using digital transmission); higher data rates available; easier to switch; and there is a better error rate (noise is not cumulative as repeaters can reject induced noise however amplifiers also amplify the noise). 
+
+\section*{Digital Telephone Channels}
+Digital telephone communications channels are also available. These operate at 56 or 64 kbps per channel (or a multiple of them) or at 1.544 mit/s or 2.048 mbit/s (in the US, Canada and Japan) channels.
+
+\subsection*{DSU/CSU}
+Instead of modems, Data Services Unit/ Channel Services Unit (DSU/CSU) adapter devices may be needed. These are placed at either end of the communications link, attached to the communications device. The DSU adapts the digital signal (transmit and receive voltages, and timing). The CSU normalises voltage levels, provides maintenance capabilities, and protects the public network. 
+
+A different interface, the V.35 interface, is often used for higher speed DSU/CSU's. The V.35 has two-wire circuits, which gives balanced lines for data and timing. This is different to the RS 232 interface which is unbalanced. A significant problem with the V.35 interface is that it can be plugged in the wrong way around, unlike the RS 232 which can only be inserted one way.
+
+\section*{Other Interfaces}
+We have already looked at the RS 232 and V.35 interface. There are a number of other interfaces which are important.
+\subsection*{X.21 \& Serial I/O interfaces}
+X.21 is a popular serial I/O interface. It is European.
+
+Its connector has a reduced number of pins (15 pins) and has a transmit \& receive pairs (for data and encoded commands). It has input and output control pairs (to indicate whether the transmit and receive are currently handling data or control). It has a timing signal pair. 
+
+Networking devices typically support many different serial I/O standards. Usually they do this with a common connector on the I/O module and a separate adapter cable for each different type of serial I/O standard (for example, RS 232, RS 449, V.24 or X.21). 
+
+\subsection*{T1/E1 and T3/E3}
+There are several problems with traditional T1/E1 systems. T1 (North America and Japan) and the E1 (the rest of the world) are not compatible. It is very complicated to add or drop a 64 kbit/s channel. There is little problem isolation information in these systems. There is a need for higher bandwidth. A new system is needed, this is SONET/SDH.
+
+Fractional T1/E1 links are multiples of 64 kbit/s. A common example is 348 kbit/s (6$\times$64 kbit/s). This is commonly used with video conferencing. Fractional T1 may also be in multiples of 56 kbit/s. 
+
+Full T1/E1 is one of the most common types of WAN links. T1 operates at 1.544 mbit/s (24 slots at 364 kbit/s plus 1-bit framing). E1 operates at 2.048 mbit/s (32 slots at 364 kbit/s including framing). 
+
+Sharing a communication circuit in this manner is called time-division multiplexing (TDM). A T3 channel is 28 T1 channels multiplexed together (T3 is approximately 45 Mbit/s). An E3 channel is 16 T1 channels multiplexed together (E3 is approximately 34 Mbit/s). An E4 channel is 64 T1 channels multiplexed together (E4 is approximately 144 Mbps). 
+
+\section*{High-Speed Synchronous optical Networking Standards}
+Two different forms have been developed.
+\subsection*{SOTNET}
+Synchronous Optical Network (SOTNET) is a North American standard. It operates at multiples of 51.84 Mbit/s. STS-3 supports triple the bandwidth at 155.52 Mbps. Multiples of 4 upto 40 Gbps.
+
+\subsection*{SDH}
+Synchronous Digital Hierarchy (SDH) is an international standard. It operates at multiples of 155 Mbit/s. 
+
+\subsection*{STM}
+STM-1 operates at 155 mbps, STM-4 operates at 622 Mbps, STM-64 operates at 10Gps.
+
+\subsection*{SOTNET/SDH Ring}
+SOTNET/SDH can be combined into a resilient form, which is a dual ring. It automatically wraps to use both rings when one is cut; recovery time of this is within 50msec.

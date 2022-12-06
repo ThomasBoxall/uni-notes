@@ -1,0 +1,37 @@
+\lecture{More Joins}{01-12-22}{13:00}{Mark}{RB LT1}
+
+The joins we have looked at so far are \texttt{inner} joins. This displays the data where the tables overlap. For example
+\begin{sql}
+SELECT CUSTOMER.CUST_ID, CUST_ORDER.CUST_ORD_ID FROM CUSTOMER 
+JOIN CUST_ORDER ON CUSTOMER.CUST_ID=CUST_ORDER.CUST_ID;
+\end{sql}
+Will probably use this the most.
+
+\section*{Left Join}
+This will produce everything form the left table (\texttt{customer}) and the overlapping data from the right hand table (\texttt{cust\_order}) where there is a match on the common attribute to both (\texttt{cust\_id})
+\begin{sql}
+SELECT CUSTOMER.CUST_ID, CUST_ORDER.CUST_ORD_ID FROM CUSTOMER
+LEFT JOIN CUST_ORDER ON CUSTOMER.CUST_ID= CUST_ORDER.CUST_ID;
+\end{sql}
+
+\section*{Right Join}
+This will return everything from the right table (\texttt{cust\_order}) and common data where it is there. 
+\begin{sql}
+SELECT CUSTOMER.CUST_ID, CUST_ORDER.CUST_ORD_ID FROM CUSTOMER
+RIGHT JOIN CUST_ORDER ON CUSTOMER.CUST_ID= CUST_ORDER.CUST_ID;
+\end{sql}
+It is important to use the correct join for the situation as when used incorrectly as you won't get the data returned which you are expecting.
+
+\section*{Outer Joins}
+This gives everything from all the tables mentioned in the query.
+\begin{sql}
+SELECT role_name, staff_lname, staff_fname FROM staff FULL OUTER JOIN
+ROLE ON ROLE=role_id;
+\end{sql}
+Will probably use this the least.
+
+\section*{Things To Remember}
+\begin{itemize}
+    \item Use the correct type of join for the job
+    \item Match like for like
+\end{itemize}

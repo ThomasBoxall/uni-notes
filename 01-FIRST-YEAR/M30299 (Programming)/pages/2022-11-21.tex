@@ -1,0 +1,33 @@
+\lecture{Design and Simulation}{21-11-22}{15:00}{Nadim}{RB LT1}
+Coursework is now available on Moodle in the General Section. There is a FAQs document linked below it. The coursework is due on 13th December at 11pm.
+
+\section*{Introduction}
+Up to this point, most of the programs we have been writing have been fairly short. This lecture will introduce a concept called `Top Down Design' whereby a big problem (ie a complete program) is broken down into a series of smaller sub-problems, which are easier to solve. The idea of top-down design is to express a solution to a large problem in terms of smaller sub-problems.
+
+\section*{Generating Random Numbers}
+We can use the \texttt{random} module to generate a random number as can be seen in the example below.
+\begin{python}
+from random import *
+print(random()) # outputs 0.95310838187740532
+\end{python}
+
+\section*{Process of Top-Down Design}
+The first step to top-down design is to decide the inputs \& outputs for the program.
+
+We then look at the main program flow, which will probably follow the following
+\begin{enumerate}
+    \item Get input from the user
+    \item Run the main processing code on those inputs
+    \item Output something to the user
+\end{enumerate}
+\subsection*{First Level Design}
+At the first level of design, we write the \texttt{main()} function. To do this, we assign names to the functions which we have designed in the step above. As part of this, we work out what parameters these functions will need and what values they will return. 
+\subsection*{Second Level Design}
+Now we are left with sub-problems. For each, we know what parameters they will take and what values they will return. As part of doing this we might realise that there is a sub-sub-problem somewhere. This will probably be a bit of a sub-problem which is more complex than the rest. At this stage we can just fill in parameters and the function name as we did for first level design.
+\subsection*{Third Level Design}
+We now are left with sub-sub-problems. For each of them, we know what parameters they will take and what values they will return. As part of doing this, we might realise that there is a further problem (for example, deciding if a game has been won or not) which we will solve outside of this function. At this stage we can write the returned values, function name and any parameters which it will take.
+\subsection*{Fourth Level Design}
+Problems at this stage will probably be very small and quick to implement. If there are any further sub-problems they pose, then more levels of design can be added as needed.
+
+\section*{Execution}
+As our program is now written in its own file, we can execute it by calling the first-level design function at the bottom of the file. All the other functions can come anywhere above this line. 

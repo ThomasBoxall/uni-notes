@@ -1,0 +1,364 @@
+\lecture{Normalisations and Joins Lab}{24-11-22}{14:00}{Val}{FTC Floor 3}
+
+\section*{Order of Execution}
+\begin{enumerate}
+    \item FROM \& JOIN (chose and join tables to get base data)
+    \item WHERE \& SUBQUERY/ INTERSECTION/ UNION/ EXCEPT (filters the base data)
+    \item GROUP BY (aggregates the base data)
+    \item HAVING (filters the aggregated ata)
+    \item SELECT (returns the final data, as functionality not displayed)
+    \item ORDER BY (sort the final data)
+    \item LIMIT (limits the returned data to a row count)
+    \item display data
+\end{enumerate}
+
+\section*{Task 1}
+See Google Doc and Lucid Chart.
+
+\section*{Task 2}
+1. Write a query to retrieve the first and last names of the customers in the customer table. Copy the query and the answer below.
+\begin{sql}
+SELECT cust_fname, cust_lname from customer;
+\end{sql}
+\begin{pseudo*}
+   cust_fname    |    cust_lname    
+-----------------+------------------
+ Jobey           | Boeter
+ York            | O'Deegan
+ Penelope        | Hexter
+ Chadd           | Franz-Schoninger
+ Vikky           | Eke
+ Marie-françoise | Currier
+ Bénédicte       | Dozdill
+ Görel           | Douthwaite
+ Bérengère       | Menendez
+ Pélagie         | Hachard
+ Adaobi          | Musa
+(11 rows)
+\end{pseudo*}
+
+2. Write a query to retrieve the first and last names and the towns they live in of the customers in the customer table. Copy the query and the answer below.
+\begin{sql}
+SELECT cust_fname, cust_lname, town FROM customer;
+\end{sql}
+\begin{pseudo*}
+   cust_fname    |    cust_lname    |      town
+-----------------+------------------+----------------
+ Jobey           | Boeter           | La Mohammedia
+ York            | O'Deegan         | Chemnitz
+ Penelope        | Hexter           | Pingshan
+ Chadd           | Franz-Schoninger | Baojia
+ Vikky           | Eke              | Kamenný Přívoz
+ Marie-françoise | Currier          | Waekolong
+ Bénédicte       | Dozdill          | Dawuhan
+ Görel           | Douthwaite       | Sunbu
+ Bérengère       | Menendez         | Tsagaanders
+ Pélagie         | Hachard          | Jiantou
+ Adaobi          | Musa             | La Mohammedia
+(11 rows)
+\end{pseudo*}
+
+3. Print out the first and last name of the customer / customers who live in La Mohammedia. Copy the query and the answer below.
+\begin{sql}
+SELECT cust_fname, cust_lname FROM customer WHERE town= 'La Mohammedia';
+\end{sql}
+\begin{pseudo*}
+ cust_fname | cust_lname 
+------------+------------
+ Jobey      | Boeter
+ Adaobi     | Musa
+(2 rows)
+\end{pseudo*}
+
+4. Get the structure of the tables customer and cust\_order using the \verb|\d| command. Copy the code and the answer below.
+\begin{pseudo*}
+dsd_22=# \d customer
+                                        Table "public.customer"
+   Column   |          Type          | Collation | Nullable |                  Default
+------------+------------------------+-----------+----------+-------------------------------------------
+ cust_id    | integer                |           | not null | nextval('customer_cust_id_seq'::regclass)
+ cust_fname | character varying(25)  |           | not null | 
+ cust_lname | character varying(35)  |           | not null | 
+ addr1      | character varying(50)  |           | not null | 
+ addr2      | character varying(50)  |           |          | 
+ town       | character varying(60)  |           | not null | 
+ postcode   | character(9)           |           | not null | 
+ email      | character varying(255) |           | not null | 
+Indexes:
+    "customer_pkey" PRIMARY KEY, btree (cust_id)
+Referenced by:
+    TABLE "cust_order" CONSTRAINT "cust_order_cust_id_fkey" FOREIGN KEY (cust_id) REFERENCES customer(cust_id)
+
+dsd_22=# \d cust_order
+                                   Table "public.cust_order"
+   Column    |  Type   | Collation | Nullable |                     Default
+-------------+---------+-----------+----------+-------------------------------------------------
+ cust_ord_id | integer |           | not null | nextval('cust_order_cust_ord_id_seq'::regclass)
+ staff_id    | integer |           |          | 
+ cust_id     | integer |           |          | 
+Indexes:
+    "cust_order_pkey" PRIMARY KEY, btree (cust_ord_id)
+Foreign-key constraints:
+    "cust_order_cust_id_fkey" FOREIGN KEY (cust_id) REFERENCES customer(cust_id)
+    "cust_order_staff_id_fkey" FOREIGN KEY (staff_id) REFERENCES staff(staff_id)
+Referenced by:
+    TABLE "manifest" CONSTRAINT "manifest_cust_ord_id_fkey" FOREIGN KEY (cust_ord_id) REFERENCES cust_order(cust_ord_id)
+\end{pseudo*}
+
+5. According to the answer from question 4, what are the names of the attributes in both tables that are the primary key and foreign keys? (hint - look at the section “Foreign-key constraints:” that appears in one of your outputs. Remember we are looking at customer and cust\_order)\\
+customer pk - cust\_id\\
+cust\_order pk - cust\_ord\_id\\
+cust\_order fk - cust\_id\\
+cust\_order fk - staff\_id
+
+6. List all of the categories. Copy the query and the answer below.
+\begin{sql}
+SELECT * FROM category;
+\end{sql}
+\begin{pseudo*}
+ cat_id |  cat_name   
+--------+-------------
+      1 | Men's Wear
+      2 | Ladies Wear
+      3 | Kid's Wear
+      4 | Outdoor
+      5 | Sport
+      6 | Health
+(6 rows)
+\end{pseudo*}
+
+7. What is the id number for the category Sport? Copy the query and the answer below.
+\begin{sql}
+SELECT cat_id from category where cat_name='Sport';
+\end{sql}
+\begin{pseudo*}
+ cat_id
+--------
+      5
+(1 row)
+\end{pseudo*}
+
+8. Write a query that joins the product table and the category table and prints out the prod\_name and the appropriate category. Copy the query and the answer below. (You can copy the just first screen of data if you want)
+\begin{sql}
+SELECT product.prod_name, category.cat_name FROM product
+JOIN category ON category.cat_id = product.prod_cat;
+\end{sql}
+\begin{pseudo*}
+                    prod_name                     |  cat_name   
+--------------------------------------------------+-------------
+ Multi-layered multi-tasking initiative           | Ladies Wear
+ Operative analyzing task-force                   | Men's Wear
+ Exclusive client-server array                    | Sport
+ Balanced client-server product                   | Health
+ Exclusive background website                     | Sport
+ Pre-emptive holistic intranet                    | Health
+ Re-engineered cohesive methodology               | Men's Wear
+ Robust directional projection                    | Ladies Wear
+ Inverse transitional infrastructure              | Outdoor
+ Multi-tiered explicit paradigm                   | Health
+ Re-engineered explicit software                  | Ladies Wear
+ Cross-platform fresh-thinking core               | Kid's Wear
+ Diverse neutral emulation                        | Outdoor
+ Up-sized composite challenge                     | Outdoor
+ Intuitive directional complexity                 | Outdoor
+ Universal encompassing conglomeration            | Sport
+ Multi-channelled well-modulated analyzer         | Ladies Wear
+ Re-engineered actuating capability               | Outdoor
+ Public-key interactive encoding                  | Ladies Wear
+ Monitored asynchronous function                  | Health
+ Proactive methodical data-warehouse              | Outdoor
+ Balanced real-time info-mediaries                | Men's Wear
+ Right-sized mission-critical pricing structure   | Health
+ Synergistic homogeneous ability                  | Sport
+ Open-source impactful archive                    | Sport
+ Realigned 5th generation artificial intelligence | Ladies Wear
+ Configurable methodical firmware                 | Sport
+ Profound optimal encryption                      | Kid's Wear
+ Vision-oriented user-facing framework            | Ladies Wear
+ Secured holistic hierarchy                       | Ladies Wear
+ Assimilated regional instruction set             | Ladies Wear
+ Business-focused holistic help-desk              | Kid's Wear
+ Virtual stable Graphic Interface                 | Sport
+ Implemented optimizing benchmark                 | Men's Wear
+ Adaptive static website                          | Men's Wear
+ Virtual impactful success                        | Ladies Wear
+ Open-architected homogeneous concept             | Health
+ Diverse reciprocal knowledge base                | Men's Wear
+ Realigned homogeneous hub                        | Sport
+ Switchable tangible product                      | Outdoor
+ Universal global hub                             | Ladies Wear
+ Enhanced discrete function                       | Outdoor
+ Horizontal asynchronous intranet                 | Outdoor
+ Quality-focused foreground analyzer              | Sport
+ Configurable analyzing solution                  | Kid's Wear
+ Fully-configurable full-range interface          | Health
+ Monitored non-volatile initiative                | Kid's Wear
+ Pre-emptive next generation infrastructure       | Kid's Wear
+ Switchable 5th generation parallelism            | Outdoor
+ Adaptive modular approach                        | Ladies Wear
+ Synergistic zero defect info-mediaries           | Ladies Wear
+ Persevering empowering customer loyalty          | Kid's Wear
+ Robust foreground leverage                       | Men's Wear
+ Customizable cohesive capacity                   | Health
+ Progressive modular archive                      | Kid's Wear
+ Reduced fresh-thinking process improvement       | Ladies Wear
+ Seamless optimal leverage                        | Health
+ Universal exuding protocol                       | Sport
+ Realigned client-driven database                 | Health
+ Balanced hybrid portal                           | Sport
+ Customizable well-modulated encryption           | Sport
+ Cross-group reciprocal firmware                  | Kid's Wear
+ 4th generation Graphical User Interface          | Outdoor
+ Business-focused solution-oriented moratorium    | Sport
+ Synergistic scalable capability                  | Sport
+ Universal global hub                             | Ladies Wear
+ Enhanced discrete function                       | Outdoor
+ Horizontal asynchronous intranet                 | Outdoor
+ Quality-focused foreground analyzer              | Sport
+ Configurable analyzing solution                  | Kid's Wear
+ Fully-configurable full-range interface          | Health
+ Monitored non-volatile initiative                | Kid's Wear
+ Pre-emptive next generation infrastructure       | Kid's Wear
+ Switchable 5th generation parallelism            | Outdoor
+ Adaptive modular approach                        | Ladies Wear
+ Synergistic zero defect info-mediaries           | Ladies Wear
+ Persevering empowering customer loyalty          | Kid's Wear
+ Robust foreground leverage                       | Men's Wear
+ Customizable cohesive capacity                   | Health
+ Progressive modular archive                      | Kid's Wear
+ Reduced fresh-thinking process improvement       | Ladies Wear
+ Seamless optimal leverage                        | Health
+ Universal exuding protocol                       | Sport
+ Realigned client-driven database                 | Health
+ Balanced hybrid portal                           | Sport
+ Customizable well-modulated encryption           | Sport
+ Cross-group reciprocal firmware                  | Kid's Wear
+ 4th generation Graphical User Interface          | Outdoor
+ Business-focused solution-oriented moratorium    | Sport
+ Synergistic scalable capability                  | Sport
+ Distributed uniform Graphic Interface            | Sport
+ Stand-alone composite Graphical User Interface   | Ladies Wear
+ Future-proofed leading edge customer loyalty     | Outdoor
+ Profound human-resource forecast                 | Health
+ Advanced neutral portal                          | Kid's Wear
+ Customer-focused needs-based protocol            | Kid's Wear
+ User-friendly encompassing array                 | Health
+ Decentralized human-resource infrastructure      | Ladies Wear
+ Balanced modular website                         | Ladies Wear
+ Horizontal explicit benchmark                    | Ladies Wear
+ Re-engineered 24/7 knowledge base                | Men's Wear
+ Innovative web-enabled extranet                  | Ladies Wear
+ Exclusive analyzing open architecture            | Ladies Wear
+ Fundamental global archive                       | Kid's Wear
+ Profound value-added intranet                    | Sport
+ Networked global open system                     | Health
+ Persistent demand-driven complexity              | Sport
+ Focused secondary initiative                     | Sport
+ Digitized tertiary groupware                     | Kid's Wear
+ Enhanced homogeneous paradigm                    | Outdoor
+ Inverse high-level attitude                      | Outdoor
+ Quality-focused upward-trending throughput       | Outdoor
+ Team-oriented stable project                     | Health
+ Total intangible artificial intelligence         | Kid's Wear
+ Streamlined asynchronous functionalities         | Sport
+ Vision-oriented attitude-oriented core           | Sport
+ Integrated 24/7 interface                        | Ladies Wear
+ Advanced didactic Graphic Interface              | Men's Wear
+ Exclusive multimedia middleware                  | Health
+ Ameliorated next generation orchestration        | Health
+ Front-line demand-driven utilisation             | Sport
+ Organic clear-thinking system engine             | Kid's Wear
+ Persistent incremental model                     | Kid's Wear
+ Ergonomic solution-oriented local area network   | Ladies Wear
+ Robust mission-critical complexity               | Sport
+(100 rows)
+\end{pseudo*}
+
+9. Write a query that will list each staff member's first and last name along with their work email and the role name that they hold. Copy the query and the answer below.
+\begin{sql}
+SELECT staff.staff_fname, staff.staff_lname, staff.work_email, role.role_name from staff
+JOIN role ON staff.role = role.role_id;
+\end{sql}
+\begin{pseudo*}
+ staff_fname | staff_lname |         work_email          |    role_name    
+-------------+-------------+-----------------------------+-----------------
+ Montgomery  | Housegoe    | Montgomery.Housegoe@dsd.com | Order Picker
+ Niel        | Welsby      | Niel.Welsby@dsd.com         | Final Packer
+ Jillene     | Revitt      | Jillene.Revitt@dsd.com      | Post Sales
+ Harriette   | Fewster     | Harriette.Fewster@dsd.com   | Post Sales
+ Aura        | Clewlowe    | Aura.Clewlowe@dsd.com       | Post Sales
+ Hanan       | Gloster     | Hanan.Gloster@dsd.com       | Customer Retain
+ Nikoletta   | Shrimpton   | Nikoletta.Shrimpton@dsd.com | Customer Retain
+ Tim         | Illem       | Tim.Illem@dsd.com           | Misc
+ Nell        | Olsson      | Nell.Olsson@dsd.com         | Misc
+ Janeva      | Gillicuddy  | Janeva.Gillicuddy@dsd.com   | Misc
+(10 rows)
+\end{pseudo*}
+
+10. Write a query that will show the last name and the role of staff members who put together orders from the customer whose last name is Eke. Include the cust\_order\_id and the customer's first and last names. Copy the query and the answer below.
+\begin{sql}
+SELECT staff.staff_lname, role.role_name, cust_order.cust_ord_id, customer.cust_fname, customer.cust_lname FROM staff
+JOIN role ON staff.role = role.role_id
+JOIN cust_order ON cust_order.staff_id = staff.staff_id
+JOIN customer ON customer.cust_id = cust_order.cust_id
+WHERE customer.cust_lname = 'Eke';
+\end{sql}
+\begin{pseudo*}
+ staff_lname |    role_name    | cust_ord_id | cust_fname | cust_lname 
+-------------+-----------------+-------------+------------+------------
+ Welsby      | Final Packer    |          82 | Vikky      | Eke
+ Clewlowe    | Post Sales      |          90 | Vikky      | Eke
+ Welsby      | Final Packer    |         105 | Vikky      | Eke
+ Housegoe    | Order Picker    |         115 | Vikky      | Eke
+ Gillicuddy  | Misc            |         118 | Vikky      | Eke
+ Welsby      | Final Packer    |         130 | Vikky      | Eke
+ Shrimpton   | Customer Retain |         132 | Vikky      | Eke
+ Welsby      | Final Packer    |         135 | Vikky      | Eke
+ Housegoe    | Order Picker    |         145 | Vikky      | Eke
+(9 rows)
+\end{pseudo*}
+
+11. Write a query that lists only the category names and the custome's last names for orders that have been placed by people who live in Sunbu. Copy the query and answer below.
+
+\begin{sql}
+SELECT customer.cust_lname, category.cat_name FROM customer
+JOIN cust_order ON customer.cust_id = cust_order.cust_id
+JOIN manifest ON cust_order.cust_ord_id = manifest.cust_ord_id
+JOIN product ON product.prod_id = manifest.prod_id
+JOIN category ON category.cat_id = product.prod_cat
+WHERE customer.town = 'Sunbu';
+\end{sql}
+\begin{pseudo*}
+ cust_lname |  cat_name   
+------------+-------------
+ Douthwaite | Outdoor
+ Douthwaite | Sport
+ Douthwaite | Kid's Wear
+ Douthwaite | Outdoor
+ Douthwaite | Sport
+ Douthwaite | Sport
+ Douthwaite | Ladies Wear
+ Douthwaite | Outdoor
+ Douthwaite | Sport
+ Douthwaite | Ladies Wear
+(10 rows)
+\end{pseudo*}
+
+12. This is a bit harder than the previous queries. Try to group the orders and count the number of orders in each category for the results from q11. (hint - this might be a bit difficult. Grouping does not allow a WHERE, use HAVING instead). Copy the query and answer below.
+\begin{sql}
+SELECT customer.cust_lname, count(category.cat_name), category.cat_name FROM customer
+JOIN cust_order ON customer.cust_id = cust_order.cust_id
+JOIN manifest ON cust_order.cust_ord_id = manifest.cust_ord_id
+JOIN product ON product.prod_id = manifest.prod_id
+JOIN category ON category.cat_id = product.prod_cat
+GROUP BY customer.cust_lname, category.cat_name, customer.town
+HAVING customer.town='Sunbu';
+\end{sql}
+\begin{pseudo*}
+ cust_lname | count |  cat_name
+------------+-------+-------------
+ Douthwaite |     1 | Kid's Wear
+ Douthwaite |     2 | Ladies Wear
+ Douthwaite |     3 | Outdoor
+ Douthwaite |     4 | Sport
+\end{pseudo*}

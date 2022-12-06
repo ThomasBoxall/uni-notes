@@ -1,0 +1,77 @@
+\lecture{Wide Area Networks}{06-12-22}{0900}{Amanda}{Zoom}
+
+\section*{Characteristics of Value-Added WANs}
+These will be able to operate at any distance as interconnection is by means of public carriers such as ISP. A WAN is high speed, relatively expensive and complex in design.
+
+Only the interface and network services are of concern to the user. The internals of the `network cloud' are not an issue. Value-added WANs add features beyond those of dedicated point-to-point links. Transparent LAN services (TLS) hide the complexities of the WAN from the LAN administrator.
+
+\section*{Packet/ Frame/ Cell Switched WAN-Links}
+Individual data units may be called: packets, frames or cells.
+
+The principal distinction is that packets and frames are of variable length. This means they usually require software processing, which limits the data processing rate. These are used in X.25, frame relay and TLS for example.
+
+In contrast, cells are fixed length. They contain a 5-byte header and 48-bytes of data content. They can be processed in hardware which results in much higher data rates. However, if you want to use Cells and do not have 48-bytes of data to transmit, then you will have to pad out the payload to fill out all 48-bytes. This isn't used in core networks as it is not cost effective.
+
+\section*{Switched \& Permanent Virtual Circuits}
+Some packet/ frame/ cell WAN alternates may be available in  one or each of two forms: switched virtual circuits (SVC) or Permanent virtual circuit (PVC). SVC are switched to the needs of the data that is going through them, like dial-up  links. Permanent circuits are always connected, meaning dedicated circuits are in place, similar to lease lines. Nowadays, for connections in the modern networks, switched virtual circuits are most commonly used.
+
+Not all WAN technologies support both. Some have a preferred approach in terms of use. X.25 virtual circuits are usually secure virtual secures. Frame-relay virtual circuits are normally private virtual circuits. ATM virtual circuits can be either. TLS is more like a `best effort' service.
+
+\section*{Objectives and Services for Value-Added WANs}
+\begin{itemize}
+    \item To provide an appropriate topology
+    \item To provide a path (route) across a network
+    \item To divide (segment data as required then to reassemble the segment)
+    \item To limit the network traffic to that which can be handled effectively (congestion control)
+\end{itemize}
+
+\section*{X.25 Interface}
+X.25 is a WAN interface ITU-T standard. It is a legacy system which is being phased out however it is still in use in some places, It is connected to  public packet-switching network; with physical, data link and network layer from the OSI reference model. It uses an element of IP addresses and was last used in the WAN in 2015 by financial card companies. These companies have now upgraded to newer specifications. X.25 is still used by the aviation industry.
+
+\section*{Frame Relay (an alternative to X.25)}
+This is a connection oriented public switched service provided by the telecommunications company. It works at layer 2 defined by the ITU-T and ANSI in 1984.
+
+Frame Relay is more ideal for modern day applications (streaming, VOIP) and it is needed for applications such as graphics and image transfers, especially for LAN-to-LAN communications in which high throughput is required.
+
+Frame relay provides higher throughput by means of: larger frame size (1500+ bytes); higher interface data rates; reduced processing requirements.
+
+Frame relay is a variation of High-Level Data Link Control (HDLC). It detects and discards frames with error, it doesn't retransmit them. With frame relay you would need to run another protocol, for example TCP.
+
+Frame relay builds on highly reliable fibre-optic infrastructure. It is a good alternative to T and E carriers.
+\subsection*{Levels of Traffic}
+Frame relay supports two levels of traffic. Committed Information Rate (CIR), traffic up to this rate will be accepted and Excess Information Rate (EIR), where traffic between the CIR and EIR may be accepted however is marked as being `eligible for discard' with a reduction in cost. Frame relay traffic conveys congestion information, frame relay users are expected to exert flow control.
+
+Ultimately, frame relay is just sending packets which are usable at the other end, discarding unusable packets.
+\subsection*{Advantages of Frame Relay}
+It is a stable protocol, and is an international standard.
+
+It is available in many (but not all) countries and all vendors offer this protocol.
+
+It takes advantage of modern fibre-optic infrastructure, makes use of LAN-to-LAN support, minimising congestion and corrupt packets. It has the same throughout capabilities of T and E carriers and is less expensive than a fully meshed T1/E1 for bursty traffic.
+
+\subsection*{Disadvantages of Frame Relay}
+There is little support for Switched Virtual Circuits. It does not provide improvised fault tolerance, it requires other protocols to manager eros. It is not suitable for sending delay sensitive data, such as: real time, time voice or video, or teleconferencing. This is due to the fault tolerance not due to its speed, where it is good enough.
+
+It involves some data overhead and processes this overhead with every packet.
+
+It is more expensive compared to the internet service.
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{0.9\textwidth}{X|XX}
+    \textbf{Issue} & \textbf{X.25} & \textbf{Frame Relay} \\
+    \hline
+    \hline
+    Development Date & Mid 70s - early 80s & Late 80s - mid 90s \\
+    Underlying infrastructure & Low data rate, error prone, copper data circuits & High-speed, highly reliable fibre-optic links \\
+    Original design considerations & Support terminal to host & Support LAN to LAN \\
+    Design approach & 3 layers (network, data link and physical) & 2 layers (data link and physical) \\
+    Typical physical link rate & 9600 bit/s to 64 kbit/s & Fractional or full T1/E1 Fibre cable \\
+    Error recovery & Error detection and transmission (at the data link) layer & Error detection with discard. No recovery (need TCP for this) \\
+    Maximum packet/ frame size & Varies from 128 bytes (octet) to 4096+ & Full ethernet frame 1500 bytes \\
+    Amount of processing per frame/ packet & Two dozen basic processing steps per packet (network and data link) & Half-dozen processing steps frame (only data link) \\
+    Availability & Worldwide & Only in countries with fibre-optic infrastructure \\
+    Conclusions & Good for terminal-to-host, but not for LAN-to-LAN, used for credit card verification & Good for LAN-to-LAN, as well as credit card verification \\
+    Application of this technology & For limited applications and countries where frame relay is not available & Good alternative to dedicated T1/E1 mesh
+    \end{tabularx}
+\end{table}

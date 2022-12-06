@@ -1,0 +1,76 @@
+\lecture{Communication Circuits}{22-11-22}{09:00}{Amanda}{Zoom}
+
+\section*{Introduction}
+Communications media for Local Area Networks can either be wired or wireless.
+\subsection*{Wired}
+Wired approaches consist of: Twisted pair cabling; coaxial cable media; and fibre-optic cabling.
+\subsection*{Wireless}
+Wireless approaches consist of: satellite communication; radar; mobile telephone system; global positioning system; infrared communication; WLAN; and Bluetooth.
+
+\section*{Wired Approach}
+Modern wiring plans normally follow standard structured cabling methods. This quite often consists of a wired cabinet on each floor of a building with orderly cabling installation connecting each cabinet to other cabinets and computers. Cabling racks will often consist of patch panels, wiring distribution and network access devices
+
+Some buildings are easy to install cables into; where walls are thin, they can easily be drilled through. However, some building are harder to install cables into; where walls are thick, it is harder to drill through a wall so alternative routing might be considered.
+\subsection*{Cabling Media Choices}
+The network designer has a number of alternative cabling media choices, discussed below. Whilst deciding what cabling to use, they must consider: the required data rate, and what this might grow to in the future; the level or electrical interference; the maximum cabling length; and finally the cost.
+\subsection*{Cable: Unshielded Twisted-Pair}
+Unshielded Twisted-Pair (UTP) is the standard family of cables which will be found in most installations today. They are the least expensive media and are capable of working for distances up to 100m.
+
+The data capacity grades are defined by EIA/TIA 568 (ISO 11801) and are as follows
+\begin{itemize}
+    \item Cat. 3 - to 10 Mbit/s or more
+    \item Cat. 4 - to 20 Mbit/s or more
+    \item Cat. 5 - to 100 Mbit/s or more
+    \item Cat. 5e, 6 and 6A  - to 1000 Mbit/s and above (these are used extensively today)
+\end{itemize}
+
+\subsubsection*{Multiplexing}
+Multiplexing is where a number of signals are combined together to be transmitted through the same medium. This is possible with UTP as each twisted pair can cary a different signal.
+
+\subsubsection*{Cat. 6 Cabling}
+The latest form of UTP is Cat. 6. It adds additional quality to assurances beyond Cat. 5e.
+
+Cat. 6 comes in two forms: UTP; and Screened Twisted Pair (ScTP). ScTP has a layer of metallic foil to improve its interference rejection. It may use larger-diameter copper wires which help with PoE situations. 
+
+There are an additional two categories of cable, Cat. 7 and Cat. 8. These are either Screen Shielded Twisted Pair (SSTP) or Screened Foiled Twisted Pair (SFTP). Cat 7 \& 8 have a specially designed connector, however they are compatible with standard RJ-45 connectors.
+
+\subsection*{Cable: Shielded Twisted-Pair}
+Shielded Twisted-Pair (STP) was primarily used by IBM and it should be better than UTP. This is because it has a shield which helps prevent interference from outside signals and also helps prevent interference to outside signals.
+
+Token Ring Topologies will generally contain a mix of UTP and STP cabling.
+
+\subsection*{Cable: Coaxial Cable}
+Coaxial cable produces low amounts of noise, therefore has low bit-error rate. It is used in a variety of networking applications (for example, IBM Networks and in earlier Ethernet). The shielding may include multiple layers of foil and/or braid. 
+
+\subsection*{Cable: Fibre-Optic Cable}
+Fibre-Optic cables have high data rates. In LAN environments, they can reach speeds of more than 100 Mbit/s. In Telephone company link environments, they can reach more than 10 times the LAN value.
+
+They are typically deployed as two unidirectional links with one fibre transmitting in each direction. To transmit, the electrical signal has to be converted to light then back to electrical signals at the recipient end. 
+
+Physically, fibre-optic cables are thin. There are two key measurements to know, the internal and external. The external dimensions are often $125 \mu m$ in diameter. The internals of Single Mode (transmits a single signal at a time) may be as thin as $9 \mu m$, while Multimode (transmits multiple signals in the same direction at the same time), may be either $62.5 \mu m$ for American sizes or $50 \mu m$ for European sizing. The relationship between the internal diameter (that of the glass) and the external diameter is expressed as follows: internal/ external. For example, European multimode would be expressed as 50/125.
+
+Whilst Multimode allows for multiple signals to be transmitted down the same fibre-optic strand at the same time, over longer distances the pulses spread out. This results in dispersion of the signals, ultimately resulting in corrupt data. Therefore, where the distance to cover is very long or the speed of transmission needs to be high, single mode fibre should be used.
+
+At either end of the fibre strand, a connector is needed. These connectors are often the most expensive part of the fibre system.
+
+The actual cable element costs approximately the same as a good quality Ethernet cable.
+
+Optical interferences are the most expensive component. The transmission is done by LEDs or Laser Diode. The receiver devices convert light pulses back into electrical pulses.
+
+Fibre-Optic is the best available communications medium. It has excellent electrical noise immunity; is difficult to tap; is lightweight; and is smaller size.
+
+A single fibre may support multiple light beams. This is one through Dense wave division multiplexing (DWDM); it can contain up to 25,000 or more simultaneous transmission. It is only used with single mode fibre. Media converters are required to convert between the different media types.
+
+\section*{Wireless Communication Systems}
+\begin{itemize}
+    \item Television and Radio Broadcasting
+    \item Satellite Communications
+    \item Radar
+    \item Mobile Telephone Systems (Cellular Communications)
+    \item Global Positioning System (GPS)
+    \item Infrared Communications
+    \item WLAN (Wi-Fi) IEEE 802.11
+    \item Bluetooth
+    \item Cordless Phones
+    \item Radio Frequency Identification
+\end{itemize}

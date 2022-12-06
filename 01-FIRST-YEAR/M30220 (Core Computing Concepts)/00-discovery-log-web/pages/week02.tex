@@ -1,8 +1,465 @@
 \chapter{Week 02}
 \section{FreeCodeCamp}
 \subsection{Registration Form}
+\begin{html}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Registration Form</h1>
+    <p>Please fill out this form with the required information</p>
+    <form method="post" action='https://register-demo.freecodecamp.org'>
+      <fieldset>
+        <label for="first-name">Enter Your First Name: <input id="first-name" name="first-name" type="text" required /></label>
+        <label for="last-name">Enter Your Last Name: <input id="last-name" name="last-name" type="text" required /></label>
+        <label for="email">Enter Your Email: <input id="email" name="email" type="email" required /></label>
+        <label for="new-password">Create a New Password: <input id="new-password" name="new-password" type="password" pattern="[a-z0-5]{8,}" required /></label>
+      </fieldset>
+      <fieldset>
+        <label for="personal-account"><input id="personal-account" type="radio" name="account-type" class="inline" /> Personal Account</label>
+        <label for="business-account"><input id="business-account" type="radio" name="account-type" class="inline" /> Business Account</label>
+        <label for="terms-and-conditions" name="terms-and-conditions">
+          <input id="terms-and-conditions" type="checkbox" required name="terms-and-conditions" class="inline" /> I accept the <a href="https://www.freecodecamp.org/news/terms-of-service/">terms and conditions</a>
+        </label>
+      </fieldset>
+      <fieldset>
+        <label for="profile-picture">Upload a profile picture: <input id="profile-picture" type="file" name="file" /></label>
+        <label for="age">Input your age (years): <input id="age" type="number" name="age" min="13" max="120" /></label>
+        <label for="referrer">How did you hear about us?
+          <select id="referrer" name="referrer">
+            <option value="">(select one)</option>
+            <option value="1">freeCodeCamp News</option>
+            <option value="2">freeCodeCamp YouTube Channel</option>
+            <option value="3">freeCodeCamp Forum</option>
+            <option value="4">Other</option>
+          </select>
+        </label>
+        <label for="bio">Provide a bio:
+          <textarea id="bio" name="bio" rows="3" cols="30" placeholder="I like coding on the beach..."></textarea>
+        </label>
+      </fieldset>
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
+</html>
+\end{html}
+\begin{css}
+body {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    background-color: #1b1b32;
+    color: #f5f6f7;
+    font-family: Tahoma;
+    font-size: 16px;
+  }
+  
+  h1, p {
+    margin: 1em auto;
+    text-align: center;
+  }
+  
+  form {
+    width: 60vw;
+    max-width: 500px;
+    min-width: 300px;
+    margin: 0 auto;
+    padding-bottom: 2em;
+  }
+  
+  fieldset {
+    border: none;
+    padding: 2rem 0;
+    border-bottom: 3px solid #3b3b4f;
+  }
+  
+  fieldset:last-of-type {
+    border-bottom: none;
+  }
+  
+  label {
+    display: block;
+    margin: 0.5rem 0;
+  }
+  
+  input,
+  textarea,
+  select {
+    margin: 10px 0 0 0;
+    width: 100%;
+    min-height: 2em;
+  }
+  
+  input, textarea {
+    background-color: #0a0a23;
+    border: 1px solid #0a0a23;
+    color: #ffffff;
+  }
+  
+  .inline {
+    width: unset;
+    margin: 0 0.5em 0 0;
+    vertical-align: middle;
+  }
+  
+  input[type="submit"] {
+    display: block;
+    width: 60%;
+    margin: 1em auto;
+    height: 2em;
+    font-size: 1.1rem;
+    background-color: #3b3b4f;
+    border-color: white;
+    min-width: 300px;
+  }
+  
+  input[type="file"] {
+    padding: 1px 2px;
+  }
+  
+  a{
+    color: #dfdfe2
+  }
+  
+\end{css}
 To remove the scrollbar present in some browsers, add the line \texttt{margin:0;} to the \texttt{body} CSS styling.
 
 Sometimes you will need to specify the last of a type, to do this use \texttt{p:last-of-type {  }}. This would select the last \texttt{<p>} tag and allow that to have different styling, for example a different amount of padding or a different bottom border.
 
 The \texttt{unset} property applied to width will reset the value so that its inherited from its parent.
+
+\subsection{Learnn The CSS Box Model By Building A Rothko Painting}
+
+\begin{html}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Rothko Painting</title>
+    <link href="./styles.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="frame">
+      <div class="canvas">
+        <div class="one"></div>
+        <div class="two"></div>
+        <div class="three"></div>
+      </div>
+    </div>
+  </body>
+</html>
+\end{html}
+\begin{css}
+.canvas {
+    width: 500px;
+    height: 600px;
+    background-color: #4d0f00;
+    overflow: hidden;
+    filter: blur(2px);
+    }
+    
+    .frame {
+    border: 50px solid black;
+    width: 500px;
+    padding: 50px;
+    margin: 20px auto;
+    }
+    
+    .one {
+    width: 425px;
+    height: 150px;
+    background-color: #efb762;
+    margin: 20px auto;
+    box-shadow: 0 0 3px 3px #efb762;
+    border-radius: 9px;
+    transform: rotate(-0.6deg);
+    }
+    
+    .two {
+    width: 475px;
+    height: 200px;
+    background-color: #8f0401;
+    margin: 0 auto 20px;
+    box-shadow: 0 0 3px 3px #8f0401;
+    border-radius: 8px 10px;
+    transform: rotate(0.4deg);
+    }
+    
+    .one, .two {
+    filter: blur(1px);
+    }
+    
+    .three {
+    width: 91%;
+    height: 28%;
+    background-color: #b20403;
+    margin: auto;
+    filter: blur(2px);
+    box-shadow: 0 0 5px 5px #b20403;
+    border-radius: 30px 25px 60px 12px;
+    transform: rotate(-0.2deg)
+    }
+\end{css}
+
+\subsubsection{Box Model}
+The content is the HTML elements which we are looking at on the page.
+
+The padding is space which wraps around the content. It can be used to control whitespace around elements
+
+The border encapsulates the padding, this has properties which can be used to show or hide it in various states.
+
+The Margin is the area outside of the box and can be used to control the space between bother boxes or elements.
+
+\subsubsection{CSS Properties}
+The \texttt{filer: blur([val])} property allows a blur to be placed over a element. This gives a visual blur appearance. As the CSS styles stack on top of each other, the \texttt{blur} effects add. This means that if you had \texttt{blur(1px)} on your body and you wanted a blur value of 3px on a particular element within the body, you would need to give that element a value of \texttt{blue(2px)}.
+
+\texttt{border-radius} can either accept a single value which it will use for all for corners or, alternatively, you can feed it 4 values where each corresponds to a different corner. Their order is: top-left, top-right, bottom-right, bottom-left.
+
+\texttt{transform: rotate([val])} can be used to rotate an element by the specified value. Degrees can be represented with the unit \texttt{deg}.
+
+
+\subsection{CSS Flexbox Photo Gallery}
+\begin{html}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="header">
+      <h1>css flexbox photo gallery</h1>
+    </header>
+    <div class="gallery">
+      <img src="https://cdn.freecodecamp.org/curriculum/css-photo-gallery/1.jpg" alt="sleeping cat">
+      <img src="https://cdn.freecodecamp.org/curriculum/css-photo-gallery/2.jpg" alt="cat on back">
+      <img src="https://cdn.freecodecamp.org/curriculum/css-photo-gallery/3.jpg" alt="staring cat">
+      <img src="https://cdn.freecodecamp.org/curriculum/css-photo-gallery/4.jpg" alt="cat in bed">
+      <img src="https://cdn.freecodecamp.org/curriculum/css-photo-gallery/5.jpg" alt="white cat">
+      <img src="https://cdn.freecodecamp.org/curriculum/css-photo-gallery/6.jpg" alt="two tabby kittens">
+      <img src="https://cdn.freecodecamp.org/curriculum/css-photo-gallery/7.jpg" alt="cat under blanket">
+      <img src="https://cdn.freecodecamp.org/curriculum/css-photo-gallery/8.jpg" alt="orange cat">
+      <img src="https://cdn.freecodecamp.org/curriculum/css-photo-gallery/9.jpg" alt="black cat and white cat">
+    </div>
+  </body>
+</html>
+\end{html}
+\begin{css}
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    font-family: sans-serif;
+    background: #f5f6f7;
+  }
+  
+  .header {
+    text-align: center;
+    text-transform: uppercase;
+    padding: 32px;
+    background-color: #0a0a23;
+    color: #fff;
+    border-bottom: 4px solid #fdb347;
+  }
+  
+  .gallery {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 10px;
+  }
+  
+  .gallery img {
+    width: 100%;
+    max-width: 350px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .gallery::after {
+    content: "";
+    width: 350px;
+  }
+\end{css}
+
+\subsubsection{Flexbox}
+\textit{Unless otherwise specified, all properties shown below are added to the container which will become the flexbox (e.g. \texttt{<div>}).}
+
+Flexbox is a one dimensional CSS layout that can control the way items are spaced out and aligned within the container. To use it, add \texttt{display: flex;} to the element which you wish to be a flexbox.
+
+The main axis of the flexbox is defined by the \texttt{flex-direction} property. It has 4 possible values (\texttt{row}, \texttt{row-reverse}, \texttt{column}, \texttt{column-reverse})
+
+The \texttt{flex-wrap} property will determine how the items within the flex container will behave when the container is too smaller. \texttt{wrap} allows the items to wrap onto a new line; \texttt{no-wrap} prevents the items from wrapping and shrinks them if needed, this is the default.
+
+The \texttt{justify-content} property determines how the items inside the flexbox align.
+
+The \texttt{align-items} property positions the items in the flex box along the cross axis (the opposite axis to the to that specified with \texttt{flex-direction}). 
+
+The \texttt{object-fit} property determines how images should behave. The value \texttt{cover} will specify that images should fit the specified width and height and should be cropped to fit so they can be left in their original aspect ratio. NB: this gets added to the image CSS, not the Flexbox css.
+
+The \texttt{gap} property allows the gap sizes between the rows and columns to be specified. \texttt{gap} is shorthand for \texttt{row-gap} and \texttt{column-gap}. 
+
+The \texttt{::after} pseudo-element creates an element that is the last child of the selected element. They can be used to add an empty element after the last.
+
+\subsection{Typography Nutrition Label}
+\begin{html}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Nutrition Label</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800" rel="stylesheet">
+    <link href="./styles.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="label">
+      <header>
+        <h1 class="bold">Nutrition Facts</h1>
+        <div class="divider"></div>
+        <p>8 servings per container</p>
+        <p class="bold">Serving size <span class="right">2/3 cup (55g)</span></p>
+      </header>
+      <div class="divider lg"></div>
+      <div class="calories-info">
+        <p class="bold sm-text">Amount per serving</p>
+        <h1>Calories <span class="right">230</span></h1>
+      </div>
+      <div class="divider md"></div>
+      <div class="daily-value sm-text">
+        <p class="right bold no-divider">% Daily Value *</p>
+        <div class="divider"></div>
+        <p><span class="bold">Total Fat</span> 8g <span class="bold right">10%</span></p>
+        <p class="indent no-divider">Saturated Fat 1g <span class="bold right">5%</span></p>
+        <div class="divider"></div>
+        <p class="indent no-divider"><i>Trans</i> Fat 0g</p>
+        <div class="divider"></div>
+        <p><span class="bold">Cholesterol</span> 0mg <span class="right bold">0%</span></p>
+        <p><span class="bold">Sodium</span> 160mg <span class="right bold">7%</span></p>
+        <p><span class="bold">Total Carbohydrate</span> 37g <span class="right bold">13%</span></p>
+        <p class="indent no-divider">Dietary Fiber 4g</p>
+        <div class="divider"></div>
+        <p class="indent no-divider">Total Sugars 12g</p>
+        <div class="divider dbl-indent"></div>
+        <p class="dbl-indent no-divider">Includes 10g Added Sugars <span class="right bold">20%</span>
+        <div class="divider"></div>
+        <p class="no-divider"><span class="bold">Protein</span> 3g</p>
+        <div class="divider lg"></div>
+        <p>Vitamin D 2mcg <span class="right">10%</span></p>
+        <p>Calcium 260mg <span class="right">20%</span></p>
+        <p>Iron 8mg <span class="right">45%</span></p>
+        <p class="no-divider">Potassium 235mg <span class="right">6%</span></p>
+      </div>
+      <div class="divider md"></div>
+      <p class="note">* The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.</p>
+    </div>
+  </body>
+</html>
+\end{html}
+\begin{css}
+* {
+    box-sizing: border-box;
+  }
+  
+  html {
+    font-size: 16px;
+  }
+  
+  body {
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  .label {
+    border: 2px solid black;
+    width: 270px;
+    margin: 20px auto;
+    padding: 0 7px;
+  }
+  
+  header h1 {
+    text-align: center;
+    margin: -4px 0;
+    letter-spacing: 0.15px
+  }
+  
+  p {
+    margin: 0;
+  }
+  
+  .divider {
+    border-bottom: 1px solid #888989;
+    margin: 2px 0;
+    clear: right;
+  }
+  
+  .bold {
+    font-weight: 800;
+  }
+  
+  .right {
+    float: right;
+  }
+  
+  .lg {
+    height: 10px;
+  }
+  
+  .lg, .md {
+    background-color: black;
+    border: 0;
+  }
+  
+  .md {
+    height: 5px;
+  }
+  
+  .sm-text {
+    font-size: 0.85rem;
+  }
+  
+  .calories-info h1 {
+    margin: -5px -2px;
+    overflow: hidden;
+  }
+  
+  .calories-info span {
+    font-size: 1.2em;
+    margin-top: -7px;
+  }
+  
+  .indent {
+    margin-left: 1em;
+  }
+  
+  .dbl-indent {
+    margin-left: 2em;
+  }
+  
+  .daily-value p:not(.no-divider) {
+    border-bottom: 1px solid #888989;
+  }
+  
+  .note {
+    font-size: 0.6rem;
+    margin: 5px 0;
+    padding: 0 8px 0 8px;
+    text-indent: -8px;
+  }
+\end{css}
+
+\texttt{float} is used to place an element on the left or right of the container, allowing the other content (e.g. text) to wrap around it.
+
+The \texttt{:not} pseudo-selector can be used to select all elements that do not match the given CSS rule.
