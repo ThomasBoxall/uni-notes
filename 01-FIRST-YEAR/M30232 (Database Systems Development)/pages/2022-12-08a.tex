@@ -1,0 +1,62 @@
+\lecture{Security Basics}{08-12-22}{13:00}{Mark}{RB LT1}
+
+This lecture has been split into two parts, the second part will take place after the Christmas break.
+
+Next week's lecture will be part about MS Learn (\& part about Databases) and the practical next week is optional, aimed around coursework questions.
+
+\section*{A View on Security}
+Stealing data is very different to stealing physical objects. To steal data, you just have to make a copy of it; whereas with physical things, you have to pick up the physical thing.
+
+At one time, physical security was talked about much more. Nowerdays, the physical hardware is stored on the cloud where this is dealt with by someone else.
+
+When working on developing applications, you have to 'sanitise' data which is passed to the database.
+
+The biggest risk to data is those who have access to it, generally this will be people who work for the company.
+
+\section*{PostgreSQL Basic Security}
+Our user account in our Postgres install has full administrative rights to Postgres. This is the Superuser account which no one else should have access to. By default, you cannot access the server from a different IP address; it is possible to allow other IP addresses to have access to this however this is un-advised. 
+
+Currently, the superuser on our databases doesn't have a password. In the real world, this is very stupid and should never happen. As superusers we can change and set other users passwords.
+\subsection*{Roles}
+In Postgres, a role is the same as a user.
+
+Before you can login to Postgres, there has to be a role in the DBMS to allow you to login. This username is case sensitive. 
+
+As well as having a role/ user there has to be other things in the database. For us, this is the table called our up number. 
+
+Users should (in the real world, must) be given passwords. Constraints and change-after-time policies can be set. When the user is created, the password is set. This is a potential security risk as if someone else can get into your account, they can view your terminal history, including the passwords you've entered in terminal in plain text.
+
+Users have to be given the ability to log in. Removing the log in ability, can be useful for people who are working temporarily for a company.
+
+The syntax to create a role as follows:
+\begin{sql}
+CREATE role [userName] with login password '[password]';
+\end{sql}
+Where \verb|[userName]| and \verb|[password]| are replaced with values you wish to enter.
+
+There is also a \verb|CREATE user| command however this returns the same value as \verb|CREATE role|. 
+
+When creating a role, this will create a database called their username, this is essential and should not be deleted.
+
+After creating a role, you have to specify permissions for the different users. However, you can login (if you have login permission) and see all the names of all the databases.
+
+\section*{Views}
+Including views in the coursework will give additional marks.
+\define{View}{A pre-written query}
+This enables us to delegate access to certain parts of a table. 
+
+When you create views, you can give users access to be able to run that query.
+
+To create a view, the syntax follows
+\begin{sql}
+CREATE [viewName] AS [queryString];
+
+--eg
+CREATE VIEW CUST_NAMES AS SELECT CUST_FNAME, CUST_LNAME FROM customer;
+\end{sql}
+The view above can be executed as
+\begin{sql}
+SELECT * FROM CUST_NAMES;
+\end{sql}
+This will display a list of all the customers first names and customers last names.
+

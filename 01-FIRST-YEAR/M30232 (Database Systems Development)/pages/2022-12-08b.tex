@@ -1,0 +1,295 @@
+\lecture{PRACTICAL: More Joins}{08-12-22}{14:00}{Mark \& Co}{FTC 3}
+
+1. Once you have run the code in this week's tutor section, write a left join that joins the customer and cust\_order tables.
+\begin{sql}
+SELECT customer.cust_fname, customer.cust_lname, cust_order.cust_ord_id FROM customer
+LEFT JOIN cust_order ON customer.cust_id=cust_order.cust_id;
+\end{sql}
+\begin{pseudo*}
+   cust_fname    |    cust_lname    | cust_ord_id
+-----------------+------------------+-------------
+ Chadd           | Franz-Schoninger |           1
+ York            | O'Deegan         |           2
+ Marie-françoise | Currier          |           3
+ Bérengère       | Menendez         |           4
+ Bénédicte       | Dozdill          |           5
+ Bénédicte       | Dozdill          |           6
+ Chadd           | Franz-Schoninger |           7
+ Bénédicte       | Dozdill          |           8
+ Penelope        | Hexter           |           9
+ York            | O'Deegan         |          10
+ ...
+(252 rows)
+\end{pseudo*}
+
+2. Write a right join that joins the customer and cust\_order tables
+\begin{sql}
+SELECT customer.cust_fname, customer.cust_lname, cust_order.cust_ord_id FROM customer
+RIGHT JOIN cust_order ON customer.cust_id=cust_order.cust_id;
+\end{sql}
+\begin{pseudo*}
+   cust_fname    |    cust_lname    | cust_ord_id
+-----------------+------------------+-------------
+ Chadd           | Franz-Schoninger |           1
+ York            | O'Deegan         |           2
+ Marie-françoise | Currier          |           3
+ Bérengère       | Menendez         |           4
+ Bénédicte       | Dozdill          |           5
+ Bénédicte       | Dozdill          |           6
+ Chadd           | Franz-Schoninger |           7
+ Bénédicte       | Dozdill          |           8
+ Penelope        | Hexter           |           9
+ York            | O'Deegan         |          10
+ Bénédicte       | Dozdill          |          11
+ ...
+(250 rows)
+\end{pseudo*}
+
+3. write an inner join that joins the customer and cust\_order tables. 
+\begin{sql}
+SELECT customer.cust_fname, customer.cust_lname, cust_order.cust_ord_id FROM customer
+JOIN cust_order ON customer.cust_id=cust_order.cust_id;
+\end{sql}
+\begin{pseudo*}
+   cust_fname    |    cust_lname    | cust_ord_id
+-----------------+------------------+-------------
+ Chadd           | Franz-Schoninger |           1
+ York            | O'Deegan         |           2
+ Marie-françoise | Currier          |           3
+ Bérengère       | Menendez         |           4
+ Bénédicte       | Dozdill          |           5
+ Bénédicte       | Dozdill          |           6
+ Chadd           | Franz-Schoninger |           7
+ Bénédicte       | Dozdill          |           8
+ Penelope        | Hexter           |           9
+ York            | O'Deegan         |          10
+ ...
+(250 rows)
+\end{pseudo*}
+
+4. Write a right join that joins the customer and cust\_order tables. 
+\begin{sql}
+SELECT customer.cust_fname, customer.cust_lname, cust_order.cust_ord_id FROM customer
+RIGHT JOIN cust_order ON customer.cust_id=cust_order.cust_id;
+\end{sql}
+\begin{pseudo*}
+   cust_fname    |    cust_lname    | cust_ord_id
+-----------------+------------------+-------------
+ Chadd           | Franz-Schoninger |           1
+ York            | O'Deegan         |           2
+ Marie-françoise | Currier          |           3
+ Bérengère       | Menendez         |           4
+ Bénédicte       | Dozdill          |           5
+ Bénédicte       | Dozdill          |           6
+ Chadd           | Franz-Schoninger |           7
+ Bénédicte       | Dozdill          |           8
+ Penelope        | Hexter           |           9
+ York            | O'Deegan         |          10
+ ...
+(251 rows)
+\end{pseudo*}
+
+5. Write an inner join that joins the customer and cust\_order tables. 
+\begin{sql}
+SELECT customer.cust_fname, customer.cust_lname, cust_order.cust_ord_id FROM customer
+JOIN cust_order ON customer.cust_id=cust_order.cust_id;
+\end{sql}
+\begin{pseudo*}
+   cust_fname    |    cust_lname    | cust_ord_id
+-----------------+------------------+-------------
+ Chadd           | Franz-Schoninger |           1
+ York            | O'Deegan         |           2
+ Marie-françoise | Currier          |           3
+ Bérengère       | Menendez         |           4
+ Bénédicte       | Dozdill          |           5
+ Bénédicte       | Dozdill          |           6
+ Chadd           | Franz-Schoninger |           7
+ Bénédicte       | Dozdill          |           8
+ Penelope        | Hexter           |           9
+ York            | O'Deegan         |          10
+ ...
+(251 rows)
+\end{pseudo*}
+
+6. Write a left join that joins the customer and cust\_order tables.
+\begin{sql}
+SELECT customer.cust_fname, customer.cust_lname, cust_order.cust_ord_id FROM customer
+LEFT JOIN cust_order ON customer.cust_id=cust_order.cust_id;
+\end{sql}
+\begin{pseudo*}
+   cust_fname    |    cust_lname    | cust_ord_id
+-----------------+------------------+-------------
+ Chadd           | Franz-Schoninger |           1
+ York            | O'Deegan         |           2
+ Marie-françoise | Currier          |           3
+ Bérengère       | Menendez         |           4
+ Bénédicte       | Dozdill          |           5
+ Bénédicte       | Dozdill          |           6
+ Chadd           | Franz-Schoninger |           7
+ Bénédicte       | Dozdill          |           8
+ Penelope        | Hexter           |           9
+ York            | O'Deegan         |          10
+ ...
+(262 rows)
+\end{pseudo*}
+
+7. Rewrite the query for number 6 but reverse the order of the tables. If you started with the customer table in the query and joined cust\_order then rewrite starting with cust\_order and join customer. 
+\begin{sql}
+SELECT customer.cust_fname, customer.cust_lname, cust_order.cust_ord_id FROM cust_order
+LEFT JOIN customer ON customer.cust_id=cust_order.cust_id;
+\end{sql}
+\begin{pseudo*}
+   cust_fname    |    cust_lname    | cust_ord_id
+-----------------+------------------+-------------
+ Chadd           | Franz-Schoninger |           1
+ York            | O'Deegan         |           2
+ Marie-françoise | Currier          |           3
+ Bérengère       | Menendez         |           4
+ Bénédicte       | Dozdill          |           5
+ Bénédicte       | Dozdill          |           6
+ Chadd           | Franz-Schoninger |           7
+ Bénédicte       | Dozdill          |           8
+ Penelope        | Hexter           |           9
+ York            | O'Deegan         |          10
+ ...
+(251 rows)
+\end{pseudo*}
+
+8. Depending on the number of rows that are returned from questions 6 and 7, rewrite the one that has the highest number of results so that the result is sorted firstly by the cust\_id and then the cust\_ord\_id. Copy the query AND THE FIRST SCREEN OF DATA RETURNED BELOW. Make sure you have more than 1 cust\_id in the results.
+\begin{sql}
+-- use query from question 6
+SELECT customer.cust_fname, customer.cust_lname, cust_order.cust_ord_id FROM cust_order
+LEFT JOIN customer ON customer.cust_id=cust_order.cust_id
+ORDER BY customer.cust_id, cust_order.cust_ord_id;
+\end{sql}
+\begin{pseudo*}
+   cust_fname    |    cust_lname    | cust_ord_id
+-----------------+------------------+-------------
+ Jobey           | Boeter           |          26
+ Jobey           | Boeter           |          34
+ Jobey           | Boeter           |          39
+ Jobey           | Boeter           |          57
+ Jobey           | Boeter           |          68
+ Jobey           | Boeter           |          71
+ Jobey           | Boeter           |          77
+ Jobey           | Boeter           |          91
+ Jobey           | Boeter           |          98
+ Jobey           | Boeter           |          99
+ Jobey           | Boeter           |         131
+ Jobey           | Boeter           |         143
+ Jobey           | Boeter           |         146
+ York            | O'Deegan         |           2
+ York            | O'Deegan         |          10
+ York            | O'Deegan         |          19
+ ...
+(251 rows)
+\end{pseudo*}
+
+9. Write a query that uses outer joins on the customer, the cust\_order table and the staff table. It must return the cust\_id, cust\_ord\_id and the staff\_id as well as the staff members last name and their work email address.
+\begin{sql}
+SELECT c.cust_id, co.cust_ord_id, s.staff_id, s.staff_lname, s.work_email FROM customer c
+FULL OUTER JOIN cust_order co ON c.cust_id=co.cust_id
+FULL OUTER JOIN staff s ON s.staff_id=co.staff_id;
+\end{sql}
+\begin{pseudo*}
+ cust_id | cust_ord_id | staff_id | staff_lname |         work_email
+---------+-------------+----------+-------------+-----------------------------
+       4 |           1 |        6 | Clewlowe    | Aura.Clewlowe@dsd.com
+       2 |           2 |        5 | Gillicuddy  | Janeva.Gillicuddy@dsd.com
+       6 |           3 |        2 | Shrimpton   | Nikoletta.Shrimpton@dsd.com
+       9 |           4 |        5 | Gillicuddy  | Janeva.Gillicuddy@dsd.com
+       7 |           5 |        6 | Clewlowe    | Aura.Clewlowe@dsd.com
+       7 |           6 |        4 | Gloster     | Hanan.Gloster@dsd.com
+       4 |           7 |        6 | Clewlowe    | Aura.Clewlowe@dsd.com
+       7 |           8 |        3 | Housegoe    | Montgomery.Housegoe@dsd.com
+       3 |           9 |        6 | Clewlowe    | Aura.Clewlowe@dsd.com
+       2 |          10 |        5 | Gillicuddy  | Janeva.Gillicuddy@dsd.com
+       7 |          11 |        6 | Clewlowe    | Aura.Clewlowe@dsd.com
+       9 |          12 |        4 | Gloster     | Hanan.Gloster@dsd.com
+       7 |          13 |        4 | Gloster     | Hanan.Gloster@dsd.com
+       7 |          14 |        4 | Gloster     | Hanan.Gloster@dsd.com
+       6 |          15 |        4 | Gloster     | Hanan.Gloster@dsd.com
+       9 |          16 |        5 | Gillicuddy  | Janeva.Gillicuddy@dsd.com
+      10 |          17 |        5 | Gillicuddy  | Janeva.Gillicuddy@dsd.com
+       7 |          18 |        3 | Housegoe    | Montgomery.Housegoe@dsd.com
+       2 |          19 |        3 | Housegoe    | Montgomery.Housegoe@dsd.com
+...
+(266 rows)
+\end{pseudo*}
+
+10. Rewrite the query from 9 and filter the results to show only those customers who have not placed an order. (Remember that any customer who has placed an order will have a cust\_ord\_id associated with them).
+\begin{sql}
+SELECT c.cust_id, co.cust_ord_id, s.staff_id, s.staff_lname, s.work_email FROM customer c
+FULL OUTER JOIN cust_order co ON c.cust_id=co.cust_id
+FULL OUTER JOIN staff s ON s.staff_id=co.staff_id
+WHERE co.cust_ord_id IS NULL AND c.cust_id IS NOT NULL;
+\end{sql}
+\begin{pseudo*}
+ cust_id | cust_ord_id | staff_id | staff_lname | work_email
+---------+-------------+----------+-------------+------------
+      25 |             |          |             |
+      27 |             |          |             |
+      33 |             |          |             |
+      31 |             |          |             |
+      34 |             |          |             |
+      32 |             |          |             |
+      24 |             |          |             |
+      28 |             |          |             |
+      30 |             |          |             |
+      29 |             |          |             |
+      35 |             |          |             |
+(11 rows)
+\end{pseudo*}
+
+11. Write a query that will display the staff first and last names, their work email addresses, the customer order id, the customer id and the customer's first and last names along with the products that are in the customer's orders. The results must be ordered by customer last name order. Copy the query AND THE FIRST SCREEN OF DATA RETURNED BELOW. (Make sure you have more than 1 customer in the results).
+\begin{sql}
+SELECT s.staff_fname, s.staff_lname, s.work_email, co.cust_ord_id, c.cust_id, c.cust_fname, c.cust_lname, p.prod_name FROM customer c
+JOIN cust_order co ON c.cust_id=co.cust_id
+JOIN staff s ON s.staff_id=co.staff_id
+JOIN manifest ON manifest.cust_ord_id = co.cust_ord_id
+JOIN product p ON p.prod_id = manifest.prod_id
+ORDER BY c.cust_lname;
+\end{sql}
+\begin{pseudo*}
+ staff_fname | staff_lname |         work_email          | cust_ord_id | cust_id |   cust_fname    |    cust_lname    |                   prod_name
+-------------+-------------+-----------------------------+-------------+---------+-----------------+------------------+------------------------------------------------
+ Hanan       | Gloster     | Hanan.Gloster@dsd.com       |          39 |       1 | Jobey           | Boeter           | Switchable tangible product
+ Nikoletta   | Shrimpton   | Nikoletta.Shrimpton@dsd.com |          57 |       1 | Jobey           | Boeter           | Persistent demand-driven complexity
+ Montgomery  | Housegoe    | Montgomery.Housegoe@dsd.com |          68 |       1 | Jobey           | Boeter           | Streamlined asynchronous functionalities
+ Aura        | Clewlowe    | Aura.Clewlowe@dsd.com       |         131 |       1 | Jobey           | Boeter           | Seamless optimal leverage
+ Janeva      | Gillicuddy  | Janeva.Gillicuddy@dsd.com   |          99 |       1 | Jobey           | Boeter           | Fundamental global archive
+ Hanan       | Gloster     | Hanan.Gloster@dsd.com       |          34 |       1 | Jobey           | Boeter           | Right-sized mission-critical pricing structure
+ Montgomery  | Housegoe    | Montgomery.Housegoe@dsd.com |          26 |       1 | Jobey           | Boeter           | Switchable tangible product
+ Hanan       | Gloster     | Hanan.Gloster@dsd.com       |          77 |       1 | Jobey           | Boeter           | Realigned homogeneous hub
+ Montgomery  | Housegoe    | Montgomery.Housegoe@dsd.com |         146 |       1 | Jobey           | Boeter           | Fundamental global archive
+ Janeva      | Gillicuddy  | Janeva.Gillicuddy@dsd.com   |         143 |       1 | Jobey           | Boeter           | Re-engineered cohesive methodology
+ Niel        | Welsby      | Niel.Welsby@dsd.com         |          91 |       1 | Jobey           | Boeter           | Configurable analyzing solution
+ Nikoletta   | Shrimpton   | Nikoletta.Shrimpton@dsd.com |          71 |       1 | Jobey           | Boeter           | Inverse high-level attitude
+ Montgomery  | Housegoe    | Montgomery.Housegoe@dsd.com |          98 |       1 | Jobey           | Boeter           | Distributed uniform Graphic Interface
+ Niel        | Welsby      | Niel.Welsby@dsd.com         |         112 |       6 | Marie-françoise | Currier          | Integrated 24/7 interface
+...
+(150 rows)
+\end{pseudo*}
+
+12. Write a query that will show only the customer contact details who have NEVER placed an order. It is up to you to decide what we mean by contact details. Copy the output and query below.
+\begin{sql}
+SELECT c.cust_fname, c.email FROM customer c
+FULL OUTER JOIN cust_order co ON c.cust_id = co.cust_id
+WHERE co.cust_ord_id IS NULL;
+\end{sql}
+\begin{pseudo*}
+ cust_fname |               email
+------------+-----------------------------------
+ Jen        | jsettle222@google.ca
+ Fawnia     | fpetchell1@networkadvertising.org
+ Nealy      | nstanley7@arstechnica.com
+ Tine       | tclopton5@typepad.com
+ Cody       | clago8@rambler.ru
+ Lonnie     | lmacgilpatrick6@uiuc.edu
+ Evie       | 3vi3@google.wh
+ Mireielle  | mkillner2@cafepress.com
+ Falkner    | fgrouer4@dion.ne.jp
+ Kaine      | klawford3@imdb.com
+ Theadora   | tajsik9@sfgate.com
+(11 rows)
+\end{pseudo*}
