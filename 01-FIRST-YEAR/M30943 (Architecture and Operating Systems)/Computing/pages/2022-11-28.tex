@@ -1,0 +1,246 @@
+\lecture{Karnaugh Maps}{28-11-2022}{16:00}{Farzad}{RB LT1}
+
+This is the last topic we will cover before the Christmas break. There will be an exam in January, which will be a Computer Based Test. In the exam, we can use either a Karnaugh map or the rules \& laws to simplify boolean algebra.
+
+\section*{Sum Of Products Form}
+Sum Of Products (SOP) form is a form in which there are no brackets. A boolean algebra equation needs to be in SOP form before it can be put into a Karnaugh map. 
+\begin{example}{Converting equation to SOP Form}
+Convert the following equation to SOP form.
+\[A(B+C)+(CD)'+(A+B)'\]
+We use the Distributive laws and DeMorgan's Theorem to remove the brackets. This results in
+\[AB+AC+C'+D'+A'B'\]
+\end{example}
+
+\section*{Karnaugh Maps}
+A Karnaugh map is a special arrangement of a truth table which can be used to simplify boolean algebra equations. It is important to recognise the order in which the terms are written in the grid.
+\begin{figure}[H]
+    \begin{minipage}[H]{0.45\textwidth}
+        The Karnaugh map to the right is a two input karnaugh map. This has two inputs $A$ and $B$.        
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{karnaugh-map}[2][2][1][$A$][$B$]
+        \end{karnaugh-map}
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[H]{0.45\textwidth}
+        The Karnaugh map to the right is a three input karnaugh map. This has three inputs $A$, $B$ and $C$. \\
+        Note the order of the inputs on the top side.
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{karnaugh-map}[4][2][1][$A$][$B$][$C$]
+        \end{karnaugh-map}
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[H]{0.45\textwidth}
+        The Karnaugh map to the right is a four input karnaugh map. This has four inputs $A$, $B$, $C$ and $D$. \\
+        Note the order of the inputs on the top side.
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{karnaugh-map}[4][4][1][$A$][$B$][$C$][$D$]
+        \end{karnaugh-map}
+    \end{minipage}\hfill
+\end{figure}
+
+The orientation that the karnaugh map is drawn in and the order that the letters are put on the karnaugh map do not matter. What is important is that the numbers along the side only change by one digit between each cell. 
+
+It is possible to have more then 4 inputs to a Karnaugh Map however this then becomes three-dimensional. This is not covered in this module.
+
+\begin{example}{Simplification using Karnaugh Maps}
+\textit{Simplify the following expression.}
+\[AB+A(B+C)+B(B+C)\]
+The first step is to get the equation into SOP form.
+\[AB+AC+B+BC\]
+Now we can take each term one by one and find where that fits into the Karnaugh Map.
+\begin{figure}[H]
+    \begin{minipage}[H]{0.45\textwidth}
+        We are dealing with a three input expression so we need to use a three input Karnaugh map.
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{karnaugh-map}[4][2][1][$A$][$B$][$C$]
+        \end{karnaugh-map}
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[H]{0.45\textwidth}
+        Now we take $AB$ where $A=1$ and $B=1$. On the Karnaugh map, we mark a 1 where this is true.
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{karnaugh-map}[4][2][1][$A$][$B$][$C$]
+            \terms{3,7}{\textcolor{blue}{1}}
+        \end{karnaugh-map}
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[H]{0.45\textwidth}
+        Now we take $AC$ where $A=1$ and $C=1$. On the Karnaugh map, we mark a 1 where this is true.
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{karnaugh-map}[4][2][1][$A$][$B$][$C$]
+            \terms{3}{1}
+            \terms{5,7}{\textcolor{blue}{1}}
+        \end{karnaugh-map}
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[H]{0.45\textwidth}
+        Now we take $B$ where $B=1$. On the Karnaugh map, we mark a 1 where this is true.
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{karnaugh-map}[4][2][1][$A$][$B$][$C$]
+            \terms{5}{1}
+            \terms{2,3,6,7}{\textcolor{blue}{1}}
+        \end{karnaugh-map}
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[H]{0.45\textwidth}
+        Now we take $BC$ where $B=1$ and $C=1$. On the Karnaugh map, we mark a 1 where this is true.
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{karnaugh-map}[4][2][1][$A$][$B$][$C$]
+            \terms{5,3,3,2}{1}
+            \terms{6,7}{\textcolor{blue}{1}}
+        \end{karnaugh-map}
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[H]{0.45\textwidth}
+        Finally, we need to group the 1s according to the grouping rules (shown below)
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{karnaugh-map}[4][2][1][$A$][$B$][$C$]
+            \terms{5,3,3,2,6,7}{1}
+            \implicant{3}{6}
+            \implicant{5}{7}
+        \end{karnaugh-map}
+    \end{minipage}\hfill
+\end{figure}
+Finally, we pull out the groupings which gives us the answer.
+\[B+AC\]
+\end{example}
+
+\subsection*{Karnaugh Map Groupings}
+There are a number of rules which govern the groupings of Karnaugh Map digits.
+\begin{figure}[H]
+    \begin{minipage}[H]{0.45\textwidth}
+        Groups must only contain 0s
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{karnaugh-map}[2][2][1][$A$][$B$]
+            \terms{0,1}{0}
+            \terms{2,3}{1}
+            \implicant{2}{3}
+        \end{karnaugh-map}
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[H]{0.45\textwidth}
+        Groups may be horizontal or vertical but not diagonal
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{karnaugh-map}[2][2][1][$A$][$B$]
+            \terms{0}{0}
+            \terms{1,2,3}{1}
+            \implicant{2}{3}
+            \implicant{1}{3}
+        \end{karnaugh-map}
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[H]{0.45\textwidth}
+        Groups must contain 1, 2, 4, 8 ($2^n$) cells. 
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{karnaugh-map}[2][2][1][$A$][$B$]
+            \terms{0,1,2,3}{1}
+            \implicant{0}{3}
+        \end{karnaugh-map}
+        \begin{karnaugh-map}[4][2][1][$A$][$B$][$C$]
+            \terms{0,1,2,3,4,5,6,7}{1}
+            \implicant{0}{6}
+        \end{karnaugh-map}
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[H]{0.45\textwidth}
+        Groups should be as large as possible 
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{karnaugh-map}[4][2][1][$A$][$B$][$C$]
+            \terms{0,1,2,3,6,7}{1}
+            \implicant{0}{2}
+            \implicant{3}{6}
+        \end{karnaugh-map}
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[H]{0.45\textwidth}
+        Groups can overlap. Where there is overlap, each group must have one unique 1 to that group 
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{karnaugh-map}[4][2][1][$A$][$B$][$C$]
+            \terms{0,1,2,3,5,7}{1}
+            \implicant{0}{2}
+            \implicant{1}{7}
+        \end{karnaugh-map}
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[H]{0.45\textwidth}
+        Groups can wrap around the table. 
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{karnaugh-map}[4][2][1][$A$][$B$][$C$]
+            \terms{0,2,4,6}{1}
+            \implicantedge{0}{4}{2}{6}
+        \end{karnaugh-map}
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[H]{0.45\textwidth}
+        Groups can wrap around the entire table on multiple axis 
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{karnaugh-map}[4][4][1][$A$][$B$][$C$][$D$]
+            \terms{0,2,8,10}{1}
+            \implicantcorner
+        \end{karnaugh-map}
+    \end{minipage}\hfill
+\end{figure}
+\begin{figure}[H]
+    \begin{minipage}[H]{0.45\textwidth}
+        There should be as few groups as possible, as long as this doesn't contradict any of the previous rules 
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{karnaugh-map}[4][2][1][$A$][$B$][$C$]
+            \terms{0,1,2,3,4,5,6}{1}
+            \implicant{0}{2}
+            \implicant{0}{5}
+            \implicantedge{0}{4}{2}{6}
+        \end{karnaugh-map}
+    \end{minipage}\hfill
+\end{figure}
+These Karnaugh Map grouping rules can be summarised as:
+\begin{enumerate}
+    \item No groups containing 0s are allowed
+    \item No diagonal grouping
+    \item Group sizes should only be powers of 2 (1, 2, 4, 8, 16)
+    \item Groups should be as large as possible
+    \item All the ones must be in at least one group
+    \item Overlapping is allowed
+    \item Wrap around is allowed
+    \item Least possible number of groups is preferable
+\end{enumerate}
+\begin{example}{Simplify Complex Boolean Algebra Expression using Karnaugh Maps}
+Simplify the following expression using Karnaugh Maps.
+\[ABC'D'+ABC'D+AB'C'D'+AB'C'D+A'B'CD+A'B'CD'+A'BCD'\]
+\begin{karnaugh-map}[4][4][1][$A$][$B$][$C$][$D$]
+    \terms{1,3,4,12,6,9,11}{1}
+    \implicant{4}{12}
+    \implicantedge{1}{3}{9}{11}
+    \implicantedge{4}{4}{6}{6}
+\end{karnaugh-map}
+\[= D'CA'+C'A+CB'A'\]
+\end{example}

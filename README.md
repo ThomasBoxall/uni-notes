@@ -2,7 +2,6 @@
 
 *Repo to store university notes in*
 
-
 ## Big Disclaimer
 I am NOT a Computer Science expert. I am a university student who is learning and making mistakes. I cannot be held accountable if my notes are wrong and you get a bad grade because of them!  
 If you spot something wrong with my notes, drop me an email or message on Discord.
@@ -18,6 +17,16 @@ I'm typesetting my notes using LaTeX, with custom colourful boxes and syntax hig
 
 ## Distribution of my work
 Obviously, these aren't quick notes to write. If you pass them onto someone else, please be a decent human and share a link to GitHub where they're attributed to me. I'm putting a lot of effort into making them nice and I will take them offline if they are plagiarized.  
-  
-## Worksheets  
-Some of the worksheets we have been given to complete outside of taught sessions have also been included here. The ideal end goal is to include all of the worksheets here however due to time constraints, and the time it takes to typeset certain elements of said worksheets, this may not always be possible. On occasion, notes will be left in the document stating where I need to add worksheets, however this will not always be the 
+
+## Links to Notes
+GitHub's PDF viewer is pretty bad. There's a nifty hack where you embed the GitHub download link in a Google Drive Viewer URL which allows you to use their `/preview` PDF viewer to view PDFs hosted on GitHub. See below for links to my notes in that format.
+### First Year
+* [M22731 (Comp Tutorial Level 4)](https://docs.google.com/viewer?url=https://github.com/ThomasBoxall/uni-notes/raw/main/01-FIRST-YEAR/M22731%20(Comp%20Tutorial%20Level%204)/M22731.pdf&embedded=true)
+* [M30220 (Core Computing Concepts)](https://docs.google.com/viewer?url=https://github.com/ThomasBoxall/uni-notes/raw/main/01-FIRST-YEAR/M30220%20(Core%20Computing%20Concepts)/M30220.pdf&embedded=true)
+  * [Item 2: Discovery Log](https://docs.google.com/viewer?url=https://github.com/ThomasBoxall/uni-notes/raw/main/01-FIRST-YEAR/M30220%20(Core%20Computing%20Concepts)/00-discovery-log-web/main.pdf&embedded=true)
+* [M30231 (Networks)](https://docs.google.com/viewer?url=https://github.com/ThomasBoxall/uni-notes/raw/main/01-FIRST-YEAR/M30231%20(Networks)/M30231.pdf&embedded=true)
+* [M30232 (Database Systems Development)](https://docs.google.com/viewer?url=https://github.com/ThomasBoxall/uni-notes/raw/main/01-FIRST-YEAR/M30232%20(Database%20Systems%20Development)/M30232.pdf&embedded=true)
+* [M30299 (Programming)](https://docs.google.com/viewer?url=https://github.com/ThomasBoxall/uni-notes/raw/main/01-FIRST-YEAR/M30299%20(Programming)/M30299.pdf&embedded=true)
+* M30943 (Architecture and Operating Systems)
+  * [Computing](https://docs.google.com/viewer?url=https://github.com/ThomasBoxall/uni-notes/raw/main/01-FIRST-YEAR/M30943%20(Architecture%20and%20Operating%20Systems)/Computing/M30943.pdf&embedded=true)
+  * [Maths](https://docs.google.com/viewer?url=https://github.com/ThomasBoxall/uni-notes/raw/main/01-FIRST-YEAR/M30943%20(Architecture%20and%20Operating%20Systems)/Maths/M30943-maths.pdf&embedded=true)

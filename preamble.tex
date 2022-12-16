@@ -27,6 +27,8 @@ top=20mm,
 \usetikzlibrary{positioning}
 \usepackage{circuitikz}
 
+\usepackage[label=corner]{karnaugh-map}
+
 %%%%%%%%%%%%%%%%%%%%% FONTS %%%%%%%%%%%%%%%%%%%%%%%%
 
 \usepackage{fontspec}
@@ -161,8 +163,8 @@ frametitlebackgroundcolor=Plum!30
 % COMMAND FOR LECTURE HEADER
 \newcommand{\lecture}[5]{\newpage%
     \addtocounter{lectureCounter}{1}
-    \addcontentsline{toc}{chapter}{S.\arabic{lectureCounter}. \quad #1 (#2)}
-    \textsc{\huge S.\arabic{lectureCounter}. \ #1}\\ %title of session
+    \addcontentsline{toc}{chapter}{ #1 (#2)}
+    \textsc{\huge #1}\\ %title of session
     \begin{figure}[H]
         \begin{minipage}[t]{0.2\textwidth}
             \textbf{\faCalendar}\ #2
@@ -177,7 +179,7 @@ frametitlebackgroundcolor=Plum!30
             \textbf{\faMapMarker}\ #5
         \end{minipage}\hfill
     \end{figure}
-    \fancyhead[R]{S.\arabic{lectureCounter}. \ \textsc{#1}}
+    \fancyhead[R]{\textsc{#1}}
     } %end of new command
 
 % COMMAND FOR RESEARCH HEADER
