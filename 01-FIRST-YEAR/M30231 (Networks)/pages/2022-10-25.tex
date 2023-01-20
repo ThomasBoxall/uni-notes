@@ -1,15 +1,18 @@
 \lecture{LECTURE: Local Area Networks (LANs)}{25-10-22}{09:00}{Amanda}{Zoom}
 
 \section*{Network Interface Cards}
-Any transmission from a Network Interface Card (NIC) will reach every other NIC. Each NIC has a unique LAN address, this is a 48-bit globally unique identifier called a Media Access Control (MAC) Address. MAC addresses are written in hexadecimal and they are burnt into the ROM chip of the NIC. A MAC address is assigned partly by global identifiers and partly by the manufactures. 
+Any transmission from a Network Interface Card (NIC) will reach every other NIC. Each NIC has a unique LAN address, this is a 48-bit globally unique identifier called a Media Access Control (MAC) Address.
 
 NICs read all broadcast messages and all multicast messages with addresses that they have been programmed to read. The hardware of the NIC will ignore all other addresses.
+\subsection*{Media Access Control Addresses}
+\marginNote{added 06-01-22}Media Access Control (MAC) addresses are written in hexadecimal and burnt into the read only memory (ROM). The manufacturer will assign a MAC address to a NIC. The MAC address is structured such that there is a manufacturer identifier part and a unique device identifier part. 
 
 \section*{Ethernet LAN Access Devices}
-Client deices can have a cable between their PC and an interconnection device in a network rack. These interconnection devices could be: a hub; a switch; or a router.
+Client devices can have a cable between their PC and an interconnection device in a network rack. These interconnection devices could be: a hub; a switch; or a router.
 
 \section*{Access and Distribution Rules}
 \subsection*{Shared Media LANs}
+Shared media LANs can only support a limited number of users and will generally be limited by their size. It shares its total bandwidth between all the devices connected.
 \begin{figure}[H]
     \begin{minipage}[t]{0.45\textwidth}
         \textbf{Access Rules for Ethernet Hubs}

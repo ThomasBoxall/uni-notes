@@ -1,0 +1,140 @@
+\lecture{LECTURE: Using Lists, Tuples and Dictionaries}{28-11-22}{15:00}{RB LT1}{Nadim}
+
+\textit{NB: These notes were types up during January 2023 in preperation for Teaching Block 2. The lecture did not cover this content at the time as coursework support was given during lectures and practicals for the rest of Teaching Block 1 after it was released.}
+
+\section*{Storing Data}
+Often when programming, our programs need to process large collections of data of the same type. This may include: words in a document, temperatures for each day in a year, and marks from student's work.
+
+There are a number of different data structures which can be used to store data. Three of these will be explored in this lecture.
+
+\section*{Lists}
+\textit{Some languages, for example Java or C\#, use the term `array' instead of `list'.}
+
+An example of creating two different types of list can be seen below.
+\begin{python}
+fibonacci = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+seasons = ["spring", "summer", "autumn", "winter"]
+\end{python}
+
+\subsection*{List Indexing}
+Lists are indexed in the same way as strings. They start with position \verb|0|. Lists can also be indexed using negative indices.
+\begin{python}
+print(seasons[0])  # outputs 'spring'
+print(fibonacci[8])  # outputs 21
+print(seasons[-1])  # outputs 'winter'
+print(fibonacci[-2])  # outputs 21
+\end{python}
+
+\subsection*{Basic List Operations}
+Lists, like strings, have operators for concatenation \verb|+| and repetition \verb|*|.
+
+We can find the length of a list with the built-in function \verb|len()|
+\begin{python}
+print(fibonacci + [55,89])
+# outputs [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+
+print([10, 4] * 3)
+# outputs [10, 4, 10, 4, 10, 4]
+
+print(len(seasons))
+# outputs 4
+\end{python}
+
+\subsection*{List Slicing}
+We can use list slicing to get sub-lists from the lists. This behaves in the same was as string slicing and uses the same syntax. The substring contains everything from and including the first value up to and not including the final value. Where the first or last value is omitted, it is assumed to be the beginning/ end of the list.
+\begin{python}
+fibonacci = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+print(fibonacci[3:7])
+# outputs [2, 3, 5, 8]
+
+seasons = ["spring", "summer", "autumn", "winter"]
+print(seasons[1:-1])
+# outputs ['summer', 'autumn']
+print(seasons[2:])
+# outputs ['autumn', 'winter']
+print(seasons[:-2])
+# outputs ['spring', 'summer']
+\end{python}
+
+\subsection*{Iteration through a list}
+We can iterate (\textit{loop}) through the elements in a list using a for loop.
+\begin{python}
+for season in seasons:
+    print(season, end=" ")
+
+# outputs spring summer autumn winter
+\end{python}
+
+If we wanted to iterate through the indices of a list, we can use the verb|len()| function to get that value.
+
+\subsection*{Membership Checking}
+It can be useful to know if a value appears in a list. This can be achieved using the \verb|in| operator. \verb|in| returns \verb|True| if the value appears and \verb|False| if the value does not.
+
+\subsection*{Changing an element of a list}
+Lists are \textit{mutable}, this means we can \textit{alter} their elements. We can change list elements using assignment statements with list indexing.
+\begin{python}
+shopping = ["jam", "eggs", "margarine", "sugar"]
+shopping[2] = "butter"
+print(shopping)
+# outputs ['jam', 'eggs', 'butter', 'sugar']
+\end{python}
+
+\subsection*{List Methods}
+\verb|append| can be used to add a new value to the end of a list.
+\begin{python}
+shopping.append("eggs")
+print(shopping)
+# outputs ['jam', 'eggs', 'butter', 'flour', 'eggs']
+\end{python}
+
+\verb|remove| can be used to remove the first occurrence of an element. 
+
+\verb|index| can be used to get the first position of the first occurrence of a value.
+
+\verb|sort| method sorts the list into order.
+
+\subsection*{Storing Objects in a list}
+We can store any kind of data in lists, not just numbers and strings. Objects get stored in the same way as any other data type.
+
+\subsection*{Mixed-Type Lists}
+Lists \textit{can} contain different types of data. This can make code difficult to understand therefore it it not regarded as best practice. 
+
+\subsection*{Nested Lists}
+Lists can be nested within other lists. This can be \textit{really} useful.
+\begin{python}
+matrix = [[1, 2], [3, 4]]
+print(matrix[1][0])  # outputs 3
+\end{python}
+
+
+\section*{Tuples}
+Sometimes its useful to collect two or more related items of information together. A tuple can be used for this purpose.
+\begin{python}
+exampleTuple = ("Dave", 44)
+\end{python}
+We use parentheses rather than square brackets to denote a tuple compared to a list. Elements can be indexed using the same notation as for lists and strings.
+
+Tuples are \textit{immutable}, this means we \textit{can't} change the elements after assignment.
+
+Tuples are often used to return multiple values form a function and we can store tuples in a list.
+
+\section*{Dictionaries}
+Dictionaries can be regarded as unordered collections of data, whose values are indexed by key. Dictionaries are sometimes called mappings, hashes or associative arrays. Dictionary literals are written as aa sequence of \verb|key:value| pairs within braces \verb|{| \& \verb|}|. 
+
+The example below shows a mapping from string keys to integer values.
+\begin{python}
+shopping = {"eggs" : 2, "ham" : 4, "jam" : 1}
+\end{python}
+We use the key within square brackets to access the value this key maps onto
+\begin{python}
+print(shopping["ham"])  # outputs 4
+\end{python}
+We can use the key within square brackets to update a value in a dictionary, as we would in a list. We can also add new keys and values to a dictionary using the key in square brackets and assigning a value to it.
+
+We can test if a particular key appears in a dictionary using the \verb|in| operator.
+
+We can delete entries using Python's built in \verb|del| command.
+
+We can obtain lists of all the keys and all the values in a dictionary using the \verb|keys()| and \verb|values()| methods inside the \verb|list()| function.
+
+We can iterate through the keys using a for loop, and use this to access the value (with square brackets).

@@ -1,0 +1,19 @@
+\lecture{PRACTICAL: TCP/IP \& UDP}{21-10-22}{14:00}{Amanda}{PO 2.27}
+\emph{NB: These notes were written up during revision for the January exam in January 2023.}
+
+\section*{Three Way Handshake}
+A \emph{three-way handshake} process is used to establish a TCP session. This has to be dome before any computers communicate using TCP.
+
+\begin{enumerate}
+    \item The sending device sends a packet to the recipient to see if it is ready. This packet is assigned a sequence number (unique to that instruction), acknowledgement value of \verb|0| and flags set to \verb|SYN|.
+    \item When this is received by the recipient node and it is ready to receive the full data, it responds with a new sequence id, the acknowledgement value set to the sequence of the previous packet incremented by 1 and the flags \verb|ACK SYN|.
+    \item The sending node then responds to acknowledge the ready-ness of the server. This is done with a new sequence id, the acknowledgement value set to the sequence of the previous packets sequence id incremented by 1 and the flags \verb|ACK|. 
+    \item Payload transmission can begin
+    \item Once the payload has been sent, the \verb|FIN| bit is set to \verb|1| which indicates the end of the message. 
+\end{enumerate}
+If the recipient node isn't ready to receive data, then it just acknowledges the first packet and doesn't respond with a \verb|SYN| flag then the third step doesn't happen.
+
+This whole process takes milliseconds.
+
+\section*{User Datagram Protocol}
+The User Datagram Protocol (UDP) is a connectionless transport service. This means that there is no guarantee that the packets will arrive in the correct sequence, or at all. UDP also provides no error checking or sequencing. This lack of features makes UDP much more efficient than TCP, which means it is much more suitable for applications in which speed of transmission is more important than integrity of transmission (for example, video calls). The UDP header is much shorter than the TCP header. 

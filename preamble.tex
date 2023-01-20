@@ -5,8 +5,16 @@ a4paper,
 total={170mm,257mm},
 left=20mm,
 top=20mm,
+marginparsep=0mm,
 }
 \setlength\parindent{0pt} % get rid of the stupid indent
+
+% margin comments
+\reversemarginpar
+\newcommand{\marginNote}[1]{%
+\marginpar{\footnotesize\texttt{#1}}
+}
+
 
 % INCLUDE PACKAGES
 
@@ -28,6 +36,8 @@ top=20mm,
 \usepackage{circuitikz}
 
 \usepackage[label=corner]{karnaugh-map}
+
+\usepackage{lastpage}
 
 %%%%%%%%%%%%%%%%%%%%% FONTS %%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -55,7 +65,7 @@ top=20mm,
     
     \begin{FlushRight}
         \large{Thomas Boxall}\\
-        \textit{up2108121@myport.ac.uk}\\
+        \texttt{up2108121@myport.ac.uk}\\
         
     \end{FlushRight}
     \vspace{0.2\textheight}
@@ -69,6 +79,18 @@ top=20mm,
 pdftitle={#1},
 pdfauthor={Thomas Boxall}
 }}
+
+% HEADER FOOTER
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Thomas Boxall}
+\fancyhead[R]{} %put project title here
+\fancyfoot[R]{}
+\fancyfoot[C]{\textbf{\thepage}\ of \pageref*{LastPage}}
+\renewcommand{\footrulewidth}{0.4pt}
+\addtolength{\topmargin}{-1.59999pt} % This and line below changes margins to accomondate for headers and footers
+\setlength{\headheight}{13.59999pt}
 
 %%%%%%%%%%%%%%%%% MDFRAMED BOXES
 
@@ -195,21 +217,6 @@ frametitlebackgroundcolor=Plum!30
     \end{figure}
     \fancyhead[R]{\textsc{#1}}
 } % end of new command
-
-
-
-
-% HEADER FOOTER
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{Thomas Boxall}
-\fancyhead[R]{} %put project title here
-\fancyfoot[R]{}
-\fancyfoot[C]{\thepage}
-\renewcommand{\footrulewidth}{0.4pt}
-\addtolength{\topmargin}{-1.59999pt} % This and line below changes margins to accomondate for headers and footers
-\setlength{\headheight}{13.59999pt}
 
 
 %setup counter for counting classes

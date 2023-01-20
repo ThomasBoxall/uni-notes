@@ -1,38 +1,16 @@
 \lecture{LECTURE: Protocols Continued}{18-10-22}{09:00}{Amanda}{Zoom}
+\textit{NB: Connection Type notes moved \& merged with previous lecture (2022-10-11), for simplicity and clarity.}
 \section*{Protocols Recap}
 Protocols are sets of rules which are used for sending and receiving data across networks. They can provide addressing as well as management and verification of transmission. Often protocols are used together to form a suite of protocols, for example TCP/IP.
 
 \section*{TCP/IP}
 TCP/IP stands for Transmission Control Protocol/ Internet Protocols. It is a collection of protocols that govern the way that data travels from one machine to another across networks. Commonly it is found in the core of networks. In this term, networks could be a small LAN, enterprise environment networks, metropolitan networks or wide area networks. There are two major components of TCP/IP.
+
+At a high level, TCP/IP protocols work together to break the data into small pieces that can be efficiently handled by the network; communicates the destination of the data to the network; acknowledges receipt of data; reconstructs the data into its original form; and checks that the data is not corrupt. These individual tasks are completed between the different protocols which make up the suite of protocols called TCP/IP.
 \subsection*{Transmission Control Protocol}
-At the sending device, TCP breaks up the data into packets which the network can handle effectively. During transmission TCP does nothing. At the recipient node, TCP ensures all the packets have arrived and are in a fit state; TCP then reports the condition of the packets back to the sender node so it knows if it needs to re-transmit any of them. TCP will then reassemble the data into its sequence.
+\marginNote{reviewed 06-01-22} TCP, a connection-oriented subprotocol, ensures reliable data delivery through sequencing a checksums as well as providing flow control to the transmission. At the sending device, TCP breaks up the data into packets which the network can handle effectively. During transmission TCP does nothing. At the recipient node, TCP ensures all the packets have arrived and are in a fit state; TCP then reports the condition of the packets back to the sender node so it knows if it needs to re-transmit any of them. TCP will then reassemble the data into its sequence.
 \subsection*{Internet Protocol}
 IP is used to envelope the data, this provides a location for the sender and destination IP addresses to be added to the packet.
-
-\section*{Connection Types}
-There are two types of connection, connection-oriented and connectionless.
-\subsection*{Connection-Oriented}
-Connection oriented is where a dedicated connection is setup between the sender and receiver. This connection is setup for the duration of the transmission or a set amount of time, in the case of a lease line, then torn down and the infrastructure is available for other connections to use. There are five phases to connection oriented communications
-\begin{enumerate}
-    \item Connection established
-    \item Open connection
-    \item Transmit data
-    \item Close connection
-    \item Tear down connection \& make infrastructure available for other communications.
-\end{enumerate}
-The connection oriented connection type is often compared to a landline telephone system where a dedicated connection is setup between the two phones.
-
-As dedicated infrastructure is used, there is a high quality of service, low fixed delay and limited packet loss however this system isn't as efficient as other connection types because it requires time to setup and tear down the connection before and after the transmission. This connection type is also not an effective use of resources because only one connection can use that infrastructure at a time.
-
-\subsection*{Connectionless}
-Connectionless connections are where the packets are sent any route which the infrastructure deems suitable. This provides a lower quality of service than that of connection-oriented however connectionless is more efficient as multiple different communications can use the same infrastructure. 
-
-Once a packet has left the sender node, it travels until it reaches the first switch/router. Here the recipient node's IP address (contained in the packets header) is looked at and the switch/router decides which he most efficient route to transmit the packet down is. The packet is transmitted down this route. Internet Protocol is used here to manage the IP addresses written in the packets. 
-
-Connectionless transmissions have a number of drawbacks, as all the packets can go via completely different routes, there is a variable amount of delay on the packets arriving at the recipient node. Packets may also get lost whilst in transmission, and the packets may not all arrive in the correct order. The Transmission Control Protocol is used here to help rectify some of these problems. (see TCP section above)
-
-Connectionless connections are often compared to the postal system, whereby the post is sent from sorting office (switch/router) to sorting office until it arrives at the destination and we often don't think about which sorting offices the post will travel through.
-
 
 \section*{Packets}
 A packet is a single unit of data that is sent across a network. Data to be transmitted is broken into a number of packets before it is transmitted across the internet. Packets have multiple parts, one part is the \textit{header} in which, the sender and recipient IP addresses are stored as well as the code which is used to handle transmission errors and keep packets flowing.
@@ -55,4 +33,3 @@ The example below shows how an email message would be transmitted across a netwo
     \includegraphics*[width=0.8\textwidth]{assets/packet-transmission.png}
     \caption{Packet transmission across a network where packets travel from router to router}
 \end{figure}
-\textit{NB: Notes from practical session on 21-10-22 also included in this lectures notes as no new content covered.}

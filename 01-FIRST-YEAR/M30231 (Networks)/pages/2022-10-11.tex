@@ -9,23 +9,46 @@ Protocols are usually pieces of software that overcome problems raised by \texti
 \subsection*{What If}
 Networking protocols control the \textit{what if} conditions. What if a packet gets corrupt; the receiver can't keep up with the sender; the communications medium fails? 
 
-\section*{Connection-Oriented Protocol}
+\section*{Types of Protocols}
+There are two main types of protocols. Each have a number of examples which will be explored in future lectures.
+\subsection*{Connection-Oriented Protocols}
+Connection-oriented protocols works as follows:
 \begin{enumerate}
     \item Connection established
-    \item Exchange information
-    \item Disconnect
+    \item Open connection
+    \item Transmit data
+    \item Close connection
+    \item Tear down connection \& make infrastructure available for other communications.
 \end{enumerate}
 An example of the above would be a phone call, where the connection is established for the duration of the information exchange (phone call) and afterwards, the connection is `torn down'.
 
-This method makes use of virtual circuits. A virtual circuit is where the link between the sender and receiver is established and no other communications can use that transmission link for the duration of the transmission. After the sender and receiver finish communication, the virtual circuit is torn down and the transmission medium is available for another virtual circuit to claim.
-Virtual circuits give good quality of service when connected however they cost lots of money.
+This method makes use of virtual circuits, as part of this, they are able to have a high quality of service (QoS). This high QoS comes from extensive packet checking on recipt of a packet.
+
+There are a number of downsides to using connection oriented protocols: they take time to setup and tear down; whilst in use, no other transmissions are able to use that communications link, which is an inefficient use of resources; and due to the packet checking on receipt of a packet, there are additional time delays.
 
 TCP is an example of a connection-oriented protocol.
 
-\section*{Connectionless Protocol}
-This makes use of datagrams, where the two devices (sender and receiver) communicate over general use transmission mediums. This allows multiple different communications to be taking place simultaneously. However, using this protocol runs the risk of the packets not arriving at their destination. When we use this protocol, we hope that the packet will arrive at its destination.
+\subsection*{Connectionless Protocols}
+\marginNote{reviewed 2022-12-23}Connectionless protocols make use of general transmission mediums. This allows the sender to send the data into the network, and hope that it arrives at the receiver. The use of general transmission medium allows multiple transmissions to use the medium at once, with hardware redirecting traffic towards its destination. 
+
+Connectionless connections are often compared to the postal system, whereby the post is sent from sorting office (switch/router) to sorting office until it arrives at the destination and we often don't think about which sorting offices the post will travel through.
+
+The lack of a reserved transmission medium makes connectionless protocols much more efficient than connection-oriented. This makes connectionless protocols useful for situations in which data must be transmitted quickly, such as audio or video.
+
+There are a number of drawbacks to connectionless protocols. As all the packets can go via completely different routes, there is a variable amount of delay on each packet arriving at the recipient node. Packets may also get lost whilst in transmission, and the packets may not arrive in the correct order. The Transmission Control Protocol is used here to rectify some of these problems (\textit{see next lecture}). 
+
+\subsubsection*{How Connectionless Protocols Work}
+Once a packet has left the sender node, it travels until it reaches the first switch/router. Here the recipient node's IP address (contained in the packets header) is looked at and the switch/router decides which he most efficient route to transmit the packet down is. The packet is transmitted down this route. Internet Protocol is used here to manage the IP addresses written in the packets. 
 
 IP is an example of a connectionless protocols. 
+
+\section*{Virtual Circuits}
+\marginNote{added 2022-12-23}
+\define{Virtual Circuit}{Where an exclusive connection between the sender and reciver is established through software. No other transmissions are able to use the transmission medium during this time. After transmission is complete, the connection is `torn down' enabling other transmissions to claim that medium.}
+
+Virtual circuits give good quality of service when connected however they cost lots of money.
+
+Virtual Circuits are able to be configured such that they use limited bandwidth, making them more efficient. Several virtual circuits are able to be assigned to a single length of cable, with a single virtual circuit `claiming' the cable when it needs to transmit.
 
 \section*{Tradeoffs between VCs and Datagrams}
 With datagrams, no prior establishment or clearning is involved however with virtual circuits, this is required.
@@ -35,5 +58,3 @@ Datagrams require complete addressing information to be sent with each packet, w
 Packets sent via datagrams can all go different routes however packets sent through a virtual circuit all have to go the same route.
 
 Datagrams are discarded if congestion occurs, whereas virtual circuits must take more elaborate precautions.
-
-\section*{Why do we need TCP/IP}

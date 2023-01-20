@@ -21,12 +21,12 @@ Obviously, these aren't quick notes to write. If you pass them onto someone else
 ## Links to Notes
 GitHub's PDF viewer is pretty bad. There's a nifty hack where you embed the GitHub download link in a Google Drive Viewer URL which allows you to use their `/preview` PDF viewer to view PDFs hosted on GitHub. See below for links to my notes in that format.
 ### First Year
-* [M22731 (Comp Tutorial Level 4)](https://docs.google.com/viewer?url=https://github.com/ThomasBoxall/uni-notes/raw/main/01-FIRST-YEAR/M22731%20(Comp%20Tutorial%20Level%204)/M22731.pdf&embedded=true)
-* [M30220 (Core Computing Concepts)](https://docs.google.com/viewer?url=https://github.com/ThomasBoxall/uni-notes/raw/main/01-FIRST-YEAR/M30220%20(Core%20Computing%20Concepts)/M30220.pdf&embedded=true)
-  * [Item 2: Discovery Log](https://docs.google.com/viewer?url=https://github.com/ThomasBoxall/uni-notes/raw/main/01-FIRST-YEAR/M30220%20(Core%20Computing%20Concepts)/00-discovery-log-web/main.pdf&embedded=true)
-* [M30231 (Networks)](https://docs.google.com/viewer?url=https://github.com/ThomasBoxall/uni-notes/raw/main/01-FIRST-YEAR/M30231%20(Networks)/M30231.pdf&embedded=true)
-* [M30232 (Database Systems Development)](https://docs.google.com/viewer?url=https://github.com/ThomasBoxall/uni-notes/raw/main/01-FIRST-YEAR/M30232%20(Database%20Systems%20Development)/M30232.pdf&embedded=true)
-* [M30299 (Programming)](https://docs.google.com/viewer?url=https://github.com/ThomasBoxall/uni-notes/raw/main/01-FIRST-YEAR/M30299%20(Programming)/M30299.pdf&embedded=true)
+* [M22731 (Comp Tutorial Level 4)](https://thomasboxall.github.io/uni-notes/01-FIRST-YEAR/M22731%20(Comp%20Tutorial%20Level%204)/M22731.pdf)
+* [M30220 (Core Computing Concepts)](https://thomasboxall.github.io/uni-notes/01-FIRST-YEAR/M30220%20(Core%20Computing%20Concepts)/M30220.pdf)
+  * [Item 2: Discovery Log](https://thomasboxall.github.io/uni-notes/01-FIRST-YEAR/M30220%20(Core%20Computing%20Concepts)/00-discovery-log-web/main.pdf)
+* [M30231 (Networks)](https://thomasboxall.github.io/uni-notes/01-FIRST-YEAR/M30231%20(Networks)/M30231.pdf)
+* [M30232 (Database Systems Development)](https://thomasboxall.github.io/uni-notes/01-FIRST-YEAR/M30232%20(Database%20Systems%20Development)/M30232.pdf)
+* [M30299 (Programming)](https://thomasboxall.github.io/uni-notes/01-FIRST-YEAR/M30299%20(Programming)/M30299.pdf)
 * M30943 (Architecture and Operating Systems)
-  * [Computing](https://docs.google.com/viewer?url=https://github.com/ThomasBoxall/uni-notes/raw/main/01-FIRST-YEAR/M30943%20(Architecture%20and%20Operating%20Systems)/Computing/M30943.pdf&embedded=true)
-  * [Maths](https://docs.google.com/viewer?url=https://github.com/ThomasBoxall/uni-notes/raw/main/01-FIRST-YEAR/M30943%20(Architecture%20and%20Operating%20Systems)/Maths/M30943-maths.pdf&embedded=true)
+  * [Computing](https://thomasboxall.github.io/uni-notes/01-FIRST-YEAR/M30943%20(Architecture%20and%20Operating%20Systems)/Computing/M30943.pdf)
+  * [Maths](https://thomasboxall.github.io/uni-notes/01-FIRST-YEAR/M30943%20(Architecture%20and%20Operating%20Systems)/Maths/M30943-maths.pdf)
