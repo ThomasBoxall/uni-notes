@@ -1,0 +1,24 @@
+\lecture{Style}{15-11-22}{13:00}{Rich \& Co}{RB LT1}
+
+\section*{Cascading Style Sheets}
+Cascading Style Sheets (CSS) have been around since about 1997. They are a W3C standard for styling HTML and take the form of text files. The files contain rules which users define. 
+
+CSS is comprised of a number of rules.
+\begin{css}
+p{
+    background: red;
+    color: white;
+    padding: 1em;
+}
+\end{css}
+The rule above will turn the background colour to red, the text colour to white and give a padding on all sides of 1em to every \verb|p| element in the page.
+
+\subsection*{Selectors}
+There are a number of different ways in which we can define what elements in a HTML document we want to target with a given CSS rule.
+\begin{itemize}
+    \item \verb|p{}| will target all \verb|p| elements within the document. This is the same for any other element when the rule is written this way.
+    \item \verb|*{}| will target \textit{everything} in that HTML document.
+    \item \verb|#myid{}| will target the elements with the id of \verb|myid|. This is the same for any other ids used in the same way.
+    \item \verb|.myclass{}| will target all the elements with the class of \verb|myclass|. This is the same for any other classes used in the same way. 
+    \item \verb|classOne, classTwo| will target both \verb|classOne| and \verb|classTwo|. This is useful for when multiple components on a HTML page need styling in the same way.
+\end{itemize}

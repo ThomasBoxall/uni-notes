@@ -19,7 +19,7 @@ I'm typesetting my notes using LaTeX, with custom colourful boxes and syntax hig
 Obviously, these aren't quick notes to write. If you pass them onto someone else, please be a decent human and share a link to GitHub where they're attributed to me. I'm putting a lot of effort into making them nice and I will take them offline if they are plagiarized.  
 
 ## Links to Notes
-GitHub's PDF viewer is pretty bad. There's a nifty hack where you embed the GitHub download link in a Google Drive Viewer URL which allows you to use their `/preview` PDF viewer to view PDFs hosted on GitHub. See below for links to my notes in that format.
+See below for links to GitHub Pages of this Repo as GitHub's inbuilt PDF viewer is pretty bad.
 ### First Year
 * [M22731 (Comp Tutorial Level 4)](https://thomasboxall.github.io/uni-notes/01-FIRST-YEAR/M22731%20(Comp%20Tutorial%20Level%204)/M22731.pdf)
 * [M30220 (Core Computing Concepts)](https://thomasboxall.github.io/uni-notes/01-FIRST-YEAR/M30220%20(Core%20Computing%20Concepts)/M30220.pdf)
