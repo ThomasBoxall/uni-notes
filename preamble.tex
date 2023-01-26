@@ -42,6 +42,12 @@ marginparsep=0mm,
 \usepackage{caption}
 \captionsetup[figure]{labelformat=empty}
 
+\usepackage{pgfplots}
+
+% redefine \today to become yyyy-mm-dd format for use in the footer to show export date
+\usepackage{datetime2}
+% \renewcommand{\dateseparator}{-}
+
 %%%%%%%%%%%%%%%%%%%%% FONTS %%%%%%%%%%%%%%%%%%%%%%%%
 
 \usepackage{fontspec}
@@ -89,7 +95,7 @@ pdfauthor={Thomas Boxall}
 \fancyhf{}
 \fancyhead[L]{Thomas Boxall}
 \fancyhead[R]{} %put project title here
-\fancyfoot[R]{}
+\fancyfoot[L]{\footnotesize \texttt{compiled at} \\ \texttt{\DTMnow}}
 \fancyfoot[C]{\textbf{\thepage}\ of \pageref*{LastPage}}
 \renewcommand{\footrulewidth}{0.4pt}
 \addtolength{\topmargin}{-1.59999pt} % This and line below changes margins to accomondate for headers and footers
@@ -209,6 +215,7 @@ frametitlebackgroundcolor=Plum!30
 
 % COMMAND FOR RESEARCH HEADER
 \newcommand{\research}[3]{\newpage%
+    \addcontentsline{toc}{chapter}{ #1 (#2)}
     \textsc{\huge \textsc{#1}}
     \begin{figure}[H]
         \begin{minipage}[t]{0.4\textwidth}
@@ -498,3 +505,14 @@ frametitlebackgroundcolor=Gray!30
         {
     \end{circuitikz}%
     }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
+% add graph environment for graphs
+\newenvironment{graph}[1]{%
+    \begin{tikzpicture}
+    \begin{axis}[grid=both,ymin=-#1,ymax=#1,xmax=#1,xmin=-#1,xticklabel=\empty,yticklabel=\empty,
+      minor tick num=1,axis lines = middle,xlabel=$x$,ylabel=$y$,label style =
+      {at={(ticklabel cs:1.1)}}]}%
+    {\end{axis}
+    \end{tikzpicture}}% end def
