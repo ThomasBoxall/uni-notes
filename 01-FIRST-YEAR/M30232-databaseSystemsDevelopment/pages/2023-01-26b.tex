@@ -1,0 +1,171 @@
+\lecture{PRACTICAL: Security One}{26-01-23}{14:00}{Val \& Co}{FTC 3}
+
+T1. Create a new role. Call this new role your first name. It must be given a password and the ability to login. Copy your code and response below:
+\begin{sql}
+CREATE ROLE thomas WITH LOGIN PASSWORD 'highlySecure1!';
+\end{sql}
+
+T2. Try to use this new role by using the following code
+\begin{pseudo}
+psql -h localhost -p 5432 -U thomas
+\end{pseudo}
+Output:
+\begin{pseudo}
+Password for user thomas:
+psql: FATAL:  database "thomas" does not exist
+\end{pseudo}
+
+T3. As your normal user, create a new database that has the same name as your new role. This needs to be owned by the new user. 
+\begin{sql}
+CREATE DATABASE thomas OWNER thomas;
+\end{sql}
+Outputs:
+\begin{pseudo}
+CREATE DATABASE
+\end{pseudo}
+
+T4. Try to use this new role by using the following code
+\begin{pseudo}
+psql -h localhost -p 5432 -U thomas
+\end{pseudo}
+Outputs
+\begin{pseudo}
+Password for user thomas:
+\end{pseudo}
+T5. What does the prompt look like when you log in with your new role? Copy it below.
+\begin{pseudo}
+thomas=>
+\end{pseudo}
+
+T6. List the databases available. Copy the output below.
+\begin{pseudo}
+thomas=> \l
+                                   List of databases
+      Name      |     Owner      | Encoding | Collate |  Ctype  |   Access privileges
+----------------+----------------+----------+---------+---------+-----------------------
+ code_test      | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+ customer_db    | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+ dsd_22         | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+ mongo-2021-fix | mongo-2021-fix | UTF8     | C.UTF-8 | C.UTF-8 |
+ postgres       | postgres       | UTF8     | C.UTF-8 | C.UTF-8 |
+ template0      | postgres       | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres          +
+                |                |          |         |         | postgres=CTc/postgres
+ template1      | postgres       | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres          +
+                |                |          |         |         | postgres=CTc/postgres
+ thomas         | thomas         | UTF8     | C.UTF-8 | C.UTF-8 |
+ up2108121      | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+ up2108121_cw   | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+ week02         | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+(11 rows)
+\end{pseudo}
+
+T7. Connect to a different database and list the tables. Copy the output below.
+\begin{pseudo}
+thomas=> \c dsd_22
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
+You are now connected to database "dsd_22" as user "thomas".
+dsd_22=>
+\end{pseudo}
+
+T8. Select all of the data in one of the tables listed in T7. Copy the output below.
+\begin{sql}
+SELECT * FROM manifest;
+\end{sql}
+\begin{pseudo}
+ERROR:  permission denied for table manifest
+\end{pseudo}
+
+T9. As your normal user, make the new role a superuser with the following code:
+\begin{sql}
+ALTER ROLE thomas WITH SUPERUSER;
+\end{sql}
+
+T10. Make sure your new role is logged out with \verb|\q| and then log in again. What does the prompt now look like? Copy this prompt below
+\begin{pseudo}
+up2108121@up2108121:~ psql -h localhost -p 5432 -U thomas
+Password for user thomas:
+psql (11.18 (Debian 11.18-0+deb10u1))
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
+Type "help" for help.
+
+thomas=#
+\end{pseudo}
+
+T11. List the databases available. Copy the output below.
+\begin{pseudo}
+thomas=# \l
+                                   List of databases
+      Name      |     Owner      | Encoding | Collate |  Ctype  |   Access privileges
+----------------+----------------+----------+---------+---------+-----------------------
+ code_test      | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+ customer_db    | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+ dsd_22         | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+ mongo-2021-fix | mongo-2021-fix | UTF8     | C.UTF-8 | C.UTF-8 |
+ postgres       | postgres       | UTF8     | C.UTF-8 | C.UTF-8 |
+ template0      | postgres       | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres          +
+                |                |          |         |         | postgres=CTc/postgres
+ template1      | postgres       | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres          +
+                |                |          |         |         | postgres=CTc/postgres
+ thomas         | thomas         | UTF8     | C.UTF-8 | C.UTF-8 |
+ up2108121      | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+ up2108121_cw   | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+ week02         | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+(11 rows)
+\end{pseudo}
+
+T12. Connect to a different database and list the tables. Copy the output below.
+\begin{pseudo}
+\c up2108121_cw
+\dt
+
+List of relations
+Schema |       Name       | Type  |   Owner
+--------+------------------+-------+-----------
+public | boat             | table | up2108121
+public | boat_spec        | table | up2108121
+public | boatyard         | table | up2108121
+public | customer         | table | up2108121
+public | role             | table | up2108121
+public | service          | table | up2108121
+public | service_contents | table | up2108121
+public | service_item     | table | up2108121
+public | service_staff    | table | up2108121
+public | staff            | table | up2108121
+public | staff_role       | table | up2108121
+(11 rows)
+\end{pseudo}
+
+T12. Select all of the data in one of the tables listed in T7. Copy the output below.
+\begin{sql}
+\c dsd_22
+SELECT * FROM manifest;
+\end{sql}
+\begin{pseudo}
+ manifest_id | cust_ord_id | prod_id
+-------------+-------------+---------
+           1 |           1 |      84
+           2 |           2 |       1
+           3 |           3 |      91
+           4 |           4 |       5
+           5 |           5 |      97
+           6 |           6 |      74
+           7 |           7 |      88
+           8 |           8 |      97
+           9 |           9 |      66
+          10 |          10 |      43
+          11 |          11 |      78
+          12 |          12 |      24
+          13 |          13 |      69
+          14 |          14 |      25
+          15 |          15 |       4
+          16 |          16 |      32
+          17 |          17 |      66
+          18 |          18 |      13
+          19 |          19 |      83
+          20 |          20 |       4
+          21 |          21 |      45
+          22 |          22 |       4
+          23 |          23 |      93
+          24 |          24 |      45
+...
+\end{pseudo}

@@ -1,0 +1,89 @@
+\lecture{Graphs of Functions/ Straight Lines}{24-01-23}{10:00}{Zhaojie}{Zoom}
+
+It can be useful to represent functions pictorially, this is usually done by means of graphs of functions.
+
+These graphs have coordinate systems whereby: there are horizontal ($x$) and vertical ($y$) axis; an origin $(0,0)$; and coordinates are given in the form $(x,y)$ refer to a specific point on the graph. Coordinates can be both positive and negative. 
+\begin{figure}[H]
+    \centering
+    \begin{graph}{5}
+        \addplot+[mark=none] {x^2};
+        \addplot+[mark=none] {x/2};
+        \addplot+[mark=none] {x^3};
+    \end{graph}
+    \caption{\textcolor{blue}{$x^2$} | \textcolor{red}{$\frac{x}{2}$} | \textcolor{brown}{$x^3$}}
+\end{figure}
+
+\section*{Polynomial Functions}
+A polynomial of degree $n$ is a function of the form
+\[f(x) = a_nx^n+a_{n-1}x^{n-1}\]
+where the $a_i$ are real numbers (called the coefficient of the polynomial).
+
+The polynomial degree can be found by seeing what the highest power of $x$ there is in the function. For example
+\[f(x) = 4x^3-3x^2+2\]
+is a polynomial of degree 3.
+
+Functions in which the power of x is not an integer, are not polynomial functions. 
+
+\section*{Exponential Functions}
+Exponential functions are functions in which the base is always a positive number other than 1 where the variable $x$ is the power, for example
+\[g(x) = 2^x\]
+
+Exponential functions and polynomial functions plot completely different graphs.
+\begin{figure}[H]
+    \centering
+    \begin{graph}{5}
+        \addplot+[mark=none] {x^2};
+        \addplot+[mark=none] {2^x};
+    \end{graph}
+    \caption{\textcolor{blue}{$x^2$} | \textcolor{red}{$2^x$}}
+\end{figure}
+
+\section*{Linear Functions}
+Generally, when referring to linear functions, they will be in the form $y=mx+x$. This is a polynomial function of maximum degree 1. $m$ and $c$ are real constants. 
+\begin{figure}[H]
+    \centering
+    \begin{graph}{5}
+        \addplot+[mark=none] {2*x + 4};
+    \end{graph}
+    \caption{\textcolor{blue}{$2x+4$}}
+\end{figure}
+The graph of the function $f(x)=mx+x$ is always a straight line.
+
+\subsection*{Gradient Of the Straight Line}
+The value of gradient ($m$ in the equation $y=mx+c$) determines the steepness of the straight line. 
+If $m$ is positive then the line will rise as we move from left to right; if $m$ is negative the line will fall and if $m$ is 0, the line will be horizontal.
+\begin{figure}[H]
+    \centering
+    \begin{graph}{5}
+        \addplot+[mark=none] {2*x + 4};
+        \addplot+[mark=none] {-2};
+        \addplot+[mark=none] {-2*x+4};
+    \end{graph}
+    \caption{\textcolor{blue}{$2x+4$} | \textcolor{red}{$-2$} | \textcolor{brown}{$-2x+4$}}
+\end{figure}
+Parallel lines have the same gradient (same value of $m$). Lines parallel to the x-axis have equations of the form $y=k$ where $k$ is a constant. Lines parallel to the y-axis have equations $x=k$ where $k$ is a constant.
+
+To calculate gradient, you need to choose any two points on the line, look for points where the line crosses a grid mark on the paper as this makes it easier; then find the y-difference ($\Delta y$) and find the x-difference ($\Delta x$) then apply the following formula.
+\[\frac{\Delta y}{\Delta x} = m\]
+
+\subsection*{$y$ intercept}
+The point at which the line on a graph intercepts the vertical axis is called the $y$ intercept. In the equation $y=mx+c$, $c$ is the value of the $y$ intercept.
+
+In the graph below, the $y$ value at the intercept is $2$.
+\begin{figure}[H]
+    \centering
+    \begin{graph}{5}
+        \addplot+[mark=none] {x+2};
+    \end{graph}
+    \caption{\textcolor{blue}{$x+2$}}
+\end{figure}
+
+\subsection*{Finding the Equation of a Straight Line}
+\begin{example}{A striaght line passes through (7,1) and (-3,2). Find its equation}
+Gradient can be found from 
+\[m=\frac{1-2}{7-(-3)}=-\frac{1}{10}=-0.1\]
+Hence $y=-0.1x+c$\\
+Substitute values in for $x=7$ and $y=7$ into $y=0.1x+c$ we find $c$.\\
+\[1=-0.1 \times 7 + c \therefore c=1.7\]
+We can use the second point to verify this.
+\end{example}

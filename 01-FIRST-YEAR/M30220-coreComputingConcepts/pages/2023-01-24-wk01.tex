@@ -1,0 +1,96 @@
+\research{WEEK 1: Security 101}{25-01-23}{Flipped Learning Lecture}
+
+\define{Information Secuirty}{The preservation of confidentiality, integrity and availability of information}
+\define{Confidentiality}{The property that information is not disclosed to unauthorised individuals, entities or processes.}
+\define{Integrity}{The property of safeguarind the accuracy and completeness of assets.}
+\define{Availability}{The property of being accessible and usable upon demand by an authorsied entity.}
+
+Often when introducing systems which protect one of these characteristics, for example confidentiality, there is a trade off that another characteristic will lessen, for example integrity.
+
+\define{Assets}{Anything that has value to the organisation, its buisness operations and its continutiy.}
+\define{Threat}{A potential cause of an incident that may result in harm to a system or organisation.}
+Threats can be both internal (employee leaking confidential data) and external (criminal accessing data for financial gain).
+\define{Vulnerability}{A weakness of an assett; group of assets; or information system that can be exploited by one or more threats.}
+\define{Impact}{The result of an information security incident, caused by a threat, which affects assets.}
+Impacts can include the monetary loss incurred directly due to the loss of information; cost of responding to the incident; fines incurred for failing to adequately and reasonably failing to prevent such an incident; or to the brand or reputation of the brand which ultimately leads to loss of customers.
+\define{Risk}{The potential that a given threat will exploit vulnerabilities of an asset or group of assets and thereby cause harm to the organisation.}
+Investment in security isn't like other investments within an organisation as the investments are made to prevent loss of income as a result of an incident where other investments may be made to increase income. The decision to invest in security is often made when weighing up: the cost of dealing with a small security incident frequently versus the cost of dealing with one big security incident which will probably never happen but if it did then it would be catastrophic for the organisation. The process organisations go through to identify, assess and control risks is called \textit{risk management}. 
+
+\section*{Assets}
+Information assets are typically among the highest value assets of an organisation. 
+
+ISO 27005 defines primary and supporting assets. Where supporting assets are only of interest when assessing information security risks where compromises to the supporting assets may adversely impact the primary assets.
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{0.6\textwidth}{XX}
+        \textbf{Primary assets} & \textbf{Secondary Assets}\\
+        \hline
+        Business processes \& Activities & Hardware\\
+        Information & Software\\
+         & Network\\
+         & Personnel\\
+         & Site\\
+         & Organisation's Structure\\
+    \end{tabularx}
+\end{table}
+\subsection*{Information}
+Information assets are typically of the highest value to the organisation, this is especially the case for \textit{business critical information} without which the business would cease to operate. This is also the case of \textit{personal information}, which is the data of employees and customers which by law must be adequately protected. \textit{Strategic Information} should be protected, as releasing this information may loose that business a competitive advantage. \textit{High-cost information} is information whose gathering, storage, processing and transmission require a long time and/or involve a high acquisition cost, the impact of loosing this information may be that the high costs will be duplicated. 
+\subsection*{Business Processes}
+These are processes that contain secret processes; processes involving proprietary technology; processes that if modified can greatly affect the accomplishment of the organisation's mission; or processes that are necessary for the organisation to comply with contractual, legal or regulatory requirements. 
+
+Significant adverse impacts can arise from the failure to adequately document or protect those business processes. Organisations will commonly find out when an employee is off sick, on holiday or leaves the company that the processes they oversaw are not sufficiently documented.
+
+\subsection*{Hardware}
+This is the physical technology that: houses and executes the software; stores and carries the data; or provides the interface for data entry/ removal from the system. This includes, but is not limited to: desktops, servers, laptops, scanners, keyboards, monitors and hard drives.
+
+Physical security is just as important as physical access can often mean information can be readily extracted. Whilst the hardware may be relatively cheap, the information stored, processed or captured on it may be worth millions. 
+
+\subsection*{Software}
+Software, within the information security sphere, comprises of applications, operating systems, assorted command utilities. Software is arguably the most difficult information security component to secure as software development is often under resourced therefore information security is often only added as an afterthought rather than being embedded as an integral part. When designing the specification for new software, the security requirements should be included up-front, at the same time as core functionality. The exploitation of software errors in software programming accounts for a substantial proportion of attacks on information. 
+
+\subsection*{Networks}
+Distributed hardware and software components are connected through networks by routers, switches, relays, firewalls, etc. Collectively these manage the effective transmission of information between interconnected computing devices. Connections from within the network out onto the internet and to other partner networks, expose systems to attacks. Policies, as well as architectural and technical responses can be put in place to reduce the likely hood of these attacks succeeding. This can be done by examining ports, protocols and packets at the network perimeter to ensure that only the data which is required to support the business to function is being exchanged. Firewalls should be used to create a `buffer zone' between the internal business network and outside untrusted networks (including the internet). FIrewalls should be configured such that everything is denied by default and a white list is implemented which only allows the traffic through which is required. Inbound and outbound data at the perimeter should also be scanned for malicious content. 
+
+As well as protecting the perimeter, its also important to protect the internal network. Part of this is ensuring there is no direct routing between internal and external services. Network traffic should be monitored to detect (and then be able to react to) attempted or actual network attacks. Critical business systems should be segregated within the network and appropriate controls should be put in place to access these. Appropriate access controls to both wireless access points and to other hardware should be secure and \textit{should not} be left as default passwords. Network intrusion, prevention and detection tools should be deployed on the network and configured by qualified staff. Systems should automatically generate alerts which staff can manage as part of an incident response plan. 
+
+\subsection*{Personnel}
+Personnel is an often over-looked component of securing an information system. They themselves are susceptible to numerous vulnerabilities. People make mistakes on a daily basis that compromise information assets. They are also susceptible to social engineering, bribery and blackmail. Due to this, its important that all staff are adequately trained in how to perform their duties securely. Users have a critical role to play in their organisations security.
+
+Systematic delivery of training should be deployed to ensure employees are trained and to help to enforce a security conscious culture. Organisations should develop a comprehensive set of policies covering security and computer use topics, these policies should be written using plain business terms and reduce the use of technical jargon. New employees should be made aware of policies and the companies procedures as part of their induction. The effectiveness and awareness of training should be monitored. The organisation should strive to promote a security conscious culture where staff feel empowered to voice their concerns. Organisations should also be aware that mistakes will be made by even the most security conscious of individuals. 
+
+\section*{Subject or Object}
+Object of the attack is the entity which is being attacked, the target. 
+
+Subject of the attack is the entity carrying out the attack against the target. 
+
+Subject attacks the object.
+
+Computers can be compromised which can lead to it carrying out an attack on another machine. A person might be blackmailed or bribed to carry out an attack. In both both of these examples, the entity (computer/ person) is both the subject and object of an attack. 
+
+\section*{Information Security Governance}
+\define{Information Security Governance}{How organisations control, direct \& communicate their cyber risk management activities.}
+
+This will include a collection of policies, including but not limited to: overarching information security policy; ICT acceptable use policy; and other issue specific policies eg remote working. These policies must be continually reviewed and revised to keep up to date with the business needs and continually changing threats/ vulnerabilities.
+
+To remain viable, the security policies must state: the individual responsible for the policy; schedule of review; method of making recommendations for reviews; specific policy issuance and revision dates. 
+
+\define{Policy}{A principle or rule to guide decions and achieve rational outcomes. Should be broadly applicable to the widest possible set of circumstances and contexts supporting employees in deciding the most appropriate course of action in any given situation.}
+\define{Procedures}{A list of steps that constitute instructions for performing some action or accomplishing some task. These cannot exhaust all possible actions undertaken by an employee. }
+\define{Standards}{Detailed statements, quantifying what must be done to comply with policy. For eample, 'passwords must contain a mixture of 8 numbers, letters and special characters and they should be chaged if compromised'. Compliance with standards is also mandatory, they should state what should be done and how it should be achieved.}
+\define{Guidelines}{A set of reccomended actions to assist in complying with policy.}
+
+
+\subsection*{Disseminating Policies}
+Policies should be promoted/ supported by a security education, training and awareness (SETA) programme that helps employees do their jobs securely. 
+
+Not everyone in the organisation needs a formal degree or certification in information security, however some roles may require certain employees to hold information security academic qualifications or industry certification.
+
+Everyone in an organisation needs to be trained in information security. Training provides employees with hands on instruction with regards to their specific jobs which enables them to perform their duties securely. Management of information security can be developed in-house or outsourced to outside training providers. Training will often make use of safer environments rather than the production systems. 
+
+Security awareness is not intended to teach something new. Instead it aims to keep elements of information security at the forefront of employees minds, this is information which they already possess due to their education and training. Materials may be disseminated in a variety of creative means, such as posters, mouse mats or even coffee mugs. 
+
+\subsection*{NCSC Guidance}
+Good security governance should clearly link security activities to your organisation's goals and priorities; identify the individuals at all levels who are responsible for making security decisions \& empower them to do so; ensure accountability for decisions; ensure that feedback is provided to decision-makers on the impact of their choices; and fit into an organisation's wider approach to governance. Security needs to be considered alongside other business priorities such as health and safety or financial governance.
+
+\section*{Incidents Happen}
+Incidents will happen, we may be able to considerably reduce the likely hood of an incident, however not remove it completely, we can further reduce the risk by minimising the impact of the incident. This is done through incident response management. 
