@@ -48,12 +48,27 @@ marginparsep=0mm,
 \usepackage{datetime2}
 % \renewcommand{\dateseparator}{-}
 
+%%%%%%%%%%%%%%%%% CHAPTER CUSTOMISATION
+% Redefine \chapter so it has pagestyle fancy
+\makeatletter
+\renewcommand\chapter{\if@openright\cleardoublepage\else\clearpage\fi
+\thispagestyle{fancy}%
+\global\@topnum\z@
+\@afterindentfalse
+\secdef\@chapter\@schapter}
+\makeatother
+
+% Reformat the chapter header so it can be used within the \lecture command
+\usepackage[raggedright,bf,sf]{titlesec}
+\titlespacing*{\chapter}{0pt}{5pt}{10pt}
+\renewcommand*{\chaptername}{Session}
+
 %%%%%%%%%%%%%%%%%%%%% FONTS %%%%%%%%%%%%%%%%%%%%%%%%
 
 \usepackage{fontspec}
 \setmainfont[Ligatures=TeX]{Montserrat}
 \setsansfont[Ligatures=TeX]{Montserrat}
-\usepackage[raggedright,bf,sf]{titlesec}
+% \usepackage{titlesec}
 
 %%%%%%%%%%%%%%%%%%%%% PDF METADATA & TITLE %%%%%%%%%%%%%%%%%%%%%%
 
@@ -94,7 +109,7 @@ pdfauthor={Thomas Boxall}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{Thomas Boxall}
-\fancyhead[R]{} %put project title here
+\fancyhead[R]{\leftmark} %put project title here
 \fancyfoot[L]{\footnotesize \texttt{compiled at} \\ \texttt{\DTMnow}}
 \fancyfoot[C]{\textbf{\thepage}\ of \pageref*{LastPage}}
 \renewcommand{\footrulewidth}{0.4pt}
@@ -192,10 +207,8 @@ frametitlebackgroundcolor=Plum!30
 
 
 % COMMAND FOR LECTURE HEADER
-\newcommand{\lecture}[5]{\newpage%
-    \addtocounter{lectureCounter}{1}
-    \addcontentsline{toc}{chapter}{ #1 (#2)}
-    \textsc{\huge #1}\\ %title of session
+\newcommand{\lecture}[5]{%
+    \chapter{#1} %title of session
     \begin{figure}[H]
         \begin{minipage}[t]{0.2\textwidth}
             \textbf{\faCalendar}\ #2
@@ -210,13 +223,11 @@ frametitlebackgroundcolor=Plum!30
             \textbf{\faMapMarker}\ #5
         \end{minipage}\hfill
     \end{figure}
-    \fancyhead[R]{\textsc{#1}}
     } %end of new command
 
 % COMMAND FOR RESEARCH HEADER
-\newcommand{\research}[3]{\newpage%
-    \addcontentsline{toc}{chapter}{ #1 (#2)}
-    \textsc{\huge \textsc{#1}}
+\newcommand{\research}[3]{%
+    \chapter*{#1}
     \begin{figure}[H]
         \begin{minipage}[t]{0.4\textwidth}
             \textbf{\faCalendar}\ #2
@@ -225,13 +236,7 @@ frametitlebackgroundcolor=Plum!30
             \textbf{\faEye}\ #3
         \end{minipage}\hfill
     \end{figure}
-    \fancyhead[R]{\textsc{#1}}
 } % end of new command
-
-
-%setup counter for counting classes
-
-\newcounter{lectureCounter}
 
 
 % DEFINE CODE ENVIRONMENTS

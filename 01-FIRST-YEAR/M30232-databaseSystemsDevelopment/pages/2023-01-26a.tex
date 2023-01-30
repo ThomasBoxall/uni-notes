@@ -1,0 +1,31 @@
+\lecture{LECTURE: Database Security - Privileges}{26-01-23}{13:00}{Mark}{RB LT1}
+\textit{NB: This lecture was not delivered as scheduled due to staff sickness. Notes have been taken from the slides made available on Moodle.}
+
+\section*{Privileges}
+When we say `privileges' we are referring to what someone can do. We should never allow someone to do everything in a database, except the database admin.
+
+It is the role of the database administrator to work out what access levels users will need to the database. Deciding which privileges someone needs is complicated and often factors such as their job role or position in the company come into play. For example, what data does someone in the sales team need access to; or what access should a boss have, read only to everything? There may be multiple people within one department who have different levels of access. Ultimately, there isn't a nice `one size fits all' rule which can be applied to giving the right level of access. Levels of access have to be considered on a case-by-case basis.
+
+\section*{Setting Access Levels}
+Access can be granted on different levels and different activities. Users can be given access to entire databases, some tables or only some views. They can be given permissions to select data, insert data, update data or delete data. 
+
+Users can also be given access to create views however this is not always a good idea.
+
+\section*{Encryption}
+PostgreSQL has several different types of data security, this includes: PGP (Pretty Good Privacy); and Hashing (using md5, sha1, sha225, sha256, sha348 and sha512). By default encryption is disabled, to enable it the following line of code needs to be run.
+\begin{sql}
+CREATE EXTENSION pgcrypto;
+\end{sql}
+
+There are many benefits to using encryption, these include: the data is not available in clear text; and without the key the data cannot be read. However there are a number of downsides: encryption \& decryption is slow. Often it is worth taking the time to do this however there will be some data in the database which does not need to be encrypted, for example product names. 
+
+\subsection*{Salt}
+Salting adds some text to the value you need to encrypt. When salting is not used and the same encryption algorithm is used, all input data will be the same when encrypted, this can lead to security issues. However, if salting is used and a salt value is added before encryption, even if two input values are the same once encrypted (permitting they have different salt values) the outputs will be completely different.
+
+PostgreSQL has an inbuilt salt value generation function (\texttt{gen\_salt()}) which produces a random salt value. The hashing algorithm used is stored in the encrypted string produced by the algorithm so that the data can be decrypted; otherwise you wouldn't be able to decrypt data as the salt generation function is random. 
+
+\section*{SQL Injection}
+\define{SQL Injection}{A web security vulnerability that allows an attacker to interfere with the queries than an application makes to its database.}
+This needs to be stopped both at the application and database level. This is done by sanitising user inputs at the application level (can be done in any programming language) and by using views at the database level. 
+
+There are a number of methods which can be used to prevent SQL injection: using stored procedures, enforcing least privileges, and having multiple database users. 
