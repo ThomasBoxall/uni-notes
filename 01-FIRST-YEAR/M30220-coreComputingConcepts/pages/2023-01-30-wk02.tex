@@ -1,0 +1,44 @@
+\research{WEEK 2: Access Control}{2023-02-01}{Flipped Learning Lecture}
+
+\section*{Identification \& Authentication}
+Users must be instructed to enable user-specific access controls and given individual accountability for their actions.
+
+Claimed identities must be authenticated. This is the first line of defence for the system and safeguards against unauthorised use (internal and external). Traditional passwords are the most common means of authentication in digital systems, they are conceptually simple for designers \& users, and can provide good protection if used correctly; however the protection they provide is often compromised by users. 
+
+\section*{Passwords}
+Passwords have a number of vulnerabilities: it is easy to badly select one; they get written down; infrequently or never changed; same password used for multiple systems; only require them at the start of a session; they can be forgotten; and they can be shared. 
+
+The traditional defence against password guessing (lock the user out after three failed password attempts) enables a form of Denial of Service (whereby the attacker disrupts availability by deliberately locking out users).
+
+\subsection*{NCSC Password Guidance}
+The National Centre for Cyber Security encourage organisations' to reduce reliance on users recall of large numbers of complex passwords. They have published 6 tips.
+\begin{enumerate}
+    \item Reduce your organisations reliance on passwords
+    \item Implement technical solutions
+    \item Protect all passwords
+    \item Help users cope with password overload
+    \item Help users to generate better passwords
+    \item Use training to support key messages
+\end{enumerate}
+
+\section*{Access Control}
+\define{Identity}{The properties of an individual or resourece that can be used to identify uniquely one individual or resource that can be used to idnetify uniquely one individual or resource.}
+\define{Authentication}{Ensuring that the identity of a subject or resource is the one claimed.}
+\define{Authorisation}{The process of checking the authenication of an individual or resource to etablish their authorised use of, or access to information or other assets.}
+\define{Accounting}{Ensures that user activities can be tracked back to them.}
+\define{Audit}{Formal or informa review of actions, processes, polices and procedures.}
+\define{Compliance}{Working in accordance with the actions, processes, policies and procedures laid down necessarily having independednt reviews.}
+
+
+\section*{Authentication}
+\subsection*{Factors of Authentication}
+There are three widely used authentication mechanisms (factors).
+
+\textbf{Something a supplicant knows} which includes: personal identification numbers (PIN); passwords; passphrases; and security questions/ answers.
+
+\textbf{Something a supplicant has} which includes: dumb cards (magnetic stripe ID cards and ATM cards); smart cards (chip and pin cards); and security token (key fob, card reader etc.)
+
+\textbf{Something a supplicant is} which includes: fingerprint; palmprint; retina/iris scanner; voice; keyboard kinetic measurements.
+
+\subsection*{Strong Authentication}
+Strong customer authentication is a procedure based on the use of two or more of the following elements - categorised as knowledge, ownership and inherence: something only the supplicant knows; something only the supplicant possesses; and something the supplicant is. In addition, the elements must be mutually independent (which means breach of one doesn't compromise the other).

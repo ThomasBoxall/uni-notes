@@ -48,6 +48,9 @@ marginparsep=0mm,
 \usepackage{datetime2}
 % \renewcommand{\dateseparator}{-}
 
+% better table padding
+\renewcommand{\arraystretch}{1.6}
+
 %%%%%%%%%%%%%%%%% CHAPTER CUSTOMISATION
 % Redefine \chapter so it has pagestyle fancy
 \makeatletter
@@ -61,7 +64,7 @@ marginparsep=0mm,
 % Reformat the chapter header so it can be used within the \lecture command
 \usepackage[raggedright,bf,sf]{titlesec}
 \titlespacing*{\chapter}{0pt}{5pt}{10pt}
-\renewcommand*{\chaptername}{Session}
+\renewcommand*{\chaptername}{Page}
 
 %%%%%%%%%%%%%%%%%%%%% FONTS %%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -227,7 +230,7 @@ frametitlebackgroundcolor=Plum!30
 
 % COMMAND FOR RESEARCH HEADER
 \newcommand{\research}[3]{%
-    \chapter*{#1}
+    \chapter{#1}
     \begin{figure}[H]
         \begin{minipage}[t]{0.4\textwidth}
             \textbf{\faCalendar}\ #2
