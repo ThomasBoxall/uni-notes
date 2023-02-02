@@ -1,0 +1,281 @@
+\lecture{PRACTICAL: Security Two}{2023-02-02}{14:00}{Mark \& Co}{FTC 3}
+
+T1. Create 2 new roles and give them both login ability and passwords. You can choose the role names. (This was done in last week's practical. If you can't log in, look at the error messages and fix it.)
+
+\begin{sql}
+CREATE ROLE user1 WITH LOGIN PASSWORD 'password1';
+CREATE DATABASE user1 OWNER user1;
+
+CREATE ROLE user2 WITH LOGIN PASSWORD 'password2';
+CREATE DATABASE user2 OWNER user2;
+\end{sql}
+
+T2. Login with one of the new roles Get a list of all the databases with \verb|\l|. Can you see other databases?
+\begin{pseudo}
+up2108121@up2108121:~\$ psql -h localhost -p 5432 -U user1
+Password for user user1:
+psql (11.18 (Debian 11.18-0+deb10u1))
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
+Type "help" for help.
+
+user1=> \l
+                                   List of databases
+      Name      |     Owner      | Encoding | Collate |  Ctype  |   Access privileges
+----------------+----------------+----------+---------+---------+-----------------------
+ code_test      | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+ customer_db    | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+ dsd_22         | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+ mongo-2021-fix | mongo-2021-fix | UTF8     | C.UTF-8 | C.UTF-8 |
+ postgres       | postgres       | UTF8     | C.UTF-8 | C.UTF-8 |
+ template0      | postgres       | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres          +
+                |                |          |         |         | postgres=CTc/postgres
+ template1      | postgres       | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres          +
+                |                |          |         |         | postgres=CTc/postgres
+ thomas         | thomas         | UTF8     | C.UTF-8 | C.UTF-8 |
+ up2108121      | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+ up2108121_cw   | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+ user1          | user1          | UTF8     | C.UTF-8 | C.UTF-8 |
+ user2          | user2          | UTF8     | C.UTF-8 | C.UTF-8 |
+ week02         | up2108121      | UTF8     | C.UTF-8 | C.UTF-8 |
+(13 rows)
+\end{pseudo}
+
+T3. Connect to \verb|dsd_22| and list the tables with \verb|\dt|. Can you see all the tables in the \verb|dsd_22| database?
+\begin{pseudo}
+user1=> \c dsd_22
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
+You are now connected to database "dsd_22" as user "user1".
+dsd_22=> \dt
+            List of relations
+ Schema |    Name    | Type  |   Owner
+--------+------------+-------+-----------
+ public | category   | table | up2108121
+ public | cust_order | table | up2108121
+ public | customer   | table | up2108121
+ public | manifest   | table | up2108121
+ public | product    | table | up2108121
+ public | role       | table | up2108121
+ public | staff      | table | up2108121
+(7 rows)
+\end{pseudo}
+
+T4. Run a \verb|SELECT| statement on the product table. Use the following command:
+\begin{sql}
+SELECT * FROM PRODUCT WHERE PROD_ID <= 10;
+\end{sql}
+
+\begin{pseudo}
+ERROR:  permission denied for table product
+\end{pseudo}
+
+T5. As your normal user, the \verb|upxxxxxx| user, grant the new role the ability to run \verb|SELECT| commands on the product table.
+\begin{sql}
+GRANT select 
+ON product
+TO user1;
+\end{sql}
+
+T6. As the new role, can you now run the command you ran in step 4? Copy the response below.
+\begin{pseudo}
+ prod_id |               prod_name                | prod_cat
+---------+----------------------------------------+----------
+       1 | Multi-layered multi-tasking initiative |        2
+       2 | Operative analyzing task-force         |        1
+       3 | Exclusive client-server array          |        5
+       4 | Balanced client-server product         |        6
+       5 | Exclusive background website           |        5
+       6 | Pre-emptive holistic intranet          |        6
+       7 | Re-engineered cohesive methodology     |        1
+       8 | Robust directional projection          |        2
+       9 | Inverse transitional infrastructure    |        4
+      10 | Multi-tiered explicit paradigm         |        6
+(10 rows)
+\end{pseudo}
+
+T7. Run the following code to \verb|INSERT| a new product:
+\begin{sql}
+INSERT INTO PRODUCT (PROD_NAME,PROD_CAT) VALUES ('The Amazing New Thingy',3);
+\end{sql}
+\begin{pseudo}
+ERROR:  permission denied for table product
+\end{pseudo}
+
+T8. Run the following code
+\begin{sql}
+SELECT PROD_NAME, PROD_ID, PROD_CAT FROM PRODUCT WHERE PROD_NAME = 'The Amazing New Thingy';
+\end{sql}
+\begin{pseudo}
+ prod_name | prod_id | prod_cat
+-----------+---------+----------
+(0 rows)
+\end{pseudo}
+
+T9. Give both the new roles the \verb|UPDATE| privilege on the role table.
+\begin{sql}
+GRANT update
+ON role
+TO user1, user2;
+\end{sql}
+
+T10. List the \verb|role_names| that are stored in the role table. Copy below:
+\begin{sql}
+SELECT role_name FROM role;
+\end{sql}
+\begin{pseudo}
+ERROR:  permission denied for table role
+\end{pseudo}
+
+T11. Run the following command as the second new role. (Not the one you did the initial tests on)
+\begin{sql}
+UPDATE ROLE SET ROLE_NAME = 'Hygiene Expert' where role_name = 'Cleaner';
+\end{sql}
+\begin{pseudo}
+ERROR:  permission denied for table role
+\end{pseudo}
+To give permission to be able to \verb|UPDATE|, the user must also have permission to \verb|SELECT|. This is the same as for \verb|DELETE|.
+\begin{sql}
+-- sql to update permission of user2 to be able to select
+GRANT select ON role TO user2;
+\end{sql}
+Now run the SQL provided again.
+\begin{pseudo}
+UPDATE 1
+\end{pseudo}
+
+T12. List the \verb|role_names| that are stored in the role table. Do you have a new role? Is this the same \verb|role_id| value?  Copy below:
+\begin{sql}
+SELECT role_name, role_id from role;
+\end{sql}
+\begin{pseudo}
+    role_name    | role_id
+-----------------+---------
+ Order Picker    |       1
+ Final Packer    |       2
+ Post Sales      |       3
+ Customer Retain |       4
+ Misc            |       5
+ Pre Sales       |       7
+ Hygiene Expert  |       6
+(7 rows)
+\end{pseudo}
+
+T13. As your normal user, (the superuser), create a view that selects the customer first and last names and their email addresses. Call the view \verb|cust_email|. Copy your code, once you have run it successfully, below. (Views were covered in lecture 9). Copy your code and the response below.
+\begin{sql}
+CREATE VIEW cust_email AS SELECT cust_fname, cust_lname, email FROM customer;
+\end{sql}
+\begin{pseudo}
+CREATE VIEW
+\end{pseudo}
+\begin{sql}
+SELECT * FROM cust_email;
+\end{sql}
+\begin{pseudo}
+ cust_fname    |    cust_lname    |               email
+-----------------+------------------+-----------------------------------
+ Jobey           | Boeter           | jboeter0@mail.ru
+ York            | O'Deegan         | yodeegan1@nydailynews.com
+ Penelope        | Hexter           | phexter2@cbslocal.com
+ Chadd           | Franz-Schoninger | cfranzschoninger3@google.com.hk
+ Vikky           | Eke              | veke4@elegantthemes.com
+ Marie-françoise | Currier          | acurrier0@economist.com
+ Bénédicte       | Dozdill          | cdozdill1@amazon.de
+ Görel           | Douthwaite       | edouthwaite2@feedburner.com
+ Bérengère       | Menendez         | amenendez3@dell.com
+...
+(35 rows)
+\end{pseudo}
+
+T14. As the first new role, run a SELECT on this new role. Copy the response below. 
+\begin{sql}
+SELECT * FROM cust_email;
+\end{sql}
+\begin{pseudo}
+ERROR:  permission denied for view cust_email
+\end{pseudo}
+
+T15. \verb|GRANT| the ability for the 2nd new role to run the view. Remember that you run a \verb|SELECT *| on the view to get the data displayed.
+\begin{sql}
+GRANT select ON cust_email TO user2;
+\end{sql}
+\begin{pseudo}
+GRANT
+\end{pseudo}
+
+T16. Run the \verb|SELECT *| on the view for both of your new roles. Copy the outputs below.\\
+\texttt{user1}
+\begin{sql}
+SELECT * FROM cust_email;
+\end{sql}
+\begin{pseudo}
+ERROR:  permission denied for view cust_email
+\end{pseudo}
+\texttt{user2}
+\begin{sql}
+SELECT * FROM cust_email;
+\end{sql}
+\begin{pseudo}
+ cust_fname    |    cust_lname    |               email
+-----------------+------------------+-----------------------------------
+ Jobey           | Boeter           | jboeter0@mail.ru
+ York            | O'Deegan         | yodeegan1@nydailynews.com
+ Penelope        | Hexter           | phexter2@cbslocal.com
+ Chadd           | Franz-Schoninger | cfranzschoninger3@google.com.hk
+ Vikky           | Eke              | veke4@elegantthemes.com
+ Marie-françoise | Currier          | acurrier0@economist.com
+ Bénédicte       | Dozdill          | cdozdill1@amazon.de
+ Görel           | Douthwaite       | edouthwaite2@feedburner.com
+ Bérengère       | Menendez         | amenendez3@dell.com
+...
+(35 rows)
+\end{pseudo}
+
+T17. Using \verb|REVOKE|, remove the ability for the new user to run \verb|SELECT *| on the view. Copy the code used and the responses below.
+\begin{sql}
+REVOKE select ON cust_email FROM user1, user2;
+\end{sql}
+\begin{pseudo}
+REVOKE
+\end{pseudo}
+
+T18. Try running the \verb|SELECT *| as both users again. Copy the outputs below:
+\texttt{user1}
+\begin{sql}
+SELECT * FROM cust_email;
+\end{sql}
+\begin{pseudo}
+ERROR:  permission denied for view cust_email
+\end{pseudo}
+\texttt{user2}
+\begin{sql}
+SELECT * FROM cust_email;
+\end{sql}
+\begin{pseudo}
+ERROR:  permission denied for view cust_email
+\end{pseudo}
+
+T19. When logged in as the first new role, remove the 2nd new role. Copy the responses below:
+\begin{sql}
+DROP ROLE user2;
+\end{sql}
+\begin{pseudo}
+ERROR:  permission denied to drop role
+\end{pseudo}
+
+T20. As your normal user, the upxxxxxx one, remove both of the new roles. Copy the responses below:
+\begin{sql}
+-- user1
+REVOKE all ON role FROM user1;
+REVOKE all ON product FROM user1;
+DROP DATABASE user1;
+DROP ROLE user1;
+
+-- user2
+REVOKE all ON role FROM user2;
+REVOKE all ON product FROM user2;
+DROP DATABASE user2;
+DROP ROLE user2;
+\end{sql}
+\begin{pseudo}
+DROP ROLE
+DROP ROLE
+\end{pseudo}
