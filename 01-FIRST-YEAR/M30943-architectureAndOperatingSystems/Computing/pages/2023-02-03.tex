@@ -1,0 +1,43 @@
+\research{WORKSHEET 11 IAS Computer}{2023-02-03}{Worksheet}
+
+\begin{enumerate}
+    \item \textbf{What are the three key concepts of Von Neumann architecture?}\\
+    There is a single read-write memory; the memory is addressable; and execution of instructions occurs in a sequential fashion unless explicitly modified.
+    \item \textbf{What is a stored-program computer?}\\
+    A stored program computer is one where the instructions which get executed are stored within memory then loaded into the Central Processing Unit (CPU) one-by-one at run-time.
+    \item \textbf{What are the four main components of any general purpose computer?}\\
+    Peripherals; communication lines; storage and processing
+    \item \textbf{Why are registers used in CPU?}\\
+    Registers are used within the CPU to hold data which is being transmitted from one component of the CPU to another. They have a very small capacity and transmit data at very high rates.
+    \item \textbf{What is the overall function of a processor's control unit?}\\
+    The control unit synchronises actions within the CPU and signals to components of the CPU if they need to enable/ disable a flag. This is used, for example, to signal to the ALU that the next operation it is performing is a subtraction.
+    \item \textbf{Explain the use of the following registers}
+    \begin{enumerate}
+        \item \textbf{Memory Buffer Register (MBR)}\\
+        Contains the word which is being sent to/ received from main memory; or being sent to/ received from input \& output devices.
+        \item \textbf{Memory Address Register (MAR)}\\
+        Contains the address in memory of the word to be written to or read into the MBR.
+        \item \textbf{Instruction Register (IR)}\\
+        Contains the opcode (8-bits) of the instruction currently being executed.
+        \item \textbf{Instruction Buffer Register (IBR)}\\
+        Holds the right hand instruction while the left hand instruction from the same word is being executed.
+        \item \textbf{Program Counter (PC)}\\
+        Holds the address in memory of the next instruction pair to be fetched.
+        \item \textbf{Accumulator (AC) \& Multiplier Quotient (MQ)}\\
+        AC holds temporary operands and results from the ALU (\textit{Arithmetic \& Logic Unit}). MQ is used if the result from the ALU is too big to fit in the AC.
+    \end{enumerate}
+    \item \textbf{What are the main two phases of instruction execution}\\
+    Fetch \& Execute
+    \item \textbf{Explain the Fetch cycle and the registers that are used in that?}\\
+    The program counter holds the address of the next instruction. Copy the contents of the PC to the MAR. Increment PC. Load instruction pointed to by the MAR to the MBR.
+    \item \textbf{Explain the Execute cycle and the registers that are used in that?}\\
+    Fetch data from the address pointed to by the operand or perform the function stated in the opcode.
+    \item \textbf{What is a hardwired program?}\\
+    A program where the individual logic gates and circuitry are manipulated to give the desired inputs.
+    \item \textbf{Explain the idea of programming in software}\\
+    Programming in software works by writing the code in a high level language (for example, C, Python, etc). This code is then translated to machine code which can be processed by the hardware.
+    \item \textbf{What are the differences between programming in hardware and software?}\\
+    Programming in hardware directly manipulates the electrical circuitry whereas programming in software involves additional signals before the electrical circuits can be manipulated.
+    \item \textbf{What do control signals do?}\\
+    Control signals are used to signal to different components within the CPU to instruct them to perform their actions and to synchronise them.
+    \end{enumerate}
