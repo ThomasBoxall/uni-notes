@@ -42,3 +42,82 @@ There are three widely used authentication mechanisms (factors).
 
 \subsection*{Strong Authentication}
 Strong customer authentication is a procedure based on the use of two or more of the following elements - categorised as knowledge, ownership and inherence: something only the supplicant knows; something only the supplicant possesses; and something the supplicant is. In addition, the elements must be mutually independent (which means breach of one doesn't compromise the other).
+
+\section*{Biometrics}
+Biometric technologies are evaluated on three basic criteria.
+
+\textbf{False Rejection Rate (FRR)} is the percentage of identification instances in which authorised users are denied access. This is a Type I error.
+
+\textbf{False Accept Rate (FAR)} is the percentage of identification instances in which unauthorised users are allowed access. This is a Type II error.
+
+\textbf{Crossover Error Rate (CER)} is the level at which the number of false rejections equals the false acceptances. This is the Equal Error Rate (EER).
+
+\subsection*{Biometric System Requirements}
+There are a number of requirements which biometric systems have.
+
+\textbf{Universality} - every individual in the population should possess the trait.
+
+\textbf{Distinctiveness} - the ability of the trait to sufficiently differentiate between any two persons.
+
+\textbf{Persistence} - the trait shouldn't change too much over time on the individual in question.
+
+\textbf{Collectability} - the trait should be easy to collect or be measurable.
+
+\textbf{Performance} - within a variety of operational and environmental conditions, high recognition accuracy and speed should be achievable. 
+
+\textbf{Acceptability} - the biometric identifier should have a wide public acceptance and the device used for measurement should be harmless.
+
+\textbf{Circumvention} - it should be difficult to spoof the characteristic using fraudulent methods.
+
+\section*{Access Control}
+Access privileges are specified and subjects' access to objects are determined through a security policy. There are a number of different access control policies.
+
+\textbf{Discretionary Access Control} Policy (DAC) - controls access based on identity.
+
+\textbf{Mandatory Access Control} Policy (MAC) - controls access based upon security labels.
+
+\textbf{Role-Based Access Control} Policy (RBAC) - controls access based on roles.
+
+\textbf{Attribute-Based Access Control} Policy (ABAC) - controls access based on attributes.
+
+\subsection*{File System Permissions}
+By default, file systems come with four permissions: read, write, execute, and none of the above.
+
+\subsection*{Privileged Access}
+The conventional name for the user with top-level access is system or application administrator (sysadmin for short). They can: enrol new users; modify user access right; remove user access rights. They can also modify groups or levels of privilege, rebuild the system, erase data, grant or deny access to applications; change passwords; and even alter or destroy event logging or auditing data.
+
+These accounts have great power and wide-ranging capabilities and their use must be tightly controlled and safeguarded. Their power to disrupt operations, accidental or otherwise is enormous. 
+
+\subsection*{Security Policies}
+Access privileges are specified and subjects' access to objects are determined through a security policy. There are a number of different access control policies.
+\subsubsection*{Discretionary Access Control (DAC)}
+This controls access based on identity. It is at the discretion of the owner and the permissions are often shown as a matrix.
+
+Alternatively an Access Control List (ACL) can be used. These store the access rights to an object within the list.
+
+Alternatively to either of the above, a Capability List (CL or C-List) can be used to store access rights. These store all the access to the rights to an object within a subjects unique list. 
+
+\subsubsection*{Mandatory Access Control (MAC)}
+This controls access based upon security labels. There is less individual in this as the OS has overall control. Rules are used for defining how the subject can behave. It uses sensitivity (or security) labels to define access rights (these may include: top secret; secret; classified; and unclassified).
+
+MAC makes use of a number of access control models.
+
+\textbf{Dell-LaPadula Confidentiality Model} which provides a "no read up no write down" system. This enables users to read everything below them, write to their level of security and have no access to anything above them.
+
+\textbf{Biba Integrity model} which provides a "no write up, no read down" system.
+
+\textbf{Clark-Wilson Integrity Model} which has a number of rules: no changes by unauthorised subjects; and no unauthorised changes by authorised subjects. Maintenance of internal consistency (system does what is expected without exception) and external consistency (data in the system is consistent with similar data in outside world) is important here.
+
+\textbf{Graham-Denning Access Control Model} has three key parts: objects, subjects and rights.
+
+\textbf{Brewer-Nash Model} in which subjects can only access one of two conflicting sets of data (which prevents conflicts of interest). 
+
+\subsubsection*{Role Based Access Control (RBAC)}
+This policy is newer than DAC and MAC. It is a centrally administered set of controls through which permissions are assigned based on roles. Users who perform a similar function are grouped together (for example Moodle has student access and lecturer access). It is a useful model for companies with high employee turnover. 
+
+Each user can be a member of many roles and each role can have many users as members.
+
+A permission can be assigned to many roles. Each role can have many permissions. 
+
+\subsubsection*{Attribute Based Access Control (ABAC)}
+This generalises access control based on the role attribute of users. It uses various other attributes of the users including their environment and information assets to determine permissions. 
