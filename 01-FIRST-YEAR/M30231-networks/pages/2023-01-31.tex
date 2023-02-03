@@ -1,0 +1,70 @@
+\lecture{LECTURE: Wide Area Networks II}{2023-01-31}{09:00}{Amanda}{Zoom}
+
+\section*{Asynchronous Transfer Mode}
+Asynchronous Transfer Mode (ATM) is a telecommunications standard defined by ANSI and ITU-T which operates at the data-link layer. It is used within Wide Area Networks (WANs), never seen in LANs and supports the transfer of data within a range of guarantees for quality of service. It is a core protocol used in the SONET/SDH backbone where it utilises fibre optic protocols.
+
+ATM provides integrated voice, video and data transmissions, all at high data rates. ATM was developed to move on from just transferring text from one device to another. 
+
+\subsection*{ATM as a Form of Cell Relay}
+Data to be transmitted using ATM is segmented into 53-octet cells. These 53-octets comprise of 48-octets for transmission and 5-octet headers. If the data to be transmitted is not 48-octets in length, the data will be padded out to fill 48-octets. 
+
+The cells are then relayed across the network and reassembled at the destination. There is an unpredictable amount of time between the arrival of the individual cells, as ATM works in connectionless environments. 
+
+ATM cells get multiplexed with other cells during transmission. 
+
+\subsection*{ATM Architecture}
+ATM has a layered architecture. Each different usage of ATM has its own ATM Adaptation Layer (AAL), these break down as follows. Layer 1 is for voice and video (where there is a constant bit rate); layer 2 is for compressed voice and video (where there is a variable bit rate); layers 3 and 4 are for general user data; and layer 5 is for TCP/IP etc. Layers 3, 4 and 5 have an unspecified bit rate.
+
+\subsection*{Traffic Engineering or Quality oF Service}
+Quality of Service (QoS) can be configured at each ATM interface. This allows us to set a Constant Bit Rate (CBR) which has a Peak Cell Rate (PCR) that can be sustained for a maximum interval before being problematic.
+
+Alternatively, a Variable Bit Rate (VBR) can be used which has a Sustainable Cell Rate (SCR) that can peak at a certain level. 
+
+The Available Bit Rate (ABR) specifies a minimum guaranteed bit-rate.
+
+The Unspecific Bit Rate (UBR) will allocate traffic to all remaining transmission capacity.
+
+\subsection*{Uses of ATM}
+ATM technology is generally not brought out to the desktop or other "edge" parts of the network as it is not cost effective. ATM resides in the high-speed core portion of the network; supporting voice, compressed video; and data transmission. A major feature of ATM is its built-in QoS.
+
+\subsection*{Advantages of ATM}
+ATM meets international an industry standards and it operates over most current high-speed WAN circuits. It directly supports QoS for multimedia transmission needs. It is cost competitive within the core of the network.
+
+\subsection*{Disadvantages of ATM}
+There is a complex operation and configuration which must be undertaken before it can be used. It is somewhat inefficient (as it has a `cell tax' - cells \textit{must} be 53-octet in size). ATM is not currently cost competitive at the `edges' of the network. 
+
+\subsection*{Design Choices}
+ATM was designed to provide virtual circuit services across highly reliable media, with no error checks and re-transmissions of the data. It optimises the connectionless generality of IP.
+
+
+\section*{Transparent LAN Services}
+The \textit{transparent} in Transparent LAN Services (TLS) means you don't see or have to deal with it. This means you don't have to deal with the WAN or provision for frame relay, ATM, leased lines etc. With TLS, a carrier bridges between your geographically separated LAN segments. This makes them all appear to be one big LAN and decreasing subscriber WAN management burdens.
+
+Carrier bridges are often ATM Circuits, which is a good example of the heavy reliance on ATM by carriers.
+
+Ethernet access to carrier's ATM networks is called "Metro Ethernet" or "Ethernet Transport" and it is available in all Ethernet data rates. 
+
+\section*{Overview of Wired WAN Technologies}
+PPP: Point-to-Point Protocol\\
+MPLS: Multiprotocol Label Switching
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{XXX}
+        \textbf{Functions at OSI layer 1} & \textbf{Functions at OSI layer 2} & \textbf{Primary Media}\\
+        \hline
+        \hline
+        Dial-up over PSTN & PPP & Copper\\
+        \hline
+        ISDN & PPP or Frame Relay & Copper \\
+        \hline
+        DSL & PPP, Ethernet or ATM & Copper or Fibre Optic\\
+        \hline
+        Cable Broadband & Cable broadband, Ethernet & Copper and fibre Optic\\
+        \hline
+        T/E-Carrier & PPP, Frame Relay or ATM & Copper or Fibre Optic\\
+        \hline
+        SONET/ SDH & PPP, Frame Relay, ATM, MPLS & Fibre Optic\\
+        \hline
+    \end{tabularx}
+    \caption*{Overview of wired WAN technology}
+\end{table}
