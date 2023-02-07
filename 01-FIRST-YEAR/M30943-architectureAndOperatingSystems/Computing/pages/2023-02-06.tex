@@ -1,0 +1,341 @@
+\lecture{Fetch Execute Cycle}{2023-02-06}{16:00}{Farzad}{RB LT1}
+
+\section*{Computer Function}
+One of a computers main functions is to execute a program (this is a pre-written set of instructions). The processors execute the instructions in two stages, the first stage is to `fetch' the instruction from memory and the second stage is to execute the instruction. Program execution is these two stages repeated until a \verb|halt| command is executed.
+
+\section*{Fetch \& Execute Example}
+This example will perform the operation \verb|2 + 3| then store the result in memory. This uses a single data register, the memory has 16-bit words of which the opcodes are 4-bits. 
+
+As the Opcodes are 4 bits in length, there are 16 possible opcodes ($2^4$).
+
+At the start of the example, the program counter is set to 300. 
+\begin{link}{More detailed example}
+The example shown below is available as a step-by-step walk though through the slides linked on Moodle.
+\end{link}
+\subsection*{Step 0}
+The data stored in memory is represented as hexadecimal as we can store one nibble with one character.
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{tabular}[H]{p{0.15\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth}}
+            \multicolumn{5}{c}{\textbf{CPU Registers}}\\
+            \hline
+            \hline
+            PC & 3 & 0 & 0 & 0 \\
+            \hline
+            MAR &  &  &  &  \\
+            \hline
+            MBR &  &  &  &  \\
+            \hline
+            IR &  &  &  &  \\
+            \hline
+            AC &  &  &  &  \\
+            \hline
+        \end{tabular}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{tabular}[H]{p{0.15\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth}}
+            \multicolumn{5}{c}{\textbf{Main Memory}}\\
+            \hline
+            \hline
+            300 & 1 & 9 & 4 & 0 \\
+            \hline
+            301 & 5 & 9 & 4 & 1 \\
+            \hline
+            302 & 2 & 9 & 4 & 1 \\
+            \hline
+            \ldots & \ldots & \ldots & \ldots & \ldots \\
+            \hline
+            940 & 0 & 0 & 0 & 2 \\
+            \hline
+            941 & 0 & 0 & 0 & 3 \\
+            \hline
+        \end{tabular}
+    \end{minipage}\hfill
+\end{figure}
+
+\subsection*{Step 1 - Fetch I}
+\begin{enumerate}
+    \item The contents of the PC is copied to the MAR
+    \item The contents of the memory address stored in the MAR is copied into the MBR
+    \item The contents of the MBR is copied into the IR
+\end{enumerate}
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{tabular}[H]{p{0.15\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth}}
+            \multicolumn{5}{c}{\textbf{CPU Registers}}\\
+            \hline
+            \hline
+            PC & 3 & 0 & 0 & 0 \\
+            \hline
+            MAR & 3 & 0 & 0 & 0 \\
+            \hline
+            MBR & 1 & 9 & 4 & 0 \\
+            \hline
+            IR & 1 & 9 & 4 & 0 \\
+            \hline
+            AC &  &  &  &  \\
+            \hline
+        \end{tabular}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{tabular}[H]{p{0.15\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth}}
+            \multicolumn{5}{c}{\textbf{Main Memory}}\\
+            \hline
+            \hline
+            300 & 1 & 9 & 4 & 0 \\
+            \hline
+            301 & 5 & 9 & 4 & 1 \\
+            \hline
+            302 & 2 & 9 & 4 & 1 \\
+            \hline
+            \ldots & \ldots & \ldots & \ldots & \ldots \\
+            \hline
+            940 & 0 & 0 & 0 & 3 \\
+            \hline
+            941 & 0 & 0 & 0 & 2 \\
+            \hline
+        \end{tabular}
+    \end{minipage}\hfill
+\end{figure}
+
+\subsection*{Step 2 - Execute I}
+\begin{enumerate}
+    \item The PC is incremented
+    \item The opcode is analysed and the instruction is performed. In this case, the opcode is \verb|1| which means \verb|load|. The address is \verb|940| so the contents of memory address 940 is copied into the AC. 
+\end{enumerate}
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{tabular}[H]{p{0.15\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth}}
+            \multicolumn{5}{c}{\textbf{CPU Registers}}\\
+            \hline
+            \hline
+            PC & 3 & 0 & 0 & 1 \\
+            \hline
+            MAR & 3 & 0 & 0 & 0 \\
+            \hline
+            MBR & 1 & 9 & 4 & 0 \\
+            \hline
+            IR & 1 & 9 & 4 & 0 \\
+            \hline
+            AC & 0 & 0 & 0 & 3 \\
+            \hline
+        \end{tabular}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{tabular}[H]{p{0.15\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth}}
+            \multicolumn{5}{c}{\textbf{Main Memory}}\\
+            \hline
+            \hline
+            300 & 1 & 9 & 4 & 0 \\
+            \hline
+            301 & 5 & 9 & 4 & 1 \\
+            \hline
+            302 & 2 & 9 & 4 & 1 \\
+            \hline
+            \ldots & \ldots & \ldots & \ldots & \ldots \\
+            \hline
+            940 & 0 & 0 & 0 & 3 \\
+            \hline
+            941 & 0 & 0 & 0 & 2 \\
+            \hline
+        \end{tabular}
+    \end{minipage}\hfill
+\end{figure}
+
+\subsection*{Step 3 - Fetch II}
+\begin{enumerate}
+    \item The contents of the PC is copied to the MAR
+    \item The contents of the memory address stored in the MAR is copied into the MBR
+    \item The contents of the MBR is copied into the IR
+\end{enumerate}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{tabular}[H]{p{0.15\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth}}
+            \multicolumn{5}{c}{\textbf{CPU Registers}}\\
+            \hline
+            \hline
+            PC & 3 & 0 & 0 & 1 \\
+            \hline
+            MAR & 3 & 0 & 0 & 1 \\
+            \hline
+            MBR & 5 & 9 & 4 & 1 \\
+            \hline
+            IR & 5 & 9 & 4 & 1 \\
+            \hline
+            AC & 0 & 0 & 0 & 3 \\
+            \hline
+        \end{tabular}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{tabular}[H]{p{0.15\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth}}
+            \multicolumn{5}{c}{\textbf{Main Memory}}\\
+            \hline
+            \hline
+            300 & 1 & 9 & 4 & 0 \\
+            \hline
+            301 & 5 & 9 & 4 & 1 \\
+            \hline
+            302 & 2 & 9 & 4 & 1 \\
+            \hline
+            \ldots & \ldots & \ldots & \ldots & \ldots \\
+            \hline
+            940 & 0 & 0 & 0 & 3 \\
+            \hline
+            941 & 0 & 0 & 0 & 2 \\
+            \hline
+        \end{tabular}
+    \end{minipage}\hfill
+\end{figure}
+
+\subsection*{Step 4 - Execute II}
+\begin{enumerate}
+    \item The PC is incremented
+    \item The opcode is analysed and the instruction is performed. In this case, the opcode is \verb|5| which means \verb|add to AC from memory|. The address is \verb|941| so the contents of memory address 941 is added to the contents of the AC. 
+\end{enumerate}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{tabular}[H]{p{0.15\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth}}
+            \multicolumn{5}{c}{\textbf{CPU Registers}}\\
+            \hline
+            \hline
+            PC & 3 & 0 & 0 & 2 \\
+            \hline
+            MAR & 3 & 0 & 0 & 1 \\
+            \hline
+            MBR & 5 & 9 & 4 & 1 \\
+            \hline
+            IR & 5 & 9 & 4 & 1 \\
+            \hline
+            AC & 0 & 0 & 0 & 5 \\
+            \hline
+        \end{tabular}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{tabular}[H]{p{0.15\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth}}
+            \multicolumn{5}{c}{\textbf{Main Memory}}\\
+            \hline
+            \hline
+            300 & 1 & 9 & 4 & 0 \\
+            \hline
+            301 & 5 & 9 & 4 & 1 \\
+            \hline
+            302 & 2 & 9 & 4 & 1 \\
+            \hline
+            \ldots & \ldots & \ldots & \ldots & \ldots \\
+            \hline
+            940 & 0 & 0 & 0 & 3 \\
+            \hline
+            941 & 0 & 0 & 0 & 2 \\
+            \hline
+        \end{tabular}
+    \end{minipage}\hfill
+\end{figure}
+
+\subsection*{Step 5 - Fetch III}
+\begin{enumerate}
+    \item The contents of the PC is copied to the MAR
+    \item The contents of the memory address stored in the MAR is copied into the MBR
+    \item The contents of the MBR is copied into the IR
+\end{enumerate}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{tabular}[H]{p{0.15\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth}}
+            \multicolumn{5}{c}{\textbf{CPU Registers}}\\
+            \hline
+            \hline
+            PC & 3 & 0 & 0 & 2 \\
+            \hline
+            MAR & 3 & 0 & 0 & 2 \\
+            \hline
+            MBR & 2 & 9 & 4 & 1 \\
+            \hline
+            IR & 2 & 9 & 4 & 1 \\
+            \hline
+            AC & 0 & 0 & 0 & 5 \\
+            \hline
+        \end{tabular}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{tabular}[H]{p{0.15\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth}}
+            \multicolumn{5}{c}{\textbf{Main Memory}}\\
+            \hline
+            \hline
+            300 & 1 & 9 & 4 & 0 \\
+            \hline
+            301 & 5 & 9 & 4 & 1 \\
+            \hline
+            302 & 2 & 9 & 4 & 1 \\
+            \hline
+            \ldots & \ldots & \ldots & \ldots & \ldots \\
+            \hline
+            940 & 0 & 0 & 0 & 3 \\
+            \hline
+            941 & 0 & 0 & 0 & 2 \\
+            \hline
+        \end{tabular}
+    \end{minipage}\hfill
+\end{figure}
+
+\subsection*{Step 6 - Execute III}
+\begin{enumerate}
+    \item The PC is incremented
+    \item The opcode is analysed and the instruction is performed. In this case, the opcode is \verb|2| which means \verb|store to AC to memory|. The address is \verb|941| so the contents of the AC is written to memory address 941. 
+\end{enumerate}
+
+\begin{figure}[H]
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{tabular}[H]{p{0.15\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth}}
+            \multicolumn{5}{c}{\textbf{CPU Registers}}\\
+            \hline
+            \hline
+            PC & 3 & 0 & 0 & 3 \\
+            \hline
+            MAR & 3 & 0 & 0 & 2 \\
+            \hline
+            MBR & 2 & 9 & 4 & 1 \\
+            \hline
+            IR & 2 & 9 & 4 & 1 \\
+            \hline
+            AC & 0 & 0 & 0 & 5 \\
+            \hline
+        \end{tabular}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{tabular}[H]{p{0.15\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth} p{0.12\linewidth}}
+            \multicolumn{5}{c}{\textbf{Main Memory}}\\
+            \hline
+            \hline
+            300 & 1 & 9 & 4 & 0 \\
+            \hline
+            301 & 5 & 9 & 4 & 1 \\
+            \hline
+            302 & 2 & 9 & 4 & 1 \\
+            \hline
+            \ldots & \ldots & \ldots & \ldots & \ldots \\
+            \hline
+            940 & 0 & 0 & 0 & 3 \\
+            \hline
+            941 & 0 & 0 & 0 & 5 \\
+            \hline
+        \end{tabular}
+    \end{minipage}\hfill
+\end{figure}
+
+This cycle will then continue on to the next instruction and so-on.
