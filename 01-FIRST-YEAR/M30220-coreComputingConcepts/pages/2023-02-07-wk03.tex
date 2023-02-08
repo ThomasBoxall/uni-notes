@@ -1,0 +1,75 @@
+\research{WEEK 3: Cryptography}{2023-02-08}{Flipped Learning Slides}
+
+Cryptography is a way of turning \textit{plaintext} (the text to be encrypted) into \textit{cyphertext} (an unreadable version that can later be turned back into plaintext).
+
+Encrypting something links four elements together: the plaintext $m$; the ciphertext $c$; the key $k$; and the algorithm $E$.
+\[c=E_k(m)\]
+
+Modern cryptographic algorithms abide by the following principles
+\begin{itemize}
+    \item Large enough key space to resist exhaustive search
+    \item Resistant to frequency analysis
+    \item Small change in plaintext results in large change in ciphertext
+    \item Security depends only on secrecy of key and not on secrecy of algorithm (Kerckhoff's principle)
+\end{itemize}
+
+\section*{Cryptographic Algorithms}
+\subsection*{Symmetric}
+Encryption and Decryption both use the same "secret key". This means the encryption methods cna be extremely efficient, requiring minimal processing. Both the sender and receiver must possess the encryption key; and if either copy of the key is compromised, and intermediate can decrypt and read messages.
+
+\subsection*{Asymmetric}
+Asymmetric encryption uses two different, but related, keys to encrypt/ decrypt messages. This works as follows: if key A encrypts the message, only key B can decrypt. This methodology has the highest value when one key serves as the private key and the other serves as the public key. It is typically used to encrypt a symmetric session key rather than the plaintext message(s). 
+
+\section*{Caesar Cipher}
+The Caesar Cipher is one of the simplest forms of a cryptographic algorithm. In it, a `wheel of letters' are turned and letters simply substituted, for example \verb|A| becomes \verb|B|, \verb|B| becomes \verb|C| and so on.
+
+This cipher can be very easily brute forced as there is a maximum of 25 possible options to try, and using common letter (\verb|E T A|) frequency, a good guess can be made relatively quickly. 
+
+
+\section*{Symmetric Cryptosystem}
+A symmetric cryptosystem starts with the plaintext being encrypted with the shared key. This produces the ciphertext which is transmitted to the recipient. The recipient is then able to decrypt the ciphertext using the shared key which produces plaintext. 
+
+Data Encryption Standard (DES), Triple DES (3DES) and Advanced Encryption Standard (AES) are all examples of Symmetric Encryption.
+
+WIth symmetric encryption, the primary challenge is distribution of keys. In general we will need $n \times (n-1)/2\ \mathrm{keys}$ where $n$ is the number of parties who want to communicate. 
+
+\section*{Diffie-Hellman Key Exchange}
+The Diffie-Hellman (DH) key exchange uses asymmetric encryption to exchange session keys, these are limited use symmetric keys for temporary communication. This allows two entities to conduct, quick efficient, secure communication based on symmetric encryption which is more efficient than asymmetric encryption for sending message.
+
+DH based key establishment is incorporated into a number of standard protocols: TLS/ SSL and IPSec. DH based key establishment is also used in a variety of applications: GlobalProtect VPN; and WhatsApp. 
+
+\section*{Asymmetric Cryptosystem}
+An asymmetric cryptosystem works by the symmetric encryption key being used to encrypt the plaintext. This is then transmitted to the recipient where it is held until the encryption key is received. The encryption key (which has already been used encrypt the plaintext) is passed through an encryption algorithm that uses the recipients public key. This, now encrypted, message is transmitted to the recipient where they can use their private key to decrypt it. The recipient now has the symmetric encryption key and can use that to decrypt the ciphertext they received into the plaintext.
+
+RSA and Elliptic Curves are examples of Asymmetric Encryption. 
+
+\section*{RSA}
+RSA is the most famous asymmetric cryptographic algorithm, developed by Rivest, Shamir and Adleman in 1978. It is based on number-theoretical properties of natural numbers. 
+
+The steps below show RSA in a nutshell.
+\begin{enumerate}
+    \item Choose two large primes $p$ and $q$, and calculate $n=p\times q$
+    \item From $n$ follow some maths steps to calculate the value $e$ and $d$
+    \item Publish $n$ and $e$, keep $d$ a secret and destroy $p$ and $q$
+    \item Encryption of $m$ is now $c=m^e\  (mod\ n)$
+    \item Decryption of $c$ is then $m=c^d\ (mod\ n)$
+\end{enumerate}
+
+\subsection*{Example encryption and decryption}
+Shown below is an example encryption of the plaintext \verb|GAGA|
+\begin{enumerate}
+    \item Encode the letters as ASCII numbers \verb|71 65 71 65|
+    \item Encrypt each letter in turn using $c=m^e\ (mod\ n)$ assuming $e=131$ and $n=232$. ($d=11$ but this is only known to the receiver).
+    \item This gives $71^{131}\ (mod\ 323) = 10$ and $65^{131}\ (mod\ 323) = 126$.
+    \item The message that gets transmitted is \verb|10 126 10 126|.
+\end{enumerate}
+
+Shown below is the decryption of the message encrypted above.
+\begin{enumerate}
+    \item The receiver knows $d=11$ and $n=323$ and the algorithm $m=c^d\ (mod\ n)$
+    \item $10^{11}\ (mod\ 323) = 71$ and $126^{11}\ (mod\ 323) = 65$
+    \item Convert $71$ and $65$ to letters using ASCII
+    \item Results in \verb|G| and \verb|A|
+\end{enumerate}
+
+The examples shown here use very small primes to make the calculations easy. In reality, the prime numbers used are much bigger. 
