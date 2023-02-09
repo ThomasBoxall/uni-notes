@@ -1,0 +1,406 @@
+\lecture{PRACTICAL: Encryption}{2023-02-09}{14:00}{}{FTC 3}
+
+Normally when we use encryption within a database, we pass the responsibility of encrypting the data to the front end service. This is to prevent the \textit{encryption seed} from being visible within the database logs where a `super-super admin' can see the insert statements and see the unencrypted data get inserted. 
+
+\section*{Tutor Task}
+Copy and run the following code.
+\begin{sql}
+-- create a new db for demo
+
+create database secdb;
+
+\c secdb
+-- we can't copy and paste this next line of code at the same time as previous 2 lines!
+
+-- Turn on encryption - It is not on by default.
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+-- bytea is a binary datatype
+-- https://www.postgresql.org/docs/current/datatype-binary.html
+
+CREATE TABLE secDemo(id serial PRIMARY KEY, pw bytea);
+
+ -- insert into secdemo(pw) values ( encrypt( 'data', 'key', 'aes') );
+
+INSERT INTO secdemo(pw)
+VALUES (encrypt('Holiday!lips@', '56732', 'aes'));
+
+select * from secdemo;
+
+-- select decrypt(pw, 'key', 'aes') FROM secdemo;
+
+select decrypt(pw, '56732', 'aes') as "decrypted version" FROM secdemo;
+
+-- still bytea at this point
+
+-- select convert_from(decrypt(pw, 'key', 'aes'), 'utf-8') FROM secdemo;
+-- convert_from() converts from bytea to text
+
+select convert_from(decrypt(pw, '56732', 'aes'), 'utf-8') as "converted from decrypted" FROM secdemo;
+\end{sql}
+
+\section*{Student Tasks}
+T1. Make sure you are up to date with the practicals!
+
+T2. Create a new database called \verb|sec3|
+\begin{sql}
+CREATE DATABASE sec3;
+\c sec3
+\end{sql}
+
+T3. Turn encryption on in this new database.
+\begin{sql}
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+\end{sql}
+
+T4. Using the Tutor Task above, create a new table called \verb|member| and add 5 rows of data. This table must hold first and last names along with the member's date of birth, (stored as a \verb|date| datatype), a postcode and an encrypted password. Copy the code and data inserted below:
+\begin{sql}
+CREATE TABLE member(
+    id serial PRIMARY KEY,
+    fname VARCHAR(25) NOT NULL,
+    lname VARCHAR(25) NOT NULL,
+    dob date NOT NULL,
+    postcode VARCHAR(8) NOT NULL,
+    password bytea
+);
+-- insert values now
+INSERT INTO member(fname, lname, dob, postcode, password) VALUES ('Dave', 'Davidson', '2022-01-01', 'NE1 4EQ', encrypt('cheese123', '1234', 'aes'));
+INSERT INTO member(fname, lname, dob, postcode, password) VALUES ('Fred', 'Fredrikson', '2021-03-6', 'AB12 CDE', encrypt('mouse33', '1234', 'aes'));
+INSERT INTO member(fname, lname, dob, postcode, password) VALUES ('Sue', 'Susan', '1972-05-02', 'BN35 7DQ', encrypt('secrue68', '1234', 'aes'));
+INSERT INTO member(fname, lname, dob, postcode, password) VALUES ('Jane', 'Johnson', '2012-01-01', 'FE43 8GG', encrypt('cake43', '1234', 'aes'));
+INSERT INTO member(fname, lname, dob, postcode, password) VALUES ('Sam', 'Sampson', '2016-01-03', 'HE8 0NH', encrypt('camping111', '1234', 'aes'));
+\end{sql}
+
+T5. Once stored, print out the data for all of the rows. Copy below
+\begin{sql}
+SELECT * FROM member;
+\end{sql}
+\begin{pseudo}
+ id | fname |   lname    |    dob     | postcode |              password
+----+-------+------------+------------+----------+------------------------------------
+  1 | Dave  | Davidson   | 2022-01-01 | NE1 4EQ  | \x2054eed5d9908d4d0dbb1d11777b9f2f
+  2 | Fred  | Fredrikson | 2021-03-06 | AB12 CDE | \x7669b0433719a86b2f2736f3ccee1757
+  3 | Sue   | Susan      | 1972-05-02 | BN35 7DQ | \x05d04a89e6159a6d79f6e035a1ad1931
+  4 | Jane  | Johnson    | 2012-01-01 | FE43 8GG | \xb10a802af936a09504f73b98a66e45ff
+  5 | Sam   | Sampson    | 2016-01-03 | HE8 0NH  | \xa46293e279f31027034993007197c256
+(5 rows)
+\end{pseudo}
+
+T6. Decrypt the values stored in the encrypted password attribute for all 5 rows. 
+\begin{sql}
+SELECT id, convert_from(decrypt(password, '1234', 'aes'), 'utf-8') FROM member;
+\end{sql}
+\begin{pseudo}
+ id | convert_from
+----+--------------
+  1 | cheese123
+  2 | mouse33
+  3 | secrue68
+  4 | cake43
+  5 | camping111
+(5 rows)
+\end{pseudo}
+
+\subsection*{From Last week's lecture}
+T7. Connect to \verb|dsd_22| and add a unique constraint to the customer table on the town column. Copy the code and output below:
+\begin{sql}
+\c dsd_22
+
+ALTER TABLE customer ADD CONSTRAINT table_unique UNIQUE (town);
+\end{sql}
+\begin{pseudo*}
+ERROR:  could not create unique index "table_unique"
+DETAIL:  Key (town)=(La Mohammedia) is duplicated.
+\end{pseudo*}
+
+T8. Using the manifest table, how many \verb|prod_id| are there?
+\begin{sql}
+SELECT count(DISTINCT prod_id) FROM manifest;
+\end{sql}
+\begin{pseudo}
+ count
+-------
+    76
+(1 row)
+\end{pseudo}
+
+T9. How many distinct \verb|prod_id| are there?
+\begin{sql}
+SELECT count(DISTINCT prod_id) FROM product; 
+\end{sql}
+\begin{pseudo}
+ count
+-------
+   100
+(1 row)
+\end{pseudo}
+
+T10. How many orders in the manifest table include the product with the id of \verb|24|?
+\begin{sql}
+SELECT count(manifest_id) FROM manifest
+WHERE prod_id=24;
+\end{sql}
+\begin{pseudo}
+ count
+-------
+     4
+(1 row)
+\end{pseudo}
+
+T11. How many orders in the manifest table include the product with the id of \verb|2|?
+\begin{sql}
+SELECT count(manifest_id) FROM manifest
+WHERE prod_id=2;
+\end{sql}
+\begin{pseudo}
+ count
+-------
+     0
+(1 row)
+\end{pseudo}
+
+T12. Again, in the manifest table, what code could be used to give the following output:
+\begin{pseudo}
+prod_id 
+---------
+     100
+      99
+      97
+      95
+      94
+      93
+      92
+      91
+\end{pseudo}
+Copy your answer below:
+\begin{sql}
+SELECT DISTINCT prod_id FROM manifest
+ORDER BY prod_id DESC
+LIMIT 8;
+\end{sql}
+
+T13. Using alter table, add a check constraint to the \verb|dsd_22| staff table. The check must check that the length of a postcode is over 5 characters long. Hint: the \verb|length()| function will find out how long a value is. Copy the code below.
+\begin{sql}
+ALTER TABLE staff ADD CONSTRAINT postcode_length CHECK(length(postcode)> 5);
+\end{sql}
+
+T14. Now add a new staff member to the staff table using the insert code snippet below.
+\begin{sql}
+INSERT INTO staff (staff_fname, staff_lname, addr1, addr2, town, postcode, home_email, work_email, ROLE)
+VALUES ('Tiny',
+        'Smith',
+        '85 Lilly Way',
+        'Off Pole Lane',
+        'Southsea',
+        'PO98',
+        'tsmith@smiths.com',
+        'Tiny.Smith@dsd.com',
+        5);
+\end{sql}
+T15. Copy the output below
+\begin{pseudo}
+ERROR:  new row for relation "staff" violates check constraint "postcode_length"
+DETAIL:  Failing row contains (12, Tiny, Smith, 85 Lilly Way, Off Pole Lane, Southsea, PO98     , tsmith@smiths.com, Tiny.Smith@dsd.com, 5).
+\end{pseudo}
+
+\subsection*{Dates}
+We can use dates in many ways.
+
+Download the code from the folder code for practical  and run it in your NORMAL database - the one called \verb|upxxxxxx|.
+\begin{sql}
+create table date_check (
+	id INT primary key,
+	first_name VARCHAR(50) not null,
+	last_name VARCHAR(50) not null,
+	email VARCHAR(50) not null,
+	joined DATE not null
+);
+insert into date_check (id, first_name, last_name, email, joined) values (1, 'Carie', 'Harling', 'charling0@yale.edu', '2022-04-28');
+insert into date_check (id, first_name, last_name, email, joined) values (2, 'Deina', 'Brennans', 'dbrennans1@slashdot.org', '2022-04-08');
+insert into date_check (id, first_name, last_name, email, joined) values (3, 'Devon', 'Matijasevic', 'dmatijasevic2@economist.com', '2022-09-25');
+insert into date_check (id, first_name, last_name, email, joined) values (4, 'Wald', 'Kleinhausen', 'wkleinhausen3@trellian.com', '2022-08-13');
+insert into date_check (id, first_name, last_name, email, joined) values (5, 'Cammie', 'Womack', 'cwomack4@who.int', '2022-06-19');
+insert into date_check (id, first_name, last_name, email, joined) values (6, 'Cross', 'MacCallam', 'cmaccallam5@tuttocitta.it', '2023-02-05');
+insert into date_check (id, first_name, last_name, email, joined) values (7, 'Maris', 'Flitcroft', 'mflitcroft6@clickbank.net', '2022-07-12');
+insert into date_check (id, first_name, last_name, email, joined) values (8, 'Peggy', 'Gasquoine', 'pgasquoine7@ebay.com', '2022-07-22');
+insert into date_check (id, first_name, last_name, email, joined) values (9, 'Kermit', 'Ninnoli', 'kninnoli8@smh.com.au', '2022-10-10');
+insert into date_check (id, first_name, last_name, email, joined) values (10, 'Frieda', 'Glassford', 'fglassford9@wufoo.com', '2022-08-26');
+insert into date_check (id, first_name, last_name, email, joined) values (11, 'Lanie', 'Boggish', 'lboggisha@comcast.net', '2022-03-31');
+insert into date_check (id, first_name, last_name, email, joined) values (12, 'Amelie', 'Timmons', 'atimmonsb@wp.com', '2022-11-23');
+insert into date_check (id, first_name, last_name, email, joined) values (13, 'Portia', 'Nielson', 'pnielsonc@wix.com', '2022-10-10');
+insert into date_check (id, first_name, last_name, email, joined) values (14, 'Sara-ann', 'Ellens', 'sellensd@chronoengine.com', '2022-06-15');
+insert into date_check (id, first_name, last_name, email, joined) values (15, 'Bob', 'Larcombe', 'blarcombee@dailymotion.com', '2022-06-28');
+insert into date_check (id, first_name, last_name, email, joined) values (16, 'Celestyn', 'Wickenden', 'cwickendenf@prnewswire.com', '2022-06-15');
+insert into date_check (id, first_name, last_name, email, joined) values (17, 'Rina', 'Dymoke', 'rdymokeg@discuz.net', '2022-07-19');
+insert into date_check (id, first_name, last_name, email, joined) values (18, 'Isadora', 'Haughey', 'ihaugheyh@sfgate.com', '2022-07-31');
+insert into date_check (id, first_name, last_name, email, joined) values (19, 'Demetria', 'Neem', 'dneemi@jiathis.com', '2022-05-08');
+insert into date_check (id, first_name, last_name, email, joined) values (20, 'Feliza', 'Gras', 'fgrasj@printfriendly.com', '2022-03-19');
+
+\end{sql}
+
+T16. Select the last names and the date they joined and copy the results below. 
+\begin{sql}
+SELECT last_name, joined FROM date_check;
+\end{sql}
+\begin{pseudo}
+  last_name  |   joined
+-------------+------------
+ Harling     | 2022-04-28
+ Brennans    | 2022-04-08
+ Matijasevic | 2022-09-25
+ Kleinhausen | 2022-08-13
+ Womack      | 2022-06-19
+ MacCallam   | 2023-02-05
+ Flitcroft   | 2022-07-12
+ Gasquoine   | 2022-07-22
+ Ninnoli     | 2022-10-10
+ Glassford   | 2022-08-26
+ Boggish     | 2022-03-31
+ Timmons     | 2022-11-23
+ Nielson     | 2022-10-10
+ Ellens      | 2022-06-15
+ Larcombe    | 2022-06-28
+ Wickenden   | 2022-06-15
+ Dymoke      | 2022-07-19
+ Haughey     | 2022-07-31
+ Neem        | 2022-05-08
+ Gras        | 2022-03-19
+(20 rows)
+\end{pseudo}
+
+T17. Now sort them into \verb|last_name| order. Copy the results below:
+\begin{sql}
+SELECT last_name, joined FROM date_check
+ORDER BY last_name;
+\end{sql}
+\begin{pseudo}
+  last_name  |   joined
+-------------+------------
+ Boggish     | 2022-03-31
+ Brennans    | 2022-04-08
+ Dymoke      | 2022-07-19
+ Ellens      | 2022-06-15
+ Flitcroft   | 2022-07-12
+ Gasquoine   | 2022-07-22
+ Glassford   | 2022-08-26
+ Gras        | 2022-03-19
+ Harling     | 2022-04-28
+ Haughey     | 2022-07-31
+ Kleinhausen | 2022-08-13
+ Larcombe    | 2022-06-28
+ MacCallam   | 2023-02-05
+ Matijasevic | 2022-09-25
+ Neem        | 2022-05-08
+ Nielson     | 2022-10-10
+ Ninnoli     | 2022-10-10
+ Timmons     | 2022-11-23
+ Wickenden   | 2022-06-15
+ Womack      | 2022-06-19
+(20 rows)
+\end{pseudo}
+
+T18. What happens if we sort by a column we are not displaying? Copy the output below:
+\begin{sql}
+SELECT last_name, joined FROM date_check
+ORDER BY email;
+\end{sql}
+\begin{pseudo}
+  last_name  |   joined
+-------------+------------
+ Timmons     | 2022-11-23
+ Larcombe    | 2022-06-28
+ Harling     | 2022-04-28
+ MacCallam   | 2023-02-05
+ Wickenden   | 2022-06-15
+ Womack      | 2022-06-19
+ Brennans    | 2022-04-08
+ Matijasevic | 2022-09-25
+ Neem        | 2022-05-08
+ Glassford   | 2022-08-26
+ Gras        | 2022-03-19
+ Haughey     | 2022-07-31
+ Ninnoli     | 2022-10-10
+ Boggish     | 2022-03-31
+ Flitcroft   | 2022-07-12
+ Gasquoine   | 2022-07-22
+ Nielson     | 2022-10-10
+ Dymoke      | 2022-07-19
+ Ellens      | 2022-06-15
+ Kleinhausen | 2022-08-13
+(20 rows)
+\end{pseudo}
+
+T19. How would you get a list of people who joined after October 1st 2022?
+\begin{sql}
+SELECT first_name, last_name, joined FROM date_check
+WHERE joined > '2022-10-01';
+\end{sql}
+\begin{pseudo}
+ first_name | last_name |   joined
+------------+-----------+------------
+ Cross      | MacCallam | 2023-02-05
+ Kermit     | Ninnoli   | 2022-10-10
+ Amelie     | Timmons   | 2022-11-23
+ Portia     | Nielson   | 2022-10-10
+(4 rows)
+\end{pseudo}
+
+T20. Order the output by joined date order. Copy this output below.
+\begin{sql}
+SELECT first_name, last_name, joined FROM date_check
+WHERE joined > '2022-10-01'
+ORDER BY joined ASC;
+\end{sql}
+\begin{pseudo}
+ first_name | last_name |   joined
+------------+-----------+------------
+ Kermit     | Ninnoli   | 2022-10-10
+ Portia     | Nielson   | 2022-10-10
+ Amelie     | Timmons   | 2022-11-23
+ Cross      | MacCallam | 2023-02-05
+(4 rows)
+\end{pseudo}
+
+T21. Now order the output from 20 so that the joined date is the first order THEN try to order by the \verb|last_name|. Copy this code \& output below.
+\begin{sql}
+SELECT first_name, last_name, joined FROM date_check
+WHERE joined > '2022-10-01'
+ORDER BY joined, last_name ASC;
+\end{sql}
+\begin{pseudo}
+ first_name | last_name |   joined
+------------+-----------+------------
+ Portia     | Nielson   | 2022-10-10
+ Kermit     | Ninnoli   | 2022-10-10
+ Amelie     | Timmons   | 2022-11-23
+ Cross      | MacCallam | 2023-02-05
+(4 rows)
+\end{pseudo}
+
+T22. We can use the \verb|between| keyword to find results that fall between two dates. Output all data for the people who joined between April 20th 2022 and November 30th 2022. Copy the output below.
+\begin{sql}
+SELECT first_name, last_name, joined FROM date_check
+WHERE joined BETWEEN '2022-04-20' AND '2022-11-30'
+ORDER BY joined, last_name ASC;
+\end{sql}
+\begin{pseudo}
+ first_name |  last_name  |   joined
+------------+-------------+------------
+ Carie      | Harling     | 2022-04-28
+ Demetria   | Neem        | 2022-05-08
+ Sara-ann   | Ellens      | 2022-06-15
+ Celestyn   | Wickenden   | 2022-06-15
+ Cammie     | Womack      | 2022-06-19
+ Bob        | Larcombe    | 2022-06-28
+ Maris      | Flitcroft   | 2022-07-12
+ Rina       | Dymoke      | 2022-07-19
+ Peggy      | Gasquoine   | 2022-07-22
+ Isadora    | Haughey     | 2022-07-31
+ Wald       | Kleinhausen | 2022-08-13
+ Frieda     | Glassford   | 2022-08-26
+ Devon      | Matijasevic | 2022-09-25
+ Portia     | Nielson     | 2022-10-10
+ Kermit     | Ninnoli     | 2022-10-10
+ Amelie     | Timmons     | 2022-11-23
+(16 rows)
+\end{pseudo}
