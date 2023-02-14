@@ -1,0 +1,102 @@
+\lecture{Basics of Logic}{2023-02-07}{10:00}{Zhaojie}{Zoom}
+
+Symbolic logic has provided the theoretical basis for many areas of computer science such as: digital logic circuit designs; relational database theory; programming; algorithms; and expert systems. Symbolic logic is also seen in everyday life.
+
+\section*{Propositions}
+\define{Proposition}{A statement (declarative sentence) that is either \textit{true} or \textit{false}, but not both.}
+The true/ false value is called the \textit{truth value} of the proposition.
+
+`London is the capital of the UK'; `2 + 3 = 7'; and `There are 8 days in a week' are all examples of propositions however `Come here'; `take two aspirins'; and `Do you speak German?' are not.
+
+\subsection*{Notation}
+A proposition is represented by a single letter, a proposition variable (similarly to sets and variables in algebra, etc). 
+
+\section*{Logical Connectives}
+Proposition can be combined with logical connectives to obtain compound statements (logical expressions). Three of the most important connectives are shown below.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{p{0.2\textwidth} p{0.2\textwidth} p{0.2\textwidth}}
+        \textbf{Name} & \textbf{Connective} & \textbf{Symbol} \\
+        \hline
+        \hline
+        negation & not & ¬\\
+        \hline
+        conjunction & and & \wedge \\
+        \hline
+        disjunction & or  & \vee \\
+        \hline
+    \end{tabular}
+\end{table}
+
+The truth value of a compound statement (for example p or q) depends only on
+\begin{itemize}
+    \item the truth values of the statements being combined; and
+    \item on the types of connectives being used.
+\end{itemize}
+
+\subsection*{Negation}
+If $p$ is a statement, then the negation of $p$ is the statement not $p$, denoted by $¬p$. 
+\begin{table}[H]
+    \centering
+    \begin{tabular}{x{0.1\textwidth} x{0.1\textwidth}}
+        \textbf{$p$} & \textbf{$¬p$}\\
+        \hline
+        \hline
+        T & F \\
+        \hline
+        F & T \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection*{Conjunction}
+If $p$ and $q$ are statements, the conjunction of $p$ and $q$ is the compound statement `p and q', denoted by $p \wedge q$. 
+\begin{table}[H]
+    \centering
+    \begin{tabular}{x{0.1\textwidth} x{0.1\textwidth} x{0.1\textwidth}}
+        $p$ & $q$ & $p \wedge q$\\
+        \hline
+        \hline
+        T & T & T\\
+        \hline
+        T & F & F \\
+        \hline
+        F & T & F \\
+        \hline
+        F & F & F\\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection*{Disjunction}
+If $p$ and $q$ are statements, the disjunction of $p$ and $q$ is the compound statement `either $p$ or $q$ or both' or simply $p$ or $q$, denoted by $p \vee q$.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{x{0.1\textwidth} x{0.1\textwidth} x{0.1\textwidth}}
+        $p$ & $q$ & $p \wedge q$\\
+        \hline
+        \hline
+        T & T & T\\
+        \hline
+        T & F & T \\
+        \hline
+        F & T & T \\
+        \hline
+        F & F & F\\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection*{Hierarchy of Evaluation}
+The truth value of more complicated compound statements can be evaluated step-by-step.
+\begin{enumerate}
+    \item Brackets
+    \item ¬
+    \item \vee, \wedge (equal priority, work left to right)
+\end{enumerate}
+
+\section*{Logical Equivalence}
+Two logical expressions are said to be logically equivalent, \equiv, if they have identical truth values for each possible value of their statement variables.
+
+\section*{Laws}
+These expressions can be simplified in the same way as seen in the Computer side of Architecture and Operating Systems. See those notes for a breakdown of the different methods. NB. they use different symbols than that used in this set of notes. 
