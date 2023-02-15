@@ -1,0 +1,52 @@
+\lecture{LECTURE: Security}{2023-02-14}{09:00}{Amanda}{Zoom}
+
+\define{Security Attack}{Any action that compromises the security of information}
+\define{Security Mechanism}{A mechanism that is designed to detect, prevent, or recover from a security attack (eg antivirus software)}
+\define{Security Service}{A service that enhances the security of data processing systems and information transfers. A security service makes use of one or more security mechanisms}
+\section*{Security Goals}
+We want to achieve a mix of confidentiality (transmission privacy), integrity (data hasn't been altered), and authentication (knowing who created or sent the data).
+
+\section*{Security Attacks}
+A security attack is where the data to be transmitted leaves the information source and gets altered/ stopped before it reaches the information destination.
+\begin{itemize}
+    \item Interruption - this is an attack on availability
+    \item Interception - this is an attack on confidentiality
+    \item Modification - this is an attack on integrity
+    \item Fabrication - this in an attack on authenticity
+\end{itemize}
+
+\subsection*{Wire Taps}
+There are a number of different types of wire tap which can be used for ethernet cables. Fibre optic cables are more difficult to tap as they do not give off EM signals therefore they have to be spliced which is very hard to do.
+\begin{itemize}
+    \item 10BASE5
+    \item LAN
+    \item Passive Spliced
+\end{itemize}
+
+\section*{Security Threats}
+There are two different main types of security threat.
+\subsection*{Passive Threats}
+Passive attacks are eavesdropping on, or monitoring of transmissions. The goal of the attacker is to obtain the information which is being transmitted. The threat here is the release of message content and the analysis of traffic.
+\subsection*{Active Threats}
+Active threats attempt to cause harm typically through system faults or brute force attacks. They attempt to overload the victims computer to the point that it either slows to an unusable crawl, hangs or completely crashes. The threats here are that someone could masquerade as someone else, transmissions can be replayed, message content is modified and service is denied.
+
+\section*{Security Services}
+\textit{Non-repudiation} (the order is final) provides the assurance that someone cannot deny something. Digital signatures ensure that a message has been electronically singed by the originator.
+
+\textit{Access Control} (prevent misuse of resources) allows different levels of access to be given to different people, it also allows people to be assigned either read or write permissions.
+
+\textit{Availability} (permanence, non-erasure) prevents denial of service attacks and viruses that delete files.
+
+\section*{Methods of Defence}
+\begin{itemize}
+    \item Encryption - altering the original data so only those it is intended for an read it.
+    \item Software Controls - access limitations in a database, operating system protects each user from other users
+    \item Hardware Controls - smart card access to data, biometrics, fingerprints, iris scans
+    \item Policies and procedures - for example, frequent changes of passwords
+    \item Physical controls - controlled access
+\end{itemize}
+
+\section*{Security Vulnerabilities}
+Securing communications over networks have always been a dilemma. There needs to be a secure way to initiate such communication. The data needs to be protected at all times. Users need to be trusted.
+
+Security policies are brought in to help solve the vulnerabilities, these are based on organisational requirements. They can include: prevent/ detect security violations; disaster recovery; security risk policies; and legal requirements (such as Data Protection). 
