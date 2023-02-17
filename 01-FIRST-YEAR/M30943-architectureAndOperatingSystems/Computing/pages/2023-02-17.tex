@@ -1,0 +1,50 @@
+\research{WORKSHEET 13 Interconnections}{2023-02-17}{Worksheet}
+
+\begin{enumerate}
+    \item \textbf{Why do computers need interconnection systems?}\\
+    Computers need interconnection systems so that data and information can be transmitted between the different components which comprise the computer.
+    \item \textbf{What does the interconnection structure depend on?}\\
+    The exchanges taking place.
+    \item \textbf{What are the types of exchanges from/to the main memory?}\\
+    The processor can read and write data/ instructions to the main memory and the IO can read and write data to the main memory.
+    \item \textbf{What are the types of exchanges from/to the I/O module?}\\
+    The I/O module can send and receive data from the main memory and send data to and receive data from the processor.
+    \item \textbf{What are the types of exchanges from/to the CPU?}\\
+    The CPU can send and receive data to/ from the main memory and I/O module.
+    \item \textbf{What types of transfer does the interconnection structure support? }\\
+    Bus interconnection supports transfers between the CPU, main memory and I/O module which travels through all of them. The Point-to-Point interconnection supports transfer between the same components but directly between them.
+    \item \textbf{What is a bus in computer systems? What are its key characteristics?}\\
+    A bus is an interconnection line between modules. Its key characteristic is its width which determines how many bits can be transmitted in parallel.
+    \item \textbf{What does shared transmission medium mean?}\\
+    Multiple data items can be transmitted down the medium at once.
+    \item \textbf{How do the signals overlap during transmission?}\\
+    If two signals become overlapped then they become garbled and corrupt.
+    \item \textbf{What is a line in computer systems? What does it transmit?}\\
+    A line is the name of the physical connection between components.
+    \item \textbf{How many lines does a bus need to transmit 2 Bytes of data?}\\
+    16
+    \item \textbf{What is a system bus?}\\
+    Collective name for the address, control and data buses.
+    \item \textbf{What are the different types of bus lines?}\\
+    Address, control and data.
+    \item \textbf{What do the data lines do? What is a data bus?}\\
+    The data lines provide a path for moving data among system modules. The width of the data bus is a key factor in determining overall system performance. For example, if the data bus is 32 bits wide and the instruction to be transmitted is 64-bits then you need to use the data bus twice whereas if the data bus was 64-bits wide then you would only need to use it once.
+    \item \textbf{What do the address lines do? What is an address bus?}\\
+    The address bus carries the source/ destination of the data which is being transmitted on the data bus. The bus width determines the maximum possible memory capacity. The high order bits select the module and the low order bits select the memory location or I/O port.
+    \item \textbf{What do the control lines do? What is a control bus?}\\
+    Control lines control the access to and use of the data and address lines because the data and address lines are shared by all components and there must be a means to control their use. Control signals are transmitted on control lines, these include command signals which specify the operation to be performed and timing signals which confirm the validity of data and address information. Control lines include memory write \& read, I/O write \& read etc.
+    \item \textbf{How does the address bus determine the maximum possible memory capacity?}\\
+    Its width is the maximum size of the numerical value assigned to an address.
+    \item \textbf{How are different I/O ports addressed in computers? }\\
+    High order bits in the address lines.
+    \item \textbf{How does a module (memory, I/O,... ) send data to another module in computers?}\\
+    If one module wishes to send data to another, it must first obtain use of the bus then it can transfer the data via the bus.
+    \item \textbf{How does a module (memory, I/O,... ) request data from another module in computers?}\\
+    If one module wishes to request data from another module, it must first obtain the use of the bus. Then it can transfer a request to the other module over the appropriate control and address lines.
+    \item \textbf{What is a point to point interconnection system?}\\
+    A system where all the different components connect to each other. This means that a data transfer can go directly to where the data is intended for rather than having to go `the long way around'.
+    \item \textbf{What are the main advantages of using a point to point interconnection system?}\\
+    The data being transferred can go directly to where the data is intended for rather than having to go the `long way around'.
+    \item \textbf{What are the significant characteristics of QuickPath Interconnect (QPI)?}\\
+    Multiple direct connections; layered protocol architecture; packetized data transfer.
+\end{enumerate}
