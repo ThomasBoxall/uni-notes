@@ -1,0 +1,92 @@
+\research{WEEK 4: Risk Management}{2023-02-19}{Flipped Learning Slides}
+
+Component driven approaches to security require the risk analysis to assess three elements of risk: threat (the individual, group or circumstance which causes a given impact to occur), vulnerability and impact. The purpose of assessing threat is to improve the assessment of how likely a risk is to be realised.
+
+We manage risks in our everyday lives, for example deciding if to wait for the \textit{green man} or stepping out when it is clear.
+
+The higher likelihood and impact of a risk, the higher risk the activity is. 
+
+\section*{Information Security Risk Methods and Frameworks}
+There are a number of Risk Assessment Methods/ Frameworks
+\begin{itemize}
+    \item NIST 800-30
+    \item ISO/ IEC 27005
+    \item ISACA COBIT
+    \item ISF IRAM 2
+    \item HMG Information Assurance Standard 1 2
+    \item Octave Allegro
+    \item ISACA COBIT 5
+\end{itemize}
+Equally, there are a number of Information Security Management Frameworks
+\begin{itemize}
+    \item NIST CSF
+    \item ISO/ IEC 27000 series
+\end{itemize}
+
+\section*{Risk Assessment Steps}
+\begin{enumerate}
+    \item Identify risks
+    \begin{itemize}
+        \item Identification of Assets
+        \item Identification of Threats
+        \item Identification of Existing Controls
+        \item Identification of Vulnerabilities
+        \item Identification of Consequences
+    \end{itemize}
+    \item Analyse risks
+    \begin{itemize}
+        \item Assessment of consequences
+        \item Assessment of incident likelihood
+        \item Level of risk determination
+    \end{itemize}
+    \item Treat risks
+    \begin{itemize}
+        \item Risk modification
+        \item Risk retention
+        \item Risk avoidance
+        \item Risk sharing
+    \end{itemize}
+    \item Monitor \& review
+\end{enumerate}
+
+\section*{Qualitative Risk Analysis}
+Qualitative risk analysis uses a scale of qualifying attributes to determine the magnitude of the consequences/ likelihood (the scale could be: very low, low, medium, high, very high). An advantage of this is that it is easy to understand by all relevant personnel. A disadvantage is that it is very subjective on the choice of scale. Qualitative risk analysis may be used: as an initial screening to identify risks requiring detailed analysis; where this analysis is sufficient for decisions; or where numerical data resources are inadequate for quantitative analysis. 
+
+\section*{Quantitative Risk Analysis}
+Quantitative risk analysis uses a scale of objective numerical values for consequences/ likelihood values. It uses data from a variety of sources and the quality of analysis depends on the accuracy/ completeness of numerical data. Typically, historical incident data is used which has the advantage of relating directly into information security objectives \& the concerns of that organisation; however it has a number of disadvantages: there is a lack of data on new risks; and accurate or missing data in general can create an illusion or worth or accuracy of risk assessment. Uncertainty and variability of consequences/ likelihood are to be considered and communicated. 
+
+\section*{Cost Benefit Analysis}
+Cost Benefit Analysis ($CBA$) can be calculated using the following equation
+\[CBA = ALE_{prior} - (ALE_{post} + ACS)\]
+where $ACS$ is the annualised cost of safeguard; and $ALE$ is the annualised cost of safeguard. $ALE$ (annualised loss expectancy) can be calculated using the following equation
+\[ALE = SLE \times ARO \]
+where $SRE$ is the single loss expectancy; and $ARO$ is the annualised rate of occurrence.
+
+\section*{Risk Treatment Options}
+\textbf{Retain/ Accept} - organisation may tolerate (but not ignore) the risk.\\
+\textbf{Avoid/ Terminate} - organisation may decide not to do the thing that incurs risk.\\
+\textbf{Share/ Transfer} - transfer risk via an insurance policy or a third party.\\
+\textbf{Modify/ Reduce} - adopt controls to lower the current levels of risk (by reducing likelihood \& impact). 
+
+\section*{Critical Appraisal of Risk Methods and Frameworks}
+The critical appraisal of risk methods and frameworks was originally produced by the NCSC so practitioners and decision makers can better understand and work with approaches available. It does not mean that existing risk frameworks should not be used, or that they are fundamentally ineffective. Whichever framework is used, effective outcomes won't be realised without thought or context. 
+\subsection*{Limitations}
+\begin{itemize}
+    \item Limits of a `reductionist' approach
+    \item Lack of variety
+    \item Limits of a `fixed state' approach
+    \item Lack of feedback and control
+    \item Losing risk signals in the `security noise'
+    \item System operation
+    \item Information opacity
+    \item Noise from misguided analysis
+    \item Noise from bias
+    \item Assumed determinability
+    \item Abstraction through labelling
+    \item The limits of using matrices
+    \item Limits in the way uncertainty is presented
+    \item The effect risk relationships have on impact
+    \item The adverse effect of intervention
+    \item Impacts are not limited to the scope of assessment
+    \item The effect on time on risk
+\end{itemize}
