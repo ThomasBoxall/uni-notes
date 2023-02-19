@@ -1,0 +1,73 @@
+\lecture{Basics of Sets}{2023-02-14}{10:00}{Zhaojie}{Zoom}
+
+\define{Set}{A collection of objects, called the elemts of the set.}
+Sets provide a convenient language for describing many of the concepts in Computer Science. A letter many be used for the name of a set (similar to a variable in algebra).
+
+\section*{Set Notation}
+Elements of a set are enclosed by curly braces $\{$ and $\}$. Sets do not have repeated elements and there is not a particular order of elements. 
+
+$\{1,2,3,4\}$ denotes the set whose elements are 1, 2, 3, and 4. This is the same as $\{2,4,3,1\}$. 
+\subsection*{Members of Sets}
+If $A$ is the set, the notation $x \in A$ means that $x$ is an element of $A$. $x \notin A$ means that $x$ is not an element of $A$. 
+\subsection*{Listing vs Sequence of Elements}
+Commonly, we list the elements in a set for finite sets, for example
+\[A = \{3,6,9,12\}\]
+For large, sets we can use $\ldots$ to denote as sequence of elements. For example, the two sets below are the same, just represented differently
+\begin{align*}
+B &= \{1, 2, \ldots, 10\}\\
+B &= \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}
+\end{align*}
+
+\section*{Specifying a property}
+Sets can be represented by specifying a property that the elements of the set have in common. For example, the set below contains all integers larger than 0 and smaller than 9.
+\[B = \{z | z \mathrm{\ is\ an\ integer\ and\ } 0<z<9 \}\]
+$B$ could be rewritten as
+\[B = \{1, 2, 3, 4, 5, 6, 7, 8\}\]
+
+\subsection*{Size of the Set}
+\define{Cardinality}{The size of the set. If we have set $A$, the \textit{cardinality} of $A$ is represented by $|A|$.}
+For example, the size of the set
+\[G = \{4, 6, 8\}\]
+is three as it contains three elements, $|G| = 3$
+\define{Finite}{The number of elements in the set is fixed.}
+\define{Empty Set}{A set without any elements. This is denoted by either $\varnothing$ or $\{\}$.}
+Note that $\{\varnothing\}$ is not an empty set, it contains one element - an empty set. 
+\define{Infinite Set}{The number of elements in a set is infinite. For example
+\[\{x|x>2012\}\]}
+
+\subsection*{Subsets}
+\define{Subset}{All elements of set $A$ are also elements of set $B$. Therefore we can say that $A$ is a subset of $B$.}
+The subset notation for the example above would be $A \subseteq B$.
+
+If $A$ is not a subset of $B$, then we can write $A \nsubseteq B$. 
+
+If $A \subseteq B$ and there is at least one element in $B$ that is not in $A$, then $A$ is called a \textit{proper} subset of $B$ and has the notation $A \subset B$.
+
+\subsection*{Equality of Sets}
+Two sets are equal if they have exactly the same elements. This is written as $A=B$.
+
+\section*{Operations on Sets}
+Operations on sets can be performed to give new sets.
+
+Venn Diagrams can be used to represent these operations pictorially. 
+\subsection*{Intersection}
+\define{Intersection}{All the elements of one set $A$ that also belong to $B$, but no other elements.
+\[A \cap B = \{x | x \in A \mathrm{\ and\ } x \in B\}\]}
+
+For example, if $A= \{a, b, c\}$ and $B = \{c, d\}$, then $A \cap B = \{c\}$. 
+
+\subsubsection*{Disjoint}
+If $A \cap B = \varnothing$ then the sets $A$ and $B$ are disjoint (which means they have no element in common). 
+
+\subsection*{Union}
+\define{Union}{All the elements combined from multiple sets (remembering the rules about set membership).}
+For example, if $A= \{a, b, c\}$ and $B = \{c, d\}$ then $A \cup B =\{a, b, c, d\}$. 
+
+\subsection*{Difference}
+\define{Difference}{The difference of two sets $A$ and $B$ is the set of elements which are in $A$ but not in $B$.
+\[A \backslash B = \{ x | x \in A \mathrm{\ and\ } x \notin B \}\]}
+NB. In some resources $A - B$ is used instead of $A \backslash B$. 
+
+For example, if $A = \{a, b, c\}$ and $B = \{c, d\}$ then $A \backslash B = \{a, b\}$ and $B \backslash A = \{d\}$.
+
+In general $A \backslash B \neq B \backslash A$.
