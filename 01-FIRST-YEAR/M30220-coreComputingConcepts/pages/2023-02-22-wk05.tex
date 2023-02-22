@@ -1,0 +1,94 @@
+\research{WEEK 5: Commom Software Errors}{2023-02-22}{Flipped lecture slides}
+
+Software, the arguably most difficult information security component to secure comprises of applications, operating systems and assorted command utilities. Unfortunately, software development is often under resourced which can lead to information security being added as an afterthought rather than an integral part. The exploitation of software errors in software programming accounts for a substantial proportion of attacks on information.
+
+\section*{Web Application Security Risks}
+Attack vectors may exist through your web app, each representing a risk. Paths from threat agents through attack vectors, security weaknesses, security controls, technical impacts, to business impacts may be trivial to find or exploit but also may be very difficult. The impact of each may be inconsequential to catastrophic. Risks combine a likelihood associated with a threat agent, attack vector, and security weakness with the estimated technical/ business impact. 
+
+\section*{Security Requirement Specifications}
+The security requirements must be part of the overall statement of requirements document from which the design is generated. Adding them later will almost always add complexity and cost to any project. Security should not be thought of as only being the need to defend against improper access and misuse, it also means
+\begin{itemize}
+    \item defensive programming to make sure that only valid and accurate data is processed by the system
+    \item proper functional testing to ensure it behaves as expected and within the design criteria
+    \item methods to back up secure data against loss or damage
+    \item adequate assurance of availability
+    \item compliance with any legal and regulatory requirements
+    \item effective auditing of activity.
+\end{itemize}
+
+\subsection*{Common Software Errors}
+The \textit{Common Weakness Enumeration} (CWE) is a list of software security vulnerabilities and is a community-driven project maintained by MITRE (a non-profit research and development group). CWE provides a description for each vulnerability and a mitigation. MITRE has partnered with SANS institute to develop CWE/25, which lists the 25 most critical software vulnerabilities.
+
+A similar list is provided in the \textit{Open Web Application Security Project} (OWASP) top 10 project.
+
+The CWE/25 and OWASP top 10 share many of the same vulnerabilities. 
+
+\section*{Cross Site Scripting}
+\define{Cross Site Scripting}{Inproper neutralisation of input during web page generation.}
+Cross Site Scripting (XSS) vulnerabilities occur when:
+\begin{itemize}
+    \item Untrusted data enters a web app
+    \item Web app dynamically generates web page containing untrusted data
+    \item On page generation, the web app does not prevent entry of executable data (for example JavaScript, HTML tags, mouse events)
+    \item Victim visits generated web page via browser, containing the script injected using the untrusted data
+    \item Since script is from page sent by the web server, the victim's browser executes in the context of the web server's domain
+    \item This violates the same origin policy, scripts in one domain are not to access resources or run code in a different domain.
+\end{itemize}
+\subsection*{Types of Cross Site Scripting}
+\subsubsection*{Type 1: Reflected XSS (Non-Persistent)}
+The server reflects data in HTTP request back to the client in a HTTP response. The attacker makes the victim supply bad content to the vulnerable web app, which is reflected back and executed by a victim's browser.
+\subsubsection*{Type 2 Stored XSS (Persistent)}
+The app stores bad data in a database, message forum, visitor log, or other trusted data store. The dangerous data is later read back into the application and included in dynamic content. 
+
+\subsection*{Preventing Cross Site Scripting}
+Preventing XSS requires a separation of untrusted data from active browser content.
+\begin{description}
+    \item[Rule 0] Never insert untrusted data except in allowed locations
+    \item[Rule 1] HTML escape before inserting untrusted data into HTML element content
+    \item[Rule 2] Attribute escape before inserting untrusted data into HTML common attributes
+    \item[Rule 3] JavaScript escape before inserting untrusted data into JavaScript data values 
+    \item[Rule 3.1] HTML escape JSON values in an HTML context and read the data with \texttt{JSON.parse}
+    \item[Rule 4] CSS escape and strictly validate before inserting untrusted data into HTML style property values
+    \item[Rule 5] URL escape before inserting untrusted data into HTML
+    \item[Rule 6] Sanitize HTML markup with a library designed for the job
+    \item[Rule 7] Avoid JavaScript URLs
+    \item[Rule 8] Prevent DOM-based XSS
+    \item[Bonus 1] Use HTTP Only cookie flag
+    \item[Bonus 2] Implement content security policy
+    \item[Bonus 3] Use an auto-escaping template system
+    \item[Bonus 4] Use the X-XSS-Protection response header
+    \item[Bonus 5] Properly use modern JS frameworks
+\end{description}
+
+\section*{SQL Injection}
+SQL injection is where the software constructs all or part of an SQL command using externally-influenced input from an upstream component, but it does not neutralise or incorrectly neutralises special elements that could modify the intended SQL command when it is sent to a downstream component. 
+
+\section*{Secure Development \& Deployment}
+Secure development is everyone's concern, it is important that all developers keep their security knowledge sharp and produce clean and maintainable code. It is also important to protect the code repository, secure the build and development pipeline and continually test your security. Plans should also be made for security flaws and development environments should be secure. 
+\subsection*{Securing the Development Environment}
+The ISO 27000 series contains requirements that live and development systems are kep separate. User training may also be safer to run in a non-live system and function \& acceptance testing is required before releasing to production system.
+
+It can be good practice to treat the development environment as if it is compromised all the time, which means we must separate business and development functions. It is also to have trust in the developers and verify their actions.
+
+\subsection*{Acceptance Processes}
+Security testing needs to consider
+\begin{itemize}
+    \item effectiveness of defensive coding
+    \item protection against malware and code injection through interfaces
+    \item backup and recovery of data
+    \item access control
+    \item auditing and behavioural analysis
+    \item communications security
+    \item resilience
+\end{itemize}
+
+\subsection*{Change Control}
+Any changes to software risks introducing new bugs or vulnerabilities. There should be a formal change control process that manages these risks. This should include: \textit{separation of duties} (different people test and implement the system); \textit{two person control} (a second person signs off on code changes, to reduce accidental or malicious flaws); and \textit{using version control systems} (to be able to easily see the changes made and rollback changes quickly and easily). 
+
+\subsection*{Patching}
+Every piece of software contains bugs, the complexity and side of these applications means it is impossible to test 100\% of the potential execution paths. Bugs have a variety of different impacts on confidentiality, integrity and availability. Once a bug is found and fixed, the software suppliers issue a patch that can be installed in order to remove the vulnerability. Patches should be rolled out at the earliest opportunity, however patches should be tested in a non-live environment before roll out. Vulnerabilities may already be known to attackers who may want to exploit then, hence the necessity for a quick patch rollout. Patches may also be reverse engineered to create new exploits by attackers.
+
+\section*{Accreditation and Certification}
+\define{Certification}{Provision by an independent body of written assurance (a certificate) that the product, system or service in question meets specific requirements.}
+\define{Accreditation}{Formal recognition by an independent body, generally known as an accreditation body, that a certificate body operates according to international standard.}
+Accredited certification is typically mandated for safety/ security critical systems. A formal review process to approve information security architecture, policy and procedures before the new/ updated product/ service/ system is deployed/ used. This will typically require periodic review and re-accreditation.
