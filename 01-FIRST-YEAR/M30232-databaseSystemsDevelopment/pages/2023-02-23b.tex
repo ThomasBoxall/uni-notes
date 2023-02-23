@@ -1,0 +1,352 @@
+\lecture{PRACTICAL: Security \& Functions}{2023-02-23}{14:00}{Mark}{FTC 3}
+
+\section*{Security}
+T0. Create a new table in your \verb|upxxxxxxx| database called \verb|users| with the following columns.
+\begin{verbatim}
+id - int primary key (user identifier)
+first_name - varchar(30) (user first name)
+last_name - varchar(40) (user last name)
+email - varchar(100) (user email address)
+password - text (user password - Will be stored encrypted)
+\end{verbatim}
+\begin{sql}
+CREATE TABLE users(
+    id INT PRIMARY KEY,
+    first_name VARCHAR(30),
+    last_name VARCHAR(40),
+    email VARCHAR(100),
+    password text
+);
+\end{sql}
+
+T1. Transfer \verb|users.csv| (downloaded from Moodle) to the vm.
+\begin{verbatim}
+PS C:\Users\thoma\Downloads> scp .\users.csv up2108121@up2108121.myvm.port.ac.uk:~
+\end{verbatim}
+
+T2. Assuming you have transferred the csv into your home directory run the following code
+\begin{pseudo}
+\copy users(id, first_name, last_name, email, password) from '/home/up2108121/users.csv' DELIMITER ',' CSV HEADER
+\end{pseudo}
+
+T3. You should get the response COPY 500. Check that the data has been entered correctly with 
+\begin{sql}
+SELECT * FROM users LIMIT 5;
+\end{sql}
+\begin{pseudo}
+ id | first_name | last_name |           email            |  password
+----+------------+-----------+----------------------------+------------
+  1 | Tomlin     | Hardage   | thardage0@chronoengine.com | lE50Tm63
+  2 | Shea       | Bergeon   | sbergeon1@liveinternet.ru  | j5KTPP2z
+  3 | Matilde    | Jendrusch | mjendrusch2@ftc.gov        | 9J5pKR6
+  4 | Hillyer    | Machans   | hmachans3@fda.gov          | NXHF8K
+  5 | Cassaundra | Michiel   | cmichiel4@vimeo.com        | EIvy2EUtD0
+(5 rows)
+\end{pseudo}
+
+T4. Run the following code
+\begin{sql}
+CREATE EXTENSION PGCRYPTO; 
+update users set password = crypt(password, gen_salt('bf'));
+-- line below tests lines above
+SELECT * FROM users limit 5;
+\end{sql}
+\begin{pseudo}
+ id | first_name | last_name |           email            |                           password
+----+------------+-----------+----------------------------+--------------------------------------------------------------
+  1 | Tomlin     | Hardage   | thardage0@chronoengine.com | 2a06Pu5zrUTeqTxQ9/cvxWgugeIPN1zBwQtaPh3hYaVNjJl4.pKEmEtFy
+  2 | Shea       | Bergeon   | sbergeon1@liveinternet.ru  | 2a067impB1AFnhTzjhJzNnBMkekmGWJkNAtT3/pJdWVbqsvPbHUa/fnHG
+  3 | Matilde    | Jendrusch | mjendrusch2@ftc.gov        | 2a06btIlBtdBIBI9lwbDQKmfGuvp.f5.lursUWV6VHPV1A0lGWArAuQha
+  4 | Hillyer    | Machans   | hmachans3@fda.gov          | 2a063y9DJolYQU1tYk5imvTfBOMmfQzaeardWS.GLrO4JPAq60f7wV5Mi
+  5 | Cassaundra | Michiel   | cmichiel4@vimeo.com        | 2a061oo7WRPUd/TKI.cPjNGQQerNK0tUevebYB0cXwIssQt46EV4TohGy
+(5 rows)
+[dollar signs removed from above]
+\end{pseudo}
+
+You should see that the passwords are now encrypted.
+
+We have encrypted the passwords and we can no longer get to see the decrypted values. The safety in this method is that there is one way hashing protecting them. Firstly, select the details of the user with id 304;
+\begin{sql}
+SELECT first_name, last_name, password from users where id = 304;
+\end{sql}
+\begin{pseudo}
+ first_name | last_name |                           password
+------------+-----------+--------------------------------------------------------------
+ Corette    | Peaseman  | 2a06ru.N1no95BZTozd.0Hab8uCyUW8wZ0XwGN2Uksga6vjsZaW.g9CI2
+(1 row)
+[dollar signs removed]
+\end{pseudo}
+
+Now we select the details again but we are sending in the password that a user has entered to try to log in. If the decrypted password matches the one we are sending in we get a row of data back.\\
+
+T5. Run the following command
+\begin{sql}
+SELECT id,
+   	first_name,
+   	last_name
+FROM users
+WHERE email = 'cpeaseman8f@simplemachines.org'
+  AND password = crypt('nr4kjyxW', password);
+\end{sql}
+\begin{pseudo}
+ id  | first_name | last_name
+-----+------------+-----------
+ 304 | Corette    | Peaseman
+(1 row)
+\end{pseudo}
+The DBMS will look at the value of the password we are sending, \verb|nr4kjyxW|, and it will do the decryption to see if it matches. If it does it will send us back the data we requested. At no time do we see the stored unencrypted value of the password.\\
+
+T6. What do we get if we send in an incorrect password?
+\begin{sql}
+SELECT id,
+   	first_name,
+   	last_name
+FROM users
+WHERE email = 'cpeaseman8f@simplemachines.org'
+  AND password = crypt('nr4kjyxW!', password);
+\end{sql}
+\begin{pseudo*}
+ id | first_name | last_name
+----+------------+-----------
+(0 rows)
+\end{pseudo*}
+
+T7. Add a new user to the table but send in an encrypted version of their password:
+\begin{sql}
+INSERT INTO users
+VALUES(600,
+   	'Flubby',
+   	'Foster',
+   	'f_f@fmail.com',
+   	crypt('thisismypassword1', gen_salt('bf')));
+\end{sql}
+
+T8. Now select the password that has just been entered:
+\begin{sql}
+SELECT password
+FROM users
+WHERE id = 600;
+\end{sql}
+\begin{pseudo*}
+                           password
+--------------------------------------------------------------
+ 2a06UvKeG6bv6poLkpP9IXRlOeE/V7X524BmamixwIHHqMtsBhuLZmSt.
+(1 row)
+[dollar signs removed]
+\end{pseudo*}
+Add another user with the id of 601 that uses the same very bad password as Flubby Foster.
+\begin{sql}
+    INSERT INTO users
+    VALUES(601,
+           'Freddie',
+           'Andrews',
+           'f_a@fmail.com',
+           crypt('thisismypassword1', gen_salt('bf')));
+\end{sql}
+Now compare the encrypted passwords, by selecting just the id and passwords for users 600 and 601. Copy the output below. (They should be different, despite being the same password). This is what \verb|gen_salt()| does for us. It puts a random salt value into the encrypted text. The random text is up to 128 characters long. 
+\begin{sql}
+SELECT id, password
+FROM users
+WHERE id >= 600;
+\end{sql}
+\begin{pseudo}
+ id  |                           password
+-----+--------------------------------------------------------------
+ 600 | 2a06UvKeG6bv6poLkpP9IXRlOeE/V7X524BmamixwIHHqMtsBhuLZmSt.
+ 601 | 2a06sGalLa0JGaFZ99LQn.S7w.1qWGSv8soO68qlcGwTQ6.bWoqDhhYqi
+(2 rows)
+\end{pseudo}
+
+\section*{Functions}
+In order to use the next set of data we need to change the date style. Use the following code:
+\begin{sql}
+SET DATESTYLE TO EUROPEAN;
+\end{sql}
+This will make Postgresql expect dates to be in the \verb|DD MM YYYY| format.
+
+Now run the following code to create a new table:
+\begin{sql}
+create table users2 (
+	id INT primary key,
+	first_name VARCHAR(20) not null,
+	last_name VARCHAR(30) not null,
+	email VARCHAR(55) not null,
+	dob DATE not null
+);
+
+insert into users2 (id, first_name, last_name, email, dob) values (1, 'Zaria', 'Coot', 'zcoot0@baidu.com', '07-11-2002');
+insert into users2 (id, first_name, last_name, email, dob) values (2, 'Lucho', 'Holbie', 'lholbie1@adobe.com', '09-03-2000');
+insert into users2 (id, first_name, last_name, email, dob) values (3, 'Sherlock', 'Shoveller', 'sshoveller2@zdnet.com', '10-10-2002');
+insert into users2 (id, first_name, last_name, email, dob) values (4, 'Shelba', 'Riach', 'sriach3@xing.com', '09-11-2002');
+insert into users2 (id, first_name, last_name, email, dob) values (5, 'Joseph', 'Lynn', 'jlynn4@weather.com', '25-11-2003');
+insert into users2 (id, first_name, last_name, email, dob) values (6, 'Haroun', 'De Haven', 'hdehaven5@vistaprint.com', '23-06-2003');
+insert into users2 (id, first_name, last_name, email, dob) values (7, 'Fidelio', 'Lindeboom', 'flindeboom6@salon.com', '01-11-2003');
+insert into users2 (id, first_name, last_name, email, dob) values (8, 'Sheryl', 'Kubat', 'skubat7@fc2.com', '07-11-2001');
+insert into users2 (id, first_name, last_name, email, dob) values (9, 'Lisha', 'Skillern', 'lskillern8@goo.gl', '10-09-2003');
+insert into users2 (id, first_name, last_name, email, dob) values (10, 'Aubrie', 'Sedgmond', 'asedgmond9@nymag.com', '02-01-2004');
+insert into users2 (id, first_name, last_name, email, dob) values (11, 'Thorvald', 'Blincko', 'tblinckoa@mozilla.org', '21-11-2001');
+insert into users2 (id, first_name, last_name, email, dob) values (12, 'Quincy', 'Keeltagh', 'qkeeltaghb@multiply.com', '04-12-2002');
+insert into users2 (id, first_name, last_name, email, dob) values (13, 'Javier', 'Camel', 'jcamelc@weather.com', '15-11-2001');
+insert into users2 (id, first_name, last_name, email, dob) values (14, 'Ann-marie', 'Scholtz', 'ascholtzd@hp.com', '03-07-2001');
+insert into users2 (id, first_name, last_name, email, dob) values (15, 'Camel', 'Radmer', 'cradmere@about.com', '06-02-2001');
+insert into users2 (id, first_name, last_name, email, dob) values (16, 'Friedrich', 'Truluck', 'ftruluckf@soup.io', '04-09-2000');
+insert into users2 (id, first_name, last_name, email, dob) values (17, 'Nichole', 'Rowbottam', 'nrowbottamg@state.tx.us', '10-09-2001');
+insert into users2 (id, first_name, last_name, email, dob) values (18, 'Kory', 'Agglio', 'kagglioh@i2i.jp', '20-04-2000');
+insert into users2 (id, first_name, last_name, email, dob) values (19, 'Bella', 'O''Brallaghan', 'bobrallaghani@bravesites.com', '01-10-2002');
+insert into users2 (id, first_name, last_name, email, dob) values (20, 'Francine', 'Rantoul', 'frantoulj@e-recht24.de', '24-08-2001');
+\end{sql}
+You have just inserted users into a table that has a column called dob. This stores a date of birth in ISO format, \verb|YYY-MM-DD| but the code has entered dates in UK / European format.\\
+
+T9. Check the format stored in the table. Display the dob for user with id number 10
+\begin{sql}
+SELECT dob FROM users2 WHERE id=10;
+\end{sql}
+\begin{pseudo}
+    dob
+------------
+ 2004-01-02
+(1 row)
+\end{pseudo}
+
+\subsection*{Age function 1}
+T10. How old is the user with id number 1 TODAY? Use the \verb|age()| function. The format for this method is \verb|age(TIMESTAMP)| where \verb|TIMESTAMP| can be an attribute name. This takes the current date by default to calculate the age today.
+\begin{sql}
+SELECT first_name, AGE(dob) FROM users2 WHERE id=10;
+\end{sql}
+\begin{pseudo}
+ first_name |          age
+------------+------------------------
+ Aubrie     | 19 years 1 mon 21 days
+(1 row)
+\end{pseudo}
+
+\subsection*{Age function 2}
+T11. How old will the user be on 30th June 2035? The format for this method is \verb|age(TIMESTAMP,TIMESTAMP)| where TIMESTAMP can be an attribute name OR  date.
+\begin{sql}
+SELECT dob, age('30-06-2035', dob) FROM users2 where id=1;
+\end{sql}
+\begin{pseudo}
+    dob     |           age
+------------+-------------------------
+ 2002-11-07 | 32 years 7 mons 23 days
+(1 row)
+\end{pseudo}
+
+\subsection*{More on Dates}
+T12. Run the following code to add a new column to \verb|users2|.
+\begin{sql}
+ALTER TABLE users2 ADD COLUMN joined date DEFAULT CURRENT_DATE;
+\end{sql}
+This will add a new column called joined and it has a DEFAULT value set to \verb|CURRENT_DATE|. This will put in a value automatically if a value is not inserted by the user.\\
+
+T13. The \verb|users2|  table was created with the expectation that the \verb|INSERT| code will provide a value for the ID, it is not set to serial. How will you find the next free id number? Copy the code and result below:
+\begin{sql}
+SELECT (max(id)+1) AS "NEXT ID" from users2;
+\end{sql}
+\begin{pseudo}
+ NEXT ID
+---------
+      21
+(1 row)
+\end{pseudo}
+
+T14. Add 5 new users to the \verb|users2| table. Put a value in for the joined attribute for 2 and do not put one in for the other 3. Copy the code below:
+
+\begin{sql}
+insert into users2 (id, first_name, last_name, email, dob) values (21, 'Renell', 'Cogle', 'rcogle0@wiley.com', '2022-02-06');
+insert into users2 (id, first_name, last_name, email, dob, joined) values (22, 'Isabeau', 'Gameson', 'igameson1@ucoz.com', '2023-01-25', '2022-02-04');
+insert into users2 (id, first_name, last_name, email, dob) values (23, 'Benito', 'Celli', 'bcelli2@xinhuanet.com', '2022-07-07');
+insert into users2 (id, first_name, last_name, email, dob) values (24, 'Abra', 'Colbourn', 'acolbourn3@cpanel.net', '2022-06-07');
+insert into users2 (id, first_name, last_name, email, dob, joined) values (25, 'Paolo', 'Libby', 'plibby4@unc.edu', '2022-05-04', '2022-12-13');
+\end{sql}
+
+T15. Retrieve all of the data in the users2 table. How many have today’s date in the joined table? How many are blank?
+\begin{pseudo}
+ id | first_name |  last_name   |            email             |    dob     |   joined
+----+------------+--------------+------------------------------+------------+------------
+  1 | Zaria      | Coot         | zcoot0@baidu.com             | 2002-11-07 | 2023-02-23
+  2 | Lucho      | Holbie       | lholbie1@adobe.com           | 2000-03-09 | 2023-02-23
+  3 | Sherlock   | Shoveller    | sshoveller2@zdnet.com        | 2002-10-10 | 2023-02-23
+  4 | Shelba     | Riach        | sriach3@xing.com             | 2002-11-09 | 2023-02-23
+  5 | Joseph     | Lynn         | jlynn4@weather.com           | 2003-11-25 | 2023-02-23
+  6 | Haroun     | De Haven     | hdehaven5@vistaprint.com     | 2003-06-23 | 2023-02-23
+  7 | Fidelio    | Lindeboom    | flindeboom6@salon.com        | 2003-11-01 | 2023-02-23
+  8 | Sheryl     | Kubat        | skubat7@fc2.com              | 2001-11-07 | 2023-02-23
+  9 | Lisha      | Skillern     | lskillern8@goo.gl            | 2003-09-10 | 2023-02-23
+ 10 | Aubrie     | Sedgmond     | asedgmond9@nymag.com         | 2004-01-02 | 2023-02-23
+ 11 | Thorvald   | Blincko      | tblinckoa@mozilla.org        | 2001-11-21 | 2023-02-23
+ 12 | Quincy     | Keeltagh     | qkeeltaghb@multiply.com      | 2002-12-04 | 2023-02-23
+ 13 | Javier     | Camel        | jcamelc@weather.com          | 2001-11-15 | 2023-02-23
+ 14 | Ann-marie  | Scholtz      | ascholtzd@hp.com             | 2001-07-03 | 2023-02-23
+ 15 | Camel      | Radmer       | cradmere@about.com           | 2001-02-06 | 2023-02-23
+ 16 | Friedrich  | Truluck      | ftruluckf@soup.io            | 2000-09-04 | 2023-02-23
+ 17 | Nichole    | Rowbottam    | nrowbottamg@state.tx.us      | 2001-09-10 | 2023-02-23
+ 18 | Kory       | Agglio       | kagglioh@i2i.jp              | 2000-04-20 | 2023-02-23
+ 19 | Bella      | O'Brallaghan | bobrallaghani@bravesites.com | 2002-10-01 | 2023-02-23
+ 20 | Francine   | Rantoul      | frantoulj@e-recht24.de       | 2001-08-24 | 2023-02-23
+ 21 | Renell     | Cogle        | rcogle0@wiley.com            | 2022-02-06 | 2023-02-23
+ 23 | Benito     | Celli        | bcelli2@xinhuanet.com        | 2022-07-07 | 2023-02-23
+ 24 | Abra       | Colbourn     | acolbourn3@cpanel.net        | 2022-06-07 | 2023-02-23
+ 22 | Isabeau    | Gameson      | igameson1@ucoz.com           | 2023-01-25 | 2022-02-04
+ 25 | Paolo      | Libby        | plibby4@unc.edu              | 2022-05-04 | 2022-12-13
+(25 rows)
+\end{pseudo}
+
+T16. You have been asked to find out which users in the \verb|users2| table do not have a joined date. Copy your code to find this info and the results from your code below.
+\begin{sql}
+SELECT id FROM users2 where joined=NULL;
+\end{sql}
+\begin{pseudo*}
+ id
+----
+(0 rows)
+\end{pseudo*}
+
+T17. Why do you get the result you get?\\
+As when adding the constraint, Postgres will automatically populate all the empty values with the current date. 
+
+\section*{Challenge from Lecture}
+Write a query that searches through the customer email addresses in \verb|dsd_22| database and return a list of all the email domains
+\begin{sql}
+SELECT substring(email, position('@' in email), length(email)) FROM customer;
+\end{sql}
+\begin{pseudo*}
+        substring
+-------------------------
+ @mail.ru
+ @nydailynews.com
+ @cbslocal.com
+ @google.com.hk
+ @elegantthemes.com
+ @economist.com
+ @amazon.de
+ @feedburner.com
+ @dell.com
+ @blinklist.com
+ @mail.ca
+ @tiny.cc
+ @chron.com
+ @wp.com
+ @webmd.com
+ @prweb.com
+ @wordpress.org
+ @amazon.de
+ @geocities.jp
+ @shop-pro.jp
+ @dell.com
+ @google.cn
+ @google.wh
+ @google.wh
+ @google.ca
+ @tiny.cc
+ @networkadvertising.org
+ @cafepress.com
+ @imdb.com
+ @dion.ne.jp
+ @typepad.com
+ @uiuc.edu
+ @arstechnica.com
+ @rambler.ru
+ @sfgate.com
+(35 rows)
+\end{pseudo*}
