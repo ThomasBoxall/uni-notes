@@ -1,0 +1,65 @@
+\research{WORKSHEET 14 Computer Memory Systems}{2023-02-24}{Worksheet}
+
+\begin{enumerate}
+    \item \textbf{What is computer memory?}\\
+    The part of the computer where the computer stores data and instructions, can be stored either temporarily or permanently.
+    \item \textbf{Why do computers need memory?}\\
+    To be able to store data and instructions, either temporarily or permanently.
+    \item \textbf{How is memory capacity usually measured?}\\
+    In terms or words, bits or bytes (or multiples of them, eg terabytes).
+    \item \textbf{What is the memory unit of transfer? What are the units?}\\
+    Bits are used when referring to main memory, words are used in registers and blocks are used when moving from one memory location to another.
+    \item \textbf{What does memory access mean?}\\
+    The computer retrieving data from or sending data to main memory. 
+    \item \textbf{What is the sequential access method in memory? Give an example.}\\
+    The memory starts being read from the first location and all locations are examined until the desired location is found, this is used in tape units.
+    \item \textbf{What is the direct access method in memory? Give an example.}\\
+    The read/write head moves directly to the address which needs to be accessed. Disk units generally use this method.
+    \item \textbf{What is the random access method in memory? Give an example.}\\
+    The memory will transfer the desired word as well as some words from either side of the desired word. This is often found in main memory or cache systems.
+    \item \textbf{What is the associative access method in memory? Give an example.}\\
+    Hybrid between direct and random access. It searches through the entire memory and returns all the words similar to what you have requested. Often found in cache systems.
+    \item \textbf{How is memory performance measured?}\\
+    Through a number of metrics: access time, cycle time and transfer rate.
+    \item \textbf{What is memory access time?}\\
+    The time it takes to access the memory.
+    \item \textbf{What is the memory cycle time?}\\
+    The time it takes for one cycle of the Fetch-Decode-Execute cycle to complete
+    \item \textbf{What is the transfer rate in memory?}\\
+    The maximum frequency of memory access.
+    \item \textbf{What are different physical types of memory?}\\
+    Semiconductor, magnetic, optical and magneto-optical.
+    \item \textbf{What is a volatile memory? What is non-volatile memory?}\\
+    Memory is volatile when it empties when the power is cut. Memory is non-volatile when its contents stays when the power cuts. 
+    \item \textbf{What is ROM? Is it volatile memory? Is it erasable?}\\
+    Read Only Memory (ROM) is non-volatile and is non-erasable.
+    \item \textbf{What are the relationships between cost, capacity, and access time in memory design?}\\
+    As cost decreases, the capacity increases however access time increases which decreases the frequency of access of the memory.
+    \item \textbf{What is a good computer memory system? How it should be in terms of a combination of different types of memory?}\\
+    Smaller amounts of more expensive, fast memory (eg registers, cache) are combined with larger, cheaper slower memory (eg magnetic disk).
+    \item \textbf{How do you explain memory hierarchy?}
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{C{0.3\textwidth} C{0.3\textwidth}}
+            \textbf{Location} & \textbf{Memory Type}\\
+            \hline
+            \hline
+            \multirow{3}{*}{Inboard Memory} & Registers\\
+            & Cache\\
+            & Main Memory\\
+            \hline
+            \multirow{3}{*}{Outboard Storage} & Magnetic Disk\\
+            & CD-ROM/ CD-RW\\
+            & DVD-RW/ DVD-RAM\\
+            \hline
+            Off-line storage & Magnetic tape\\
+            \hline
+        \end{tabular}
+    \end{table}
+    \item \textbf{What is cache memory? Why is it important?}\\
+    Small amounts of very fast memory which is used between the CPU and registers. This allows the cache memory to contain a copy of a portion of the memory which decreases access time of the CPU getting data.
+    \item \textbf{How does multi-level cache organisation work?}\\
+    There are three levels of cache memory, the fastest speed of transfer is between the CPU and Level 1 cache (which is the smallest); the slowest speed of transfer is between Level 3 cache and Main Memory (L3 cache is the biggest). Level 2 cache is found in the middle of L1 and L3.
+    \item \textbf{How does word and block transfer work in cache memory?}\\
+    Whole blocks of data are transferred from main memory to level 3 cache. Sub blocks are transferred onto level 2. Smaller sub-parts of blocks are transferred onto level 1 where words are then transferred onto the CPU as needed. 
+    \end{enumerate}
