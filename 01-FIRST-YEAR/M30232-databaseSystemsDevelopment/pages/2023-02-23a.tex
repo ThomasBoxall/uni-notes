@@ -1,0 +1,71 @@
+\lecture{LECTURE: Coursework Feedback \& Functions}{2023-02-23}{13:00}{Mark}{RB LT1}
+
+\section*{Text Functions}
+\subsection*{ASCII()}
+The \verb|ASCII()| function returns the ASCII value of a character. The function expects 1 character, any additional characters passed to it will be ignored.
+\begin{sql}
+SELECT ASCII ('A');
+\end{sql}
+will return: \verb|65|.
+
+\subsection*{CHR()}
+The \verb|CHR()| function performs the inverse of \verb|ASCII()|, it returns the character represented by the ASCII code passed in.
+\begin{sql}
+SELECT CHR(65);
+\end{sql}
+will return: \verb|A|.
+
+\subsection*{INITCAP()}
+The \verb|INITCAP()| function converts the first letter of each word in the string passed into it into a capital, this is known as \textit{title case}.
+\begin{sql}
+SELECT INITCAP('hi my name is dave);
+\end{sql}
+will return: \verb|Hi My Name Is Dave|.
+
+\subsection*{POSITION()}
+The \verb|POSITION()| function returns the location of a substring in a string.
+\begin{sql}
+SELECT POSITION('B' IN 'A B C');
+\end{sql}
+will return: \verb|3|. Note that the indexing is 1 based and that the function will only return the first occurrence of the target string in the search string.
+
+\subsection*{FORMAT()}
+The \verb|FORMAT()| function formats arguments based on an input format string. It is similar to the C function \verb|sprintf|.
+
+\subsection*{CONCAT()}
+The \verb|CONCAT()| glues one string to another. Non-attribute strings (eg \verb|' '|) can be put between attribute names to add spaces in. You have to specify the separator between each attribute.
+\begin{sql}
+SELECT CONCAT(cust_fname, ' ', cust_lname);
+\end{sql}
+will return: \verb|Fred Fredrikson|.
+
+\subsection*{CONCAT\_WS()}
+The \verb|CONCAT_WS()| function works much the same as the \verb|CONCAT()| in that it concatenates strings together. However the \verb|CONCAT_WS()| function only requires the separator to be specified once, as the first parameter in the bracket.
+\begin{sql}
+SELECT CONCAT_WS(' ', cust_fname, cust_lname);
+\end{sql}
+will return: \verb|Fred Fredrikson|.
+
+\section*{Date Functions}
+We have already used \verb|NOW()| (which returns the date and time at which the command is sent). \verb|CURRENT_DATE| returns the current date (note that it doesn't have brackets). 
+\subsection*{DATE\_PART()}
+The \verb|DATE_PART()| function allows us to extract part of a date, for example just the year.
+\begin{sql}
+SELECT DATE_PART('year', NOW());
+\end{sql}
+will return \verb|2023|.
+
+Among others, we can request: \verb|decade|, \verb|year|, \verb|month|, \verb|day|, \verb|hour|, \verb|minute|, \verb|second|, \verb|day of week|.
+
+\subsection*{AGE()}
+This returns the difference between the dates passed as parameters. Its explored more in this weeks practical.
+
+\subsection*{CURRENT\_TIME}
+Returns the current time.
+
+\subsection*{DATE\_TRUNC()}
+The \verb|DATE_TRUNC()| function truncates the date to a specified level (levels are the same as for \verb|DATE_PART()|).
+\begin{sql}
+SELECT DATE_TRUNC('year', NOW());
+\end{sql}
+will return \verb|2023-01-01 00:00:00+00|. This is not used particularly often.
