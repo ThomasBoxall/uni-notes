@@ -1,0 +1,180 @@
+\lecture{LECTURE: Network Security}{2023-02-21}{09:00}{Amanda}{Zoom}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.95\textwidth}}
+        "Security isn't a happy accident"\\
+        - \textit{Amanda}
+    \end{tabular}
+\end{table}
+
+\section*{Security Problems}
+There are a number of areas of concerns when it comes to security.
+\begin{description}
+    \item[Remote Attacks] People try to find vulnerabilities in systems for fun, or just trying to improve their hacking skills.
+    \item[Backdoors] When software is developed, software developers can intentionally (or unintentionally) leave `backdoors' in the software which allows access to it.
+    \item[Insecure Configuration] When servers/ systems are not configured correctly, this can expose vulnerabilities.
+    \item[Internal Attacks] These are attacks which originate from within the organisation. The perpetrator of such an attack would probably be a disgruntled employee, who knows what physical cables to pull, where the release the virus. This is a big threat within organisations.
+    \item[Access Controls] Within organisations, as employees move from role to role, they should have their access permissions updated accordingly. Not only what they can access, also the level of access (read, write, etc) should also be considered.
+    \item[Personal Devices] Within organisations, it is a security risk to allow employees to attach personal devices to work networks. USB devices are included in this.
+\end{description}
+
+\section*{Security Management}
+There are a number of strategies which can be used to manage security risks.
+\begin{description}
+    \item[Control \& Distribution] Ensure appropriate controls (eg Access Controls) are put in place to restrict users access and prevent editable copies of files from being downloaded.
+    \item[Event Logging] This is a good tool when investigating an issue with the network (both security issues and general network issues). The logs show when anything was done to the system, what time it happened, who did itm and what they did.
+    \item[Monitoring] This is generally done by software now. It includes reviewing things like ports to see if any have been left open for an extended period of time. 
+    \item[Parameter Management] Reviewing normal parameters and live data, to see if anything is out of the ordinary. 
+\end{description}
+
+\section*{Security Services}
+\begin{description}
+    \item[Denial of Service Prevention] Nowadays, these attacks are more likely to be DDOS. It is hard to work out where a DDOS is coming from as it is multiple pings at the same time to bring down a server or service.
+    \item[Access Controls] Making sure that the access the users have is role based.
+    \item[User Authentication] At a basic level, this will probably just be a password. For increased security, Multi-Factor Authentication should be used.
+    \item[Data Confidentiality] How the data is kept secure, for example not allowing downloading of data.
+    \item[Accountability] This is the process of working out who has access to what systems, who is responsible for what systems and who is responsible for the 3rd party systems' security. 
+\end{description}
+
+\section*{Security Mechanisms}
+\begin{itemize}
+    \item Encryption / Decryption
+    \item Message Authentication
+    \item Password Policy
+    \item Digital Signatures
+    \item Access Controls
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{p{0.2\textwidth} C{0.12\textwidth} C{0.12\textwidth} C{0.12\textwidth} C{0.12\textwidth} C{0.12\textwidth}}
+        \textbf{Security Mechanism} & \textbf{Confidentiality \& Privacy} & \textbf{Integrity \& Protection} & \textbf{Access Controls \& Availability} & \textbf{Non-Repudiation \& Accountability} & \textbf{Authentication}\\
+        \hline
+        \hline
+        Access Control Mechanism & Y & & Y & & Y\\
+        \hline        
+        Digital Signature & & Y & & Y & Y\\
+        \hline
+        Encryption Mech. & Y & Y & & Y & Y\\
+        \hline
+        One-Way Hash (OWH) & & Y & & & \\
+        \hline
+        Certification & & & Y & Y & Y\\
+        \hline
+        Password Techniques & Y & Y & & Y & Y\\
+        \hline
+        MAC & Y & Y & & Y & Y\\
+        \hline
+        Key Exchange/ Generation & Y & Y & & & Y\\
+        \hline
+    \end{tabular}
+\end{table}
+
+\section*{Secure Communication over Insecure Networks}
+When we communicate over insecure networks, we need to communicate in a secure way to protect the \textit{confidentiality} and \textit{integrity} of the data we are transmitting. Encryption can help prevent man in the middle attacks, in that if someone listens to the transmission then they will not be able to understand it. 
+\subsection*{Approaches of Encryption}
+There are two different approaches to encryption, \textit{symmetric key encryption} and \textit{public key encryption}.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{p{0.3\textwidth} p{0.3\textwidth} p{0.3\textwidth}}
+        & \textbf{Symmetric Key} & \textbf{Public Key}\\
+        \hline
+        \hline
+        Encrypt and decrypt key values & The same values & Different values\\
+        \hline
+        Secrecy of keys & Must be kept secret & One key is kept secret (private key) and the other is made public (public key)\\
+        \hline
+        Confidentiality & Provided & Encryption in a public key provides confidentiality\\
+        \hline
+        Crypto signature & Not provided & Encryption in a private key provides a signature.\\
+        \hline 
+    \end{tabular}
+\end{table}
+
+A message which has been encrypted in a private key can be ready by anyone (using the public key). There is a certain amount of trust in who you give your public key to. The fact that the cyphertext is properly formatted with a message with a reasonable content provides a digital signature by the sender. 
+
+\section*{Secure Sockets Layer/ Transport Layer Security}
+Secure Socket Layer (SSL) and Transport Layer Security (TLS) operation are the basics for how security is achieved. The mechanisms are utilised whenever a web access screen indicates that you are going into secure operation.
+
+\begin{example}{How SSL \& TLS is used}
+This example uses both symmetric and private key encryption.
+\begin{enumerate}
+    \item Alice contacts her brokers website and clicks `login'.
+    \item The broker send s a trusted copy of its public key
+    \item Alice's PC generates a random (secret) working key
+    \item Alice's PC sends the key to the broker encrypted in its (the broker's) public key
+    \item Both now have the (otherwise secret) working keys and can communicate.
+\end{enumerate}
+\end{example}
+
+The encryption used may vary from 40-bits to 128-bits. The 40-bit approach is very weak; the 128-bit approach can be much stronger, however that depends on other factors as well (including how random the key generation really is). 256-bits are used for a stronger cypher. 
+
+\subsection*{Trusted Certificates}
+Trusted certificates contain the owner's public key. They are trusted because they are cryptographically signed by a trusted agency. 
+
+\section*{Types of Cypher}
+\subsection*{Data Encryption Standard}
+Data Encryption Standard (DES) dates back to the mid-1970s. It has a 56-bit key length, which in the modern world is inadequate, and can be broken in less than 24 hours (in reality, within a few hours).
+
+\subsection*{Triple Data Encryption Standard}
+The Triple Data Encryption Standard has a much longer, more effective key length.
+
+\subsection*{Advanced Encryption Standard}
+The Advanced Encryption Standard (AES) is more recent and provides greater security (has 128-256-bit length). AES is an internationally developed algorithm (from Belgium). 
+
+\section*{Virtual Private Network}
+\define{Virtual Private Network}{A private network that uses a public entwork to connect remote sites or users together. It uses virtual connections.}
+Virtual Private Networks (VPN)s appear to be private. However they are not, the `privacy' occurs due to the encryption, then encapsulation is in `routable IP packets'
+
+Outsiders may be able to intercept the packets, but they cannot: read them; modify them without detection; or impersonate expensive T1/E1 leased lines.
+
+A typical use of a VPN is to replace the expensive T1/E1 lease lines. If an organisation chose to do this, removing the T1/E1 lines would require the use of the organisations intranet or internet instead.
+
+However, replacing T1/E1 lease lines with VPN does not provide any assurances or timeliness of delivery (it gets the usual best-efforts delivery of the intranet/ internet). 
+
+\section*{Use of Radius Protocol}
+Remote Authentication Dial-In User Service (RADIUS) protocol provides
+\begin{itemize}
+    \item Authentication, Authorization, checking and accounting
+    \item Uses Point-to-Point Protocol (PPP)
+    \item Operates on port 1812
+    \item Commonly used to facilitate roaming
+    \item Can provide customisable login prompts
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.8\textwidth]{assets/radius-protocol-flow.png}
+    \caption*{Authentication and Authorisation flow} 
+\end{figure}
+
+\section*{Internet Access}
+It is easy to connect to the internet - all it takes is a router. However, just using a router is not a good idea. There are real dangers in uncontrolled interconnection into the internet, this is a network manager's worst nightmare. 
+\subsection*{Firewalls}
+The solution to uncontrolled connection to the internet is usually something called a `firewall'.\\
+
+The router we use for interconnection to the internet may include filters, which can filter out undesired traffic (for example, external TELNET or FTP request) or allow only some things in (for example e-mail). 
+\subsection*{Router-Based Firewalls}
+The firewall may be a screening router. This means that the router is setup to filter connection requests, these are not considered to be very strong security measurers. This is a low budget approach.
+\subsection*{Host-Based Firewalls}
+Alternatively, a host-based firewall can be used. This controls inbound and outbound internet traffic and may include an e-mail gateway, FTP server or Web server. 
+\subsection*{Firewall Data Sheet Parameters}
+The firewall may be router or host based; router based filtering is less expensive however host-based is more secure.
+
+Firewall must be configurable to support your security policy, and allows you to determine what connections you will permit and usually deny all others. 
+
+Firewall should be capable of filtering unauthorized connection attempts. There are known vulnerabilities in many approaches to this. Considerable care must be taken in configuring the firewall.
+
+The firewall should be capable of detecting all known internet security attacks.
+
+Firewalls may also include other network security capabilities, including: intrusion detection (known attack `signature' and anomalies); Network Address Translation (NAT); and URL and content filtering. 
+
+\section*{Evaluated Products}
+There is an internationally accepted security rating system called `Common Criteria Evaluated Products' with an Evaluated Assurance Level (EAL) range of 1 to 7.
+
+Many government and commerical procurements are requiring an EAL rating for security-related hardware/ software. These products include firewalls, intrusion detection, downgrade guards, etc.
+\begin{description}
+    \item[EAL 2] is the minimally accepted assurance level
+    \item[EAL 4] is the highest level obtainable for a retrofit product
+    \item[EAL 5 to 7] are extremely expensive to obtain (typically limited to government/ military applications)
+\end{description}
