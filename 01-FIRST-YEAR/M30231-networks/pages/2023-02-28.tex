@@ -1,0 +1,93 @@
+\lecture{LECTURE: Intranet Systems Management}{2023-02-28}{09:00}{Amanda}{Zoom}
+
+\section*{Motivation for Network Management}
+Computer networks are mission-critical to organisations. Any downtime in these systems can cause big problems for organisations, as such we aim for 99.9\% uptime. When systems go down, there can be \textit{catastrophic} impacts - see current Royal Mail issues or Blackberry issues historically.
+
+\section*{Goals for Network Management}
+Network management has to be responsive. End users need to be able to report issues and which need to be able to be dealt with quickly, this may include isolating them. Often the \textit{Help Desk} will be the first place users go to get support, this will often involve a list of pre-defined questions and they will have the ability to remote-in to troubleshoot further.
+
+The next line of support are the \textit{Network Support Technicians}, these people will attempt remote support before attempting on-site support as this is a much more efficient use of their time.
+
+The final line of support are the \textit{Network Systems Management} who monitor the network (whats happening, where traffic is coming from, are there any bottlenecks, etc). They diagnose problems as they happen, control the network and attempt to resolve issues before system outages. 
+
+\section*{Network Systems Management}
+Network Systems Management is software which runs on simple workstations. The software:
+\begin{itemize}
+    \item monitors the network - to make sure everything is running as it should do, there are no problems, and there are no additional pings (as this can be early warning of a DDOS)
+    \item displays the current status - often through a traffic light system
+    \item notifies the existence of problems as they arise - this can be done through exception reports
+    \item identifies causes - this is the most important thing to find out when something goes wrong
+    \item supports remote diagnostics
+    \item has intelligent network management
+    \item supports self healing networks - which is another piece of software that sits on the network and knows about te trigger points, and can resolve issues before they become a problem. This doesn't eliminate the need for network support technicians
+\end{itemize}
+
+\section*{TCP/ IP Network Management}
+Network management involves three distinct needs.
+\begin{description}
+    \item[Protocol] Reads \& Writes critical network management (for example event reports).
+    \item[Database] Contains specific parameters (for example, queue length, throughput, transmission speed, delay in the system, jitter). Database produces the exception report (which can be done daily, hourly, etc depending on how mission critical the system is). 
+    \item[Computer] This PC should be independent of the network so that if the network goes down then there is one PC that doesn't.
+\end{description}
+
+\subsection*{Simple Network Management Protocol}
+The \textit{Simple Network Management Protocol} (SNMP) reads \& writes between managers and network devices. It provides the services too
+\begin{itemize}
+    \item Read the value of the individual parameters (\texttt{SNMP GET})
+    \item Read sequences of table entries (\texttt{SNMP GET\_NEXT})
+    \item Write into parameter values (\texttt{SNMP SET})
+    \item Receive unsolicited event reports (\texttt{SNMP TRAP})
+\end{itemize}
+These events and parameters are the \textit{MIBs} which are documented using \textit{SMI} notation. 
+
+\subsection*{Remote MONitor}
+The \textit{Remote MONitor} (RMON) protocol can do some things, including pinging machines/ checking it isn't user error and removes the need for network technicians to travel on-to site.. SNMP MIBs include some remote monitoring capabilities. RMON is implemented as an independent probe device (software) attached to each LAN segment and can be integrated into networking devices, however this has a performance impact. 
+
+RMON is available in two different forms: RMON 1 monitors OSI layer 1 and 2 including collision statistics and error statistics; RMON 2 includes monitoring of higher levels, including hosts and what application causes the most traffic etc. It can be cost effective to deploy as it can help control traffic throughput. RMON can increase the effectiveness of network management protocols as it can identify where the problems are for troubleshooting, and deal with a large amount of what the helpdesk deals with. 
+
+\section*{Network Management Areas}
+OSI identifies five areas of network management.
+\subsection*{Configuration Management}
+This includes a wide range of issues, including address and name assignment of network devices (subnet, public/ private IP); hardware/ software updates to switches and routers (some OS can be updated easily, some are legacy systems which can't be upgraded easily); software license control (which is a legal requirement, some organisations have been taken to court over using illegal software); and setting up parameters (configuring switches and routers to filter out certain types of traffic, multi protocol routers can be configured to run selected protocols, configuration of bit rate etc).
+
+\subsection*{Fault Management}
+Fault Management provides identification and isolation of faults detected. Tools and techniques used include
+\begin{itemize}
+    \item Bit-Error Rate Test (BERT) - how much data goes through the network
+    \item Time Domain Reflector (TDR) - time it takes for data to go through the network
+    \item Optical TDR (OTDR)
+    \item Protocol analyser - for data links and LANs, used for troubleshooting all protocol layers - looks at protocols and bottlenecking
+    \item Loopback tests - when a packet doesn't make it to its destination and is sent back to the sender, this causes more network traffic and should be eliminated
+    \item Ping - allows you to see if different devices are `up' or on the network, this can be the first troubleshooting step
+    \item Artificial Traffic Generation - can test how robust the network is and should only be done out of hours or on an isolate parts of the network as generally tests are run until the network crashes.
+\end{itemize}
+\subsubsection*{Fault Isolation}
+Limiting faults is possible by isolating the fault using switches and router configuration. All traffic across the LAN can be monitored, as well as all exception conditions (collisions, lost token etc) can be detected. Devices called \textit{LAN analysers} (or LAN protocol analysers) can be attached to the network, which selectively record information about the packets of interest or may be setup to filter based on address, protocol or other fields of interest. 
+
+\subsection*{Performance Management}
+A slow network results in money lots, customers lost and man hours lots. Performance management is concerned with statistical data (round trip delays and throughput of data), may require prioritisation of certain traffic (including other quality of service capabilities), tuning of performance (eliminating bottlenecks by adjusting buffer size or setting timer values) and can establish a baseline (which is the adequate minimum system performance required). 
+Performance management is also concerned with finding bottlenecks, which commonly are: wide area links between remote switches and routers, access to server resources for example data storage, and parts of the network that are nearing overload.
+
+Many fault-management tools are useful in performance management.
+
+\subsection*{Accounting Management}
+This can be billing for network usage. 
+
+Network managements generally will spend their time doing accounting unless there is a fault. Parameters include 
+\begin{itemize}
+    \item Number of connections made
+    \item Duration of each connection - is the current Service Level Agreement enough, do we need more capacity
+    \item Number of email messages sent \& received - are they all necessary, do we need a new procedure to reduce the number of emails
+    \item Number of packets sent and received - is there too much transmission on one part of the network?
+    \item Systems that are accessed across the network - including cloud storage, is there sufficient capacity within these services, do we need to change it
+    \item Internet usage - is the internet being abused, do we need misuse protocols?
+    \item Server usage - probably will be cloud based rather than on-prem, have we got enough internet capacity to access these?
+    \item Data storage - have we got enough space, are we storing data because we need it or are we storing data because its data. 
+\end{itemize}
+
+\subsection*{Security Management}
+Security Management includes: confidentiality, integrity, authentication, access control, nonrepuditation.
+
+Vulnerabilities can include: wire-taps placed on cables, outsiders intercepting remote login attempts from across the network (can be done through a delay), introduction of a virus.
+
+Security protection mechanisms include: encryption, physical protection, access-control lists, and audit data collection. 
