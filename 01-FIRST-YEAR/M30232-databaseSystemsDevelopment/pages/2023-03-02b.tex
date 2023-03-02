@@ -1,0 +1,242 @@
+\research{PRACTICAL: Functions}{2023-03-02}{Self directed practical}
+\textit{NB: This practical is self directed due to staff sickness}.
+
+\section*{Functions}
+The initial tasks are to be completed in the \verb|dsd_22| database.
+
+\textbf{T1. Write a query that will combine the customer's first name, their last name and the email address in a single column. Give this column a sensible name. Copy the code and top 5 results output below.}
+\begin{sql}
+SELECT CONCAT_WS(' ', cust_fname, cust_lname, email) AS "Customer Information" FROM customer LIMIT 5;
+\end{sql}
+\begin{pseudo}
+                  Customer Information
+--------------------------------------------------------
+ Jobey Boeter jboeter0@mail.ru
+ York O'Deegan yodeegan1@nydailynews.com
+ Penelope Hexter phexter2@cbslocal.com
+ Chadd Franz-Schoninger cfranzschoninger3@google.com.hk
+ Vikky Eke veke4@elegantthemes.com
+(5 rows)
+\end{pseudo}
+
+\textbf{T2. Find all products that have the character 5 in their product name}
+\begin{sql}
+SELECT prod_name, prod_id FROM product WHERE POSITION('5' in prod_name) > 0;
+\end{sql}
+\begin{pseudo}
+                    prod_name                     | prod_id
+--------------------------------------------------+---------
+ Realigned 5th generation artificial intelligence |      26
+ Switchable 5th generation parallelism            |      49
+(2 rows)
+\end{pseudo}
+
+\textbf{T2a. For each product, find the position of the 5 in the name. Copy the code to both parts of this question below.}
+\begin{sql}
+SELECT prod_name, prod_id, POSITION('5' in prod_name) AS "5 pos" FROM product WHERE POSITION('5' in prod_name) > 0;
+\end{sql}
+\begin{pseudo}
+                    prod_name                     | prod_id | 5 pos
+--------------------------------------------------+---------+-------
+ Realigned 5th generation artificial intelligence |      26 |    11
+ Switchable 5th generation parallelism            |      49 |    12
+(2 rows)
+\end{pseudo}
+
+\textbf{T3. Can you write a query that combines the two queries in 2 and 2.a ? Copy the code and output below.}\\
+See above\\
+
+\textbf{T4. Write a query that returns the first and last names of the staff members. You need to put the word 'Dear' in front of the names.}
+\begin{sql}
+SELECT CONCAT_WS(' ', 'Dear', staff_fname, staff_lname) AS "NAMES" FROM staff;
+\end{sql}
+\begin{pseudo}
+          NAMES
+--------------------------
+ Dear Niel Welsby
+ Dear Nikoletta Shrimpton
+ Dear Montgomery Housegoe
+ Dear Hanan Gloster
+ Dear Janeva Gillicuddy
+ Dear Aura Clewlowe
+ Dear Nell Olsson
+ Dear Harriette Fewster
+ Dear Jillene Revitt
+ Dear Tim Illem
+ Dear Kinsley Boick
+(11 rows)
+\end{pseudo}
+
+\section*{Using the \texttt{users2} table from last week}
+\textbf{T5. The company is ten years old in November and are looking to send an email to all users who also have birthdays in November to celebrate this anniversary. Using one of the date functions we discussed last week, extract the first and last names of users who have birthdays in November. The output should put the first and last names of the users together in a useful format. Copy the code and output below.}
+\begin{sql}
+SELECT CONCAT_WS(' ', first_name, last_name) AS "Name", dob FROM users2 WHERE DATE_PART('month', dob) = 11;
+\end{sql}
+\begin{pseudo*}
+       Name        |    dob
+-------------------+------------
+ Zaria Coot        | 2002-11-07
+ Shelba Riach      | 2002-11-09
+ Joseph Lynn       | 2003-11-25
+ Fidelio Lindeboom | 2003-11-01
+ Sheryl Kubat      | 2001-11-07
+ Thorvald Blincko  | 2001-11-21
+ Javier Camel      | 2001-11-15
+(7 rows)
+\end{pseudo*}
+
+\textbf{T6. Which function will give the ascii value of the character \texttt{!}}
+\begin{verbatim}
+ASCII()
+\end{verbatim}
+\textbf{T6a. What is the value? Copy your code and answer below.}
+\begin{sql}
+SELECT ASCII('!');
+\end{sql}
+\begin{pseudo}
+ ascii
+-------
+    33
+(1 row)
+\end{pseudo}
+\textbf{T7. What character does the ascii value 300 define? Copy your code and the answer below.}
+\begin{sql}
+SELECT CHR(300);
+\end{sql}
+\begin{pseudo}
+ chr
+-----
+ Ĭ
+(1 row)
+\end{pseudo}
+
+\textbf{T8. What character does the ascii value 5000 define? Copy your code and the answer below. A screenshot of the output will be needed for this one!}
+\begin{sql}
+SELECT CHR(5000);
+\end{sql}
+\begin{pseudo}
+ chr
+-----
+ ᎈ
+(1 row)
+\end{pseudo}
+
+\textbf{T9. Calculate the age of all the users in the users2 table. Write a query that will return their first and last name along with their age. Put the results into age order with the eldest at the top.}
+\begin{sql}
+SELECT CONCAT_WS(' ', first_name, last_name) AS "NAME", AGE(NOW(), dob) AS "AGE"
+FROM users2
+ORDER BY AGE(NOW(), dob) DESC;
+\end{sql}
+\begin{pseudo}
+        NAME        |                   AGE
+--------------------+-----------------------------------------
+ Lucho Holbie       | 22 years 11 mons 24 days 14:04:46.41464
+ Kory Agglio        | 22 years 10 mons 12 days 14:04:46.41464
+ Friedrich Truluck  | 22 years 5 mons 28 days 14:04:46.41464
+ Camel Radmer       | 22 years 24 days 14:04:46.41464
+ Ann-marie Scholtz  | 21 years 7 mons 30 days 14:04:46.41464
+ Francine Rantoul   | 21 years 6 mons 9 days 14:04:46.41464
+ Nichole Rowbottam  | 21 years 5 mons 22 days 14:04:46.41464
+ Sheryl Kubat       | 21 years 3 mons 25 days 14:04:46.41464
+ Javier Camel       | 21 years 3 mons 17 days 14:04:46.41464
+ Thorvald Blincko   | 21 years 3 mons 11 days 14:04:46.41464
+ Bella O'Brallaghan | 20 years 5 mons 1 day 14:04:46.41464
+ Sherlock Shoveller | 20 years 4 mons 23 days 14:04:46.41464
+ Zaria Coot         | 20 years 3 mons 25 days 14:04:46.41464
+ Shelba Riach       | 20 years 3 mons 23 days 14:04:46.41464
+ Quincy Keeltagh    | 20 years 2 mons 29 days 14:04:46.41464
+ Haroun De Haven    | 19 years 8 mons 9 days 14:04:46.41464
+ Lisha Skillern     | 19 years 5 mons 22 days 14:04:46.41464
+ Fidelio Lindeboom  | 19 years 4 mons 1 day 14:04:46.41464
+ Joseph Lynn        | 19 years 3 mons 7 days 14:04:46.41464
+ Aubrie Sedgmond    | 19 years 2 mons 14:04:46.41464
+ Renell Cogle       | 1 year 24 days 14:04:46.41464
+ Paolo Libby        | 9 mons 29 days 14:04:46.41464
+ Abra Colbourn      | 8 mons 25 days 14:04:46.41464
+ Benito Celli       | 7 mons 26 days 14:04:46.41464
+ Isabeau Gameson    | 1 mon 8 days 14:04:46.41464
+(25 rows)
+\end{pseudo}
+
+\textbf{T10. What is the current time according to Postgresql?}
+\begin{sql}
+SELECT current_time;
+\end{sql}
+\begin{pseudo}
+    current_time
+--------------------
+ 14:05:59.733555+00
+(1 row)
+\end{pseudo}
+
+\textbf{T11. What is the current data AND time according to Postgresql?}
+\begin{sql}
+SELECT NOW();
+\end{sql}
+\begin{pseudo}
+              now
+-------------------------------
+ 2023-03-02 14:06:38.621407+00
+(1 row)
+\end{pseudo}
+
+\section*{Using \texttt{dsd\_22} complete the following tasks}
+When joining tables we can use the keywords \texttt{JOIN ... ON} or we can use \texttt{JOIN ... USING}. We put the matching primary and foreign key in brackets. An example follows:
+\begin{sql}
+SELECT cust_id,
+   	cust_ord_id
+FROM customer
+JOIN cust_order USING (cust_id)
+ORDER BY customer.cust_id;
+\end{sql}
+
+\textbf{T12. Run the following code}
+\begin{sql}
+SELECT cust_id,
+   	cust_ord_id,
+   	manifest_id,
+   	prod_name,
+   	cat_name
+FROM customer
+JOIN cust_order USING (cust_id)
+JOIN manifest USING (cust_ord_id)
+JOIN product USING (prod_id)
+JOIN category USING (cat_id)
+ORDER BY customer.cust_id;
+\end{sql}
+\textbf{T12a. Copy the response below}
+\begin{pseudo*}
+ERROR:  column "cat_id" specified in USING clause does not exist in left table
+\end{pseudo*}
+\textbf{T12b. Fix the code so that you get a result. Look at the ERD to help clarify the issue. Rewrite the code to get a working query.}
+\begin{sql}
+SELECT cust_id,
+   	cust_ord_id,
+   	manifest_id,
+   	prod_name,
+   	cat_name
+FROM customer
+JOIN cust_order USING (cust_id)
+JOIN manifest USING (cust_ord_id)
+JOIN product USING (prod_id)
+JOIN category ON product.prod_cat=category.cat_id
+ORDER BY customer.cust_id;
+\end{sql}
+\begin{pseudo}
+ cust_id | cust_ord_id | manifest_id |                   prod_name                    |  cat_name
+---------+-------------+-------------+------------------------------------------------+-------------
+       1 |          77 |          77 | Realigned homogeneous hub                      | Sport
+       1 |          71 |          71 | Inverse high-level attitude                    | Outdoor
+       1 |         143 |         143 | Re-engineered cohesive methodology             | Men's Wear
+       1 |          98 |          98 | Distributed uniform Graphic Interface          | Sport
+       1 |         146 |         146 | Fundamental global archive                     | Kid's Wear
+       1 |          91 |          91 | Configurable analyzing solution                | Kid's Wear
+       1 |          39 |          39 | Switchable tangible product                    | Outdoor
+       1 |          68 |          68 | Streamlined asynchronous functionalities       | Sport
+       1 |          57 |          57 | Persistent demand-driven complexity            | Sport
+       1 |         131 |         131 | Seamless optimal leverage                      | Health
+       1 |          26 |          26 | Switchable tangible product                    | Outdoor
+       1 |          99 |          99 | Fundamental global archive                     | Kid's Wear
+...
+(150 rows)
+\end{pseudo}
