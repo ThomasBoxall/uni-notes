@@ -1,0 +1,45 @@
+\research{WORKSHEET: Guest Lecture}{2023-03-03}{Worksheet}
+
+\textit{NB: ChatGPT used for research as suggested.}
+
+\begin{enumerate}
+    \item \textbf{Operating Systems have `entry points' - the various fine-grained, one might almost call, `atomic' operations upon which applications and drivers may call.  Look-up the different calling conventions used to access them; e.g., pascal; cdecl; fastcall etc.  Why are these different ways of access used; what are the pros/cons that are being mitigated for here?}\\
+    Calling conventions are sets of rules that determine how functions should be called and how parameters are passed between a caller and a callee in a computer program.
+    \begin{itemize}
+        \item Cdecl (C calling convention): This convention is used in the C programming language and is widely used on many platforms. In this convention, the caller is responsible for cleaning up the stack after a function calll.
+        \item Pascal calling convention: This convention is used in Pascal and Delphi programming languages. In this convention, the callee is responsible for cleaning up the stack after a function call.
+        \item Fastcall calling convention: This convention is used on x86 processors and is designed to make function calls faster by passing some of the function's arguments in registers rather than on the stack.
+        \item Stdcall calling convention: This convention is used in the Microsoft Windows operating system and is similar to the cdecl convention, except that the callee is responsible for cleaning up the stack after a function call.
+    \end{itemize}
+    \item \textbf{What are “Systems' Programming Languages”?  Why are they so named; what are their attributes, pros and cons?}\\
+    Systems programming languages are programming languages that are designed for writing system-level software, such as operating systems, device drivers, and system utilities. These languages are typically low-level and provide direct access to system resources, such as memory, hardware, and input/output devices. They are so named because they are used to build and maintain the core systems of a computer or other computing device.
+    \item \textbf{Why use Assembler/Assembly language today, especially when many say that constraints on the availability of memory-usage is no longer an issue?}\\
+    Assembler/Assembly language is still used today for a few reasons, despite the availability of modern programming languages with higher-level abstractions and more user-friendly syntax: performance, control, legacy code and debugging. 
+    \item \textbf{Why will there never be a 128-bit operating system?  I mean, NEVER.  Ok, you might create an `OS' with 128-bit wide registers, but that would only be for fun. Right?}\\
+    It would be extremely unlikely that a 128-bit operating system will never exist. This is due to hardware limitations, diminishing returns, and complexity. It is not impossible to create a 128-bit OS, the limitations make it unlikely that it would ever be made.
+    \item \textbf{What's your favourite Dilbert/XKCD cartoon? You may elect to give one from the 'Far Side' if you wish.}
+    \item \textbf{What's your Slashdot ID number?  (https://slashdot.org/)  - You know 'News for Nerds, Stuff that Matters'.  Your 'ID' says a lot. Really!}
+    \item \textbf{You're at Microsoft, interviewing folks (four scenarios) - and each is a critical hire.  What do you ask? You can have two questions if you like the scenario you choose.
+    \begin{itemize}
+        \item You're recruiting someone to work on the OS
+        \item You're recruiting someone to work on Excel
+        \item You're recruiting someone to work on UI/UX
+        \item You're recruiting a manager today (assume their background, but then expand upon it)
+    \end{itemize}}
+    OS Developer: what experience do have developing operating systems?; how do you approach debugging complex issues in an operating systems?\\
+    Excel Developer: what experience do you have developing applications similar to Excel?; how would you approach designing and testing an application like Excel?\\
+    UI/UX: what design tools and methodologies do you use ot create engaging and intuitive user interfaces?; Can you walk me through your design process from initial concept to final design, how do you include stakeholders and users in the process?\\
+    Manager: How do you approach managing a diverse team of individuals with different backgrounds an skill sets, what methods have you found to be effective in promoting collaboration and communication?; How do you balance the needs and requirements of different stakeholders?
+    \item \textbf{Edsger Dijkstra once said: “Computer science is no more about computers than astronomy is about telescopes.” What he meant was that, in his view, Computer Science is about the `Theory of Computation' - what a mere machine may achieve (within some stated constraints). What do you think of Dijkstra's view today?  Justify.}\\
+    Computer science encompasses more than just the physical machines that we use. It encompasses a wide range of theoretical and practical topics including algorithms, programming languages, data structures and more. The study of computer science is ultimately about understanding what can and cannot be computed. 
+    \item \textbf{In most operating systems, one can either link one's object code to library code either statically, or dynamically (linking to LIB files, or DLLs - to use Windows' terminology).  What are the dis/advantages to either model?}\\
+    Statically linking object code to library code means that the library code is compiled and included in the final executable file. On the other hand, dynamically linking object code to library code means that the library code is loaded at runtime by the operating system, and multiple executable files can share the same library code. The advantages of static linking are: portability, stability, and performance. The advantages of dynamic linking are smaller executable size, memory usage, and flexibility. 
+    \item \textbf{In the Hallmarks of the Portsmouth Graduate, which hallmarks are most aligned to those you think a <your computing related subject here> needs?}\\
+    1, 2, 3, 4, 5, 7, 9, 10.
+    \item \textbf{If you could write a book on some aspect of Computing; perhaps software development/principles; mathematical-underpinnings, what would be a few items listed in its Contents?}\\
+    Introduction to software development, programming fundamentals, testing and debugging, software development methodologies.
+    \item \textbf{Most programming languages are good at certain things, e.g., Prolog is excellent for Logic programming (goal seeking etc), whilst Scala and Functional languages may be used to write building blocks that are side-effect-free.  What is your favourite language, explain why?}\\
+    Out of the Languages I've used - C\# because of its power and versatility.
+\end{enumerate}
+
+Unfinished.
