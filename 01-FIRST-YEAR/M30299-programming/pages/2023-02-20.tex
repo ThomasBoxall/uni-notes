@@ -1,0 +1,22 @@
+\lecture{Debugging \& Exception Handling}{2023-02-20}{15:00}{Nadim}{RB LT1}
+
+\section*{Debugging}
+Debugging refers to the process of finding bugs in software and fixing them. 
+
+When a programme crashes, it will usually give an error which we can use to identify the problem.
+
+Editors contain debugging tools, including breakpoints, which can be used to `step' through the code and identify which line exactly is throwing an error. This can be used to inspect variables on each line as well.
+
+\section*{Exception Handling}
+A piece of software which has been well written and debugged fully may still crash due to run-time exceptions. Exception handling is the process of preparing your code to avoid failure from certain exceptions. 
+
+This can be done using \texttt{try catch} statements, as seen below.
+\begin{python}
+def getSize():
+    try: 
+        size = int(input("Enter the size of the patchwork:"))
+        return size 
+    except ValueError:
+        print("Size must be an integer, the default size of 5 will be used") 
+        return 4
+\end{python}

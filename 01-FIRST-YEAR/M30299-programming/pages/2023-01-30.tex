@@ -1,0 +1,29 @@
+\lecture{Further Object Oriented Progrmaming}{2023-01-30}{15:00}{Nadim}{RB LT1}
+
+\section*{Composition}
+Composition is one of the fundamental concepts in object oriented programming. Composition describes a class that references one or more objects of other classes in instance variables.
+\begin{link}{Composition Example}
+An example of composition can be found in Practical 11. The \texttt{ShoppingCart} class holds a list of items which are `in' the cart. 
+\end{link}
+
+\section*{Inheritance}
+When programming using the object oriented paradigm, we wil often find that two classes are similar, however one may have additional attributes required. 
+
+Subclasses can access all methods and attributes of superclasses. 
+
+A simple example of this is to have a \texttt{Laptop} class which stores information about laptops. Gaming Laptops are a special type of laptop as they also have a GPU. This means that the gaming laptop class should \textit{inherit} attributes from \texttt{Laptop} and should have some additional methods.
+
+In this example, the \texttt{GamingLaptop} inherits from \texttt{Laptop}; this can also be said as \texttt{GamingLaptop} extends \texttt{Laptop}. \texttt{Laptop} is the superclass of \texttt{GamingLaptop} or \texttt{GamingLaptop} is the subclass of \texttt{Laptop}. 
+
+In the example below, it can be assumed that the \texttt{Laptop} class is defined with a constructor and string method.
+\begin{python}
+class GamingLaptop(Laptop):
+    def __init__(self, brand, model, basePrice):
+        super().__init__(brand, model, basePrice)
+        self.gpu = "NVIDIA GeForce 4GB"
+
+    def __str__(self):
+        output = super().__str__()
+        output += " {}".format(self.gpu)
+        return output
+\end{python}

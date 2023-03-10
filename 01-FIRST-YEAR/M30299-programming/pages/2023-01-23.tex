@@ -1,0 +1,44 @@
+\lecture{Object-Oriented Programming}{2023-01-23}{15:00}{Nadim}{RB LT1}
+
+We have been using pre-written classes lots so far The graphics.py module provides a number of classes which we can use to create simple graphical displays on GUIs. 
+
+We will now look at creating our own classes. 
+
+\section*{More Information On Classes}
+Like variable and function names, class names have to be unique. It is regarded common practice for class names to start with a capital letter (for example \texttt{Animal}). 
+
+There are three important components to all classes.
+\begin{description}
+    \item[Constructor] This instantiates an object based on the class. The constructor of a class is a function with the name \texttt{\_\_init\_\_}. 
+    \item[Instance Variables] These are variables which each instance of the class (an object) will have.
+    \item[Methods] These are things which the instance of a class can do. Methods are functions in a class. 
+\end{description}
+
+\section*{Classes In Python}
+A class is defined using the \texttt{class} keyword in python. 
+
+\subsection*{Constructor}
+The constructor is the code which is run whenever a new instance of the class is needed. An example of a constructor is shown below. Note the parameter \texttt{self} is passed into it, this is the same as for all methods within a class and allows you to access the instance variables.
+\begin{python}
+class Pet:
+    def __init__(self, providedName):
+        self.name = providedName
+\end{python}
+
+\subsection*{Instance Variables}
+To be able to access instance variables, every method within the class must have its first parameter of \texttt{self}. Other parameters (for example, a value from the user that is being stored in an object) can be passed in after \texttt{self}.
+
+When using the methods of a class, you don't need to pass any values for the \texttt{self} parameter, this is automatically passed to the method. 
+
+\subsection*{Methods}
+A class can have as many or as few methods as required. They are defined the same way as a function would be, using the \texttt{def} keyword. 
+
+\subsection*{Printing A Class}
+The \texttt{\_\_str\_\_} method can be used to return a printable representation of the class. See below for an example (continued from the \texttt{Pet} example above).
+\begin{python}
+...
+    def __str__(self):
+        returnString = "Pets name: {}".format(self.name)
+        return returnString
+\end{python}
+Note that you don't actually print the formatted statement in the method, you return it. 
