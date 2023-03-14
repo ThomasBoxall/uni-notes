@@ -1,0 +1,53 @@
+\lecture{Operating Systems - Introduction}{2023-03-13}{16:00}{Farzad}{RB LT1}
+
+\section*{Development of Operating Systems}
+
+\subsection*{Late 1940s}
+There were no operating systems, the programmer was also the user. Programs and data were entered in binary through switching switches on the front of the machine (each switch represented one bit). Output was given through lights (each light represented one bit). The programmer did everything that an operating system does today.
+
+\subsection*{1950s}
+Specialist operators were introduced. These people are not programmers. They tend to the machine, feed the programs to the machine and deliver back to the output.
+
+Programmers use punch machines to encode their programmer as a series of holes in stiff cards. Computers can read and interpret the holes in the punch cards.
+
+The operators acted as an human interface between the programmer and the hardware. 
+
+\subsection*{1960s}
+The need for a human (to load and unload punched cards, starting and stopping devices) added delay into the system. 
+
+The programmers now punched instructions onto control cards which were inserted at the appropriate places before and after the program cards and data cards
+
+The commands were written in specially developed job control languages. 
+
+\subsection*{Late 1960s and 1970s}
+Computer users found that programs were growing in size and required more memory. The initial solution was to break programs up into small chunks, each fitting in the available memory.
+
+We now have larger memories, however we need to timeshare this between different programs.
+
+The issue of protecting one program from another became more and more important. This is a task which the OS performs. 
+
+\subsection*{1980s}
+Computers now have the ability to communicate with one another. 
+
+\subsection*{1990s}
+Previously, operating systems have been developed specifically for particular hardware platforms (for example, MS-DOS for the PC).
+
+This move allowed generic operating systems (for example Linux) to run on any hardware. 
+
+\section*{What Is An Operating System?}
+The \textit{Operating System} sits between the application and the hardware. I allows the application to interface with the hardware, so that there is only one thing interfacing with the hardware. The users interface with the applications, and at times the operating system.
+
+Operating systems, at heart, are computer programs. They are written, tested and compiled just like any other program. Operating systems will begin running as soon as the computer has turned on, this usually happens automatically. 
+
+The operating system makes the hardware more useful and user friendly.
+
+\section*{What Does The Operating System Do?}
+Operating systems provide an environment which helps other programs do productive work; helps the user to develop \& run programs, by providing a convenient environment; and starts and stops applications by sharing the CPU between them.
+
+The operating system is also responsible for managing memory, this involves keeping track of which parts of memory are in use and which are free; and providing a mechanism by which applications can ask for more memory to be allocated to them or give back memory which they no longer need.
+
+The operating system handles inputs and outputs; differences between hardware devices (so that all applications can interface with hardware the same); and controlling input/ output and processing so that they can happen at the same time.
+
+The operating system also provides data management, which involves managing the different physical drives and how to move data between them; protection to the CPU of overlapping processes; networking support through covering up differences between machines; and error handling \& recovery which provides a way for the user to interface with errors. 
+
+\section*{Operating System Interfaces}
