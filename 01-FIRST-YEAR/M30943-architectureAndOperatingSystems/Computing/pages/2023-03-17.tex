@@ -1,0 +1,50 @@
+\research{WORKSHEET 15: Operating Systems (Introduction)}{2023-03-17}{Worksheet}
+
+\section{Questions}
+\begin{enumerate}
+    \item \textbf{Explain where an operating system fits into a computer system}\\
+    The operating system fits between the application and the hardware. The user interfaces with the application which then interfaces with the operating system to use resources etc.
+    \item \textbf{List and explain the most important functions of an operating system}
+    \begin{itemize}
+        \item Provide an environment which helps other programs do productive work
+        \item Helps the user to develop and run programs by providing a convenient environment
+        \item Starts and stops applications by sharing the CPU between them
+        \item Managing memory - keeping track of which parts of the memory are free, which are in use and allocating memory to different applications
+        \item Input \& output management - encapsulates inputs and outputs so that they all act the same to applications, making it easier to develop applications
+        \item Data management - managing the different physical drives and how data moves between them
+        \item Protection to the CPU - stops processes overlapping and using each others spaces
+        \item Networking - through covering up differences between machines
+        \item Error handling and recovery - provides a way for the user to interface with the errors.
+    \end{itemize}
+    \item \textbf{Explain the difference between a GUI, a command interpreter and the system service interface to an operating system. }\\
+    GUI - little pictures which represent actions users can take in relation to the operating system. Command interpreter - user has to enter commands to interface with OS. System services - provides a set of functions which request services of the operating system.
+    \item \textbf{What is kernel? What is kernel mode? What is user mode?}\\
+    Kernel is the central component of the operating system. It interfaces between hardware components and software applications (makes the software interact with the hardware to get a specific task done). Kernel mode is when the CPU can execute all of its instructions and when a program is executed it has direct access to memory, hardware and such resources. User mode is when the CPU can only execute a subset of its instructions (the most common ones) and when a program is executed it doesn't have access to memory, hardware and such resources.
+    \item \textbf{How does system service code get to change the CPU to run in kernel mode? }\\
+    A special instruction is issued.
+    \item \textbf{Justify why the study of operating systems is relevant to a student of computing. }\\
+    Applications we write have to interface with them and as a result it is important to have an understanding of how they work.
+    \item \textbf{Outline the historical development of operating systems. }
+    \begin{itemize}
+        \item[1940s] No operating systems. Programmers were the operating system.
+        \item[1950s] Still no operating systems, now have specialist operators (not programmers) who load punched cards to computer and return output to programmer.
+        \item[1960s] Human specialist operators are slow. Introduction of control cards (written in job control language) which get inserted at appropriate points in the program and data cards.
+        \item[Late 60s and 70s] Operating systems now need to break programs into smaller chunks. Now having larger memories we need to timeshare this between different programs. 
+        \item[1980s] OS assists computers with communicating to one another
+        \item[1990s] Move to generic operating systems (for example Linux) to run on any hardware.
+    \end{itemize}
+    \item \textbf{Distinguish the different types of operating system which have developed. }
+    \begin{itemize}
+        \item Batch Systems - can only run preset jobs. There is little to no interaction between the users and an executing program.
+        \item Interactive systems - user interacts with it through a keyboard, mouse and screen (or equivalents). Intervening with an executing program is now possible.
+        \item General Purpose - does a bit of everything, including interactive users, batch mode, etc.
+        \item Network - to share resources such as printers and databases across a network (eg Windows NT Server)
+        \item Distributed - a group of machines which act together as one. Programs started by users can either run on the local machine or on another machine that is idle.
+        \item Specialist - dedicated to processing large volumes of data which are maintained in an organized way.
+    \end{itemize}
+    \item \textbf{Briefly describe the main modules which go to make up an operating system. }\\
+    File Manager, IO Manager, Disk Driver, Terminal Driver, Network Manager, Network driver, Process Manager, Memory Manager.
+    \item \textbf{Explain the differences between Monolithic kernel and Microkernel?}\\
+    Monolithic kernel - user services and kernel space are kept in the same address space, larger than microkernel, less time to access it, faster execution, harder to extend, higher performance, higher risk of systems crash. This is what Linux uses.\\
+    Microkernel - user services and kernel services are kept in separate address spaces. Smaller in size, minimum code in kernel space, greater access time with slower execution, easily expandable, lower responsibility.
+\end{enumerate}
