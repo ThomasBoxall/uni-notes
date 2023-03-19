@@ -1,0 +1,64 @@
+\lecture{LECTURE: Application Support Protocols}{2023-03-14}{09:00}{Amanda}{Zoom}
+
+\textit{NB: This lecture was cut short due to Amanda needing to get to the other side of the Uni for a meeting. To be continued in next weeks lecture}
+
+
+\section{UDP or TCP}
+\subsection{User Datagram Protocol}
+User Datagram Protocol (UDP) is jokingly known as \textit{Unreliable Datagram Protocol}. This is due to the fact that there is no guarantee of delivery of the packets. UDP will treat packets a bit like a hot potato, in that it passes it onto the next node without performing any checks on the contents of the packet. This can result in undetected corruption of data (which could manifest as pixelation of media or drop in quality of streamed content etc).
+
+UDP passes the packet down to the IP layer and sends it onto the next node, with a slight modification. It doesn't care if the next node doesn't exist or if it does exist but isn't running the service request, the packet will still be sent. UDP will not request packets to be re-transmitted if they get lost and it will discard packets if they arrive late.
+
+\subsection{Transmission Control Protocol}
+Transmission Control Protocol (TCP) provides reliable data communication. TCP performs integrity checking, retransmission of lost data, reordering of lost packets, etc. This means when the application receives the data, it is all correct, in the right order and not corrupt.
+
+TCP is connection oriented, which means before transmission can begin a connection must first be established which is generally done using a three-way handshake. TCP uses this connection to not only receive the data but also to notify the sender of \textit{every} packet received and its status (good, corrupt, missing, etc). This allows the sender to know if re-transmission is required or not. 
+
+If TCP receives a later packet before an earlier packet, it waits to have them in the right order before passing them up the layers. TCP uses virtual channels. 
+
+\subsection{When To Use Which?}
+UDP is the best to use for voice/ video applications as it has low delay (the only delay is the time it takes for the packets to cross the network, no delay is injected from error checking etc). TCP would re-transmit lost data which causes delay, despite a better QoS being achieved, there would be lots of delay for the end user.
+
+For the majority of other transmissions (transferring files, web pages, MSN, etc) TCP is the better to use as it has a higher QoS. 
+
+\section{Multiplexing in TCP/ UDP}
+Each packet is tagged with a different data type. This allows a PC to determine between web traffic and video conference data.
+\subsection{Ports}
+Every computer has 65535 ports and each TCP or UDP packet stores the port we're using as part of it's headers. Applications have ports assigned to them (for example port 80 is assigned to HTTP, port 21 assigned to FTP etc). Ports work a bit like virtual channels, in that traffic on one port is independent of traffic on another port - there is no interference between them. 
+
+As packets come into the PC the transport layer will inspect each packet and determine which port the packet needs to enter the computer on.
+
+\section{Layer 6: Presentation}
+The presentation layer is concerned with interpreting data before the application gets it. It uses a number of techniques to achieve this.
+\subsection{Data Abstraction}
+This is concerned with taking the raw data (0s and 1s) that come into the machine nd interpreting it. For example, decoding binary to ASCII characters. 
+
+Data abstraction also converts between character sets, which can be defined in application protocols.
+
+\subsection{Secure Socket Layer}
+\define{Socket}{An abstraction, a means of making connections. Opens a socket to a remote host or open a socket to listen on a local port}
+
+Secure Socket Layer (SSL) encrypts data between two ends. It provides the same abstraction and can mostly slot in-between traditional sockets and the application. SSL doesn't have its own transmission medium, it uses the same as non-SSL packets.
+
+If a SSL packet is ``picked up'' then it cannot be interrogated without the encryption key.
+
+It is used anytime we want to send anything secure over the internet or outside our network and offers encryption and digital signatures (provides confidentiality of who we are sending to). 
+
+\section{Application Layer}
+\subsection{Client-Server Model}
+The clients take inputs from the users and send instructions to the server. The server processes the requests and produces data to send back to the client. 
+\subsection{Peer to Peer}
+Peers have information which they are willing to share with other peers and private information which they do not want to share. This makes the peers both clients and servers.
+
+\section{Domain Name Systems}
+DNS is a directory of all IP addresses.
+
+Port 53 is used by UDP for queries and TCP for transfers.
+
+There are several types of records in a DNS
+\begin{itemize}
+    \item \verb|A| - maps \verb|www| to an IP address
+    \item \verb|MX| - IP address of a mail server
+    \item \verb|PTR| - reverse lookups
+    \item Lots more.
+\end{itemize}
