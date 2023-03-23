@@ -61,3 +61,107 @@ Multi-threading enables the processing of multiple threads at one time, rather t
         \hline
     \end{tabular}
 \end{table}
+
+\section{Process, Tasks and Threads}
+The operating system needs to keep track of processes. It uses data structures called`\textit{Process Control Blocks}' to represent the different objects it is dealing with. A process consists of a task, which is the resources allocated, and one or more threads (or control paths) through the code. It must be possible to represent the one task and a variable number of threads. It needs a static part, and a dynamic part that can grow or shrink. 
+\subsection{Tasks}
+The structure of the static component of a task is shown below. It is represented using a stack.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.3\textwidth}|}
+        \hline
+        owner\\
+        \hline
+        unique process id\\
+        \hline
+        address space description\\
+        \hline
+        program starting address\\
+        \hline
+        data starting address\\
+        \hline
+        stack starting address\\
+        \hline
+        list of threads\\
+        \hline
+        number of threads\\
+        \hline
+        open file information\\
+        \hline
+        default directory\\ 
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Threads}
+
+\subsubsection{Types of Thread}
+\textbf{User Threads} are above the kernel and don't have kernel support. These are threads that application programmers use in their programs. This saves on the overhead of bothering the operating system each time control changes from one to another. The operating system gives control of the CPU to a process.
+
+\textbf{Kernel Threads} are supported within the kernel of the OS itself. The OS handles switching between threads. All modern OSs support kernel level threads, allowing the kernel to perform multiple simultaneous tasks and/ or to service multiple kernel system calls simultaneously. 
+
+\subsubsection{Thread Structure}
+The Kernel also maintains a thread data structure for each active thread
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.3\textwidth}|}
+        \hline
+        task which I belong to\\
+        \hline
+        list of threads in Task\\
+        \hline
+        volatile environment\\
+        \hline
+        state\\
+        \hline
+        links\\
+        \hline
+        thread's base priority\\
+        \hline
+        maximum priority\\
+        \hline
+        current priority\\
+        \hline
+    \end{tabular}
+\end{table}
+One of the more important fields in this thread structure is the volatile environment. This has fields for the information that has to be saved each time the thread looses control of the CPU. Its contents is shown below
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{0.4\textwidth}|}
+        \hline
+        stack pointer\\
+        \hline
+        memory management registration\\
+        \hline
+        general-purpose registers\\
+        \hline
+        program counter\\
+        \hline
+        program status register\\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Thread State}
+Each thread has a life cycle of its own, during which it may be in one of two different states \verb|RUN| or \verb|WAIT|. The state a thread is in at any particular time is recorded in the state field of the thread structure. The \verb|RUN| state means the thread is ready and able to do some work; there will be many threads in this state and they will be linked together on a run queue. The \verb|WAIT| state means that for a reason, the thread is unable to use the CPU; generally threads in this state will be waiting for some event and threads in this state are linked together on a wait queue. 
+
+When a new thread is created, it will always begin in the \verb|RUN| state in on the run queue. Eventually it will be given a time slice on the CPU. When this transition takes place is the responsibility of the scheduler. A thread may stop using the CPU for three reasons: \textit{voluntarily} where it is waiting for a resource and enters the \verb|WAIT| state; \textit{termination} where the thread or process is terminated; or \textit{preemption} where the OS takes the processor from a thread, this happens when a thread has used up its share of time or when the CPU is needed to handle some more urgent work. A thread leaves the \verb|WAIT| state when the event it is waiting for occurs. 
+
+\section{Context Switching}
+Context Switching is the whole procedure of reallocating a processor from one thread to another. Context switching is called when
+\begin{itemize}
+    \item A thread looses control of the processor and moves into the \verb|WAIT| stat ti wait for a resource to become available
+    \item A timer interrupts to tell it that it has used up its time slice
+\end{itemize}
+It is absolutely essential that the current state of the machine is saved when a thread looses control of the CPU and that these are available for when the thread is made active again. This state, called the volatile environment, is saved in the thread structure of its own. 
+
+\section{Thread Scheduling}
+The main objective of the scheduler is to see that the CPU is shared among all contending threads as fairly as possible. The scheduler tries to make the response time as short as possible. In real-time systems, the scheduler will have to be able to guarantee that response times will never exceed a certain maximum. Thread priority queues and thread multilevel priority queues are used to prioritise threads getting time on the CPU.
+
+\subsection{Thread Priority}
+In an interactive system there is no way to predict in advance how many threads will be running, or how long they will want to run for. They could be scheduled on a first-come-first-served basis, but this way some unimportant threads could monopolize the system while urgent threads wait on a queue. The solution to this is to order all of the runnable or ready threads by some priority criterion, the priority is allocated to the thread when it is created. The descriptors of all runnable threads are linked into the run queue, ordered by descending priority. The most eligible thread is at the head, then the next and so on. ALl the other threads, which are not runnable, are linked together on the wait queue. 
+
+\subsection{Thread Multilevel Priority Queues}
+In this example, the system will have two priority queues: high and low priority.
+
+When a thread is created, it is initially put on the high-priority queue. If it uses its full time slice, this implies that it is compute-bound. So when it is context switched out, it is moved to the tail of the low-priority queue. On the other hand, ot fhe thread gives up the processor to wait for an I/O event, then it can bse assumed that it is interactive. Then when the event it is waiting for occurs, it is moved from the wait queue to the high-priority queue. Being placed in the high priority queue after being context switched off the CPU expects the thread to keep the CPU for a short amount of time when it gets back on the CPU. 
