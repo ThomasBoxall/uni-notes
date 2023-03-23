@@ -1,0 +1,63 @@
+\lecture{Process Manager}{2023-03-20}{16:00}{Farzad}{RB LT1}
+
+\section{What Is A Process?}
+A process is the unit of work in a computer system or a sequence of states (for example steps in the fetch-execute cycle) resulting from the action of a set of instructions on the states as they develop. A process can either be ``on hold'' or ``running''. The two commands shown below can be used in Linux systems to see a list of the current processes; in Windows, the Task Manager has a list of processes.
+\begin{verbatim}
+ps all
+top
+\end{verbatim}
+
+\section{Operating System Manages Processes}
+The operating system maintains a Process Control Block (this is a stack data structure) for each process. It contains useful information such as the current process state, the next instruction to perform and currently allocated devices to the process. The use of Process Control Blocks enable the operating system to manage different processes effectively, by saving the current state in the process control block, switching to a different process then reloading the first process later on.
+
+\subsection{Process Control Block Parts}
+The Process Control Block has two parts.
+\subsubsection{Static Part}
+The static part is the resources allocated to the process and includes
+\begin{itemize}
+    \item Certain amount of space in memory
+    \item A current working directory
+    \item Sources of input and output such as a keyboard, screen and open files
+    \item A connection with another process over a network
+    \item A program (sequence of instructions)
+\end{itemize}
+\subsubsection{Dynamic Part}
+The dynamic part is a program in action and includes
+\begin{itemize}
+    \item Instructions that make up a program and are actually being carried out
+\end{itemize}
+This is known as a `thread of execution' or a `thread of control' or `thread'. A thread has access to all of the resources assigned to the task. A standard process consists of a task with a single thread.
+
+\section{Processor and Process}
+The \textit{processor} is the agent which runs a process by executing the instructions contained in its associated program. There are far fewer \textit{processors} than processes. This means the \textit{processors} time has to be shared between the processes in an equal way. A process is never offered use of the \textit{processor} while it is waiting for something (for example, keyboard input). 
+
+\textit{Processors} can't have overlap of processes. It is the process manager's problem to work out the scheduling for the processor. There are different algorithms which can be used to work out the most optimum order of processes. 
+
+\section{Operating System Overhead}
+It is a frequent occurrence that a process begins running on a processor and almost immediately stops again to wait for some input to become available. The operating system has to save the whole state of the machine the moment the process stops running and do the reverse (reload the state of the machine) when a process wants to start running again. Saving and restoring state is overhead and non-productive work, and here it is becoming a large part of the overall work of the computer. Because of increasing the size of operations, and operating systems become more complex, larger amounts of data have to be saved/ restored. 
+
+\section{Multi-Threading}
+The operating system overhead led to the idea of having a number of paths of execution (threads) through the program at the same time. If one thread is blocked (eg, waiting on user input) another can execute. It is not necessary to save and restore the full state of the machine for this, as it is using the same memory, files and devices - it is simply jumping to another location in the program code.
+
+Each thread must maintain some state information of its own, for example the program counter and general-purpose registers. That is so that when it regains control, it can continue from the point it was at before it lost control. 
+
+Multi-threading enables the processing of multiple threads at one time, rather than multiple processes. Multi-threading is an important utility for many computer programs and increase performance efficiency and scalability.
+
+\subsection{Comparison of single-threading, multi-threading, and baking a cake}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{p{0.2\textwidth} p{0.3\textwidth} p{0.4\textwidth}}
+        \textbf{Operating System Process} & \textbf{Baking a Cake} & \textbf{Baking Several Cakes}\\
+        \hline
+        \hline
+        Task (resources) & Ingredients (resources) & Ingredients (resources)\\
+        \hline
+        Program & Recipe & Recipe \\
+        \hline
+        Thread & Actual sequence of operations carried out as directed by the recipe (eg mixing, baking) & While one cake is in the oven, we may be mixing the ingredients for another. WE following the recipe at two different places at the same time. Instead of idly waiting for the first cake to be baked, we are using that time productively: this is multi-threading.\\
+        \hline
+        Process & Make a cake & Make several cakes\\
+        \hline
+    \end{tabular}
+\end{table}
