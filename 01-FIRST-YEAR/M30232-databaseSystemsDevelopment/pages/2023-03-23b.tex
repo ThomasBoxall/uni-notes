@@ -1,0 +1,345 @@
+\lecture{PRACTICAL: Better Queries}{2023-03-23}{14:00}{}{FTC 3}
+
+T1. Write a query that puts the genre, the author's full name and the titles of the books they have written for all of the action books. The name and title must be displayed in a single column with the heading ``Title and Author''.
+\begin{sql}
+SELECT CONCAT_WS(' ', author.authorfname, author.authorlname, book.title) AS "Title and Author", genre.genre FROM author
+JOIN wrote ON author.authorid = wrote.authorid
+JOIN book ON wrote.wroteisbn = book.isbn
+JOIN bookgenre ON bookgenre.isbn = book.isbn
+JOIN genre ON genre.genreid = bookgenre.genreid
+WHERE genre.genre = 'Action';
+\end{sql}
+
+\begin{pseudo}
+                 Title and Author                  | genre
+---------------------------------------------------+--------
+ Gayelord Croom OPTIONAL VALUE-ADDED OPEN SYSTEM   | Action
+ Odelle Cannaway RIGHT-SIZED LOCAL INTRANET        | Action
+ Brendin Amberger RIGHT-SIZED LOCAL INTRANET       | Action
+ Sara Hurll RIGHT-SIZED LOCAL INTRANET             | Action
+ Linet Aberhart BALANCED ACTUATING INSTRUCTION SET | Action
+ Bobbye Valois BALANCED ACTUATING INSTRUCTION SET  | Action
+(6 rows)
+\end{pseudo}
+
+T2. There are some common first names in the author table. Write a query that would return only a single row of data for each individual name.
+\begin{sql}
+SELECT DISTINCT authorfname FROM author;
+\end{sql}
+\begin{pseudo}
+ authorfname
+-------------
+ Roxie
+ Fleming
+ Faina
+ Linet
+ Serena
+ Kearney
+ Collen
+ Phyllis
+ Sherlock
+ Noach
+ Zacharias
+ Bobbye
+ Odelle
+ Sholom
+ Dyana
+ Kaitlin
+ Sara
+ Shoshana
+ Malinda
+ Gerti
+ Melany
+ Bear
+ Wilmette
+ Brendin
+ Corbie
+ Gayelord
+ Clayton
+ Vera
+(28 rows)
+\end{pseudo}
+
+T3. How many rows of data would be returned by the query in Q2?
+\begin{verbatim}
+28 rows
+\end{verbatim}
+
+T4. How many authors are there in total?
+\begin{sql}
+SELECT COUNT(*) FROM author;
+\end{sql}
+\begin{pseudo}
+ count
+-------
+    30
+(1 row)
+\end{pseudo}
+
+T5. How many customers have a middle name?
+\begin{sql}
+SELECT COUNT(mname) FROM libuser
+WHERE mname IS NOT NULL;
+\end{sql}
+\begin{pseudo}
+ count
+-------
+    14
+(1 row)
+\end{pseudo}
+
+T6. Do we have any authors in our system that do not appear to have written any book that we have on the shelves? List their full names, surname first with a comma as a separator using concatenation, giving the column the title of ``Author but no books''.
+\begin{sql}
+SELECT CONCAT_WS(',', author.authorlname, author.authorfname) AS "Author but no books" FROM author
+LEFT JOIN wrote ON wrote.authorid = author.authorid
+WHERE wrote.authorid IS NULL;
+\end{sql}
+
+\begin{pseudo}
+ Author but no books
+---------------------
+ Trude,Roxie
+ Burgan,Fleming
+ Youens,Malinda
+ Findlow,Wilmette
+ O'Carroll,Phyllis
+ Boxhall,Faina
+(6 rows)
+\end{pseudo}
+
+T7. List any library users full names and their email addresses that have never taken a book out of the library. Show another piece of data that proves that your query is giving exactly the answer you are asked for.
+\begin{sql}
+SELECT libuser.fname, libuser.emailaddress FROM libuser
+LEFT JOIN loan ON loan.loanlibrarynumb = libuser.librarynumber
+WHERE loan.loanlibrarynumb IS NULL;
+\end{sql}
+
+\begin{pseudo}
+   fname   |         emailaddress
+-----------+------------------------------
+ Germain   | aremmers9@google.pl
+ Quincey   | fhazlea@gmpg.org
+ Julieta   | ahardisonb@deliciousdays.com
+ Gordon    | ifaradyc@usgs.gov
+ Sheelagh  | tganforthed@angelfire.com
+ Konstanze | gtongee@techcrunch.com
+ Cassie    | jdowgillf@plala.or.jp
+ Marshall  | gyeudallg@ezinearticles.com
+ Rodolfo   | zpinksh@multiply.com
+ Drake     | hnewi@cdc.gov
+ Arron     | cloukesj@ftc.gov
+ Madelina  | asinkinsk@zimbio.com
+ Elana     | jmatthewesl@springer.com
+ Zorine    | bsucrem@imgur.com
+ Stewart   | sskilln@jiathis.com
+ Gibb      | aburgino@youku.com
+(16 rows)
+\end{pseudo}
+
+T8. List the author's full names putting them into last name reverse alphabetical order.
+
+\begin{sql}
+SELECT authorfname, authorlname FROM author
+ORDER BY authorlname DESC;
+\end{sql} 
+\begin{pseudo}
+ authorfname | authorlname
+-------------+--------------
+ Malinda     | Youens
+ Corbie      | Varga
+ Bobbye      | Valois
+ Roxie       | Trude
+ Gerti       | Shirtcliffe
+ Zacharias   | Ransley
+ Bear        | Oliphand
+...
+(30 rows)
+\end{pseudo}
+
+T9. List the author's full names whose first name  begins with the letter \verb|B|. Sort the results into the same order as in T8.
+
+\begin{sql}
+SELECT authorfname, authorlname FROM author
+WHERE SUBSTRING(authorfname, 1, 1) = 'B'
+ORDER BY authorlname DESC;
+\end{sql}
+\begin{pseudo}
+ authorfname | authorlname
+-------------+-------------
+ Bobbye      | Valois
+ Bear        | Oliphand
+ Brendin     | Amberger
+(3 rows)
+\end{pseudo}
+
+T10. List the books that have a genre. Sort the books into alphabetical genre order.
+\begin{sql}
+SELECT book.title, genre.genre FROM book
+LEFT JOIN bookgenre ON bookgenre.isbn = book.isbn
+JOIN genre ON bookgenre.genreid = genre.genreid
+WHERE bookgenre.isbn IS NOT NULL
+ORDER BY book.title ASC;
+\end{sql}
+
+\begin{pseudo}
+                     title                      |    genre
+------------------------------------------------+-------------
+ BALANCED ACTUATING INSTRUCTION SET             | Action
+ DE-ENGINEERED ZERO TOLERANCE GRAPHIC INTERFACE | Comedy
+ DEVOLVED EXUDING APPROACH                      | Thriller
+ FRONT-LINE EVEN-KEELED APPROACH                | Sci-Fi
+ FULLY-CONFIGURABLE OPTIMAL FUNCTION            | Romance
+ FUNDAMENTAL BIFURCATED ARTIFICIAL INTELLIGENCE | Romance
+ IMPLEMENTED INTERMEDIATE METHODOLOGY           | Horror
+ MONITORED MULTI-STATE CONGLOMERATION           | Music
+ MULTI-TIERED INTERACTIVE HELP-DESK             | Non-Fiction
+ MULTI-TIERED RESPONSIVE UTILISATION            | Thriller
+ OPTIMIZED BANDWIDTH-MONITORED FIRMWARE         | Noir
+ OPTIONAL VALUE-ADDED OPEN SYSTEM               | Action
+ PROFIT-FOCUSED OBJECT-ORIENTED METHODOLOGY     | Anime
+ PROGRAMMABLE CLEAR-THINKING PORTAL             | Non-Fiction
+ RE-ENGINEERED SYSTEM-WORTHY CORE               | Comedy
+ REDUCED COMPOSITE OPEN ARCHITECTURE            | Non-Fiction
+ RIGHT-SIZED LOCAL INTRANET                     | Action
+ SECURED 24/7 PRODUCT                           | Crime
+ SECURED MOTIVATING CONCEPT                     | Adult
+ VIRTUAL NEUTRAL CAPACITY                       | Action
+(20 rows)
+\end{pseudo}
+
+T11. Now sort the output for Q10 into descending \verb|genreid|.
+\begin{sql}
+SELECT book.title, genre.genre FROM book
+LEFT JOIN bookgenre ON bookgenre.isbn = book.isbn
+JOIN genre ON bookgenre.genreid = genre.genreid
+WHERE bookgenre.isbn IS NOT NULL
+ORDER BY book.title DESC;
+\end{sql}
+
+\begin{pseudo}
+                     title                      |    genre
+------------------------------------------------+-------------
+ VIRTUAL NEUTRAL CAPACITY                       | Action
+ SECURED MOTIVATING CONCEPT                     | Adult
+ SECURED 24/7 PRODUCT                           | Crime
+ RIGHT-SIZED LOCAL INTRANET                     | Action
+ REDUCED COMPOSITE OPEN ARCHITECTURE            | Non-Fiction
+ RE-ENGINEERED SYSTEM-WORTHY CORE               | Comedy
+ PROGRAMMABLE CLEAR-THINKING PORTAL             | Non-Fiction
+ PROFIT-FOCUSED OBJECT-ORIENTED METHODOLOGY     | Anime
+ OPTIONAL VALUE-ADDED OPEN SYSTEM               | Action
+ OPTIMIZED BANDWIDTH-MONITORED FIRMWARE         | Noir
+ MULTI-TIERED RESPONSIVE UTILISATION            | Thriller
+ MULTI-TIERED INTERACTIVE HELP-DESK             | Non-Fiction
+ MONITORED MULTI-STATE CONGLOMERATION           | Music
+ IMPLEMENTED INTERMEDIATE METHODOLOGY           | Horror
+ FUNDAMENTAL BIFURCATED ARTIFICIAL INTELLIGENCE | Romance
+ FULLY-CONFIGURABLE OPTIMAL FUNCTION            | Romance
+ FRONT-LINE EVEN-KEELED APPROACH                | Sci-Fi
+ DEVOLVED EXUDING APPROACH                      | Thriller
+ DE-ENGINEERED ZERO TOLERANCE GRAPHIC INTERFACE | Comedy
+ BALANCED ACTUATING INSTRUCTION SET             | Action
+(20 rows)
+\end{pseudo}
+
+T12. Sort the output from Q10 into alphabetical genre order and alphabetical  reversed title order in a single query.
+\begin{sql}
+SELECT book.title, genre.genre FROM book
+LEFT JOIN bookgenre ON bookgenre.isbn = book.isbn
+JOIN genre ON bookgenre.genreid = genre.genreid
+WHERE bookgenre.isbn IS NOT NULL
+ORDER BY genre.genre ASC, book.title DESC;
+\end{sql}
+
+\begin{pseudo}
+                     title                      |    genre
+------------------------------------------------+-------------
+ VIRTUAL NEUTRAL CAPACITY                       | Action
+ RIGHT-SIZED LOCAL INTRANET                     | Action
+ OPTIONAL VALUE-ADDED OPEN SYSTEM               | Action
+ BALANCED ACTUATING INSTRUCTION SET             | Action
+ SECURED MOTIVATING CONCEPT                     | Adult
+ PROFIT-FOCUSED OBJECT-ORIENTED METHODOLOGY     | Anime
+ RE-ENGINEERED SYSTEM-WORTHY CORE               | Comedy
+ DE-ENGINEERED ZERO TOLERANCE GRAPHIC INTERFACE | Comedy
+ SECURED 24/7 PRODUCT                           | Crime
+ IMPLEMENTED INTERMEDIATE METHODOLOGY           | Horror
+ MONITORED MULTI-STATE CONGLOMERATION           | Music
+ OPTIMIZED BANDWIDTH-MONITORED FIRMWARE         | Noir
+ REDUCED COMPOSITE OPEN ARCHITECTURE            | Non-Fiction
+ PROGRAMMABLE CLEAR-THINKING PORTAL             | Non-Fiction
+ MULTI-TIERED INTERACTIVE HELP-DESK             | Non-Fiction
+ FUNDAMENTAL BIFURCATED ARTIFICIAL INTELLIGENCE | Romance
+ FULLY-CONFIGURABLE OPTIMAL FUNCTION            | Romance
+ FRONT-LINE EVEN-KEELED APPROACH                | Sci-Fi
+ MULTI-TIERED RESPONSIVE UTILISATION            | Thriller
+ DEVOLVED EXUDING APPROACH                      | Thriller
+(20 rows)
+\end{pseudo}
+
+T13. List all of the genres that the author Corbie Varga have written.
+\begin{sql}
+SELECT genre.genre FROM genre
+JOIN bookgenre ON bookgenre.genreid = genre.genreid
+JOIN book ON book.isbn = bookgenre.isbn
+JOIN wrote ON wroteisbn = book.isbn
+JOIN author ON author.authorid = wrote.authorid
+WHERE author.authorfname = 'Corbie' AND author.authorlname = 'Varga';
+\end{sql}
+
+\begin{pseudo}
+    genre
+-------------
+ Noir
+ Adult
+ Non-Fiction
+ Comedy
+ Anime
+(5 rows)
+\end{pseudo}
+
+T14. Write a view that will allow a user to list the user's first and last names, the book titles, the author last names of all books that were loaned out between Feb 28th 2022 and Oct 30th 2022. Call the view loans.
+
+\begin{sql}
+CREATE VIEW loans AS 
+SELECT lu.fname, lu.lname, book.title, author.authorlname FROM libuser lu 
+JOIN loan ON loan.loanlibrarynumb = lu.librarynumber
+JOIN book ON loan.isbn = book.isbn
+JOIN wrote ON book.isbn = wrote.wroteisbn
+JOIN author on author.authorid = wrote.authorid
+WHERE loan.loanstart BETWEEN '2022-02-28' AND '2022-10-30';
+\end{sql}
+
+T15. Create a new role in your DBMS called libadmin and give them the ability to login and set a password for this new role.
+
+\begin{sql}
+CREATE ROLE libadmin WITH LOGIN PASSWORD 'imasecurepasswordipromise';
+CREATE DATABASE libadmin OWNER libadmin;
+\end{sql}
+
+T16. Give the new admin user access to the view created in Q14.
+\begin{sql}
+GRANT select
+ON loans
+TO libadmin;
+\end{sql}
+
+T17. For this new role, run the view from Q14 and copy the output below.
+
+\begin{sql}
+SELECT * FROM loans;
+\end{sql}
+\begin{pseudo}
+  fname   |     lname     |                     title                      | authorlname
+----------+---------------+------------------------------------------------+--------------
+ Olympia  | Chasle        | SECURED MOTIVATING CONCEPT                     | Varga
+ Rossy    | Studd         | SECURED MOTIVATING CONCEPT                     | Varga
+ Ethel    | Calcott       | FRONT-LINE EVEN-KEELED APPROACH                | Amberger
+ Baryram  | Postlethwaite | DEVOLVED EXUDING APPROACH                      | Aslett
+ Rossy    | Studd         | DEVOLVED EXUDING APPROACH                      | Aslett
+ Olympia  | Chasle        | SECURED MOTIVATING CONCEPT                     | Harley
+ Rossy    | Studd         | SECURED MOTIVATING CONCEPT                     | Harley
+ Olympia  | Chasle        | FUNDAMENTAL BIFURCATED ARTIFICIAL INTELLIGENCE | Bing
+...
+(53 rows)
+\end{pseudo}
