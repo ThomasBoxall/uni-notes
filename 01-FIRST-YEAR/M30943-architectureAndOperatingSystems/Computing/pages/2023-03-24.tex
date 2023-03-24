@@ -1,0 +1,26 @@
+\research{WORKSHEET: Operating Systems - Process Manager}{2023-03-24}{Worksheet}
+
+\begin{enumerate}
+    \item \textbf{Distinguish between the static part of a process (the task) and the dynamic part (the thread).}\\
+    The static part of the process is the resources allocated to the process and includes the address in memory which the process can use; the current working directory; input and output devices; connection with another process over the network and the program itself. The dynamic part of the process is used when the process executes on the CPU and contains the instruction that is actively being carried out. 
+    \item \textbf{How can more than one thread be executed at the same time on a machine with only one CPU?}\\
+    The CPU can have multiple cores, this makes the CPU act as though there are multiple CPUs as each core can run independent of each other.
+    \item \textbf{What is the motivation behind introducing multiple threads of control in one process?}\\
+    Multiple threads means that multiple things can be executed concurrently. This then means that if one thread is waiting on something, for example a user to press a key on the keyboard, then another thread can be executing therefore the CPUs time is not wasted. Multi-threading increases performance efficiency and scalability. 
+    \item \textbf{Outline the fields in the data structures used to represent a process, a task, and a thread within an operating system.}\\
+    A process contains the process state, process number, program counter, registers, memory limits and a list of open files. A task contains the owner, unique process id, address space description, program starting address, data starting address, stack starting address, list of threads, number of threads, open file information and the default directory. A thread contains the task that it belongs to, the list of threads in the task, the volatile environment (stack pointer, memory management registration, general-purpose registers, program counter, program status register), state, links, thread's base priority, maximum priority, current priority. 
+    \item \textbf{Explain the difference between calling a function and creating a new thread to execute that function.}\\
+    When you call a nre function, it pauses execution in the thread then executes the function. Once the function is complete the main execution will continue. When a new thread is created to execute the function, both the new function and main execution will happen concurrently. This is the basis of how asynchronous and synchronous functions work. 
+    \item \textbf{Outline the life cycle of a thread.}\\
+    A thread is created then can have one of two states - \verb|RUN| or \verb|WAIT|. When a thread is in the \verb|RUN| state then it actively executing on a core of the CPU. When a thread is in the \verb|WAIT| state, it is not actively executing as needs some information (eg, a keyboard input from a user). When the process which is being executed on a thread is complete, the thread will be disposed of. 
+    \item \textbf{Explain how context switching works.}\\
+    Context Switching, the process of reallocating a processor from one thread to another thread, is called when a thread looses control fo the processor and moves into the \verb|WAIT| state to wait for a resource to become available or a timer interrupts to tell the thread it has used up its time slice. It works by saving the contents of the volatile environment into the thread's data structure.
+    \item \textbf{Describe the different objectives of a scheduler in interactive, batch and real-time systems.}\\
+    Interactive systems have the ability to be used through a keyboard, mouse and screen. The scheduler will work to give each process an equal time slice so that the user has the best possible experience using it.
+    Batch systems are setup so that once a batch job is started, they cannot be interrupted. The scheduler, once the job has begun, prioritise the completion of that job and then deal with everything else.
+    Real-time systems prioritise the real-time processing of data over everything else. This will be reflected in the scheduler, in that it will prioritise the input and manipulation of data. 
+    \item \textbf{Explain what is meant by priority scheduling.}\\
+    Threads can be scheduled based on their priority. There are different methods which can be used to assign a priority to the thread. Generally the thread's priority is worked out as soon as a thread is created.
+    \item \textbf{Explain how multilevel priority feedback queues work.}\\
+    Generally the same as priority scheduling except the priority of the thread is also taken into account. Different queues, eg high and low priority queues will be treated differently in that high priority tasks will be executed before low priority tasks. 
+\end{enumerate}
