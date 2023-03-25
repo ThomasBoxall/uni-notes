@@ -1,0 +1,80 @@
+\lecture{Usability Heuristics}{2023-03-21}{13:00}{John}{RB LT1}
+
+Neilsen's heuristics are 10 principles for evaluating the usability of interfaces. They were created by Jakob Neilsen in 1990. The principles define important points in the composition of interfaces and should be considered when creating layouts.
+
+The order the heuristics are listed in this lecture has been randomly chosen by John. This order may be different of that on the internet.
+
+\section{H1. Match Between Systems And The Real World}
+The system should speak the same language as the user. This means the language used should be familiar to the user (eg finance systems should use finance language), rather than the system using system-oriented language. 
+
+It should follow real-world conventions, making information appear in a natural and logical order. 
+
+An easy way to implement this would be to avoid using technical jargon and instead use language which the user can understand.
+
+Another way which systems can be intuitively interpreted by users is to use metaphors, for example the use of the recycle bin icon for the rubbish folder. 
+
+Information should be presented to the user in a logical and natural order. 
+
+\section{H2. Consistency Of Standards}
+Users should not have to wonder whether different words, situations, or actions mean different things in different context. All platforms should follow the same convention and should follow the principle of least surprise: similar things should look and act in a similar way \& different things should look different.
+
+Consistent language and graphics should be used, which should achieve the same visual appearance across the system, the same information/ controls should be in the same locations on all windows and colour themes should be the same. 
+
+Commands and actions should also have the same effect in equivalent situations.
+
+\section{H3. Visibility Of System Status}
+The system should always keep users informed about what is going on, through appropriate feedback within reasonable time. 
+
+Commonly this is achieved through a progress bar.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{p{0.4\textwidth} p{0.5\textwidth}}
+        \textbf{Response Time} & \textbf{Display}\\
+        \hline
+        \hline
+        < 0.1 second & seems instantaneous\\
+        \hline
+        0.1-1 seconds & user notices, but no feedback needed\\
+        \hline
+        1-5 seconds & display busy cursor\\
+        \hline
+        > 5 seconds & display progress bar\\
+        \hline        
+    \end{tabular}
+\end{table}
+
+\section{H4. User Control And Freedom}
+Users often choose system functions by mistake an will need a clearly marked "emergency exit" to leave the unwanted state without having to go through an extended dialogue. Systems need to support undo and redo.
+
+Users don't like to feel trapped by the computer - as many exits as possible should be provided, which should be clearly marked. For example: a cancel button; universal undo; interrupt; quit; restore to default. 
+
+Frequent violations of this heuristic can lead to a \textit{pottery barn effect} (you break it, you bought it). We want to avoid users feeling tense while interacting with the system.
+
+\section{H5. Error Prevention}
+Even better than good error messages is a careful design which prevents a problem from occurring in the first place. Either eliminate error-prone conditions or check for them and present users with a confirmation option before they commit to the action. 
+
+People will make errors. People will also slip. Systems have to be designed to cope with errors, which could include double checking with a user before actioning an irreversible action. Systems should also be designed with errors in mind, this can be achieved through removing memory burden (through auto-fill); supporting undo and redo; or using constraints. 
+
+\section{H6. Help Users Recognise, Diagnose, And Recover From Errors}
+Deal with errors in a positive manner, through being polite and speaking human readable language. 
+
+\section{H7. Recognition Rather Than Recall}
+Minimize the user's memory load by making elements, actions and options visible. The user should not have to remember information from one part of the interface to another. Information required to use the design should be visible or easily retrievable when needed. 
+
+The classic example of this is a CLI required users to remember exact commands whereas a GUI allows all the options to be presented to a user and then they can pick which they want.
+
+\section{H8. Flexibility And Efficiency Of Use}
+Accelerators (unseen by the novice user) may often speed up the interaction for the expert users, such as the system can cater to both inexperienced and experienced users. Allows for efficiency in expert users.
+
+Accelerators can come in the form of: keyboard shortcuts, command abbreviations, bookmarks, history (of a CLI) or templates. 
+
+\section{H9. Aesthetic And Minimalist Design}
+Dialogues should not contain information which is irrelevant or rarely needed. Every extra unit of information in a dialogue competes with the relevant units of information and diminishes their relative visibility.
+
+\section{H10. Help And Documentation}
+Even though it is better if the system can be used without documentation, it may be necessary to provide help and documentation. Any such information should be easy to search, focused on the user's task, list concrete steps to be carried out, and not be too large.
+
+Users don't and won't read manuals, unless they are frustrated or in crisis. Help should be searchable, context-sensitive, task oriented, concrete, short. 
+
+Help is not a replacement for bad design. 
