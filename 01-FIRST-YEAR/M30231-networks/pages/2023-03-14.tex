@@ -62,3 +62,34 @@ There are several types of records in a DNS
     \item \verb|PTR| - reverse lookups
     \item Lots more.
 \end{itemize}
+
+\marginNote{contd from here in 2023-03-26 lect}
+
+\section{HyperText Transfer Protocol}
+HyperText Transfer Protocol (HTTP) is one of the standard protocols used on the web for web-browsing etc. It works by requesting one file at a time, beginning with the web-page, then any additional resources such as images/ music, etc. 
+
+\verb|http://| uses port 80 for \verb|POST| (sending data back to a webserver) and \verb|GET| (retrieving data from a webserver to a client). 
+
+\section{Email}
+When we send an email, we need to find out the IP address of the mail server. This is done by the application requesting the XM record for the domain - eg \verb|myport.ac.uk| for a University student email.
+
+Now that we have an IP address, we can use Simple Mail Transfer Protocol (SMTP) which uses port 25. 
+\subsection{SMTP}
+After connecting to port 25, the sender has to identify themself and that they are sending a message. The sender also has to say who they are sending to. Now the data can be sent, the headers are sent first, followed by the message body and finally the attachment. The sender then signals that they are finished. 
+
+We can also use anti-spam measures. Standard practice is to use closed relays where we only accept mail destined for that mail server and only send mail out from the mail server when the client requesting mail to be sent has an IP within a certain range, or is authenticated with a certificate or password. Another option is to use real0time blackhole lists (RBL), which automatically blocks reported email addresses which are then blocked; however this can be annoying for people who have been inadvertently placed on the list. Content scanners can be employed to block spam messages, however these are often seen as a breach of privacy.
+
+It is possible to impersonate someone by replacing the from/ to addresses in SMTP messages to whoever you wish. However, anti-spam measures exist and many mail servers reject messages not from the correct mail server for an originating domain. 
+
+\subsection{POP3}
+The Post Office Protocol v3 (POP3) is used to request mail from the server (which has been delivered to the server by SMTP). POP3 is another simple text-based protocol, which requires authorisation with username and password first then allows the user to request total messages then retrieve a single message in turn. Optionally, the messages can be deleted from the server when a client device has downloaded them. 
+
+Unfortunately, POP3 transmits the passwords in cleartext to the server (there is an extension which can be used to encrypt this) as well as transmitting the email in cleartext. 
+
+\section{The Real World}
+The various things which all use the domain name, all interact through the DNS records. Typically a larger business will have one or more DNS servers on their network which handles internal domains or subdomains. This will usually include a HTTP server (running Apache, IIS, Nginx, etc) and a mail server (running Exchange, Sendmail etc).
+
+In smaller businesses, all of these services could be running on one machine but it is often better to split them up to improve redundancy, performance and ensure there is enough network capability. 
+
+\section{HTTPS}
+HyperText Transfer Protocol Secure is used for banks and other secure transactions. Server certificates are provided by the server which prove the authenticity of the server. However, they are susceptible to impersonation and the server certificates can be expensive. 
