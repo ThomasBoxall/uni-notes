@@ -30,3 +30,44 @@ In preemptive scheduling, if a process with higher priority than that executing 
 
 \section{Scheduler}
 A \textit{scheduler} is a piece of systems software which handles process scheduling in a number of ways. Their role is to look at processes submitted to the system and decide which processes to run. 
+\begin{description}
+    \item[Long Term Scheduler] looks at the big picture. This works out the bits of the programmes which run in what sequence and how many processes stay in the ready queue. This happens away from the CPU. 
+    \item[Medium Term Scheduler] processes movement between the wait queue and ready queue.
+    \item[Short Term Scheduler] decides which process from the ready queue is the next for execution and the order of execution for the other processes in the ready queue. 
+\end{description}
+
+\section{Dispatcher}
+The dispatcher is a program which gives the process control over the CPU after it has been selected by the short term scheduler. This involves three things
+
+\begin{enumerate}
+    \item Switching Context
+    \item Switching to User Mode
+    \item Jumping to the proper location in the user program to restart that program
+\end{enumerate}
+
+\section{Scheduling Criteria}
+\begin{description}
+    \item[CPU Utilization] we want to keep the CPU as busy as possible
+    \item[Throughput] this is the number of processes that complete their execution per time unit
+    \item[Turnaround Time] this is the amount of time it takes to execute a particular process
+    \[\text{Turnaround Time} = \text{Exit Time} - \text{Arrival Time}\]
+    \item[Waiting Time] this is the amount of time a process has been waiting in the ready queue. 
+    \[\text{Waiting Time} = \text{Turnaround Time} - \text{Burst Time}\]
+    \item[Response Time] is the amount of time it takes from when a request was submitted until the first response is produced
+\end{description}
+
+\section{Scheduling Algorithms}
+We will explore six scheduling algorithms over the remainder of this lecture and the next lecture.
+\subsection{First Come, First Served (FCFS)}
+This scheduling algorithm works by allocating the CPU to the process which arrives first. Processes are stored in a Queue which operates as First In First Out (FIFO). When a new process enters the ready queue, its process control block is linked to the tail of the queue. When the CPU is free, it is allocated to the process at the head of the queue. The newly running process is then removed from the queue.
+
+Once the CPU has been allocated to a process, the process keeps control of the CPU until it releases the CPU either by terminating or requesting I/O (which would result in it being put in the \verb|WAIT| queue).
+
+\begin{link}{FCFS Order Of Execution}
+See Week 19 slides on Moodle for an example process execution order with different length processes in different orders.
+\end{link}
+
+\subsection{Shortest-Job-First Scheduling (SJF)}
+This scheduling algorithm works by executing the CPU to the process with the shortest execution time first. It gives the minimum average waiting time for a given set of processes; however it needs to know the length of all the processes in the ready queue. 
+
+SJF can also be preemptive and works as preemptive is described above. 
