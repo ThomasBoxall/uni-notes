@@ -1,0 +1,32 @@
+\lecture{Process Scheduling I}{2023-03-27}{16:00}{Farzad}{RB LT1}
+
+\section{CPU Scheduling}
+CPU Scheduling is a basic requirement of a multiprogrammed operating system. This allows the CPU to be switched between processes, in turn making the computer more efficient. In a system with a single processor, only one process can run at a time; this means the other processes must wait until the CPU becomes free, and is able to be rescheduled, to be able to run. The objective of multiprogramming is to have a process running on the CPU at all times, maximising CPU utilization.
+
+There are different methods of determining how long the process can run on the CPU for before it is removed (this is covered a bit later).
+
+Several processes are kept in memory at one time, some of these will be \verb|READY| to execute, this means they are waiting for time on the CPU and some will be in the \verb|WAIT| state, meaning they require something before they can proceed (generally input or output event). 
+
+CPU scheduling is core to the design \& purpose of the operating system.
+
+\section{Input/ Output Cycle}
+The execution of a process alternates between two states: CPU execution (burst) and I/O wait. Process execution begins with a CPU burst and will end with a CPU burst with a system request to terminate execution.
+
+\section{CPU Scheduler}
+Whenever a process leaves the CPU and/ or the CPU becomes idle, the operating system has to select one of the processes in the ready queue to be executed. This process is completed by the CPU scheduler. The items (processes) in the ready queue are generally the process control blocks of the processes.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{assets/process-state.png}
+    \caption{Process State Diagram}
+\end{figure}
+
+\section{Types of Scheduling}
+There are two key types of scheduling. There are different algorithms which implement these different types of scheduling (these will be covered later on).
+\subsection{Non-Preemptive Scheduling}
+In non-preemptive scheduling, a process cannot be stopped mid execution, unless it needs something (eg input from user), in which case it will be stopped and placed on the ready queue. This means that unless the process switches to the \verb|WAIT| state or it terminates, then there is no way to stop it. No choices are made in terms of which process to execute next, one is picked from the ready queue. This scheduling method was used by Windows version 3.x.
+
+\subsection{Preemptive Scheduling}
+In preemptive scheduling, if a process with higher priority than that executing arrives into the ready queue then the currently executing process will be stopped and the higher priority one will be given the CPU to execute on. Preemptive scheduling decisions will take place when either a process switches from the running state to the waiting state; or when a process switches from the wait state to teh ready state. There are choices in terms of scheduling. There may also be a requirement for specialist hardware - for example a timer. Windows 95 and all subsequent versions of Windows have used this type of scheduling. 
+
+\section{Scheduler}
+A \textit{scheduler} is a piece of systems software which handles process scheduling in a number of ways. Their role is to look at processes submitted to the system and decide which processes to run. 
