@@ -1,0 +1,121 @@
+\lecture{Usability Testing}{2023-03-28}{13:00}{John}{RB LT1}
+
+\section{Usability Testing}
+\define{Usability Testing}{Evaluating usability of a web-page, app or other software by testing it with real users. }
+
+Often software development companies neglect usability testing or do very little testing. Quite often, usability testing is left to the end of the Software Development Lifecycle (SDLC). There are a number of reasons given for why usability testing is not completed:
+\begin{itemize}
+    \item Not enough time
+    \item Not enough money
+    \item No expertise in doing itNo lab or location in which to perform it
+    \item Don't know hot to interpret results
+\end{itemize}
+
+Usability testing shouldn't be carried out by the software developers as quite often they will know the product too well, therefore they generally won't spot things that a new user would. Limiting testing is better than no testing and it is better than to do these tests earlier rather than later. Ideally, testing is iterative - it is done over and over many time. 
+
+\subsection{When?}
+Usability tests should be done early in the SDLC and should be done often. They should often be repeated. The type of tet completed may depend on how far along you are in the testing process. In the early stage this may just be a sketch on paper, the middle may be a comparison of UI designs and finally at the end of the design process this may be to verify the final usability of the UI.
+It is important to keep a historical record of usability results for each test. 
+
+\subsection{Formative vs Summative Testing}
+\begin{description}
+    \item[Formative] testing will feed into the design. This is typically done with some a prototype (Could just be a drawing on paper).
+    \item[Summative] will show a complete system and take measurements from it (eg how long it takes for users to complete a task). 
+    \item[Validation] will show all the changes made so far and compare them to evaluate the end result of the overall usability of the system. 
+\end{description}
+
+\section{Testing Approaches}
+Traditionally, UI testing would have been expensive and used a scientific approach. 
+
+An alternative testing approach, lost-our-lease, allows for cheap and often testing which is not scientific.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{p{0.2\textwidth} p{0.3\textwidth} p{0.3\textwidth}}
+        \textbf{Item} & \textbf{Traditional Testing} & \textbf{Lost our Lease Testing}\\
+        \hline
+        \hline
+        Number of users per test & 8 or more & 3 or 4\\
+        \hline
+        Recruiting Effort & Select carefully to match target audience & Anyone will do\\
+        \hline
+        Where to test & Specialist usability lab with observation room and one-way mirror & Any office or conference room\\
+        \hline
+        Who does testing & Experienced usability professional & Anyone\\
+        \hline
+        Advance planning & Tests have to be scheduled weeks in advance & Schedule anytime\\
+        \hline
+        Preperation & Draft, discuss, revise test protocol & Decide what you're going to show \\
+        \hline
+        What/ When do you test & Once, unless you have a big budget & Lots of small tests continuallt\\
+        \hline
+        Cost & £5k to £15k & £300\\
+        \hline
+        What happens after  & 20-page written report, takes a few weeks to arrive & Each observer takes one page of notes, development team debreif that day.\\
+        \hline
+        
+    \end{tabular}
+\end{table}
+
+It is better to run multiple tests. This allows for main problems to be found in the first round of testing then smaller problems, which are equally as important, can be found in a subsequent round of testing. Overall, multiple tests will find more problems. 
+
+\subsection{Usability room setup}
+This will preferably be a quiet room with a computer and a number of chairs. The participant will sit at the computer and perform tasks with the interface. The moderator sits over the shoulder of the participant and guides them through the process. In another room, the dev team observe either through a one-way mirror or webcam feed. WIth modern technology, it is now possible to record the test and watch back later.
+
+\subsection{Identifying Participants}
+Ideal participants will not know much about the app beforehand. Ideally you would want 3 or 4 users. The participants don't have to necessarily be the end user target group unless the app requires specific expert knowledge to use.
+
+\subsection{Facilitating a Study}
+Facilitators need to have decent people skills and be friendly. They need to tell users it is okay to make mistakes and encourage them to think out loud. Facilitators don't need to give hints to the users, however they should probe users for more details while taking notes without seeming too concerned with note taking. Its important they don't get upset if the user gets stuck, but uses this to get more information out of the user.
+
+\subsection{Types of Testing}
+\begin{description}
+    \item[Get It Test] explores the users understanding of the sites basic purpose
+    \item[Key Task test] asks the users to do a specific thing and watch to see how they do it
+    \item[Exploratory/ Formative] explores the high level design concepts (can a user walk up and use it)
+    \item[Assessment/ Summative] explores lower level operations (can a user perform specific tasks)
+    \item[Comparison tests] explores differences between different prototypes or designs
+    \item[Verification Test] verifies that a UI is okay or that a fix works   
+\end{description}
+
+\subsection{Approach to Testing}
+Below is the outline of a usability test plan
+\begin{enumerate}
+    \item Type of test
+    \item Purpose/ Goals/ Objectives
+    \item Participant Characteristics
+    \item Task List
+    \item Test environment/ equipment
+    \item Moderators Role
+    \item Evaluation Metrics and data to be collected
+    \item Report
+\end{enumerate}
+This plan would be the kind of plan which would be used for a more traditional approach.
+
+\section{Conducting a Usability Test}
+Ideally the person observing the test should be out of view or out of the room. They should be looking for
+\begin{itemize}
+    \item Does the use `get it'?
+    \item Can they find their way around the site?
+    \item How long does it take them?
+    \item Do they do any shocking things?
+    \item What do the users like and dislike?
+    \item What do they do when stuck?
+\end{itemize}
+
+\subsection{Data to Gather}
+The observer writes down usability test notes. The development team will look over these notes and decide what to change. Development teams will generally value users actions and explanations over opinions and won't always listen to user suggestions for new features. It can be hard to figure out how to fix problems. 
+
+Small changes (tweaks) are often better than huge changes. Often removing or simplifying is better than adding, the first things to fix are the easy ones or will provide the highest reward. 
+
+To gather numerical data is very useful as it allows for direct comparison between different tests. Example data to collect could include the number or percentage of something; the count of something; or the time taken to do something. 
+
+\subsection{Performance Goals}
+Some tests have specific goals, for example "every user will be able to find/ use the navigation bar". In these tests the moderator offers less guidance and fewer hints. There is less emphasis on thinking out loud. After the test, the users may be asked to replay steps and talk through them.
+
+It is \textit{bad} to set goals such as `is the product usable', `is it ready for release', `is this a good product'. Goals should be narrow and set to a single thing rather than very broad.
+
+Users will fail tests. They will often struggle to understand the point of the site; use different vocabulary; feel the site is too busy. However, it can be okay if the user is able to recover from the mistake and continue with the test.
+
+\subsection{Limitations}
+The tests are set in artificial environments. Some results won't prove that a UI `works'. It may be better to use another UI evaluation method, for example a UI expert. It is also possible that a UI has an internal learning curve which the test doesn't allow for however when you get accustomed to the system it can be very powerful. Finally, it doesn't tell you if the market wants/ needs a product like  yours. 
