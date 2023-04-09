@@ -1,0 +1,56 @@
+\documentclass[a4paper,11pt, twocolumn]{article}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{
+a4paper,
+total={170mm,257mm},
+left=20mm,
+top=20mm,
+marginparsep=0mm,
+}
+\setlength\parindent{0pt} % get rid of the stupid indent
+
+\title{SQL Syntax Cheatsheet}
+\author{Thomas Boxall\\ \texttt{up2108121@myport.ac.uk}}
+\date{April 2023}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyfoot[C]{\thepage} % page number in centre of the page
+\fancyfoot[R]{\footnotesize Thomas Boxall\\ \texttt{up2108121@myport.ac.uk}} % right hand footer has author name on top line and images reference on bottom line
+\fancyfoot[L]{\footnotesize SQL Syntax \\ Cheatsheet} % left hand footer has title of document on top line and 'Revision Sheet' on bottom line
+
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+
+\section{PostegreSQL `Slash' Commands}
+\verb|\l| list all databases in the server\\
+\verb|\c databaseName| connect to database\\
+\verb|\d| list everything in the database\\
+\verb|\dt| list just the tables\\
+
+\section{Data Definition Language}
+\textit{Used to define the structure of the database}.\\
+\verb|CREATE DATABASE databaseName;| creates new database
+\begin{verbatim}
+CREATE TABLE tableName(
+    attribute dataType constraints,
+    ...
+);
+\end{verbatim}
+creates a table.\\
+\verb|DROP DATABASE| deletes whole database.\\
+\verb|DROP TABLE| deletes table.
+
+
+\section{\texttt{SELECT}}
+\verb|SELECT * FROM tableName| returns everything in \verb|tableName|.
+
+\end{document}
