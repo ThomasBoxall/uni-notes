@@ -1,4 +1,4 @@
-\documentclass[a4paper,11pt, twocolumn]{article}
+\documentclass[a4paper,11pt]{article}
 \usepackage{xcolor}
 \usepackage{geometry}
 \geometry{
@@ -34,23 +34,109 @@ marginparsep=0mm,
 \verb|\l| list all databases in the server\\
 \verb|\c databaseName| connect to database\\
 \verb|\d| list everything in the database\\
-\verb|\dt| list just the tables\\
+\verb|\dt| list just the tables
 
-\section{Data Definition Language}
-\textit{Used to define the structure of the database}.\\
-\verb|CREATE DATABASE databaseName;| creates new database
+\section{\texttt{CREATE}}
+a database: \verb|CREATE DATABASE databaseName;|\\
+a table: 
 \begin{verbatim}
 CREATE TABLE tableName(
     attribute dataType constraints,
     ...
 );
 \end{verbatim}
-creates a table.\\
-\verb|DROP DATABASE| deletes whole database.\\
-\verb|DROP TABLE| deletes table.
 
+\section{\texttt{DROP} \& \texttt{DELETE}}
+a whole database: \verb|DROP DATABASE databaseName;|\\
+a single table: \verb|DROP TABLE tableName;|\\
+a single record: \verb|DELETE FROM tableName WHERE attribute = value;|
+
+\section{\texttt{ALTER}}
+a table to add new column: \verb|ALTER TABLE tableName ADD COLUMN colName dataType;|
+
+\section{\texttt{INSERT}}
+data to a table: \verb|INSERT INTO tableName (attr1, attr2) VALUES(val1, val2);|
+
+\section{\texttt{UPDATE}}
+a record in a table: \verb|UPDATE tableName SET attributeName = val WHERE idAttribute = val;|
 
 \section{\texttt{SELECT}}
-\verb|SELECT * FROM tableName| returns everything in \verb|tableName|.
+everything from a table: \verb|SELECT * FROM tableName;|\\
+only certain records from a table: \verb|SELECT * FROM tableName WHERE attributeName = desiredValue;|\\
+only certain attributes from a table: \verb|SELECT attr1, attr2 FROM tableName;|
+
+\section{Functions}
+number of values: \verb|COUNT(toCount)|\\
+maximum value: \verb|MAX()|\\
+minimum value: \verb|MIN()|\\
+average value: \verb|AVG()|\\
+generate a random number: \verb|RANDOM()|\\
+current date and time: \verb|NOW()|
+
+\section{\texttt{JOIN}}
+two tables together using an inner join
+\begin{verbatim}
+SELECT tableName.attributeName, ... FROM tableName
+JOIN tableToJoinName ON tableToJoinName.attribute = currentTableName.attribute;
+\end{verbatim}
+two tables together not using inner join but achieve the same results:
+\begin{verbatim}
+SELECT attributeName, attributeName FROM tableOneName, tableTwoName
+WHERE tableOneName.attributeName = tableTwoName.attributeName;
+\end{verbatim}
+
+two tables together using a left join:
+\begin{verbatim}
+SELECT currentTableName.attributeName, ... FROM currentTableName
+LEFT JOIN tableTwo ON tableToJoinName.attribute = currentTableName.attribute;
+\end{verbatim}
+
+two tables together using an outer join:
+\begin{verbatim}
+SELECT currentTableName.attributeName, ... FROM currentTableName
+RIGHT JOIN tableTwo ON tableToJoinName.attribute = currentTableName.attribute;
+\end{verbatim}
+
+two tables together using a full outer join:
+\begin{verbatim}
+SELECT currentTableName.attributeName, ... FROM currentTableName
+FULL OUTER JOIN tableTwo ON tableToJoinName.attribute = currentTableName.attribute;
+\end{verbatim}
+
+\section{\texttt{GROUP BY}}
+an attribute in the table:
+\begin{verbatim}
+SELECT attributeOne, attributeTwo FROM tableName
+GROUP BY attributeOne;
+\end{verbatim}
+an attribute in the table and only show certain records:
+\begin{verbatim}
+SELECT attributeOne, attributeTwo FROM tableName
+GROUP BY attributeOne
+HAVING attributeName = value;
+\end{verbatim}
+
+\section{\texttt{ORDER BY}}
+an attribute in ascending order: 
+\begin{verbatim}
+SELECT attributeName FROM tableName ORDER BY attributeName;
+\end{verbatim}
+
+an attribute in ascending order:
+\begin{verbatim}
+SELECT attributeName FROM tableName ORDER BY attributeName ASC;
+\end{verbatim}
+
+an attribute in descending order:
+\begin{verbatim}
+SELECT attributeName FROM tableName ORDER BY attributeName DESC;
+\end{verbatim}
+
+\section{Wildcards}
+any number of characters: \verb|%|
+
+\section{Views}
+create a view: \verb|CREATE viewName AS queryString;|\\
+executeView \verb|SELECT * FROM viewName;|
 
 \end{document}
