@@ -21,12 +21,13 @@ Obviously, these aren't quick notes to write. If you pass them onto someone else
 ## Links to Notes
 See below for links to GitHub Pages of this Repo as GitHub's inbuilt PDF viewer is pretty bad.
 ### First Year
-* [M22731 (Comp Tutorial Level 4)](https://thomasboxall.github.io/uni-notes/01-FIRST-YEAR/M22731-compTutorialLevel4/M22731.pdf)
-* [M30220 (Core Computing Concepts)](https://thomasboxall.github.io/uni-notes/01-FIRST-YEAR/M30220-coreComputingConcepts/M30220.pdf)
-  * [Item 2: Discovery Log](https://thomasboxall.github.io/uni-notes/01-FIRST-YEAR/M30220-coreComputingConcepts/00-discovery-log-web/main.pdf)
-* [M30231 (Networks)](https://thomasboxall.github.io/uni-notes/01-FIRST-YEAR/M30231-networks/M30231.pdf)
-* [M30232 (Database Systems Development)](https://thomasboxall.github.io/uni-notes/01-FIRST-YEAR/M30232-databaseSystemsDevelopment/M30232.pdf)
-* [M30299 (Programming)](https://thomasboxall.github.io/uni-notes/01-FIRST-YEAR/M30299-programming/M30299.pdf)
+* [M22731 (Comp Tutorial Level 4)](01-FIRST-YEAR/M22731-compTutorialLevel4/M22731.pdf)
+* [M30220 (Core Computing Concepts)](01-FIRST-YEAR/M30220-coreComputingConcepts/M30220.pdf)
+  * [Item 2: Discovery Log](01-FIRST-YEAR/M30220-coreComputingConcepts/00-discovery-log-web/main.pdf)
+* [M30231 (Networks)](01-FIRST-YEAR/M30231-networks/M30231.pdf)
+* [M30232 (Database Systems Development)](01-FIRST-YEAR/M30232-databaseSystemsDevelopment/M30232.pdf)
+  * [SQL Cheatsheet](01-FIRST-YEAR/M30232-databaseSystemsDevelopment/00-sqlCheatsheet/sqlCheatsheet.pdf)
+* [M30299 (Programming)](01-FIRST-YEAR/M30299-programming/M30299.pdf)
 * M30943 (Architecture and Operating Systems)
-  * [Computing](https://thomasboxall.github.io/uni-notes/01-FIRST-YEAR/M30943-architectureAndOperatingSystems/Computing/M30943.pdf)
-  * [Maths](https://thomasboxall.github.io/uni-notes/01-FIRST-YEAR/M30943-architectureAndOperatingSystems/Maths/M30943-maths.pdf)
+  * [Computing](01-FIRST-YEAR/M30943-architectureAndOperatingSystems/Computing/M30943.pdf)
+  * [Maths](01-FIRST-YEAR/M30943-architectureAndOperatingSystems/Maths/M30943-maths.pdf)
