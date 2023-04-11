@@ -1,0 +1,114 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{
+a4paper,
+total={170mm,257mm},
+left=20mm,
+top=20mm,
+marginparsep=0mm,
+}
+\setlength\parindent{0pt} % get rid of the stupid indent
+
+\title{Dart Syntax Cheatsheet}
+\author{Thomas Boxall\\ \texttt{up2108121@myport.ac.uk}}
+\date{April 2023}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyfoot[C]{\thepage} % page number in centre of the page
+\fancyfoot[R]{\footnotesize Thomas Boxall\\ \texttt{up2108121@myport.ac.uk}} % right hand footer has author name on top line and author contact on bottom line
+\fancyfoot[L]{\footnotesize Dart Syntax Cheatsheet \\ April 2023} % left hand footer has title of document on top line and date on bottom line
+
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+
+\section{Basics of Dart}
+entry point to a Dart program is the \verb|main| function:
+\begin{verbatim}
+void main(){
+
+}
+\end{verbatim}
+print to the console: \verb|print("hello world");|\\
+comments start with: \verb|//|
+
+\section{Types}
+declare an integer variable: \verb|int imAnInt = 12;|\\
+declare a double variable: \verb|double imADouble = 6.9;|\\
+declare a string variable: \verb|String imAString = "Cheese";|\\
+declare a constant: \verb|const pi = 3.14;|\\
+declare a boolean: \verb|bool dartIsBetterThanPython = true;|\\
+declare a num: \verb|num iCanBeDoubleOrInt = 4;|
+\subsection{Casting}
+cast to a string: \verb|String wasANumber = numberVariable.toString();|\\
+cast a double to string with fixed decimal places:\\ \verb|String wasADouble = doubleVariable.toStringAsFixed(numbDecimalPlaces);|\\
+cast a string to an integer: \verb|int wasAString = int.parse(stringVariable);|\\
+cast a string to a double: \verb|double wasAString = double.parse(stringVariable);|\\
+cast an int or num to double: \verb|double wasAnInt = intVariable.toDouble();|\\
+cast a double or num to int: \verb|int wasADouble = doubleVariable;|\\ or \verb|int wasADouble = doubleVariable.toInt();|\\
+cast a double or num to int and round = \verb|int wasADouble = doubleVariable.round();|\\
+cast a double or num to int and round to upper bound: \verb|int wasADouble = doubleVariable.ceil();|\\
+cast a double or num to int and round to lower bound: \verb|int wasADouble = doubleVariable.floor();|
+
+\section{Math}
+import math library: \verb|import 'dart:math';|\\
+calculate power of number: \verb|pow(base, exponent)|\\
+calculate square root: \verb|sqrt(numberToSquareRoot)|
+
+\section{Strings}
+concatenate two strings: \verb|print("String One" + "String Two");|\\
+interpolate a non-string into a string: \verb|print("I'm a string, $andImAndIntVariable");|\\
+interpolate a non-string into a string and apply an operation to it: \verb|print("String: ${intVariable * 2}");|\\
+use string indexing to access the 1st character in a string: \verb|print(stringVariable[0]);|\\
+use substring to access particular characters in a string:\\ \verb|print(stringVariable.substring(start, endOptional));|\\
+get the length of a string: \verb|print(stringVariable.length);|\\
+get the index of a particular character in a string: \verb|print(stringVariable.indexOf(queryChar));|\\
+split a string and remove the pattern: \verb|stringVariable.split(pattern)|\\
+convert all characters in the string to lower case: \verb|stringVariable.toLowerCase()|\\
+convert character to ASCII value: \verb|stringVariable.codeUnitAt(position)|
+
+\section{Functions}
+general structure to a Dart function:
+\begin{verbatim}
+returnType functionName(param1Type paramOne, ...){
+    
+}
+\end{verbatim}
+a function made of an expression can be simplified:\\
+\verb|returnType functionName (param1Type, param1) => expressionToReturn;|\\
+a function can be passed as a parameter to another function using \verb|returnType Function(paramsType) name| which can then be called using \verb|name()|, passing any parameters into it.
+
+\section{Program Flow Control}
+if statements have the following structure:
+\begin{verbatim}
+if (statement){
+
+} else if (anotherStatement){
+
+} else{
+
+}
+\end{verbatim}
+for loops have the following structure:
+\begin{verbatim}
+for (loopVarStartPoint; loopVarEndPoint; loopVarIteration){
+
+}
+\end{verbatim}
+while statements have the following structure:
+\begin{verbatim}
+while(statement){
+
+}
+\end{verbatim}
+
+
+\end{document}
