@@ -21,8 +21,8 @@ marginparsep=0mm,
 \fancyfoot{} % clear all footer fields
 \renewcommand{\footrulewidth}{0.4pt}
 \fancyfoot[C]{\thepage} % page number in centre of the page
-\fancyfoot[R]{\footnotesize Thomas Boxall\\ \texttt{up2108121@myport.ac.uk}} % right hand footer has author name on top line and images reference on bottom line
-\fancyfoot[L]{\footnotesize SQL Syntax \\ Cheatsheet} % left hand footer has title of document on top line and 'Revision Sheet' on bottom line
+\fancyfoot[R]{\footnotesize Thomas Boxall\\ \texttt{up2108121@myport.ac.uk}} % right hand footer has author name on top line and author contact on bottom line
+\fancyfoot[L]{\footnotesize SQL Syntax Cheatsheet \\ April 2023} % left hand footer has title of document on top line and date on bottom line
 
 
 \begin{document}
@@ -45,6 +45,7 @@ CREATE TABLE tableName(
     ...
 );
 \end{verbatim}
+a database owned by another user: \verb|CREATE DATABASE userName OWNED userName;|
 
 \section{\texttt{DROP} \& \texttt{DELETE}}
 a whole database: \verb|DROP DATABASE databaseName;|\\
@@ -52,7 +53,9 @@ a single table: \verb|DROP TABLE tableName;|\\
 a single record: \verb|DELETE FROM tableName WHERE attribute = value;|
 
 \section{\texttt{ALTER}}
-a table to add new column: \verb|ALTER TABLE tableName ADD COLUMN colName dataType;|
+a table to add new column: \verb|ALTER TABLE tableName ADD COLUMN colName dataType;|\\
+add a unique constraint to an attribute:\\ \verb|ALTER TABLE tableName ADD CONSTRAINT constraintName UNIQUE (attribute);|\\
+add a length constraint to an attribute:\\ \verb|ALTER TABLE tableName ADD CONSTRAINT constraintName CHECK(length(postcode)>5);|\\
 
 \section{\texttt{INSERT}}
 data to a table: \verb|INSERT INTO tableName (attr1, attr2) VALUES(val1, val2);|
@@ -63,15 +66,37 @@ a record in a table: \verb|UPDATE tableName SET attributeName = val WHERE idAttr
 \section{\texttt{SELECT}}
 everything from a table: \verb|SELECT * FROM tableName;|\\
 only certain records from a table: \verb|SELECT * FROM tableName WHERE attributeName = desiredValue;|\\
-only certain attributes from a table: \verb|SELECT attr1, attr2 FROM tableName;|
+only certain attributes from a table: \verb|SELECT attr1, attr2 FROM tableName;|\\
+only distinct attributes from a table: \verb|SELECT DISTINCT attributeName FROM tableName;|\\
+only 5 records from a table: \verb|SELECT * FROM tableName LIMIT 5;|\\
+an attribute and give it an alias: \verb|SELECT attributeName as "Alias" FROM tableName;|
 
 \section{Functions}
-number of values: \verb|COUNT(toCount)|\\
+number of values: \verb|COUNT(toCount)|
+\subsection{Text Functions}
+convert character to ASCII: \verb|ASCII('char')|\\
+convert ASCII to character: \verb|CHR(intVal)|\\
+convert the first letter after a space to a capital: \verb|INTCAP('string to convert')|\\
+get the position of a substring in a string: \verb|POSITION('substring' IN 'string to search')| (NB: string index starts at 1)\\
+concatenate strings with a space between: \verb|CONCAT(stringOne, ' ', stringThree)|\\
+concatenate strings with the same delimiter between each: \verb|CONCAT_WS(' ', stringOne, stringTwo)|\\
+convert binary to text: \verb|CONVERT_FROM(toConvert, 'utf-8)|\\
+convert all characters to uppercase: \verb|UPPER(toConvert)|
+
+\subsection{Date Functions}
+current date and time: \verb|NOW()|\\
+return the current time: \verb|CURRENT_TIME|\\
+extract part of a date: \verb|DATE_PART('target_part', dateToExtractFrom)|\\
+truncate date to specific level \& fill the rest with \verb|0|: \verb|DATE_TRUNC('truncation-level', dateToTruncate)|\\
+get the difference between now and a date as a formatted string: \verb|AGE(dateToGetDifferenceOf)|\\
+get the difference between two dates as a formatted string: \verb|AGE(laterDate, earlierDate)|
+
+\subsection{Numerical Functions}
 maximum value: \verb|MAX()|\\
 minimum value: \verb|MIN()|\\
 average value: \verb|AVG()|\\
 generate a random number: \verb|RANDOM()|\\
-current date and time: \verb|NOW()|
+
 
 \section{\texttt{JOIN}}
 two tables together using an inner join
@@ -137,6 +162,33 @@ any number of characters: \verb|%|
 
 \section{Views}
 create a view: \verb|CREATE viewName AS queryString;|\\
-executeView \verb|SELECT * FROM viewName;|
+execute view: \verb|SELECT * FROM viewName;|
+
+\section{Roles}
+create a role: \verb|CREATE ROLE username WITH LOGIN PASSWORD 'password';|\\
+give role superuser permission: \verb|ALTER ROLE username WITH SUPERUSER;|\\
+give role read access to table: \verb|GRANT select ON tableName TO username;|\\
+give two roles write access to a table: \verb|GRANS update ON tableName TO username, username;|\\
+revoke role read access to a table: \verb|REVOKE select ON tableName FROM username|\\
+delete a role:
+\begin{verbatim}
+-- need to revoke all permissions first
+DROP DATABASE username;
+DROP ROLE username;
+\end{verbatim}
+
+\section{Encryption}
+Turn on encryption (off by default): \verb|CREATE EXTENSION IF NOT EXISTS pgcrypto;|\\
+Encrypt values (probably used as part of \verb|INSERT|): \verb|ENCRYPT('toEncrypt', 'key', 'aes')|\\
+Decrypt values (provably used as part of \verb|SELECT|): \verb|DECRYPT(toDecrypt, 'key', 'aes')|
+
+\section{Dates}
+display data when between two dates:\\
+\verb|SELECT * FROM tableName WHERE dateAttr BETWEEN 'firstDate' AND 'lastDate';|\\
+change date style: \verb|SET DATESTYLE TO newDateStyle;|
+
+\section{JSON}
+return the raw value: \verb|SELECT data -> 'key' FROM jsonTable;|\\
+return the text value: \verb|SELECT data ->> 'key' FROM jsonTable;|
 
 \end{document}
