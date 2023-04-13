@@ -2,23 +2,35 @@
 
 Computer memory is the part of the computer where the computer stores (remembers) data and instructions (stored as binary values). Memory stores the information temporarily or permanently and provides the CPU with data and instructions. There are a number of different types of memory, each of which have a different purpose and can be found in different parts of the computer.
 
-\section*{Memory Key Characteristics}
-\subsection*{Location}
+\section{Memory Key Characteristics}
+\subsection{Location}
 Memory can be \textit{internal}, which means it is inside the core of the machine. This may include processor registers, cache memory, or main memory. Memory can also be \textit{external}, which means it is not in the core of the machine, or even outside the machine all together. External memory can include optical disks, magnetic disks, tapes, or USB drives.
-\subsection*{Capacity}
+\subsection{Capacity}
 The capacity of the memory concerns how much data can be stored within it. This may be measured in \textit{words}, \textit{bytes} or \textit{bits}.
-\subsection*{Unit of Transfer}
+\subsection{Unit of Transfer}
 The unit of transfer is the number of bits read out of or written into memory at a time. \textit{Bits} are generally moved in main memory, \textit{words} are used in registers, and \textit{blocks} are used when moving from one memory location to the other. A \textit{block} is multiple words together. 
-\subsection*{Access Method}
-There are a number of different access methods which can be used to access data from memory. \textit{Sequential Access} starts reading from the start of the memory unit and continues to read until it finds the location which has been requested, this is very slow and is used for tape units. \textit{Direct Access} moves directly to the address which needs to be read and can read it directly, this is generally used for disk units. \textit{Random Access}, when used in block mode, will move the requested words as well as some from either side of the target word, this increases the efficiency and is often found in main memory and cache systems. \textit{Associative Access} is a hybrid between random access and direct access, it searches through the entire memory and returns all words with a similar contents to what you requested, this is generally found in cache systems. 
-\subsection*{Performance}
-The \textit{Access Time} is the time it takes to access the memory - When this is high, the machine will be slow. The \textit{Cycle Time} is the time which it takes for one cycle of the Fetch-Decode-Execute Cycle. The \textit{Transfer Rate} is calculated by dividing 1 by the cycle time; and is the frequency of memory accesses.
-\subsection*{Physical Type}
+\subsection{Access Method}
+There are a number of different access methods which can be used to access data from memory. 
+\begin{description}
+    \item[Sequential Access] starts reading from the start of the memory unit and continues to read until it finds the location which has been requested, this is very slow and is used for tape units
+    \item[Direct Access] moves directly to the address which needs to be read and can read it directly, this is generally used for disk units
+    \item[Random Access] when used in block mode, will move the requested words as well as some from either side of the target word, this increases the efficiency and is often found in main memory and cache systems
+    \item[Associative Access] is a hybrid between random access and direct access, it searches through the entire memory and returns all words with a similar contents to what you requested, this is generally found in cache systems
+\end{description}
+
+\subsection{Performance}
+\marginNote{reviewed 2023-04-13}
+\begin{description}
+    \item[Access Time] is the time it takes to perform a read or write operation in random access memory and for other types of memory it is the time it takes to position the read-write mechanism at the desired location
+    \item[Memory Cycle Time] is the time taken, in random access memory, is the access time plus any additional time required before a second access can commence (for example, time required for transients to die out on signal lines)
+    \item[Transfer Rate] is the rate at which data can be transferred into or out of a memory unit. 
+\end{description}
+\subsection{Physical Type}
 \textit{Semiconductor} memory uses different types of material to create polarised areas which can be used to represent 1s and 0s. \textit{Magnetic} uses magnetic technology, which can be polarised to create 1s and 0s. \textit{Optical} uses lasers to read/ write data in the form of pits and lands. \textit{Magneto-optical} is a hybrid of magnetic and optical.
-\subsection*{Physical Characteristics}
+\subsection{Physical Characteristics}
 Memory can either be \textit{volatile} (when the power cuts, memory empties) or \textit{non-volatile} (when power cuts, memory contents stays). Memory can also be \textit{erasable} (where it can be completely emptied, for example RAM) or \textit{non-erasable} (where it cannot be completely emptied, for example ROM). 
 
-\section*{Hierarchy of Memory}
+\section{Hierarchy of Memory}
 As you move down the hierarchy, the cost decreases, the capacity increases, however the access time increases which decreases the frequency of access of the memory by the processor. 
 \begin{table}[H]
     \centering
@@ -40,7 +52,7 @@ As you move down the hierarchy, the cost decreases, the capacity increases, howe
 \end{table}
 Smaller, more expensive, faster memory is generally supplemented by larger, cheaper and slower memory.
 
-\section*{Cache Memory}
+\section{Cache Memory}
 The concept of cache memory is to combine fast and expensive memory with less expensive and lower speed memory. By doing this, you end up with the cache containing a copy of a portion of memory. It works by blocks of data transferring to \& from main memory and the cache memory; this transfer is slow. Words of data are then transferred between the cache memory to \& from the CPU, this is much faster. 
 
-There are three levels of cache memory. The speed of transfer is fastest between the CPU and level 1 cache and is slowest between the main memory and level 3 cache. Level 2 cache is in the middle. 
+There can be multiple levels of cache memory. In the case there are three levels: the speed of transfer is fastest between the CPU and level 1 cache and is slowest between the main memory and level 3 cache. Level 2 cache is in the middle. 

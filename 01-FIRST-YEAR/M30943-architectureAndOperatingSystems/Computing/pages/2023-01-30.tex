@@ -1,6 +1,6 @@
 \lecture{IAS Computer}{2023-01-30}{16:00}{Farzad}{RB LT1}
 
-\section*{IAS Computer}
+\section{IAS Computer}
 The IAS Computer uses the stored program concept. This is where the instructions and data required to execute the program are stored in the computer's main memory then during runtime moved to the CPU where each instruction is executed one by one.
 
 Further details on the IAS computer's structure can be found in the previous lecture. 
@@ -12,20 +12,16 @@ There are three key concepts of the IAS Computer
     \item Execution occurs in a sequential fashion (unless explicitly modified)
 \end{itemize}
 
-\section*{Registers}
+\section{Registers}
 Registers are very small amounts of very fast and expensive memory which is found within the CPU. There are a number of registers and each have a specific purpose. 
 
-\textbf{Memory Buffer Register (MBR)} contains a word to be stored in memory or sent to the input/ output unit; or to be received from either.
-
-\textbf{Memory Address Register (MAR)} contains the address in memory of the word to be written to or read into the MBR.
-
-\textbf{Instruction Register (IR)} contains the 8-bit opcode of the instruction currently being executed.
-
-\textbf{Instruction Buffer Register (IBR)} Temporarily holds the right hand instruction from a word in memory while the left hand instruction is being executed.
-
-\textbf{Program Counter (PC)} holds the address of the next instruction pair to be fetched from memory.
-
-\textbf{Accumulator (AC) and Multiplier Quotient (MQ)} is used to hold temporary operands and results from the ALU. The MQ will be used if the result from the ALU is too big to fit in the AC. 
+\begin{description}
+    \item[Memory Buffer Register (MBR)] contains a word to be stored in memory or sent to the I/O unit; or used to receive a word from memory or from the I/O unit.
+    \item[Memory Address Register (MAR)] specifies the address in memory of the word to be written from or read into the MBR.
+    \item[Instruction Register (IR)] contains the 8-bit opcode from the instruction currently being executed.
+    \item[Program Counter (PC)] contains the the address of the next instruction pair to be fetched from memory
+    \item[Accumulator (AC) and Multiplier Quotient (MQ)] are used to hold operands temporarily and results of ALU operations. MQ gets used if the results from the ALU is too big to fit in the AC.
+\end{description} 
 
 \begin{figure}[H]
     \centering
@@ -33,7 +29,7 @@ Registers are very small amounts of very fast and expensive memory which is foun
     \caption{IAS Registers}
 \end{figure}
 
-\section*{Instructions}
+\section{Instructions}
 The IAS Computer had a very limited set of instructions.
 \begin{table}[H]
     \centering
@@ -42,7 +38,7 @@ The IAS Computer had a very limited set of instructions.
     \end{tabularx}
 \end{table}
 
-\subsection*{Data Transfer}
+\subsection{Data Transfer}
 \begin{table}[H]
     \centering
     \begin{tabularx}{\textwidth}{XXX}
@@ -64,7 +60,7 @@ The IAS Computer had a very limited set of instructions.
     \end{tabularx}
 \end{table}
 
-\subsection*{Unconditional Branch}
+\subsection{Unconditional Branch}
 \begin{table}[H]
     \centering
     \begin{tabularx}{\textwidth}{XXX}
@@ -76,7 +72,7 @@ The IAS Computer had a very limited set of instructions.
     \end{tabularx}
 \end{table}
 
-\subsubsection*{Conditional Branch}
+\subsubsection{Conditional Branch}
 \begin{table}[H]
     \centering
     \begin{tabularx}{\textwidth}{XXX}
@@ -88,7 +84,7 @@ The IAS Computer had a very limited set of instructions.
     \end{tabularx}
 \end{table}
 
-\subsection*{Arithmetic}
+\subsection{Arithmetic}
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{XXX}
         \hline
@@ -111,7 +107,7 @@ The IAS Computer had a very limited set of instructions.
     \end{tabularx}
 \end{table}
 
-\subsection*{Address Modify}
+\subsection{Address Modify}
 \begin{table}[H]
     \begin{tabularx}{\textwidth}{XXX}
         \hline
@@ -123,10 +119,10 @@ The IAS Computer had a very limited set of instructions.
 \end{table}
 
 
-\section*{Programs}
+\section{Programs}
 There are two different methods of programming computers, that we need to know about at this stage.
-\subsection*{Hardwired Programs}
+\subsection{Hardwired Programs}
 This is like what we did in \texttt{logic.ly}. This is where the individual logic gates inputs are hand-manipulated and the connections are put together by hand to generate outputs.
 
-\subsection*{Software Programming}
+\subsection{Software Programming}
 This works by the code being written in a language which then gets passed through an interpreter. The interpreter will translate the high level language into a low level language which the components of the computer are able to understand and use. 

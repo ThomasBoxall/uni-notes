@@ -2,7 +2,7 @@
 
 \textit{We have now finished content relating to Binary and Boolean Algebra. Until Easter (approx 5 weeks) we will be covering the CPU and how it works then until the end of the year, we will look at operating systems and how they work.}
 
-\section*{Computers as Complex Systems}
+\section{Computers as Complex Systems}
 A computer is a complex system. There are two key concepts to understand when referring to how a computer works, computer architecture and computer organisation.
 \define{Computer Architecture}{This is the attributes that have a direct impact on the logical execution of a program.}
 \define{Computer Organisation}{This referrs to the operational units and their interconnections that realise the architectural operation.}
@@ -14,23 +14,17 @@ This same analogy can be applied to computers: all computers require the same ar
 \define{Computer Structure}{The way in which the components are interrelated.}
 \define{Computer Function}{The operation of each individual component as part of the structure.}
 
-\subsection*{Computer Function}
-There are four main functions of the computer.
-\begin{itemize}
-    \item Data Processing
-    \item Data Storage
-    \item Data Movement
-    \item Control
-\end{itemize}
-Data processing relates to the manipulation of data for a specific function.
+\subsection{Computer Function}
+\marginNote{re-written 2023-04-13}
+The computer has four main functions.
+\begin{description}
+    \item[Data Processing] where the computer manipulates the data for a specific function. There are a wide variety of situations this is important in however there are only a few methods/ types of data processing. 
+    \item[Data Storage] where the computer will save data so it can be accessed at a later time/ date. Data can either be stored in the long term (through a low cost Hard Drive/ SSD) or temporarily (through higher cost RAM). 
+    \item[Data Movement] where the computer can move data between itself and the outside world. This data will probably interface through \textit{Input/ Output} (I/O) devices. Data movement also concerns peripherals and communication from device to device, this process is known as data communications.
+    \item[Control] where the computer must coordinate all the different things which are happening within it. This will encompass data processing, storage and movement. The Control unit manages the computers resources and decides the responses to instructions, including what other components do. 
+\end{description}
 
-Data storage has two different types, long term and short term. Long term is the Hard Drives or SSDs where data can be stored for a long period of time at relatively low costs. Short term is the RAM within a computer where data which is currently or soon-to-be needed by the CPU is stored, this is at higher cost than the long term storage. The storage of data requires movement of data from one place to another to store it.
-
-Data Movement concerns data entering or leaving a system. This will most probably be coming from an input device (keyboard, mouse or microphone) and will most probably be going to an output device (monitor, speakers or printer). Data movement also concerns peripherals and communication from device to device.
-
-Control is required with everything as computers must coordinate all their actions.
-
-\subsection*{Computer Structure}
+\subsection{Computer Structure}
 Within a computer, there are a number of interrelated components.
 \begin{itemize}
     \item Peripherals
@@ -41,26 +35,25 @@ Within a computer, there are a number of interrelated components.
 There are also a number of key components within a computer.
 \begin{itemize}
     \item Central Processing Unit (CPU) - controls everything in the computer
-    \item Main Memory - short term memory
-    \item I/O - input \& output devices
+    \item Main Memory - stores data
+    \item I/O - moves data between the computer and its external environment
     \item System Interconnection (buses) - communicate between the main memory, I/O and CPU
 \end{itemize}
 
-\subsubsection*{Central Processing Unit}
+\subsubsection{Central Processing Unit}
 The CPU has a number of components within it.
 
-The \textit{Arithmetic \& Logic Unit (ALU)} is an adder/ subtractor and performs the arithmetic and logical operations which we learnt about in Teaching Block 1.
+\begin{description}
+    \item[Arithmetic \& Logic Unit (ALU)] is an adder/ subtracter that perfoms the arithmetic and logical operations (using binary as we learnt in TB1).
+    \item[Registers] are very small amounts of extremely fast and very expensive memory which is internal to the CPU. It is used to speed up access to data in turn speeding up CPU performance.
+    \item[Internal Bus] is the internal communications line within the CPU.
+    \item[Control Unit (CU)] controls the operations of the CPU, which controls the operations of the computer.  
+\end{description}
 
-The \textit{Registers} are very small amounts of extremely fast memory. Register memory is very expensive. Registers are used to hold the data which is going to/ from main memory.
-
-The \textit{Internal Bus} is the internal communications line within the CPU.
-
-The \textit{Control Unit (CU)} is the `heart' of the CPU. It signals to other components of the CPU to keep them in sync. The CU contains sequencing logic, CU registers and decoders, and control memory; these are beyond the scope of this course.
-
-\section*{History Of Computers}
-\subsection*{First Generation}
+\section{History Of Computers}
+\subsection{First Generation}
 The first generation of computers used vacuum tubes. The first computer (ENIAC, Electronic Numerical Integrator and Computer) was created during WWII out of need for automating some of the missile launching procedures at the University Of Pennsylvania. It was manually programmed using decimal (not binary) and could do 5000 additions per second. It weighed 30 tones, took up 1500 square feed and contained 18000 vacuum tubes.
-\subsection*{Next Generation}
+\subsection{Next Generation}
 The next generation of computers were designed between 1946 and 1952 by Von Neumann. This machine now incorporates the `stored-program concept'. This computer was called an Institute of Advanced Study (IAS) Computer.
 \begin{figure}[H]
     \centering
