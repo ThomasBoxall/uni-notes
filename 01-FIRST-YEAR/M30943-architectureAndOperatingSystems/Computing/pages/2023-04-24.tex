@@ -1,0 +1,15 @@
+\lecture{Process Scheduling II}{2023-04-24}{16:00}{Farzad}{RB LT1}
+
+This lecture continues from where we left off before Easter.
+
+\section{Scheduling Algorithms}
+
+\subsection{Priority Scheduling}
+As each process arrives into the ready queue, a priority number is associated with it. This is an integer where the lower the value, the higher the priority. This algorithm can either be preemptive or non-preemptive. There is a significant issue with this algorithm: \textit{starvation or indefinite blocking} is where a process is left waiting indefinitely, generally this will be found in low-priority processes; this can be overcome by using \textit{aging} where the priority of a process is gradually increased at set time intervals. 
+\subsubsection{Preemptive}
+If a higher priority process than that currently executing arrives at the CPU, then the current task will be removed from the CPU and the new, high priority task will be executed.
+\subsubsection{Non-Preemptive}
+If a higher priority process than that currently executing arrives at the CPU, it will have to wait for the current process to finish before it can execute.
+
+\subsection{Round Robin Scheduling}
+Round Robin (RR) scheduling transforms the Ready Queue into a circular FIFO queue. This enables each process to be given a small unit of time on the CPU (called a time quantum or time slice, usually about 10-100ms) then, wherever the process is up-to in execution, it is removed from the CPU and added to the back of the ready queue; the process from the front of the ready queue is then executed. This removes the starvation problem and if the process needs less time than the time quantum allows for then it will leave the CPU early and the next process can start. The same process will not have more than one consecutive time quantum unless it is the only process in the ready queue. The performance of the RR algorithm comes down to the length of the time quantum, in that if it is too short then lots of time will be wasted by context switching. 
