@@ -13,3 +13,22 @@ If a higher priority process than that currently executing arrives at the CPU, i
 
 \subsection{Round Robin Scheduling}
 Round Robin (RR) scheduling transforms the Ready Queue into a circular FIFO queue. This enables each process to be given a small unit of time on the CPU (called a time quantum or time slice, usually about 10-100ms) then, wherever the process is up-to in execution, it is removed from the CPU and added to the back of the ready queue; the process from the front of the ready queue is then executed. This removes the starvation problem and if the process needs less time than the time quantum allows for then it will leave the CPU early and the next process can start. The same process will not have more than one consecutive time quantum unless it is the only process in the ready queue. The performance of the RR algorithm comes down to the length of the time quantum, in that if it is too short then lots of time will be wasted by context switching. 
+
+\subsection{Multilevel Queue Scheduling}
+In this scheduling algorithm, the ready queue is split into separate queues. These may be, for example, foreground and background processes. The two different types of processes have different response-time requirements and so may have different scheduling needs. Processes are permanently assigned to one queue (generally based on some property of the process, such as memory size, process priority or process type). Each queue has its own scheduling algorithm, for example foreground might use RR and background might use FCFS. 
+
+Scheduling is done between the between the queues. There are two methods which can be used here
+\subsubsection{Fixed Prioirity Scheduling}
+Here the queues are serviced in fixed priorities. For example, serve all from foreground then serve background. This leads to the high chance of process starvation. 
+\subsubsection{Time Slice}
+In this method, each of the queues get a certain amount of CPU time within which it can schedule its processes. For example 80\% of time goes to foreground and 20\% of time goes to background.
+
+\subsection{Multilevel Feedback Queue Scheduling}
+This scheduling algorithm works similarly to \textit{multilevel queue scheduling} however in this one the process can move between the various queues and aging can be implemented along the way. Multilevel feedback queue schedulers are defined by the following parameters
+\begin{itemize}
+    \item The number of queues
+    \item The scheduling algorithms for each queue
+    \item The method used to determine when to upgrade a process
+    \item The method used to determine when to demote a process
+    \item The method used to determine which queue a process will enter when that process need service
+\end{itemize}
