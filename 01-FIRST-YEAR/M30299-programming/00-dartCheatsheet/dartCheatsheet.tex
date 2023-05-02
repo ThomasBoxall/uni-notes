@@ -110,5 +110,88 @@ while(statement){
 }
 \end{verbatim}
 
+\section{Lists}
+declare a list with: \verb|List<elementType> listName = [itemOne, ...];|\\
+access an item within a list: \verb|listName[listIndex];|\\
+update an item within a list: \verb|listName[listIndex] = newValue;|\\
+get the length of a list: \verb|listName.length;|\\
+add an item to a list: \verb|listName.add(itemToAdd);|\\
+get the first item from a list: \verb|listName.first;|\\
+get the last item in a list: \verb|listName.last;|\\
+insert an item at a specific index: \verb|listName.insert(index, itemToAdd);|\\
+generate a list pre-filled: \verb|List<type> listName = List<type>.filled(numberElems, elemContent);|\\
+iterate through all elements in a list:
+\begin{verbatim}
+for (type individualElemIdentifier in listName){
+    //do a thing
+}
+\end{verbatim}
+declare a multidimensional list:
+\begin{verbatim}
+List<List<type>> listName = [
+    [element00, element01, element02],
+    [element10, element11, element12],
+    [element20, element21, element22, element23],
+    ...
+];
+\end{verbatim}
+
+\section{Maps}
+declare a map:
+\begin{verbatim}
+Map<keyType, valType> mapName = {
+    key: val,
+    key: val,
+    ...
+};
+\end{verbatim}
+access a value: \verb|mapName[key];|\\
+update a value: \verb|mapName[key] = newValue;|\\
+add a new key-val pair: \verb|mapName[newKey] = newVal;|\\
+remove a key-val pair from a map: \verb|mapName.remove(keyOfPairToRemove);|\\
+iterate through a map:
+\begin{verbatim}
+for (type key in mapName.keys){
+    // do a thing
+}
+\end{verbatim}
+declare a map containing a string key and list of strings value:
+\begin{verbatim}
+Map<String, List<String>> mapName = {...};
+\end{verbatim}
+update an element of a list which is a a value in a map:
+\begin{verbatim}
+mapName[key]![listIndex] = newVal;
+\end{verbatim}
+
+\section{Classes \& Objects}
+define a class with two integer values:
+\begin{verbatim}
+class ClassName{
+    int valueOne = 0;
+    int valueTwo = 0;
+}
+\end{verbatim}
+define the constructor method: \verb|ClassName(this.attributeName, ...);|\\
+add a method to get an attribute: \verb|int get valueOne() => valueOne;|\\
+add a \verb|toString()| method
+\begin{verbatim}
+@override
+String toString(){
+    return "stringValueHere";
+}
+\end{verbatim}
+define a class which inherits another
+\begin{verbatim}
+class Super{
+    ...
+}
+class Subclass{
+    Subclass(this.attribute) : super(attribute);
+    ...
+}
+\end{verbatim}
+
+instantiate an object: \verb|type name = type(constructorParams);|
 
 \end{document}
