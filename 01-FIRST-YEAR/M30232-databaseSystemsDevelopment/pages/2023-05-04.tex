@@ -1,0 +1,281 @@
+\lecture{PRACTICAL: Foreign Keys \& Joins Practice}{2023-05-04}{14:00}{Val}{FTC 3}
+
+Create a new database called hobbies
+\begin{sql}
+CREATE DATABASE hobbies;
+\end{sql}
+
+create a new table called game:
+\begin{sql}
+CREATE TABLE IF NOT EXISTS game ( 
+  id     VARCHAR(10)  PRIMARY KEY,
+  vendor INT          NOT NULL,
+  name   VARCHAR(20)     NOT NULL,
+  price  DECIMAL(5,2) NOT NULL
+);
+\end{sql}
+
+insert 3 records into the \verb|game| table:
+\begin{sql}
+INSERT INTO game (id, vendor, name, price)
+   VALUES ('371/2209', 1, 'Scrabble', 14.50);
+INSERT INTO game (id, vendor, name, price)
+   VALUES ('373/2296', 2, 'Jenga', 6.99);
+INSERT INTO game (id, vendor, name, price)
+   VALUES ('303/1199', 22, 'D&D', 26.99);
+\end{sql}
+
+add three more rows of data that match the following:
+\begin{verbatim}
+Id = 360/9659
+Vendor = 1
+Name = Uno
+Price = 11.99
+
+Id = 373/5372
+Vendor = 3
+Name = Connect
+Price = 5.99
+
+Id = 370/9470
+Vendor = 3
+Name = Bingo
+Price = 8.99
+\end{verbatim}
+
+\begin{sql}
+INSERT INTO game (id, vendor, name, price)
+VALUES ('360/9659', 1, 'Uno', 11.99);
+
+INSERT INTO game(id, vendor, name, price)
+VALUES('373/5372', 3, 'Connect', 5.99);
+
+INSERT INTO game (id, vendor, name, price)
+VALUES('370/9470', 3, 'Bingo', 8.99);
+\end{sql}
+
+create a table called \verb|vendor|
+\begin{sql}
+CREATE TABLE IF NOT EXISTS vendor (
+  id       INT      PRIMARY KEY,
+  name     VARCHAR(20) NOT NULL,
+  location VARCHAR(20) NOT NULL
+);
+\end{sql}
+
+insert 4 records into the \verb|vendor| table
+\begin{sql}
+INSERT INTO vendor (id, name, location)
+   VALUES (1, 'Mattel Inc', 'El Segundo, Ca, USA'),
+	(2, 'Hasbro Inc', 'Pawtucket, RI, USA'),
+	(3, 'J.W.Spear Plc', 'Enfield, Middx, UK'),
+	(4, 'Hornby', 'Margate, Kent, UK');
+\end{sql}
+We need data from both tables to get all the information about who sells each game.
+Run the following SQL and look at the output:
+\begin{sql}
+SELECT game.id     AS Product_Code,
+       game.name   AS Game,
+       vendor.name AS Vendor,
+       game.price  AS Price 
+FROM game, vendor;
+\end{sql}
+\begin{pseudo}
+ product_code |   game   |    vendor     | price
+--------------+----------+---------------+-------
+ 371/2209     | Scrabble | Mattel Inc    | 14.50
+ 371/2209     | Scrabble | Hasbro Inc    | 14.50
+ 371/2209     | Scrabble | J.W.Spear Plc | 14.50
+ 371/2209     | Scrabble | Hornby        | 14.50
+ 373/2296     | Jenga    | Mattel Inc    |  6.99
+ 373/2296     | Jenga    | Hasbro Inc    |  6.99
+ 373/2296     | Jenga    | J.W.Spear Plc |  6.99
+ 373/2296     | Jenga    | Hornby        |  6.99
+ 303/1199     | D&D      | Mattel Inc    | 26.99
+ 303/1199     | D&D      | Hasbro Inc    | 26.99
+ 303/1199     | D&D      | J.W.Spear Plc | 26.99
+ 303/1199     | D&D      | Hornby        | 26.99
+ 360/9659     | Uno      | Mattel Inc    | 11.99
+ 360/9659     | Uno      | Hasbro Inc    | 11.99
+ 360/9659     | Uno      | J.W.Spear Plc | 11.99
+ 360/9659     | Uno      | Hornby        | 11.99
+ 373/5372     | Connect  | Mattel Inc    |  5.99
+ 373/5372     | Connect  | Hasbro Inc    |  5.99
+ 373/5372     | Connect  | J.W.Spear Plc |  5.99
+ 373/5372     | Connect  | Hornby        |  5.99
+ 370/9470     | Bingo    | Mattel Inc    |  8.99
+ 370/9470     | Bingo    | Hasbro Inc    |  8.99
+ 370/9470     | Bingo    | J.W.Spear Plc |  8.99
+ 370/9470     | Bingo    | Hornby        |  8.99
+\end{pseudo}
+
+Look at the vendor for each game. What is wrong with the resulting data from this query? Who makes each game?
+\textit{every game is made by every vendor - this has produced a cartesian product.}\\
+
+
+What is the keyword AS doing to the output? \textit{giving the columns nice human readable names}\\
+What has happened to the case of the words after the AS keyword? \textit{it is lost as the table alias is not in ""}\\
+
+If you join tables together you MUST have a WHERE or JOIN Clause!
+Now run the SQL again with the where clause added and look at the result.
+\begin{sql}
+SELECT game.id     AS "Product Code",
+       game.name   AS "Game",
+       vendor.name AS "Vendor",
+       game.price  AS Price 
+FROM game, vendor
+WHERE  vendor.id = game.vendor;
+\end{sql}
+\begin{pseudo}
+ Product Code |   Game   |    Vendor     | price
+--------------+----------+---------------+-------
+ 371/2209     | Scrabble | Mattel Inc    | 14.50
+ 373/2296     | Jenga    | Hasbro Inc    |  6.99
+ 360/9659     | Uno      | Mattel Inc    | 11.99
+ 373/5372     | Connect  | J.W.Spear Plc |  5.99
+ 370/9470     | Bingo    | J.W.Spear Plc |  8.99
+(5 rows)
+\end{pseudo}
+What has happened to the case of the words after the AS keyword? \textit{it is maintained as the alias is now in speech marks}
+
+Where is the D\&D game? Why does this not appear in this printout? \textit{the vendor does not exist, as we have not created a relationship between the two tables (ie a foreign key) the database doesn't know we want it.}
+
+This should now be showing you data that reflects reality. Notice that this works without the foreign key being created.
+
+In preparation for the next step, delete these sample tables:
+\begin{sql}
+DROP TABLE game;
+DROP TABLE vendor;
+\end{sql}
+Now try and re-create the tables with a foreign key constraint in the way shown below.
+
+It should fail, we want you to work out why this is happening and how you can sort it out.
+
+This is usually the biggest problem students face when trying to create their own tables and data!
+\begin{sql}
+CREATE TABLE game ( 
+  id     VARCHAR(10)  PRIMARY KEY,
+  vendor INT          NOT NULL REFERENCES vendor(id),
+  name   CHAR(20)     NOT NULL,
+  price  DECIMAL(6,2) NOT NULL
+);
+\end{sql}
+Why does this fail? \textit{as the table vendor which its trying to reference doesn't exist}
+
+Run the following code
+\begin{sql}
+CREATE TABLE vendor (
+  id       INT      PRIMARY KEY,
+  name     CHAR(20) NOT NULL,
+  location CHAR(20) NOT NULL
+);
+
+INSERT INTO vendor (id, name, location)
+   VALUES (1, 'Mattel Inc', 'El Segundo, Ca, USA'),
+	(2, 'Hasbro Inc', 'Pawtucket, RI, USA'),
+	(3, 'J.W.Spear Plc', 'Enfield, Middx, UK'),
+	(4, 'Hornby', 'Margate, Kent, UK');
+
+INSERT INTO game (id, vendor, name, price)
+VALUES ('371/2209', 1, 'Scrabble', 14.50), ('373/2296', 2, 'Jenga', 6.99),('360/9659', 1, 'Uno', 11.99), ('373/5372', 3, 'Connect', 5.99), ('370/9470', 3, 'Bingo', 8.99), ('303/1199', 22, 'D&D', 26.99);
+\end{sql}
+What does the system response mean?
+
+What happens when you try to insert the games? 
+
+\textit{When trying to insert into the game table without creating the table first, the database complains as it doesn't know where to insert the data. To fix this, the game table would need to be created first}
+\begin{sql}
+CREATE TABLE game ( 
+  id     VARCHAR(10)  PRIMARY KEY,
+  vendor INT          NOT NULL REFERENCES vendor(id),
+  name   VARCHAR(20)  NOT NULL,
+  price  DECIMAL(5,2) NOT NULL
+);
+
+INSERT INTO game (id, vendor, name, price)
+VALUES ('371/2209', 1, 'Scrabble', 14.50), ('373/2296', 2, 'Jenga', 6.99),('360/9659', 1, 'Uno', 11.99), ('373/5372', 3, 'Connect', 5.99), ('370/9470', 3, 'Bingo', 8.99), ('303/1199', 22, 'D&D', 26.99);
+\end{sql}
+
+Display the data stored in the game table. What has gone wrong?
+\begin{pseudo}
+hobbies=# select * from game;
+ id | vendor | name | price
+----+--------+------+-------
+(0 rows)
+\end{pseudo}
+\textit{No data has been inserted as there was a vendor value which isn't present in the vendor table.}\\
+Now run this code
+\begin{sql}
+INSERT INTO game (id, vendor, name, price)
+VALUES ('371/2209', 1, 'Scrabble', 14.50), ('373/2296', 2, 'Jenga', 6.99),('360/9659', 1, 'Uno', 11.99), ('373/5372', 3, 'Connect', 5.99), ('370/9470', 3, 'Bingo', 8.99), ('303/1199', 2, 'D&D', 26.99);
+\end{sql}
+When you have the tables and data inserted run the queries again:
+\begin{sql}
+SELECT game.id     AS ProductCode,
+       game.name   AS Game,
+       vendor.name AS Vendor,
+       game.price  AS Price 
+FROM game, vendor;
+\end{sql}
+How many records are displayed in each query now? \textit{24}\\
+How many records are returned for: \\
+JW Spear? \textit{6}\\
+Hornby? \textit{6}\\
+Why? \textit{we have generated a cartesian product as we haven't joined the tables correctly}\\
+
+Now run the following code:
+\begin{sql}
+SELECT game.id     AS "Product Code",
+       game.name   AS "Game",
+       vendor.name AS "Vendor",
+       game.price  AS "Price" 
+FROM game, vendor
+WHERE  vendor.id = game.vendor;
+\end{sql}
+How many records are displayed in each query now? \textit{6}\\
+How many records are returned for: \\
+JW Spear? \textit{2}\\
+Hornby? \textit{0}\\
+
+Add new games into the game table that match the following details. Take a note of the responses you get when entering the data:
+\begin{verbatim}
+Id = 360/9659
+Vendor = 1
+Name = Risk
+Price = 15.99
+
+Id = 361/9688
+Vendor = 10
+Name = Monopoly
+Price = 19.99
+
+Id = 366/6661
+Vendor = 2
+Name = Goal!
+Price = 1121.99
+\end{verbatim}
+
+\begin{sql}
+INSERT INTO game(id, vendor, name, price)
+VALUES('360/9659', 1, 'Risk', 15.99);
+\end{sql}
+\begin{pseudo}
+ERROR:  duplicate key value violates unique constraint "game_pkey"
+DETAIL:  Key (id)=(360/9659) already exists.
+\end{pseudo}
+\begin{sql}
+INSERT INTO game(id, vendor, name, price)
+VALUES('361/9688', 10, 'Monopoly', 19.99);
+\end{sql}
+\begin{pseudo}
+ERROR:  insert or update on table "game" violates foreign key constraint "game_vendor_fkey"
+DETAIL:  Key (vendor)=(10) is not present in table "vendor".
+\end{pseudo}
+\begin{sql}
+INSERT INTO game(id, vendor, name, price)
+VALUES('266/6661', 2, 'Goal!', 1121.99);
+\end{sql}
+\begin{pseudo}
+ERROR:  numeric field overflow
+DETAIL:  A field with precision 5, scale 2 must round to an absolute value less than 10^3.
+\end{pseudo}
