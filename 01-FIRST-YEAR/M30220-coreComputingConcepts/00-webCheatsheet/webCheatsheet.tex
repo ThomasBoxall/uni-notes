@@ -1,0 +1,109 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=false,
+    linkcolor=blue,
+    linkbordercolor=blue,
+    pdfborderstyle={/S/U/W 1}
+}
+\usepackage{graphicx}
+\usepackage{float}
+\geometry{
+a4paper,
+total={170mm,257mm},
+left=20mm,
+top=20mm,
+marginparsep=0mm,
+}
+\setlength\parindent{0pt} % get rid of the stupid indent
+
+\title{CCC Item II: Web Cheatsheet}
+\author{Thomas Boxall\\ \texttt{up2108121@myport.ac.uk}}
+\date{May 2023}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyfoot[C]{\thepage} % page number in centre of the page
+\fancyfoot[R]{\footnotesize Thomas Boxall\\ \texttt{up2108121@myport.ac.uk}} % right hand footer has author name on top line and author contact on bottom line
+\fancyfoot[L]{\footnotesize CCC Item II: Web Cheatsheet \\ May 2023} % left hand footer has title of document on top line and date on bottom line
+
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+
+\section{Markup}
+Originates from the days of handwritten articles being typeset for print. The handwritten article would be marked-up with annotations about styling.\\
+\textbf{Procedural Markup} defines what to do and how it should look, not \textit{why} to do something. This is bad as it means assistive technologies (e.g. screen readers) cannot interpret it.\\
+\textbf{Descriptive Markup} adds annotations which says what the content means, now how it should look. The styling is added externally. It is stratified (separates content from presentation), dynamic (different presentation to suit circumstances) and semantic (enables machine processing). 
+
+\section{HTML}
+\textbf{HTML} (\textit{HyperText Markup Language}) is a form of non-linear markup which is the standard for building web-pages.\\
+\textbf{Elements} are the basic building block of HTML, they comprise of opening (\verb|<p>|) and closing (\verb|</p>|) tags.\\
+\textbf{Attributes} exist within elements. They allow for more information to be provided about the element (e.g. styling or how to behave)\\
+To declare a document as a HTML5 document, the first line in the file should be \verb|<!DOCTYPE html>|. The \textit{only} other element which must exist is the \verb|<title>| element (which specifies the text to go in the tab).\\
+\textbf{Basic Structure} of a HTML document is a \verb|<head>| which contains meta-information about the document and references to external resources (e.g. styling) and a \verb|<body>| which contains the content of the page and is rendered. 
+
+\section{Styles}
+\textbf{CSS} (\textit{Cascading Style Sheets}) provides the standard mechanism for styling HTML content. It comprises of a number of user-defined rules.\\
+\textbf{Rules} exist as \verb|key:value;| pairs (e.g. \verb|color: pink;| sets colour to pink)
+\subsection{Selectors}
+We can use selectors to control which elements we target with a CSS rule. \\
+\verb|element{}| selects all of the specified \verb|element|\\
+\verb|*{}| selects everything in the HTML document\\
+\verb|#id{}| selects the element with the specified \verb|id|\\
+\verb|.class{}| selects the element with the specified \verb|class|\\
+\verb|.container .innerElem{}| selects the elements with \verb|innerElem| class which are within \verb|container| class.
+
+\section{URLs}
+\textbf{URLs} (\textit{Uniform Resource Locators}) are a subset of URIs (\textit{Uniform Resource Indicators}) and allow us to navigate through the internet. They can be typed into an address bar, hyperlinked from a page or used as the \verb|src| attribute in many elements.\\
+\textbf{Absolute URLs} are complete paths to resources.\\
+\textbf{Relative URLs} refer to resources on the same server, and are `navigated to' from the current working directory.
+
+\subsection{Hyperlinking}
+We can use the \verb|<a>| tag to link to other pages on websites. These take the following form:
+\begin{verbatim}
+<a href="linkToResource">text to display</a>
+\end{verbatim}
+A \verb|target| attribute can be included which specifies \textit{where} to open the resource. \verb|_blank| opens in a new tab. 
+
+\section{Images}
+\textbf{Images} are defined using the \verb|<img>| tag which is self-closing and requires \verb|src|(url to resource to display) and \verb|alt|(alt-text of image) attributes.\\
+\textbf{Size} of an image is controllable through CSS. By default the image is rendered full size. \\
+\textbf{Captions} can be added by adding a \verb|<figcaption>| element below the \verb|<img>| element and encasing both in a \verb|<figure>| element.
+
+\section{SVG}
+\textbf{SVG} (\textit{Scalable Vector Graphics}) is a vector graphics format where the graphics data is stored as text then rendered into an image when required. \\
+\textbf{Small file sizes} can be achieved (in comparison to bitmap images).\\
+\textbf{Scalable} to any resolution without pixelation as they are stored as instructions rather than per-pixel instructions (as in a bitmap image).\\
+\textbf{Within HTML} documents, SVG images get embedded in \verb|<svg>| elements.\\
+\textbf{Default size} for a SVG image is 300px by 150px. This can be changed by using the \verb|width| and \verb|height| attributes of the \verb|<svg>| element.
+\subsection{SVG Shapes}
+SVG shapes get drawn in the order they appear in the SVG document.\\
+\textbf{Colour} of a shape is determined by the \verb|fill| attribute which can be passed to most shapes. Takes a HTML colour definition. Where this is passed as \verb|"none"| the shape will appear as just an outline.\\
+\textbf{Line Colour} of a shape is determined by the \verb|stroke| attribute. Takes a HTML colour definition.\\
+\textbf{Line Weight} of a shape is determined by the \verb|stroke-width| attribute. Takes a numerical value.\\
+\textbf{Coordinates} will generally start from the top-left corner of the SVG. In some cases we can use absolute (capital) and relative (lower case) indicators. (in the coordinate list, \verb|M|=move, \verb|L|=line, \verb|C|=curve and \verb|z|=close line)\\
+
+\textbf{Rectangle} \verb|<rect x="" y="" width="" height="" />|\\
+\textbf{Circle} \verb|<circle cx="" cy="" r=" />|\\
+\textbf{Ellipse} \verb|<ellipse cx="" cy="" rx="" ry="" />|\\
+\textbf{Line} \verb|<line x1="" y1="" x2="" y2="" stroke="" />| (\textit{stroke colour must be included or the line will not be visible})\\
+\textbf{Polyline} \verb|<polyline points="csvOfPoints" />|\\
+\textbf{Polygon} \verb|<polygon points="csvOfPoints" />| (\textit{will automatically close shape without duplication of first/final point})\\
+\textbf{Path} \verb|<path d="spaceSeparatedCoords" />|\\
+\textbf{Text} \verb|<text x="" y="">text</text>|
+
+\subsection{SVG Groups \& Reuse}
+\textbf{Grouping} SVG shapes together is done by encasing them in a set of \verb|<g>| tags. \verb|fill|, \verb|stroke| and \verb|stroke-width| can be applied to the whole group when these attributes are added to the \verb|<g>| tag.\\
+\textbf{Reuse of components} happens through encasing groups you want to reuse in \verb|<defs>| tags then using them through \verb|<use href="#idOfGroup" x="" y=""></use>|.
+
+
+\end{document}
