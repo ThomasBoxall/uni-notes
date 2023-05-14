@@ -19,17 +19,4 @@ I'm typesetting my notes using LaTeX, with custom colourful boxes and syntax hig
 Obviously, these aren't quick notes to write. If you pass them onto someone else, please be a decent human and share a link to GitHub where they're attributed to me. I'm putting a lot of effort into making them nice and I will take them offline if they are plagiarized.  
 
 ## Links to Notes
-See below for links to GitHub Pages of this Repo as GitHub's inbuilt PDF viewer is pretty bad.
-### First Year
-* [M22731 (Comp Tutorial Level 4)](01-FIRST-YEAR/M22731-compTutorialLevel4/M22731.pdf)
-* [M30220 (Core Computing Concepts)](01-FIRST-YEAR/M30220-coreComputingConcepts/M30220.pdf)
-  * [Item 2: Discovery Log](01-FIRST-YEAR/M30220-coreComputingConcepts/00-discovery-log-web/main.pdf)
-* [M30231 (Networks)](01-FIRST-YEAR/M30231-networks/M30231.pdf)
-* [M30232 (Database Systems Development)](01-FIRST-YEAR/M30232-databaseSystemsDevelopment/M30232.pdf)
-  * [SQL Cheatsheet](01-FIRST-YEAR/M30232-databaseSystemsDevelopment/00-sqlCheatsheet/sqlCheatsheet.pdf)
-  * [Theory Cheatsheet](01-FIRST-YEAR/M30232-databaseSystemsDevelopment/00-theoryCheatsheet/dsdTheoryCheatsheet.pdf)
-* [M30299 (Programming)](01-FIRST-YEAR/M30299-programming/M30299.pdf)
-  * [Dart Cheatsheet](01-FIRST-YEAR/M30299-programming/00-dartCheatsheet/dartCheatsheet.pdf)
-* M30943 (Architecture and Operating Systems)
-  * [Computing](01-FIRST-YEAR/M30943-architectureAndOperatingSystems/Computing/M30943.pdf)
-  * [Maths](01-FIRST-YEAR/M30943-architectureAndOperatingSystems/Maths/M30943-maths.pdf)
+[thomasboxall.github.io/uni-notes](index)
