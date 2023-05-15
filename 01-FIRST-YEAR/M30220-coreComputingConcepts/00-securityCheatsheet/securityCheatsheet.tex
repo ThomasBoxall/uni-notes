@@ -1,0 +1,107 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=false,
+    linkcolor=blue,
+    linkbordercolor=blue,
+    pdfborderstyle={/S/U/W 1}
+}
+\usepackage{graphicx}
+\usepackage{float}
+\geometry{
+a4paper,
+total={170mm,257mm},
+left=20mm,
+top=20mm,
+marginparsep=0mm,
+}
+\setlength\parindent{0pt} % get rid of the stupid indent
+
+\title{CCC Item III: Security Cheatsheet}
+\author{Thomas Boxall\\ \texttt{up2108121@myport.ac.uk}}
+\date{May 2023}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\renewcommand{\headrulewidth}{0pt} % no line in header area
+\fancyfoot{} % clear all footer fields
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyfoot[C]{\thepage} % page number in centre of the page
+\fancyfoot[R]{\footnotesize Thomas Boxall\\ \texttt{up2108121@myport.ac.uk}} % right hand footer has author name on top line and author contact on bottom line
+\fancyfoot[L]{\footnotesize CCC Item III: Security Cheatsheet \\ May 2023} % left hand footer has title of document on top line and date on bottom line
+
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+
+\section{Definitions}
+\textbf{Information Security} is the preservation of confidentiality, integrity and availability of information. There is a balance to be found between the three, as often when you change one the others will change negatively.\\
+\textbf{Confidentiality} is the property of information which means it is not disclosed to unauthorised individuals, entities or processes.\\
+\textbf{Integrity} is the property of safeguarding the accuracy and completeness of assets.\\
+\textbf{Availability} is the property of being accessible and usable upon demand by an authorised entity.\\
+\textbf{Assets} are anything of value to the organisation, its business operations, and its continuity.\\
+\textbf{Threats} are potential causes of incidents that may result in harm to a system or organisation (can be internal or external).\\
+\textbf{Vulnerabilities} are weaknesses of assets or groups of assets that can be exploited by \textit{threats}.\\
+\textbf{Impact} is the result of an information security incident which has been caused by a threat and affects assets. (e.g. monetary loss, fines, loss of reputation)\\
+\textbf{Risk Management} is the process organisations go through to identify, assess and control risks. \\
+\textbf{Object} of an attack is the entity which is being attacked, the target.\\
+\textbf{Subject} of an attack is the entity carrying out the attack against the target. The subject attacks the object. 
+
+\section{Assets}
+\textbf{Primary Assets} are information or business procedures. These are the most valuable things to the organisation.\\
+\textbf{Supporting Assets} are other assets who, if compromised, could adversely impact primary assets.
+\subsection{Primary Assets}
+\textbf{Information assets} are typically of the highest value to an organisation. Especially the case for \textit{business critical information} (without which, business could not operate), \textit{personal information} (data of employees and customers, must be protected in accordance with the law), \textit{strategic information} (gives the business an advantage in the market), and \textit{high-cost information} (gathering, processing, storage, transmission is expensive - if lost then business has to spend lots of money again).\\
+\textbf{Business Processes} are processes which: contain secret processes; involve proprietary technology; if modified can affect the outcome of the organisation's mission; are necessary for the organisation to comply with contractual, legal or regulatory requirements. If a business fails to document or protect these procedures significant adverse effects can be had, often this will come to light when an employee is off sick or on holiday, or leaves the company all together and it is discovered that the processes they oversaw are not sufficiently documented.
+
+\subsection{Supporting Assets}
+\textbf{Hardware Assets} are the physically technology which is used to: house and execute the software; store and carry the data; or provide the interface for data entry/ removal from the system. Hardware assets cover most physical technology (e.g. computer, laptop, keyboards). Hardware devices should also have adequate physical protection.\\
+\textbf{Software} covers all applications, operating systems and assorted command utilities. Development of software is often under-resourced which leads to security being an afterthought not implemented throughout, this is bad and ideally security would be implemented throughout the software development cycle.\\
+\textbf{Networks} are responsible for the effective transmission of information between interconnected computing devices. They are also a very good vector for attacks. The likelyhood of an attack succeeding can be reduced by implementing policies and technical responses as well as examining ports and packets at the perimeter of the network to ensure only the data which is necessary for business function is being exchanged. The later is done using a firewall. The internal network should also be protected through segregation of critical systems, access controls and monitoring software.\\
+\textbf{Personnel} are the people who are interacting with the information systems and are the subject of numerous vulnerabilities. Anyone interacting with an information system should be given appropriate training. Organisations should also develop a comprehensive set of policies which should be written using plain business terminology with minimal use of technical jargon. The effectiveness and awareness of information security should be monitored.
+
+\section{Information Security Governance}
+\textbf{Information Security Governance} is how organisations control, direct and communicate their cyber risk management activities. This will include a collection of policies which must be continually reviewed and revised to keep up-to-date with the business needs and continually changing threats/ vulnerabilities.\\
+\textbf{Policies} are a principle or rule to guide decisions and achieve rational outcomes.\\
+\textbf{Procedures} are a list of steps that constitute instructions for performing some action or accomplishing some task.\\
+\textbf{Standards} are detailed statements which quantify what must be done to comply with policies.\\
+\textbf{Guidelines} are a set of recommended actions to assist in complying with policies.\\
+\textbf{SETA} \textit{Security Education, Training and Awareness} is a programme that helps employees do their jobs securely. 
+
+\section{Identification \& Authentication}
+\textbf{Authentication} of claimed identities is the first line of defence for the system and safeguards against unauthorised use.\\
+\textbf{Passwords} are the most common means of authentication, conceptually simple however they often get compromised by users.
+\subsection{Passwords}
+\textbf{Lots of vulnerabilities} with use of passwords including: easy to select a bad one, get written down, infrequently or never changed, same password used for multiple systems, only needed at the start of a session.\\
+\textbf{Defence against password guessing} is traditionally to lock the user out after a number of failed attempts is a form of \textit{denial of service}. 
+
+\section{Access Control}
+\textbf{Identity} is the properties of an individual or resource that can be used to identify uniquely one individual or resource.\\
+\textbf{Authentication} is the process of ensuring that the identity of a subject or resource is the one claimed.\\
+\textbf{Authorisation} is the process of checking the authentication of an individual or resource to establish their authorised use of, or access to information or other assets.\\
+\textbf{Accounting} ensures that user activities can be tracked back to them\\
+\textbf{Auditing} is the process of either a formal or informal review of actions, processes, policies and procedures\\
+\textbf{Compliance} is working in accordance with the actions, processes, policies and procedures laid down. 
+
+\subsection{Access Control Policies}
+\textbf{Discretionary Access Control} Policy (DAC) - controls access based on identity of individuals. Each access controlled object must be set individually for each user.\\
+\textbf{Mandatory Access Control} Policy (MAC) - controls access based upon security labels. Users are assigned under a clearance level which defines what they have access to. Labels may include: top secret, secret, classified, unclassified. A number of models are available for access control.\\
+\textbf{Role-Based Access Control} Policy (RBAC) - controls access based on roles. Users are assigned to one or many roles. Roles come with permissions. Users inherit permissions of the role.\\
+\textbf{Attribute-Based Access Control} Policy (ABAC) - controls access based on attributes of users. It uses various attributes of the user including their environment and information assets to determine permissions.\\
+
+\section{Authentication}
+\textbf{Factors of Authentication} are mechanisms by which an individual or resource can be authenticated. The three common factors are: \textit{something the supplicant knows} (PIN number, password), \textit{something the supplicant has} (security token, bank card), and \textit{something the supplicant is} (fingerprint, retina/ iris scan).\\
+\textbf{Strong Authentication} is a procedure based on the use of two or more \textit{different} factors. The factors used should be mutually independent (which means if one is compromised, the other isn't).\\
+\subsection{Biometrics}
+\textbf{Biometrics} is the use of a body measurement (e.g. fingerprint) as a factor of authentication.\\
+\textbf{False Rejection Rate} (FRR) is the percentage of identification instances in which authorised users are denied access (Type I error)\\
+\textbf{False Accept Rate} (FAR) is the percentage of identification instances in which unauthorised users are allowed access (Type II error)\\
+\textbf{Crossover Error Rate} (CER) is the level at which the number of false rejections equals the false acceptances\\
+\textbf{Requirements} of a biometric system: universality, distinctiveness, persistence, collectability, performance, acceptability, circumvention.
+
+\end{document}
