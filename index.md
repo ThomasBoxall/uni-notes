@@ -1,4 +1,5 @@
-# Thomas Boxall's BSC Computer Science notes
+# Thomas Boxall's BSc Computer Science notes
+[View on GitHub](https://github.com/ThomasBoxall/uni-notes)
 
 ## Links to Notes
 ### First Year
@@ -6,6 +7,7 @@
 * [M30220 (Core Computing Concepts)](01-FIRST-YEAR/M30220-coreComputingConcepts/M30220.pdf)
   * [Item II: Discovery Log](01-FIRST-YEAR/M30220-coreComputingConcepts/00-discovery-log-web/main.pdf)
   * [Item II: Web Cheatsheet](01-FIRST-YEAR/M30220-coreComputingConcepts/00-webCheatsheet/webCheatsheet.pdf)
+  * [Item III: Security Cheatsheet](01-FIRST-YEAR/M30220-coreComputingConcepts/00-securityCheatsheet/securityCheatsheet.pdf)
 * [M30231 (Networks)](01-FIRST-YEAR/M30231-networks/M30231.pdf)
 * [M30232 (Database Systems Development)](01-FIRST-YEAR/M30232-databaseSystemsDevelopment/M30232.pdf)
   * [SQL Cheatsheet](01-FIRST-YEAR/M30232-databaseSystemsDevelopment/00-sqlCheatsheet/sqlCheatsheet.pdf)

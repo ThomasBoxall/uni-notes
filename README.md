@@ -19,4 +19,4 @@ I'm typesetting my notes using LaTeX, with custom colourful boxes and syntax hig
 Obviously, these aren't quick notes to write. If you pass them onto someone else, please be a decent human and share a link to GitHub where they're attributed to me. I'm putting a lot of effort into making them nice and I will take them offline if they are plagiarized.  
 
 ## Links to Notes
-[thomasboxall.github.io/uni-notes](index)
+[thomasboxall.github.io/uni-notes](https://thomasboxall.github.io/uni-notes/)
