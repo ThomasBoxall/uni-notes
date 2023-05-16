@@ -104,4 +104,52 @@ marginparsep=0mm,
 \textbf{Crossover Error Rate} (CER) is the level at which the number of false rejections equals the false acceptances\\
 \textbf{Requirements} of a biometric system: universality, distinctiveness, persistence, collectability, performance, acceptability, circumvention.
 
+\section{Cryptography}
+\textbf{Cryptography} is a way of turning plaintext into cyphertext (which can later be turned back into plaintext).\\
+\textbf{Encryption} is the process of altering the plaintext so that it becomes unreadable to the normal human.\\
+\textbf{Decryption} is the process of altering the cyphertext so that it returns to plaintext.\\
+\textbf{Cryptographic Algorithm} is the algorithm used to encrypt/ decrypt the data. Modern algorithms should be: large enough key to resist brute force search; resistant to frequency analysis; setup so that a small change in the plaintext results in a large change in the ciphertext; and that the security depends on  the secrecy of the key \& not on the secrecy of the algorithm used.
+
+\subsection{Cryptographic Algorithms}
+\textbf{Symmetric} is where encryption and decryption both use the same key. This results in both the sender and receiver needing the same key.\\
+\textbf{Asymmetric} is where the encryption and decryption use different keys. This is complex so is often used to encrypt the symmetric secret key which has been used for encryption for the main data transmission.\\
+\textbf{Caesar Cipher} is a simple cipher where letters are substituted for other letters in a circular motion.\\
+\textbf{RSA} is a asymmetric cryptographic algorithm which uses prime numbers and maths to encrypt each character in the transmission. 
+
+\section{Risk Management}
+\textbf{Risk Management} the process of identifying and reviewing risks so that they can be minimised/ removed.\\
+\textbf{Risk} has three elements: threat, vulnerability and impact. The higher likelihood and impact of a risk, the higher risk the activity is.\\
+\textbf{Risk Assessment Steps} identify risks, analyse risks, treat risks, monitor \& review.\\
+\textbf{Qualitative Risk Analysis} uses a scale of attributes to determine the magnitude of the consequences/ likelihood. Can be used as initial screening to identify risks requiring detailed analysis.\\
+\textbf{Quantitative Risk Analysis} uses a sale of numerical values for consequences/ likelihood values. Typically these numbers are derived from historical incidents.\\
+\textbf{Critical Appraisal of Risk Methods and Frameworks} was produced by the NCSC so risks can be better understood and approaches available can be supported. Context is important when using a framework.
+\subsection{Risk Treatment Options}
+\textbf{Retain / Accept} where an organisation may tolerate (but not ignore) the risk.\\
+\textbf{Avoid / Terminate} where an organisation may decide not to do the thing that incurs risk.\\
+\textbf{Share / Transfer} where the risk is transferred or shared via an insurance policy or third party.\\
+\textbf{Modify / Reduce} where controls are adopted to lower the current levels of risk.
+
+\section{Common Software Errors}
+Software is highly-prone to causing security compromises. This is mostly due to the fact that software development is under-resourced which leads to security being added as an afterthought.\\
+\textbf{Web Applications} may have attack vectors however finding the path from threat agents through attack vectors, security weaknesses, security controls, technical impact, to business impact can be very difficult.\\
+\textbf{Security Requirements Specification} should be part of the overall statement of requirements document from which the design is generated.\\
+Security doesn't just mean prevent improper access and misuse, it also means defensive programming (to make sure only valid and accurate data is processed by the system); proper functional testing (to ensure it behaves as expected); methods to back up secure data against loss or damage; and compliance with any legal and regulatory requirements.
+
+\section{Typical Web Errors}
+\textbf{Cross Site Scripting} (XSS) is where the input on a webpage is not neutralised correctly.\\
+\textbf{Reflected XSS} is where the victim's browser executes code based off on an input which has been made in the browser.\\
+\textbf{Stores XSS} is where the app stores the bad data in a database which is later read into the app and included in dynamic content.\\
+\textbf{SQL Injection} is where a piece of software doesn't properly sanitise an input which is directly fed into a SQL query. Malicious code can be inserted which can display content from the database.
+
+\section{Secure Development \& Deployment}
+All developers are responsible for security during development. It is important to secure the code, build \& deployment pipeline and continually test the security.\\
+It is generally regarded as good practice to fully isolate the development and production environments as well as treating the development environment as if it is compromised.\\
+\textbf{Change Control} should be strict for production software. At least two people should be involved in pushing code, preferably one writes it and another approves it.\\
+\textbf{Patching} of software should be done as soon as bugs are found. Before releasing into a production environment, patches should be tested in development environments.
+
+\section{Accreditation and Certification}
+\textbf{Accreditation} is formal recognition by an independent body (the accreditation body) that a certificate body operates according to international standard.\\
+\textbf{Certification} is provision by an independent body that the product, system or service in question meets specific requirement.
+
+
 \end{document}
