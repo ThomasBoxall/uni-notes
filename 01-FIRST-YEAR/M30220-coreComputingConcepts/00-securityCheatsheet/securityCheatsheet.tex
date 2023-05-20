@@ -10,6 +10,7 @@
 }
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage[strict]{changepage} %allows indented blocks
 \geometry{
 a4paper,
 total={170mm,257mm},
@@ -75,7 +76,9 @@ marginparsep=0mm,
 
 \section{Identification \& Authentication}
 \textbf{Authentication} of claimed identities is the first line of defence for the system and safeguards against unauthorised use.\\
-\textbf{Passwords} are the most common means of authentication, conceptually simple however they often get compromised by users.
+\textbf{Passwords} are the most common means of authentication, conceptually simple however they are weak: badly selected, written down, infrequently or never changed, reused across multiple systems, forgotten, shared.\\
+Users must be able to identify user-specific access controls and be held individually accountable for their actions.
+
 \subsection{Passwords}
 \textbf{Lots of vulnerabilities} with use of passwords including: easy to select a bad one, get written down, infrequently or never changed, same password used for multiple systems, only needed at the start of a session.\\
 \textbf{Defence against password guessing} is traditionally to lock the user out after a number of failed attempts is a form of \textit{denial of service}. 
@@ -89,8 +92,20 @@ marginparsep=0mm,
 \textbf{Compliance} is working in accordance with the actions, processes, policies and procedures laid down. 
 
 \subsection{Access Control Policies}
-\textbf{Discretionary Access Control} Policy (DAC) - controls access based on identity of individuals. Each access controlled object must be set individually for each user.\\
-\textbf{Mandatory Access Control} Policy (MAC) - controls access based upon security labels. Users are assigned under a clearance level which defines what they have access to. Labels may include: top secret, secret, classified, unclassified. A number of models are available for access control.\\
+\textbf{Discretionary Access Control} Policy (DAC) - controls access based on identity of individuals. Each access controlled object must be set individually for each user.
+\begin{adjustwidth}{2em}{1em}
+\textit{Access Control Matrix} permissions are shown as a matrix with a subject having a single entry for each object containing all their permissions.\\
+\textit{Access Control List (ACL)} stores all the permissions for a single object in a `linked-list' style structure, with each index representing a subject's access levels.\\
+\textit{Capability List} stores all the access rights for a single subject in a `linked-list' style structure, with each index representing a different object that subject has access to.
+\end{adjustwidth}
+\textbf{Mandatory Access Control} Policy (MAC) - controls access based upon security labels. Users are assigned under a clearance level which defines what they have access to. Labels may include: top secret, secret, classified, unclassified. A number of models are available for access control.
+\begin{adjustwidth}{2em}{1em}
+\textit{Bell LaPadula (BLP) Model} provides subject with no access to anything above their level but read access to everything below.\\
+\textit{Biba Integrity Model} provides a ``no write up, no read down'' model\\
+\textit{Clark-Wilson Integrity Model} provides a model where no changes may be made by unauthorised subjects, no unauthorised changes can be made by authorised subjects, and maintains internal \& external consistency.\\
+\textit{Graham-Denning Access Control Model} uses objects, subjects and rights.\\
+\textit{Brewer-Nash Model} allows subjects to only access one of two conflicting sets of data, preventing conflicts of interest.
+\end{adjustwidth}
 \textbf{Role-Based Access Control} Policy (RBAC) - controls access based on roles. Users are assigned to one or many roles. Roles come with permissions. Users inherit permissions of the role.\\
 \textbf{Attribute-Based Access Control} Policy (ABAC) - controls access based on attributes of users. It uses various attributes of the user including their environment and information assets to determine permissions.\\
 
