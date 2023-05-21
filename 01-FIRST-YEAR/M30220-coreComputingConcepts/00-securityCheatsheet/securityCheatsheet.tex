@@ -123,12 +123,16 @@ Users must be able to identify user-specific access controls and be held individ
 \textbf{Cryptography} is a way of turning plaintext into cyphertext (which can later be turned back into plaintext).\\
 \textbf{Encryption} is the process of altering the plaintext so that it becomes unreadable to the normal human.\\
 \textbf{Decryption} is the process of altering the cyphertext so that it returns to plaintext.\\
+Encryption links four things together (plaintext $m$, ciphertext $c$, key $k$ and the algorithm $E$) in the relationship $c = E_k(m)$\\
 \textbf{Cryptographic Algorithm} is the algorithm used to encrypt/ decrypt the data. Modern algorithms should be: large enough key to resist brute force search; resistant to frequency analysis; setup so that a small change in the plaintext results in a large change in the ciphertext; and that the security depends on  the secrecy of the key \& not on the secrecy of the algorithm used.
 
 \subsection{Cryptographic Algorithms}
-\textbf{Symmetric} is where encryption and decryption both use the same key. This results in both the sender and receiver needing the same key.\\
-\textbf{Asymmetric} is where the encryption and decryption use different keys. This is complex so is often used to encrypt the symmetric secret key which has been used for encryption for the main data transmission.\\
+\textbf{Symmetric} is where encryption and decryption both use the same key. This results in both the sender and receiver using the same key which means if the key is compromised, an intermediate can decrypt and read the messages. Examples include DES, 3DES, AES.\\
+\textbf{Asymmetric} is where the encryption and decryption use different but related keys. This is complex so it is often used to encrypt the symmetric secret key which has been used for encryption for the main data transmission.\\
+\textbf{Diffie-Hellman Key Exchange} is where asymmetric encryption is used to exchange session keys. This then allows quick and efficient communication of symmetrically encrypted messages where the session key is the symmetric encryption key.\\
 \textbf{Caesar Cipher} is a simple cipher where letters are substituted for other letters in a circular motion.\\
+\textbf{Substitution} is where one value is substituted for another.\\
+\textbf{Transposition} is where values are rearranged within a block.\\
 \textbf{RSA} is a asymmetric cryptographic algorithm which uses prime numbers and maths to encrypt each character in the transmission. 
 
 \section{Risk Management}
@@ -138,6 +142,11 @@ Users must be able to identify user-specific access controls and be held individ
 \textbf{Qualitative Risk Analysis} uses a scale of attributes to determine the magnitude of the consequences/ likelihood. Can be used as initial screening to identify risks requiring detailed analysis.\\
 \textbf{Quantitative Risk Analysis} uses a sale of numerical values for consequences/ likelihood values. Typically these numbers are derived from historical incidents.\\
 \textbf{Critical Appraisal of Risk Methods and Frameworks} was produced by the NCSC so risks can be better understood and approaches available can be supported. Context is important when using a framework.
+\subsection{Cost Benefit Analysis}
+\textbf{Cost Benefit Analysis} may be used to get quantitative figures which can be analysed to see what is worth investing in to prevent risks.\\
+CBE is calculated using a formula where $CBA$ is Cost Benefit Analysis, $ACS$ is Annualized Cost of Safeguard, $ALE$ is Annualized Loss Expectancy, $SLE$ is Single Loss Expectancy, and $ARO$ is Annualized Rate of Occurrence:
+\[CBE = ALE_{prior} - (ALE_{post} + ACS)\]
+where $ALE$ is calculated as $ALE = SLE \times ARO$
 \subsection{Risk Treatment Options}
 \textbf{Retain / Accept} where an organisation may tolerate (but not ignore) the risk.\\
 \textbf{Avoid / Terminate} where an organisation may decide not to do the thing that incurs risk.\\
