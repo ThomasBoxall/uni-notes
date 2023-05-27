@@ -88,6 +88,17 @@ marginparsep=0mm,
 \textbf{VLAN} (Virtual Local Area Network) are software which virtually divides a LAN into smaller LANs. Membership of a VLAN is set by the network admin and can be based off of which port on a switch the device connects to, MAC addresses, or a Layer 3 protocol (e.g. IP or IPX). 
 
 \section{Standards}
+\textbf{Standards} are documented agreements containing technical specifications or other precise criteria that stipulate how a particular product or service should be designed or performed. They exist outside of networking too.\\
+\textbf{Standardisation Bodies} are the organisations which produce standards. Examples include IEEE (LAN standards), IEFT (Internet RFCs), ETSI (Eurpoean Telecoms), EIA/TIA (Cable standards i.e. CAT5/5e), ITU-T (Telecom \& data comms standards).  
 
+\section{OSI Reference Model}
+\textbf{Overview} The Open Systems Interconnection (OSI) reference model is based on a series of 7 layers. The data to be transmitted travels down through the seven layers to the transmission medium where it crosses the transmission medium and on the receiving device, the data climbs back up the seven layers.\\
+\textbf{Layers} each have a specific function/ task. They each provide a service to the layer above. The four lower layers are concerned with the flow of data from end to end. The upper four layers are focused more towards services to the application. Layer 1 is closest to the transmission medium and layer 7 is closest to the application.
+\begin{adjustwidth}{2em}{1em} 
+\textit{Layer 1: Physical} is concerned with the physical characteristics of the transmission medium. It deals with voltage levels, timing of voltage changes, physical data rates, maximum transmission distances and physical connectors.\\
+\textit{Layer 2: Data Link} provides access to the networking media and physical layer. It handles the transmission of the data across the medium to the intended destination. It uses MAC addresses to identify different stations on the same medium. It is concerned with network topology, network access, error notification, ordered delivery of frames, flow control. Protocols used include Ethernet, frame relay and FDDI. \\
+\textit{Layer 3: Network} is concerned with the end-to-end delivery of packets. It defines the logical address \& how routing works. It also defines how to fragment packets into smaller packets to accommodate different media and its where routers operate. 
+
+\end{adjustwidth}
 
 \end{document}
