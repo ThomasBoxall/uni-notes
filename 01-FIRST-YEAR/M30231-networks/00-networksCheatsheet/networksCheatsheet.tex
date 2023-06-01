@@ -97,8 +97,69 @@ marginparsep=0mm,
 \begin{adjustwidth}{2em}{1em} 
 \textit{Layer 1: Physical} is concerned with the physical characteristics of the transmission medium. It deals with voltage levels, timing of voltage changes, physical data rates, maximum transmission distances and physical connectors.\\
 \textit{Layer 2: Data Link} provides access to the networking media and physical layer. It handles the transmission of the data across the medium to the intended destination. It uses MAC addresses to identify different stations on the same medium. It is concerned with network topology, network access, error notification, ordered delivery of frames, flow control. Protocols used include Ethernet, frame relay and FDDI. \\
-\textit{Layer 3: Network} is concerned with the end-to-end delivery of packets. It defines the logical address \& how routing works. It also defines how to fragment packets into smaller packets to accommodate different media and its where routers operate. 
-
+\textit{Layer 3: Network} is concerned with the end-to-end delivery of packets. It defines the logical address \& how routing works. It also defines how to fragment packets into smaller packets to accommodate different media and its where routers operate.\\
+\textit{Layer 4: Transport} regulates information flow to ensure end-to-end connectivity between host applications is reliable and accurate. TCP and UDP operate here.\\
+\textit{Layer 5: Session} defines how to start, control and end sessions between applications using dialogue controls for multiple bi-directional messages. It synchronises dialogue between the two host's presentations layers and manages their data exchange as well as supporting efficient data transfer.\\
+\textit{Layer 6: Presentation} ensures data is in common formats, provides encryption and compression of data. This is to ensure the data is readable by all devices.\\
+\textit{Layer 7: Application} provides network services to the users applications. It checks the availability of intended communication partners and synchronises \& establishes agreement on procedures for error recovery and control of data integrity.
 \end{adjustwidth}
+\section{Communication Media}
+\textbf{Wired approaches} involve networking cabinets which distribute the connection through wires to workstations.\\
+\textbf{Wireless approach} involves a device broadcasting the signal wirelessly which devices can use to send and receive data.
+\subsection{Wired Approach}
+\textbf{Considerations} for designing a wired network should include: the required data rate (and what this might grow to in the future), the level of electrical interference, the maximum cable length, and finally the cost.\\
+\textbf{Unshielded Twisted Pair} (UTP) Cables are a family a family of cables which will be found in most installations today. They are capable of working distances \textit{upto 100m}. 
+\begin{itemize}
+    \item Cat. 3 - to 10 Mbit/s or more
+    \item Cat. 4 - to 20 Mbit/s or more
+    \item Cat. 5 - to 100 Mbit/s or more
+    \item Cat. 5e, 6 and 6A  - to 1000 Mbit/s and above (these are used extensively today)
+\end{itemize}
+\textbf{Cat. 6} adds additional quality assurances beyond Cat. 5e in that it comes in an additional form: \textit{Screened Twisted Pair (ScTP)} which has a layer of metallic foil to improve its interference rejection\\
+\textbf{Shielded Twisted Pair} (STP) Cables were primarily used by IBM and should be better than UTP because it has a shield which helps prevent interference from outside signals and also helps prevent interference to outside signals. These are used extensively in \textit{Token Ring Topologies}. \\
+\textbf{Coaxial Cable} produces very low amounts of noise therefore has a low bit-error rate. It is found in a variety of networking applications and its shielding may include multiple layers of foil or braid.\\
+\textbf{Fibre-Optic Cable} have high data rates (100 Mbit/s in LAN or 1000 Mbit/s in telephone company links). Typically used in unidirectional mode (therefore deployed in pairs so there is one for each direction). They use light to transmit so electrical signal has to be converted to light and vice versa at the ends. Come in two forms: single mode (transmits single signal) which has internal diameter of $9\mu m$, and multimode (transmits multiple signals in same direction) which has internal diameter of $62.5\mu m$ for American sizes or $50\mu m$ for European sizes (over time \& distance signals can disperse and become corrupt). External diameter are often $125\mu m$ and relationship between internal and external is expressed as \textit{internal/external}.
+
+\section{WAN Technologies}
+\textbf{Asynchronous Transfer Mode} (ATM) is a standard for telecommunications which operates at the data-link layer (layer 2).\\
+\textbf{Transparent LAN Services} (TLS) is where a carrier bridges between your geographically separated LAN Segments.\\
+\textbf{Frame Relay} is a connection oriented public switched service provided by the telecommunications company, operated at layer 2 and is defined by the ITU-T and ANSI.\\
+\textbf{PPP} Point-To-Point Protocol\\
+\textbf{MPLS} MultiProtocol Layer Switching
+\subsection{ATM}
+\textbf{Supports} the transfer of data within a range of guarantees for quality of services, and is a core protocol used it the SONET/SDH backbone.\\
+\textbf{Segments} data to be transmitted into 48-octet chunks which is paired with a 5-octet header which totals a 53-octet transmission chunk.\\
+\textbf{Layered Architecture} is present in ATM. Each location ATM is used in has its own ATM Adaptation Layer (AAL) which breaks down as follows:
+\begin{adjustwidth}{2em}{1em}
+\textit{Layer 1} is used for voice and video (where there is a constant bit rate)\\
+\textit{Layer 2} is sued for compressed voice and video (where there is a variable bit rate)\\
+\textit{Layers 3 and 4} are used for general user data (unspecified bit rate)\\
+\textit{Layer 5} is used for TCP/IP (unspecified bit rate)
+\end{adjustwidth}
+\textbf{Quality of Service} can be configured at each ATM interface. This allows us to set a \textit{Constant Bit Rate} which has a \textit{Peak Cell Rate} that can be sustained for a maximum interval before being problematic. Alternatively, a \textit{Variable Bit Rate} can be used which has a \textit{Sustainable Cell Rate} that can peak at a certain level. The \textit{Available Bit Rate} specifies a minimum guaranteed bit-rate and the \textit{Unspecific Bit Rate} will allocate traffic to all remaining transmission capacity.
+\subsection{TLS}
+\textbf{Carrier Bridges} are often ATM circuits (a good example of the heavy reliance on ATM by carriers.)\\
+\textbf{Ethernet Access} to carrier's ATM networks is called `Metro Ethernet' or `Ethernet Transport' and is available in all Ethernet data rates. 
+\subsection{Frame Relay}
+\textbf{High Throughput} is provided through having larger frame sizes (1500+ bytes), having higher interface data rates and reducing processing requirements.\\
+\textbf{Variation of High-Level Data Link Control} (HDLC) which detects and discards frames with errors, however doesn't retransmit them. A second protocol (e.g. TCP) which does this would be needed with Frame Relay.\\
+\textbf{Two levels of traffic} are supported by Frame Relay. It has a \textit{Committed Information Rate} which all data up-to it will be accepted; and a \textit{Excess Information Rate} where between the CIR and EIR all data may be accepted however is marked as being `eligible for discard' with a reduction in cost.\\
+\textbf{Congestion information} is transmitted with frame relay traffic. 
+
+\section{Network Management}
+\textbf{Motivation} for Network Management is to ensure as little downtime as possible - the more downtime, the greater the disruption to a business.\\
+\textbf{Features} of network management include:
+\begin{adjustwidth}{2em}{1em}
+\textit{Configuration Management} is ensuring hardware devices are correctly configured which includes ensuring the assignments of network devices are correct, software is kept up to date and parameters are setup correctly.\\
+\textit{Fault Management} provides identification and isolation of faults detected.\\
+\textit{Performance Management} reviews statistical data generated from the network (e.g. round trip delays) and improving on those figures. This includes eliminating bottlenecks.\\
+\textit{Accounting Management} is concerned with the billing of network usage which can include number of connections, capacity, number of emails, number of packets, amount of internet usage etc.\\
+\textit{Security Management} includes confidentiality, integrity, authentication, access control and nonrepuditation.
+\end{adjustwidth}
+
+\section{Network Security}
+\textbf{Security Problems} include: remote attacks, backdoors, insecure configuration, access controls, personal devices.\\
+\textbf{Security Management} includes: control \& distribution of data, event logging, monitoring, parameter management.\\
+\textbf{Security Services} include: denial of service prevention, access controls, user authentication, data confidentiality, and accountability. 
 
 \end{document}
