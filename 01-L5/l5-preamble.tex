@@ -1,0 +1,180 @@
+% LEVEL 5 UNIVERSITY NOTES PREAMBLE
+% THOMAS BOXALL <thomas@thomasboxall.net>
+% 12 September 2023
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% this preamble gets include in all university note documents. It contains custom stylling and useful features to speed up note taking.
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Basic Document Setup %
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{geometry}
+\geometry{
+a4paper,
+total={170mm,257mm},
+left=20mm,
+top=20mm,
+marginparsep=0mm,
+}
+\setlength\parindent{0pt} % get rid of the stupid indent
+
+% add in capabilities for small notes in the left margin
+\reversemarginpar
+\newcommand{\marginnote}[1]{%
+\marginpar{\footnotesize\texttt{#1}}
+}
+
+% set toc depth to only show chapters
+\setcounter{tocdepth}{0}
+
+% BASIC PACKAGES
+\usepackage[dvipsnames]{xcolor}
+\usepackage{graphicx}
+\usepackage{fontawesome}
+\usepackage[colorlinks=true, linkcolor=myBlue]{hyperref}
+\usepackage{lastpage}
+\usepackage{datetime2} % changes \today format to be yyyy-mm-dd
+
+% CUSTOM COLOURS
+\definecolor{myGrey}{HTML}{121212}
+\definecolor{myBlue}{HTML}{192A3D}
+
+
+%%%
+% DOC PROPERTIES SETUP
+%%%
+
+% module name
+% module code
+% when from - to
+% credits
+% Year
+
+\def\university{University of Portsmouth}
+\def\course{BSc (Hons) Computer Science}
+
+\def\notesAuthor{Thomas Boxall}
+\def\notesAuthorContact{up2108121@myport.ac.uk}
+
+\newcommand{\documentsetup}[6]{%
+    \def\moduleName{#1}
+    \def\moduleNameShort{\texttt{#2}}
+    \def\moduleCode{#3}
+    \def\moduleDates{#4}
+    \def\moduleCredits{#5}
+    \def\courseYear{#6}
+}
+
+%%%
+% TABLES & FLOATS
+%%% 
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{array}
+
+\renewcommand{\arraystretch}{1.6} % make cells vertically bigger
+
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}} % create custom column type with definable width
+
+% custom table env
+
+\newenvironment{nicetable}[1]
+    {\begin{table}[H]
+        
+        \begin{center}
+        \raggedright
+        \begin{tabular}{#1}
+    }%
+    {   \end{tabular}
+        \end{center}
+     % end of ragged right
+    % \caption{#2}
+    \end{table}
+} % end of nicetable
+
+
+%%%
+% CHAPTER & HEADERS
+%%%
+\usepackage[raggedright,bf]{titlesec}
+\usepackage{fancyhdr}
+
+% reformat & rename chapter heading
+\titlespacing*{\chapter}{0pt}{5pt}{10pt}
+\renewcommand*{\chaptername}{Page}
+
+% redefine \chapter so it uses pagestyle=fancy
+\makeatletter
+\renewcommand\chapter{\if@openright\cleardoublepage\else\clearpage\fi
+\thispagestyle{fancy}%
+\global\@topnum\z@
+\@afterindentfalse
+\secdef\@chapter\@schapter}
+\makeatother
+
+% design headers and footers
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\moduleCode{} (\moduleNameShort)}
+\fancyhead[R]{\leftmark} %put project title here
+\fancyfoot[L]{\footnotesize \texttt{compiled at} \\ \texttt{\DTMnow}}
+\fancyfoot[C]{\textbf{\thepage}\ of \pageref*{LastPage}}
+\fancyfoot[R]{\notesAuthor}
+\renewcommand{\footrulewidth}{0.4pt}
+\addtolength{\topmargin}{-1.59999pt}
+\setlength{\headheight}{13.59999pt}
+
+% custom headers for taught session
+\newcommand{\taughtsession}[6]{%
+    \chapter[#1 - #2 (#3)]{#1 - #2}
+    \chaptermark{#2}
+    \begin{figure}[H]
+        \begin{minipage}[t]{0.2\textwidth}
+            \faCalendar\ #3
+        \end{minipage}\hfill
+        \begin{minipage}[t]{0.2\textwidth}
+            \faClockO\ #4
+        \end{minipage}\hfill
+        \begin{minipage}[t]{0.2\textwidth}
+            \faMortarBoard\ #5
+        \end{minipage}\hfill
+    \end{figure}
+    \color{myBlue}
+    \rule[1em]{\textwidth}{0.25px}
+    \color{black}
+    } % end of new command
+
+% custom notes document title page
+
+\newcommand{\makedocumenttitlepage}{\begin{titlepage}
+    \pagecolor{myBlue}
+    \color{white}
+    \rule{\textwidth}{1px}
+    \vspace{0.025\textheight}
+
+    \huge{\university}\\
+    \huge{\course}\\
+    \huge{\courseYear{} Year}
+
+    \vfill
+
+    \LARGE{\textbf{\moduleName} (\moduleNameShort)}\\
+    \Large{\moduleCode}\\
+    \large{\moduleDates}\\
+    \large{\moduleCredits{} Credits}
+
+    \vfill
+
+    \begin{flushright}
+        \large{\notesAuthor}\\
+        \texttt{\notesAuthorContact}
+    \end{flushright}
+    \vspace{0.2\textheight}
+    \rule{\textwidth}{1px}
+\end{titlepage}
+\nopagecolor
+}
