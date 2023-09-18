@@ -2,7 +2,9 @@
 [View on GitHub](https://github.com/ThomasBoxall/uni-notes)
 
 ## Links to Notes
-### First Year
+<details>
+<summary>Level 4 (2022 - 2023)</summary>
+
 * [M22731 (Comp Tutorial Level 4)](01-L4/M22731-compTutorialLevel4/M22731.pdf)
 * [M30220 (Core Computing Concepts)](01-L4/M30220-coreComputingConcepts/M30220.pdf)
   * [Item II: Discovery Log](01-L4/M30220-coreComputingConcepts/00-discovery-log-web/main.pdf)
@@ -19,3 +21,4 @@
 * M30943 (Architecture and Operating Systems)
   * [Computing](01-L4/M30943-architectureAndOperatingSystems/Computing/M30943.pdf)
   * [Maths](01-L4/M30943-architectureAndOperatingSystems/Maths/M30943-maths.pdf)
+</details>
