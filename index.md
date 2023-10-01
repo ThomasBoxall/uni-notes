@@ -22,3 +22,17 @@
   * [Computing](01-L4/M30943-architectureAndOperatingSystems/Computing/M30943.pdf)
   * [Maths](01-L4/M30943-architectureAndOperatingSystems/Maths/M30943-maths.pdf)
 </details>
+
+<details open>
+<summary>Level 5 (2023 - 2024)</summary>
+
+* [M21270 (Data Structures and Algorithms)](01-L5/M21270-DSALG/M21270-DSALG.pdf)
+* [M21274 (Discrete Maths and Functional Programming)](01-L5/M21274-DMAFP/M21274-DMAFP.pdf)
+* [M22732 (Comp Tutorial Level 5)](01-L5/M22732-CTUT5/M22732-CTUT5.pdf)
+* [M30233 (Operating Systems and Internetworking)](01-L5/M30233-OSINT/M30233-OSINT.pdf)
+* [M30235 (Programming Applications and Programming Languages)](01-L5/M30235-PAAPL/M30235-PAAPL.pdf)
+* [M30237 (Web Programming)](01-L5/M30237-WEBPR/M30237-WEBPR.pdf)
+* [M30819 (Software Engineering Theory and Practice)](01-L5/M30819-SETAP/M30819-SETAP.pdf)
+
+*NB: Some modules are single teaching block therefore TB2 modules will remain empty until they begin in January.*
+</details>
