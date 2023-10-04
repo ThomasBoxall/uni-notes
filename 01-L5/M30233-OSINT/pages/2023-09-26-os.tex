@@ -1,0 +1,115 @@
+\taughtsession{Lecture}{Introduction}{2023-09-26}{13:00}{Tamer}{}
+
+\section{Operating Systems}
+The \textit{Operating System} is a special type of software which controls the hardware. It is not the desktop, as the desktop, start screen and any other GUI software is provided by a suite of \textit{application level software} which exists at a higher level than that of the operating system. The operating system is only accessible by application programs, not directly from the user. The user cannot interact with the hardware directly.
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.9\textwidth]{assets/os-location-in-userapplicationoshardware.svg}
+    \caption{Location of the operating system in relation to the user, applications and hardware}
+\end{figure}
+
+\subsection{What does it do?}
+The operating system is a piece of systems software that manages the computer's hardware, resources and control processing. It allows multiple computational processes and users to share a processor simultaneously, protect data from unauthorised access and keep independent input / output (I/O) devices operating correctly.\\
+
+The operating system provides common services for application software, making developers lives easier as the hardware interfacing has already been done for them. Users cannot run any software application without it.
+
+\subsection{Characteristics of the Operating Systems}
+There are two key characteristics of the Operating System.
+\subsubsection{Extended Machine}
+The part of the Operating System which behaves as an \textit{extended machine} deals with the Input / Output devices which involves reading and writing control registers, handling interrupts etc. If a mistake is made, it will crash the entire computer. The Operating system provides a cleaner, safer, higher level set of operations for doing these - thus making developers lives easier as they are less worried about the `nitty gritty' of hardware handling.
+\subsubsection{Resource Manager}
+The part of the operating system which behaves as a \textit{resource manager} deals with sharing the resources between the many different processes which are happening simultaneously. The OS arbitrates between the requests these processes make to make to I/O subsystems, memory, etc to ensure smooth functioning of the system.
+
+\section{Software Types}
+There are two key types of software - systems software and applications software.
+\subsection{System Software}
+Systems software is the software that controls the computer system and ultimately allows you to use the computer. This includes the operating system and utility programs. They allow tasks to be performed such as:
+\begin{itemize}
+    \item enabling the boot process
+    \item launching applications
+    \item transferring files
+    \item controlling hardware configuration
+    \item managing files on the hard drive
+    \item and protecting the machine from unauthorised use.
+\end{itemize}
+\subsection{Application Software}
+Application software is software which allows the user to perform a specific task on the computer. They allow tasks to be performed such as:
+\begin{itemize}
+    \item Word processing
+    \item Playing games
+    \item browsing the web
+    \item listening to music
+\end{itemize}
+
+\section{Central Processing Unit}
+The \textit{Central Processing Unit} (or CPU for short), is the heart of the computer. It is sometimes also referred to as the processor, microprocessor or processing unit. The CPU's primary purpose is to interpret processes and execute instructions. 
+\subsection{CPU Organisation}
+Modern CPUs are complex, containing many different components. All CPUs will contain a: control unit, Arithmetic Logic Unit, cache memory, and memory management unit. The inner workings of the CPU will be discussed futher in a later lecture.\\
+
+The CPU processes a sequence of machine instructions. A single instruction might perform simple arithmetic on data values - typically individual words; or more data between memory and / or registers.
+
+\subsection{Registers}
+\textit{Registers} are very fast storage built into the CPU. They are typically big enough to store one word of data. Nowerdays, this will usually be 64-bits however in the past, 32-bit words were common. Registers are small amounts of high-speed memory contained within the CPU which are used by the processor to store small amounts of data that is needed during processing. This could include: the address of the next instruction to be executed or the current instruction being decoded.\\
+
+A CPU has many registers as they are commonly single purpose; they also play a key role in OS design because they form part of state of a computation. Most computer architecture provides a small set of General Purpose Registers (GPR). The program status word register is responsible for setting which mode the CPU is operating in. 
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.2\textwidth}p{0.2\textwidth}p{0.4\textwidth}}
+    \textbf{Name} & \textbf{Use} & \textbf{Description}\\
+    \hline
+    \hline
+    EAX & Accumulator & The default register for many additions and multiple instructions.\\
+    \hline
+    EBX & Base & Stores the base address during memory addressing.\\
+    \hline
+    EXC & Count & The default counter for repeat (REP) prefix instructions and LOOP instructions.\\
+    \hline
+    EDX & Data & Used for multiple and divide operations\\
+    \hline
+    ESI & Source Index & Store source index \\
+    \hline
+    EDI & Destination Index & Stores destination index\\
+    \hline
+    EBP & Base Pointer & Mainly helps in referencing the parameter variables passed to a subroutine\\
+    \hline
+    ESP & Stack Pointer & Provides the offset value within the program stack.\\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{GPR Registers and their purposes}
+\end{table}
+
+\section{Classification of Programming Languages}
+Higher level languages cannot interact directly with the hardware. High level language source code is \textit{translated} into a series of low level languages - ultimately ending up with machine code that can interface with the hardware directly. 
+
+\subsection{Assembly Language}
+\textit{Assembly Language} is a symbolic form of machine code used by system programmers. It will generally have the same instructions as machine code but rather than the instructions being represented in binary or hexadecimal format - assembly language uses mnemonics, making it easier to read, write and understand the code.\\
+
+The following two lines of code copy the contents of the \verb|EAX| register to the \verb|EBX| register then increases the value in the \verb|EXB| register by 4. In a high level language, this would look something like: \verb|b = a + 4|.
+\begin{verbatim}
+    MOV EBX, EAX
+    ADD EBX, 4
+\end{verbatim}
+The Intel assembler instruction set also includes the ability to access the content within a memory address. This is done by putting square brackets (\verb|[]|) around the register containing the memory address to look in.
+\begin{verbatim}
+    MOV ESI, 105672
+    MOV EAX, [ESI]
+\end{verbatim}
+
+An I/O device, like a hard disk, will have an associated set of \textit{ports} through which the device is controlled and data transferred. A range of ports will be associated with each device. The instruction \verb|IN| and \verb|OUT| are used to read or write to ports. 
+
+\section{User and Kernel Modes}
+Typical CPUs support different modes of operation controlled by a register called the \textit{Program Status Word} (recent X86 processors actually use bit 0 of the Control Register (CR0), when its set - we are in \textit{User Mode} or \textit{Protected Mode}).\\
+
+When machine code executes while the CPU is in \textit{user mode}, it can only use limited instructions, for example not the \verb|IN| and \verb|OUT| instructions.\\
+
+When machine code executes while the CPU is in \textit{kernel mode}, it can use privileged instructions - for example \verb|IN| and \verb|OUT|.\\
+
+The Operating System will always run in Kernel Mode. Thus, enabling all I/O operations to be performed by the OS on behalf of application programs. This has multiple benefits: the OS keeps control over whats done with those I/O operations and it makes it easier for software developers as they don't have to worry about interfacing directly with hardware.
+
+\section{Interrupts}
+When an I/O controller (i.e. on a disk card) has requested data available, it must gain the attention of the CPU. This is because the CPU can't be focusing on just waiting for the disk as it has other processes it needs to service. Gaining attention of the CPU is done through asserting an electrical signal called an \textit{interrupt}. When the CPU receives an interrupt - it must abandon the program its currently executing and instead execute specialised code to deal with the new event. Specialised code takes form of \textit{interrupt handlers} which are typically installed at boot time and run in kernel mode.\\
+
+Interrupt handlers have a wide significance in operating systems - beyond their original role in processing data received from I/O controllers. They have a role in process scheduling and in the implementation of system calls - these two topics will be covered in later lectures. Inn some sense, the whole operating system is driven by variations on the theme of ``interrupt handler''.
