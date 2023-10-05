@@ -1,0 +1,35 @@
+\taughtsession{Async lecture}{Tools of the Trade I: Efficiency \& BigO}{2023-09-30}{}{}{}
+
+BigO Notation is used to define the efficiency of an algorithm quantitatively. This is a very helpful tool to have when designing algorithms as it allows us to compare multiple algorithms to and understand which is the best one to use. 
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.2\textwidth}p{0.2\textwidth}p{0.4\textwidth}}
+    \textbf{Name} & \textbf{Notation} & \textbf{Description}\\
+    \hline
+    \hline
+    Constant & $O(1)$ & Algorithm always executes in the same amount of time regardless of the size of the dataset.\\
+    \hline
+    Logarithmic & $O(\log_n)$ & Algorithm which halves the dataset with each pass, efficient with large datasets, increases execution time at a slower rate than that at which the dataset size increases.\\
+    \hline
+    Linear & $O(n)$ & Algorithm whose performance declines as the data set grows, reduces efficiency with increasingly large dataset.\\
+    \hline
+    Loglinear & $O(N\log_n)$ & Algorithm that divides a dataset but can be solved using concurrency on independent divided lists.\\
+    \hline
+    Polynomial & $O(N^2)$ & Algorithm whose performance is proportional to the size of the dataset, efficiency significantly reduces with increasingly large datasets.\\
+    \hline
+    Exponential & $O(2^n)$ & Algorithm that doubles with each addition to the dataset in each pass, very inefficient.\\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{BigO Notation complexity values, listed best to worse}
+\end{table}
+
+BigO doesn't look at the exact number of operations, it looks at when the size of a problem approximates infinity therefore two very similar algorithms which are slightly different may have the same Big O despite one having double the number of operations.
+
+\section{Calculating The BigO Value}
+\begin{enumerate}
+    \item Determine the basic operations (including: assignment, multiplication, addition, subtraction, division, etc)
+    \item Count how many basic operations there are in the algorithm (some basic algebraic addition required here!)
+    \item Convert the total number of operations to BigO (done by: ignoring the less dominant terms; and ignoring the constant coefficient - i.e. $2n+1$ becomes $n$).
+\end{enumerate}

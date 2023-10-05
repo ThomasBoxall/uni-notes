@@ -41,4 +41,51 @@ An Abstract Data Type (ADT) is a collection of data and associated methods store
 An \textit{Algorithm} is any well-defined computational procedure that takes some data, or set of data as input and produces some data or set of data as output. It is the sequence of computational steps which are gone through that transforms the input into the output which is the algorithm. The algorithm must process the data efficiently (both in terms of time and space).
 
 \subsection{Classifications of Algorithms}
-There are a number of different classifications of algorithms - four are shown below. Definitions are from 
+There are a number of different classifications of algorithms - four are shown below. Definitions are from \textit{National Institute of Standards and Technology - Dictionary of Algorithms and Data Structures}
+\subsubsection{Brute-Force Algorithm}
+An algorithm that inefficiently solves a problem, often by trying every one of a wide range of possible solutions. E.g. exhaustive search.
+\subsubsection{Divide \& Conquer Algorithm}
+An algorithm which solves a problem either directly because that instance is easy (typically, this would be because the instance is small) or by dividing it into two or more smaller instances. Each of these smaller instances is recursively solved, and the solutions are combined to produce a solution for the original instance.
+\subsubsection{Backtracking Algorithms}
+An algorithm that finds a solution by trying one of several choices. If the choice proves incorrect, computation backtracks or restarts at the point of choice and tries another choice. It is often convenient to maintain choice points and alternate choices using recursion.
+\subsubsection{Greedy Algorithms}
+An algorithm that always takes the best immediate, or local, solution while finding an overall answer. Greedy algorithms find the overall, or globally, optimal solution for some optimisation problems, but may find less-than optimal solutions for some instances of other problems.
+
+\section{Stack Abstract Data Type}
+A \textit{stack} is a collection of objects where only the most recently inserted object (\verb|top|) can be removed at any time. A stack is linear and operates in Last In First Out (LIFO). \\
+
+Stacks must support the following operations.
+\begin{description}[font=\ttfamily]
+    \item[push] add an item to the top of the stack
+    \item[pop] remove an item from the top of the stack
+    \item[peek] examine item at the top of the stack
+    \item[empty] determine if the stack is empty
+    \item[full] determine if the stack is full
+\end{description}
+
+An application using a stack will expect the ADT to thrown an exception if: a push operation is requested on a full stack; or a push / pop operation is requested on an empty stack. The stack manages its own storage, therefore an application which uses a stack is not concerned with how the storage used by the stack is managed. In general, an ADT is not interested in the application using the ADT.\\
+
+Stacks can be implemented using a static array and have a number of uses, including: matching brackets in arithmetic expressions; recursive algorithms; and evaluating arithmetic expressions.
+
+\section{Queue Abstract Data Type}
+A Queue is a collection of objects organised such that the first object to be stored in the queue is the first to be removed and so on. It is a linear data structure with elements - inserted at one end (the tail) and removed from the other (the head). A queue operates in First In First Out (FIFO).\\
+
+Queues must support the following operations:
+\begin{description}[font=\ttfamily]
+    \item[enqueue] add item to the queue's tail
+    \item[dequeue] remove item from the queue's head
+    \item[full] check if queue is full (therefore total number of elements exceeds max capacity)
+    \item[empty] check if queue is empty
+    \item[first] check the first element (the head) in the queue
+\end{description}
+
+\subsection{Implementations of a Queue}
+There are three different implementations of a queue, all of which can use a static array.
+\subsubsection{Fixed Head}
+The head of the queue is fixed, this means it will always be in index 0 of the static array. When an element is dequeued, the rest of the elements in the queue must be shuffled along so that the new head is in index 0. This is extremely time inefficient for large queues however quite space efficient as there won't be ``dead space'' at one end of the queue.
+\subsubsection{Mobile Head}
+The head of the queue is mobile, this means it can be in any index of the array. When an element is dequeued, the rest of the elements in the queue stay where they are and the head pointer is updated to represent the new head's index. This is more time efficient however not space efficient as you may end up with a lot of ``dead space'' where the head of the queue used to be.
+\subsubsection{Circular Queue}
+The queue is circular in a logical, not physical, way. This means the head and tail can be anywhere in the array. If the head is not at the start of the array and the space is needed, the tail will loop around to use the space at the start of the static array.
+
+% IMAGES TO COME FOR QUEUES AND STACK IMPL.
