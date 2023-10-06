@@ -1,0 +1,74 @@
+\taughtsession{Async lecture}{Iterative Algorithms and Efficiency}{2023-10-05}{}{}{}
+
+\section{Searching Algorithms}
+When searching a dataset to find the item you are looking for, the aim of an efficient searching algorithm is to exclude elements to reduce the searching space after each comparison.
+
+\subsection{Sorted vs Unsorted Data}
+Sorted data, when the data is in either ascending or descending order, makes it easier to locate the item you are searching for. Depending on the algorithm, when using sorted data, we can exclude more elements from the list to search.\\
+
+Unsorted data, when the data is in a random order, makes it harder to locate the item you are searching for. This is because you have to examine (in the worst case) every element in the array you are searching to realise that the item you are searching for is not in the array.
+
+\subsection{Sequential (Linear) Search}
+\begin{enumerate}
+    \item Start at the beginning
+    \item Check every element of the array in turn until item located or the end of the array reached (therefore item not located)
+\end{enumerate}
+This search excludes one data item at a time, which is not great. It works on sorted and unsorted data.\\
+
+The best case BigO is $O(1)$. This is the case where the first item we examine is the item we want to find.\\
+
+The worst case BigO is $O(n)$ when the searched value is the last element in the array or not in the array, $n$ comparisons are required.\\
+
+The average case BigO is $O(\frac{n}{2})$ because if the data is distributed randomly, each element has an equal chance to be the one searched for.\\
+
+Overall, the BigO for a sequential search is $O(n)$.
+
+\subsection{Binary Search}
+\begin{enumerate}
+    \item Check the middle element of the array
+    \item If not found, work out which half of the array the item could be located in and exclude the half which it won't be included in
+    \item Repeat by searching the half array which may contain the required item by examining the middle element and eliminating half the array
+    \item Process repeated on the halved array until either find the item or determine that it doesn't exist.
+\end{enumerate}
+
+A binary search only works on a sorted array.\\
+
+The best case BigO is $O(1)$. This is achieved when the value we are searching for is the middle element, hence it is found on the first comparison.\\
+
+The worst case BigO is $O(\log_2n)$, which is achieved when the value we are searching for is not found in the array. We therefore need $1+\log_2n$ comparisons which gets converted into BigO.\\
+
+The average case is $O(\log_2n)$, if the data is distributed randomly - each element has an equal chance to be the one searched for. \\
+
+The binary search algorithm has an additional cost - it requires a sorted sequence of data items, which incurs cost if the data is not already sorted.
+
+\section{Sorting Algorithms}
+A sorting algorithm aims to make comparisons between data items and swap them according to the desired order of the items. All sorting algorithms will involve two basic steps:
+\begin{enumerate}
+    \item Compare items
+    \item Swap elements
+\end{enumerate}
+
+\subsection{Selection Sort}
+A selection sort works by sorting the array one item at a time. It divides the list into two parts. The sorted section (on the left) is initially empty and the unsorted section (on the right) is initially the complete unsorted list. The smallest (or largest, depending on if we want ascending or descending) is selected from the unsorted array and swapped with the left-most element from the unsorted section. The item is now in the correct final position within the ascending / descending order. The sorted part has increased in size by 1. The process is iterated on the unsorted part of the array until all items have been considered, the array will now be sorted.\\
+
+The best case BigO is $O(n^2)$, when the array is already sorted hence each element only has to be compared to its direct neighbours to establish this.\\
+
+The worst case is $O(n^2)$.\\
+
+Selection sorts are unsuitable for large data sets.
+
+\subsection{Bubble Sort}
+A bubble sort works by repeatedly passing through the list, swapping adjacent items if they are in the wrong order. If sorting into ascending (or descending) order, the largest (or smallest) item will be bubbled to the end of the array, hence the name. The process is iterated on the whole list until all items have been considered, therefore the whole list will now be sorted.\\
+
+Without using a flag, the best case BigO is $O(n^2)$. The worst case BigO is also $O(n^2)$.\\
+
+When a flag (variable which denotes when the array is sorted, enabling sorting to stop as soon as array detected as sorted) is used, the best case BigO is $O(n)$ and the worst case BigO is $O(n^2)$.\\
+
+With or without the flag, the algorithm is very slow for large datasets.
+
+\subsection{Insertion Sort}
+An insertion sort works by sorting the list one item at a time. THe list is split into a sorted and non-sorted part. With each iteration, the next element waiting to be sorted (in the unsorted part) is inserted in its correct location within the sorted list. The process iteration on whole list until all items have been considered; when completed, the list will now be sorted.\\
+
+The best case BigO is $O(n)$, when the data is already sorted. The worst case BigO is $O(n^2)$.\\
+
+This algorithm is efficient for sorting nearly-sorted lists. 

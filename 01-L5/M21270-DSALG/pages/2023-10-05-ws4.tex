@@ -1,0 +1,49 @@
+\taughtsession{Async lecture}{Tools of the Trade II: Recursion}{2023-10-05}{}{}{}
+
+\section{Introduction}
+Computers are better at repeating themselves than humans are. Humans get bored, computers don't.\\
+
+Iteration is explicit repetition of code. We often use for and while loops to repeat sections of code, both of which use control variables to control the repetitions.\\
+
+Recursion is an alternative method of repeating code, where the code is repeated implicitly. Recursion occurs when a function or method calls itself.
+
+\section{Recursion}
+Recursion is a technique whereby a problem is expressed as sub-problems in a similar / same form to the original problem but smaller in scope. The sub-problems only differ in input or size. Shown below is an example of a recursive algorithm, that never ends.
+\begin{verbatim}
+    recursive_print_example(i){
+        print(i)
+        recursive_print_example(i+1)
+    }
+\end{verbatim}
+Recursion is applied to problems where: a solution is easy to specify for certain conditions (the stopping case, which is required or the program will continue indefinitely); and rules for proceeding to a new state which is either a stopping case or eventually leads to a stopping case (recursive steps) are identified.\\
+
+Shown below is an actual recursive algorithm with its output:
+\begin{verbatim}
+    cheers(int times){
+        print("hip)
+        if (times > 0){
+            cheers(times - 1)
+        }
+        print("hooray")
+    }
+    //outputs: hip hip hip hooray hooray hooray
+\end{verbatim}
+
+\section{Pitfalls of Recursion}
+Recursion must always be used with care and understanding. It is possible to write compact and elegant recursive programs that fail spectacularly at runtime. The main pitfalls of recursive algorithms are as follows:
+\begin{itemize}
+    \item Forgetting the stopping case
+    \item Failure to reach a stopping case
+    \item Excessive use of space
+    \item Excessive repeated computations
+\end{itemize}
+
+There are some times, when you really shouldn't use recursions:
+\begin{itemize}
+    \item When the algorithm / data structure is not naturally suited to recursion
+    \item When the recursive solution is not shorter and understandable than the linear solution
+    \item When the recursive solution doesn't run in acceptable time limits and / or space limits
+    \item When the intermediate states of the algorithm don't pass the same data to / from them.
+\end{itemize}
+
+Recursion to be continued next week. 
