@@ -1,0 +1,135 @@
+\taughtsession{Lecture}{Concurrency}{2023-10-03}{13:00}{Tamer}{}
+
+\section{What is Concurrency}
+Concurrency: many things can be run at the same time.\\
+
+In Computer Science, a concurrent system is a system where two or more computations are executing (literally of effectively) at the same time. This is different to a sequential system, however, as this is where a computation (or parts of a computation) are executed to completion, one after the other. A concurrent system is almost the same as a \textit{parallel system}, where multiple computations are literally proceeding at the same time.\\
+
+Concurrency is used in many different systems, including
+\begin{itemize}
+    \item Multi-tasking operating systems, where many processes are runing at once;
+    \item Individual applications like \textit{web servers} that must be processing many ``requests'' at the same time;
+    \item Multicore processors where a single application is running across more than one core;
+    \item Parallel computers in general;
+    \item Distributed systems in general
+\end{itemize}
+
+When discussing concurrency in operating systems, we are meaning it as multiple threads sharing the same core of the CPU by multitasking. However, in some cases where the CPU has more than one core, threads may be able to run on different cores truly in parallel.
+
+\section{Processes and Threads}
+A \textit{thread} or \textit{thread of control} is a specific sequence of instructions, which have been defined by a program or by a section of a program. Instruction sequences from one thread may run in parallel with, or be interleaved in an unpredictable way with, sequences from other threads.\\
+
+\textit{Processes} have one or more threads within them. A process will also have aomse additional structure associated with them, for example - address space. Every process has at least one control flow (thread), and may have many control flows. All control flows in the same process share the same address space.
+
+\section{Programming with Threads}
+Historically, programming languages may have come with special ``parallel'' constructs which can be used to write concurrent programs. Nowerdays, its more common to use \textit{thread libraries}.
+\subsection{Occam Example}
+Occam, a programming language popular in the UK in the 1980s and 1990s, could be used to write parallel code with the \verb|PAR| instruction where the subsequent \verb|SEQ| instructions would be used define the blocks of code to run in sequence. Note that occam didn't have a \verb|print| command however that phrase has been used for simplicity.
+\begin{verbatim}
+    PAR
+        SEQ
+            x = 23
+            print x
+        SEQ
+            y = 42
+            print y
+\end{verbatim}
+
+\subsection{POSIX}
+POSIX (Portable Operating System Interface) is a low level library for thread programming, often for the C programming language - which is use in the implementation of the OS as it has good direct control over the hardware. Using POSIX, the code for a new thread is defined in a C function, where a parent thread (generally the \textit{main programme}) calls the library function \verb|pthread_create|, passing it a pointer to a function with the code for a new thread. A parent thread may create any number of threads, and children can create their own children etc. The following example shows creating and running a thread using POSIX in C, again there has been some simplifications to the syntax.
+\begin{verbatim}
+    int main(int argc, char* argv[]){
+        pthread_t thread;
+        pthreasd_create(&thread, NULL, run, NULL);
+        x = 23;
+        print x;
+    }
+    void* run(void *){
+        y = 42;
+        print y;
+    } 
+\end{verbatim}
+\subsection{Java}
+Threads in Java aren't as parallel-esque as occam or library-esque as C. Java doesn't contain explicit parallel constructs, but many features of the language have been carefully designed to support concurrency. Modifiers can be used on declarations and there are special constructs which all are carefully integrated into the Java Memory Model.\\
+
+Thread creation in Java is similar to POSIX except it follows the object-oriented paradigm that Java uses. Threads can be defined in a class which extends \verb|java.lang.Thread| in a function called \verb|run|. To run the thread, create an object of the new class then call the \verb|start| method on that object to being the thread.
+
+\begin{verbatim}
+    public static void main(String[] args) {
+        MyThread thread = new MyThread();
+        thread.start();
+        int x = 23;
+        System.out.println (x);
+        thread.join();
+    }
+    Public static class MyThread extends Thread {
+        public void run() {
+            int y = 42;
+            System.out.println (y);
+        }
+    }
+\end{verbatim}
+
+The \verb|join| method used in the main function is option. It waits until the child thread has completed before allowing execution of the main program to continue - hence synchronising between threads. POSIX has an equivalent function called \verb|pthread_join|.
+
+\section{Non-Determinism}
+\textit{Non-Determinism} is the idea that when we have multiple threads executing at exactly the same time, we don't know which will finish executing first. Therefore if these multiple threads all use the same variable then when the same code is run many times, it may result in different final values of that variable.\\
+
+The number of possible orderings for a program with multiple threads to execute in grows exponentially with program size, this makes concurrent programs hard to design and debug because there are many possibilities to consider.\\
+
+The following example, while a simple program, illustrates precisely why non-determinism is a bad thing. In the example there are two threads executing \verb|A| and \verb|B|. They are both performing operations on a shared variable \verb|c|.
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.1\textwidth} C{0.1\textwidth} C{0.1\textwidth} C{0.1\textwidth} C{0.1\textwidth} p{0.2\textwidth}}
+    \textbf{Code} & \textbf{Thread} & \verb|c| & \verb|x| & \verb|y| & \textbf{Note}\\
+    \hline
+    \hline
+     &  & 0 & - & - & initial\\
+    \hline
+    \verb|x = c| & \verb|A| & 0 & 0 & - & \\
+    \hline
+    \verb|c = x + 1| & \verb|A| & 1 & 0 & - & \\
+    \hline
+    \verb|y = c| & \verb|B| & 1 & 0 & 1 & \\
+    \hline
+    \verb|c = y + 1| & \verb|B| & 2 & 0 & 1 & final\\
+    \hline
+    \end{tabular}
+    }
+    \caption{Example of non-determinism: trace 1}
+\end{table}
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.1\textwidth} C{0.1\textwidth} C{0.1\textwidth} C{0.1\textwidth} C{0.1\textwidth} p{0.2\textwidth}}
+    \textbf{Code} & \textbf{Thread} & \verb|c| & \verb|x| & \verb|y| & \textbf{Note}\\
+    \hline
+    \hline
+     &  & 0 & - & - & initial\\
+    \hline
+    \verb|x = c| & \verb|A| & 0 & 0 & - & \\
+    \hline
+    \verb|y = c| & \verb|B| & 0 & 0 & 0 & \\
+    \hline
+    \verb|c = x + 1| & \verb|A| & 1 & 0 & 0 & \\
+    \hline
+    \verb|c = y + 1| & \verb|B| & 1 & 0 & 0 & final\\
+    \hline
+    \end{tabular}
+    }
+    \caption{Example of non-determinism: trace 2}
+\end{table}
+
+\section{Interference}
+Interference is a more serious case of non-determinism. It would have been reasonable to expect that each thread increments the value of the variable \verb|c| by 1 in the above example; therefore ending with \verb|c| containing the value \verb|2|. This kind of unpredictable behaviour, when concurrent threads adversely affect one anothers behaviours, is called interference. Similar, more serious, problems arise with shared access to more complex data structures.
+
+\subsection{Race Conditions}
+Interference situations may also be referred to as \textit{race conditions}. This is because the outcome depends on which thread gets to a particular point of its programme first. In this module, \textit{race conditions} and \textit{interference} are essentially the same thing - even though race conditions also occur in distributed systems, without shared variables.
+
+\subsection{Avoiding Interference}
+There are a number of different ways to avoid interference in concurrent programs.\\
+
+The simplest of these is to ensure that threads never have variables in common, which is essentially what happens with processes (whereby each process has a completely independent address space with no shared variables). However, in the underlying operating system, which is responsible for scheduling processes this solution is too restrictive.\\
+
+Another solution is to make use of something called a \textit{critical section}, this is where sections of the program that cannot happen at the same time are isolated from each other and a method is used to ensure they cannot update shared data structures at the same time. The methods used are called \textit{Mutual Exclusions} which are a concept (so you can't eat or touch it) and will be covered further in the next lecture.
