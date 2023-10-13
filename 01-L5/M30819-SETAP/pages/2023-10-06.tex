@@ -1,0 +1,81 @@
+\taughtsession{Lecture}{Software Development Process Models}{2023-10-06}{11:00}{Claudia}{}
+
+\section{Software Development}
+Software Development is the process which is undergone to design and build software. With it being a process, there are defined steps which can be repeated time and time again to gain the same results. The structured nature of a proper software development project should mean that at the end of it, you have a good product which meets all the requirements, is well documented and can easily be maintained in the future, hopefully.
+
+\section{Stages of Software Development}
+\begin{enumerate}
+    \item Specification
+    \item Design
+    \item Implementation
+    \item Testing \& Evaluation 
+    \item Maintenance
+\end{enumerate}
+
+\subsection{Specification}
+At the end of this stage, there will be a description of what the system should do. This does not include \textit{how} it does it, just what it does. The description will also contain how well it does it, including constraints of the system and non-functional requirements (for example, how long it should take to do a process). The produced document will act as a checklist of deliverables and will often be produced in collaboration between the business and legal teams; it will also form the basis of the contract. Over the duration of writing the document, there may be many iterations and cycles of talking to steakholders to ensure the document is the best it can be when completed so that the design and future phases are as smooth as possible.\\
+
+A major part of the specification writing phase is gathering user requirements, there will often be lots of back-and-forth with users while gathering these. The specification also includes the system requirements, this features datatypes of data which needs to be gathered - again lots of going back to users in this stage to ensure its gotten right!
+
+\subsection{Software Design}
+The software designing stage is about designing the way the application looks, feels and functions. This encompasses: the algorithms (including problem solving and data structures); behaviour modelling (including data flow and exception handling); use case modelling (including actors and (in)valid scenarios); architectural design (including the structure of the system, as components and relations); the interface design (including GUI and how the user interacts); and database design (including the data models).
+
+\subsection{Software Implementation}
+The software implementation phase has a few things which have to be done.\\
+
+This phase includes the actual coding of the system - where the plans made in the design phase are converted to executable code.\\
+
+Version control is also used here, this allows for management of different versions of the code and tracking changes within it; as well as allowing collaborative coding between multiple people.\\
+
+Continuous Integration and Continuous Deployment is configured in this phase whereby the deployment of code is automated based off of something such as committing to a branch on GitHub.\\
+
+Documentation is also produced at this phase. This will generally be of two types - user documentation includes how to guides and instructions for the end users on how to use the software; and code documentation is produced which details how the code works so future developers have some clue what is going on when they get round to looking at it.
+
+\subsection{Software Testing \& Evaluation}
+This is the final stage done with the initial development of the software. Through testing and evaluating the software, we validate that the right software has been built; verify that the system is being built right; evaluate if the non-functional requirements are met; and check that the client accepts the system.\\
+
+There are a number of different ways in which this can be done. Before delivery, the entire system can undergo acceptance testing before it is delivered to the client. Different versions of the system get tested throughout development. Throughout the implementation cycles, it is a good idea to have usability testing. Unit test are often done throughout implementation as well as components are tested independently though out implementation.
+
+\subsection{Software Maintenance}
+The final stage of software development is the longest - supporting \& maintaining the product throughout it's lifespan / the contract's lifespan.\\
+
+There are a number of different types of maintenance which will get done - perfective (where algorithms, data structures and the system architecture gets optimised); corrective (fixing bugs while the system is in use); preventative (reviewing software quality and upgrading where needed); and adaptive (update to reflect changes in requirements, hardware, storage components and third party software). \\
+
+There are four stages to each piece of maintenance carried out on software:
+\begin{enumerate}
+    \item Specify change, check if there are existing solutions and explore reuse
+    \item Identifying existing parts of the system related to the change
+    \item Implement and integrate the change in the existing system
+    \item Re-test the system: new requirement and all existing requirements.
+\end{enumerate}
+
+\section{Software Development Lifecycle Models}
+There are a number of well-documented and well-used \textit{Software Development Lifecycle} (SDLCs) Models.
+\begin{description}
+    \item[Incremental] where one bit of the software is developed at a time
+    \item[Agile] which uses agile development methodology
+    \item[Waterfall] which follows sequential development
+    \item[Iterative] which creates one version at a time
+    \item[Reuse] which reuses code over implementing code.
+\end{description}
+
+\subsection{Iterative Development}
+This development method consists of a number of cycles - each cycle gets the product closer to the final goal and contains a number of steps including: specification building, design, implementation, and testing. The feedback from each cycle influences the next cycle.
+
+\subsection{Incremental Development}
+In this development method, after developing the initial system requirements specification document, a chunk of the design is split off and developed as the first increment. This development includes the design, implementation and testing. Once this increment is completed, another increment would begin - this will contain the same stages except the testing stage will also include testing of the new increment plus all the previous increments.
+
+\subsection{Reuse Oriented Design}
+In this development method, you begin with designing the specification. Then a discovery of the currently available software is undertaken, this includes an evaluation of the currently available software and the feasibility of modifying it to use in this project. The development stage comes next, which primarily involves adapting the existing software; including writing new components and configuring the system. Finally, the integration testing is completed where all reused and new software are put together and tested based on the specification.
+
+\subsection{Waterfall Design}
+This is the oldest design methodology, where each stage is done to completion before the next one begins. If you have to go `back up the waterfall' then you have to re-complete all subsequent stages again. The client is often only involved at the first and last stages which is really problematic if a design requirement is misunderstood.\\
+
+The stages are:
+\begin{description}
+    \item[Specification] Problem specification and SRS definition complete
+    \item[Design] Provide the complete design of the system
+    \item[Implementation] Convert the design into code. Do not evaluate until implementation complete
+    \item[Testing] Test the system as a whole
+    \item[Maintenance] Deploy and maintain the system. Any issues - go back to the specification.
+\end{description}
