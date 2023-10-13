@@ -1,0 +1,28 @@
+\taughtsession{Async lecture}{Recursive Algorithms \& Efficiency}{2023-10-11}{}{}{}
+
+The BigO value of a recursive algorithm is generally way worse than that of a linear algorithm which is performing the same function. Both the time and space efficiency is worse - as it will involve more operations and take up considerably more memory due to the number of function calls made.
+
+\section{Merge Sort}
+The \textit{Merge Sort} is an example of a divide and conquer algorithm. This means it works by dividing the bigger problem into smaller problems which can then be solved independently, making it easier to program. The smaller problem's solutions will then be combined back together to make the overall solution. The outline of how it works is shown below:
+\begin{enumerate}
+    \item Divide the array of data to be sorted into two equal halves until we have one element in each group. Note: if there is only one element in the list, it must be sorted (this is the stopping case of the recursive algorithm).
+    \item Merge the smaller arrays in to one large sorted array, merging one array with another array at a time. Repeat this until the entire array is sorted.
+\end{enumerate}
+
+\section{QuickSort}
+This is another example of a divide and conquer algorithm. The outline of how it works is shown below.
+\begin{enumerate}
+    \item Pick a pivot value (this will be an item in the array)
+    \item Put all values less than the pivot into one array and all those bigger than the pivot into another. Recursively repeat this until you end up with just one element in the arrays at the end (these will be the biggest and smallest elements in the array).
+    \item Merge back together as the pivot values will now be in the correct order. 
+\end{enumerate}
+The best case BigO is $O(n\log_2n)$ which is achieved when the pivot splits into two equally sized parts each time.\\
+
+The worst case BigO is $O(n^2)$ where the pivot is split into very unequal sizes.\\
+
+The average case BigO is $O(n\log_2n)$. 
+
+\section{Backtracking}
+Backtracking is a type of algorithm which continually searches for a solution by constructing partial solutions, using the correct parts of the solution to be the starting point for the next solution attempt. It is a trial and error algorithm.\\
+
+When the algorithm finds an incorrect partial solution, it returns ``up'' a layer to where it had a closer match to the correct solution and tries another branch. The algorithm is complete when either all possibilities have been exhausted or the item has been found.
