@@ -1,0 +1,63 @@
+\taughtsession{Async lecture}{Linked Lists}{2023-10-19}{}{}{}
+
+\section{Linear Data Structures: a recap}
+A \textit{linear data structure} is a collection of nodes (elements) where each node has a unique predecessor and unique successor. We saw in Workshop 1 that there are also other types of data structure where there can be many predecessors and many successors.
+\subsection{Example: Static Array}
+A static array is a static sized structure, which is different from a dynamic sized structure for example the ArrayList in Java. The advantage to using a Static Array is that there is faster access to each node providing as the node is known, with a BigO of $O(1)$ to visit \verb|arr[i]|. The disadvantages of using a static array is that its fixed size means it cannot be easily extended (as there has not been enough space allocated in memory) and it cannot be reduced (as there would then be wasted space in memory); static arrays can also be expensive to maintain in terms of time, especially for a group of sorted elements.
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.25\textwidth}p{0.35\textwidth}p{0.2\textwidth}}
+    \textbf{CRUD Operation} & \textbf{Data type} & \textbf{Efficiency}\\
+    \hline
+    \hline
+    \multirow{2}{*}{Searching} & Unsorted Data (linear search) & $O(n)$\\
+    \cline{2-3}
+    & Sorted Data (binary search) & $O(\log_2n)$\\
+    \hline
+    \multirow{2}{*}{Insertion} & Unsorted data & $O(1)$\\
+    \cline{2-3}
+     & Sorted data & $O(n)$\\
+    \hline
+    \multirow{2}{*}{Deletion} & Unsorted data & $O(1)$\\
+    \cline{2-3}
+     & Sorted data & $O(n)$\\
+     \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{Efficiency of CRUD operations for a static array}
+\end{table}
+The increased BigO value for the sorted array is due to the fact that the current elements have to be shifted within the array to maintain the sorted status, which obviously increases the number of operations which need to be performed.
+
+\section{Linked List}
+A linked list is a collection of objects called \textit{nodes}. Every node has 2 components - information to be stored (the data) and the reference to the next node in the list (the link). A linked list is s dynamic data structure, which means the number of nodes in the list is not fixed and it can grow or shrink on demand.
+\subsection{Singly Linked List}
+This is the most common type of linked list whereby each node is only linked to one predecessor and one successor - exceptions being the head which is only linked to one successor and the tail which is only linked to the predecessor.
+
+% DIAGRAM SHOWING THE SLL. 
+
+Advantages of using the Singly Linked List is that it is easily extendable or reduced to fit the data needing to be stored in it. Once the item is located - it has efficiency $O(1)$ to insert or delete the item.\\
+
+The significant drawback of a SLL is that it does not allow direct access to individual items; to find an individual item - you have to start at the head and follow references until you find the item you're looking for, which has the efficiency $O(n)$. Another disadvantage is that it uses more memory compared to a static array as the reference to the subsequent node also has to be stored.
+
+% TABLE COMPARING ARRAYLSIT AND SLL
+
+\section{Other Types of Linked Lists}
+Alongside the SLL, there are other types of Linked Lists which we may come across.
+
+\subsection{Singly Linked List with Dummy Nodes}
+A significant issue with the SLL is that the head item has to point to something. The idea of using a dummy node is that this is the first node in the list which then means the head element can always point to something, even if it is an empty node which makes the code more efficient. 
+
+\subsection{Circular Linked List}
+In this linked list, the tail node points to the first node after the head (which is the first node to contain data). This is useful for a list which undergoes a large number of traversals.
+
+\subsection{Doubly Linked List}
+In this linked list, each node is linked to both its predecessor and successor in a way such that the list can be traversed in either direction.
+
+\subsection{SkipList}
+A SkipList is an extension of an ordered SLL with a number of additional forward links added in a randomised way. The data in the list does have to be ordered, however, as during searching the elements in the array - bits of the list can be skipped to reduce the searching space quickly (like in a binary search). This leads to having an efficiency on all CRUD operations of $O(\log_2n)$, which is logarithmic random time.\\
+
+The ideal SkipList would have half of the nodes having one reference to a subsequent node; $\frac{1}{4}$ would have 2 references to subsequent nodes; $\frac{1}{8}$ will have 3 references to subsequent nodes; and so on. The distance between nodes on on each `level' would be equal. \\
+
+SkipLists aren't guaranteed to give good performance. Their performance depends on how many nodes are skipped at each level. For searching, the best case will be $O(1)$ and the worst case will be $O(n)$. 
