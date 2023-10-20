@@ -1,0 +1,125 @@
+\taughtsession{Lecture}{Mutual Exclusion}{2023-10-10}{13:00}{}{}
+
+\textit{NB: this lecture was split over 2 weeks, it continued on 2023-10-17.}
+
+\section{Introduction to Mutual Exclusion}
+Mutual Exclusion (MutEx) is a technique to ensure that critical sections do not overlap during execution of a concurrent program. This is another example of synchronisation between threads (like the \verb|join| instruction we saw in Java last week). MutEx can be used to guarantee that critical sections execute \textit{atomically}, this means the sections of code can execute as a whole without interruption - therefore no other threads can interfere with its execution.\\
+
+Race conditions, where we do nothing to prevent two critical sections executing at the same time, are very bad. This is due to the nature of a race condition where the exact outcome of the critical section is always an unknown. Despite the fact that the program could be tested 100 times and never exhibit the race condition - it may begin randomly to do so, especially once it's pushed to production. To avoid race conditions, we have to protect the critical section within a Mutual Exclusion - there are a number of different techniques which can be used to do this.
+
+\section{Mutual Exclusion: Using Shared Variables}
+There are a number of MutEx techniques which make use of shared variables to control the program flow through the critical section.
+
+\subsection{Method 1: lock}
+In this method, we consider two threads only. \textit{Lock} makes use of a new shared boolean variable \verb|lock|, which gets initialised to false, that specifies whether one thread is in its critical section. An example of this is shown below.
+\begin{verbatim}
+    repeat
+        while(lock) do nothing //means we wait unitl lock=false
+        lock = true; // lock has gone false meaning we can lock ourself and use it
+        <<critical section>>
+        lock = false; // indicate we've finished in our critical section
+        <<do normal work>>
+    forever
+\end{verbatim}
+
+When the first thread is ready to enter its critical section, its \verb|wait| loop terminates immediately, \verb|lock| gets set to \verb|true| and the critical section starts to execute. If a second thread wants to enter its critical section, it will see that \verb|lock| is set to \verb|true| and its wait loop iterates until the first thread leaves its critical section and sets \verb|lock| back to \verb|false|.\\
+
+There is a problem with this algorithm - if the second thread tests \verb|lock| between the while loop finishing in the first thread and that thread setting \verb|lock| to \verb|true|, the second thread will also see a \verb|false| value for \verb|lock| and can therefore enter its critical section. \textbf{This solution does not guarantee safety}.\\
+
+What has happened with this attempt to remove a race condition has added another race condition!
+
+\subsection{Method 2: turn}
+This method, again, only works for 2 threads. It makes uses of a new shared variable \verb|turn| which specifies whose turn it is to enter the critical section next (so not the current thread in the CS).
+\begin{verbatim}
+    repeat
+        while (turn !=0) do nothing;
+        <<critical section>>
+        turn = 1;
+        <<do normal work>>
+    forever;
+\end{verbatim}
+In the above example, \verb|0| represents the thread shown above and \verb|1| represents the other thread. The exam may use \verb|i| and \verb|j|.\\
+
+Turn works by allowing the first thread (\verb|0|) to execute its critical section first. If the other thread (\verb|1|) tries to enter it's own critical section before \verb|0| has finished then it waits in a loop, doing nothing. When \verb|0| leaves the critical section, \verb|turn| is set to \verb|1|. This now means \verb|1| must be the next thread to enter a critical section.\\
+
+This solution does establish mutual exclusion as both threads cannot be in their critical section at the same time. However it enforces a strict \verb|0 1 0 1 0 1...| ordering of access to the shared data structure. This could lead to a scenario where it may be thread \verb|1|s turn to enter the critical section but thread 1 has other work to do indefinitely - leading to a situation where thread \verb|1| may be blocked forever. \textbf{This solution guarantees safety but not progress}. 
+
+\subsection{Method 3: interested}
+This method, shown below, works with two shared Boolean variables: \verb|interested[0]| and \verb|interested[1]|. When either variable is set to \verb|true|, it means that the thread who owns that variable wants to enter its critical section.
+\begin{verbatim}
+    repeat
+        interested[0] = true;
+        while interested[1] do nothing;
+        <<critical section>>
+        interested[1] = false;
+        <<do normal work>>
+    forever;
+\end{verbatim}
+Both variables are initialised to false at the start of the algorithm. A thread sets its \verb|interested| variable when it wants to enter the critical region. If the other thread has already set its own interested variable, it then waits in a loop until that thread has finished with the critical section. When a thread leaves its critical section - its \verb|interested| variable is unset so the other threads can have access.\\
+
+This solution does establish mutual exclusion. However, if both threads reach their \verb|intereested[0] = true;| line immediately after one another and before the other tests whether or not to loop - the threads now loop (block) forever and the program doesn't progress. \textbf{This solution guarantees safety, but not progress}. 
+
+\subsection{Method 4: Peterson's Algorithm}
+Peterson's Algorithm combines the last two attempts (interested and turn). It works yielding turn to the other thread before entering it, rather than switching turns after exiting the critical section. 
+\begin{verbatim}
+    repeat
+        interested[0] = true;
+        turn = 1;
+        while(interested[1] and turn=1) do nothing; //waiting
+        <<critical section>>
+        interested[0] = false;
+        <<do normal work>>
+    forever;
+\end{verbatim}
+This algorithm works, with the only issue being seeing why it works.\\
+
+If thread \verb|0| tries to enter its critical section while \verb|1| is already in its critical section - \verb|interested[i]|will be true. \verb|0| sets \verb|turn=1| so \verb|0| waits until \verb|1| unsets its interested flag. In general, if \verb|0| reaches the wait loop while \verb|1| is ``interested'', the first thread to set \verb|turn| to the other thread's identity gets to actually execute its critical section first.
+
+\section{Practical Approaches to Mutual Exclusion}
+Whilst \textit{Peterson's Algorithm} is enlightening, it is not particularly useful in practice - there is no easy way to add extra threads to it and it relies on \textit{busy waiting} (where threads wait by looping) which can be very wasteful of CPU cycles. The more realistic solutions are based on the type of the operating system: parallel systems make use of specialised \textit{atomic} instructions and multitasking systems make use of \textit{synchronisation} into thread or process scheduling algorithms.
+
+\subsection{Method 1: Hardware Support (Test and Set)}
+One kind of atomic instruction sometimes provided by hardware is a \textit{Test and Set Lock} (TSL). It works by testing and modifying the content of a word atomically and may behave like
+\begin{verbatim}
+    Boolean TestAndSet (Boolean lock){
+        Boolean initial = lock;
+        lock = true;
+        return initial;
+    }
+\end{verbatim}
+We can then simplify the process of writing a thread as follows. \verb|lock = false| initially.
+\begin{verbatim}
+    repeat
+        while (TestAndSet(lock)) do nothing;
+        <<critical section>>
+        lock = false;
+        <<do normal work>>
+    forever;
+\end{verbatim}
+Parallel computers can use TSL and other similar instructions to implement mutual exclusion and other kinds of synchronisation. However, they still depend on busy waiting, which is not appropriate in multi-tasking environments because it wastes computer cycles. There is a need for higher-level abstractions for synchronisation that can be implemented either by low-level instructions like TSL, or by the Operating System's scheduling algorithms.
+
+\subsection{Method 2: Operating System Support (Semaphores)}
+A semaphore, often called \verb|S| is an integer variable that can be accessed using only one of two operations - \verb|V(S)| and \verb|P(S)|. This works by \verb|V(S)| increasing the value of \verb|S| by 1; and \verb|P(S)| decreases the value of \verb|S| bit 1. The value of a semaphore can never go below 0 and this is where the basics of how a semaphore works comes from.\\
+
+Semaphores work by the thread which wishes to enter it's critical section checks to see if it can reduce the value of the semaphore by 1. If the value, when decreased is 0, then the semaphore is `lowered' and the thread enters its critical section. If when the semaphore is tried to be lowered, the value is less than 0, then it is assumed that another thread is in it's critical section and therefore the requesting thread must wait until it's turn. At the end of the thread's critical section - it raises the semaphore again indicating another thread can enter it's critical section.
+\begin{verbatim}
+    repeat
+        P(S);
+        <<critical section>>
+        V(S);
+        <<do normal work>>
+    forever;
+\end{verbatim}
+Semaphores can be implemented efficiently in multiprocessor or in multi-tasking operating systems. Programming with semaphores is error prone. 
+
+\subsection{Method 3: Java Synchronised Methods}
+Java and other modern programming languages implement a version of the \textit{monitor} concept. This is implemented in Java with methods having the ability to be declared as to be synchronised using the \verb|synchronize| keyword. The language then handles the instance where two threads try to call the synchronised methods at the same time, blocking one of them until the other has completed. A synchronised method in Java is declared as follows:
+\begin{verbatim}
+    class MyClass {
+        synchronized void mySynchronizedMethod(){
+	      <<critical section>>
+        }
+    …
+    }
+
+\end{verbatim}
