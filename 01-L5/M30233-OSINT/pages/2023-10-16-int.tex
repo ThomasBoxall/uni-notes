@@ -1,0 +1,60 @@
+\taughtsession{Lecture}{VLSM and Supernetting}{2023-10-16}{09:00}{Thanos}{}
+
+\section{Variable Length Subnet Mask}
+A \textit{Variable Length Subnet Mask} (VLSM) allows more than one subnet mask in the same network. It was introduced to solve the problem of classful subnets being too restrictive due to their fixed size nature.\\
+
+Not only does VLSM allow efficient use of the available address space, it allows the use of variable subnet mask lengths within the same supernet. It also allows the address space to be broken up into blocks of variable size, which provides more flexibility in network design; and allows for route summarisation (which is covered in CIDR later in the module).\\
+
+For VLSM to be able to be used, the routing table needs to specify the extended network prefix information (subnet mask) for every entry; and the routing protocol must carry the extended network prefix information with each route advertisement. VLSM also needs to be supported by the routing protocol; most common routing protocols nowadays natively support VLSM. 
+
+\section{VLSM Example}
+In this example, you are designing a new network with a network address of \verb|192.168.12.0/24| which has the following requirements:
+\begin{itemize}
+    \item First subnet with 100 hosts
+    \item Second subnet with 30 hosts
+    \item Third subnet with 5 hosts
+    \item Fourth subnet with 3 hosts
+\end{itemize}
+
+\subsection{Step 1: Biggest Subnet}
+When working out VLSM subnets, always work from biggest to smallest subnets.\\
+
+The biggest subnet needs 100 usable hosts, which means it needs 102 host addresses in total. To achieve this, we reserve the highest number of bits (working left to right) which includes enough addresses for all devices within the subnet. In this example, that would be 1 bit - reserving 128 host IDs (\verb|192.168.13.0| - \verb|192.168.13.127| with the mask \verb|/25|). The Subnet ID is the first address (\verb|192.168.13.0|) and the subnet's broadcast address is the last address (\verb|192.168.13.127|) - remember that neither of these are assignable to hosts.\\
+
+The un-used host addresses are left in the un-used pool and we will come back to them in the next step.
+
+\subsection{Step 2: Subnet with 30 hosts}
+The next biggest subnet we need to create needs 30 usable host IDs. Using the highest number of bits rule, we reserve an additional 2 bits, meaning the mask for this subnet is \verb|/27|. By using a mask of \verb|/27|, it means 32 hostIDs are reserved. This is \textit{just} enough for our needs as we need 30 usable + the standard 2 unusable. For proper deployments, it would be wise to reserve 1 less bit for the mask therefore giving 62 usable host IDs.\\
+
+The IP range of this subnet is \verb|192.168.13.128| - \verb|192.168.13.159| with a mask of \verb|/27|. The remaining IP addresses in the range are passed to the next biggest subnet.
+
+\subsection{Step 3: Subnet with 5 hosts and subnet with 3 hosts}
+We'll take the next two subnets together as they both will use the same mask of \verb|/29|. The same process as above is followed to give the subnet needing 5 useable addresses having range \verb|192.168.13.160| - \verb|192.168.13.167| and the subnet needing 3 useable addresses having range \verb|192.168.13.168| - \verb|192.168.13.175|. Both subnets have 8 host addresses in total, meaning they have 6 usable addresses which is enough for our needs.
+
+\subsection{Summing It Up}
+That's all the subnet's created and we have 80 addresses left in the range we've been assigned for future growth: \verb|192.168.13.176| - \verb|192.168.13.255| are free. 
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.1\textwidth} p{0.16\textwidth} p{0.1\textwidth} p{0.16\textwidth} p{0.16\textwidth} p{0.16\textwidth}}
+    \textbf{HostIDs Needed} & \textbf{Subnet Address} & \textbf{Network Prefix} & \textbf{First Usable Address} & \textbf{Last Usable Address} & \textbf{Broadcast Address}\\
+    \hline
+    \hline
+    100 & \verb|192.168.13.0| & \verb|/25| & \verb|192.168.13.1| & \verb|192.168.13.126| & \verb|192.168.13.127|\\
+    \hline
+    30 & \verb|192.168.13.128| & \verb|/27| & \verb|192.168.13.129| & \verb|192.168.13.158| & \verb|192.168.13.159|\\
+    \hline
+    5 & \verb|192.168.13.160| & \verb|/29| & \verb|192.168.13.161| & \verb|192.168.13.166| & \verb|192.168.13.167|\\
+    \hline
+    3 & \verb|192.168.13.168| & \verb|/29| & \verb|192.168.13.169| & \verb|192.168.13.174| & \verb|192.168.13.175|\\
+    \hline
+    \end{tabular}
+    }
+    \caption{Finished VLSM IP allocations}
+\end{table}
+
+\section{Supernetting}
+\textit{Supernetting} is when you combine several class C networks into one big network to create a larger range of available IP addresses. For this to work, however, the assigned class C addresses must be contiguous.\\
+
+The address of the supernet is the network address of the fist contiguous network. 
