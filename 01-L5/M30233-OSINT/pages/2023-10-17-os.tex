@@ -1,0 +1,24 @@
+\taughtsession{Lecture}{Synchronisation \& Deadlock}{2023-10-17}{13:00}{Tamer}{}
+
+\section{Synchronisation}
+Beyond Mutual Exclusion, there are other kinds of synchronisation. \textit{Join Synchronisation} is used between parent and child where the \verb|join| operation in the parent can only complete when the child thread terminates. \textit{Barrier Synchronisation} takes effect across a group of \verb|N| processes and it works as such that no single thread can progress until all threads have reached their barrier operation. The final type of synchronisation is where thread \verb|i| sends a message to thread \verb|j|; this delays \verb|j|'s progression as naturally thread \verb|j| can't receive the message until thread \verb|i| has sent it.\\
+
+Generally, synchronisation consists in a particular thread having to wait until some condition is created by one or more threads. The Semaphores which we used last week are a general mechanism used to achieve synchronisation.
+
+\section{Resource Deadlock}
+\subsection{Resources}
+Computer Systems have many kinds of \textit{resource}. A single resource can be accessed by either a single process or single thready at a time. An example of this would be a shared data structure in the operation system (where we use MutEx to manage access to it for different threads) or a physical device such as a printer. 
+
+\subsection{Deadlock}
+\textit{Resource Deadlock} can occur when processes (or threads) need to acquire access to more than one exclusive resource. For example, a program might need to use the scanner and printer therefore it would require exclusive access of both of these resources.\\
+
+The classic example of this is when you have two threads \verb|A| and \verb|B|, and two shared resources \verb|P| and \verb|S|. In this example \verb|A| already has exclusive access to \verb|P| and \verb|B| already has access to \verb|S|. However, \verb|A| also needs access to \verb|S| and \verb|B| also needs access to \verb|P|. This has caused a deadlock as both threads are waiting on access to a resource which is currently in use while neither realise they are in deadlock. 
+
+\subsection{What is Deadlock?}
+Deadlock is a situation where a process or a set of processes wait indefinitely for an event that can never occur.\\
+
+In practice, a set of threads is in a resource deadlock state when every thread in the set is waiting on a resource which is being held by another thread in the set.\\
+
+Resource deadlock can be modelled using a \textit{Resource Allocation Graph}, which shows the processes are requesting which resources and which resources have been granted to which processes.
+
+\subsection{Resource Allocation Graph}
