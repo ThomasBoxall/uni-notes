@@ -1,0 +1,118 @@
+\taughtsession{Async lecture}{Herarchical Data Structures}{2023-11-02}{}{}{}
+
+\section{Why Another Data Structure?}
+The highest priority of any programmer when thinking about handling data is to ensure that the data is structured in a way to ensure that all the required operations to be performed on the data are efficient.\\
+
+We have already learnt about a number of data structures: Static arrays which are fixed size; linked list which are dynamic sized; and SkipList which is also dynamic. The Static Array and SkipLists can be searched using a binary search permitting they are sorted however the Linked List can only be searched in a sequential fashion due to it's nature. 
+
+\section{Hierarchical Data Structures}
+A hierarchical data structure (commonly a tree) consists of a collection of nodes where each node has a unique predecessor and many successors.\\
+
+There is some key terminology to be aware of when discussing Hierarchical Data Structures, this is outlined in the table below and makes use of the following example of a tree.
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.5\textwidth]{assets/hierarchial-data-structure-example.svg}
+    \caption{Example of a Hierarchical Data Structure}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.25\textwidth}p{0.33\textwidth}p{0.33\textwidth}}
+    \textbf{Terminology} & \textbf{Definition} & \textbf{Example}\\
+    \hline
+    \hline
+    Tree & A set of interconnected nodes with no closed circuits or loops & \\
+    \hline
+    Subtree & A tree rooted an internal node of the tree & Tree rooted at node B is a subtree of the given tree\\
+    \hline
+    Leaf (terminal node) & Any node of the tree which has no subtrees & The nodes containing D, H, F, I and J\\
+    \hline
+    Root node & The first node of the tree & The root node of the above tree is A\\
+    \hline
+    Branch & A link between two nodes within the tree & \\
+    \hline
+    Degree of a node & Number of subtrees of that node & The degree of the node containing A is 2; and B is 3\\
+    \hline
+    Level of a node & Number of branches on the path from the root to the node & The level of nodes B and C is 1; H, I and J is 3; A is 0\\
+    \hline
+    Height / Depth of a tree & Number of nodes on the longest path from the root node to a leaf node & The above tree has height 4; height of a tree containing one node is 1.\\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{Efficiency of CRUD operations for a static array}
+\end{table}
+
+\section{Binary Trees and Binary Search Trees}
+Binary Trees (BT) are a special case of tree where every node is of degree two or less. A Binary Search Tree (BST) is a special case of Binary tree where: the keys in the left subtree of the root precede the key in the root; the key in the root node precedes the keys in the right subtree; and the left and right subtrees of the root are also BSTs. 
+
+\subsection{Searching}
+The algorithm to search a BST is based on the normal Binary Search algorithm (that we’ve used for a static array).\\
+
+The first item to be evaluated is the root node, if this is the required item the we can stop our search. If the required item comes before the data item in the root node then we search the left subtree; if the required item comes after the data item stored in the root node then we search the right subtree. This process continues until either we find the required item or we reach a leaf node (hence the item is not in the BST).
+
+\subsection{Constructing a Binary Search Tree}
+When constructing a BST from scratch, you take the first data item you've been given and use that as the root node. From there add each data item as a child node, ensuring to maintain order.
+
+\subsection{Special Names for cases of Binary Trees}
+A binary tree is full if every node other than the leaf nodes has two children.\\
+
+A binary tree is complete if all levels, except possibly the last level, are completely full and the last level has its node on the left side. \\
+
+A balanced tree is one in which all path from the root node to the leaf nodes are of the same length.
+
+\subsection{Deletion of a node from a BST}
+In the case that the node we want to delete is a leaf node, we simply delete it.\\
+
+In the case that the node has a single subtree then we simply replace the node to be deleted with the root node of the subtree.\\
+
+In the case that the node to be deleted has two subtrees, we do something. Dalin hasn't actually told us what yet as that would be far too simple. 
+
+\subsection{Traversal of Binary Trees}
+
+To traverse a data structure requires us to be able to access each node of the data structure once and only once in a predetermined sequence. Traversal of a tree is considerably more complex than that of a Static Array or even a Singly Linked List. There are two distinct approaches which can be taken to traverse a binary tree: DFT and BFT. Within each approach, there are sub-approaches - each of these will be explored below.\\
+
+All examples shown below will make use of the following tree
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.5\textwidth]{assets/bst-for-traversal.svg}
+    \caption{Binary Search Tree used in traversal examples}    
+\end{figure}
+
+\subsubsection{Depth First Traversal}
+Depth First Travel (DFT) proceeds along a path from the root to the most distant descendent of the first child passed through before processing the second child. A stack is used to implement this.\\
+
+The Depth First Traversal operates on the basis that we need to do three things: Visit the node (V), traverse the Left subtree (L), and traverse the Right subtree (R). There are three orders we do this in: VLR (PreOrder Traversal), LVR (InOrder Traversal) and LRV (PostOrder Traversal). 
+
+\paragraph{PreOrder Traversal}
+In PreOrder Traversal, the binary tree is traversed as follows:
+\begin{enumerate}
+    \item Visit the root node
+    \item PreOrder traversal of the left subtree
+    \item PreOrder traversal of the right subtree
+\end{enumerate}
+Using the above example tree, a PreOrder Traversal would result in the following route: 9, 4, 2, 8, 13, 10, 25
+
+\paragraph{InOrder Traversal}
+In InOrder Traversal, the binary tree is traversed as follows:
+\begin{enumerate}
+    \item InOrder Traversal of the left subtree
+    \item Visit the root node
+    \item InOrder traversal of the right subtree
+\end{enumerate}
+Using the above example tree, an InOrder Traversal would result in the following route: 2, 4, 8, 9, 10, 13, 25
+
+\paragraph{PostOrder Traversal}
+In PostOrder Traversal, the binary tree is traversed as follows:
+\begin{enumerate}
+    \item PostOrder Traversal of the left subtree
+    \item PostOrder Traversal of the right subtree
+    \item Visit the root node
+\end{enumerate}
+Using the above example tree, a PostOrder Traversal would result in the following route: 2, 8, 4, 10, 25, 13, 9
+
+\subsubsection{Breadth First Traversal}
+Breadth First Traversal (BFT) proceeds horizontally from the root to all of its children then to its children’s children and so on until all nodes have been processed. To implement this traversal, a queue is used.\\
+
+Using the above example tree, a Breadth First Traversal would result in the following route: 9, 4, 13, 2, 8, 10, 25. 
