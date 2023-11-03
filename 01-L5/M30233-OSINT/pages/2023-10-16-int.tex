@@ -5,7 +5,9 @@ A \textit{Variable Length Subnet Mask} (VLSM) allows more than one subnet mask i
 
 Not only does VLSM allow efficient use of the available address space, it allows the use of variable subnet mask lengths within the same supernet. It also allows the address space to be broken up into blocks of variable size, which provides more flexibility in network design; and allows for route summarisation (which is covered in CIDR later in the module).\\
 
-For VLSM to be able to be used, the routing table needs to specify the extended network prefix information (subnet mask) for every entry; and the routing protocol must carry the extended network prefix information with each route advertisement. VLSM also needs to be supported by the routing protocol; most common routing protocols nowadays natively support VLSM. 
+For VLSM to be able to be used, the routing table needs to specify the extended network prefix information (subnet mask) for every entry; and the routing protocol must carry the extended network prefix information with each route advertisement. VLSM also needs to be supported by the routing protocol; most common routing protocols nowadays natively support VLSM.\\
+
+VLSM makes use of something called \textit{Route Aggregation}. This is where the detailed structure of routing information for one subnet group can be hidden behind another subnet group - therefore reducing the number of entries in the routing table.
 
 \section{VLSM Example}
 In this example, you are designing a new network with a network address of \verb|192.168.12.0/24| which has the following requirements:

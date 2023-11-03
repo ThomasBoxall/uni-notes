@@ -1,0 +1,64 @@
+\taughtsession{Lecture}{Processes and Scheduling}{2023-10-31}{13:00}{Tamer}{}
+
+\section{Processes}
+A \textit{process} is a program which is in execution. Processes can either be visible (where the user can see them) or invisible (where they are running in the background) - Task Manager shows both types. Each application which is running in a different window will be running a different process, however, a process is not a program.\\
+
+A program is a passive entity - a sequence of instructions. A process is an active entity - it is doing things, through which it is executing part of the program. Multiple instances of the same application may be running concurrently, each in a distinct process. Processes contain their execution states within them as well as the individual threads which make up the processes.
+
+\subsection{Memory layout Of a Process}
+The memory layout of a process is typically divided into multiple sections, including
+\begin{description}
+    \item[Text Section] the executable code
+    \item[Data Section] global and static variables
+    \item[Heap] memory that is dynamically allocated during program run time
+    \item[Stack] temporary data storage when invoking functions (such as parameters, return addresses and local variables)
+\end{description}
+The heap and stack can grow and shrink in size within a limited range as all processes have a fixed maximum size.
+
+\subsection{What Makes a Process?}
+The execution state of a process includes a program counter (which is the point reached in the program), a stack and a data section. A thread also has these features, however it inherits the data section from the process it belongs to. Alongside threads, processes also contain an address space.
+
+\section{Multitasking}
+A major responsibility of the operating system is sharing the physical CPU resource between processes, which is achieved through time sharing. This is when the CPU is allocated in turn to active processes. \textit{Context Switching} is the process of storing the state of a process and switching the CPU to another process - this happens frequently enough that processes appear to run concurrently. The maximum quantum (amount) of time a process runs for before switching might be around 10ms, however this depends on the OS's scheduling policy.  \\
+
+While one process is waiting for an Input / Output (I/O) event, the CPU can be reallocated to another process that has work to do. This improves utilization of the CPU, as this is a limited resource which we need to make the best use of. As well as waiting on an I/O event, the OS can context switch between processes because the current process has been executing on the CPU for the allotted quantum therefor eit needs to give another process a go.
+
+\subsection{Process States}
+There are a number of different states a process may be in:
+\begin{description}[font=\ttfamily]
+    \item[new] the process is being created
+    \item[ready] the process is waiting to be assigned to a processor
+    \item[running] instructions are executing
+    \item[blocked / waiting] the process is waiting for some event to occur (such as an I/O completion or reception of a signal)
+    \item[terminated] the process has finished execution 
+\end{description}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.5\textwidth]{assets/process-states.svg}
+    \caption{Process states and how processes move between them}
+\end{figure}
+
+The transitions between these processes can be driven by a number of things. Transitioning from \verb|blocked| to \verb|ready| is typically driven from an interrupt from an I/O device. Transitioning from \verb|running| to \verb|ready| is commonly driven by interrupts by the system clock. The transition from \verb|running| to \verb|blocked| commonly has a special kind of interrupt (``trap''). All the interrupts are dealt with by \textit{interrupt handlers} which are installed and managed by the OS. \\
+
+The operating system maintains a data structure (process table) in memory with a slot for every running process. The slot for each process is called a \textit{Process Control Block}.
+
+\subsection{Process Control Block}
+A \textit{Process Control Block} (PCB) is a data structure used by the operating system to store information about processes. For processes not presently in the \verb|running| state, a PCB will include: the contents of all machine registers (general purpose registers, program counter, program status word, etc) at the time the process was interrupted; pointers to data structures associated with memory management for the process (this will be covered in more detail in a later lecture); and any other information needed to restore the process in exactly the state it was in when it was last \verb|running|.\\
+
+The PCB does not contain program variables, these are assumed still in the processes' memory.\\
+
+The PCB is used to store the state of the CPU when the CPU context switches to a different process. 
+
+\subsection{Dispatcher}
+The \textit{dispatcher}, part of the operating system, gives control of the CPU to the process selected by the scheduler. This has a number of steps:
+
+\begin{enumerate}
+    \item Stop the currently running process
+    \item Store the hardware registers and any other information in that processes' PCB
+    \item Load the hardware registers with the values stored in the selected process' PCB and restores any other state information
+    \item Switch to user mode
+    \item Jump to the proper location in the user program to restart that program
+\end{enumerate}
+
+The above steps are collectively known as \textit{Context Switching}.

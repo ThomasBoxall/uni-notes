@@ -1,0 +1,40 @@
+\taughtsession{Lecture}{Supernetting \& CIDR}{2023-10-30}{09:00}{Thanos}{}
+
+\section{Classless Inter-Domain Routing}
+\textit{Classless Inter-Domain Routing} (CIDR) was officially developed in September 1993 (which is a common age for routing algorithms, however, they have been updated to use more modern technologies etc). It is also known as supernetting and was considered a fundamental solution for the routing table problem. CIDR was considered a temporary solution to the internet address space depletion issues, whereby we were running out of IPv4 spaces due to them being inefficiently assigned in the early days of the internet.
+
+\subsection{The Routing Table Problem - CIDR}
+CIDR's main purpose is to replace the classful IP addressing methods as Class C addresses commonly don't have enough hosts, however Class B has too many hosts - thus rendering both pretty useless! Furthermore, given the size and limited number of class B addresses, these were very quickly exhausted.
+
+\subsection{How CIDR works}
+CIDR follows a classless approach, completely abandoning the classful concept. You are required to specify the network prefix as routers do not identify IP classes. The network prefix is needed to identify the division point between the \verb|NetID| and \verb|HostID|. The prefix also needs to be supported by the routing protocol. CIDR is somewhat similar to VLSM, however CIDR applies to the whole internet.
+
+\subsection{CIDR Requirements}
+Broadly speaking the requirements for CIDR are the same as those for VLSM, except on a worldwide scale. The routing protocol must carry the network prefix for every advertised route; routers must implement a consistent forwarding based on the longest match; and route aggregation can happen only if topologically significant addresses are assigned.\\
+
+Longest Match forwarding algorithm is where you have two or more matching entries in your routing table for a specific destination - you select option which has the largest NetID therefore you have the least HostIDs on that network. 
+
+\section{Supernetting}
+Supernetting is the process of combining several small (class C) networks into one big network to create a larger range of addresses.\\
+
+For example, an organisation is assigned a range of $2^n$ class C addresses where the range is contiguous. We can then reserve network bits for use by the \verb|HostID|. This can be seen in the table below where the penultimate and final bits in the third byte are now part of the HostID.
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{C{0.1\textwidth} C{0.3\textwidth} C{0.25\textwidth} C{0.15\textwidth}}
+    \textbf{Full IP} & \textbf{NetID} & \textbf{NetID reserved bits} & \textbf{HostID}\\
+    \hline
+    \hline
+    213.2.96.0 & 11010101.00000010.01100 & 00. & 00000000\\
+    \hline
+    213.2.97.0 & 11010101.00000010.01100 & 01. & 00000000\\
+    \hline
+    213.2.98.0 & 11010101.00000010.01100 & 10. & 00000000\\
+    \hline
+    213.2.99.0 & 11010101.00000010.01100 & 11. & 00000000\\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{Breakdown of NetID and HostID in supernetting}
+\end{table}
+The supernet's mask is \verb|255.255.252.0| and the address of the supernet is \verb|213.2.96/22|

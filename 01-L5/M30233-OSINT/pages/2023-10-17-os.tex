@@ -22,3 +22,28 @@ In practice, a set of threads is in a resource deadlock state when every thread 
 Resource deadlock can be modelled using a \textit{Resource Allocation Graph}, which shows the processes are requesting which resources and which resources have been granted to which processes.
 
 \subsection{Resource Allocation Graph}
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.7\textwidth]{assets/resource-allocation-graphs.svg}
+    \caption{Three resource allocation graphs}
+\end{figure}
+The above figure shows three different examples of the a resource allocation graph (RAG). In RAGs, a circle indicates a process and a square indicates a resource which can be used by the processes. The arrows between the processes and resources are important, as an arrow pointing from a process to a resource indicates that the process is waiting for that resource to become available and an arrow pointing from a resource to a process indicates that the process is holding that resource.\\
+
+In the above example, resource R is assigned to process A; process B is waiting for resource S; and processes C \& D are in deadlock over resources T and U.\\
+
+In a RAG, anytime there is a loop (or cycle), deadlock has occurred.
+
+\section{Dealing with Deadlock}
+One method used to deal with Deadlock is called \textit{deadlock detection and recovery}. In this method, you allow the system to enter the deadlock state then run detection algorithms periodically to check if the system has entered deadlock or not; if deadlock is detected, it performs a recovery scheme to get out of the deadlock. To detect the deadlock, it searches for cycles in the Resource Allocation Graph.
+
+\subsection{Deadlock Recovery}
+The most efficient way to recover from a deadlock is to kill processes until the deadlock cycle is eliminated. This then means that the surviving processes get access to the resources and that they can continue; the killed processes must attempt to access the resources again which hopefully won't result in a deadlock this time!\\
+
+This process of killing off processed when deadlock occurs is commonly used in \textit{Relational Database Management Systems} where multiple transactions attempting to gain access to the same record causes a deadlock. The changes made can be ``rolled back'' which means the clients accessing the RDBMS can try again. 
+
+\subsection{Deadlock Avoidance}
+When designing systems and writing code, it is much better to keep the system \textit{safe} which means to avoid entering \textit{unsafe} states which may turn into a deadlock later.\\
+
+Modern devices come with built in deadlock avoidance mechanisms - these delay acquisition of any resource if acquiring it would allow the system into an unsafe region.\\
+
+Dijkstra's \textit{Banker's Algorithm} can be used to avoid deadlocks. This works by requiring all processes to declare the maximum number of resource units that they may request. It then keeps track of the current allocation for each process and their currents needs. When it receives a request, it pretends to honour the request and tries to fulfill the needs of all the other processes in some order so it can check what state will occur (safe or unsafe) if it grants the request - if it leads to a safe state then the request is granted and if not, then the request is denied. 
