@@ -274,3 +274,7 @@ TSWLatexianTemp*
 
 # Makeindex log files
 *.lpz
+
+
+# svg-inkscape folder
+**/svg-inkscape/
