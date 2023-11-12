@@ -1,0 +1,127 @@
+\taughtsession{Lecture}{internet Routing}{2023-11-06}{0900}{Thanos}{}
+    
+\section{Routing}
+\textit{Routing} is the act of forwarding network packets form a source network to a destination network. We use routing protocols to cover the ``what if's'' and complications which may arise through routing. Some of the ``what if'' conditions which can occur could be: when should you route a packet, what is the best route to take, how do you know that's the best route to take, what if there is a fault in the network, what if the destination doesn't exist, what if a packet has a different network destination to the host, what if the topology changes.\\
+
+Fundamentally routing of any packet is done in a very similar fashion, however the intricacies change depending on which protocol is used and the exact situation in which routing is used. An example of routing a packet is as follows:
+\begin{itemize}
+    \item Workstation \verb|A| sends an email to Workstation \verb|B|
+    \item Workstation \verb|A| determines if Workstation \verb|B| is on the same network by checking the local routing table
+    \item Determines that Workstation \verb|B| is on a different network
+    \item Send the packet to the default gateway which will send the packet in the right direction of the different network. 
+\end{itemize}
+
+\subsection{Routing Tables}
+\textit{Routing Tables} are the things which live within Routers which contain all the relevant routing information for that router. As the name suggests - they are displayed as a table.
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.1\textwidth} p{0.2\textwidth} p{0.2\textwidth} p{0.2\textwidth} p{0.2\textwidth}}
+    \textbf{Code} & \textbf{Network, Mask} & \textbf{AD / Metric} & \textbf{Next Hop} & \textbf{Interface}\\
+    \hline
+    \hline
+    O & 10.0.0.0/8 & 110/20 & 200.1.1.1 & S0\\
+    \hline
+    O & 172.16.0.0/16 & 100/15 & 200.1.1.1 7 S0\\
+    \hline
+    O & 192.168.1.0/24 & 100/20 & 200.2.2.2 & S1\\
+    \hline
+    C & 210.1.1.4/30 & 0/0 & Directly Connected & E0\\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{Example Routing Table}
+\end{table}
+\begin{description}
+    \item[Code] what process discovered the route
+    \item[Network, Mask] address of destination network and its subnet mask (only stores network IDs of networks the router can reach and Host IDs of the devices on its network)
+    \item[Administrative Distance/Metric] used to select the best route
+    \item[Next Hop] IP address of the next hop router
+    \item[Interface] the interface that the packet will be forwarded on
+\end{description}
+
+\section{Static Routing}
+An environment which static routing is used within means that the routing tables are manually populated. This is an almost impossible task to maintain in modern networks, due to the size and speed at which they change. However - static routing is ideal for small, stable networks which don't have redundant network links where the dynamic routing protocols (which use network resources learning where all the nodes are) may use too much of the network resources. Often static routing is coupled with dynamic routing - which can provide the `best of both worlds'. Using \textit{Cisco} software \& hardware, static routes can be configured with IP route commands.
+
+\section{Dynamic Routing}
+As we've already established - static routing isn't the answer for \textit{everything}, so we need something else. This is where \textit{Dynamic Routing} comes in. Dynamic Routing provides an automated approach to constructing and maintaining the routing table which therefore means that a network administrator doesn't have to re-build the routing table every time a change is made to the network or networks which can be connected to. Dynamic Routing learns about the network and it should be deployed on any sized network.
+
+\section{Routing Protocols}
+A \textit{Routing Protocol} is a set of rules that allows two or more routers to exchange information about the networks which they are connected to. They are based on an algorithm to solve the communication problem, which means that they are a process which runs on the router. The algorithms which underpin routing protocols are based on \textit{graph theory}, where the router is the dot and the link is the networks.\\
+
+No single protocol has solved all the routing problems to date! There have been numerous attempts over the years, none of which have fully solved the problem.
+
+\subsection{Design Considerations}
+When designing routing protocols, there are a number of networking issues which need to be taken into consideration, primarily - how does the router collate the network data to populate the routing table? The answer to this is usually that the router needs to be able to communicate with other routers, so that it can pass its own knowledge of the networks to another router as well as receive this data from other routers. A common language of communication is required between routers so that they can all communicate together not just send each other a garbled mess of data. Routers need to be able to identify their status and identify the status of those routers which they are receiving data from.\\
+
+It's all well and good wanting all routers to use the same language when doing inter-router communications however - its not that simple. The language and vocabulary is unique to a particular routing protocol, which means that communications can only be done between routers which use the same protocol and routers that support different protocols can't communicate between each other.
+
+\subsection{Convergence}
+If a change to the network occurs, it means that the routing table will need updating. The time which it takes until this happens is called `convergence'. If the convergence is very slow - this can cause problems as it means packets will be sent to the wrong destinations.\\
+
+Convergence is triggered by one or more of the network links failing, as every other node will need to be informed not to use this or if a router crashes - which can have a potentially catastrophic impact on the network. 
+
+\subsection{Characteristics of a Routing Protocol}
+There are a number of characteristics which a routing protocol must incorporate
+\begin{itemize}
+    \item Robustness
+    \item Optimisation
+    \item Flexibility
+    \item Speed of Convergence
+    \item Avoidance of routing loops (this is covered in more detail later in the lecture)
+    \item Support for classless addressing
+    \item Simplicity
+\end{itemize}
+
+\subsection{Metric of Routing Protocols}
+To help routing protocols decide which route is best to send a packet down, especially in circumstances where more than one route is discovered, each route is assigned a metric value. There are a number of factors which can be taken into consideration when assigning a metric value:
+\begin{description}
+    \item[Hop count] the number of routers to traverse in order to reach the destination
+    \item[Path length] the sum of the per-link costs for each link traversed
+    \item[Bandwidth] the speed of the link between routers
+    \item[Delay] the time in milliseconds to cross a link
+    \item[Load] the congestion on the link due to traffic
+    \item[Reliability] a score base don the bit error rates of the paths
+\end{description}
+
+It's important to note that not all routing protocols use \textit{all} the variables listed above. 
+
+\subsection{Dynamic Routing Protocols}
+There are two ways in which dynamic routing protocols are categorised.\\
+
+Exterior gateway protocols are developed to facilitate routing between autonomous systems (a system under a single administration control, ie. the University Network).\\
+
+Interior Gateway Protocols are developed to facilitate routing within autonomous systems. Most protocols are interior protocols.
+
+\subsection{Routing Paths}
+Multiple paths to a network may exist, however not all routing protocols can actually install multiple paths. If only one path can be installed into the routing table it should be the best path, if this failed then the next best path would be installed. If a multipath routing protocol is used, a primary path is identified. Multiplexing can be used to route packets via multipath to reduce throughout and use load balancing, improving network performance and reliability.
+
+\subsection{Hierarchical Routing}
+To reduce routing update on network bandwidth, routers can be configured in a hierarchical topology. Therefore, routers are grouped into \textit{areas} and some of the updates are confined to those areas. Areas will communicate as well but the updates are segregated on a need-to-know basis. This helps with the management of network resources.
+
+\subsection{Route Summarisation}
+\textit{Route Summarisation} is the concept of reducing the number of entries in the route tables while still facilitating paths to all know networks. This helps to combat the increasing routing table sizes which comes from subnetting, which leads to the lookup processes taking longer as well as requiring larger memory space and greater CPU resources. Route summarisation can define a single path to multiple subnets, therefore reducing the size of the routing tables.\\
+
+Summarisation can be used at the address assignment level and at the organisation level. Auto-summarisation is available, whereby the routing protocol summarises routes by default. This can, of course, be disabled. 
+
+\subsection{Routing Loops}
+A major problem in routing is a \textit{routing loop}. This is where a packet travels endlessly around the network without reaching its destination. This is caused by the routing table not holding the most up to date information, which can then lead to routing decisions being based off of incomplete / incorrect information. Delay in network convergence is often the main cause of a routing loop.
+
+\section{Distance Vector Protocols}
+Distance Vector protocols work by choosing the path with the lowest number of hops as the option to add to the routing table.\\
+
+The updated routing table and routing information is passed from a router to its immediate neighbours. These are sent as \textit{update packets} which are sent via broadcasting. When an update is received, the router adds its to the routing table then passes the information on itself to its neighbours. Eventually, all the routers will learn the paths to all networks which therefore means the network is converged.\\
+
+A vector is the direction of the next hop. Routers will store the IP address of the next hop router (which will hav the lower cost path), this is the next location packets will be forwarded to, towards their destination.\\
+
+Whilst hop count and bandwidth do improve the efficiency of routing, a problem with distance vector routing is that they consume a lot of network resources due to the fact that the full routing tables are broadcast every 30 seconds by default and routing tables can be very large. The process of re-sending the routing table every 30s can affect convergence due to delay incurred in sending so many update packets. Distance vector protocols are also prone to loops which is where two routers point to each other as the path to a network, therefore causing the packet to be bounced between the two routers.
+
+\section{Link-State Protocols}
+Link-State protocols work based on the shortest path, which is based on Dijkstra's algorithm. They work on first-hand information which is transmitted via Link State Advertisement (LSA), which includes the state of the directly connected router links. This massively improves the speed of convergence over Distance Vector protocols as the entire routing table isn't transmitted. Routing table updates are initiated on a change of a link state only, which minimises unnecessary use of available bandwidth. 
+
+Link state determines how many routers are connected and what networks they have connected to them, this means that each router ends up with a topology map of the system.\\
+
+Through having an entire map of the system, routing loops are less prone as routers are not tricked into routing packets back to themselves.\\
+
+In Link-State algorithms, update packets can be sent via multicast rather than broadcast which majorly reduces the load on the network. The routers can be configured in a hierarchical fashion which reduces unnecessary traffic and supports the elimination of routing loops.
