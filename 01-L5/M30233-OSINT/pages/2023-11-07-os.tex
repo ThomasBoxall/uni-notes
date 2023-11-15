@@ -1,0 +1,59 @@
+\taughtsession{Lecture}{Inter-Process Communication}{2023-11-07}{13:00}{Tamer}{}
+
+\textit{Inter-Process Communication} (IPC) is a fundamental feature of an operating system as it allows processes, who are otherwise fully isolated from each other, to communicate and share data. We have already seen how multiple threads in the same process communicate through methods such as shared variables and semaphores.\\
+
+The ability to share information between processes is a significant advantage, as well as speeding up computation through being able to process in parallel; and increasing the modularity of code. In both single and multiple system IPC - the operating system does the hard work of transmitting the data between the processes, enabling processes to use simple APIs to communicate with one-another.\\
+
+An \textit{Application programming Interface} (API) is the generic name for an interface to some library of software functions. It is a connection between computers or between computer programs to allow communications.
+
+\section{Traditional Inter-Process Communication}
+\subsection{Pipes}
+The \textit{Pipes and Socket} mechanism is stream oriented. The processes communicate in a continuous stream of bytes sent over persistent connections between the two processes. It is one of the simplest form of IPC and is still used today in UNIX derived systems (e.g. Linux). A UNIX pipe will have an input and output. A stream of bytes is written to the output; which is read from the input by the other process. There inputting process will block if thee is no data currently in the pipe. Typically, a pipe is created by parent processes which is then used to communicate between child processes, typically only two child processes.\\
+
+Pipes are single-directional. This means that for two processes to be able to communicate both ways, two pipes will need to be setup. One will need to be such that a process writes to it's output and the other setup such that it an read from it's input.\\
+
+Pipes are written to and read from like a file, but more efficient. The kernel buffers the data.
+
+\subsection{Shared Files}
+Using shared files means that multiple processes can access the same file. This requires file or record locking to allow cooperating processes to share a resource safely. A file lock will lock the entirety of a file and a record lock will just lock a portion of the file.
+
+\subsection{System V}
+\textit{System V} was a dialect of UNIX developed in the 1980s. Many features have been adopted into POSIX (Portable Operating System Interface) standards and are still available today in Linux etc. it incorporated APIs for single-system IPC supporting for example: Shared memory segments, Semaphores, Message Queues.
+
+\subsection{Shared Memory}
+Processes have their \textit{own, private} memory address space which they generally don't share with other processes (in contrast to threads). Whilst this is the general rules, system calls can be used to create memory areas that can be accessed by multiple processes.\\
+
+On modern UNIX-derived systems, it is common to implement shared memory segments by using the \textit{virtual memory system} explicitly. This is where a process can explicitly map a specified file into their memory space using the POSIX function \verb|mmap|. When two or more processes map the same file it will create, what behaves like, a shared memory region. However, as we now have shared memory - we have all the complications which go along with that. POSIX and System V provide semaphores that can be accessed from multiple processes. 
+
+\section{Inter-Process Communication Across Computers}
+\subsection{Message Passing}
+In \textit{Message Passing} - processes interact by sending and receiving messages. These messages are isolated data \textit{chunks} or a specified size rather than unstructured streams of bytes as we saw in pipes. We sometimes say that message passing is \textit{connectionless}.\\
+
+As with pipes, the problems that arise from multiple processes accessing the same shared data are avoided. This means that the message passing model works for communication between processes on different computers.\\
+
+The number of messages that get buffered temporarily during communications is one which has a number of solutions:
+\begin{description}
+    \item[Zero-Capaity queues] 0 messages. The sender will always wait for the receiver (this synchronisation is called rendezvous)
+    \item[Bounded capacity queues] finite length of n messages. The sender waits if link buffer iss full (e.g. MPI) 
+    \item[Unbounded capacity queues] infinite queue length. The sender never waits.  
+\end{description}
+
+Within Java, the \textit{Java Message Service} (JMS) API provides message passing which has been implemented by various projects and vendors: Oracle Java System Message Queue; BEA Weblogic; IBM WebSphere. For parallel computing, the \textit{Message Passing Interface} (MPI) which is implemented by open source projects and hardware vendors.
+
+\subsection{Sockets}
+\textit{Sockets} provide a programming model with some features of message passing. However they are most commonly used for stream-like communication. This makes them similar to pipes, except unlike pipes - sockets can connect to unrelated processes, including processes on different computers.\\
+
+Sockets make use of the Berkely Sockets API which has been implemented by system calls in Linux and Windows. After initialising a connection on a socket by using \verb|socket()|, \verb|bind()| and \verb|listen()|, the server will wait for connections on the specified port by calling \verb|accept()|. The client device calls \verb|connect()|, passing in a local socket and the address of the server socket (the IP address plus port number). If the connection succeeds, a new socket is returned by \verb|accept()| and the client and server can then exchange byte arrays of data over the socket pair using \verb|send()| and \verb|receive()| calls.
+
+\subsection{Remote Procedure Calls}
+\textit{Remote Procedure Calls} (RPC) was suggested by Birell and Nelson in 1984. It aimed to access-transparent call semantics while keeping remote calls as similar looking to local procedure calls as possible (this, obviously, requires calls to be converted into network calls before they can be made properly). The server exports modules of procedures, which the client is then able to call. \\
+
+Not only does RPC extend the conventional procedure call to incorporate the client / server model, it enables remote procedures to accept arguments and return results. It also makes it easy to design and understand programs while helping to the programmer to focus on the application rather than the communications protocols. It allows a client to execute procedures on other computers while simplifying the task of writing client / server programs.\\
+
+The RPC forms the foundation for many distributed utilities used today, like \textit{Network File System} (NFS) and \textit{Network Information Service} (NIS) in UNIX derived systems.\\
+
+There are two issues with RPC however: transparency where the RCP calls should have the same syntax as and should have identical syntax to local procedure calls; and standard representation where external data representation (XDR) is required for all data types - due to the fact that one machine may be little-endian and the other may be big-endian or the two machines may use different character encoding or that the representation of floating point numbers between the two machines may be different.
+
+
+
+% pipes and sockets, shared memory, message passing, remote procedure call

@@ -62,3 +62,23 @@ The \textit{dispatcher}, part of the operating system, gives control of the CPU 
 \end{enumerate}
 
 The above steps are collectively known as \textit{Context Switching}.
+
+\section{Scheduling}
+Scheduling is what the CPU \& Operating System do to control what process currently has access to the CPU and what order the remaining processes should get access. The thing that controls this is called the \textit{scheduler}. Before a process is selected to run next on the CPU, the scheduler needs to address the following questions:
+\begin{itemize}
+    \item When should the CPU be given to another process?
+    \item What scheduling policy is being used? (Under what circumstances should the CPU be given to another process?)
+    \item What scheduling mechanism is being used? (How long and in what order should the CPU be given to another process?)
+\end{itemize}
+The above mentioned questions will all be answered by the \textit{scheduling algorithm}.\\
+
+When a process is ready to run - it conceptually is part of the \textit{ready queue}. The scheduler assumes all processes are in memory and it will select a process from the ready queue and allocate the CPU to it. The ready queue is usually implemented using a \textit{linked list}, comprising of pointers to process control blocks. It may be ordered by priority, however this is optional. Each Input / Output device also has their own queues - these differ from ready queues as this is where the process is put while it is blocked waiting on I/O. There are also many process queues associated with semaphores etc.
+
+\section{System Calls}
+The \textit{user programmes} (applications) run in processes. The scheduler and other parts of the operating system will run in their own time slices, which are sandwiched between the time slices of user processes. While a user process is actively executing on the CPU - the CPU is in \textit{user mode} (it has a limited set of instructions which can be used); and when the Operating System is directly executing on the CPU - the CPU is in \textit{kernel mode} (any instruction can be performed without question). This means that there needs to be a mechanism for a user programme to request that a kernel mode instruction is performed. This mechanism is called a \textit{system call}.\\
+
+To software developers - system calls look like ordinary function calls, however rather than performing an action in the software - they invoke an Operating System function such as creating new processes or performing input \& output. In UNIX and OSs derived from it, there are only a few dozen system calls. These are standardised in POSIX - in a sense, the system alls define the OS. However, in true Microsoft fashion - Windows has may more.\\
+
+It's all well and good the CPU being able to call these kernel mode instructions while in user mode however this somewhat defeats the point. Instead, the function call made by user programmes can't directly change the processor to kernel mode - rather a \textit{software interrupt (trap)} is raised. This is handled similarly to a hardware interrupt. The trap is a mechanism of transition. Once a system call is made, its handler may call into a \textit{device driver} that talks to some I/O device or when a data transfer completes - a hardware interrupt goes through another entry in the interrupt table and eventually the user process is rescheduled. The Operating System initially populates the interrupt table with suitable kernel mode handler functions. This is done by the \verb|LIDT| instruction on Pentium systems.\\
+
+In a sense, the operating systems interrupt handlers run the whole kernel. Any switch to kernel mode that triggers kernel OS activity starts with an interrupt of one form or another, which is followed by a jump to a table belonging to an interrupt handler. All phases of process scheduling are handled by interrupts.
