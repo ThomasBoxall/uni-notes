@@ -1,0 +1,69 @@
+\taughtsession{Lecture}{File Systems}{2023-11-21}{14:00}{Tamer}{}
+
+\section{Files}
+A \textit{file} is a named unit of storage that exists persistently from the moment it is created to the moment it is destroyed. The name file is an abstraction of how this works to make it simpler for users. Generally, file contents can be written, read or updated. File size varies over the lifespan of the file as the content in it is changed.\\
+
+Files are manipulated by a set of \textit{primitive operations} which are usually implemented as Operating System system calls. A number of primitive operations are shown below:
+\begin{description}
+    \item[Create] Write various data describing the new file to disk. Usually, when created - the file is empty.
+    \item[Delete] Logically, delete content and all data describing the file from disk. Physically, the data may remain intact.
+    \item[Open] Fetch data describing the file from disk to memory, prior to reading or writing.
+    \item[Close] Purge any data describing the file from memory
+    \item[Read] Read some bytes of data (usually from the \textit{current position} in the file). Directly after opening the file - the current position is the start of file; by reading the file, current position will be incremented.
+    \item[Write] Write some bytes of data (starting writing at current position) to the file. If current position is at the end of the file, enlarge the size of the file accordingly.
+    \item[Seek] Move the current position to a specified location in the file.
+    \item[Get Attributes] Get the various kinds of metadata associated with the file, such as last modification date
+    \item[Set Attributes] Sets the various kinds of metadata associated with the file
+    \item[Rename] Changes the name of the file to a new value specified. 
+\end{description}
+\textit{Current Position} is a pointer which points to the current position in the file which is to be read, written, or any other operation involving the contents of the file.
+
+\subsection{Metadata}
+\textit{Metadata} is a set of data which provides information about other data. In terms of files, this is provided as a series of file attributes (not part of the file content) such as:
+\begin{description}
+    \item[Type] The type of file. Needed for systems that support different file types
+    \item[Size] Current file size.
+    \item[Protection] Controls who can do reading, writing and executing.
+    \item[Time, Date, User Identification] Data for protection, security and user monitoring.
+    \item[Location] Pointers to the file content location.
+\end{description}
+
+Exactly where this metadata is stored depends on the type of file system used.
+
+\section{Directories}
+A \textit{directory} is a special type of file that contains a list of names of some other files, together with references to those files. Entries in directories are references to ordinary files, or to other directories. Referenced files or directories are considered to be \textit{contained in} the directory. Directory entries are considered child directories.\\
+
+Directories are commonly structured as a tree (like a \textit{tree} data structure where a node (directory) will have multiple children (entries in the directory)).\\
+
+The root directory is the highest level you can go in the directory tree. On UNIX derived operating system, this is denoted by the character \verb|/| and on Windows, it is denoted by the character \verb|\|.\\
+
+Neither files or directories contain \textit{absolute} path names, not even for themselves. Everything is done relative to the layer above.
+
+\section{Units of File}
+File Systems (see below, they get a section of their own), store file content in ``units of storage''. On a Hard Disk Drive (HDD), a unit may consist of several consecutive disk sectors. In UNIX derived file systems, these units are usually called \textit{blocks} and un Windows file systems, the units are usually called \textit{Clusters}. Whatever the units of storage is called - they are usually some multiple of the physical sector size (for example, 1KB, 2KB, 4KB, etc). Each file is allocated a whole number of blocks to store its content in. 
+
+\section{File Systems}
+At the user level, file systems from different operating systems look quite similar. However, they are quite different and each operating system will typically support multiple types of file system. Different file systems are used according to: the characteristics of the storage device, which operating system wrote the file, legacy file systems form earlier versions of the OS, etc.
+
+\subsection{File Allocation Table}
+\textit{File Allocation Table} (FAT) was the file system used in MS-DOS (c.1980). Versions of FAT were the primary file system used in Microsoft Windows up-to and including Windows ME\footnote{Millennium Edition}. From Windows 2000 onwards, \textit{NTFS} was used. FAT is still widely used on small storage devices and is recognised by pretty much all modern operating systems.\\
+
+The layout of the FAT file system has three physical sections to it. The \textit{reserved area} is used to store data in the file system category, its size is defined in the boot sector. The \textit{FAT Area} (second section) contains the primary and backup FAT structures; its size is calculated based on the number and size of FAT structures. The \textit{Data Area} (third section) contains the clusters which will be allocated to store file and directory content.\\
+
+In FAT, a directory entry is only 32 bytes long and comprises of the file name, the file metadata and the ID of the first cluster used to store that file only. Subsequent cluster ID's would be obtained from the File Allocation Table (yes, it does have the same name as the file system type, but they are different things). The FAT is an implementation of a linked list allocation scheme where the links are stored by themself in a dedicated area of the disk. There is one entry in the FAT table for every cluster in the disk.
+
+\subsection{Ext Family}
+\textit{Extended File System} (EXT) is used by various UNIX-derived operating systems including Linux. The current default Linux file system is Ext4.\\
+
+Within Ext, everything is considered to be a file, including physical devices such as DVD-ROMs, USB devices and floppy drives. Allocation can follow an \textit{inode} approach. Any block of inode can be in allocated or unallocated space. An inode (or ``I-node'', or even ``index node'') refers to a single file or directory in the system. The inode is a small data structure containing the file / directories metadata plus block pointers for the contents of the file. Within the implementation of hte file system the \textit{inode number} is the principle means of referring to a file or directory.\\
+
+In Ext, a directory is a file and therefore has its own inode. This inode references the block holding the content of the directory. In the case of a directory, the content follows a strict format - it contains a list of names and inode numbers for the files `in' the directory and nothing else.
+
+\subsection{NTFS}
+\textit{New Technology File System} (NTFS) as introduced by Microsoft for Windows NT\footnote{New Technology} and successors. This includes XP, Vista, 7, 8, 10 and 11. NTFS is much more complex than FAT, as it natively supports long, Unicode file names, security descriptors, encryption, journalling, etc.\\
+
+A NTFS file has an associated set of attributes, and value of each attribute ia a sequence (or stream) of bytes. Most notably, the value of the \verb|$DATA| attribute holds what we would have previously have considered the content of the file.\\
+
+The primary storage of metadata in NTFS is in the \textit{Master File Table} (MFT). It contains at least one entry (file record) describing every file and directory. Roughly, MFT entries analogous to UNIX inodes. Every entry (record) in the MFT has a fixed size. This is configurable in the boot sector, in principle, however is often kept at 1KB. The MFT is itself a file which is stored in the file system like anyt other file - it's not physically stored at any special distinguished location in the file syste.\\
+
+The value of any attribute can either be \textit{resident} or \textit{non-resident}. Resident attributes are stored in the file record in the MFT, this is generally reserved for short, fixed-length values. Non-Resident values will be stored outside the MFT with only a storage location (cluster range) stored in the MFT; this includes \verb|$DATA|. 
