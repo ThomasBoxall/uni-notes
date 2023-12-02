@@ -1,0 +1,75 @@
+\taughtsession{Async lecture}{Virtual Memory}{2023-12-02}{}{}{}
+
+PCs have a number of locations where they can store data. One of these is their \textit{Main Memory} which will typically have Gigabytes worth of storage (e.g. 8GB, 16GB, 32GB, etc). Main Memory is comprised of \textit{Random Access Memory} which is volatile (looses its contents when the system looses power). Each byte within the memory has a unique numeric address, and it can be individually read or written by the CPU. The address is typically a 32-bit or 64-bit binary number.\\
+
+There are a number of instructions which can be used to manipulate the contents of memory, for example \verb|MOV EAX, [0x101000]| will load the contents of memory at location \verb|0x101000| (1052672) to the \verb|EAX| register.\\
+
+The code which comprises software is also stored in memory. Special instructions, for example \verb|JMP| exist to control flow through the program.\\
+
+There are a number of ways in which memory can be addressed. One of these methods is to use a \textit{physical address} which is a value between 0 and a large number proportional to the size of available RAM. Where this is used, multiprogramming is harder due to having to relocate instructions within memory continually which involves the code of the programs also being edited. Whilst this code editing can be done automatically, it is still preferred to avoid physical addressing in multiprogrammed systems as there is still a risk that different user programs may interfere with one another by using an address outside their allocated space or that user programs could read or write data controlled by the operating system, which will lead to a system crash.\\
+
+Another method which can be used to address memory is to use a new abstraction called \textit{address space}. This is a clean way of sharing memory amongst processes, which is comparable to thread abstraction (which is an abstraction for sharing the CPU between multiple threads). In address space, it is \textit{as if} each process has a large, private memory space which is addressed between 0 and a limit (similar to thread abstraction where it is \textit{as if} each thread is running on its own CPU).\\
+
+\section{Introduction to Virtual Memory}
+Modern PCs and comparable processors implement this \textit{virtual memory} concept. This is done by them creating a \textit{Virtual Address Space} for every process, for 32-bit processors this will typically be from 0 to $2^{32}-1$ address slots and in 64-bit processors from 0 to $2^{64}-1$. All the memory addresses which are embedded in code will refer to addresses within the allocated virtual space rather than addresses in the physical memory.\\
+
+Most processes only use a tiny fraction of their allocated virtual address space. The unused virtual addresses will simply not have any physical  memory addresses assigned to them.\\
+
+If a process requires more virtual memory than the available physical memory can handle, the Operating System maps some locations or virtual address space to the PC's secondary storage device (hard disk). 
+
+\section{Implementing Virtual Memory}
+Virtual Memory is normally implemented through a process called \textit{paging}. This is where the virtual address space is divided into \textit{pages} or fixed size, for example 4KB. At any point in time, any given page is either mapped to a \textit{frame} of the same size in physical memory or unmapped from a frame in physical memory.\\
+
+Virtual Memory requires both hardware and software support. The \textit{Memory Management Unit} (MMU) within the CPU translates addressees from virtual to physical. It is also the MMU's responsibility to raise an interrupt (a \textit{page fault}) if the virtual address is in an unmapped page. The Operating System will deal with this interrupt - which might involve allocating an available frame then copying data between the physical memory and backing store (secondary storage device) where appropriate. The interplay between the hardware and software could be summarised as \textit{hardware deals with the common, easy cases and it does so very quickly; however it passes control to the OS if it can't deal with the request, leaving the OS to do the hard part.}
+
+\subsection{The Page Table}
+The page table is a data structure which is store in main memory, managed by the OS however interpreted by the MMU so must be in a format which the CPU can understand. Each process has its own page table which contains the mapping between the processes' pages in virtual memory and the frames which these correspond to in physical memory.
+
+\subsection{Calculating Addresses}
+Suppose the instruction \verb|MOV EAX, [8196]| (copy from memory location 8196 to register EAX) was issued. The virtual address can be broken down as follows:
+\[8196 = 2 \times 4\mathrm{K} + 4\]
+The address is offset by 4 bytes from the start of page 2, as the page size is 4096 (4K).\\
+
+To calculate the physical page and offset, divide the virtual address by the page size. The page number is the integer part of the result, and the offset is the remainder. Using the example above, where Page 2 is mapped to Frame 6, the physical address can be calculated as follows:
+\[6 \times 4\mathrm{K} + 4 = 24580\]
+Note that the offset value of 4 doesn't change. (We get the page and frame mapping from the Page Table, which hasn't been included here for simplicity).
+
+\subsection{Standard Address Translation}
+Continuing with the above example where the virtual address 8196 maps to the physical address 24580. The software only sees the virtual address of 8196 whereas memory only sees the physical address of 24580 (this is the address that goes on the bus).\\
+
+The Operating System isn't involved here, everything is done in hardware so it is quite fast. This is assuming we have a \textit{Translation Lookaside Buffer}, which will be covered later.\\
+
+The addresses will be translated between using the Page Table. For this example, the page table can simply be an array indexed by page number. Each record in the array contains the \textit{frame number} and a \textit{present / absent} bit. In practice, the record contains a few more bits (for example, the \textit{dirty bit} which records whether this frame has been modified since it was loaded into memory). 
+
+\subsection{Page Fault}
+In the event that an instruction is issued which references a page which is not currently mapped (the present / absent bit will be 0) - an event called a \textit{page miss} will occur.\\
+
+The MMU cannot deal with the page miss itself as the page must be mapped before the program can resume. This is a complex task as the data may already be exist somewhere on the disk, it depends on complex factors relating to the state of the current processes, and the processes are managed by the OS not the hardware. The MMU will raise an exception (or interrupt) and the process stops executing. This will trigger the CPU to jump into a \textit{page fault handler} which has been installed by the OS - which behaves something like an interrupt handler, like those used in I/O handling and process scheduling.\\
+
+If a Page Fault occurs, a frame must be found in physical memory to hold the accessed virtual memory. This will usually involve evicting some other pages from its frame in memory, which may require backing data up to disk. Backing up to disk will only be required if the evicted page is dirty (it has been been updated since last time it was loaded from disk).\\
+
+Once a suitable frame is found, the accessed page is mapped to that frame. Then a copy of the page will commonly need to be fetched from disk - where the data was stored earlier after an eviction. The data from disk is copied to the frame. Finally, the process which produced the page fault, is restarted at the same instruction that produced the fault. 
+
+\subsection{Page Replacement Algorithms}
+Deciding which page to evict requires a \textit{Page Replacement Algorithm} (PRA). Some of the possible choices are listed below:
+\begin{itemize}
+    \item Not Recently Used PRA
+    \item First In, First Out (FIFO) PRA
+    \item Second Chance PRA
+    \item Clock PRA
+    \item Least Recently Used (LRU) PRA
+\end{itemize}
+
+
+\section{Implementing The Page Table}
+When implementing the page table, we have two issues to consider: speed and size. Speed is a critical factor because the table is accessed in \textit{every} memory reference which therefore, if it is really slow, will slow down virtual memory access. Size is a critical factor because for a 32-bit address with a 4KB page size, the flat array has $2^{20}$ entries, which is about 1000000; and for a 64-bit address space, also with 4KB page size, the flat array will have about $2^{52}$ entries, which is about 4 quadrillion. Both of these values, are per-process.
+
+\subsection{Translation Lookaside Buffer}
+The \textit{Translation Lookaside Buffer} (TLB) is key optimisation in the MMU. The TLB is a \textit{content-addressable memory} which contains a number of recently used virtual addresses as keys where the values are the same as the corresponding entries in the proper page table. Before going to the page table, the MMU first looks in the TLB. The TLB is comparable in some regards to the data or instruction caches, but is much smaller and \textit{fully associative}.
+
+\subsection{Large Page Tables}
+The basic page table, which we have been discussing up to this point, is inadequate for large address spaces.\\
+
+A \textit{two-level page table} can be used for 32-bit address spaces. This table contains two levels where the first points to the second level, reducing the size of any one page table and therefore improving access times.\\
+
+An \textit{inverted page table} can be used for 64-bit address spaces. This table consists of traditional page table with an entry for each page which references a series of smaller tables each containing references to a hash table which contain the virtual pages and page frames. 
