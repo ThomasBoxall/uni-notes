@@ -1,0 +1,84 @@
+\taughtsession{Lecture}{Routing Information Protocol}{2023-11-13}{0900}{Thanos}{}
+
+Routing Information Protocol (RIP) is an old protocol, which despite its age, supports classless networks. It is a distance vector protocol which is based on the Bellman-Ford algorithm that is used to compute the cost for a route. The metric used by the protocol is the hop count, it does not consider variables such as bandwidth, load, reliability, etc.
+
+\section{Advantages \& Disadvantages}
+RIP is supported on the widest variety of networking platforms and is acceptable for use in smaller networks. It is easy to configure and good for networks with few or no redundant paths. It is also good for networks with similar speed network links. However, RIP's maximum hop count is 15, which means that for any node with a hop count over 15 - the destination is unreachable. RIP is also prone to looping due to a slow convergence time; and RIP is a \textit{chatty protocol} whereby it sends the entire routing table every 30 seconds by default, using a considerable amount of the available bandwidth. 
+
+\section{Versions}
+\subsection{Version 1}
+Version 1 of RIP supported class-based routing primarily, with little support for classless addressing. It is rarely used anywhere nowadays and anywhere it is used, it shouldn't be.
+\subsection{Version 2}
+Version 2 of RIP (RFC 2453) comes with Auto-Summarisation enabled by default. Multicast is used rather than broadcast to communicate with neighbouring routers, this reduces the processing on network hosts that don't care about RIP traffic. RIPv2 also supports simple password authentication, making it more secure.
+
+\section{Advertising Routes}
+\begin{enumerate}
+    \item When the router is first booted, a routing table is created using only the directly connected networks and any statically added Routes
+    \item After it initialises, the router will send its routing table to its immediate neighbouring routers through all its interfaces. (RIP considers neighbouring routers to be one which shares a common interface link with itself)
+    \item RIP continues to share its routing tables with neighbouring routers every 30 seconds.
+    \item A variability can be introduced so not all updates are triggered at the same instant. This is called \textit{jitter}.
+    \item A RIP router can be configured to not advertise updates unnecessarily.
+\end{enumerate}
+
+\section{Learning Routes}
+A key component of RIP is its ability to learn new routes. Once a new route has been discovered, the router adds it to its routing table. The router then advertises the newly learnt route to other connected routers. Every router learns the path to every network advertised by RIP. Changes or failures are also advertised to the neighbouring routers.\\
+
+It can take some time for all the routers on a network to be updated with the latest information - this time is called the \textit{convergence time}. Once all the routing tables of all routers are updated, the network is considered converged.\\
+
+The routers continue to broadcast their entire routing table every 30 seconds, this is where RIP earns its name as a \textit{chatty protocol}. This design also means that the protocol is \textit{bandwidth hungry}. 
+
+\section{Routing Tables}
+The routing table is the routers master database of all the routes it can send to. An extract from a routing table is shown below.
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.1\textwidth} p{0.2\textwidth} p{0.1\textwidth} p{0.3\textwidth}}
+    \textbf{Method} & \textbf{IP Address} & \textbf{Network Mask} & \textbf{(AD/Cost) Gateway, Port}\\
+    \hline
+    \hline
+    C & 192.168.10.0 & /24 & (0/0) is directly connected, Ethernet0\\
+    \hline
+     & 200.1.1.0 & /30 & is subnetted 2 subnets\\
+    \hline
+    C & 200.1.1.4 &  & (0/0) is directly connected, Serial1\\
+    \hline
+    R & 200.1.1.8 &  & (120/1) via 200.1.1.6, 00.01.05, Serial1\\
+    \hline
+    R & 192.168.20.0 & /24 & (120/1) via 200.1.1.6, 00.01.05, Serial1\\
+    \hline
+    R & 192.168.30.0 & /24 & (120/2) via 200.1.1.6, 00.01.05, Serial1\\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{Example routing table}
+\end{table}
+
+The example table above shows that three routes have been learnt. These are signified from the entries where the method is set to R (standing for RIP). Where the method is C, this means the route is directly connected to the router.\\
+
+The values in the brackets are the Administrative Distance / Cost. The AD is a defined value for each protocol, its 120 for RIP and the cost will vary.\\
+
+Most routing tables will look very similar, however other routers will store supplementary data in other databases. 
+
+\section{Routing Timers}
+RIP makes use of a number of timers which help the operations of it.\\ The \textit{update timer} dictates the interval routing updates - this defaults to 30s unless otherwise configured.\\ The \textit{invalid timer} is used to determine if a route should still be advertised or not, if a route is not heard from in this time - routers will assume its not longer available. Defaults to 180s unless otherwise configured.\\ The \textit{flush timer} controls how long after the invalid timer has passed before the router informs its neighbours that the route should be flushed.
+
+\section{Preventing Routing Loopbacks}
+Fundamentally, the speed of convergence is the biggest factor here. Convergence needs to be as fast as possible. However, there are also a number of techniques built into distance vector routing that help to prevent routing loopbacks
+\begin{itemize}
+    \item Maintain only the best RoutesTimeout directly connected routes immediately upon failure
+    \item Route Positioning
+    \item Split Horizon 
+    \item Triggered Updates
+    \item Poison reverse
+    \item Maximum hop count is 15 hops
+\end{itemize}
+
+\subsection{Spit Horizon}
+Advertising a route back to the router that told you about the route in the first place is a mistake. Therefore a rule is included in routing whereby `must never advertise a route back to the link you learnt it from'. Obviously, you would still advertise all routes to a link which it didn't give you in the first place. 
+
+\subsection{Hold Down Timer}
+The hold down timer helps to stabilise route tables and avoid loopbacks. The primary rule here is to `once a route table is updated, ignore any updates about the route until the hold-down timer expires'. RIP's default value for this is 180s. This timer acts as a buffer when network conditions change rapidly - especially when \textit{route flapping} is happening. Route Flapping is where a temporary link is connected and disconnected intermittently. 
+
+\subsection{Trigger Updates}
+Trigger update is a complementary rule to route poisoning (where a route is assigned a unrealistically high metric rendering it useless) making it even more effective Here router B will not wait the full 30s to tell router C about the poisoned route - the update is `triggered' once the route is poisoned. The update will only include just enough information about the poisoned route for it to be acted upon. 
