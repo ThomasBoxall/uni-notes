@@ -1,0 +1,118 @@
+\taughtsession{Lecture}{Introduction to Architectures}{2023-11-28}{13:00}{Tamer}{}
+
+Up until now, we have been focusing on operating systems and software. We will now switch focus to \textit{processor architectures}. 
+
+\section{Introduction}
+\textit{Instruction Set Architecture} (ISA) of a processor defines the logical view of the processor, looking at how the CPU is controlled by the software. ISA is used by tools and human programmers that generate machine code for the processor. ISA includes the set of instructions supported by the processor and features of the processor, including the number and type of register available to the programmer.
+\subsection{RISC}
+\textit{Reduced Instruction Set Computer} is a type of ISA. MIPS is a typical example of a RISC instruction set. RISC first became popular in the 1980s and 1990s, however it remains very important today. In modern devices, RISC can be found in \textit{Advanced RISC Machines} (ARM) and PowerPC. \\
+
+\textit{Microprocessor Without Interlocked Pipeline Stages} (MIPS) is a type of RISC ISA. This is a simple form of ISA, when compared to the Pentium-Class x86 ISA which examples have been drawn from until now.
+
+\subsection{CISC}
+\textit{Complex Instruction Set Computer} is another type of ISA. The CISC architecture is commonly known as the x86 flavour of RISC which includes processors such as the Pentium and its successors. It will commonly be found that a CISC processor will first convert x86 instructions to internal-micro-instructions which are essentially RISC; this simplifies the instruction set which the CPU needs to be able to execute.
+
+\subsection{RISC vs CISC}
+\begin{itemize}
+    \item All RISC instructions are the same length and they all use the same encoding. Whereas, CISC instructions can be whatever length they so choose.
+    \item A RISC processor will have a large number of general purpose registers, whereas CISC processors have considerably less.
+    \item All RISC arithmetic instructions operate on register values, not directly on memory. This means whenever an arithmetic operation is carried out - all relevant values are loaded to a register. Whereas in CISC, the operands or results can be in either registers or memory.
+    \item RISC has a limited number of simple addressing modes for instructions that move data between memory and registers, whereas CISC has many addressing modes.
+\end{itemize}
+There are, however, some benefits to using RISC:
+\begin{itemize}
+    \item RISC focuses on making its limited instruction set execute efficiently
+    \item It is easy to develop an efficient RISC compiler.
+    \item The simplicity and uniformity of RISC instructions facilitates exploitation of \textit{Instruction Level Parallelism} (ILP)
+\end{itemize}
+
+\subsection{Mobile Architecture}
+While some MIPS processors are still used in embedded systems, MIPS is no longer a dominant architecture. Instead, most mobile devices use ARM processors. Both MIPS and ARM are types of RISC ISA.\\
+
+The 64-bit ARMv8 instruction set has a subset of instructions that differs only slightly from the core MIPS instruction set.\\
+
+Despite ARM being more popular in the modern world, we will continue to examine the MIPS instruction set in this module. 
+
+\section{MIPS Instructions}
+As is the case with all ISAs, they contain instructions. MIPS is no different and contains a set of instructions which can be used to perform functions on the CPU.\\
+
+Within MIPS, all arithmetic operations involve three registers - this is the same for all arithmetic operations within MIPS. For example:
+\begin{verbatim}
+    add $t0, $s1, $s2
+\end{verbatim}
+translates to ``Take values from \verb|$s1| and \verb|$s2|, then add them together, and put the result in the register called \verb|$t0|.''\\
+
+Full instruction set can be found in the slides on Moodle. 
+
+\subsection{MIPS Registers}
+MIPS has 32 general purpose registers. While the registers are equal architecturally, names and usages have been adopted by compilers and programmers. By convention - register names start with \verb|$|. It takes 5 binary bits ($32=2^5$) to identify a register. The table below shows the conventional names and uses of the MIPS registers.
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.2\textwidth}p{0.2\textwidth}p{0.3\textwidth}p{0.2\textwidth}}
+    \textbf{Name} & \textbf{Register number} & \textbf{Usage} & \textbf{Preserved on call?}\\
+    \hline
+    \hline
+    \verb|$zero| & 0 & The constant value \verb|0| & n/a \\
+    \hline
+     & 1 & Reserved for Assembler & n/a \\
+    \hline
+    \verb|$v0 - $v1| & 2 - 3 & Values for results and expression evaluation & no\\
+    \hline
+    \verb|$a0 - $a3| & 4 - 7 & Arguments & no\\
+    \hline
+    \verb|$t0 - $t7| & 8 - 15 & Temporaries & no\\
+    \hline
+    \verb|$s0 - $s7| & 16 - 23 & Saved & yes\\
+    \hline
+    \verb|$t8 - $t9| & 24 - 25 & Temporaries (yes, more of them) & no\\
+    \hline
+     & 26 - 27 & Reserved for OS & n/a\\
+    \hline
+    \verb|$gp| & 28 & Global Pointer & yes\\
+    \hline
+    \verb|$sp| & 29 & Stack Pointer & yes\\
+    \hline
+    \verb|$fp| & 30 & Frame Pointer & yes\\
+    \hline
+    \verb|$ra| & 31 & Return address & yes\\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{MIPS Registers}
+\end{table}
+
+\section{Datapaths and Control}
+Within the CPU, there are a number of internal registers and caches which are used within the Fetch-Decode-Execute (FDE) cycle.
+\begin{description}
+    \item[Register] Internal store for (typically) one word of data
+    \item[Program Counter] a special purpose register that points into instruction memory
+    \item[Cache] Internal storage to the processor - data and instructions have separate caches. Access time can be up to one clock cycle
+    \item[Register File] a set of general purpose registers - can take less than one clock cycle to access. 
+\end{description}
+
+\subsection{Decoding MIPS Instructions}
+As the name of the FDE cycle suggests, a critical thing the CPU does is to \textit{decode} instructions.\\
+
+MIPS instructions are always 32-bits long and come in one of three different formats: R, I or J. This makes decoding instructions easy. 
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/mips-instruction-types.svg}
+    \caption{MIPS Instruction Types}
+\end{figure}
+
+All formats are fundamentally the same, each requiring a 6-bit opcode indicating the instruction to be carried out then space for specialist data for said instruction. R type instructions are used for arithmetic instructions, I type are used for branching, transferring and immediate instructions and J type are solely used for unconditional jump instructions. The abbreviations in the above diagram are shown below:
+\begin{description}[font=\ttfamily]
+    \item[funct] Function code / operation
+    \item[shamt] Shift amount to be used in shift instructions, zero otherwise
+    \item[rd] The register where the result of the operation is stored
+    \item[rs] The first source operand register
+    \item[rt] The second source operand register
+    \item[opcode (op)] The basic operation of the instruction (goes by either \verb|opcode| or \verb|op|)
+\end{description}
+
+\subsection{Control}
+A core component of any CPU is the \textit{Control Unit} which is responsible for the entire operations of the CPU. As part of this, it decodes fields in the instructions - to identify the individual components which can then be used to control the individual components of the CPU. The CU also controls data path - routes data between functional units by setting suitable switches ``multiplexers'' as required by instructions.\\
+
+Multiplexing multiple signals onto the same wire, and controlling where those signals go to means that the CPU can be made more efficient through not needing to have as many physical connections. The control unit will enable and disable wires as required depending on the operation called.
