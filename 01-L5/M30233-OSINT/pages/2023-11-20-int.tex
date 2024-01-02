@@ -1,0 +1,57 @@
+\taughtsession{Lecture}{Open Shortest Path First}{2023-11-20}{0900}{Thanos}{}
+
+\section{Introduction}
+
+Open Shortest Path First (OSPF) is a protocol which is somewhere between the BGP and RIP protocols. It was developed to overcome the constraints of RIP (slow convergence, routing loops, 15 hop limitations, untenable for large networks).\\
+
+OSPF is \textit{highly configurable} which enables effective management of the bandwidth which is utilised by routing protocol traffic. There is \textit{no hop count} limitations, and it has \textit{fast convergence} with small routing updates. OSPF is not prone to routing loops, and it's routing traffic is sent via multicast. There is also the option to require authentication of routing packets, preventing rouge routers from advertising unauthorised routes.\\
+
+OSPF is perceived as a \textit{relatively complex to configure} protocol, in comparison ro RIP. It runs over IP only and does not support unequal cost multipath routing, this can however be mitigated through metric manipulation (where there are multiple paths to route down with unequal costs. As OSPF uses multicast, we can't send down all of them). OSPF summarises routes at area borders only, and may require renumbering of network in order to obtain desired summarisation of routes.
+
+\section{OSPF}
+OSPF supports classless addressing and subnetting within the IP protocol. It was designed as an Internet protocol (which means it provides connectivity between two WANs, unlike RIP), and it deals with routes learned from the pervasive routing protocol for handling inter-domain routing on the internet. OSPF support a hierarchical routing environment, which is where the network is structured like a tree - with the rooter at the root and layers building on from it; this controls what devices can see what on the network.\\
+
+An OSPF autonomous system can be divided into multiple \textit{areas}, which share a controlled amount of routing information across borders (this works like divide and conquer, reducing the amount of routing related information that routers exchange between them; resulting in less information to share, faster processing of it, and ultimately faster convergence). Areas are arranged in a two-level hierarchy. One of these areas attaches to a central backbone, utilizing a hierarchical IP addressing scheme. OSPF is very strict about where route summarisation takes place, hence it relies on a well-architected addressing scheme. This means the implementation of the protocol needs to be well planned and designed before it is rolled out.\\
+
+One of the advantages of OSPF is a reduction in the amount of network bandwidth consumed by routing updates (it is considerably less chatty than RIP). OSPF is a highly configurable routing protocol with a number of design elements that enable precise control over its operation, however this adds complexity. 
+
+\section{Routing Using OSPF}
+\subsection{Steps To Initiate Routing}
+The steps below show what happens on \textit{each router} to initiate routing before any packets can be sent. The network is \textit{converged} at step 2. 
+\begin{enumerate}
+    \item Established Neighbours (these are routers through which \textit{the router performing this operation} has a common network link with)
+    \item Established adjacencies with appropriate neighbours and synchronises link state databases (by upgrading \textit{neighbours} to \textit{adjacencies} - the amount of routing traffic is reduced). It is only the \textit{link state} information which is shared, not the \textit{route information}. 
+    \item Run the SPF algorithm
+    \item Populate the routing table
+    \item Commence routing
+\end{enumerate}
+
+\subsection{Communication}
+Rather than broadcasting all information to all routers as RIP does, OSPF sends information to its directly connected routers only using multicast. Then these routers relay this information out to their directly connected routers in their area. This allows each router to build its own map of the local network topology, when the \textit{shortest path first} (SPF) algorithm runs. 
+
+\subsection{Link State advertising}
+Each router stores its own link state data within its own \textit{Link State Database} (LSDB). When all the routers in a given area share the \textit{same LSDB}, the network is considered as converged. The LSDB is populated via the router advertising its links to adjacent neighbouring routers, in a process called \textit{Link State Advertising} (LSA). The receiving router can request more information on each LSA. Each router becomes adjacent to at least one other router in the area, therefore ensuring that every router receives the LSAs it needs to be able to fully populate its LSDB. The LSAs are sent out via multicast to minimise their impact on non-interested hosts.\\
+
+The process of forwarding the LSAs to every other router in the area is known as \textit{flooding}; once this process has happened - all adjacent neighbouring routers will have a copy of the source router's LSDB. The adjacent neighbours who have just received the update, will add them to their own LSDB before forwarding that to other adjacent neighbours.\\
+
+The data included in the LSA is only the router's ID and the state f their directly connected networks. This is different to Distance Vector protocols which send network destinations and their distance. OSPF never sends it's entire routing table and the \textit{Split Horizon} rule is applied - not advertising routing information out via the interface it was received on.
+
+\subsection{Running SPF}
+Shortest Path First, is the algorithm used to determine the routes which are the `best' to use. SPF works by first creating a \textit{shortest path tree} with the local router at the root of each tree. Each router on the network repeats this process, creating a view of the network from its own perspective. The shortest path to each network in the tree is calculated and the routing table is populated. The most common metric for OSPF's path cost is speed (based on bandwidth).\\
+
+As part of adding SPF data into the routing table, the bandwidth of the links get converted into a cost value which enables SPF to determine which path to choose. The discovery method for OSPF is the character \verb|O| and the administrative cost is \verb|110|. The rest of the data is in a similar format to that of RIP's. 
+
+\subsection{Maintaining Routes}
+Once the SPF algorithm has run and populated the route tables, OSPF generates minimal traffic. However, generally every 10 seconds a \verb|HELLO| packet is sent between neighbouring routers to keep their neighbour relationship alive; this also includes receiving a response. The router's LSDB is also re-flooded every 30 minutes. LSA's are also re-sent periodically to ensure every router has a synchronised LSDB. An accurate LSDB is critical to the proper functioning of the SPF algorithm. If a router's LSDB becomes corrupt, the periodic flooding of LSAs ensure any integrity issues of the database will be short-lived.
+
+\subsection{Network Failures}
+If a link fails, the failure is detected through the loss of layer 2 (data link layer) keep-alive packets. This will normally occur before the loss of \verb|HELLO| packets from an established neighbour is detected. Once detected and timing out the link and / or neighbours, the router will notify the adjacent neighbours that a change has occurred in the state of the link. An LSA is flooded throughout the area, each router will update it's LSBD on receipt of this; run the SPF algorithm; then modify the route table as needed. This process happens fast because the link is timed out quickly and the update packets is small, and confirmed within an area which gives OSPF the key characteristic of quick Convergence.
+
+\section{OSPF Areas}
+OSPF has an autonomous system running the protocol which can be divided into multiple areas. Areas share routing information with each other, but only their routes and metrics, not topology information. This is because only the routers bordering the areas need full information for determining the best path to a network within the corresponding location.\\
+
+All routers within an area are required to do for packets bound for other areas is to send them to the `best' border router. A border router is a part of the area so it's part of the topology map of each area.\\
+
+Dividing a system into areas means that routes learned from another area are not required to have the SPF algorithm run on them. This method saves on processing power required to run the SPF algorithm. The fewer the SPF calculations, the faster routing commences.\\
+
+Through aggregating many subnets into a single network ID, fewer summary LSAs are required to describe networks within the area - further increasing the efficiencies of the protocol. OSPF summarisation only occurs at the border of an area.
