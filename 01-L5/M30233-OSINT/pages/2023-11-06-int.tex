@@ -1,4 +1,4 @@
-\taughtsession{Lecture}{internet Routing}{2023-11-06}{0900}{Thanos}{}
+\taughtsession{Lecture}{Internet Routing}{2023-11-06}{0900}{Thanos}{}
     
 \section{Routing}
 \textit{Routing} is the act of forwarding network packets form a source network to a destination network. We use routing protocols to cover the ``what if's'' and complications which may arise through routing. Some of the ``what if'' conditions which can occur could be: when should you route a packet, what is the best route to take, how do you know that's the best route to take, what if there is a fault in the network, what if the destination doesn't exist, what if a packet has a different network destination to the host, what if the topology changes.\\
@@ -125,3 +125,10 @@ Link state determines how many routers are connected and what networks they have
 Through having an entire map of the system, routing loops are less prone as routers are not tricked into routing packets back to themselves.\\
 
 In Link-State algorithms, update packets can be sent via multicast rather than broadcast which majorly reduces the load on the network. The routers can be configured in a hierarchical fashion which reduces unnecessary traffic and supports the elimination of routing loops.
+
+\section{Internet Routing Protocols}
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/internet-routing-protocols.svg}
+    \caption{Overview of Types of Internet Routing Protocol}    
+\end{figure}
