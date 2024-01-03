@@ -1,0 +1,40 @@
+\taughtsession{Lecture}{Routing Security}{2023-12-04}{0900}{Thanos}{}
+
+\section{Security Overview}
+When designing a network, there are three golden rules which have to be considered. These are:
+\begin{description}
+    \item[Confidentiality] referring to protecting the information from disclosure to unauthorised users
+    \item[Integrity] referring to protecting information from being modified by unauthorised parties
+    \item[Availability] ensures that authorised users are able to access the information when needed
+\end{description}
+
+They don't always just mean the digital security of the network, as the physical security is just as important. The three golden rules are usually implemented through the three A's:
+\begin{description}
+    \item[Authentication] verifies a user is who they say they are
+    \item[Authorisation] gives a user their legitimate access rights and prevents access to other resources
+    \item[Accounting] ensures that user activities can be tracked back to them (enables audits of user activity to be conducted) 
+\end{description}
+
+The information stored within a network is worth a lot of money to that business. It is for this reason that protecting it is imperative.
+
+\section{Router Security}
+Different routers will have different value of data travelling through them. The routers at the core of the internet will have the highest value data while the routers on a small domestic network will have lower value data. Router security is extremely important because a compromised router: can spy on you, and all the websites you visit; route you to a phishing website and steal your information; join a botnet for DDoS attacks; attack all the devices connected to it; change data `in-flight'; or block data all together.\\
+
+Fresh out of the box, routers generally have pretty poor security. To make the manufacturers lives easier - all routers produced by them will use the same login IP address, username and password. Commonly this will be left as \verb|http://192.168.1.1| with the username and password both set to \verb|admin|. This is not only the case for domestic routers, with a number of enterprise level models also suffering similar issues. The common security issues only get worse as firmware on routers is often riddled with backdoors, documented and undocumented ones, which manufactures release updates to patch however users don't allow the device to update. Routers are also vulnerable to misconfiguration and DoS (Denial of Service) attacks. They can also suffer Routing Table Poisoning whereby attackers will deploy a rogue router within the same network that sends malicious routing table updates; which then get installed to the network's legitimate router thus rending it poisoned. This results in traffic redirection or Man-in-The-Middle attacks.\\
+
+There are a number of steps which can be followed to protect routers:
+\begin{itemize}
+    \item Use a strong admin password and encryption
+    \item Keep the router up-to-date
+    \item Disable unused services
+    \item Run on non-standard ports
+    \item Layered physical security
+    \item Enable authentication between router communications
+\end{itemize}
+
+\section{Routing Protocol Security}
+\subsection{RIPv2 Security}
+RUP can carry subnet information. It also supports authentication by the means of an up-to 16 character password, which is transmitted in plain text meaning software like WireShark can see it. RIPv2 also has support for MD5 authentication - whereby it creates an encoded checksum that is included in the transmitted packet (encoded using Message Digest 5 (MD5)). 
+
+\subsection{OSPFv2 Security}
+OSPFv2 uses the same cryptographic authentication methods as RIP. 
