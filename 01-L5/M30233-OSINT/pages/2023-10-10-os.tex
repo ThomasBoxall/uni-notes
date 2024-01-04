@@ -99,7 +99,7 @@ We can then simplify the process of writing a thread as follows. \verb|lock = fa
 Parallel computers can use TSL and other similar instructions to implement mutual exclusion and other kinds of synchronisation. However, they still depend on busy waiting, which is not appropriate in multi-tasking environments because it wastes computer cycles. There is a need for higher-level abstractions for synchronisation that can be implemented either by low-level instructions like TSL, or by the Operating System's scheduling algorithms.
 
 \subsection{Method 2: Operating System Support (Semaphores)}
-A semaphore, often called \verb|S| is an integer variable that can be accessed using only one of two operations - \verb|V(S)| and \verb|P(S)|. This works by \verb|V(S)| increasing the value of \verb|S| by 1; and \verb|P(S)| decreases the value of \verb|S| bit 1. The value of a semaphore can never go below 0 and this is where the basics of how a semaphore works comes from.\\
+A semaphore, often called \verb|S| is an integer variable that can be accessed using only one of two operations - \verb|V(S)| and \verb|P(S)|. This works by \verb|V(S)| increasing the value of \verb|S| by 1; and \verb|P(S)| decreases the value of \verb|S| by 1. The value of a semaphore can never go below 0 and this is where the basics of how a semaphore works comes from.\\
 
 Semaphores work by the thread which wishes to enter it's critical section checks to see if it can reduce the value of the semaphore by 1. If the value, when decreased is 0, then the semaphore is `lowered' and the thread enters its critical section. If when the semaphore is tried to be lowered, the value is less than 0, then it is assumed that another thread is in it's critical section and therefore the requesting thread must wait until it's turn. At the end of the thread's critical section - it raises the semaphore again indicating another thread can enter it's critical section.
 \begin{verbatim}
@@ -113,7 +113,7 @@ Semaphores work by the thread which wishes to enter it's critical section checks
 Semaphores can be implemented efficiently in multiprocessor or in multi-tasking operating systems. Programming with semaphores is error prone. 
 
 \subsection{Method 3: Java Synchronised Methods}
-Java and other modern programming languages implement a version of the \textit{monitor} concept. This is implemented in Java with methods having the ability to be declared as to be synchronised using the \verb|synchronize| keyword. The language then handles the instance where two threads try to call the synchronised methods at the same time, blocking one of them until the other has completed. A synchronised method in Java is declared as follows:
+Java and other modern programming languages implement a version of the \textit{monitor} concept. This is implemented in Java with methods having the ability to be declared as to be synchronised using the \verb|synchronized| keyword. The language then handles the instance where two threads try to call the synchronised methods at the same time, blocking one of them until the other has completed. A synchronised method in Java is declared as follows:
 \begin{verbatim}
     class MyClass {
         synchronized void mySynchronizedMethod(){

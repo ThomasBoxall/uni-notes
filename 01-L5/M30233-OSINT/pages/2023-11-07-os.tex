@@ -8,7 +8,7 @@ An \textit{Application programming Interface} (API) is the generic name for an i
 
 \section{Traditional Inter-Process Communication}
 \subsection{Pipes}
-The \textit{Pipes and Socket} mechanism is stream oriented. The processes communicate in a continuous stream of bytes sent over persistent connections between the two processes. It is one of the simplest form of IPC and is still used today in UNIX derived systems (e.g. Linux). A UNIX pipe will have an input and output. A stream of bytes is written to the output; which is read from the input by the other process. There inputting process will block if thee is no data currently in the pipe. Typically, a pipe is created by parent processes which is then used to communicate between child processes, typically only two child processes.\\
+The \textit{Pipes and Socket} mechanism is stream oriented. The processes communicate in a continuous stream of bytes sent over persistent connections between the two processes. It is one of the simplest form of IPC and is still used today in UNIX derived systems (e.g. Linux). A UNIX pipe will have an input and output. A stream of bytes is written to the output; which is read from the input by the other process. There inputting process will block if there is no data currently in the pipe. Typically, a pipe is created by parent processes which is then used to communicate between child processes, typically only two child processes.\\
 
 Pipes are single-directional. This means that for two processes to be able to communicate both ways, two pipes will need to be setup. One will need to be such that a process writes to it's output and the other setup such that it an read from it's input.\\
 
@@ -34,7 +34,7 @@ As with pipes, the problems that arise from multiple processes accessing the sam
 The number of messages that get buffered temporarily during communications is one which has a number of solutions:
 \begin{description}
     \item[Zero-Capaity queues] 0 messages. The sender will always wait for the receiver (this synchronisation is called rendezvous)
-    \item[Bounded capacity queues] finite length of n messages. The sender waits if link buffer iss full (e.g. MPI) 
+    \item[Bounded capacity queues] finite length of n messages. The sender waits if link buffer is full (e.g. MPI) 
     \item[Unbounded capacity queues] infinite queue length. The sender never waits.  
 \end{description}
 
