@@ -43,13 +43,21 @@ Due to DNS data being replicated from the primary to multiple secondary servers,
 The DNS database can be updated dynamically. This includes the addition, deletion or modification of any record. However, it is only the primary server which can be dynamically updated. The modification of the primary database triggers replication to all the secondary databases.
 
 \section{Domain Names}
-A domain name is the sequence of labels from a node to the root, separated by dots (\verb|.|) which is read from left to right. The namespace has a maximum depth of 127 levels and domain names are limited to 255 characters in length. A nodes domain name identifies its position in the namespace.\\
+A domain name is the sequence of labels from a node to the root, separated by dots (\verb|.|) which is read from left to right. The namespace has a maximum depth of 127 levels and domain names are limited to 255 characters in length. A nodes domain name identifies its position in the namespace.
 
-% IMAGE: DOMAIN NAME STRUCTURE
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{assets/dns-structure.png}    
+    \caption{DNS Structure}
+\end{figure}
 
 One domain is a subdomain of another if its domain name ends in the other's domain name. 
 
-% IMAGE SUBDOMAIN
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{assets/domain-anatomy.png}    
+    \caption{Anatomy of a domain}
+\end{figure}
 
 Name servers store information about the namespace in units called \textit{zones}. The nameservers that serve a complete zone are said to \textit{have authority} or \textit{be authoritative for} the zone. More than one name server can be authoritative for the same zone, ensuring redundancy and load spreading. Also, a single name server may be authoritative for many zones. There are two types of Name Servers: \textit{authoritative} which maintains the data (has subtypes of primary and secondary) and \textit{non-authoritative} which caches the authoritative server. No special hardware is needed for a name server.\\
 
