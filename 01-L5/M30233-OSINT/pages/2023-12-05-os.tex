@@ -7,7 +7,7 @@ Pipelining doesn't necessarily improve the speed of a single instruction being p
 
 If we take a three stage laundry process, \textbf{W}ash, \textbf{D}ry, and \textbf{F}old, with four cycles. This can be executed sequentially as follows
 \begin{verbatim}
-    W-D-F-W-D-F-W-D-F-W-D-F-W-D-F
+    W-D-F-W-D-F-W-D-F-W-D-F
 \end{verbatim}
 This takes 12 cycles to complete. However, we can pipeline this instructions as follows:
 \begin{verbatim}
@@ -23,6 +23,7 @@ Shown below are the functional blocks which make up a processor.
     \centering
     \includegraphics[width=0.9\textwidth]{assets/processor-components.png} 
     \caption{Functional blocks of a Processor}
+    \label{fig:processor-components}
 \end{figure}
 \begin{figure}[H]
     \centering
@@ -31,7 +32,7 @@ Shown below are the functional blocks which make up a processor.
     \label{fig:processor-components-function}
 \end{figure}
 
-As can be seen in Fig.\ref{fig:processor-components-function}, all stages of the FDE cycle operate in a different functional unit except for the ID and WB. The conflict between ID and WB is resolved by assuming that the WB writes in the first half of the cycle and ID reads in the second half. As a result of the different uses of the functional units, we have the possibility of pipelining instructions. Fig.\ref{fig:pipelining-execution-schedule} following example shows how three instructions can be pipelined to reduce the number of cycles needed to process them overall.
+As can be seen in Fig.\ref{fig:processor-components} and Fig.\ref{fig:processor-components-function}, all stages of the FDE cycle operate in a different functional unit except for the ID and WB. The conflict between ID and WB is resolved by assuming that the WB writes in the first half of the cycle and ID reads in the second half. As a result of the different uses of the functional units, we have the possibility of pipelining instructions. Fig.\ref{fig:pipelining-execution-schedule} shows how three instructions can be pipelined to reduce the number of cycles needed to process them overall.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{assets/pipelining-execution-schedule.png}
