@@ -1,0 +1,84 @@
+\taughtsession{Async Lecture}{Self-Organising Trees}{2023-11-09}{}{}{}
+
+Another type of tree is a \textit{splay tree}. These are self-organising binary trees which organise themself such that recently accessed elements are always quick to access again. 
+
+\section{Basic Operations}
+All basic operations (insertion, search, removal) are performed in $O(log_2n)$ time and they all include an extra step called \textit{splaying}.\\
+
+Searching:
+\begin{enumerate}
+    \item Locate node
+    \item Splay the node to the root
+\end{enumerate}
+
+Insertion:
+\begin{enumerate}
+    \item Insert node
+    \item Splay inserted node to the root
+\end{enumerate}
+
+Deletion
+\begin{enumerate}
+    \item Locate the node to be deleted
+    \item Replace node to be deleted with its in-order predecessor or its in-order successor (same process as deletion in a BST)
+    \item Splay the parent of the removed node to the root
+\end{enumerate}
+
+\section{Splaying}
+Splaying is the movement of a node to the root, which is achieved through a series of tree rotations which are similar to those used in AVL trees. Splaying works from the bottom to the top (root) of the tree, which is often called bottom-up splaying. Splaying involves a series of double rotations, until the accessed node reaches either the root or the child of the root when a single rotation is performed.\\
+
+No single access operation on the Splay tree is guaranteed to be efficient, this is by design. The worst case will be $O(n)$, and the average across a series of operations tends to be $O(log_2n)$. 
+
+\section{Rotations}
+
+\subsection{Single Rotations}
+Single rotations are used when the accessed node \verb|S| is the child of the root node \verb|P|. The effect of this rotation is to move the node up one level in the tree.
+
+\subsubsection{Zig Rotation}
+There are two variations of the \textit{Zig} rotation.
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/splay-zig.svg}
+    \caption{Splay tree rotations (Zig)}
+\end{figure}
+
+Rotation \textit{(a)} is the equivalent of the LL rotation used with AVL trees; rotation \textit{(b)} is the equivalent of the RR rotation used with AVL trees.
+
+\subsection{Double Rotations}
+Double rotations involve the accessed node \verb|S|, the parent \verb|P| and the grandparent \verb|G|. The effect of these rotations is to move the node up two levels in the tree.
+
+\subsubsection{ZigZag Rotation}
+There are two variations of the \textit{zigzag} rotation. 
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/splay-zigzag.svg}
+    \caption{Splay tree rotations (ZigZag)}    
+\end{figure}
+
+Rotation \textit{(c)} is the equivalent of the RL rotation used with AVL trees; rotation \textit{(d)} is the equivalent of LR rotation used with AVL trees. The ZigZag rotations tend to make the trees more balanced, and they will reduce the height of the tree by 1. 
+
+\subsubsection{ZigZig Rotation}
+There are two variants of the \textit{ZigZig} rotation.
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/splay-zigzig.svg}
+    \caption{Splay tree rotations (ZigZig)}
+\end{figure}
+
+Pseudocode to the effect of rotation \textit{(e)} is shown below:
+\begin{verbatim}
+    G.left = P.right
+    P.right = G
+
+    P.left = S.right
+    S.right = P
+\end{verbatim}
+
+Pseudocode to the effect of rotation \textit{(f)} is shown below:
+\begin{verbatim}
+    G.right = P.left
+    P.left = G
+
+    P.right = S.left
+    S.left = P
+\end{verbatim}

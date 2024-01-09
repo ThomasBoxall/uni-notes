@@ -1,0 +1,140 @@
+\taughtsession{Async lecture}{Self Balancing Trees}{2023-11-09}{}{}{}
+
+\section{Complexity of Binary Search Trees}
+When discussing the ideal case in a binary search tree - the tree will be balanced, or nearly balanced, as this minimises the height of the tree. This is important as the height f the tree relates to the number of comparisons we have to make whereby we make one comparison on each level. The worst case refers to the situation where there is only one node per level.
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.3\textwidth} p{0.3\textwidth} p{0.3\textwidth}}
+    \textbf{Operations} & \textbf{Ideal Case} & \textbf{Worst Case}\\
+    \hline
+    \hline
+    Searching & $O(\log n)$ & $O(n)$ \\
+    \hline
+    Insertion & $O(\log n)$ & $O(n)$ \\
+    \hline
+    Deletion & $O(\log n)$ & $O(n)$ \\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{Complexity of a Binary Search Tree}
+\end{table}
+
+\section{Self Balancing Tree}
+A \textit{elf balancing tree} automatically keeps its height as small as possible at all times. It does this by performing ``rotations'' which reduce the height. These rotations change the structure of the tree without changing the order of elements therefore it remains a binary search tree.
+\subsection{Tree Rotation}
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/tree-rotation-example.svg}
+    \caption{Example of a rotation of a tree}
+\end{figure}
+
+Tree rotation is used to change the structure of the binary search tree without chainging the order of the elements, thus after a rotation the tree is still a valid BST. \\
+
+There are two popular approaches to implementing a self balancing tree - AVL Tree and Red-Black Tree (the later is not covered in the scope of this module).
+
+\section{AVL Trees}
+The \textit{AVL Tree} is a type of Binary Search Tree which is named after it's inventors (Adelson, Velskii, and Landis). A BST is a valid AVL tree where:
+\begin{enumerate}
+    \item the heights of the Left Subtree (LST) and Right Subtree (RST) of the root node differ by at most 1; and
+    \item LST and RST are AVL trees (this means we define it recursively)
+\end{enumerate}
+
+\subsection{Balance Factors}
+Each node of an AVL Tree contains and additional variable called the balance factor. The balance fator of a node can be calculated as follows
+\[balanceFactor = height_{LST} - height_{RST}\]
+We can use the balance factor to determine if a node is \textit{balanced} or \textit{unbalanced}. If the balanced factor is $-1$, $0$ or $+1$ then the node is balanced. Whereas if the node has a balance factor of $-2$ or $+2$ then the node is unbalanced; this will also require rotation to be carried out so that the tree can become balanced.
+
+\subsection{Creating an AVL Tree}
+Much the same as a BST or a BT, an AVL tree is created as the data items are inserted as nodes. Initially the tree is empty, this means it satisfies the rules for an AVL tree. As data items are inserted, the balance factor of each node will change (nodes with balance factor $\pm 1$ may be changed to $\pm 2$). Where the balance factor is $\pm 2$ then the tree is unbalanced and as such a rotation must take place. Rotation will take place around the unbalanced node which is closest to the most recently inserted node.
+
+\subsubsection{Rotations of an AVL Tree}
+There are only four possible rotations which can take place within an AVL tree, two single and two double.\\
+
+Single Rotations:
+\begin{itemize}
+    \item Left-Left Rotation (LL)
+    \item Right-Right Rotation (RR)
+\end{itemize}
+Double Rotations:
+\begin{itemize}
+    \item Left-Right Rotation (LR)
+    \item Right-Left Rotation (RL)
+\end{itemize}
+These rotations take place around the unbalanced node with a balance factor of $\pm 2$.\\
+
+The types of rotations are demonstrated below through use of an example. In the diagrams, the left hand tree shows the pre-rotation and the right hand tree shows the post-rotation layout.
+\subsubsection{Left-Left Rotation}
+The unbalanced node and the left subtree of the unbalanced node are both left heavy. The balance of the unbalanced node is $+2$ and the balance of the left child of the unbalanced node is $+1$. The tree is rebalanced by completing a single rotation to the right around the unbalanced node.
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/avl-rotation-ll.svg}
+    \caption{AVL tree rotation (Left-Left)}
+\end{figure}
+
+In the above example, the node containing $3$ has just been inserted into the AVL tree - causing the node containing $8$ to be unbalanced, therefore we rotate to the right about 8. \\
+
+The pseudocode for the left-left rotation is as follows:
+\begin{verbatim}
+    temp = root.left
+    root.left = root.left.right
+    temp.right = root
+    root = temp
+\end{verbatim}
+
+\subsubsection{Right-Right Rotation}
+The unbalanced node and the right subtree of the unbalanced node are both right-heavy. The balance of the unbalanced node is $-2$ and the balance of the right child of the unbalanced node is $-1$. The tree is rebalanced by completing a single rotation to the left around the unbalanced node.\\
+
+The Right-Right rotation is the mirror operation to the Left-Left rotation.
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/avl-rotation-rr.svg}
+    \caption{AVL tree rotation (Right-Right)}
+\end{figure}
+
+In the above example, the node containing $7$ has just been inserted into the AVL tree causing the node containing $3$ to become unbalanced. Therefore we rotate to the left about 3.\\
+
+The pseudocode for the right-right rotation is as follows:
+\begin{verbatim}
+    temp = root.right
+    root.right = temp.left
+    temp.left = root
+    root = temp
+\end{verbatim}
+
+\subsection{Right-Left Rotation}
+The unbalanced node is right heavy and the right subtree of the unbalanced node is left heavy. The balance of the unbalanced node is -2 and the balance of the right child of the unbalanced nodes is +1. This tree cannot be rebalanced by a single rotation - two rotations are required: a right rotation around the child followed by a left rotation around the unbalanced node.
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/avl-rotation-rl.svg}
+    \caption{AVL tree rotation (Right-Left)}
+\end{figure}
+
+The first rotation rotates node C right around node B, this results in the middle diagram. The second rotation rotates node A around node C, this results in the final state of the tree.\\
+
+The pseudocode for the right-left rotation is shown below:
+\begin{verbatim}
+    // setup
+    t1 = root.right
+    t2 = t1.left
+    // rotation 1: right
+    t1.left = t2.right
+    t2.right = t1
+    // rotation 2: left
+    root.right = t2.left
+    t2.left = root
+    root = t2
+\end{verbatim}
+
+\subsection{Left-Right Rotation}
+The unbalanced node is left-heavy and the left subtree of the unbalanced node is right-heavy. The balance factor of the unbalanced node is +2 and the balance factor of the left child of the unbalanced node is -1. This tree cannot be rebalanced by a single rotation - two rotations are required: a left around the child, followed by a right rotation around the unbalanced node.
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/avl-rotation-lr.svg}
+    \caption{AVL tree rotation (Left-Right)}
+\end{figure}
+
+The first rotation rotates node C left around node B, resulting in the middle diagram. The second rotation rotates node A right around node C, resulting in the right diagram.
