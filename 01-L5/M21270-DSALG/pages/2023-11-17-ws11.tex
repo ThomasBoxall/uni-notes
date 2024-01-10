@@ -1,0 +1,121 @@
+\taughtsession{Async lecture}{Multi-Branch Trees (B \& B+ Trees)}{2023-11-17}{}{}{}
+
+\section{B Trees}
+A B Tree of order $m$ is a \textit{self-balancing multi-way search tree} or order $m$ which has the following properties:
+\begin{itemize}
+    \item Root node has either no children or between 2 and $m$ children;
+    \item Internal nodes have between $\displaystyle \lceil \frac{m}{2} \rceil $ and $m$ children;
+    \item All leaves are on the same level
+\end{itemize}
+
+{\RaggedRight \centering
+    \begin{longtable}{p{0.2\textwidth} p{0.35\textwidth} p{0.35\textwidth}}
+    \textbf{Property} & \textbf{2-3 Tree} & \textbf{B Tree}\\
+    \hline
+    \hline
+    \endhead
+
+    \multicolumn{3}{r}{\footnotesize\itshape continued on next page}\\
+    \endfoot 
+
+    \endlastfoot
+
+    Nodes & 2-node and 3-node (containing 1 or 2 elements and at most 2 or 3 children) & Can have different kinds of nodes from $\displaystyle \lceil \frac{m}{2} \rceil - node$ to $m - node$\\
+    \hline
+    Number of Data Items & For a tree of height $h$: between $2^h-1$ and $3^h-1$ & For a tree of height $h$: between $\displaystyle (\lceil \frac{m}{2} \rceil) - 1$ and $m^h - 1$\\
+    \hline
+    Constraint & All leaves are on the same level & All leaves are on the same level\\
+    \hline
+    
+    \caption{Comparison of the 2-3 Tree and B Tree}
+    \end{longtable}
+} % end of rr     
+
+Each node in a B Tree represents a block (or page) of secondary storage. Accessing a node means accessing the secondary storage, which is expensive when compared to accessing a node in main memory - therefore the fewer nodes created, the better. 
+
+\subsection{Algorithms}
+\subsubsection{Searching}
+Searching a B Tree starts at the root node where you perform a Binary Search on the keys. If the data is found, then the task is completed. If it is not found, follow the required branch to the next node and repeat the process. If the node reached is a leaf node and the data item is not found then the search is unsuccessful.
+\subsubsection{Insertion}
+This algorithm is based on the insertion for 2-3 trees. The tree is searched to locate where to insert the new data item (in a leaf node). If the node isn't full then the data item is inserted into the node and the insertion is complete. However, if the node is full, then the node is split into two and the middle key promoted upwards into the parent node (which if full, also gets split and the middle promoted, until space is found or a new root node is created). 
+\subsection{Deletion}
+If the item to be deleted is not in a leaf node then its immediate predecessor or successor must be in a leaf node; which will replace the deleted item. At this stage - it must be checked that the number of data items left in the leaf node are not less than the permitted minimum number. If the leaf node contains at least the minimum number of items - deletion completed. If the leaf node now contains less than the minimum number of data items, an additional item needs to be found. This can be from an adjacent leaf node if it has spare capacity, which can have one of its items moved into the node missing an item; or if no adjacent leaf nodes have spare capacity then other nodes must be combined. 
+
+\section{B* Trees}
+In a B* Tree, all nodes except the root must be at least two-thirds full. The frequency of splitting a node is decreased bt delaying a split. When a node overflows, a split is delayed by redistributing the keys between the node and its sibling; and when a split is made - two nodes are split into three.
+
+\subsection{B** Trees and B$^n$ Trees}
+The increase in the ``fill factor'' of a tree can be done in a variety of ways. This can be seen where a B Tree is used in a database system and where it allows for a user to define the fill factor as a value between $0.5$ and $1.0$. A B Tree whose nodes are required to be at least 75\% full is called a B** Tree; which can be generalised as a B$^n$ Tree is a tree whose nodes are required to be $\displaystyle \frac{n+1}{n+2}$ full. 
+
+\section{B+ Trees}
+In a B+ Tree, the indexing of data items and their storage is separated. Only the leaf nodes contain the data associated with each key / index, with the internal nodes just containing the keys. This reduces the amount of data movement required to traverse the tree, which makes them more efficient. The keys in the internal nodes are used to point a search in the direction of the leaf node which contains the required data.\\
+
+When implemented - the leaves often contain a key and a reference to the record of data, which allows data files to exist separately from the B+ Tree, functioning as an \textit{index} giving an ordering to the data in the file - therefore making it more efficient to search!\\
+
+The B+ Tree is used as a dynamic indexing method in relational database management systems.
+
+\subsection{Algorithms}
+\subsubsection{Insertion}
+Insertion for a B+ tree is much the same as insertion for a normal B tree, with the new record (key and data) being inserted into to a leaf node. This is carried out by scanning the index to locate the leaf node, which if it has space - the record is inserted. However, if it doesn't have space then the leaf node is split, this means that the new leaf node is included in the sequence and the records are distributed evenly between the old and new leaves. Then, the index of the first record in the second node is copied to the parent node as an index (without data, it exists here for referencing only); if the parent isn't full then the key is inserted into it's correct position however if the parent is full then the splitting process is performed as in a standard B Tree. 
+\subsubsection{Deletion}
+The record to be deleted must be in a leaf node. Before deleting the record, it must be tested to see if through deleting it, we will cause an underflow.\\
+
+If it doesn't cause an underflow, then delete the record. This doesn't involve changing the index set. This case stays the same if the key of the record is to be deleted but is also in the index set, as the key is still required to guide a search through the B+ Tree.\\
+
+If the deletion causes an underflow then, delete the record and either: records in the leaf \& its siblings are redistributed and the index updated; or the lef is deleted \& remaining records included in its sibling and the index updated.
+
+\subsection{B+ Tree Index Files}
+B+ Trees are used as an alternative to indexed-sequential files.\\
+
+There are some disadvantages to using indexed-sequential files:
+\begin{itemize}
+    \item Performance degrades as file grows - many overflow blocks created
+    \item Periodic reorganisation of the entire file is required 
+\end{itemize}
+
+Advantages of the B+ Files
+\begin{itemize}
+    \item Automatically reorganises itself with small, local changes (during insertions and deletions)
+    \item Reorganisation of the entire file is not required to maintain performance
+\end{itemize}
+
+Disadvantages of B+ Trees:
+\begin{itemize}
+    \item Extra insertion and deletion overhead
+    \item Space overhead (need to store the index plus the data)
+\end{itemize}
+
+Advantages of B+ Trees outweigh disadvantages:
+\begin{itemize}
+    \item Used extensively.
+\end{itemize}
+
+\section{Comparison of B Tree Types}
+{\RaggedRight \centering
+    \begin{longtable}{p{0.45\textwidth} p{0.45\textwidth}}
+    \textbf{B Tree} & \textbf{B+ Tree}\\
+    \hline
+    \hline
+    \endhead
+
+    \multicolumn{2}{r}{\footnotesize\itshape continued on next page}\\
+    \endfoot 
+
+    \endlastfoot
+
+    Keys (indices) and data are not repeated & Stores redundant keys and data\\
+    \hline
+    Data stored in all nodes & Data only stored in leaf nodes\\
+    \hline
+    Searching takes more time as indices are not separated from data that may be found in an internal node or in a leaf-node & Searching for data is quick and easy as indices are separate from the data, which can be found in the leaf nodes only\\
+    \hline
+    Deletion of non-leaf nodes is very complicated and time-consuming & Deletion is simple because data will be in the leaf node only\\
+    \hline
+    Difficult and time-consuming to output a sequential list of data & Quick and easy to output a sequential list of data\\
+    \hline
+    The structure and operations are complicated & The structure and operations are simple\\
+    \hline
+    
+    \caption{Comparison of the B Tree and B+ Tree}
+    \end{longtable}
+} % end of rr     

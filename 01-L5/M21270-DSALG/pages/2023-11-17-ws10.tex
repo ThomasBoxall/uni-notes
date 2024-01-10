@@ -55,7 +55,7 @@ To remove the hole, we traverse the 203 tree upwards towards the root. The hole 
 
     Nodes & 2-node only (containing 1 element and at most 2 children) & 2-node and 3-node (containing 1 or 2 elements and at most 2 or 3 children)\\
     \hline
-    Height & $log_2(n+1)$ and $n$ & between $log3 (n+1)/2$ and $log2 (n+1)/2$\\
+    Height & $\lceil log_2(n+1) \rceil$ and $n$ & between $\lceil log3 (n+1)/2 \rceil$ and $\lceil log2 (n+1)/2 \rceil$\\
     \hline
     Constraint & LST precedes the root and root precedes RST & Similar to BST; all internal nodes must have 2 or 3 children; leaf nodes are at the same level.\\
     \hline
@@ -68,5 +68,5 @@ To remove the hole, we traverse the 203 tree upwards towards the root. The hole 
     
     \caption{Classifications of Data Structures}
     \end{longtable}
-    } % end of rr     
+} % end of rr     
 
