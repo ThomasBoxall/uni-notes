@@ -1,0 +1,72 @@
+\taughtsession{Async Lecture}{Multi-Branch Trees (2-3 Trees)}{2023-11-17}{}{}{}
+
+\section{Introduction}
+A \textit{multi-way search tree} is a tree where:
+\begin{itemize}
+    \item Each node contains one or two data items
+    \item Every internal node has either two children or three children
+    \item All leaves are on the same level therefore a 2-3 tree is always balanced
+\end{itemize}
+
+\section{Nodes}
+There are two types of node, a 2-node and 3-node. The 2-nodes contain one item of data, and have either 2 children or no children; they are equivalent to nodes in a binary tree. A 3-node contains two items of data, and has either 3 children or no children.\\
+
+The order of items behaves much the same as it does for a Binary Search Tree, where the values in the Left-Subtree must be less than the first item in the the node. The right and centre subtrees rules differ depending on what is present. If there is a center subtree, the values of all descendants in the center subtree are less than the value of the second data item and values of all the descendants in the right subtree are greater than the value of the second data item. If there is not a centre subtree (we only have a left and right therefore it is a 2-node), the values in the right subtree are greater than the value of the first data item.
+
+
+\section{Algorithms}
+\subsection{Searching}
+Searching a 2-3 tree is similar to searching a BST.
+
+\subsection{Insertion}
+Insertion of a new value into a 2-3 tree is similar to that of inserting a new value into a BST as the new value gets inserted into a leaf node; however, unlike a BST - a new child node is not created.\\
+
+Insertion is carried out by locating the leaf node which should contain the new value: then if the leaf node contains one data item - the new item is inserted into this leaf node and the insertion is completed; however, if the leaf node contains two data items - space has to be created, which is achieved by splitting nodes.
+
+\subsection{Splitting Nodes}
+The two data items in the node to be split and the data item to be inserted are treated the same.
+\begin{enumerate}
+    \item Node is split into two nodes, \verb|L1| and \verb|L2|
+    \item The smallest of the 3 data items is placed into \verb|L1|
+    \item The largest of the 3 data items is placed into \verb|L2|
+    \item The remaining data item (the middle one) is promoted to the parent node
+\end{enumerate}
+
+If the parent node is a 2-node then the promoted node is inserted into the parent node along with references to the two child nodes (\verb|L1| \& \verb|L2|) - this turns the parent node into a 3-node. However if the parent node is a 3-node, then the splitting and promoting process is repeated until a place for the promoted node is located; which may result in the creation of a new root node.
+
+\subsection{Deleting Nodes}
+Deleting a node in a 2-3 tree is similar to the process of deleting a node in a BST. If the item to be deleted is in a leaf node (either a 3-node or 2-node), then it's removed which will either leave a 2-node leaf or a hole. If the item to be deleted is in an internal node (either a 2-node or 3-node) then it's replaced by its InOrder successor or Predecessor which will be in a leaf node (as is usual for a BST deletion), this leaves either a 2-node or a hole. In the event we have a 2-node leaf, this is fine and we can carry on; however if we have a hole in the tree - this needs to be removed.\\
+
+To remove the hole, we traverse the 203 tree upwards towards the root. The hole is propagated upwards through the tree until it can be eliminated; which is done by either being absorbed into the tree or being propagated to the root of the tree where it can be removed, which reduces the height of the tree by one (the only time when the height of the tree is reduced). 
+
+\section{Comparison of a BST and a 2-3 tree}
+    
+{\RaggedRight \centering
+    \begin{longtable}{p{0.2\textwidth} p{0.35\textwidth} p{0.35\textwidth}}
+    \textbf{Property} & \textbf{BST} & \textbf{2-3 Tree}\\
+    \hline
+    \hline
+    \endhead
+
+    \multicolumn{3}{r}{\footnotesize\itshape continued on next page}\\
+    \endfoot 
+
+    \endlastfoot
+
+    Nodes & 2-node only (containing 1 element and at most 2 children) & 2-node and 3-node (containing 1 or 2 elements and at most 2 or 3 children)\\
+    \hline
+    Height & $log_2(n+1)$ and $n$ & between $log3 (n+1)/2$ and $log2 (n+1)/2$\\
+    \hline
+    Constraint & LST precedes the root and root precedes RST & Similar to BST; all internal nodes must have 2 or 3 children; leaf nodes are at the same level.\\
+    \hline
+    Search & Follow the path (either LST or RST) until the element is located or leaf node reached. & Similar to BST but with more potential paths (LST, CST, RST).\\
+    \hline
+    Insertion & Knowing the location, element is inserted as a leaf node & Knowing the location, element is inserted as a leaf node; then the node is either kept or split (middle element promoted)\\
+    \hline
+    Deletion & The node containing the element is deleted after being located; the hole is replaced by the successor or predecessor. & The element is deleted after being located; the node remains with 1 element or becomes a hole (which is replaced by its successor / predecessor then propagated up the tree and absorbed).\\
+    \hline
+    
+    \caption{Classifications of Data Structures}
+    \end{longtable}
+    } % end of rr     
+
