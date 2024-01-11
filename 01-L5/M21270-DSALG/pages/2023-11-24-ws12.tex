@@ -1,0 +1,159 @@
+\taughtsession{Async lecture}{Hash Tables}{2023-11-24}{}{}{}
+
+\section{Hashing}
+\textit{Hashing} involves using an array for efficient storage and retrieval of information. As we are retrieving information from an array - it has the efficiency $O(1)$. This works by mapping the input key (data item) to an output index of the array, which will not keep a sorted array of keys. However - due to the fact the hashed input key is mapped to an index, we can efficiently retrieve that data item, in a constant average time of $O(1)$. 
+\subsection{The Ideal Hash Table}
+The \textit{hash table} is the table which stores the mapping from the input key to the output. This can be represented in a number of ways, however it's simplest is as a 1-Dimensional array.\\
+
+If we take the scenario where there is a 1-D array of $m$ entries with keys $k_i (i=0 \ldots m-1)$ and there exists a hash function $H(k_i)$ that uniquely maps keys $k_i$ onto the indices of the array (integers $0$ through $m-1$ (one-to-one mapping of keys)). Then we will see that the data item with key $k_i$ will be stored in the slot of the table, at the known position $h = H(k_i)$. Therefore, the data item can be accessed with one probe ($O(1)$ time).\\
+
+Continuing with the above example - what happens if our hashing function isn't as good. This would result in multiple keys being hashed to result in the same position. This is called a \textit{collision} and they are bad. Later in this lecture, methods will be explored on what to do when this happens. In reality - the majority of hash functions will have collisions.
+
+\section{Hash Functions}
+A \textit{hash function} is any function that can be used to support the following operations:
+\begin{itemize}
+    \item Map an input key / value to  a fixed-size (consistent format) output value
+    \item The output value can be used as an index to locate data in storage
+    \item All valid input keys / values have valid output indices after mapping
+    \item Consistency - equal input keys must produce the same output hash value
+\end{itemize}
+
+A good hash function must be quick and easy to compute, minimise collisions and achieve an even distribution of keys. The aim is for an efficiency of $O(1)$ for storage and retrieval of data.
+
+\subsection{Hash Function Families}
+\subsubsection{Truncation}
+\textit{Truncation} is where part of the key is ignored, with the remaining parts being used as the hash value (the index which is used to store the data in the HT). This is fast however it can fail to distribute the keys evenly.
+\subsubsection{Folding}
+\textit{Folding} is where the key is partitioned into several parts, then these parts get combined (by addition or multiplication) to obtain the hash value.
+\subsubsection{Modulo Arithmetic}
+\textit{Modulo Arithmetic} is where the key gets divided by the table size and using the remainder as the hash value. Where a good table size has been chosen (prime numbers generally work well), the spread of hash values will be good. 
+
+\section{Collision Reduction}
+As good as any hashing function can be, we will still run into collisions. Where there are collisions, we are unable to achieve the ideal $O(1)$ access time, as we will need to perform a secondary operation to get to the data we are looking for. A good hashing function will reduce the number of collisions, however we still need to be prepared to handle them. There are four methods we need to know about on how to handle collisions, in reality there are many more.
+\subsection{Chaining}
+\textit{Chaining} is a technique whereby a linked list is pointed to from the hash table. The linked list is used to store the collided data items. The linked list behaves as any other linked list should, following all its CRUD operations. A popular implementation choice of this is to store the head of the linked list in the hash table's slot. After getting the index of the data item through hashing, the data item is retrieved by traversing the singly linked list.
+\begin{verbatim}
+    i = h(x) // h is the hash function, x is the input key, i is the index
+    head = t[i] // t is the hash table
+    // t[i] maintains all data mapped to bucket/slot i
+    if the list is not empty
+        traverse the singly linked list until the target key is found
+        operations on the found data
+    end
+\end{verbatim}
+The advantages / disadvantages of using chaining are shown below:
+\begin{itemize}
+    \item The linked list in a slot only contains the keys of the same hashing index - easy to retrieve the whole list of data items to match customised criteria.
+    \item The dynamic nature of linked lists allows the storage of more data items than the table size and can always increment - the hash table never needs to be resized.
+    \item Singly linked lists require a sequential search - traversal is inevitable.
+    \item Insertion to a singly linked list (normally unsorted) can be done either at the beginning or the end of the list - efficient to conduct.
+    \item Deletion in a singly linked list can be done by simply reassigning the links / pointers - efficient to conduct.
+\end{itemize}
+\subsubsection{Searching}
+\begin{enumerate}
+    \item Hash the key into the table index
+    \item Search in the singly linked list maintained in the indexed slot
+\end{enumerate}
+The average time consumption for searching a Hash Table which uses Chaining, is $O(1)$. 
+\subsubsection{Insertion}
+\begin{enumerate}
+    \item Hash the key into the table index
+    \item Insert the key into the Singly Linked List maintained in the indexed slot
+\end{enumerate}
+The average time consumption is $O(1)$.
+\subsubsection{Deletion}
+\begin{enumerate}
+    \item Hash the key into the table index
+    \item Delete the key from the Singly Linked List maintained in the indexed slot
+\end{enumerate}
+The average time consumption is $O(1)$.
+
+\subsection{Linear Probing}
+\textit{Linear Probing} is part of the \textit{Open Addressing} family of Collision Reduction Techniques; which handles collisions by allocating the item which caused a collision to a different slot.\\
+
+Linear Probing works by storing the collided data in the next available slot; this is completed by the table index increasing by 1 until an available slot is found.
+\begin{verbatim}
+    // h is the hash function, x is the input key, i is the index
+    i = h(x)
+    j = h(x) 
+    k = 1 // k is the increment
+    while there is collision at index j // j is the target index
+        j = (i + k) mod n // the index increments by k or we say, linearly
+        k++ // n is the size of the table
+    end
+    operations on t[j] // t is the table
+\end{verbatim}
+A significant issue with Linear Probing is that when most collisions happen at the same index, items will begin to cluster. This is called \textit{Primary Clustering} and complicates the searching, insertion and deletion.\\
+
+The advantages / disadvantages of Linear Probing can be seen below:
+\begin{itemize}
+    \item Easy to compute.
+    \item No extra consumption of keeping the pointers/links.
+    \item Space can be fully used when the increment is set as 1.
+    \item Table resizing may be required when the size of the problem increases.
+    \item Primary clustering dependent on the quality of hash functions.
+\end{itemize}
+\subsubsection{Searching}
+\begin{enumerate}
+    \item Hash the key into the table index
+    \item Repeat incrementing the table index by 1 until the key or an available slot is found
+\end{enumerate}
+The average time consumption will be $O(1)$.
+\subsubsection{Insertion}
+\begin{enumerate}
+    \item Hash the key into the table index
+    \item Repeat incrementing the index by 1 until an available slot is found
+\end{enumerate}
+The average time consumption is $O(1)$.
+\subsubsection{Deletion}
+\begin{enumerate}
+    \item Hash the key into the table index
+    \item Repeat incrementing the table by 1 until the key is found and deleted
+\end{enumerate}
+The average time consumption is $O(1)$. 
+\subsection{Quadratic Probing}
+\textit{Quadratic Probing} is another member of the Open Addressing family. It works by addressing the primary clustering issues caused by Linear Probing by chaining how the index changes when a collision occurs.\\
+
+Quadratic Probing works by incrementing the index by a quadratic increment rather than a linear one. For example - the collided index 1 keeps incrementing as $1+1^2$, $1+2^2$, $1+3^2$, \ldots, $1+x^2$ until an available slot is found.
+\begin{verbatim}
+    // h is the hash function, x is the input key, i is the index
+    i = h(x)
+    j = h(x) 
+    k = 1 // k is the input argument for the quadratic function
+    while there is collision at index j // j is the target index
+        j = (i + k^2) mod n 
+        // the index increments by k^2 or we say, quadraticly
+        k++ // n is the size of the table
+    end
+    operations on t[j] // t is the table
+\end{verbatim}
+Quadratic Probing removes the primary clustering which occurs with Linear Probing; however it isn't perfect as it creates its own type of clustering - \textit{Secondary Clustering}. 
+
+\section{Double Hashing}
+\textit{Double Hashing} uses another hashing value to increment the collided index. This avoids both primary and secondary hashing.
+\begin{verbatim}
+    i = h(x) // h is the hash function, x is the input key, i is the index
+    j = g(x) // g is another hash function, j is the index increment
+    while there is collision at index i
+        i = (i + j) mod n   // the index increments by j, 
+                            // another hashing value for each iteration
+    end
+    operations on t[i] // t is the table
+\end{verbatim}
+
+Double hashing keeps incrementing the collided index by a hashing value until the target or an available slot is found. 
+
+
+
+
+% Hashing
+%     ideal ht
+% hash functions
+%     truncation
+%     folding
+%     modulo arithmetic
+% Collision reduction
+%     chaining
+%     linear probing
+%     quadratic probing
+%     double Hashing
