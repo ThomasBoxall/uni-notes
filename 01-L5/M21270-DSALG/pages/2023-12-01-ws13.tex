@@ -1,0 +1,41 @@
+\taughtsession{Async lecture}{The Heap}{2023-12-01}{}{}{}
+
+\section{Priority Queue}
+A \textit{priority queue} is an Abstract Data Type which supports the two following operations:
+\begin{itemize}
+    \item Insert an element into the queue with an associated priority
+    \item Remove the element from the queue which has the highest priority
+\end{itemize}
+They generally get implemented using a static array, where they aren't sorted by priority. Each index in the array will contain the element and its corresponding priority. Insertion into the priority queue is efficient, as we are just inserting into the first empty space; hence it has an efficiency $O(1)$. However, removing an element from the array isn't as simple; we have to search sequentially through the entire list to find the element with the highest priority, therefore it has an efficiency $O(n)$. 
+
+\section{Heap Data Structure}
+The \textit{heap} data structure further develops on a priority queue's inadequacies.\\
+
+A heap is a binary tree with the following characteristics:
+\begin{itemize}
+    \item It is a complete binary tree (see \textit{Hierarchical Data Structures})
+    \item The key in the root is larger than the key in either child node and both sub-trees satisfy the heap property.
+\end{itemize}
+In reality, the highest priority element would be stored at the root. This is also called a \textit{max-heap}. There is also a \textit{min-heap}, which as the name suggests is the inverse of a max-heap with the lowest priority at the root. 
+\section{Heap Algorithms}
+\subsection{Insertion}
+As with all other types of Trees, the new item is inserted at the bottom level. It is inserted as the next leaf on that level; which if full - it gets inserted as the first node on the next level on the left hand side. Adding a new item to the heap will destroy the second property of heaps. This must be rectified which is done so via moving the item up the tree until it ends up at the root or until it finds parents \& children which restore the heap property. This takes $O(log_2 n)$ exchanges 
+
+\subsection{Removal of a Node}
+The item at the root can easily be removed - this leaves us with two sub-trees from which we must re-create a single tree that satisfies the heap properties. To re-create the tree, move the furthest right leaf node to the root, then move nodes around internally to ensure that the heap properties are still satisfied.
+
+\section{Heap Implementation}
+A heap can be stored using a static array. Due to one of the rules of a heap being it must be a complete binary tree, this means a `row' will always be full other than the final row. Therefore, the indexes working down row by row and left to right on each row can just be stored in the array. The indexes of parents and children can be calculated as seen below:
+\begin{verbatim}
+    Index_LeftChild = Index_Parent * 2 + 1 
+    Index_RightChild = Index_Parent * 2 + 2
+    Index_Parent = (Index_Child - 1) / 2
+\end{verbatim}
+
+Heaps get used in a number of ways:
+\begin{itemize}
+    \item Dijkstra's Algorithm - find the shortest path tree in a graph
+    \item Kruskal's Algorithm - to find the Minimum Spanning Tree of a graph
+    \item Huffman's algorithm - text compression
+    \item In a heap sort
+\end{itemize}
