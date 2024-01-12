@@ -1,0 +1,197 @@
+\taughtsession{Async lecture}{Graphical Data Structures}{2023-12-08}{}{}{}
+
+\section{Graphical Data Structures}
+The \textit{Graphical Data Structure} (or \textit{Graph}, for those who aren't pretentious) consists of nodes where each node has many predecessors and many successors. The need for graphs arise through the numerous varieties of data structures we have explored thus far in this module not having the ability to have many predecessors and many successors, which is required for applications such as a social network, or transport map.\\
+
+Graphs are used mostly when a linear and tree structure isn't applicable.
+
+\subsection{Graph Theory}
+Graphs and their applications are based on \textit{Graph Theory}:
+\begin{itemize}
+    \item Shortest Path Problem: Graph traversal and path search with tradeoff between space and time
+    \item Ramsey Theory: For any six people, either at least three of them are mutual strangers or at least three of them are mutual acquaintances
+    \item Graph colouring: No more than four colours are required to colour the region of the map so that no two regions have the same colour
+\end{itemize}
+
+\section{Graph Terminology}
+{\RaggedRight \centering
+    \begin{longtable}{p{0.25\textwidth} p{0.7\textwidth}}
+    \textbf{Term} & \textbf{Definition}\\
+    \hline
+    \hline
+    \endhead
+
+    \multicolumn{2}{r}{\footnotesize\itshape continued on next page}\\
+    \endfoot 
+
+    \endlastfoot
+
+    Graph & A collection of nodes (called `vertices') and line segments connecting the vertices (called `edges').\\
+    \hline
+    Undirected Graph & A graph where each edge in the graph has no direction\\
+    \hline
+    Directed Graph (digraph) & A graph where each edge in the graph has a direction to it's successor\\
+    \hline
+    Acyclic Graph & A graph with no cycles\\
+    \hline
+    Directed Acyclic Graph & A directed graph with no cycles. Abbreviated to `DAG'\\
+    \hline
+    Adjacency & Two vertices are adjacent if they are connected by a single edge\\
+    \hline
+    Path & Sequence of edges\\
+    \hline
+    Cycle & Path containing at least three vertices that starts and finishes with the same edge\\
+    \hline
+    Degree & The degree of a vertex is the sum of the adjacent vertices.\\
+    & In a digraph: the out-degree of a vertex is the number of edges leaving the vertex and the in-degree is the number of edges entering the vertex\\
+    \hline
+    Sparse Graph & A graph is said to be `sparse' if there are only a few edges between nodes\\
+    \hline
+    Dense Graph & A graph is said to be dense if most of the edges between vertices are present\\
+    \hline
+    Connected Graph & A graph is connected if there is a path from any vertex to any other vertex\\
+    \hline
+    Strongly Connected Graph & A directed graph is strongly connected if there is a path from any vertex to any other vertex\\
+    \hline
+    Weakly Connected Graph & A directed graph is weakly connected if, on suppressing the direction of the edges - the resulting undirected graph is connected\\
+    \hline
+    Disconnected Graph or Disjoint Graph & This is a graph which is not connected\\
+    \hline
+    Weighted Graph & These are graphs where the edges are assigned a weight; they can be either directed or undirected; the weight can be used to represent anything\\
+    \hline
+    
+    \caption{Graph Terminology}
+    \end{longtable}
+} % end of rr   
+
+\section{Graph Representation}
+There are two different methods as to which Graphs can be stored by. They differ in the way the nodes and edges are maintained internally. If the graph is sparse then the adjacency list representation will be more space-efficient than the adjacency matrix representation. 
+
+{\RaggedRight \centering
+    \begin{longtable}{p{0.32\textwidth} p{0.32\textwidth} p{0.32\textwidth}}
+    \textbf{Property} & \textbf{Matrix} & \textbf{List}\\
+    \hline
+    \hline
+    \endhead
+
+    \multicolumn{3}{r}{\footnotesize\itshape continued on next page}\\
+    \endfoot 
+
+    \endlastfoot
+
+    Space & $O(v^2)$ & $O(v+e)$\\
+    \hline
+    Vertex Insertion & $O(v^2)$ & $O(1)$\\
+    \hline
+    Vertex Deletion & $O(v^2)$ & $O(v+e)$\\
+    \hline
+    Edge Insertion & $O(1)$ & $O(1)$\\
+    \hline
+    Edge Deletion & $O(1)$ & $O(e)$\\
+    \hline
+    Adjacency Check & $O(1)$ & $O(e)$\\
+    \hline
+    
+    \caption{Comparison of Matrix and List representations for Graphs (\texttt{v} vertices, \texttt{e} edges)}
+    \end{longtable}
+} % end of rr 
+
+\subsection{Adjacency Matrix Representation}
+This uses a n-by-n boolean matrix with one row and one column for each of the n vertices in the graph.
+%IMG: undirected graph adjacency matrix
+
+If the element in the i-th row and j-th column is equal to \verb|1|, then there is an edge from the i-th vertex to the j-th vertex. Therefore if the element in the i-th row and j-th column is equal to \verb|0|, then there is not an edge from the i-th vertex to the j-th vertex.
+% IMG: directed graph and its adjacency matrix
+
+For weighted graphs, the element is either the weight of the graph or infinity (\infty)
+
+%IMG: weighted graph and its adjacency matrix
+
+A \textit{vector} (1-D array) is used to store the vertices and a \textit{matrix} (2-D array) is used to store the edges.
+
+\subsubsection{Observations}
+\begin{itemize}
+    \item The size of the graph (number of vertices) needs to be known in advance
+    \item You cannot store duplicate edges, only one edge can be stored between vertices
+    \item It takes $O(1)$ time to determine if there is an edge between vertex \verb|u| and \verb|v|
+    \item If the graph is sparse then a significant part of the adjacency matrix will be empty
+    \item Undirected graphs are symmetrical around the diagonal therefore half the graph will contain repeated information
+    \item Inserting an edge into a directed graph takes $O(1)$ time. Undirected graphs take double the time as you have to insert two entries
+    \item Deleting an edge from a directed graph takes $O(1)$ time. Again, undirected graphs take double the time as you have to clear 2 entries
+    \item To determine the degree of a vertex, count all the non-zero entries in the corresponding row of the adjacency matrix
+\end{itemize}
+
+\subsection{Adjacency list Representation}
+The \textit{Adjacency List Representation} of a Graph uses a set of Singly Linked Lists, with one for each vertex. Each SLL contains all the vertices that are adjacent to the vertex. A SLL or array is used to store the vertices in a `Vertex List'. 
+%IMG: Graph and Adjacency list
+
+For weighted graphs, the nodes of the SLL will contain the name of the vertex and the weight of the corresponding edge.
+
+\subsubsection{Observations}
+\begin{itemize}
+    \item Flexible to use - it is easy to insert / delete vertices
+    \item Allows for duplicated edges
+    \item For undirected graphs - each edge is stored twice
+    \item Space-efficient representation of a sparse graph
+    \item To determine if there is an edge from vertex \verb|u| to vertex \verb|v|, requires \verb|u|'s linked list to be searched. For dense graphs, there may be many vertices in the linked list therefore this completes in $O(n)$ time. 
+    \item Inserting an edge to a directed graph takes $O(1)$ time as it gets inserted at the head of the list. Undirected graphs take double the time as two new nodes have to be added to two linked lists.
+    \item Deleting an edge from a directed graph takes $O(e)$ time as the program will need to traverse the list to locate the corresponding vertex. This will take double the time for an undirected graph as two deletions are needed. 
+    \item Determining the degree of a vertex requires the length of the corresponding linked list to be found. 
+\end{itemize}
+
+\section{Searching A Graph}
+% Generic graph searching graph
+
+\subsection{Depth First Search}
+A \textit{Depth First Search} (DFS) for a Graph data structure works much the same as a DFS does for a Tree data structure with the pre-order traversal. For a Graph DFS, it will visit (process) all of a vertex's descendants before moving onto an adjacent vertex. 
+\begin{enumerate}
+    \item Assume all nodes are marked as ``not visited''.
+    \item `Visit' the start vertex (this can be any vertex)
+    \item \label{enum:univistedVertex} Select an unvisited vertex which is adjacent \& connected to the current vertex and visit that one
+    \item \label{enum:unvisVertexDeadEnd} Repeat step \ref{enum:univistedVertex} until a dead end is reached (this will be where a a vertex has no adjacent vertices left)
+    \item Backtrack to find another unvisited vertex and repeat steps \ref{enum:univistedVertex} \& \ref{enum:unvisVertexDeadEnd} until all vertices have been searched 
+\end{enumerate}
+The DFS uses a stack to store the unvisited vertices. An Iterative implementation for the DFS is below:
+\begin{verbatim}
+    Assume each vertex marked as 'not-visited' push first vertex onto stack
+    mark as visited
+    while stack not empty loop
+        pop vertex off stack
+        process the vertex
+        for each adjacent unvisited vertex
+                push vertex onto stack
+                mark as visited
+        end
+    end
+\end{verbatim}
+
+A recursive implementation for the DFS is shown below:
+\begin{verbatim}
+    Assume each vertex marked as 'not-visited' process first vertex
+    mark as visited
+    for all nodes adjacent to the vertex
+        if not visited then
+            perform Depth First Search
+        end
+    end
+\end{verbatim}
+Using the example graph in the figure above, the DFS search would return the order: A. B, E, D, F, G, H, J, C.
+
+\subsection{Breadth First Search}
+A \textit{Breadth First Search} (BFS) for a Graph works much the same as a BFS (level-by-level search) of a BST. In a graph, a BFS will start at a node and work out layer-by-layer through each connected vertices. It works through the vertices adding un-visited adjacencies to it's queue then visiting each in turn and repeating the visiting \& enqueueing at each, until every vertex has been visited. \\
+
+The basic BFS algorithm for a graph is shown below:
+\begin{verbatim}
+    Assume each vertex marked as “not-visited” enqueue vertex onto queue
+    mark as visited
+    while queue not empty loop
+        dequeue vertex off queue
+        process the vertex
+        for each adjacent unvisited vertex
+            add vertex to queue
+            mark as visited
+        end
+    end
+\end{verbatim}
+
+Using the example graph in the figure above, the BFS search would return the order: A, B, C, E, D, F, H, G, J.

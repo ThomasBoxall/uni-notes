@@ -1,0 +1,67 @@
+\taughtsession{Async lecture}{Huffman Coding}{2023-12-01}{}{}{}
+
+\section{Data Compression}
+\textit{Data Compression} aims to reduce the size of the data as much as possible, whilst representing the information as accurately as possible. This is important because some uncompressed data can be extremely large and through compression we are able to reduce its size therefore improve performance when transmitting the data. Images, Text, Sound and Video can all be compressed; however this workshop will only focus on the compression of Text data.\\
+
+When transmitting compressed data - the sender and receiver of the information must understand the encoding scheme used. To become compressed, the original data is passed through an encoder; and at the other end - to obtain the decompressed data from the compressed data, we pass the compressed data through a decoder. A formula can be used to calculate the compression ratio, which describes the difference between the original data and a compressed version of itself:
+\[\mathrm{compression\ ratio} = \frac{\mathrm{original\ data\ size}}{\mathrm{compressed\ data\ size}} : 1\]
+
+\subsection{Lossless Data Compression}
+\textit{Lossless Data Compression} is a technique where the original data can always be reproduced exactly from the compressed data - no data is lost in the compression process. Lossless data algorithms are used in text compression where we must be able to recreate the original data. Generally, Lossless compression will achieve a compression rate of between 2:1 and 8:1. 
+
+\subsection{Lossy Data Compression}
+\textit{Lossy Data Compression} os a technique where the original data cannot be reproduced from the compressed - the decompressed data differs to the uncompressed data we started with. This is fine for many applications including audio, video and images, where the human eye / ear cannot perceive minute details which can be lost; or where average people don't have the required hardware to appreciate the details. Audio can be compressed at a compression rate of 10:1, video can be compressed at a compression rate of 100:1 and images can be compressed at a compression rate of about 10:1. These won't make obvious changes to the media however on very close inspection - changes may be visible. However in some cases, lossy data compression may not imply a loss of quality and could lead to an improvement in quality through reducing the amount of random noise in images, or removing background noise in music. 
+
+\section{Fixed Length Coding}
+\textit{Fixed Length Coding} is a compression technique whereby the length of the codeword for each character is the same - using either ASCII code or Unicode. \\
+
+If we take a string of 1000 characters, consisting of the characters \verb|a|, \verb|u|, \verb|x| and \verb|z|. Without compression, this string requires 8000 bits to be stored in (derived from 1000 characters multiplied by 8-bits per character using ASCII code). However - if we apply a compression algorithm to this, we can encode the characters differently:
+\begin{verbatim}
+    00 - a
+    01 - u
+    10 - x
+    11 - z
+\end{verbatim} 
+This means we now need 2000 characters to store the string (1000 characters multiplied by 2-bits per character); \textit{and} 48-bits to store the table (8-bits for the table size, 32-bits for the original letters, 8-bits for the encoded letters (as 2-bit codes)). Therefore, the overall size of this string is 2048 bits, giving us a compression ratio of 3.9 ($\displaystyle \frac{8000}{2048}$)
+
+\section{Variable Length Coding}
+\textit{Variable Length Coding} is a compression technique which is similar to Fixed Length Coding, except it uses variable-length code words to represent the characters. This means the code-words used to represent the characters differ in length, with shorter code-words being used to represent frequently occurring characters and longer code-words used to represent less frequently occurring characters.\\
+
+If we take the string \verb|aaxuaxz|, the frequencies of the letters are shown below:
+\begin{verbatim}
+    a - 3
+    x - 2
+    u - 1
+    z - 1
+\end{verbatim}
+If we now establish codes for each of these letters, the encoded string will be \verb|0010110010111| and the codes are shown below:
+\begin{verbatim}
+      0 - a
+     10 - x
+    110 - u
+    111 - z
+\end{verbatim}
+Through using variable length coding, we have achieved a 1-bit size reduction as compared to the same string being encoded using 2-bit codes in FLC. This difference scales up massively: if we give the characters the frequencies 996, 2, 1, 1; then using FLC would give us a encoded version which is 2000 bits long and VLC would result in 1006-bits.\\
+
+Decoding a VLC string is where it gets more complex as we do not know immediately how many bits to pick off the string. We start from the left hand side and work left to right. We examine the current and the next bit(s) and using the table of bits-to-character mappings we are able to determine what bits correspond to a character. This works for this VLC example as all the codes start with \verb|1| apart from \verb|a|'s which begins with \verb|0| and they all finish with \verb|0| apart from \verb|z|'s which finishes with \verb|1|. This means we are easily able to identify a chunk of bits which correspond to a character. As there are only two edge cases to the rule, we are able to work around them. 
+
+\section{Huffman Coding}
+Huffman coding is much like VLC, in that it assigns short code-words to characters with high frequencies and longer code-words to characters with lower frequencies. The Huffman encoder takes a block of characters with fixed length as an input then creates a block of output bits of variable length as an output; the Huffman encoder is a fixed-to-variable length coder.
+
+\subsection{Generating Huffman Codes}
+The first stage to generating Huffman Codes is to create a Huffman Tree. The Huffman codes are then determined by following the path from the root to the leaf nodes.
+\subsubsection{Creating a Huffman Tree}
+A Huffman tree is a weighted binary tree where:
+\begin{itemize}
+    \item The leaves of the Huffman tree are the characters to be encoded
+    \item The branches of the Huffman tree are labelled with either \verb|0| or \verb|1| (this is used to determine their code-word). 
+\end{itemize}
+
+Initially, we have a forest of leaf nodes containing the characters and their frequencies. The Huffman tree is created by:
+\begin{enumerate}
+    \item Sorting the forest of leaf nodes by frequency
+    \item Combining the two nodes with lowest frequency
+    \item Creating a binary tree with parent node containing the frequencies of its children
+    \item Sorting nodes and repeating process until one node left (this is the root node)
+\end{enumerate}
+
