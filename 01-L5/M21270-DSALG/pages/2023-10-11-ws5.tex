@@ -5,7 +5,7 @@ The BigO value of a recursive algorithm is generally way worse than that of a li
 \section{Merge Sort}
 The \textit{Merge Sort} is an example of a divide and conquer algorithm. This means it works by dividing the bigger problem into smaller problems which can then be solved independently, making it easier to program. The smaller problem's solutions will then be combined back together to make the overall solution. The outline of how it works is shown below:
 \begin{enumerate}
-    \item Divide the array of data to be sorted into two equal halves until we have one element in each group. Note: if there is only one element in the list, it must be sorted (this is the stopping case of the recursive algorithm).
+    \item Continually divide the array of data, which needs to be sorted, into two equal halves; continue doing this operation on each newly-created array until we have one element in each group. Note: if there is only one element in the list, it must be sorted (this is the stopping case of the recursive algorithm).
     \item Merge the smaller arrays in to one large sorted array, merging one array with another array at a time. Repeat this until the entire array is sorted.
 \end{enumerate}
 
