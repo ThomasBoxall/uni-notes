@@ -1,0 +1,97 @@
+\taughtsession{Async lecture}{Graphical Data Structures}{2023-12-08}{}{}{}
+
+\section{Greedy Algorithms}
+A \textit{Greedy Algorithm} is an algorithm which makes a decision that appears good in the moment, however it doesn't consider the future consequences of this decision. Once the decision has been made, it is never reconsidered. We just have to hope that when the algorithm terminates, that it has found the optimum solution - this is not consistently the case however. 
+
+\section{Shortest Path Trees}
+A graph will commonly contain multiple paths between two vertices. A \textit{Shortest Path Tree} of a given graph is a tree that contains all the vertices (where one vertex has been selected as the root) and a subset of the edges that shows the shortest path from the root to any other vertex with the shortest distance.\\
+
+They are commonly used in in applications such as a route planning app or within air travel planning software. For both - the journey would have a start location (the source vertex) and a destination (the sink vertex). 
+
+\subsection{Dijkstra's Algorithm}
+Dijkstra's algorithm is used to solve the problem of finding the shortest path from a given vertex to a destination vertex within a graph. The algorithm works by finding the shortest path from a given source to all the vertices in a graph at the same time; it is for this reason that it's known as the \textit{single-source shortest paths} algorithm. It's steps are outlined below:
+\begin{enumerate}
+    \item Select the source vertex $S$ which becomes the root of the shortest path tree.
+    \item For each vertex $V_i$ that has a single edge from $S$, the distance is stored and the vertex is added to a priority queue. 
+    \item All other vertices not connected by a single edge to the source, $S$ are given a distance of infinity.
+    \item The vertex $R$ stored in the priority queue with the smallest distance from $S$ is selected. The vertex $R$ is added to the shortest path tree.
+    \item For each vertex $W_i$ adjacent to vertex $R$ that has a single edge from $R$ to another vertex, $W_i$ - the total distance from $S$ to $W_i$ is calculated. If this value is less than the value already stored, then the value is updated and the vertex $W_i$ is added to the priority queue.
+    \item The previous two steps are repeated until the priority queue is empty
+    \item Any vertices not selected would indicate a disconnected graph - with no path, let alone a shortest path, from the source vertex.
+\end{enumerate}
+This algorithm is represented below in Dalin Script:
+\begin{verbatim}
+    Clear Priority Queue
+    Add source vertex S to priority queue with distance of 0
+        For all other vertices
+        -- Shortest path from source not found
+        Add to priority queue - distance from source as infinity
+        Mark not yet added to shortest path tree
+    end
+    While priority queue not empty
+        Dequeue vertex R with shortest distance from source
+        Mark vertex R located
+        Add vertex R to shortest path tree
+        For each vertex W adjacent to R
+            If W not in shortest path tree then
+                If distance(R from S) + distance(W from R) < stored distance ...
+                ... (W from S) then
+                    Update details for W -- update priority queue
+        end
+    end
+\end{verbatim}
+
+As is typical with graphs - the efficiency of Dijkstra's algorithm is dependent on the way the graph is stored. The efficiency of each iteration of the priority queue, when stored as a heap, is $O(log_2 v)$. If an adjacency matrix  is used to implement the graph, the overall efficiency is $O(v^2 \times log_2 (v))$ whereas if adjacency lists are used, the overall efficiency is $O(ev \times log_2 (v))$. 
+
+\section{Spanning Trees}
+A \textit{spanning tree} is representation of a graph that contains all the vertices with only one path between two vertices. A graph can have multiple different spanning trees. If the graph is disconnected or a directed graph - we will get a spanning forrest.\\
+
+A Breadth First Search of a graph gives a Breadth-First Spanning Tree; a Depth First Search of a graph gives a Depth First Spanning tree. For disconnected graphs, more than one tree will be required to span the graph, called a spanning forrest. For directed graphs - you may get a spanning tree or spanning forrest.\\
+
+A \textit{Minimum Spanning Tree} with weight less than or equal to the weight of every other spanning tree. 
+
+\subsection{Prim's Algorithm}
+\textit{Prim's Algorithm} builds upon a single partial minimum spanning tree. It works by adding an edge connecting the vertex nearest to but not already in the current partial minimum spanning tree. The basic algorithm is shown below:
+\begin{verbatim}
+    Initially tree consists of the start vertex
+        While not all vertices in tree
+            Examine all vertices in G with one end point in the tree and ...
+            ... the other not in the tree. Find the shortest edge and add... 
+            ... to the tree (with the other vertex)
+        end
+\end{verbatim}
+
+\subsection{Kruskal's Algorithm}
+\textit{Kruskal's Algorithm} combines sets of partial minimum spanning trees. At each stage of the algorithm, we add the shortest edge in the graph whose vertices are in a different partial minimum spanning tree. The basic algorithm is shown below:
+\begin{verbatim}
+    Partition the vertices of the graph into n sets - one vertex per set.
+    Initially the spanning tree is empty
+    While the tree is incomplete and there are edges left to add loop
+        Find the shortest edge not yet considered
+        If its endpoints are in different trees then
+            Join trees
+        end
+    end
+\end{verbatim}
+
+The algorithm works by starting with a forest of trees, each containing one vertex. When an edge is added between two trees, then its endpoints become part of a single tree - therefore each edge added joins two existing trees into one single larger tree. The output from the algorithm is one tree - the minimum spanning tree. The algorithm is shown below:
+\begin{verbatim}
+    V = number of vertices in the graph
+    Make forests - put each vertex into a different tree
+    Put Edges into priority queue with end points referencing a tree
+    Set TotalLength = 0
+    Set EdgesFound = 0
+    While EdgesFound < V-1 and Queue not empty
+        Find shortest edge and endpoints P & Q in different trees
+        If end-points in different trees (i.e. no cycles)
+            Found valid edge
+            TotalLength = TotalLength + Cost of edge
+            Join Trees
+            EdgesFound = EdgesFound + 1
+        end
+    end
+\end{verbatim}
+
+Kruskal's algorithm uses the \textit{Shortest Bridge Property} (where every time an edge is selected, it is the shortest bridge between the trees it connects) and if these trees contain more than one vertex, they have been made up from the shortest bridges.\\
+
+The efficiency of Kruskal's Algorithm is $O(e log_2 e)$. 
