@@ -65,3 +65,25 @@ Initially, we have a forest of leaf nodes containing the characters and their fr
     \item Sorting nodes and repeating process until one node left (this is the root node)
 \end{enumerate}
 
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.6\textwidth]{assets/huffman-tree-full.svg}
+    \caption{Huffman Tree}
+\end{figure}
+The figure above shows the first stage of Huffman coding, generating the Huffman tree. The figure below shows the next stage where we assign each branch a value (either 0 or 1, with 1 being assigned to the right). From here we are able to work from the root node to the node we are interested in and generate the Huffman Codes, as seen below.
+\begin{verbatim}
+    F - 00
+    B - 01
+    C - 100
+    A - 101
+    G - 110
+    D - 1110
+    E - 1111
+\end{verbatim}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.6\textwidth]{assets/huffman-tree-binary.svg}
+    \caption{Huffman Tree showing Code-Words}
+    
+\end{figure}

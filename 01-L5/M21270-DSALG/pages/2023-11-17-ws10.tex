@@ -12,7 +12,11 @@ A \textit{multi-way search tree} is a tree where:
 There are two types of node, a 2-node and 3-node. The 2-nodes contain one item of data, and have either 2 children or no children; they are equivalent to nodes in a binary tree. A 3-node contains two items of data, and has either 3 children or no children.\\
 
 The order of items behaves much the same as it does for a Binary Search Tree, where the values in the Left-Subtree must be less than the first item in the the node. The right and centre subtrees rules differ depending on what is present. If there is a center subtree, the values of all descendants in the center subtree are less than the value of the second data item and values of all the descendants in the right subtree are greater than the value of the second data item. If there is not a centre subtree (we only have a left and right therefore it is a 2-node), the values in the right subtree are greater than the value of the first data item.
-
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/23tree-node-types.svg}
+    \caption{The 2-Node and 3-Node}
+\end{figure}
 
 \section{Algorithms}
 \subsection{Searching}

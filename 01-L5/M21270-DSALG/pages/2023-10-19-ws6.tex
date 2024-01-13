@@ -35,7 +35,11 @@ A linked list is a collection of objects called \textit{nodes}. Every node has 2
 \subsection{Singly Linked List}
 This is the most common type of linked list whereby each node is only linked to one predecessor and one successor - exceptions being the head which is only linked to one successor and the tail which is only linked to the predecessor.
 
-% DIAGRAM SHOWING THE SLL. 
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/ll-sll.svg}
+    \caption{Singly Linked List}
+\end{figure}
 
 Advantages of using the Singly Linked List is that it is easily extendable or reduced to fit the data needing to be stored in it. Once the item is located - it has efficiency $O(1)$ to insert or delete the item.\\
 
@@ -51,9 +55,19 @@ A significant issue with the SLL is that the head item has to point to something
 
 \subsection{Circular Linked List}
 In this linked list, the tail node points to the first node after the head (which is the first node to contain data). This is useful for a list which undergoes a large number of traversals.
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/ll-sll-circ.svg}
+    \caption{Circular Singly Linked List}
+\end{figure}
 
 \subsection{Doubly Linked List}
 In this linked list, each node is linked to both its predecessor and successor in a way such that the list can be traversed in either direction.
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/ll-dll.svg}
+    \caption{Doubly Linked List}
+\end{figure}
 
 \subsection{SkipList}
 A SkipList is an extension of an ordered SLL with a number of additional forward links added in a randomised way. The data in the list does have to be ordered, however, as during searching the elements in the array - bits of the list can be skipped to reduce the searching space quickly (like in a binary search). This leads to having an efficiency on all CRUD operations of $O(\log_2n)$, which is logarithmic random time.\\
@@ -61,3 +75,8 @@ A SkipList is an extension of an ordered SLL with a number of additional forward
 The ideal SkipList would have half of the nodes having one reference to a subsequent node; $\frac{1}{4}$ would have 2 references to subsequent nodes; $\frac{1}{8}$ will have 3 references to subsequent nodes; and so on. The distance between nodes on on each `level' would be equal. \\
 
 SkipLists aren't guaranteed to give good performance. Their performance depends on how many nodes are skipped at each level. For searching, the best case will be $O(1)$ and the worst case will be $O(n)$. 
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/ll-skip.svg}
+    \caption{SkipList}
+\end{figure}

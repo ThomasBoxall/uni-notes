@@ -17,6 +17,11 @@ A heap is a binary tree with the following characteristics:
     \item The key in the root is larger than the key in either child node and both sub-trees satisfy the heap property.
 \end{itemize}
 In reality, the highest priority element would be stored at the root. This is also called a \textit{max-heap}. There is also a \textit{min-heap}, which as the name suggests is the inverse of a max-heap with the lowest priority at the root. 
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/heaps.svg}
+    \caption{The Heaps}
+\end{figure}
 \section{Heap Algorithms}
 \subsection{Insertion}
 As with all other types of Trees, the new item is inserted at the bottom level. It is inserted as the next leaf on that level; which if full - it gets inserted as the first node on the next level on the left hand side. Adding a new item to the heap will destroy the second property of heaps. This must be rectified which is done so via moving the item up the tree until it ends up at the root or until it finds parents \& children which restore the heap property. This takes $O(log_2 n)$ exchanges 

@@ -98,14 +98,26 @@ There are two different methods as to which Graphs can be stored by. They differ
 
 \subsection{Adjacency Matrix Representation}
 This uses a n-by-n boolean matrix with one row and one column for each of the n vertices in the graph.
-%IMG: undirected graph adjacency matrix
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/graph-undirected-amr.svg}
+    \caption{Undirected graph represented in an Adjacency Matrix}
+\end{figure}
 
 If the element in the i-th row and j-th column is equal to \verb|1|, then there is an edge from the i-th vertex to the j-th vertex. Therefore if the element in the i-th row and j-th column is equal to \verb|0|, then there is not an edge from the i-th vertex to the j-th vertex.
-% IMG: directed graph and its adjacency matrix
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/graph-directed-amr.svg}
+    \caption{Directed graph represented in an Adjacency Matrix}
+\end{figure}
 
 For weighted graphs, the element is either the weight of the graph or infinity (\infty)
 
-%IMG: weighted graph and its adjacency matrix
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/graph-weighted-amr.svg}
+    \caption{Weighted graph represented in an Adjacency Matrix}
+\end{figure}
 
 A \textit{vector} (1-D array) is used to store the vertices and a \textit{matrix} (2-D array) is used to store the edges.
 
@@ -123,7 +135,11 @@ A \textit{vector} (1-D array) is used to store the vertices and a \textit{matrix
 
 \subsection{Adjacency list Representation}
 The \textit{Adjacency List Representation} of a Graph uses a set of Singly Linked Lists, with one for each vertex. Each SLL contains all the vertices that are adjacent to the vertex. A SLL or array is used to store the vertices in a `Vertex List'. 
-%IMG: Graph and Adjacency list
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/graph-undirected-alr.svg}
+    \caption{Undirected graph represented in Adjacency List}
+\end{figure}
 
 For weighted graphs, the nodes of the SLL will contain the name of the vertex and the weight of the corresponding edge.
 
@@ -140,7 +156,11 @@ For weighted graphs, the nodes of the SLL will contain the name of the vertex an
 \end{itemize}
 
 \section{Searching A Graph}
-% Generic graph searching graph
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.6\textwidth]{assets/graph-searching-graph.svg}
+    \caption{Generic Graph Searching Examples Graph}
+\end{figure}
 
 \subsection{Depth First Search}
 A \textit{Depth First Search} (DFS) for a Graph data structure works much the same as a DFS does for a Tree data structure with the pre-order traversal. For a Graph DFS, it will visit (process) all of a vertex's descendants before moving onto an adjacent vertex. 

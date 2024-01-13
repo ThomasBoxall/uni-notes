@@ -41,6 +41,12 @@ This algorithm is based on the insertion for 2-3 trees. The tree is searched to 
 \subsection{Deletion}
 If the item to be deleted is not in a leaf node then its immediate predecessor or successor must be in a leaf node; which will replace the deleted item. At this stage - it must be checked that the number of data items left in the leaf node are not less than the permitted minimum number. If the leaf node contains at least the minimum number of items - deletion completed. If the leaf node now contains less than the minimum number of data items, an additional item needs to be found. This can be from an adjacent leaf node if it has spare capacity, which can have one of its items moved into the node missing an item; or if no adjacent leaf nodes have spare capacity then other nodes must be combined. 
 
+\begin{figure}[H]
+    \centering
+    \includesvg[width=0.8\textwidth]{assets/b-tree.svg}
+    \caption{B-Tree} 
+\end{figure}
+
 \section{B* Trees}
 In a B* Tree, all nodes except the root must be at least two-thirds full. The frequency of splitting a node is decreased bt delaying a split. When a node overflows, a split is delayed by redistributing the keys between the node and its sibling; and when a split is made - two nodes are split into three.
 
