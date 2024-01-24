@@ -61,3 +61,76 @@ A subset is where one set's elements are entirely present in another set. There 
     \item $A \nsubseteq B$: $A$ is not a subset of $B$.
     \item $A \subset B$: $A$ is a proper subset of $B$, therefore $B$ has at least one additional element which is not in $A$.
 \end{itemize}
+
+\subsection{Equality of Sets}
+Two sets are \textit{equal} if they have exactly the same elements. This is denoted by writing $A = B$. Where $A = B$, the following conditions are also true:
+\begin{itemize}
+    \item $A \subseteq B$ for every $a$ if $a \in A$, then $a \in B$
+    \item $B \subseteq A$ for every $b$ if $b \in B$, then $b \in A$
+\end{itemize}
+
+\section{Operations on Sets}
+Sets can have \textit{operations} performed on them - this will change something about them.
+\subsection{Intersection}
+The intersection of two sets $A$ and $B$ is defined as:
+\[A \cap B = \{ x | x \in A \mathrm{\ and\ } x \in B \}\]
+This is the set of elements which appear in both sets only. If we take a Venn Diagram with a set on either side -  its the overlapped elements which would be returned from an intersection operation. For example if $A = \{a, b, c\}$ and $B = \{c, d\}$ then $A \cap B = \{c\}$. 
+
+\subsection{Disjoint}
+If an intersection returns no elements, then the two sets are \textit{disjoint}. This is shown by:
+\[A \cap B = \emptyset\]
+
+\subsection{Union}
+The \textit{union} of the two sets $A$ and $B$ is defined as:
+\[A \cup B = \{ x | x \in A \mathrm{\ or \ } x \in B \}\]
+This is the set of elements which are in either $A$ or $B$, this means elements which appear in both are returned. For example, if $A = \{a, b, c\}$ and $B=\{c, d\}$ then $A \cup B = \{a, b, c, d\}$.
+
+\subsection{Difference}
+The \textit{difference} between two sets, $A$ and $B$ is defined as:
+\[A \setminus B = \{ x | x \in A \mathrm{\ or \ } x \in B\}\]
+This is the set of elements which are in $A$ but not in $B$, so could be represented as $A-B$. Note that $A \setminus B \neq B \setminus A$.
+
+\subsection{Counting Elements In a Set}
+If we take $A$ and $B$ to be finite sets, we can calculate the number of elements in the union of $A$ and $B$. The correct way to count this is as follows:
+\[|A \cup B| = |A| + |B| - |A\cap B|\]
+We have to minus $|A \cap B|$ from the sum because otherwise it is as though we are counting it twice due to the fact that we are summing the total number of elements in $A$ and $B$.
+
+\section{Complement}
+If we consider that all subsets are the subset of a particular set, $U$ for example (the universe of discourse), then the difference $U\setminus A$ is called the \textit{complement} of $A$ is shown as either $\overline{A}$ or $A'$. For example:
+\[A' = \{X | x \in U \mathrm{\ and\ } x \notin A\}\]
+
+\section{Basic Set Properties}
+Sets have a number of basic properties - many of these are the same as that for Boolean Expressions
+\begin{itemize}
+    \item $A \cup \emptyset = A$
+    \item $A \cap \emptyset = \emptyset$
+    \item $A \cup A = A$
+    \item $A \cap A = A$
+    \item Commutative
+    \begin{itemize}
+        \item $A \cup B = B \cup A$
+        \item $A \cap B = B \cap A$
+    \end{itemize}
+    \item Associative
+    \begin{itemize}
+        \item $(A\cup B)\cup C = A \cup (B\cup C)$
+        \item $(A\cap B)\cap C = A \cap (B\cap C)$
+    \end{itemize}
+    \item Distributive
+    \begin{itemize}
+        \item $A \cap (B \cap C) = (A \cap B) \cup (A \cap C)$
+        \item $A \cup (B \cup C) = (A \cup B) \cap (A \cup C)$
+    \end{itemize}
+    \item de Morgan's
+    \begin{itemize}
+        \item $(A \cap B)' = A'\cup B'$
+        \item $(A \cup B)' = A'\cap B'$
+    \end{itemize}
+\end{itemize}
+
+\section{Power Set}
+A \textit{power set} is the collection of all subsets of a set, $S$ which is denoted by $P(S)$. For example, if $S = \{a, b, c\}$ then:
+\[P(S) = \{ \emptyset, \{a\}, \{b\}, \{c\}, \{a, b\}, \{b, c\}, \{a, c\}, \{a, b, c\} \}\]
+
+\section{Partition}
+A \textit{partition} of the set $S$ is a collection of non-empty subsets of set $S$ where every element form $S$ belongs to exactly one member of $S$. This means that the sets are mutually disjoint and that the union of all the sets in the collection results in the original set, $S$. For example, if $S = \{a, b, c, d, e, f\}$ then $\{\{a,e\}, \{c\}, \{f,d\},\{b\}\}$ is a partition of $S$.
