@@ -1,0 +1,63 @@
+\taughtsession{Lecture}{Sets}{2024-01-23}{17:00}{Janka}{}
+
+\section{Introduction}
+\textit{Sets} underpin maths and Computer Science. A set is a collection of objects, which are called the elements (also known as members of the set). For example, a set of the numbers 1, 3, 8; or the collection of students in a class born in March. There are two characteristics of sets:
+\begin{enumerate}
+    \item There are no repeated occurrences of elements
+    \item There is no particular order of the elements
+\end{enumerate}
+
+\section{Set Notation}
+The elements of a set are enclosed in braces with their names being denoted by a \textit{letter}, for example:
+\[A = \{1, 2, 3\}, \quad C=\{Portsmouth, Brighton, London\}\]
+
+There are two ways that we can describe the members of a set. We can \textit{list the elements} which is mainly used for finite sets, for example:
+\[A = \{3, 6, 9, 12\}\]
+We can \textit{specify a property} that all the elements in the set have in common. The `$|$' character is read `such that', sometimes `$:$' is used in it's place. For example:
+\[B = \{x | x \mathrm{\ is\ a\ multiple\ of\ 3\ and\ } 0 < x < 15\}\]
+We can also use \textit{three dots} to informally denote a sequence of elements that we don't wish to write down, for example:
+\[C = \{1, \ldots, 10\}\]
+
+\subsection{Sets of Numbers}
+There are some reserved letters to denote specific sets of numbers in maths. These are shown below:
+\begin{itemize}
+    \item $\mathbb{N}$ (or $N$) is used for the set of natural numbers (integers $>=$ 0). $\mathbb{N} = \{0, 1, 2, 3, 4, \ldots \}$
+    \item $\mathbb{Z}$ (or $Z$) is used for the set of integers. $\mathbb{N} = \{\ldots, -1, 0, 1, \ldots \}$
+    \item $\mathbb{Q}$ (or $Q$) is used for the set of rational numbers (number which can be expressed as a quotient or fraction). $\displaystyle \mathbb{Q} = \{0, \frac{1}{2}, \frac{1}{3}, \frac{1}{4}, \ldots \}$
+    \item $\mathbb{R}$ (or $R$) is used for the set of real numbers. $\mathbb{R} = \{\displaystyle \ldots, -1, 0, \frac{1}{2}, \ldots \}$
+\end{itemize}
+
+\subsection{Elements of a Set}
+We can use the $\in$ symbol to denote if an element is a member of a given set. For example, if $x$ is a member of $S$ - then we can say:
+\[x \in S\]
+The symbol $\notin$ denotes an element is not a member of a given set. For example, if $y$ is \textbf{not} a member of $S$ - then we can say:
+\[y \notin S\]
+
+\subsection{Many Ways to Say The Same Thing}
+There are several ways of describing the same set, for example for the set $S$ of \textit{odd integers}:
+\begin{align*}
+    S &= \{\ldots, -5, -3, -1, 1, 3, 5, \ldots\}\\
+    &= \{x | x \mathrm{\ is\ an\ odd\ integer\ } \}\\
+    &= \{x | x=2k+1 \mathrm{\ for\ some\ integer\ } k \}\\
+    &= \{x | x = 2k+ 1 \mathrm{\ for\ some\ } k \in \mathbb{Z}\}\\
+    &= \{2k+1|k \in \mathbb{Z}\}
+\end{align*}
+
+The phrase ``for some [integers $K$]'', means ``for all [integers $k$]''
+
+\subsection{Empty Sets}
+Where a set has \textit{no elements}, it is called an empty set or null set. It's denoted with the $\emptyset$ symbol, for example:
+\[\emptyset = \{ \}\]
+
+\subsection{Finite \& Infinite Sets}
+If the number of elements in the set is fixed (for example when counting the elements at a fixed rate for a set amount of time), then the set is \textit{finite}. If the set $X$ is finite, then we call $|X|$ the \textit{cardinality} of $X$ therefore:
+\[|X| = \mathrm{number\ of\ elements\ in\ }X \]
+If the counting never stops then $X$ is an infinite set.
+
+\subsection{Subsets}
+A subset is where one set's elements are entirely present in another set. There are three conditions we need to know about:
+\begin{itemize}
+    \item $A \subseteq B$: $A$ is a subset of $B$ therefore every element in $A$ is also in $B$.
+    \item $A \nsubseteq B$: $A$ is not a subset of $B$.
+    \item $A \subset B$: $A$ is a proper subset of $B$, therefore $B$ has at least one additional element which is not in $A$.
+\end{itemize}
