@@ -1,0 +1,77 @@
+\taughtsession{Lecture}{Introduction to Penetration Testing}{2024-01-22}{0900}{Tobi}{}
+
+\textit{``If you start searching for Vulnerabilities in WordPress, you will find lots''}
+
+\section{Introduction to Ethical Hacking}
+Ethical Hacking is the process of finding vulnerabilities and reporting them to the correct people so that they can be rectified. Ethical hacking is a core component of the broader thing which is \textit{Cyber Security}, in which we are striving to protect the three core properties: Confidentiality (protecting information from being disclosed), Integrity (protecting information from being modified) and Availability (ensuring access to information when needed). 
+
+\section{Penetration Testing}
+\textit{Penetration Testing} is the continuous process of identifying, analysing, exploiting and making recommendations to vulnerabilities. Pen. Testing is often described as a cycle, which follows a very strict plan within a fixed timeframe. 
+\begin{figure}[H]
+    \centering
+    \smartdiagramset{circular distance=4cm, 
+    font=\footnotesize,
+    uniform color list = black!40 for 8 items,
+    text width=2.5cm }
+    \smartdiagram[circular diagram:clockwise]{Pre-Engagement Interactions, Intelligence Gathering, Scanning, Threat Modelling, Vulnerability Analysis, Explotiation, Post Exploitation, Reporting}
+    \caption{Pen. Testing Cycle}    
+\end{figure}
+There are three types of Pen. Testing:
+\begin{description}
+    \item[Black Box] where little or no knowledge is disclosed to the pen. tester
+    \item[Grey Box] where some knowledge is disclosed to the pen. tester. They will not be provided full information on anything
+    \item[White Box] where all knowledge is disclosed to the pen. tester
+\end{description}
+
+Through Pen. Testing, we actually exploit the vulnerabilities - not just look at them and go ``oh, that's a nice Vulnerability''. Vulnerability assessments can be carried out in a number of places:
+\begin{description}
+    \item[Human] through human errors, insider threats, social engineering, indifference
+    \item[Application] Functions, storage, memory management, input validation
+    \item[Host] Access Control, memory, malware, backdoor, OS / Kernel
+    \item[Network] Map the network, services, leaks, intercept traffic
+\end{description}
+
+\section{Stages of Penetration Testing}
+\subsection{Information Gathering}
+In the \textit{information gathering} phase, the hacker strives to obtain as much information on the target service / device / company as possible. This could be done through passive methods such as:
+\begin{itemize}
+    \item Open Source Intelligence
+    \item Google Dorking
+    \item Social Media Analysis
+    \item DNS Enumeration
+\end{itemize}
+Passive methods are methods where as much information as possible is gathered without establishing contact between the pen. tester and the target.\\
+
+Alternatively, active information gathering techniques (where the pen. tester establishes contact with the target) could be used:
+\begin{itemize}
+    \item Open Ports and Service Enumeration
+    \item Directory Scanning
+    \item Common Weaknesses
+\end{itemize}
+
+\subsection{Exploitation}
+After gathering information on the target, then next stage is to exploit and vulnerabilities which have been identified. Commonly this can be done through social engineering \& fishing, where illiterate users will handover compromising details unknowingly or through known exploits (such as the wp-google-maps exploit explored during the lecture and practical). The decision as to which exploit to use is quite complex and takes a number of factors into consideration including:
+\begin{itemize}
+    \item Reliability
+    \item Complexity
+    \item Detection
+    \item Impact
+    \item Environment
+    \item Cost
+\end{itemize}
+
+\subsection{Post Exploitation}
+After an exploit has been exploited, the next stage is to see what can be done with the access gained. Commonly this will be to attempt \textit{privilege escalation} through which a basic user account's permissions are escalated to be higher; or to maintain access - which could be done through keeping a SSH session alive or creating a start up service to open a backdoor. The pen. tester will need to cover their tracks, done through editing logs which in linux are found in the \verb|/var/log/| directory. Finally, the pen. tester will write a report detailing what they have found, how they exploited it and give recommendations on what can be done to close the exploit. 
+
+\section{Defences}
+There are a number of defences which can be used against hacking:
+\begin{itemize}
+    \item Firewalls
+    \item Intrusion Detection Systems
+    \item Intrusion Prevention Systems
+    \item Regular Testing
+    \item Effective Policies
+    \item Regular Effective Training
+    \item Patch Management
+    \item Threat Intelligence
+\end{itemize}
