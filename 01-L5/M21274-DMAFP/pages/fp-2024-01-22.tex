@@ -1,0 +1,29 @@
+\taughtsession{Lecture}{Introduction to Functional Programming}{2024-01-22}{1200}{Matthew}{}
+
+\section{Introduction}
+\textit{Functional Programming} is a different programming paradigm. There are all sorts of different ways we can classify a programming language, paradigm being one of them. More details on this in another module.
+
+\subsection{Imperative vs Functional Programming}
+Before we go too deep into Functional Programming, we will first look at the structure of Imperative Programming.\\
+
+Imperative Programming is a paradigm where the execution of the program consists of executions of \textit{statements}, which each impact the program's \textit{state}. \textit{Side Effects} can be caused by the statements; these are things that the program does where it cannot guarantee the outcome - for example get the current temperature, ask the user to enter a number or getting the system time.\\
+
+Pure Functional Programming does not have a state, does not have statements and does not have side effects. However - side effects are a ``necessary evil'' so they get brought back in isolated from the main program. Once side effects are introduced, our functional programming becomes impure.
+
+\section{Functional Programming}
+In Functional Programming, there are three key terms - expression, evaluation and value. An expression is some text which has a value, for example \verb|2 * 3 + 1|; a value is the thing which the expression has, for example \verb|7|; and evaluation is the process used to obtain a value from an expression.\\
+
+We will start our FunProg journey looking at Mathematical Functions, which we can think of as a box which maps argument values to a result value. A Haskell program is mainly made up of Function definitions, for example
+\begin{verbatim}
+    square :: Int -> Int
+    square n = n * n
+\end{verbatim}
+The first line above starts with the function name, then lists the parameters (a single \verb|Int|), then finally the result type. The second line is the actual function, starting with the name, then the names assigned to the parameters, then the value which gets returned. The double colon (\verb|::|) is read as `is type of'. \\
+
+Haskell comes with basic data types. This includes the \verb|Bool| which can either be \verb|True| or \verb|False| and can have operations performed on it through the Boolean Operators. Or is implemented as \textit{exclusive or} where it gives True when exactly one of it's arguments is true. Haskell also includes the \verb|Int| and \verb|Float| datatypes. These come with the standard functions and orders of precedence rules you would expect. \\
+
+Haskell also has conditional expressions which takes the form:
+\begin{verbatim}
+    if condition then m else n
+\end{verbatim}
+More information will be provided in the coming lectures as to alternatives to the if expression. 
