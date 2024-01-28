@@ -1,0 +1,52 @@
+\taughtsession{Lecture}{Overview and Evaluation of Programming Languages}{2024-01-26}{14:00}{Jaicheng}{}
+
+\section{The `TPK' Algorithm}
+The TPK algorithm was designed by \textit{Trabb, Pardo} and \textit{Knuth} in the 1970s for illustration purposes. It is designed to:
+\begin{enumerate}
+    \item read 11 numbers (entered by the user using their keyboard) into an array,
+    \item process the array in reverse order, applying a mathematical function to each value
+    \item then for each value - reporting the value or a message saying that the value is too large
+\end{enumerate}
+The algorithm includes all the basic constructs which would be expected to exist in a modern language therefore making it useful to use when understanding how languages work. A pseudocode implementation of the TPK algorithm is below:
+\begin{verbatim}
+    input 11 numbers into a sequence A
+    reverse sequence A
+    for each item in sequence A
+        call a function to do an operation
+        if result overflows
+            alert user
+        else
+            print result
+\end{verbatim}
+
+\section{Fortran}
+Fortran (\textit{For}mula \textit{Tran}slation) is the first well-known high-level programming language. It was developed by a team at IBM led b John Backus with the goals: to lower the costs involved with programming and debugging; and to compete with ``hand coded'' assembly language programs in terms of execution speed. The first Fortran compiler, built for the IBM 704 mainframe, was completed in 1957. \\
+
+Early source code had a strict, specific, format which was in part due to it being a punched-card program where the column and row position of the punch is important.\\
+
+The TPK algorithm in Fortran is shown below:
+\begin{verbatim}
+    C THE TPK ALGORITHM IN FORTRAN
+      FUNF(T)=SQRTF(ABSF(T))+5.0*T**3
+      DIMENSION A(11)
+    1 FORMAT(11F12.4)
+      READ 1, A
+      DO 10 J=1,11
+      I=11-J
+      Y=FUNF(A(I+1))
+      IF(400.0-Y) 4,8,8
+    4 PRINT 5,I
+    5 FORMAT(I10,10H TOO LARGE)
+      GOTO 10
+    8 PRINT 9,I,Y
+    9 FORMAT(I10,F12.7)
+    10 CONTINUE
+      STOP
+\end{verbatim}
+
+A letter \verb|C| in the first column indicated that the card was a comment and as such it should be ignored by the compiler. Non-Compiler cards were divided into four fields:
+\begin{description}
+    \item[1-5] is the label field; a sequence of digits here were taken as a label for the purpose of 
+\end{description}
+
+%continue with above

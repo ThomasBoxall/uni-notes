@@ -1,0 +1,50 @@
+\taughtsession{Lecture}{Introduction To Progrmaming Languages}{2024-01-26}{1400}{Jaicheng}{}
+
+This lecture will introduce us to the many different ways in which a programming language can be categorised. 
+
+\section{Programming Domains}
+A \textit{Programming Domain} is one way to think about \& categorise a programming language. We have different different programming domains for different applications as each application requires a specialised instruction set to improve efficiency for the programmer. Everything humans do can be solved by a computer, the number of programming domains reflects this.
+\subsection{Scientific Applications}
+\textit{Scientific Applications} of a programming language would be to do mathematical operations on some data which would result in an output. This could be used in applications such as weather forecasting where data on the current weather is fed into it - and a simulation is used to simulate the future weather conditions. Scientific applications will complete a large number of floating-point computations and use arrays. An example of a language in this domain is \textit{Fortran} (FORmula TRANslating system, created by IBM).
+
+\subsection{Business Applications}
+\textit{Business Applications} are designed to be used by businesses to complete business functions. For example, batch printing payslips. They use decimal numbers and characters. An example of a language in this domain is COBOL (COmmon Business-Oriented Language). 
+
+\subsection{Artificial Intelligence}
+In the \textit{Artificial Intelligence} domain, symbols are manipulated, rather than numbers and linked lists are used. Nowadays, this domain is now more talking about reasoning, facts and truth verification. An example of a language in this domain is LISP (LISt Processing).
+
+\subsection{Systems Programming}
+\textit{Systems Programming} is concerned with the control of the hardware of the computer, the management of the storage, the display control and management of other components such as peripherals. The languages used, such as C, need to be specifically designed for this domain due to the required low level interactions between the program and the hardware.
+
+\subsection{Web Software}
+\textit{Web Software} is arguably one of the most popular domains in these modern times. Much of the modern software is developed as a website, for easy use across multiple devices. The languages used are eclectic and each serve a particular purpose; for example, HTML for markup, PHP for scripting and JavaScript for adding interactivity.
+
+\section{Language Categories}
+\subsection{Machine Languages}
+The \textit{Machine Language} family of languages are hardware implemented languages; which means the instruction set available within them is the instruction set available on the CPU. This means the instruction set is limited in size and will be represented as binary (or hexadecimal) numbers.
+\subsection{Assembly Languages}
+The \textit{Assembly Languages} family of languages are a simplification of Machine Languages. In essence, they are the machine language with a `human-friendly' outside layer, meaning that they are legible to most people. To be executed, they require translating to machine code (which involves the use of a translator or interpreter). They come with labelled storage locations, jump targets and subroutine starting addresses in addition to the basic Machine Language instructions.
+\subsection{High Level Language}
+The \textit{High Level Language} family is another step up from Assembly Languages. Their syntax is very close to natural language syntax, making it much more legible and easier for programmers to read, write, understand and memorise. They usually will come with variables, types, subroutines, functions, the ability to handle complex expressions, control structures, and composite types. Examples include: C and Java.
+\subsection{Systems Programming Language}
+The \textit{Systems Programming Language} are effectively high level languages who also deal with the low level operations. For example C, C++, and Ada. They process the memory \& process management, I/O operations, device drivers, operating systems. 
+\subsection{Scripting Languages}
+The \textit{Scripting Languages} are a set of languages which exist to automate tasks, saving humans time. They will commonly be used to: analyse or transform a large amount of regular textual information; act as a glue between different applications; or bolt a front end onto an existing application. The languages used are often interpreted and will often include lots of string processing functions, such as in Python or PHP. 
+
+\subsection{Domain Specific Languages}
+The \textit{Domain Specific Languages} are highly specialised languages which are used in a specific area only. For example the Adobe PostScript language is used for creating vector graphics for electronic publishing.
+
+\section{Categories by Paradigm}
+There are three different categories.
+\subsection{Procedural}
+A program is built from one or more procedures (can also be called subroutines or functions) and the program will revolve around variables, assignment statements and iteration. Some languages will also support Object Oriented programming as well as some supporting scripting. Examples of languages include: C, Java, Perl, JavaScript, Python, Visual Basic, C++.
+\subsection{Functional}
+Functional languages work by applying a function to a given parameter. Languages include: Haskell,LISP, Scheme, F\#, Java 8. 
+\subsection{Logic}
+Logical rules are used to do reasoning over given facts which draws conclusions. The logical rules do not have to be defined in any particular order. Languages include: Prolog.
+
+\section{Categories by How Tasks are Specified}
+\subsection{Imperative Languages}
+In imperative languages, you have to explicitly instruct the computer what it needs to do to reach the goal, computing tasks are defined as a sequence of commands which the computer performs. The program will state in step-by-step instructions what the computer needs to do. This means that the implementation of the algorithms, and therefore the efficiency of the algorithms is down to the developer. Procedural languages belong to this category. 
+\subsection{Declarative Languages}
+In declarative languages, the computer gets told the desired results, without explicitly listing the the commands or steps which the program must undertake to reach its goal. Functional and logical programming languages belong to this category.
