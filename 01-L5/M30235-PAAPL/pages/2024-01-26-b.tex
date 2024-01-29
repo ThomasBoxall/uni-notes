@@ -46,7 +46,58 @@ The TPK algorithm in Fortran is shown below:
 
 A letter \verb|C| in the first column indicated that the card was a comment and as such it should be ignored by the compiler. Non-Compiler cards were divided into four fields:
 \begin{description}
-    \item[1-5] is the label field; a sequence of digits here were taken as a label for the purpose of 
+    \item[1-5] is the label field; a sequence of digits here indiciates the purpoose of the card and therefore the instruction.
+    \item[6] is a continuation field whereby a non-blank character here caused the card to be taken as a continuation of the statement on the previous card. 
+    \item[7-72] is the statement field
+    \item[73-80] are ignored by the compiler. This means that they can be used for card identification purposes in the event that the cards were dropped.
 \end{description}
 
-%continue with above
+The restrictions on the structure of the code were removed in Fortran 90, where it became a Free-Form language. 
+
+\section{COBOL}
+COBOL (\textit{CO}mmon \textit{B}usiness \textit{O}riented \textit{L}anguage) was created at the end of the 1950s by the US Department of Defence. It was initially developed as a language for business data processing from which comes its verbose syntax that was designed with the ability for managers to be able to read it in mind. COBOL was never designed to be used as a scientific language and has many critics, where programmers felt that the verbosity of the language increased program length, not readability. 
+
+\section{Algol}
+Algo (\textit{ALGO}righmic \textit{L}anguage) was originally designed to overcome the problems with FORTRAN in the late 1950s. Arguably, it is one f the most successful high level programming languages of the time  because it was influential over the design of subsequent high level languages.\\
+
+Algol 60 introduced the use of formal notation for syntax, block structure (with locally defined variables, whoop whoop), supported recursive procedures (until this point, you could do it however the languages didn't like it) and readable if and for statements. Ultimately, Algol died out with the rise in FORTRAN's popularity. The TPK algorithm in Algol is shown below.
+\begin{verbatim}
+  begin
+    comment TPK algorithm in Algol 60;
+    integer i; real y; real array a[0:10];
+    real procedure f(t); real t; value t;
+      f := sqrt(abs(t))+5*t^3;
+    for i := 0 step 1 until 10 do
+      read(a[i]);
+    for i := 10 step -1 until 0 do begin
+      y := f(a[i]);
+      if y > 400 then
+        write(i, "TOO LARGE")
+      else
+        write(i, y);
+    end
+  end
+\end{verbatim}
+
+\section{Pascal}
+Pascal is a direct descendant of Algol, which was intended to be more efficient in order to compete with FORTRAN as a general purpose language. An early Pascal compiler was designed to be portable, compiling the source code to a virtual machine (\textit{P-Code}). Pascal was popularised in the late 1970s as a good teaching language as it enforced a ``good'' programming style, it was especially popular amongst Universities. Pascal is still in development, with more recent versions adding modules and classes (for example, the Object Pascal Language, which is sometimes known as Delphi). The TPK algorithm in Pascal is shown below:
+\begin{verbatim}
+  program example(input, output); (* TPK alg in Pascal *)
+  var i : integer; y : real; a : array [0..10] of real;
+  function f(t : real) : real;
+  begin
+    f := sqrt(abs(t)) + 5*t*t*t
+  end;
+  begin
+    for i := 0 to 10 do read(a[i]);
+      for i := 10 downto 0 do
+        begin
+          y := f(a[i]);
+          if y > 400 then
+            writeln(i,' TOO LARGE')
+          else
+            writeln(i, y)
+        end
+  end.
+\end{verbatim}
+
