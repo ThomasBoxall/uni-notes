@@ -101,3 +101,64 @@ Pascal is a direct descendant of Algol, which was intended to be more efficient 
   end.
 \end{verbatim}
 
+\section{Systems Programming: C}
+In the early 1970s, it was decided that a more efficient language would be required for systems programming (such as compilers, operating systems, etc) as the languages created during the 1960s (Fortran and COBOL) weren't sufficient. C was developed alongside the UNIX operating system at Bell Labs; and has proven to be a very successful in systems programming and as a general-purpose programming language. It combines high-level features, such as functions \& loops with low-level operations, such as arithmetic on memory addresses. Critics argue that C code is less readable and it's weak typing causes problems. Shown below is the TPK algorithm written in C.
+\begin{verbatim}
+  #include <stdio.h>/* TPK algorithm in ANSI C */
+  #include <math.h>
+  double f(double t) {
+    return sqrt(fabs(t)) + 5*pow(t,3);
+  }
+  main() {
+    int i; double y; double a[11];
+    for (i = 0; i <= 10; i++)
+      scanf("%lf", &a[i]); /* %lf means long double*/
+    for (i = 10; i >= 0; i--) {
+      y = f(a[i]);
+      if (y > 400)
+        printf("%d TOO LARGE\n", i); /* %d means double*/
+      else
+        printf("%d %lf\n", i, y);
+    }
+  }
+\end{verbatim}
+
+\section{Object Oriented Languages}
+A major application of computers is the simulation of real-world systems (for example, hospital waiting lists, industrial production lines, etc). Early programming languages were developed specifically for simulation which include GPSS and Simula 1. The designers of Simula (Dahl and Nygaard) introduced the concept of a \textit{class} to their programs to represent simulated entities. This was the first `object-oriented language' as we know them, and therefore Simula 67 can be considered the parent OOL. Smalltalk in 1980 and Eiffel in 1986 were influential in the further development of OOLs; which was furthered in 1985 by Bell Labs who developed C++, the OOL cousin to C. Java and C\# are considered descendants of C++. 
+
+\section{Scripting Language}
+When Scripting Languages were first introduced, they were brought in to automated the task which a human operator could do, for example shell scripts. However nowerdays a scripting language loosely refers to high-level general-purpose programming languages such as: Pearl, Python, PHP, Ruby, JavaScript, and Matlab. Scripting languages are generally typeless with relatively simple syntax and semantics; they are usually interpreted and are, by design, fast to learn and write in. Shown below is the TPK algorithm in Python:
+\begin{verbatim}
+  from math import sqrt
+  def f(t):
+    return sqrt(abs(t))+5*t**3
+  a = [input() for i in range(11)]
+  for i in range(10,-1,-1): # range() is equiv to [10,-1)
+    y = f(a[i])
+    if y > 400:
+      print i, "TOO LARGE"
+    else:
+      print i, y
+\end{verbatim}
+
+\section{Logical Programming (Prolog)}
+Logical Programming is a type of programming which is built upon logical statements which are comprised of variables, constants and structures. In Prolog, variables begin with capital letters, constants are either atoms or integers and structures consist of a functor and arguments.\\
+
+A Prolog program consists of facts and rules. Prolog programs are used to answer queries, although simple arithmetic operations are possible. A query is a fact or rule that initiates a search for success in a Prolog program. It specifies a search goal by naming variables that are of interests. 
+
+\section{Language Evaluation Criteria}
+There are a number of criteria on which the readability, writability and reliability of a programming language can be evaluated.
+\subsection{Simplicity}
+The simplicity of a language is defined based on the simplicity of the syntax and the number of constructs (small number of constructs is simple). Programmers will tend to only learn the part of a large language which suits them and therefore probably not use the best construct / syntax for what they are trying to achieve. It is, obviously, possible to make a language too simple for example Assembly Language. 
+
+\subsection{Lexical Elements}
+The form that the individual lexical elements (i.e. words or symbols) or a language take can affect the languages' readability. The meaning of a symbol / keyword should ideally be obvious from it's name. 
+
+\subsection{Orthogonality}
+Orthogonality in a programming language means that it has a relatively small number of control and data constructs which can be combined in a relatively small number of ways and every possible combination is legal and meaningful. When using an orthogonal language, a programmer is not required to remember a lot of ``special cases'' in the use of it's constructs. The orthogonality of a language influences both the readability and the writability of software; if a language's rules contain fewer special cases, it is easier to learn. 
+
+\subsection{Data Types}
+It is also important for a language to have a rich set of data types; as well as having adequate mechanisms for combining types. 
+
+\subsection{Expressiveness}
+The expressiveness of a programming language relates to how much code is required to implement computations. 

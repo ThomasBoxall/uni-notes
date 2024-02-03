@@ -1,0 +1,23 @@
+\taughtsession{Lecture}{High Level Language Implementation}{2024-02-02}{14:00}{Jiacheng}{}
+
+\section{Computers \& Languages}
+A computer processor's circuitry provides a realisation of a set of primitive operations (or machine instructions) for arithmetic and logic operations. Some machine level instructions are called macroinstructions because they are implemented with a set of instructions at an even lower level called microinstructions. The machine language of a computer is the language which the computer understands directly, these are very simple as that is the most cost effective solution. It would \textit{theoretically} be possible to design a processor to directly use a language that we would classify as `high level' however this would add an extreme amount of complexity which isn't worth is.\\
+
+Sitting on top of the machine language is the operating system, this is a collection of programs that supply higher-level primitives (including device and file system management, I/O operations, text/program editors, etc). Implementations of programming languages exist on top of the operating systems. 
+
+\section{Language Implementation Methods}
+\subsection{Compilation}
+A \textit{Compiler} exists to translate high-level program (written in a source language) into machine code (machine language which the processor can understand). Compiling a program is slow as there is a number of checks and stages which have to be undertaken however as the output is instructions which can be directly executed on the processor, execution of the program is fast. \\
+
+A Compiler is a program that translates a program in a source language into an equivalent program in a target language. The source language is a high-level language and the target language is a low-level language. Compilers are structured as an ordered series of steps which all make use of the `symbol table' in different ways. The output from one step feeds into the input of the next step. The phases are outlined below.
+\subsubsection{Lexical Analysis}
+The \textit{lexical analyser} reads the source program's text one character at a time and returns a sequence of tokens to send to the next phase. Tokens are symbolic names for the lexical elements of the source language and each token is associated with a pattern. The scanner matches patterns against sequences of input characters and when a match is found for one of the patterns, the corresponding token (and any additional required information) is output and passes to the next phase
+
+\subsubsection{Symbol Table}
+The symbol table is a data structure containing all the identifiers (together with their attributes) of a source program. For variables, the attributes could be size, type and scope; and for methods, procedures or functions - the attributes could be the number of arguments and their types and passing mechanisms and return type. 
+
+\subsubsection{Syntax Analysis (Parsing)}
+The syntax analyser analyses the syntactic structure of the source program. The input to a parser is the sequence of output tokens from the lexical analyser. The Syntax Analyser applies the rules that define the language on the syntax tokens. During this process, the parser uses rules to derive the sequence of tokens. Parsers usually construct abstract syntax trees that still represent the source program's syntax, however are simpler than the corresponding parse trees. 
+
+\subsubsection{Semantic Analysis}
+The syntax analyser checks whether the program is syntactically correct, but not that it is completely valid or semantically correct. The semantic analyser determines if the source valid 
