@@ -1,0 +1,24 @@
+\taughtsession{Lecture}{Exploitation}{2024-02-05}{0900}{Tobi}{}
+
+\section{Vulnerability Scanning}
+The process of vulnerability scanning for a system is essentially scanning the open networking ports \& scanning through common directory names to see if anything is found. The outcome from a port scan is a banner grab, which allows hackers to be able to identify the services running and therefore identify any potential vulnerabilities.\\
+
+The outcome from directory scanning would be revealing a hidden file which hasn't been indexed or finding a misconfiguration. Either of these could lead to identifying further information about the target system that may expose a backdoor.\\
+
+Listed below are some types of vulnerability scans:
+\begin{description}
+    \item[Network-Based Scans] identify possible network security attacks and vulnerable systems on networks
+    \item[Host-Based Scans] finds vulnerabilities in workstations, servers, or other network hosts and provides visibility into configuration settings and patch history
+    \item[Wireless Scans] identifies rogue access points and validate that a company's network is securely configured
+    \item[Application Scans] detects known software vulnerabilities and mis-configurations in network or web apps
+    \item[Database Scans] identifies the weak points in a database
+\end{description}
+
+Ideally corporate environments will have a patch management system, end user protection, intrusion detection systems and intrusion prevention system. Unfortunately, in reality - this is commonly not the case, especially where there is little-to-no investment in IT infrastructure.
+
+\section{The Trusted Input Problem}
+A problem which has plagued digital services for as long as they have existed, is the requirement for users to be able to input data into them. Users cannot be trusted with a text-input field and as such we have to treat everything users input as suspicious until we can prove that it isn't.\\
+
+Software usually relies on interactions with users and other applications, and data \& code are executed in the same location. This can lead to: SQL injection, Stack Buffer Overflow, Shell Code Injection, File Inclusion or XSS attacks.\\
+
+We can identify vulnerabilities in a number of places: where the data is stored, where the data is processed or where the data is transmitted. The first stage to identifying a vulnerability is to find the injection point - which could be done through an information gathering technique.
