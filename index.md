@@ -31,7 +31,7 @@
 * [M22732 (Comp Tutorial Level 5)](01-L5/M22732-CTUT5/M22732-CTUT5.pdf)
 * [M30233 (Operating Systems and Internetworking)](01-L5/M30233-OSINT/M30233-OSINT.pdf)
 * [M30235 (Programming Applications and Programming Languages)](01-L5/M30235-PAAPL/M30235-PAAPL.pdf)
-* [M30237 (Web Programming)](01-L5/M30237-WEBPR/M30237-WEBPR.pdf)
+* [M30239 (Ethical Hacking)](01-L5/M30239-EHACK/M30239-EHACK.pdf)
 * [M30819 (Software Engineering Theory and Practice)](01-L5/M30819-SETAP/M30819-SETAP.pdf)
 
 *NB: Some modules are single teaching block therefore TB2 modules will remain empty until they begin in January.*
