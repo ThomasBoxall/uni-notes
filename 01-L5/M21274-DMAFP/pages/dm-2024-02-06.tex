@@ -1,0 +1,51 @@
+\taughtsession{Lecture}{Functions}{2024-02-06}{17:00}{Janka}{}
+
+A \textit{function} can be described in two ways. The mathematical definition is that ``a function is a special type of relation in which a single input will have at most one output''. The alternative definition of a function is that it is a mysterious black box which takes an input and returns and output. The same function, with the same input will always return the same output.\\
+
+If we take $A$ and $B$ to be nonempty sets, then: $A$ is a (total) function $f$ from $A$ to $B$, $f: A \rightarrow B$, is a relation from $A$ to $B$ such that
+\begin{center}
+    for all $x \in A$ there is exactly on element in $B, f(x)$
+\end{center}
+associated with $x$ by relation $f$. Note that the word `total' is used to describe the above function which means that every input has a defined output. The function $f: \mathbb{Z} \rightarrow \mathbb{Z}$ which is defined by $f(x) = 2x$ is also an example of a total function. \\
+
+It is also possible to have a `partial' function, this is where some of the inputs do not have defined outputs. For example the function $f(\frac{1}{x})$ where $x=0$, would be undefined therefore the function is classed as `partial'. 
+
+\section{Describing A Function}
+There are a few different ways in which a function can be described.
+\subsection{By A Formula}
+This is the most common method used. The function $f$ from $\mathbb{N} \rightarrow \mathbb{N}$ that maps every natural number $x$ to its cube $x^3$ can be described as:
+\[f(x) = x^3\]
+\subsection{By All Possible Associations}
+Whilst this is a valid method, it will generally not be used for efficiency reasons. The function $g$ from $A = \{a, b, c\}$ to $B=\{1, 2, 3\}$ would be shown as:
+\[g(a) = 1, g(b) = 1, g(c) = 2\]
+
+\section{Domain, Co-Domain \& Range}
+The domain of a function is the set of all input values for which there is a defined output. For example if we let $f: A \rightarrow B$ then the subset $D \subset A$ of all elements for which $f$ is defined is the domain. In the case of a total function, $D = A$ and in the case of a partial function, $ D \subseteq A$\\
+
+The co-domain of a function is the set of all possible output values; not just the ones which map to an input. For example, if we let $f: A \rightarrow B$ then the set $B$ is the co-domain. \\
+
+The range (also sometimes known as the image) of a function is the set of elements in the co-domain which map to an input. For example, if we let $f: A \rightarrow B$ then the range is denoted by $range(f)$. The range can also be expressed as:
+\[range(f) = \{f (x) | x \in A\}\]
+
+\section{Properties of Functions}
+Functions have a number of properties. 
+\subsection{Injective}
+The function $f: A \rightarrow B$ is injective (or one-to-one) if there is only one input that maps to each output. It can mathematically be defined as:
+\[\mathrm{for\ all\ } x,y \in A \mathrm{\ if \ } x \neq y \Rightarrow f(x) \neq \Rightarrow f(y)\]
+
+\subsection{Surjective}
+A function $f: A \rightarrow B$ is surjective (or onto) if the $range(f)$ is the co-domain $B$. It can mathematically be defined as
+\[\mathrm{for\ all\ } y \in B \mathrm{\ there\ exists\ } x \in A \mathrm{\ such\ that\ } f(x) = y \]
+A function which is not \textit{onto} is \textit{into}.
+
+\subsection{Bijective}
+A function $f: A \rightarrow B$ is bijective (or one-to-one correspondence) if it is both injective and surjective.
+
+\section{Composite Functions}
+A new function can be constructed by combining other simpler functions in some way. If we let $f: A \rightarrow B$ and $g B \rightarrow C$ be functions. The composition of $g$ with $f$ is the function denoted by $g \circ f: A \rightarrow C$ and defined by:
+\[(g\circ f) (x) = g(f(x)) \mathrm{\ for\ all\ } x\in A\]
+$(g\circ f) (x) = g(f(x))$ is read as $g$ of $f$, which means do $f$ first then do $g$. 
+
+\section{Inverse Functions}
+An inverse function is where the output of function $f$ can be fed into the input of function $f^{-1}$ to get the original input of $f$. This is mathematically defined as: $f: X \rightarrow Y$ is a bijective function, then there is an inverse function $f^{-1}: X \rightarrow Y$ that is defined as:
+\[f^{-1} (y) = x \mathrm{\ if\ and\ only\ if\ } f(x) = y \]
