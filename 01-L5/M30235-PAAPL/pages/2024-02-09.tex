@@ -1,0 +1,187 @@
+\taughtsession{Lecture}{Lexical Analysis - Deterministic Finite Automaton}{2024-02-09}{14:00}{Jiacheng}{}
+
+\textit{This lecture is a direct follow-on from the previous lecture looking at Regular Expressions (RegExs)}.\\
+
+Rather than using Regular Expressions - we can use \textit{state transition diagrams} to describe the process of recognising the patterns. State transition diagrams (or simply, state diagrams) are directed graphs which are represented of mathematical `machines' called \textit{finite state automata} (FSA) or \textit{finite automata} (FA). \\
+
+Finite automata can be \textit{deterministic} (DFA) or \textit{nondeterministic} (NFA). A FA is deterministic if it performs the same operation (a state transition) in a given situation (it's current state and input). A FA is nondeterministic if it can perform any of a set of state transitions in a given situation. We will only consider DFAs for now.
+
+\section{Finite State Automaton}
+A Finite State Automaton (FSA), or a finite automaton, has:
+\begin{itemize}
+    \item a set of states
+    \item a unique start state
+    \item a set of one or more final / accepting states
+    \item an input alphabet, augmented by a unique symbol representing end of input
+    \item a state transition function - represented by directed edges from one node to another, labelled by one or more alphabet symbols. 
+\end{itemize}
+
+Or more formally\ldots, a finite automaton (FA) $M$ consists of:
+\begin{enumerate}
+    \item a finite set $Q$ of states
+    \item a finite alphabet $\Sigma$ of input symbols
+    \item a distinguished start state $q_1 \in Q$
+    \item a set pf final states $F \subseteq Q$
+    \item a transition function $\delta : Q \times \Sigma \rightarrow Q$ that chooses a new state for $M$ based on the current state, $s \in Q$, and the current input symbol $a \in \Sigma$.
+\end{enumerate}
+
+\subsection{DFA for Lexical Analysis}
+As far as lexical analysis is concerned, a DFA is a string processing machine. It reads an input string from left-to-right, one symbol at a time. Then at any step, it is in one of a finite number of states. When it reads each symbol, it moves into a new state determined by its current state and the symbol read. Ultimately, the string is either accepted or rejected depending on the state of the machine after reading the final symbol. 
+
+\section{Transition Diagrams}
+DFAs are usually represented as diagrams called \textit{transition diagrams}. For example, the diagram below shows a simple DFA that processes strings from the alphabet $\Sigma = \{a, b\}$.
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (1) {$1$};
+        \node[state] (2) [right of=1] {2};
+        \node[state] (3) [below of=2] {3};
+        \node[state, accepting] (4) [right of=2] {4};
+
+        \path[->] (1) edge [above] node [align=center] {$a$} (2)
+                  (2) edge [above] node [align=center] {$b$} (4)
+                  (1) edge [right] node [align=center] {$b$} (3)
+                  (2) edge [right] node [align=center] {$a$} (3)
+                  (4) edge [right] node [align=center] {$a$} (3)
+                  (3) edge [loop right] node [align=center] {$b$} (3)
+                  (3) edge [loop left] node [align=center] {$a$} (3)
+                  (4) edge [loop above] node [align=center] {$b$} (4);
+    \end{tikzpicture}
+    \caption{DFA Example 1}
+    \label{fig:dfa-string}
+\end{figure}
+
+The above diagram shows a transition diagram. A string which is translated into it is read from left to right, for example $abbb$ would be accepted as it finishes in the accept state however $abbab$ would not be as it finishes at node 3 not at the finish state.\\
+
+A DFA's states are represented as circles (or other shapes for convenience when it's meaning is clear) in the transition diagram. A DFA begins in the initial state, denoted by the pointing into a shape - here the initial state is 1. It the reads the input string, one symbol at a time and for each symbol read it makes a transition to a new state according to the labelled arcs. One or more states can be accepting states - denoted by a double circle. Here only state 4 is an accepting state. If after reading the complete string, the DFA is in an accepted state - we say that the string is accepted and otherwise it is rejected.\\
+
+DFAs are just another way to represent something that we could use a RegEx to represent. The RegExs:
+\begin{align*}
+    r &= abb^*\\
+    r &= ab ^+
+\end{align*}
+could be used to represent the DFA shown above. 
+
+\subsection{A More Mathematical Example...}
+Considering the DFA that accepts strings of decimal digits containing a single decimal point:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (1) {$q_1$};
+        \node[state] (2) [right of=1] {$q_2$};
+        \node[state] (3) [below of=1] {$q_3$};
+        \node[state, accepting] (4) [below of=2] {$q_4$};
+
+        \path[->] (1) edge[above] node[align=center] {$d$} (2)
+                  (1) edge[left] node[align=center] {$.$} (3)
+                  (3) edge[below] node[align=center] {$d$} (4)
+                  (2) edge[right] node[align=center] {$.$} (4)
+                  (4) edge[loop right] node[align=center] {$d$} (4);
+    \end{tikzpicture}
+    \caption{DFA Example 2}
+\end{figure}
+
+The DFA above is defined as:
+\begin{align*}
+    \Sigma &= \{1, 2, 3, 4, 5, 6, 7, 8, 9, .\}\\
+    Q &= \{q_1, q_2, q_3, q_4\}
+\end{align*}
+$q_1$ is the initial stage, and $F=\{q_4\}$ is the set of final states. The transition functions can be represented by a set of triples:
+\begin{align*}
+    \delta = \{\quad &\\
+        & (q_1, 0, q_2)., \ldots, (q_1, 9, q_2),\\
+        & (q_1, ., q_3)\\
+        & (q_2, 0, q_2), \ldots, (q_2, 9, q_2)\\
+        & (q_2, ., q_4)\\
+        & (q_3, 0, q_4), \ldots, (q_3, 9, q_4)\\
+        & (q_4, 0, q_4), \ldots, (q_4, 9, q_4)\\
+    \}\quad &
+\end{align*}
+In each triple $(q_i, a, q_j)$, $q_i$ is the current state, $a$ is the input and $q_j$ is the state which the DFA will transit to. For example: $\delta(q_i, a)=q_j$.
+
+\section{Language of a DFA}
+The set of all strings accepted by the DFA is known as the \textit{language recognised} by the DFA. This means that for a DFA, $M$, the language $L(M)$ is defined as `the set of all strings $w \in \Sigma^*$ such that when the DFA starts processing $w$ from its initial state it ends up in an accepting state'. \\
+
+For example, the language for the string processing DFA (Fig \ref{fig:dfa-string}) is a set of strings:
+\[L(M) = \{ab^n | n \geq 1\}\]
+
+There are in fact algorithms that, given a regular expression $r$, builds a DFA (or NFA) $M$ such that:
+\[L(M) = L(r)\]
+
+\subsection{Simplification to DFA Diagrams}
+We often have a large number of transitions between two states in a DFA. For example - in an identifier recognition DFA, there are 52 arcs for English letters (labelled by each of the lower and upper-case letters); and 10 for digits. Drawing that many transition arcs to a DFA is not a good choice. For this reason, we name a set of symbols:
+\begin{align*}
+    letter &= \{a,b,c,\ldots, z, A, B, C, \ldots, Z\}\\
+    digit &= \{0, \ldots, 9\}
+\end{align*}
+and replace their arcs by a single arc labelled $letter$ or $digit$ (or simply $d$ as in our example).\\
+
+Therefore, the regular expression
+\[ident = letter (\_|letter | digit)^*\]
+can be represented with the following DFA
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (1) {$1$};
+        \node[state, accepting] (2) [right of=1] {$2$};
+        
+        \path[->] (1) edge[above] node[align=center] {$letter$} (2)
+                  (2) edge[loop right] node[align=center] {$letter, \_, digit$} (2);
+    \end{tikzpicture}
+    \caption{Example DFA 3}
+\end{figure}
+
+
+\subsection{A More Sophisticated Example}
+If we take the example of a DFA for the lexical analyser for a minimal language that includes:
+\begin{itemize}
+    \item identifiers
+    \item the symbols: \verb|:=|, \verb|+|, \verb|;|
+    \item keywords \verb|program|, \verb|begin|, \verb|end|, \verb|input| \& \verb|output|
+\end{itemize}
+
+It should output tokens \verb|END OF INPUT|, \verb|ERROR|, \verb|IDENTIFIER|, \verb|ASSIGN|, \verb|PLUS|, \verb|SEMI COLON|, \verb|PROGRAM|, \verb|BEGIN|, \verb|END|, \verb|INPUT| \& \verb|OUTPUT|\\
+
+% DIAGRAM
+
+The DFA begins in its initial state \verb|START|, and a token is recognised as soon as the accepting state \verb|DONE| is recognised. For example, if the arch labelled \verb|+| is taken, then token \verb|PLUS| has been  recognised. The re-read means that the input character resulted in this particular transition being taken should be read again (because it is the first character of the next token). The state names \verb|IN_ID| and \verb|IN_ASSIGN| can be replaced with any other meaningful names. 
+
+\section{Building a Lexical Analyser}
+Lexical analysers tend to be built in three ways:
+\begin{enumerate}
+    \item Write a formal definition of the token patterns, which are used as an input to a software tool (i.e. \textit{Lex}) which automatically generates a lexical analyse 
+\end{enumerate}
+or, design DFAs that describe the token patterns, then
+\begin{enumerate}
+    \setcounter{enumi}{1}
+    \item write a program to implement the diagram
+    \item write a table-driven implementation of the DFA.
+\end{enumerate}
+There are algorithms that construct lexical analysers from DFAs automatically.
+
+\subsection{Lex}
+The \textit{Lex} program is a lexical analyser generator. It was written in the 70s and new versions are available.
+\begin{itemize}
+    \item Flex: a variant of the classic ``lex'' (C/C++)
+    \item JLex: lexical analyser generator for Java, written in Java
+    \item Quex: A fast universal lexical analyser generator for C and C++
+\end{itemize}
+The program \textit{Lex} takes as input a source file (called a Lex file) comprising regular expressions for various tokens and automatically generates (most of) a lexical analyser in C. Therefore, the work of creating a lexical analyser using Lex is most about preparing Lex files.\\
+
+In its most basic form - a Lex file comprises a series of lines of the form
+\begin{verbatim}
+    pattern                 action
+\end{verbatim}
+where \verb|pattern| is a regular expression and \verb|action| is a piece of code. For example the following is a complete Lex file that displays token names rather than returning tokens to the syntax analyser.
+\begin{verbatim}
+    %%
+    [ \n\t]+                { ; }
+    if                      { printf("IF\n"); }
+    then                    { printf("THEN\n"); }
+    [0-9]+                  { printf("NUMBER\n"); }
+    [a-zA-Z][_0-9a-zA-Z]*   { printf("IDENT\n"); }
+    .                       { printf("ERROR\n"); }
+    %%
+\end{verbatim}
+
+The patterns on the left are all regular expressions, although in a slightly different notation to what has been discussed in this module so far. Running this Lex file on Lex produces a C file, which is then compiled by a C compiler to produce the lexical analyser. 
