@@ -1,0 +1,170 @@
+\taughtsession{Lecture}{Tuples, Strings \& Lists}{2024-02-12}{12:00}{Matthew}{}
+
+\section{Characters \& Strings}
+Haskell comes with both the \verb|String| and \verb|Char| types. In Haskell, a single quote (\verb|'|) is used to denote characters and double quotes (\verb|"|) for strings. For example:
+\begin{verbatim}
+    ghci> :type 'a'
+    'a' :: Char
+
+    ghci> :type "Sam"
+    "Sam" :: String
+\end{verbatim}
+
+The \verb|Char| module defines some useful functions on characters. Such as converting to uppercase or checking if a provided character is a digit.
+\begin{verbatim}
+    ghci> import Data.Char
+    
+    ghci> toUpper 'a'
+    'A'
+
+    ghci> isDigit 'a'
+    False
+\end{verbatim}
+
+\section{Tuples}
+As seen in other languages, we can combine multiple pieces of data into one data type. For example, we may want to combine a name (represented as a string) and a mark (represented as an integer) for example \verb|("Dave", 74)| which would have the tuple type \verb|(String,Int)|. This example can be furthered to a small program which takes two Tuples representing a student and outputs the name of the student with the higher mark:
+\begin{verbatim}
+    betterStu :: (String,Int) -> (String,Int) -> String
+    betterStu (s1,m1) (s2,m2)
+        | m1 >= m2  = s1
+        | otherwise = s2
+\end{verbatim}
+
+We can define a \textit{type synonym} which can be used in the place of the raw definition of the tuple. For example, if we define the type synonym on the first line below, we can then re-define \verb|betterStu| to use that.
+\begin{verbatim}
+    type StudentMark = (String, Int)
+    betterStu :: StudentMark -> StudentMark -> String
+    betterStu (s1,m1) (s2,m2)
+        | m1 >= m2  = s1
+        | otherwise = s2
+\end{verbatim}
+
+Tuples can also be used to enable a function to return more than one value.
+
+\section{Lists}
+Lists are the main data structure in Haskell. They are used to store any number of data values \textit{of the same type}. For example the first list below is a list of integers and the second example is a list of strings.
+\begin{verbatim}
+    [12, 64, -92, 85, 12]
+    ["This", "is", "a", "list"]
+\end{verbatim}
+
+The type of a list (\verb|l|) is denoted by \verb|[l]|. For example:
+\begin{verbatim}
+    ghci> :type [True, False, False]
+    [True, False, False] :: [Bool]
+\end{verbatim}
+The empty list (\verb|[]|) is an element of any list type.
+
+\subsection{Strings as a List of Chars}
+Strings in Haskell are simply lists of characters, therefore the type \verb|String| is declared as:
+\begin{verbatim}
+    type String = [Char]
+\end{verbatim}
+This means that the two expressions below are the same
+\begin{verbatim}
+    ['h', 'e', 'l', 'l', 'o']
+    "hello"
+\end{verbatim}
+
+This also means that the operations that we will cover later in this lecture (for example concatenation of lists) therefore also apply to strings.
+
+\subsection{Lists from Ranges}
+It is possible to use the operator \verb|..| to generate lists. For example:
+\begin{verbatim}
+    [3 .. 9]     = [3, 4, 5, 6, 7, 8, 9]
+    [3.1 .. 9]   = [3.1, 4.1, 5.1, 6.1, 7.1, 8.1, 9.1]
+    ['a' .. 'z'] = "abcdefghijklmnopqrstuvwxyz"
+\end{verbatim}
+
+We can also add an argument to give steps different from \verb|1| as seen below:
+\begin{verbatim}
+    [3, 5 .. 15]     = [3, 5, 7, 9, 11, 13, 15]
+    [0, 0.1 .. 0.5]  = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5]
+\end{verbatim}
+
+\subsection{List Comprehension}
+We can use list comprehension to build one list from another list. For example, if we define:
+\begin{verbatim}
+    aList = [1, 2, 3, 4, 5]
+\end{verbatim}
+THen the list comprehension shown  on the first line below will have the value on the second line below:
+\begin{verbatim}
+    [2*i | i <- aList]
+    
+    [2, 4, 6, 8, 10]
+\end{verbatim}
+
+We read this as ``take all \verb|2*i| where \verb|i| comes from  \verb|aList|''. The \verb|<-| symbol represents the set member symbol ($\in$) from Maths.\\
+
+List comprehension is extremely powerful as can be seen in the following example:
+\begin{verbatim}
+    bList = [2, 3, 6, 9, 4, 7]
+
+    ghci> [mod i 2 == 0 | i <- bList]
+    [True, False, True, False, True, False]
+\end{verbatim}
+We can take this another step further where we can add a test at the end of the generator. The following example has given all the values that are less than 5 from \verb|cList|
+\begin{verbatim}
+    cList = [2, 3, 6, 9, 4, 8]
+
+    ghci> [i * 2 | i <- cList, i < 5]
+    [4, 6, 8]
+\end{verbatim}
+
+We can use list comprehension and a pattern on the left hand side of the \verb|<-| as seen below:
+\begin{verbatim}
+    addPairs :: [(Int, Int)] -> [Int]
+    addPairs pairList = [i + j | (i, j) <- pairList]
+
+    ghci> addPairs [(1, 2), (4, 8), (6, 3)]
+    [3, 12, 9]
+\end{verbatim}
+
+
+\section{Polymorphic Functions}
+The \textit{Prelude} comes with a number of functions built in, we will now examine some of these. While doing so, we will examine \textit{polymorphism}.\\
+
+If we consider the \verb|length| function, which gives the number of elements in a list (returning an \verb|Int|), which works for any type of lists. For this reason, we may think of it to have the following types:
+\begin{verbatim}
+    length :: [String] -> Int
+    length :: [Bool] -> Int
+\end{verbatim}
+However! The actual type of \verb|length| is given as:
+\begin{verbatim}
+    length :: [a] -> Int
+\end{verbatim}
+Here, we are using a \textit{type variable} which stands for an \textit{arbitrary type}. By convention \verb|a|, \verb|b|, \verb|c|, \ldots are used as type variables.\\
+
+The expressions \verb|[a] -> Int| is known as the \textit{most general type} for \verb|length|
+
+\subsection{List Functions}
+We can define polymorphic functions, by not giving a type declaration. Haskell will try and infer the mst general type by looking at the structure of the function.
+
+\subsubsection{Adding Elements To Front Of List}
+For lists in Haskell, one of the most used operations is \verb|:|. This adds an element to the front of the list and is of type \verb|a -> [a] -> [a]|.  For example:
+\begin{verbatim}
+    ghci> 3:[5, 7, 2]
+    [3, 5, 7, 2]
+\end{verbatim}
+
+\subsubsection{List Concatenation}
+The \verb|++| operator can be used to join two lists together:
+\begin{verbatim}
+    ghci> "hello" ++ "world"
+    "helloworld"
+\end{verbatim}
+
+\subsubsection{Return Element From Specific Position}
+The \verb|!!| operator returns an element at a given position. For example:
+\begin{verbatim}
+    ghci> ["fish", "ham", "cheese", "spam"] !! 2
+    "cheese"
+\end{verbatim}
+Note that eventhough indexing a list like this is common in other languages, we will not tend to use this operator that often.
+
+\subsubsection{Checking If List Is Empty}
+The \verb|null| function tests whether a list is empty. For example:
+\begin{verbatim}
+    ghci> null [1, 2]
+    False
+\end{verbatim}
