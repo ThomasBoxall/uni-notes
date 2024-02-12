@@ -1,0 +1,68 @@
+\taughtsession{Lecture}{Social Engineering and Decoys}{2024-02-12}{0900}{Tobi}{}
+
+\section{Social Engineering}
+There are two basic concepts to social engineering:
+\begin{description}
+    \item[Deception] the art of `convincing' people to disclose sensitive / restricted / confidential information (i.e. to disclose their password)
+    \item[Manipulation] undertaking actions that can result in the above (i.e. installing malware or following links in phishing emails) 
+\end{description}
+
+There are four phases to social engineering. 
+
+\begin{figure}[H]
+    \centering
+    \smartdiagramset{circular distance=3cm, 
+    font=\footnotesize,
+    uniform color list = black!40 for 4 items,
+    text width=2.5cm }
+    \smartdiagram[circular diagram:clockwise]{Investigation, Hook, Play, Exit}
+    \caption{Social Engineering Cycle}    
+\end{figure}
+
+The first phase, investigation, is primarily concerned with preparing for the attack. This stage involves identifying the victims, gathering background information on them then selecting the attack method. This is highly critical as for the phishing attack to be effective, the user must be convinced that the attack is a real-looking email.\\
+
+The second stage is deceiving the victim(s) to gain a foothold. This stage involves engaging the target where they are then spun a story. The attacker will ensure that they have control over the interaction, to ensure that they are enable to manipulate the target into disclosing the information which the attacker wants.\\
+
+The third stage is obtaining the information over a period of time. This stage is where the attacker expands their foothold over the target, then they will execute the attack. The attacker is then able to disrupt business and / or siphoning data from the target.\\
+
+The final stage of the cycle is closing the interaction, ideally without arousing suspicion. This is a critical stage, especially where the attacker removes all traces of malware and covers their tracks. Ultimately, they are bringing their charade to a natural end.
+
+\subsection{Why is it Possible to Social Engineer}
+Humans are vulnerable! Humans have far too much trust in each other, especially where there is an ounce of truth in what the attacker says. For example, assuming an attacker was trying to gain access to an Instagram account - the target has an Instagram account and therefore would be likely to open an email from ``Instagram'' and following instructions in it. 
+
+\subsection{Examples of Social Engineering Attacks}
+\begin{description}
+    \item[Spear Phishing] Targeting a specific company
+    \item[Net Phishing] Targeting a group of people or random people
+    \item[Pretexting] fabricates a scenario or pretext to steal their victims' personal information
+    \item[Blackmail / Intimidation] Utilising information / force to compel the victim
+    \item[Baiting] Tricking or enticing the victim to reveal / do something
+    \item[Tailgating / Piggybacking] Involves an unauthorised person following an authorised individual into a restricted area or system
+    \item[Vishing] Using phone calls to scam the victim into divulging information
+    \item[Smishing] Text messages to lure victims into clicking on a malicious link or providing personal information
+    \item[Impersonation] Pretending to be a trusted contact or authority  
+\end{description}
+
+\section{Intelligent Password Guessing}
+Through information gathering, we are able to come up with good guesses as to what the target's passwords may be. Examples of common passwords include: their date of birth, important dates in their lives, their families date of births. Numerical identifiers (such as  dates) may be found in 4 or 6 digit pins. Common wordlists are freely available on the internet, or other active information gathering methods can be used.\\
+
+However - there are some disadvantages to dictionary attacks. The results are uncertain, there is a change of being detected which could lead to blocking of the attacker / blacklisting of them. It could also lead to a honeypot being found which will lead to the attacker being discovered.\\
+
+There is also some benefits to trying default passwords of services, a common mistake with configuring new equipment is to not change the admin password from the default - which are commonly the same across the same model. 
+
+\section{Deception Techniques}
+One of the most commonly used deception techniques is a honeypot. This is a special built device which is designed for attackers to find and attempt to breach. However - when the attacker makes contact with a honeypot, information about the attacker is harvested. Honeypots can manifest as users which are designed to be broken into (honey users); or as entire networks which are vulnerable and designed to be attacked (honey nets).\\
+
+Another common technique is obfuscation where the the target creates a service, which from the outside looks real, that is designed to deceive the attacker.\\
+
+It is also common to deceive attackers through switching port numbers, names of plugins or directory names.
+
+\section{Why Are We Targeted?}
+\begin{itemize}
+    \item Trust
+    \item Most companies don't properly train (or re-train) employees
+    \item Information / assets are readily available
+    \item Larger companies may well have disparate units / sites with differing policies
+    \item Many organisations still lack policies
+    \item Many organisations' employees aren't aware of the policies when they are in existence
+\end{itemize}
