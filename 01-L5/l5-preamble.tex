@@ -109,6 +109,24 @@ marginparsep=0mm,
 
 
 %%%
+% Code Blocks etc
+%%%
+
+\usepackage{upquote}
+\usepackage{listings}
+
+\lstset{
+  basicstyle=\ttfamily,
+  mathescape,
+}
+
+\lstdefinestyle{haskellTrace}{
+  moredelim=[is][\underbar]{_}{_},
+  keepspaces=true,
+  escapechar=^
+}
+
+%%%
 % CHAPTER & HEADERS
 %%%
 \usepackage[raggedright,bf]{titlesec}
