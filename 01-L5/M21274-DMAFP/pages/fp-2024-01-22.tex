@@ -20,10 +20,30 @@ We will start our FunProg journey looking at Mathematical Functions, which we ca
 \end{verbatim}
 The first line above starts with the function name, then lists the parameters (a single \verb|Int|), then finally the result type. The second line is the actual function, starting with the name, then the names assigned to the parameters, then the value which gets returned. The double colon (\verb|::|) is read as `is type of'. \\
 
-Haskell comes with basic data types. This includes the \verb|Bool| which can either be \verb|True| or \verb|False| and can have operations performed on it through the Boolean Operators. Or is implemented as \textit{exclusive or} where it gives True when exactly one of it's arguments is true. Haskell also includes the \verb|Int| and \verb|Float| datatypes. These come with the standard functions and orders of precedence rules you would expect. \\
+\section{Data Types: A Brief Introduction}
+Haskell includes a number of basic data types which we can make use of.
+\subsection{Boolean}
+The \verb|Bool| data type has the values \verb|True| and \verb|False|. As well as having the boolean operators \verb|&&| (and); \verb+||+ (or); and \verb|not| (not). These can be seen implemented in the following function which implements the \textit{exclusive or} operator (which gives True when exactly one of its arguments is True):
+\begin{verbatim}
+    exOr :: Bool -> Bool -> Bool
+    exOr x y = (x || y) && not (x && y)
+\end{verbatim}
 
-Haskell also has conditional expressions which takes the form:
+\subsection{Int \& Float}
+Haskell includes a number of different numerical data types - we'll start of using the \verb|Int| and \verb|Float| types. \verb|Int| is a fixed-space integer data type; and \verb|Float| is a floating point data type. Operators for these data types include:
+\begin{itemize}
+    \item arithmetic operators: \verb|+|, \verb|-| and \verb|*|
+    \item The \verb|Float| data type includes floating point division \verb|/|
+    \item The \verb|Int| has integer division and remainder functions \verb|div| and \verb|mod|
+    \item relation operators: \verb|==|, \verb|/=| (not equals), \verb|<|, \verb|>|, \verb|<=| and \verb|>=|
+\end{itemize}
+The operators use the standard precedence rules (as experienced in other languages). 
+
+\section{Conditional Expressions}
+Haskell includes a conditional expression which takes the form:
 \begin{verbatim}
     if condition then m else n
 \end{verbatim}
-More information will be provided in the coming lectures as to alternatives to the if expression. 
+where \verb|condition| is a boolean expression and \verb|m| \& \verb|n| are expressions of the same type Where \verb|condition| is true - the expression evaluates to \verb|m|; and where \verb|condition| is false - the expression evaluates to \verb|n|.\\
+
+In the next lecture, we'll see an alternative to conditional expressions.

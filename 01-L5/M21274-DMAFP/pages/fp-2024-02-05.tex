@@ -1,0 +1,78 @@
+\taughtsession{Lecture}{Pattern Matching \& Recursion}{2024-02-12}{1200}{Matthew}
+
+
+\section{Modules}
+As with Python and other popular programming languages, Haskell supports modules (libraries) which provide pre-written and tested code to do certain things. As with other languages, when using a module in Haskell - we have to import it with the \verb|import| command. The first line below shows importing the entire module and the second line shows importing only two functions:
+\begin{verbatim}
+    import Data.Char
+    import Data.Char (toUpper, toLower)
+\end{verbatim}
+
+Haskell's standard library which is auto-imported into every other module \& the interpreter is called the \textit{standard prelude}. 
+
+\section{Functions \& Operators}
+Haskell includes both functions and operators. Functions (\verb|sqrt|, \verb|mod|, etc) are used in prefix notation (i.e. \verb|mod n 2|). Operators (\verb|+|, \verb|-|, \verb|**|, etc) are used in infix notation (i.e. \verb|1 + x|); apart from the unary minus operator which is a prefix operator. \\
+
+It is possible to use any binary (two-argument) function as an operator by surrounding it with back-quotes (\verb|`|). For example \verb|n `mod` 2| is equivalent to \verb|mod n 2|. Similarly, we can use an operator as a function by encasing the operator in parentheses (\verb|()|). For example \verb|(+) 1 x| is equivalent to \verb|1 + x|.  
+
+\section{Pattern Matching}
+So far, we have seen two ways of defining functions:
+\begin{itemize}
+    \item using single equations
+    \item using guards
+\end{itemize}
+We will now add a third function definition mechanism to our options: pattern matching. \\
+
+Pattern matching consists of a sequence of equations; each \textit{pattern} (on the left hand side) is associated with a different result (on the right hand side). An example of this is seen below, defining the \verb|not| function which is included in the Prelude.
+\begin{verbatim}
+    not :: Bool -> Bool
+    not True   = False
+    not False  = True
+\end{verbatim}
+
+It is also possible to use a wildcard to simplify pattern matching. This can be seen below where the Boolean \textit{or} operator is redefined.
+\begin{verbatim}
+    (||) :: Bool -> Bool -> Bool
+    False || False = False
+    _ | _          = True
+\end{verbatim}
+Alternatively, we can also use \textit{named parameters} which can take a value from the pattern and use it in the output. An example of this is shown below
+\begin{verbatim}
+    (||) :: Bool -> Bool -> Bool
+    True || _   = True
+    False || p  = p
+\end{verbatim}
+
+
+\section{Recursion}
+As with other programming languages, Haskell supports recursion. A recursive definition is one that is defined in terms of itself.\\
+
+Recursion is a critical component in Haskell as pure functional programming does not support loops as these are imperative constructs (as they operate on a program's state). We shall recuse lots especially when using lists.
+
+\subsection{Recursive Definition of Factorial}
+To illustrate recursion in Haskell, we will examine an example of the Factorial function. $fact(n)$ is the product of the integer $n$ and all the integers below it $n-1$, $n-2$, \ldots. For example:
+\[ fact(3) = 3 \times 2 \times 1 = 6 \]
+Note that the factorial of a number $n > 0$ can be defined in terms of the factorial of $n-1$, for example
+\[ fact(4) = 4 \times fact(3) \]
+This leads us to the following recursive function definition
+\begin{verbatim}
+    fact :: Int -> Int
+    fact n
+        | n > 0       = n * fact (n - 1)
+        | n == 0      = 1
+        | otherwise   = error "undefined for negative ints"
+\end{verbatim}
+
+\subsection{Primitive vs General Recursion}
+Primitive recursion is recursion where 
+\begin{itemize}
+    \item the base case considers the parameter value 0
+    \item the recursive case considers how to get from value $n - 1$ to $n$
+\end{itemize}
+General Recursion is a recursive function where there is not a precise halting case, but there is a halting condition. For example, in the \verb|divide| function below - the halting case is where \verb|n < m| - not when either of them are at exact values.
+\begin{verbatim}
+    divide :: Int -> Int
+    divide n m
+        | n < m       = 0
+        | otherwise   = 1 + divide (n - m) m
+\end{verbatim}

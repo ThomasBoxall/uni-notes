@@ -1,0 +1,63 @@
+\taughtsession{Lecture}{Introduction To Functional Programming II}{2024-01-29}{1200}{Matthew}{}
+
+\section{Evaluation and Calculation}
+In a similar way to that of tracing an imperative program to understand the effect of executing their statements on the program state; we can evaluate expressions of a functional program step-by-step to understand the operation of it. This is also known as calculation.\\
+
+The process of calculation will be explained with the example function:
+\begin{verbatim}
+    twiceSum x y = 2 * (x + y)
+\end{verbatim}
+which we can evaluate using the example inputs \verb|4| and \verb|(2 + 6)|. The complete calculation of the expression is as follows:
+\begin{lstlisting}[style=haskellTrace]
+^\underline{twiceSum 4 (2 + 6)}^
+$\leadsto$ 2 * (4 + ^\underline{(2 + 6)}^)      def of twiceSum
+$\leadsto$ 2 * ^\underline{(4 + 8)}^            arithmetic
+$\leadsto$ ^\underline{2 * 12}^                 arithmetic
+$\leadsto$ 24                    arithmetic
+\end{lstlisting}
+
+\section{Guards}
+Guards are Boolean expressions used in function definitions to give alternative results dependent on the parameter values. The following function gives the largest of the two \verb|Int| values:
+\begin{verbatim}
+    maxVal :: Int -> Int -> Int
+    maxVal x y
+    | x >= y     = x
+    | otherwise  = y
+\end{verbatim}
+We saw the \verb|if ... then ... else ...| construct last week, which could be used in place of guards. However guards are the preferential thing to use where there are more than one case - as they allow for this easier. Shown below is a function, \verb|maxThree|, which returns the largest of three \verb|Int| values passed in:
+\begin{verbatim}
+    maxThree :: Int -> Int -> Int -> Int
+    maxThree x y z
+    | x >= y && x >= z   = x
+    | y >= z             = y
+    | otherwise          = z
+\end{verbatim}
+Calculations involving guards are represented slightly differently, note the \verb|??| denoting when the function is inside the guard. Shown below is the calculation of \verb|maxThree|:
+\begin{lstlisting}[style=haskellTrace]
+^\underline{maxThree 3 2 5}^
+?? ^\underline{3 >= 2}^ && 3 >= 5     first guard
+?? $\leadsto$ True && ^\underline{3 >= 5}^    def of >=
+?? $\leadsto$ ^\underline{True \&\& False}^      def of >=
+?? $\leadsto$ False            def of &&
+?? ^\underline{2 >= 5}^              second guard
+?? $\leadsto$ False            def of >=
+?? ^\underline{otherwise}^            third guard
+?? $\leadsto$ True             def of otherwise
+$\leadsto$ 5
+\end{lstlisting}
+
+
+\section{Local Definitions}
+Single line definitions in Haskell can be slightly unwieldy to read, write and understand. For this reason - we may want to breakdown the definition's expression to make it easier to read. For example the function:
+\begin{verbatim}
+    distance :: Float -> Float -> Float -> Float -> Float
+    distance x1 y1 x2 y2 = sqrt ((x1-x2)^2 + (y1-y2)^2)
+\end{verbatim}
+can be broken down to the following:
+\begin{verbatim}
+    distance x1 y1 x2 y2 = sqrt (dxSq + dySq)
+    where
+        dxSq = (x1 - x2) ^ 2
+        dySq = (y1 - y2) ^ 2
+\end{verbatim}
+From the above example, we see that the main expression uses the local definitions and the local definitions use the function's parameters. The local definitions can only be used within the functions that they are defined within; they are ``hidden'' from the rest of the program. The local definitions can appear in any order within the \verb|where|. 
