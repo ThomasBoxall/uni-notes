@@ -10,7 +10,7 @@ Reasoning is something that we are introduced to doing from a young age. Younger
 \end{itemize}
 Over time, people come to understand that the following statement is how logic \& reasoning works:
 \begin{center}
-    ``If $X$ then $Y$'' is true and ``$X$'' is true $\Rightarrow$ sp ``$Y$'' must be true
+    ``If $X$ then $Y$'' is true and ``$X$'' is true $\Rightarrow$ so ``$Y$'' must be true
 \end{center}
 
 \section{Propositions}
@@ -139,6 +139,8 @@ A statement that is true for all possible values of its propositional variables 
 A statement that is false for all possible values of its propositional variables is called a contradiction. For example, any proposition $p: p \wedge ¬p$ is a contradiction. In a truth table, the final column (where the output is) will always be false. 
 \subsection{Contingency}
 A statement that can be either true or false depending on the truth values of its propositional variables is called a contingency. For example the proposition ``Murray will win the Wimbledon next year'' us a contingency because the truth of the statement is dependent on the propositional variable. 
+\subsection{Contrapositive}
+The contrapositive of a conditional statement $p \rightarrow q$ is $¬q \rightarrow ¬p$. The conditional statement is logically equivalent to its contrapositive.
 
 \section{Logical Equivalence}
 Two statements are said to be \textit{logically equivalent}, $\equiv$, if and only if they have identical truth values for each possible value of their statement variables. Logical equivalence corresponds to $=$ with numbers.\\
@@ -162,6 +164,17 @@ Shown below are the rules of Logical Equivalence. There is not a requirement to 
     \item $¬(p \vee q) \equiv ((¬p)\wedge(¬q))$ (De Morgan's Law)
     \item $¬(p \wedge q) \equiv ((¬p)\vee(¬q))$ (De Morgan's Law)
 \end{itemize}
+
+\subsection{Example of logical equivalence proof}
+\textit{Prove that $(p\rightarrow q) \vee (p \rightarrow r) \equiv p \rightarrow (p \vee r)$}
+\begin{align*}
+    (p\rightarrow q) \vee (p \rightarrow r) &\equiv  &&\\
+    & \equiv (¬p \vee q) \vee (¬p \vee r) && \mathrm{logical\ equivalence\ law}\\
+    & \equiv ¬p \vee q \vee ¬p \vee r && \mathrm{all\ are\ `or'\ so\ remove\ brackets}\\
+    & \equiv ¬p \vee q \vee r && \mathrm{get\ rid\ of\ second} ¬p\\
+    & \equiv ¬p \vee (q \vee r)&& \mathrm{add\ brackets\ in} \\
+    & \equiv p \rightarrow (q \vee r) && \mathrm{logical\ equivalence\ law\ again}
+\end{align*}
 
 \section{Necessary and Sufficient Condition}
 A necessary condition is a condition such that statement $B$ cannot be true without statement $A$ being true. However it is possible for statement $A$ to be true to even if statement $B$ is not true.\\
