@@ -1,0 +1,97 @@
+\taughtsession{Lecture}{List Patterns and Recursion}{2024-02-19}{1200}{Matthew}{}
+
+\section{Patterns, a Recap}
+Many of the functions we have been using so far have been defined using patterns. These can include literal values, variables, and wildcards. All of these can be seen below in the redefinition of \verb|or| from lecture 3.
+\begin{verbatim}
+    or :: Bool -> Bool -> Bool
+    or True _    = True
+    or False a   = a
+\end{verbatim}
+
+Patterns can also include Tuples. For example the \verb|fst| and \verb|snd| functions from the Prelude:
+\begin{verbatim}
+    fst (x,_)  = x
+    snd (_,y)  = y
+\end{verbatim}
+
+Note that these projection functions are polymorphic - they work for tuples of data of any kind. 
+
+\section{Lists and List Patterns}
+As we saw in the last lecture, the \verb|:| operator will append whatever precedes it to the list which succeeds it. For example:
+\begin{verbatim}
+    ghci> 4:[7,3]
+    [4,7,3]
+\end{verbatim}
+This means that every lit can be built from \verb|[]| and \verb|:|, which are constructors for lists.\\
+
+Note that the \verb|:| operator is right-associative meaning that it works from right to left adding the right-most to the second right-most, and so on. For example:
+\begin{verbatim}
+    ghci> 1:2:[]
+    [1,2]
+\end{verbatim}
+
+We can use these constructors in patterns. Where we use \verb|:| in list patterns when we want to deal with the first element and the rest of the list separately. For example, the following example (from the Prelude) returns the first element of a list:
+\begin{verbatim}
+    head :: [a] -> a
+    head (x:xs) = x
+\end{verbatim}
+Note that the naming convention \verb|x:xs| is standard; where we say ``x, exes''.\\
+
+It is also possible to use wildcard matching:
+\begin{verbatim}
+    head :: [a] -> a
+    head (x:_) = x
+\end{verbatim}
+
+
+\section{Recursion over Lists}
+As we already know from recursion in the previous weeks, we require a base case and a recursive case. When recursing over lists - the base case considers the empty list \verb|[]| and the recursive case gives the result for any non-empty list (one matched by \verb|x:xs|) from the result of the tail of the list \verb|xs|. \\
+
+If we take the example of the implementation of a Prelude defined function \verb|sum|.
+\begin{verbatim}
+    sum :: [Int] -> Int
+\end{verbatim}
+The function is defined to return a sum of a list of integers.\\
+
+THe base case of our function will be when the list is empty, as the sum of \verb|[]| is obviously \verb|0|. The recursive case will be where \verb|xs| is greater than 0. Therefore, we can define the function as
+\begin{verbatim}
+    sum []      = 0
+    sum (x:xs)  = x + sum xs
+\end{verbatim}
+
+\subsection{General Recursion over Lists}
+The above recursive function we have explored is of the type `primitive recursion'. It is also possible to use general recursion over lists.\\
+
+For example, we take the Prelude function \verb|zip| which has the following definition:
+\begin{verbatim}
+    zip :: [a] -> [b] -> [(a,b)]
+\end{verbatim}
+This function joins two lists into a single list of tuples:
+\begin{verbatim}
+    ghci> zip ['r', 'h', 'a'] [4, 7, 2]
+    [('r',4),('h',7),('a',2)]
+    ghci> zip [5, 7, 1, 5] ['a', 'b']
+    [(5,'a'),(7,'b')]
+\end{verbatim}
+Note that the lists don't have to be of the same length, and that if the lists are different lengths then the last few elements of the longer elements are dropped.\\
+
+The easiest way to define \verb|zip| is by beginning with the recursive case of two non-empty lists \verb|x:xs| and \verb|y:ys|. In this case we can place \verb|x| and \verb|y| into tuple, and zip up the tails \verb|xs| and \verb|ys| which give us:
+\begin{verbatim}
+    zip (x:xs) (y:ys) = (x.y) : zip xs ys
+\end{verbatim}
+Now we have one part of the program left - handling when one argument is \verb|[]|. There are three possibilities for this:
+\begin{itemize}
+    \item \verb|y| is empty
+    \item \verb|x| is empty
+    \item \verb|x| and \verb|y| are empty
+\end{itemize}
+These can all be written together with a wildcard:
+\begin{verbatim}
+    zip _ _ = []
+\end{verbatim}
+which gives us the entire function:
+\begin{verbatim}
+    zip :: [x] -> [y] -> [(x,y)]
+    zip (x:xs) (y:ys) = (x.y) : zip xs ys
+    zip _ _ = []
+\end{verbatim}
