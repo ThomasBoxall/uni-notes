@@ -1,0 +1,44 @@
+\taughtsession{Lecture}{Privilege Escalation}{2024-02-19}{0900}{Tobi}{}
+
+\section{Introduction}
+Privilege escalation is the process of changing the user which the attacker has gained access through to either a user of the same access level (horizontal privilege escalation); or alternatively to a user of a higher access level (vertical privilege escalation). Horizontal privilege escalation can sometimes be referred to as `lateral' privilege escalation - this term is commonly used in a Windows Environment. 
+
+\section{Stages of Privilege Escalation}
+There are a few stages to privilege escalation, which will all commonly be used in privilege escalation. Ultimately, the hacker is aiming to understand as much about the system as possible - with the aim to find an exploit and use it.
+
+\subsection{Who Am I?}
+When access is gained to a system, the attacker will have a role within the system. This will not be obvious to them, so they will want to identify what this role is, what user rights they have and what they can do. They would then want to attempt to spawn a shell as this is much more comfortable for them to use than the TTY shell which they will probably have spawned into.
+\begin{itemize}
+    \item The \verb|whoami| command gives the username of the current user.
+    \item The \verb|id| command gives the user and group information for the specified user (which is the current process when unspecified)
+    \item The \verb|sudo -l| gives information about what commands can be run by the current user; it does require their password however.
+\end{itemize}
+
+An example of where Privileges have been badly messed up is in Windows XP where running Command Prompt as an administrator would elevate a basic users privilege.
+
+\subsection{What Is My Environment?}
+After identifying who the user is, they can then begin to identify what environment they have landed in. This will include things such as identifying the OS details and the Linux Kernel version. Both of these may be exploitable. The hacker then may identify what programming languages and tooling is available on the system, for example \textit{gcc} or \textit{Python}. The hacker would then also be attempting to identify how files can be uploaded to the system.
+\begin{itemize}
+    \item The \verb|uname -a| command will display the kernel version
+    \item The \verb|/etc/os-release| file (which can be displayed using \verb|cat|) contains more information about the operating system, including it's flavour.
+\end{itemize}
+
+\subsection{How do Users use the System?}
+The next stage is to identify how users are using the system, as this may lead to some identification of what the system is used for and who else has access to it. It may also be pertinent to identify the history of commands used, any profiles or cached data. This may also lead to identifying if there is a directory service enabled and if it is possible to enumerate other users. 
+
+\subsection{Sensitive Information}
+From here - it is possible to begin to identify what sensitive information has been left laying around where it shouldn't have. It may be possible to identify usernames / groups; passwords; database files; keys (for example SSH private keys); configuration files / scripts; hidden files; or shared directories / files.\\
+
+Sensitive files should always be restricted to the admin / root user, and most definitely not made public.
+
+\subsection{Processes and Services}
+From identifying what processes and services are running, it is possible to further identify what the device is doing. There may be some processes which are run by root, meaning that if these can be exploited then they will be exploited by root. As we have seen throughout this module, known exploit databases should be checked against all installed software to attempt to identify vulnerable software installed. There may also be hidden files, shared directories or files or configuration files which are stashed somewhere.
+
+\subsection{File Permissions / Access Control}
+Through looking at what data the user can read, what they can write to and what they can execute - it is possible to further identify permissions on the system. From reviewing who owns what, it's possible to identify how badly configured the file permissions are. It may be possible to identify `sticky bits' which are user ownership access right flags and are assigned to files and directories. There may also be SUID (set user ID, where you run as the owner not the user who started it) and GUID (group user ID, where it is run as the group not the user who started it) configured. There may also be other filesystems mounted which can lead to further vulnerable points. 
+
+\subsection{Networking}
+Through looking at IP addresses, MAC Addresses and available interfaces - it is possible to identify what networks the target device is connected to. It can also be worth looking at DHCP, proxies, the default gateway, routes, DNS entries, etc. As all of this together will help to build out a map of what access this device has to. From this - it may be possible to identify internal firewalls, what services are open, who is communicating with the target. There is a possibility of sniffing packets, ARP poisoning or even port forwarding / tunnelling. 
+
+\subsection{Automating the Process}
+There's obviously lots of different stages and processes to go through, and tools to use to effectively follow through privilege escalation. However - there are tools which can automate the process for hackers. These tools may not use all the techniques, just some of them and importantly, they might be noisy and make cleaning up difficult.
