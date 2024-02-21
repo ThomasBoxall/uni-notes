@@ -1,0 +1,126 @@
+\taughtsession{Lecture}{Logic II: Quantified Statements}{2024-02-20}{1700}{Janka}{}
+
+\section{Propositional Logic: A Recap}
+As we saw last week, \textit{Propositional Logic} applies to a declarative statement where the basic propositions are either \textit{True} or \textit{False}. ``Mr Bean is a Mathematical Major'' is an example of a proposition, however ``\textit{He} is a Mathematical Major is not'' because it depends on the value of ``he''. \\
+
+The sentence ``All students sitting in this class in the first three rows are mathematical majors'' ia a more complex example however. To fully discover whether this is a proposition or not, we would need to analyse each individual atomic propositions; which would be to analyse all individuals sitting in the first three rows. For example:
+\begin{itemize}
+    \item ``Bella is a mathematical major''
+    \item ``Joe is a mathematical major''
+    \item ``Fred is a mathematical major''
+\end{itemize}
+This is obviously a lot of work and mathematicians don't like to over-exert themselves, so there's a method which can be use to simplify this predicament, called \textit{Predicate Logic}.
+
+\section{Predicate Logic}
+A \textit{predicate} (or propositional function) is a statement containing one or more variables. If values from a given set (domain) are assigned to all the variables, the resulting statement is a proposition. For example:
+\begin{itemize}
+    \item $P(n) : n^2 +2n$ is an odd integer (domain $\mathbb{Z}$) is a predicate because when $n$ is substituted in for an integer, we have a proposition.
+    \item $S(n) : \mathrm{The\ student\ passed\ the\ exam\ }$ (domain of all students sitting in this class) is a predicate because when $n$ is substituted for a student - we have a proposition.
+    \item $Test(x, y, z) : x < y + z$ (domain of all integers) is a predicate because once $x, y z$ have been substituted for an integer - we have a proposition as the mathematical expression can either be True or False.
+    \item $Distance(x,y):$ whether the distance between the towns $x$ and $y$ is less than 300km (domain of all towns in the UK) is a predicate because once we have substituted $x$ and $y$ for two different Towns then we will have a proposition (as this can either be True or False). 
+\end{itemize}
+From programming, we are familiar with If and While statements. The condition which powers these are  in fact predicates (if $p(y)$ then; or while $p(y)$ do).\\
+
+\subsection{Changing a Predicate to a Proposition}
+\begin{enumerate}
+    \item Assign values (from the domain) to all their variables\\
+    For example: ``$x$ is divisible by 5'' (the domain $\mathbb{N}$) would be converted through substituting $x$ for a number (i.e 35) then this would result in either True or False (i.e True). 
+    \item to add \textit{quantifiers}
+\end{enumerate}
+
+\section{Quantifiers}
+Quantifiers are words that refer to quantities such as ``some'' or ``all''. Most of the statements in Maths and Computer Science use terms such as ``for every'' or ``for some''.\\
+
+For example: ``For all $x \in \mathbb{N}, x$ is divisible by 5'' can use a different quantifier and be be written as ``There exists $x \in \mathbb{N}$ such that $x$ is divisible by 5''. From this  - we know that there are two quantifiers:
+\subsection{Universal Quantifiers}
+The symbol $\forall$ (an upside down A) is called the universal quantifier; which has the meaning ``for all'' or ``for each''.\\
+
+The formal definition of the universal quantifier is as follows: For a predicate $p(x)$ with domain $D$, the statement:
+\begin{center}
+    ``for every $x$ from domain $D$, $p(x)$''
+\end{center}
+may be written as $\forall x \in D\  p(x)$.\\
+
+For example:
+\begin{itemize}
+    \item Example 1: `` All DMAFP students are happy'' can be re-written as:\\
+    Let $D$ be the set of all DMAFP students, then
+    \[\forall x \in D, x \mathrm{\ is\ happy}\]
+    \item Example 2: Let $S = \{1, 2, 3, 4, 5, 6 \}$ and consider the statement
+    \[\forall x \in S, x^2 \geq x\]
+    \item Example 3: $\forall x \in \mathbb{R}, x^2 \geq x$
+\end{itemize}
+
+\subsubsection{True Statements with $\forall$}
+We know the fact: ``The statement $\forall x \in D p(x)$ is true if $p(x)$ is true for every $x \in D$''. To prove a quantified statement including $\forall$ to be true, we have to show the truth of the each individual element of the domain to be true.
+\begin{itemize}
+    \item Example 1: Let $D$ be the set of all DMAFP students, then $\forall x in D, x$ is happy, is a statement. It is true if and only if every student answers `Yes'. 
+    \item Example 2: Let $S = \{1, 2, 3, 4, 5, 6 \}$. The statement $\forall X \in S, x^2 \geq x$ is true because $1^2 \geq 1$, $2^2 \geq 2$, $\ldots$,  $6^2 \geq 6$
+\end{itemize}
+
+\subsubsection{False Statements with $\forall$}
+We know the fact: ``The statement $\forall x \in D\ p(x)$ is false if $p(x)$ is false for at least one $x \in D$''. To prove that a quantified statement including $\forall$ to be false, we have to show at least one counterexample.
+\begin{itemize}
+    \item Example 1: Let $D$ be the set of all DMAFP students, then $\forall x in D, x$ is happy, is a statement. It is false if and only if there is at least one unhappy student.
+    \item Example 3: The statement $\forall x \in \mathbb{R}, x^2 \geq x$ is not true. This is because there exists $x \in \mathbb{R}$ for which $x^2 < x$ for example where $x=\frac{1}{2} \displaystyle$. Therefore the statement is false. 
+\end{itemize}
+
+\subsection{Existential Quantifier}
+The symbol $\exists$ (a backwards E) is called the existential quantifier; which has the meaning ``there exists''. \\
+
+The formal definition of an existential quantifier is as follows: For a predicate $p(x)$ with the domain D:
+\begin{center}
+    ``there exists an $x$ from the domain $D$ such that $p(x)$''
+\end{center}
+may be written as $\exists x \in D$ such that $p(x)$.\\
+
+For example:
+\begin{itemize}
+    \item Example 1: ``There is a happy DMAFP student''. can be rewritten:\\
+    Let $D$ be the set of all DMAFP students then:
+    \[\exists x \in D \mathrm{\ such\ that\ } x \mathrm{\ is\ happy}\]
+    \item Example 2: Let $S = \{1, 2, 3, 4, 5, 6 \}$ and consider the statement
+    \[\exists x \in S \mathrm{\ such\ that\ } x^2 \geq x\] 
+    \item Example 3: $\exists x \in \mathbb{N}$ such that $x^2 >x$
+\end{itemize}
+\subsubsection{True Statements with $\exists$}
+We know the fact: ``The statement $\exists x \in D$ such that $p(x)$ is true if $p(x)$ is true for at least one $x \in D$'' To prove a quantified statement including $\exists$ to be true, we have to find one proposition for which the predicate is true. 
+\begin{itemize}
+    \item Example 1: Let $D$ be the set of all DMAFP students, the statement $\exists x \in D$ such that $x$ is happy. To prove this is true - we only need to find one student who is happy.
+    \item Example 3: The statement $\exists x \in \mathbb{R}$ such that $x^2 \geq x$ can be proved as true because it is true where $x=2$.
+\end{itemize}
+\subsubsection{False Statements with $\exists$}
+We know the fact that ``The statement $\exists x \in D$'' such that $p(x)$ is false if $p(x)$ is false for all $x \in D$. To prove a quantified statement including $\exists$ to be false, we have to prove that it can never be true. For a small, finite domain - this can be brute forced; or for a large (or  infinite) domain - this has to be proved logically.
+\begin{itemize}
+    \item Example n: The statement $\exists x \in \mathbb{Z}$ such that $x^2 < -2017$ is false because there are members of $\mathbb{Z}$ which when squared, are bigger than $-2017$
+\end{itemize}
+
+\section{Negation of Quantified Statements}
+When negating a quantified statement, it is not as simple as one might imagine. You do not simply add (or remove) the word `not' and hope for the best; rather you negate components and from here a new statement will be birthed.\\
+
+For example, taking the statement ``There exists a fluffy cat'', to negate this - we would need to write ``all cats are not fluffy''. Note how this has gone from an `exists' quantifier to a `for all' quantifier. Alternatively, we can take the statement ``All cats are fluffy'', which negated would be ``There exists a cat that is not fluffy''. Again, note that the quantifier has been changed.\\
+
+Now for some mathematical examples rather than (un)fluffy cats:\\
+The negation of a statement of the form $\forall x \in D, Q(x)$ is logically equivalent to a statement of the form $\exists x \in D$ such that $\neg Q(x)$. Symbolically:
+\[ \neg(\forall x \in D, Q(x)) \equiv \exists x \in D \mathrm{\ such\ that\ } \neg Q(x) \]
+
+The negation of a statement of the form $\exists x \in D$ such that $Q(x)$ is logically equivalent to a statement of the form $\forall x \in D, \neg Q(x)$ Symbolically:
+\[ \neg(\exists x \in D \mathrm{\ such\ that\ } Q(x)) \equiv \forall x \in D, \neg Q(x) \]
+
+\section{Nested Quantifiers}
+Multiple quantifiers such as $\forall x \exists y$, $\exists x \forall y$, $\ldots$ are said to be nested quantifiers.\\
+
+In actual English - you would see this such as something along the lines of ``There is a student solving every exercise of the tutorials''. However! This sentence is ambiguous as it would have at least two different meanings:
+\begin{itemize}
+    \item There is one student who solves all the exercises of the tutorials
+    \item For any particular exercise, there is a student who solves that exercise
+\end{itemize}
+
+\subsection{Example}
+Let $P(x,y)$ be the property ``the student $x$ solves the exercise $y$, $S$ - the set of students, $E$ - the set of all exercises of the tutorials.''
+\begin{itemize}
+    \item $\exists x \in S\ \forall y \in E$ such that $x$ and $y$ satisfy property $P(x,y)$ is a statement.\\
+    It is true if there is (at least) one student who solves all the exercises of the tutorials.
+    \item $\forall y \in E\ \exists x \in S$ such that $x$ and $y$ satisfy property $P(x,y)$ is a statement.\\
+    It is true if each exercise is solved by at least one student
+\end{itemize}

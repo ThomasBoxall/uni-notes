@@ -1,4 +1,4 @@
-\taughtsession{Lecture}{Logic I}{2024-02-13}{1700}{Janka}{}
+\taughtsession{Lecture}{Logic I: Introduction to Propositions \& Logic}{2024-02-13}{1700}{Janka}{}
 
 \section{Reasoning}
 Reasoning is something that we are introduced to doing from a young age. Younger children will continually ask ``why?'' as they attempt to make sense of the world while growing up; as they grow older they will generally only want the facts however. \textit{Logic} is the discipline which deals with the method of reasoning:
@@ -29,11 +29,11 @@ Logical Connectives are used to combine propositional statements together; they 
 \end{itemize}
 
 \subsection{Negation (not)}
-If $p$ is a statement, the negation of $p$ is the statement $not\ p$, denoted by $¬p$. The truth table of negation is shown below:
+If $p$ is a statement, the negation of $p$ is the statement $not\ p$, denoted by $\neg p$. The truth table of negation is shown below:
 \begin{table}[H]
     \centering
     \begin{tabular}{C{0.1\textwidth} C{0.1\textwidth}}
-        \textbf{$p$} & \textbf{$¬p$}\\
+        \textbf{$p$} & \textbf{$\neg p$}\\
         \hline
         \hline
         T & F \\
@@ -124,7 +124,7 @@ If $p$ and $q$ are statement, the compound statement ``if and only if'' (abbrevi
 It is possible to combine the truth tables for single logical connectives to make \textit{more complicated truth tables}. In similar fashion to Algebraic \& standard numeric expression evaluation - there is a hierarchy of evaluation, as seen below (listed highest to lowest):
 \begin{enumerate}
     \item brackets
-    \item negation ($¬$)
+    \item negation ($\neg $)
     \item conjunction ($\wedge$)
     \item disjunction ($\vee$)
     \item implication ($\rightarrow$)
@@ -134,13 +134,13 @@ For connectives of equal priority - work from left-to-right through them.
 
 \section{Special Conditions}
 \subsection{Tautology}
-A statement that is true for all possible values of its propositional variables is called a tautology. For example $p: p \vee ¬ p$ is a tautology.
+A statement that is true for all possible values of its propositional variables is called a tautology. For example $p: p \vee \neg  p$ is a tautology.
 \subsection{Contradiction}
-A statement that is false for all possible values of its propositional variables is called a contradiction. For example, any proposition $p: p \wedge ¬p$ is a contradiction. In a truth table, the final column (where the output is) will always be false. 
+A statement that is false for all possible values of its propositional variables is called a contradiction. For example, any proposition $p: p \wedge \neg p$ is a contradiction. In a truth table, the final column (where the output is) will always be false. 
 \subsection{Contingency}
 A statement that can be either true or false depending on the truth values of its propositional variables is called a contingency. For example the proposition ``Murray will win the Wimbledon next year'' us a contingency because the truth of the statement is dependent on the propositional variable. 
 \subsection{Contrapositive}
-The contrapositive of a conditional statement $p \rightarrow q$ is $¬q \rightarrow ¬p$. The conditional statement is logically equivalent to its contrapositive.
+The contrapositive of a conditional statement $p \rightarrow q$ is $\neg q \rightarrow \neg p$. The conditional statement is logically equivalent to its contrapositive.
 
 \section{Logical Equivalence}
 Two statements are said to be \textit{logically equivalent}, $\equiv$, if and only if they have identical truth values for each possible value of their statement variables. Logical equivalence corresponds to $=$ with numbers.\\
@@ -153,26 +153,26 @@ Shown below are the rules of Logical Equivalence. There is not a requirement to 
     \item $p \wedge F \equiv F$
     \item $p \vee T \equiv T$
     \item $p \vee F \equiv p$
-    \item $¬(¬p) \equiv p$
-    \item $p \vee (¬p) \equiv T$
-    \item $p \wedge (¬p) \equiv F$
+    \item $\neg (\neg p) \equiv p$
+    \item $p \vee (\neg p) \equiv T$
+    \item $p \wedge (\neg p) \equiv F$
     \item $p \wedge q \equiv q \wedge p$ (commutativity)
     \item $p \vee q \equiv q \vee p$ (commutativity)
     \item $(p \vee (q \wedge r)) \equiv ((p \vee q) \wedge (p \vee r))$ (distributivity)
     \item $(p \wedge (q \vee r)) \equiv ((p \wedge q) \vee (p \wedge r))$ (distributivity)
-    \item $p \rightarrow q \equiv (¬p \vee q)$
-    \item $¬(p \vee q) \equiv ((¬p)\wedge(¬q))$ (De Morgan's Law)
-    \item $¬(p \wedge q) \equiv ((¬p)\vee(¬q))$ (De Morgan's Law)
+    \item $p \rightarrow q \equiv (\neg p \vee q)$
+    \item $\neg (p \vee q) \equiv ((\neg p)\wedge(\neg q))$ (De Morgan's Law)
+    \item $\neg (p \wedge q) \equiv ((\neg p)\vee(\neg q))$ (De Morgan's Law)
 \end{itemize}
 
 \subsection{Example of logical equivalence proof}
 \textit{Prove that $(p\rightarrow q) \vee (p \rightarrow r) \equiv p \rightarrow (p \vee r)$}
 \begin{align*}
     (p\rightarrow q) \vee (p \rightarrow r) &\equiv  &&\\
-    & \equiv (¬p \vee q) \vee (¬p \vee r) && \mathrm{logical\ equivalence\ law}\\
-    & \equiv ¬p \vee q \vee ¬p \vee r && \mathrm{all\ are\ `or'\ so\ remove\ brackets}\\
-    & \equiv ¬p \vee q \vee r && \mathrm{get\ rid\ of\ second} ¬p\\
-    & \equiv ¬p \vee (q \vee r)&& \mathrm{add\ brackets\ in} \\
+    & \equiv (\neg p \vee q) \vee (\neg p \vee r) && \mathrm{logical\ equivalence\ law}\\
+    & \equiv \neg p \vee q \vee \neg p \vee r && \mathrm{all\ are\ `or'\ so\ remove\ brackets}\\
+    & \equiv \neg p \vee q \vee r && \mathrm{get\ rid\ of\ second} \neg p\\
+    & \equiv \neg p \vee (q \vee r)&& \mathrm{add\ brackets\ in} \\
     & \equiv p \rightarrow (q \vee r) && \mathrm{logical\ equivalence\ law\ again}
 \end{align*}
 
