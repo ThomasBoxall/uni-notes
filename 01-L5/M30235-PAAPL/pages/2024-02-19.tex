@@ -227,8 +227,8 @@ If we take the following grammar for a small set of simple expressions:
 
 We can re-write the grammar for \verb|<exp>| and \verb|<term>| in a more compact form, because the only difference in the two alternatives in both cases is a terminal symbol (\verb|+| or \verb|-|, \verb|*| or \verb|/|):
 \begin{lstlisting}
-    <exp> $\rightarrow$ { ( + | - ) <term> }
-    <term> $\rightarrow$ { ( * | / ) <factor> }
+       <exp> $\rightarrow$ { ( + | - ) <term> }
+      <term> $\rightarrow$ { ( * | / ) <factor> }
     <factor> $\rightarrow$ id | int_constant | (<exp>)
 \end{lstlisting}
 
