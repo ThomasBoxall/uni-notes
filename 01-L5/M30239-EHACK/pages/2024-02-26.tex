@@ -1,0 +1,22 @@
+\taughtsession{Lecture}{Misconfigured File Permissions}{2024-02-26}{09:00}{Tobi}{}
+
+\textit{Can bring in a single A4 sheet of paper (double sided) to the exam. It must be handwritten.}
+
+
+
+
+\section{Files}
+Within Linux, everything is a file. We can find files using OSINT (Google Dorking, etc) however locally on a Linux system - we have three commands we can use:
+\begin{itemize}
+    \item \verb|find| searches for files in a directory
+    \item \verb|locate| finds files by name, quickly
+    \item \verb|which| locates a command
+\end{itemize}
+We are also able to exploit the PATH variable by forcing programs to run our version of certain binary files. The command \verb|echo $PATH| shows what files are currently in the path.
+
+\section{File Permissions}
+Linux file permissions are split into three categories - Users, Groups and Others. It is possible to control the permissions of reading, writing to, and executing a file for each of these three groups. \\
+
+The SUID (Set User Identity) bit gives special permission for the user access level and always executes as the user who owns the file. This is a thing to keep an eye out for as it is possible to execute a command as root if these permissions have been incorrectly configured. Similarly, the Set Group Identity allows a file to be executed as the group owner.\\
+
+The sticky bit restricts file deletion at a directory level.
