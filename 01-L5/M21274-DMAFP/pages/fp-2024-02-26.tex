@@ -1,0 +1,146 @@
+\taughtsession{Lecture}{Functions as Values}{2024-02-26}{12:00}{Matthew}{}
+
+\section{Functions as Arguments}
+In Functional Programming, functions can be treated as data. This means that they can be passed as arguments to other functions; and that they can be returned as results from functions. A function that either takes another function as an argument; or returns a function is known as a \textit{Higher-Order Function}. Higher-Order programming can be very expressive.\\
+
+The following function definition applies a function to a value and then applies the same function again to the result.
+\begin{verbatim}
+    twice :: (Int -> Int) -> Int -> Int
+    twice f x = f (f x)
+\end{verbatim}
+
+We would also need to define a function to be used in the above function:
+\begin{verbatim}
+    succ :: Int -> Int
+    succ n = n + 1
+\end{verbatim}
+
+Now that we have two functions, we can look at an example calculation:
+\begin{lstlisting}[style=haskellTrace]
+^\underline{twice succ 5}^
+$\leadsto$ succ ^\underline{(succ 5)}^   def of twice
+$\leadsto$ succ ^\underline{(5 + 1)}^    def of succ
+$\leadsto$ ^\underline{(succ 6)}^        arithmetic
+$\leadsto$ ^\underline{(6 + 1)}^         def of succ
+$\leadsto$ 7              arithmetic
+\end{lstlisting}
+
+\subsection{Function Composition}
+Haskell includes a function composition operator ``\verb|.|''. For two functions, \verb|f| and \verb|g|, the expression
+\begin{verbatim}
+    (f . g) x
+\end{verbatim}
+means apply \verb|g| to \verb|x| then apply \verb|f| to the result. Note that this is the same as the mathematical operation $f \circ g$. The below code snippet shows the order in which the operator works:
+\begin{verbatim}
+    (f . g) x = f (g x)
+\end{verbatim}
+The output type of the first function must be of the same type as the input type of the second function.
+
+\subsection{Function-Level Definitions}
+The composition operator, \verb|.|, allows us to easily define functions in terms of other functions. For example, we can replace the definition:
+\begin{verbatim}
+    twice f x = f (f x)
+\end{verbatim}
+with:
+\begin{verbatim}
+    twice f = f . f
+\end{verbatim}
+A function defined just in terms of other functions (without reference to other arguments) is known as a function-level definition. This notation can also be known as ``point-free style''
+
+\section{Partial Application}
+A powerful feature shared by many functional languages is that functions can be partially applied. If we consider the following simple function definition which multiplies two numbers together:
+\begin{verbatim}
+    multiply :: Int -> Int -> Int
+    multiply x y = x * y
+\end{verbatim}
+
+We would typically consider the only thing that this function does is to multiply two parameters together and return the result. However - it would be more correct to consider that we can apply the function to one argument and are left with a function of one argument. \\
+
+Returning to our example, we may use it as follows:
+\begin{verbatim}
+    double = multiply 2
+\end{verbatim}
+which would then mean that:
+\begin{verbatim}
+    ghci> double 5
+    10
+\end{verbatim}
+
+As we can see - \verb|double| is taking a single argument which is being passed to \verb|multiply| along with it's defined argument. This allows us to understand more about how Haskell works, in that every function in Haskell takes exactly one argument. This means that \verb|multiply|, with two input parameters, is actually taking a single parameter (\verb|Int|) then returning another function, \verb|Int -> Int| which is used to produce the final result. \\
+
+We can see that:
+\begin{verbatim}
+    multiply :: Int -> Int -> Int
+\end{verbatim}
+is shorthand for:
+\begin{verbatim}
+    multiply :: Int -> (Int -> Int)
+\end{verbatim}
+
+\subsection{Operator Sections}
+It is not only the functions which can be partially applied - it is also possible to partially apply an operator. The following are examples of operator sections:
+\begin{itemize}
+    \item \verb|(2*)| - a function that multiplies its arguments by 2
+    \item \verb|(/2)| - a function that divides its argument by 2
+    \item \verb|(2/)| - a function which gives 2 divided by its argument
+    \item \verb|(>3)| - a function which tests if its argument is greater than 3
+\end{itemize}
+
+
+\section{Patterns of Computation}
+When designing algorithms, there are a number of things that we often want to do to a list:
+\begin{itemize}
+    \item transform every element of a list in some way
+    \item remove those elements of a list that don't possess a given property
+    \item combine all the elements with a particular operation
+\end{itemize}
+Haskell includes a number of higher-order functions that implement each of these patterns.
+
+\subsection{Mapping}
+If we take the example function, \verb|doubleAll| which doubles every element in the list. A recursive example of this is below:
+\begin{verbatim}
+    doubleAll :: [Int] -> [Int]
+    doubleAll [] = []
+    doubleAll (x:xs) = 2*x : doubleAll xs
+\end{verbatim}
+This function has a pattern in it, where an operator (could also be a function) is applied to every element of the list.\\
+
+The Prelude defines a function \verb|map| which takes the operation to be applied as a parameter. Using \verb|map|, the definition of the function \verb|doubleAll|become (note the use of an operator section):
+\begin{verbatim}
+    doubleAll xs = map (2*) xs
+\end{verbatim}
+However, we can make this simpler. We do not need to specify \verb|xs| because that is added complexity. The simplest form of this function can be seen below:
+\begin{verbatim}
+    doubleAll = map (2*)
+\end{verbatim}
+
+\subsection{Filtering}
+Filtering doesn't change any of the elements of the list - rather it checks if the elements pass the test and keeps them if so. For example:
+\begin{verbatim}
+    keepPositive [] = []
+    keepPositive (x:xs)
+        | x > 0     = x : keepPositive xs
+        | otherwise = keepPositive xs
+\end{verbatim}
+Using the \verb|filter| function, we are able to condense this down to the following:
+\begin{verbatim}
+    keepPositive = filter (>0)
+\end{verbatim}
+Note here that we have used the simplest form of the function as we do not need to specify the list we want to filter in the function definition.
+
+\subsection{Folding}
+The Prelude contains the function \verb|foldr| which apples the function specified on the provided list. It is used to combine the elements of the list in some way. For example, the following function which adds every element in the list:
+\begin{verbatim}
+    addUp :: [Int] -> [Int]
+    addUp [] = 0
+    addUp (x:xs) = x + addUp xs
+\end{verbatim}
+can be rewritten using \verb|foldr| as follows
+\begin{verbatim}
+    addUp = foldr (+) 0
+\end{verbatim}
+
+Note that you still have to specify the type for the function when using \verb|foldr|, for example for \verb|addUp| this would be:
+\begin{verbatim}
+    addUp :: [Int] -> Int
+\end{verbatim}
