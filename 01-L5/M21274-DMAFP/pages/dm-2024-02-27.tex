@@ -1,0 +1,199 @@
+\taughtsession{Lecture}{Methods of Proof}{2024-02-27}{1700}{Janka}{}
+
+\section{What is a Proof?}
+A Mathematical Proof is a deductive argument for a mathematical statement, showing that the stated assumptions logically guarantee the conclusion. Mathematical Proofs are carefully reasoned and there are a number of different ways we can deduce one. 
+
+\subsection{Formal Example}
+
+\begin{theorem}
+    Prove that for all integers $m$ and $n$, if $m$ is odd and $n$ is even, then $m + n$ is odd.
+\end{theorem}
+
+An \textit{argument} (theorem) is a finite collection of statements ($p_1, p_2, \ldots, p_n$) called \textit{premises} (hypothesis) followed by a statement $q$ called the \textit{conclusion}.
+\[(p_1 \wedge p_2 \wedge \ldots \wedge p_n) \Rightarrow q\]
+In the above, the premises are ``$m$, $n$, integers, $m$ is odd, $n$ is even'' and the conclusion is ``$m+n$ is odd''. The argument is valid (or the theorem holds) if, whenever $p_1$, $p_2$, $\ldots$, $p_n$ are all true, then $q$ is also true.
+
+\subsection{Methods of Proof}
+To ``prove a theorem'' means to show that if all premises are true then the conclusion is also true. 
+\begin{itemize}
+    \item[] $m,n$ are integers
+    \item[] $m$ is odd, $n$ is even
+    \item[] $\ldots$
+    \item[] Can we prove that $m+n$ is odd?
+\end{itemize}
+
+We have a number of different techniques which we can use. Which of the following to choose depends on the problem and experience:
+\begin{enumerate}
+    \item A direct proof
+    \item A proof by contradiction
+    \item A proof by contrapositive
+    \item A proof by mathematical induction
+\end{enumerate}
+
+\section{A Direct Proof}
+In a direct proof, we start with the hypothesis of a statement (premises) and make one deduction after another until we reach the conclusion. Theorems which are able to be proved are often of the form:
+\[p\ (hypothesis) \Rightarrow q\ (conclusion)\]
+
+While proving the proof, we can use:
+\begin{itemize}
+    \item Previously Proven Facts
+    \item Definitions
+    \item Known basic properties
+\end{itemize}
+
+Our task is to prove that then $q$ is also true.
+
+\subsection{Our First Theorem}
+It's time to prove our first theorem, how exciting!
+
+\begin{theorem}
+    For all integers $m$ and $n$, if $m$ is odd and $n$ is even, then $m+n$ is odd.
+\end{theorem}
+As we are proving this using a direct proof, we assume that the hypothesis is true and derive the conclusion. We start doing this by realising some properties of odd and even numbers.
+
+\begin{proof}
+An integer $r$ is even if and only if there exists an integer $k$ such that $r=2k$. (This is the basic definition of an even number, no room for disagreement here!)\\
+
+Similarly, an integer $r$ is odd if and only if there exists an integer $k$ such that $r = 2k + 1$\\
+
+To apply these derivations to our theorem:
+\begin{itemize}
+    \item[] $m$ is odd $\Rightarrow$ there exists an integer $k$ such that $m=2k + 1$
+    \item[] $n$ is even $\Rightarrow$ there exists an integer $l$ such that $n=2l$
+\end{itemize}
+
+We can use maths to show that the sum is:
+\begin{align*}
+    m + n &= (2k+l) +2l\\
+    &= 2(k+l)+1
+\end{align*}
+$\therefore$ $m+n$ is odd.
+\end{proof}
+
+Note the black square ($\blacksquare$) on the right above at the end of the proof. This is stands for QED which stands for ``Quod Erat Demonstrandum'', which stands for ``what was to be demonstrated'' which stands for ``boom done, there I proved it, I'm leaving now''. 
+
+\section{Proof by Contradiction (indirect proof)}
+As we know there are only, and can only, be two options for the truth value of a conclusion: $True$ or $False$. If supporting that the premises are true and the conclusion is false, we are able to arrive at a contradiction (a conclusion that is contradictory to our assumptions or something obviously untrue like $1=0$) $\Rightarrow$ our conclusions must be true!\\
+
+While proving the proof, we can use:
+\begin{itemize}
+    \item Previously known facts
+    \item Definitions
+    \item Known basic properties
+\end{itemize}
+
+Our task is to prove a contradiction, which is done through proving that $q$ is true (assuming that $p$ is true).
+
+\subsection{Our Second Theorem}
+\begin{theorem}
+    For every $n \in \mathbb{N}$, if $n^2$ is even, then $n$ is even
+\end{theorem}
+We can rewrite this as:
+\begin{center}
+    $n^2$ is even, $n \in \mathbb{N} \Rightarrow n$ is even 
+\end{center}
+We can then take our hypothesis to be to be that $n^2$ is even while $n$ is a natural number; and a false conclusion to be $n$ is not even, hence $n$ is odd. We want to prove any contradiction (which could be $r \wedge \neg r$ for a proposition $r$). 
+
+\begin{proof}
+Since we take that $n$ is odd, there exists $k \in \mathbb{N}$ such that $n=2k+1$. We can now derive the following:
+\begin{align*}
+    n^2 &= (2k+1)^2\\
+    &= 4k^2 + 4k + 1\\
+    &= 2(2k^2+2k) + 1
+\end{align*}
+This means that $n^2$ is odd.\\
+
+Now $n^2$ is even (the hypotheses) and $n^2$ is odd (which we have just proved). This is a \textit{crazy} situation, an impossible contradiction! As we have found a contradiction $\Rightarrow$ the conclusion must be true!\\
+
+$\therefore$ for every $n \in \mathbb{N}$ if $n^2$ is even, then $n$ is even.
+\end{proof}
+
+\section{Proof by Contrapositive (indirect proof, again)}
+The contrapositive of the condition proposition $p \rightarrow q$ is the proposition $\neg q \rightarrow \neg p$. Note that the conditional proposition and its contrapositive are logically equivalent
+\[p \rightarrow q  \equiv \neg q \rightarrow \neg p \]
+To prove a statement by contrapositive, we prove that the contrapositive statement is a direct proof and conclude that the original statement is true. This means that instead of the original theorem, $p \rightarrow q$, we prove by a direct proof the contrapositive theorem $\neg q \rightarrow \neg p$.\\
+
+While proving the proof, we can use
+\begin{itemize}
+    \item previously proven facts
+    \item definitions
+    \item known basic properties
+\end{itemize}
+
+Our task is to prove that $\neg p$ is true. In this way we prove that $\neg q \rightarrow \neg p$ and because of $p \rightarrow q \equiv \neg q \rightarrow \neg p $ necessarily $p \rightarrow q$ must be true as well (meaning that the theorem $p \rightarrow q$ is valid). 
+\subsection{Our Second Theorem (again)}
+\begin{theorem}
+    For every $n \in \mathbb{N}$, if $n^2$ is even then $n$ is even.
+\end{theorem}
+Our contrapositive statement is: ``For every $n \in \mathbb{N}$ if $n$ is not even, then $n^2$ is not even''. We can use the fact ``An integer is not even, if and only if, it is odd'' to derive our contrapositive:\\
+
+\textbf{Contrapositive.} For every $n \in \mathbb{N}$, if $n$ is odd then $n^2$ is odd. \\
+
+We are now able to prove the contrapositive statement using a direct proof by proving that $n^2$ is odd. 
+
+\begin{proof}
+Since $n$ is odd, there exists $k \in \mathbb{N}$ such that $n=2k+1$ We can now derive the following:
+\begin{align*}
+    n^2 &= (2k+1)^2\\
+    &= 4k^2 + 4k + 1\\
+    &= 2(2k^2+2k) + 1
+\end{align*}
+Therefore $n^2$ is odd.\\
+
+This means that the contrapositive statement is true and by logical equivalence also the theorem:
+\begin{center}
+    ``For every $n \in \mathbb{N}$, if $n^2$ is even, then $n$ is even''
+\end{center}
+is valid
+\end{proof}
+
+\section{Mathematical Induction}
+Mathematical Induction is one of the most basic methods of proof. It is a useful technique to use to establish the truth of a statement about natural natural numbers. It is a method for proving a statement (given in the form of a proposition) $P(n)$ is true for every natural number, $n$, and that the infinitely many cases $P(0), P(1), P(2), P(3), \ldots$ all hold. This is done in two stages.
+\begin{enumerate}
+    \item Proving a simple case (the base case), which proves the statement for $n=x$ (where $x$ is any number) without assuming any knowledges of other cases.
+    \item Having proven that when $n=x$, $P(n)$ is true; we assume that $P(n)$ is true for all $n\geq x$. (the inductive step) (this is \textit{just} the case, which works through magic, don't look to deep into it.)
+\end{enumerate}
+
+\subsection{The Third Theorem}
+\begin{theorem}
+    Prove that for any integer $n \geq 1$, the sum of the first $n$ natural numbers is $\displaystyle S(n) = \frac{n(n+1)}{2}$
+\end{theorem}
+
+\begin{proof}
+    We will start by looking at the basic step, where we will take $n=1$.
+    \begin{align*}
+        S(1) &= 1\\
+        &= \frac{1(1+1)}{2}\\
+        &= 1
+    \end{align*}
+
+    We will now complete the inductive step.
+    \begin{itemize}
+        \item[(a)] We can assume that $S(n)$ of the first $n$ natural numbers is $\displaystyle \frac{n(n+1)}{2}$
+        \item[(b)] We need to prove that the statement is true also for the first $n+1$ natural numbers, this means:
+    \end{itemize}
+    \[S(n+1) = \frac{(n+1) (n+2)}{2}\]
+    
+    Which  leaves us with the following assumption:
+    \[S(n) = 1 + 2 + \ldots + n = \frac{n(n+1)}{2}\]
+    Now we can derive the following:
+    \begin{align*}
+        S(n+1) &= 1 + 2 + \ldots + n + (n+1)\\
+        &= S(n) + (n+1)\\
+        &= \frac{n(n+1)}{2} + (n+1)\\
+        &= \frac{n(n+1)}{2} + \frac{2(n+1)}{2}\\
+        &= \frac{(n+1)(n+2)}{2}
+    \end{align*}
+    Therefore, assuming that the formula is true for $n$, we have proved the formula is true for $n+1$.
+\end{proof}
+
+\section{Disproving a Universally Quantified Statement}
+As we saw in the previous lecture, a universally quantified statement is one which applies ``for all'' or ``for some''.\\
+
+To disprove
+\[\forall x \in D\ P(x)\]
+we have to find one $x \in D$ that makes $P(x)$ false. This value of $x$ is called the `counterexample'.\\
+
+For example, the statement:
+\[\forall n \in \mathbb{N} (2^n+1\ \mathrm{is\ prime})\]
+is false because, where $n=3$, $2^3+1=9$ which is not prime.
