@@ -127,6 +127,41 @@ marginparsep=0mm,
 }
 
 %%%
+% MATHEMATICAL ENVIRONMENTS
+%%%
+\usepackage{amsthm}
+\renewcommand\qedsymbol{$\blacksquare$}
+\newtheorem{theorem}{Theorem}[section]
+
+\usepackage[framemethod=tikz]{mdframed}
+% new mdframed style that places the edges at the corners:
+\mdfdefinestyle{proof}{
+  skipabove         = .5\baselineskip ,
+  skipbelow         = .5\baselineskip ,
+  leftmargin        = 0pt ,
+  rightmargin       = 0pt ,
+  innermargin       = 0pt ,
+  innertopmargin    = .5em ,
+  innerleftmargin   = .5em ,
+  innerrightmargin  = 0pt ,
+  innerbottommargin = .5em ,
+  hidealllines      = true ,
+  singleextra       = {
+    \draw (O) -- ++(0,.675em) (O) -- ++(.675em,0) ;
+    \draw (P-|O) -- ++(0,-.675em) (P-|O) -- ++(.675em,0) ;
+  },
+  firstextra        = {
+    \draw (P-|O) -- ++(0,-.675em) (P-|O) -- ++(.675em,0) ;
+  },
+  secondextra       = {
+    \draw (O) -- ++(0,.675em) (O) -- ++(.675em,0) ;
+  },
+}
+% put the new mdframed style around the proof environment:
+\surroundwithmdframed[style=proof]{proof}
+
+
+%%%
 % CHAPTER & HEADERS
 %%%
 \usepackage[raggedright,bf]{titlesec}
