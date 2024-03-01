@@ -1,0 +1,61 @@
+\taughtsession{Lecture}{Syntax Analysis - Bottom Up Parsing}{2024-03-01}{1400}{Jiacheng}{}
+
+\section{Parse Table Construction}
+LL(1) parse is easy if the action table is available. The construction of the action table of the LL(1) parser requires computing the first and follow sets (sets of non-terminal symbols) of the non-terminals of the grammar. \\[1em]
+
+\textit{NB: There's lots of information on how the First sets of Non-Terminals work on the slides on Moodle.}
+
+\section{Bottom-Up Parsing}
+Bottom-Up parsing works in the opposite direction of top-down parsing. This means that it will start with the string of terminal symbols and then works backwards to the start symbol by applying the productions in reverse. 
+
+\begin{enumerate}
+    \item Begin with the rightmost symbol fo the sentence of terminals
+    \item Apply a production in reverse at each step
+    \item Replace a substring with the non-terminal on the left of a production whose right side matches the substring
+    \item Continue until we have substituted our way back to the start symbol
+\end{enumerate}
+
+For example, using the following grammar:
+\begin{align*}
+    S & \rightarrow AB \\
+    A & \rightarrow aA | \varepsilon \\
+    B & \rightarrow b | bB
+\end{align*}
+
+We can then follow the parsing through:
+\begin{itemize}
+    \setlength{\itemindent}{2em}
+    \item[$aaa\boldsymbol{b}$] (the sentence of terminals)
+    \item[$aaa\boldsymbol{B}$] $B \rightarrow b$
+    \item[$aaa\boldsymbol{\varepsilon}B$] (insert $\varepsilon$ because $a$ or $aB$ is not RHS of any rule)
+    \item[$aa\boldsymbol{aA}B$] $A \rightarrow \varepsilon$
+    \item[$a\boldsymbol{aA}B$] $A \rightarrow aA$ (we cannot use $S \rightarrow AB$ yet because it terminates the parsing with some terminal symbols not being parsed)
+    \item[$\boldsymbol{aA}B$] $A \rightarrow aA$
+    \item[$\boldsymbol{AB}$]  $A \rightarrow aA$
+    \item[$\boldsymbol{S}$] $S \rightarrow AB$
+\end{itemize}
+An example of parsing the same string with Top-Down Parsing is available in the \textit{Parsing and Syntax Analysis} lecture.
+
+\section{Top-Down vs Bottom-Up}
+Bottom-Up parsing algorithms are more powerful than top-down methods. There are excellent parser generators like \textit{yacc} that build a parser from an input specification (a bit like how \textit{lex} builds a scanner). 
+
+\section{Shift-Reduce Parsing}
+Shift-Reduce Parsing is a bottom-up parsing technique which takes an input as a stream of tokens and develops the list of productions (the grammar rules) that are used to build the parse tree. It makes use of a stack to keep track of the position in the parsing process and a parsing table to determine what to do next. \\
+
+Shift-Reduce parsing is the most used and most powerful bottom-up parsing techniques.
+
+\subsection{The LR Parser}
+The LR parser is a type of shift-reduce parser which scans the input from left-to-right and operates using a reversed rightmost derivation.\\
+
+The LR Parser works as follows
+\begin{itemize}
+    \item When parsing a string of tokens $v$, the input is initialised to $v$ (ended with the end-marker $\$$) and the stack is initialised to empty. 
+    \item Parsing starts by shifting the first (leftmost) token to the top of the stack
+    \item A shift-reduce parser proceeds by taking one of three actions at each step
+    \begin{description}
+        \item[shift] where we transfer a token from the input onto the stack. In an ideal world, we would want to run a reduce or acceptance however if neither are possible - we run a shift. 
+        \item[reduce] where we apply the production for a non-terminal backwards (replacing the RHS with the LHS of a grammar rule). For example if we have a production $A \rightarrow w$, we can produce $A$ from any $w$s we have at the top of the stack
+        \item[acceptance] where we reduce the entire contents of the stack to the start symbol, with no remaining input means the input is a valid sentence. We would then say that the string is ``accepted''.
+    \end{description}
+    \item If none of the above cases apply, we have an error. An error is a case where we have a sequence on the stack that cannot eventually be reduced to the LHS of any production; and any further shift would be futile and the input cannot form a valid sentence.
+\end{itemize}
