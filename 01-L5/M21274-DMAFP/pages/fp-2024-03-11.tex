@@ -1,0 +1,204 @@
+\taughtsession{Lecture}{Algebraic Types}{2024-03-11}{12:00}{Matthew}{}
+
+\textit{``There's nothing in the blob, it's a blob''}
+
+\section{Types in Haskell: A Recap}
+As we have already seen, there are a number of built-in types in Haskell:
+\begin{itemize}
+    \item \verb|Int|, \verb|Float|, \verb|Bool| and \verb|Char| (the basic types)
+    \item \verb|(Int, Int, Char)| (tuple types)
+    \item \verb|[Int]| or \verb|[(Int, Char)]| (the list type)
+\end{itemize}
+
+It is also possible to give convenient names to types using synonyms, for example:
+\begin{itemize}
+    \item \verb|type HouseNumber = Int|
+    \item \verb|type StreetName = String|
+    \item \verb|type Address = (HouseName, StreetName)|
+\end{itemize}
+These types are only so well and good, as they do not provide a convenient way to model more complex structures (such as Binary Trees). Within Haskell, we are able to use \textit{Algebraic Types} to define arbitrarily complex types.
+
+\section{Algebraic Types}
+We declare the algebraic type using the keyword \verb|data|, followed by:
+\begin{itemize}
+    \item the name of the type being defined
+    \item a list of constructors
+\end{itemize}
+Note that both have to begin with a capital letter. For example:
+\begin{verbatim}
+    data Day = Mon | Tue | Wed | Thur | Fri | Sat | Sun
+\end{verbatim}
+As we can see above, the simplest algebraic types are those where the constructors don't take any arguments. Here, the constructors are the data values (or members of the type). We call a type which has been defined in this way an \textit{enumerated type}.
+
+\subsection{Enumerated Type}
+Another example of an enumerated type is Haskell's Boolean type:
+\begin{verbatim}
+    data Bool = False | True
+\end{verbatim}
+
+The simplest way to define a function on an Enumerated Type is by pattern matching. Using the \verb|Day| data type an example is:
+\begin{verbatim}
+    isWeekend :: Day -> Bool
+    isWeekend Sat = True
+    isWeekend Sun = True
+    isWeekend _   = False
+\end{verbatim}
+
+This might look rather obtuse, and that would be a correct observation. This is because our data type (\verb|Day|) doesn't include any operators such as \verb|==|. It is possible to define \verb|==| ourselves, however this would be tedious.
+
+\subsection{Algebraic Types \& Type Classes}
+We can get Haskell to provide a \verb|==| operator by declaring that we want our type (\verb|Day|) to be a member of the \verb|Eq| type class. (Note that \verb|Eq| includes all types that include \verb|==| and \verb|/=|). To do this, we would need to define \verb|Day| as follows:
+\begin{verbatim}
+    data Day = Mon | Tue | Wed | Thur | Fri | Sat | Sun
+               deriving (Eq)
+\end{verbatim}
+
+Now that we have the \verb|==| operator implemented for \verb|Day|, we can redefine \verb|isWeekend| as:
+\begin{verbatim}
+    isWeekend :: Day -> Bool
+    isWeekend day = day == Sat || day == Sun
+\end{verbatim}
+
+However, \verb|Eq| only includes \textit{Eq}uality operators - what happens if we want to compare two values and see if one is greater than the other.\\
+
+Fortunately, Haskell includes more type classes which can provide us with the functionality that we require for this:
+\begin{itemize}
+    \item \verb|Ord| provides us with \verb|<|, \verb|<=|, \verb|>| and \verb|>=|
+    \item \verb|Show| to provide a function
+    \begin{verbatim}
+        show :: Day -> String
+    \end{verbatim}
+    which converts \verb|Day| values into strings
+    \item \verb|Read| which provides a function
+    \begin{verbatim}
+        read :: String -> Day
+    \end{verbatim}
+    which converts strings (for example ``Mon'') into \verb|Day| values.
+\end{itemize}
+
+When using all these additional type classes, we may end up with the following definition of \verb|Day|:
+\begin{verbatim}
+    data Day = Mon | Tue | Wed | Thur | Fri | Sat | Sun
+               deriving (Eq,Ord,Show,Read)
+\end{verbatim}
+
+This therefore means we can redefine \verb|isWeekend| as follows:
+\begin{verbatim}
+    isWeekend :: Day -> Bool
+    isWeekend day = day >= Sat
+\end{verbatim}
+
+\subsection{Product Types}
+As we saw in an earlier lecture, we can define student records (their name and a mark) as a type synonym giving a name to a tuple:
+\begin{verbatim}
+    type StudentMark = (String, Int)
+\end{verbatim}
+However, it is also possible for us to use an algebraic type with a constructor that has two arguments - one for the name and one for the mark:
+\begin{verbatim}
+    data StudentMark = Student String int
+\end{verbatim}
+Here, the constructor \verb|Student| is followed by it's argument types. For example:
+\begin{verbatim}
+    Student "Sam" 44
+    Student "Jill" 64
+\end{verbatim}
+
+As could be expected, it is also possible to define functions which use the product data types:
+\begin{verbatim}
+    betterStu :: StudentMark -> StudentMark -> String
+    betterStu (Student s1 m1) (Student s2 m2)
+        | m1 >= m2  = s1
+        | otherwise = s2
+\end{verbatim}
+
+Which would be executed with:
+\begin{verbatim}
+    ghci> betterStu (Student "Sam" 44) (Student "Jo" 73)
+    "Jo"
+\end{verbatim}
+
+The main advantage of using an algebraic type is that every data value has an explicit label of its purpose (for example, \verb|Student|)
+
+\subsection{Sum Types}
+It is possible for us to combine the ideas of enumerated types and product types, this gives us types whose elements can be built in different ways. For example, a shape might be specified by it's radius or a rectangle specified by its height and width. It is possible to represent this using a \textit{sum} type:
+\begin{verbatim}
+    data Shape = Circle Float |
+                 Rectangle Float Float
+\end{verbatim}
+Which would be declared as:
+\begin{verbatim}
+    Circle 9.0
+    Rectangle 4.5 6.0
+\end{verbatim}
+
+This is a bit like an Abstract Class, where the parent class has no types of it's own and that the child classes are Concrete classes. \verb|Shape| would be the parent, abstract class, and \verb|Circle| \& \verb|Rectangle| would be the child, concrete classes. 
+
+As expected, it is possible to write a single function for a sum type (i.e \verb|Shape|) which runs different code depending on the type of \verb|Shape| used. This is done through Pattern Matching:
+\begin{verbatim}
+    area :: Shape -> Float
+    area (Circle r)      = pi * r * r
+    area (Rectangle h w) = h * w
+\end{verbatim}
+
+This can be extremely useful, for example in the problem of representing addresses. Some buildings have numbers, and some buildings have names. We can define a data type for representing the first line of an address as:
+\begin{verbatim}
+    data Address = Address Building String
+    data Buildings = Number Int | Name String
+\end{verbatim}
+Which we can use as:
+\begin{verbatim}
+    Address (Number 42) "High Street"
+    Address (Name "Seaview") "Uplands Road"
+\end{verbatim}
+
+\subsection{Recursive Types}
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        [
+            level 1/.style={sibling distance=25mm},
+            level 2/.style={sibling distance=15mm},
+        ]   
+    \node{5}   
+        child {node {1}
+            child {node {\bullet}}
+            child {node {\bullet}}
+        }
+        child {node {8}
+            child {node {7}
+                child {node {\bullet}}
+                child {node {\bullet}}
+            }
+            child {node {\bullet}}
+        };
+    \end{tikzpicture}
+    \caption{Binary Tree Example}
+\end{figure}
+
+Types can be described in terms of themselves. If we take the example of a binary tree, which we know is defined recursively as:
+\begin{itemize}
+    \item a null node; or
+    \item a node with a value, left sub-tree and a right-sub-tree
+\end{itemize}
+
+We can define a data type directly from this definition:
+\begin{verbatim}
+    data Tree = Null |
+                Node Int Tree Tree
+\end{verbatim}
+
+Which we can see in-use below (note that the final value is represented by the diagram on the previous page):
+\begin{verbatim}
+    Null
+    Node 7 Null Null
+    Node 5 (Node 1 Null Null)
+           (Node 8 (Node 7 Null Null) Null)
+\end{verbatim}
+
+It is possible to define functions which interact with recursive types. Generally, functions on trees will mirror the recursive structure of the type (meaning they use \verb|Null| as the base case \& \verb|Node| for the recursion). For example, the following function returns the height of a binary tree:
+\begin{verbatim}
+    height :: Tree -> Int
+    height Null = 0
+    height (Node _ st1 st2) = 1 + max (height st1) (height st2)
+\end{verbatim}
