@@ -47,6 +47,15 @@ marginparsep=0mm,
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.11}
 \usetikzlibrary{arrows, automata, arrows.meta, bending, positioning, trees, patterns, calc}
+\tikzset{%
+  graphnode/.style={
+    circle,
+    minimum width=0.3cm,
+    inner sep=0pt,
+    text width=4mm,
+    align=center
+    }
+}
 
 % CUSTOM COLOURS
 \definecolor{myGrey}{HTML}{121212}
