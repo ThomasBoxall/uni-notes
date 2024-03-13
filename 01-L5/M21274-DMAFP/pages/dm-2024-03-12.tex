@@ -1,0 +1,429 @@
+\taughtsession{Lecture}{Graphs: An Introduction}{2024-03-12}{1700}{Janka}{}
+
+\section{History of Graphs}
+Euler introduced the concept of \textit{graph theory} in 1736 when he abstracted the Bridges of K\"{o}nigsberg problem into a series of \textit{vertices} and \textit{edges}. Graphs were further developed with the Travelling Salesman Problem whereby adding \textit{weighting} values to an edge allows the most efficient route to be calculated.\\
+
+Graphs can be a useful tool in solving a number of different mathematical problems, including those which are abstractions of a real world thing - for example the cities in which the travelling salesman needs to travel through in their problem. There are four main applications of graph theory today:
+\begin{description}
+    \item[Existence Problems] are problems in which we want to prove the existence (or lack thereof) of something. For example the K\"{o}nigsberg bridge problem.
+    \item[Optimisatoin Problems] are problems in which we are looking to find the best (most efficient) solution (this can either be a maximisation or minimisation). For example - the Travelling Salesman Problem.
+    \item[Construction Problems] are problems in which we are trying to prove if a solution exists and if it does - how it can be constructed. For example - finding a walk in the K\"{o}ingsberg bridge problem
+    \item[Enumeration Problems] are problems in which we are looking for how many objects have a given property. For example - how many optimal routes can be found in the Travelling Salesman Problem.   
+\end{description}
+
+\section{Basic Terminology}
+A graph, $G$ is a pair $(V, E)$ of sets:
+\begin{itemize}
+    \item[$V$] is a non-empty set of vertices (nodes)
+    \item[$E$] is a set of edges. Each element of $E$ is a set of two distinct elements of $V$
+\end{itemize}
+
+% oh boy, here comez the tikz
+
+\begin{minipage}{0.4\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (A) {$u$};
+            \node[graphnode, draw] (B) [right of=A] {$v$};
+
+            \path (A) edge[above] node[align=center] {$e$} (B);
+        \end{tikzpicture}
+        \caption{Example Graph}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.55\textwidth}
+If $e \in E$, then $e = \{u, v\}$, $u$ and $v$ are different elements of $V$ called the end vertices of $e$ (where $e$ joins vertices $u$ and $v$). 
+\end{minipage}
+The notation for $v$ and $u$ changes too; we can use $uv$ instead of $e = \{u, v\}$ for the edge $e$, meaning $uv$ and $vu$ are the same edge. The vertices $u$ and $v$ are said to be \textit{incident} with the edge $uv$ or that they are \textit{adjacent} because they are the end vertices of an edge.\\
+
+We are only considering Finite Graphs in this module. These are graphs in which all their elements are defined and are capped in a certain place.
+
+\begin{minipage}{0.3\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (A) {$v_1$};
+            \node[graphnode, draw] (B) [right of=A] {$v_2$};
+            \node[graphnode, draw] (C) [above of=A] {$v_3$};
+            \node[graphnode, draw] (D) [above of=B] {$v_4$};
+            \node[graphnode, draw, yshift=-0.75cm] (E) [above=of $(C)!0.5!(D)$] {$v_5$};
+            \node[graphnode, draw, yshift=-1.2cm] (F) [above=of $(A)!0.5!(B)$] {$v_6$};
+
+            \path (A) edge[above] node[align=center] {} (B);
+            \path (B) edge[above] node[align=center] {} (D);
+            \path (C) edge[above] node[align=center] {} (E);
+            \path (C) edge[above] node[align=center] {} (A);
+            \path (D) edge[above] node[align=center] {} (C);
+            \path (D) edge[above] node[align=center] {} (E);
+        \end{tikzpicture}
+        \caption{Example of a Finite Graph}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.65\textwidth}
+\begin{align*}
+    V &= \{v_1, v_2, v_3, v_4, v_5, v_6\} \\
+    E &= \{\{v_1, v_2\}, \{v_2, v_4\}, \{v_1, v_3\}, \{v_3, v_4\}, \{v_3, v_5\}, \{v_4, v_5\}\} \\
+    \mathrm{or\ } E &= \{v_1v_2, v_2v_4, v_1v_3, v_3v_4, v_3v_5, v_4v_5\}
+\end{align*}
+\end{minipage}
+
+Note that although the diagrams of the graph can look nice, and help us to visualise them - they are not actually important for most of our problems.
+
+\subsection{Multigraph}
+A multigraph / pseudograph is like a graph, however it may contain loops and/or multiple edges. In this module, there is not a formal definition of one and we won't study them too much.
+
+\begin{minipage}{0.45\textwidth}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance= 1.5cm,]
+        \node[graphnode, draw] (A) {$v_1$};
+        \node[graphnode, draw] (B) [above of=A] {$v_2$};
+        \node[graphnode, draw] (C) [above of=B] {$v_3$};
+        \node[graphnode, draw] (D) [right of=B] {$v_4$};
+
+        \path (A) edge[above] node[align=center] {} (D);
+        \path (C) edge[above] node[align=center] {} (D);
+        \path (B) edge[above] node[align=center] {} (D);
+
+        \path (A) edge[out=110, in=250, looseness=2] (B);
+        \path (A) edge[out=70, in=290, looseness=2] (B);
+        \path (B) edge[out=110, in=250, looseness=2] (C);
+        \path (B) edge[out=70, in=290, looseness=2] (C);
+
+    \end{tikzpicture}
+    \caption{Graph with multiple edges}
+\end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance= 1.5cm,]
+        \node[graphnode, draw] (A) {$v_1$};
+        \node[graphnode, draw] (B) [above of=A] {$v_2$};
+        \node[graphnode, draw] (D) [right of=B] {$v_3$};
+
+        \path (A) edge[above] node[align=center] {} (D);
+        \path (B) edge[above] node[align=center] {} (D);
+
+        \path (A) edge[out=110, in=250, looseness=2] (B);
+        \path (A) edge[out=70, in=290, looseness=2] (B);
+
+        \path (B) edge[out=70, in=110, looseness=8] (B);
+        \path (D) edge[out=70, in=110, looseness=8] (D);
+
+    \end{tikzpicture}
+    \caption{Graph with loops}
+\end{figure}
+\end{minipage}
+
+\subsection{Degree of a Vertex}
+The number of edges incident with a vertex, $v$, is called the degree of $v$ and is denoted by $\deg v$. A vertex of degree $0$ is said to be isolated.
+
+\begin{minipage}{0.45\textwidth}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance= 1.5cm,]
+        \node[graphnode, draw] (A) {$v_1$};
+        \node[graphnode, draw] (B) [above of=A] {$v_2$};
+        \node[graphnode, draw] (C) [right of=B] {$v_3$};
+        \node[graphnode, draw] (D) [right of=C] {$v_4$};
+        \node[graphnode, draw] (E) [below of=D] {$v_5$};
+        \node[graphnode, draw] (F) [right of=E] {$v_6$};
+        \node[graphnode] (X) [right of=D] {};
+        \node[graphnode, draw] (G) [right of=X] {$v_7$};
+
+        \path (B) edge[above] node[align=center] {} (C);
+        \path (A) edge[above] node[align=center] {} (C);
+        \path (C) edge[above] node[align=center] {} (D);
+        \path (D) edge[above] node[align=center] {} (F);
+        \path (F) edge[above] node[align=center] {} (G);
+
+        \path (A) edge[out=110, in=250, looseness=2] (B);
+        \path (A) edge[out=70, in=290, looseness=2] (B);
+
+        \path (B) edge[out=70, in=110, looseness=8] (B);
+        \path (C) edge[out=70, in=110, looseness=8] (C);
+
+    \end{tikzpicture}
+    \caption{Degree of Vertex example graph}
+\end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+\begin{align*}
+    & \deg V_1 = 2, && \deg V_6 = 2, \\
+    & \deg V_7 = 1, && \deg V_5 = 0, \\
+    & \deg V_1 = 3, && \deg V_2 = 5, \\
+    & \deg V_3 = 5 && 
+\end{align*}
+\end{minipage}
+
+Note that $V_5$ is an isolated vertex in the above example. 
+
+\subsection{Degree Sequence}
+When $d_1$, $d_2$, \ldots, $d_n$ are the degrees of the vertices of a graph (or multigraph), $G$, ordered so that $d_1 \leq d_2 \leq \cdots d_n$ Then $(d_1, d_2, \ldots, d_n)$ is called the \textit{degree sequence} of $G$. 
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (A) {$v_1$};
+            \node[graphnode, draw] (B) [right of=A] {$v_2$};
+            \node[graphnode, draw] (C) [above of=A] {$v_3$};
+            \node[graphnode, draw] (D) [above of=B] {$v_4$};
+            \node[graphnode, draw, yshift=-0.75cm] (E) [above=of $(C)!0.5!(D)$] {$v_5$};
+            \node[graphnode, draw, yshift=-1.2cm] (F) [above=of $(A)!0.5!(B)$] {$v_6$};
+
+            \path (A) edge[above] node[align=center] {} (B);
+            \path (B) edge[above] node[align=center] {} (D);
+            \path (C) edge[above] node[align=center] {} (E);
+            \path (C) edge[above] node[align=center] {} (A);
+            \path (D) edge[above] node[align=center] {} (C);
+            \path (D) edge[above] node[align=center] {} (E);
+        \end{tikzpicture}
+        \caption{Example Graph For Degree Sequence}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+The degree sequence: $(0, 2, 2, 2, 3, 3)$
+\end{minipage}
+
+\section{Euler Theorem}
+Euler's Theorem (or Handshaking Lemma) states that: In any graph $G = (V,E)$, the sum of all the vertex-degrees is equal to twice the number of edges,
+\[\sum_{v \in V} \deg v = 2|E|\]
+This is a great revelation, however it lead to two more revelations:
+\begin{enumerate}
+    \item In any graph, the sum of all the vertex-degrees is an even number
+    \item In any graph, the number of vertices of odd degree is even
+\end{enumerate}
+
+\section{Special Types of Graphs}
+We will now see that there are special types of graphs that have their oen names.
+\subsection{Complete Graphs}
+For any positive integer $n$, the complete graph on $n$ vertices, denoted $K_n$, is that graph with $n$ vertices every two of which are adjacent.
+
+\begin{minipage}{0.23\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (A) {$v_1$};
+        \end{tikzpicture}
+        \caption{$K_1$}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.23\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (A) {$v_1$};
+            \node[graphnode, draw] (B) [right of=A] {$v_2$};
+            \path (A) edge[above] node[align=center] {} (B);
+        \end{tikzpicture}
+        \caption{$K_2$}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.23\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (A) {$v_1$};
+            \node[graphnode, draw] (B) [right of=A] {$v_2$};
+            \node[graphnode, draw, yshift=-0.75cm] (C) [above=of $(A)!0.5!(B)$] {$v_5$};
+            \path (A) edge[above] node[align=center] {} (B);
+            \path (C) edge[above] node[align=center] {} (B);
+            \path (A) edge[above] node[align=center] {} (C);
+        \end{tikzpicture}
+        \caption{$K_3$}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.23\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (A) {$v_1$};
+            \node[graphnode, draw] (B) [right of=A] {$v_2$};
+            \node[graphnode, draw] (C) [above of=B] {$v_3$};
+            \node[graphnode, draw] (D) [left of=C] {$v_4$};
+            \path (A) edge[above] node[align=center] {} (B);
+            \path (B) edge[above] node[align=center] {} (C);
+            \path (C) edge[above] node[align=center] {} (D);
+            \path (A) edge[above] node[align=center] {} (D);
+            \path (A) edge[above] node[align=center] {} (C);
+            \path (B) edge[above] node[align=center] {} (D);
+        \end{tikzpicture}
+        \caption{$K_4$}
+    \end{figure}
+\end{minipage} 
+% could do K_5 if I feel the urge in the future.
+
+The complete graph on $n$ has $\displaystyle \frac{n(n-1)}{2}$ edges because Eulers theorem. 
+
+\subsection{Bipartite Graphs}
+A bipartite graph is one whose vertices can be partitioned into disjoint sets $v_1$ and $V_2$ in such a way that every edge joins in a vertex in $V_1$ and a vertex in $V_2$ (no edges within $V_1$ nor within $V_2$). 
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (A) {$v_1$};
+            \node[graphnode, draw] (B) [right of= A] {$v_2$};
+            \node[graphnode, draw] (C) [above of= A]{$v_3$};
+            \node[graphnode, draw] (D) [right of= C]{$v_4$};
+            \node[graphnode, draw] (E) [right of= D]{$v_5$};
+            \node[graphnode, draw] (F) [right of= E]{$v_6$};
+            
+            \path (A) edge[above] node[align=center] {} (C);
+            \path (A) edge[above] node[align=center] {} (E);
+
+            \path (B) edge[above] node[align=center] {} (C);
+            \path (B) edge[above] node[align=center] {} (D);
+            \path (B) edge[above] node[align=center] {} (F);
+
+        \end{tikzpicture}
+        \caption{Incomplete bipartite graph}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (A) {$v_1$};
+            \node[graphnode, draw] (B) [right of= A] {$v_2$};
+            \node[graphnode, draw] (C) [above of= A]{$v_3$};
+            \node[graphnode, draw] (D) [right of= C]{$v_4$};
+            \node[graphnode, draw] (E) [right of= D]{$v_5$};
+            \node[graphnode, draw] (F) [right of= E]{$v_6$};
+            
+            \path (A) edge[above] node[align=center] {} (C);
+            \path (A) edge[above] node[align=center] {} (D);
+            \path (A) edge[above] node[align=center] {} (E);
+            \path (A) edge[above] node[align=center] {} (F);
+
+            \path (B) edge[above] node[align=center] {} (C);
+            \path (B) edge[above] node[align=center] {} (D);
+            \path (B) edge[above] node[align=center] {} (E);
+            \path (B) edge[above] node[align=center] {} (F);
+
+        \end{tikzpicture}
+        \caption{Complete bipartite graph}
+    \end{figure}
+\end{minipage}
+
+A complete bipartite graph is a bipartite graph in which every vertex in $V_1$ is joined to every vertex in $V_2$. 
+
+\section{Subgraphs}
+A graph $H$ is a subgraph of $G$ if and only if the vertex and edge set of $H$ are respectively subsets of the vertex and edge set of $G$. 
+
+\begin{minipage}{0.3\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (A) {$v_1$};
+            \node[graphnode, draw] (E) [right of= A]{$v_5$};
+            \node[graphnode, draw] (C) [right of= E]{$v_3$};
+            \node[graphnode, draw] (D) [above of= E]{$v_4$};
+            \node[graphnode, draw] (B) [below of= E]{$v_2$};
+
+            \path (A) edge[above] node[align=center] {} (B);
+            \path (B) edge[above] node[align=center] {} (C);
+            \path (C) edge[above] node[align=center] {} (D);
+            \path (D) edge[above] node[align=center] {} (A);
+            \path (A) edge[above] node[align=center] {} (E);
+            \path (E) edge[above] node[align=center] {} (B);
+        \end{tikzpicture}
+        \caption{$G$}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.3\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (A) {$v_1$};
+            \node[graphnode, draw] (E) [left of= A]{$v_5$};
+            \node[graphnode, draw] (C) [left of= E]{$v_3$};
+            \node[graphnode, draw] (D) [above of= E]{$v_4$};
+            \node[graphnode, draw] (B) [below of= E]{$v_2$};
+
+            \path (B) edge[above] node[align=center] {} (C);
+            \path (C) edge[above] node[align=center] {} (D);
+            \path (D) edge[above] node[align=center] {} (A);
+            \path (E) edge[above] node[align=center] {} (B);
+        \end{tikzpicture}
+        \caption{$H_1$}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.3\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (A) {$v_1$};
+            \node[graphnode, draw] (E) [right of= A]{$v_5$};
+            \node[graphnode, draw] (C) [right of= E]{$v_3$};
+            \node[graphnode, draw] (D) [below of= E]{$v_4$};
+            \node[graphnode, draw] (B) [above of= E]{$v_2$};
+
+            \path (A) edge[above] node[align=center] {} (B);
+            \path (B) edge[above] node[align=center] {} (C);
+            \path (C) edge[above] node[align=center] {} (D);
+            \path (D) edge[above] node[align=center] {} (A);
+            \path (A) edge[above] node[align=center] {} (E);
+            \path (E) edge[above] node[align=center] {} (B);
+        \end{tikzpicture}
+        \caption{$H_2$}
+    \end{figure}
+\end{minipage}
+
+\section{Isomorphic Graphs}
+Two graphs, $G$ and $H$ are said to be isomorphic if $H$ can be obtained from $G$ by re-labelling the vertices. 
+
+\begin{minipage}{0.45\textwidth}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance= 1.5cm,]
+        \node[graphnode, draw] (A) {$v_1$};
+        \node[graphnode, draw] (B) [right of= A]{$v_2$};
+        \node[graphnode, draw] (C) [above of= B]{$v_3$};
+        \node[graphnode, draw] (D) [left of= C]{$v_4$};
+        
+        \path (A) edge[above] node[align=center] {} (B);
+        \path (B) edge[above] node[align=center] {} (C);
+        \path (C) edge[above] node[align=center] {} (D);
+        \path (D) edge[above] node[align=center] {} (A);
+    \end{tikzpicture}
+    \caption{$G$}
+\end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance= 1.5cm,]
+        \node[graphnode, draw] (A) {$u_1$};
+        \node[graphnode, draw] (B) [right of= A]{$u_2$};
+        \node[graphnode, draw] (C) [above of= A]{$u_3$};
+        \node[graphnode, draw] (D) [right of= C]{$u_4$};
+        
+        \path (A) edge[above] node[align=center] {} (B);
+        \path (B) edge[above] node[align=center] {} (C);
+        \path (C) edge[above] node[align=center] {} (D);
+        \path (D) edge[above] node[align=center] {} (A);
+    \end{tikzpicture}
+    \caption{$H$}
+\end{figure}
+\end{minipage}
+
+In the above example, $v_1$ maps to $u_1$, $v_2$ to $u_2$ and so on. What this means is that if the $u$ labelling was to be replaced with the $v$ labelling - the same graph would be obtained.\\
+
+$G$ is isomorphic to $H$ is there is a bijective function $f : V(G) \rightarrow V(H)$ such that
+\begin{itemize}
+    \item if $u$ and $v$ are adjacent in $G$ then $f(u)$ and $f(v)$ are adjacent in $H$
+    \item if $u$ and $v$ are not adjacent in $G$ then $f(u)$ and $f(v)$ are not adjacent in $H$.
+\end{itemize}
+
+It is difficult to prove that two graphs are isomorphic, as we have to try all the bijections between vertex sets and check them. It can be shown, that if $G$ and $H$ are isomorphic graphs then $G$ and $H$:
+\begin{itemize}
+    \item have the same number of vertices
+    \item have the same number of edges
+    \item have the same degree sequence
+    \item either both are connected or both are not connected (to be covered next week)
+\end{itemize}
+So it can be easier to show that graphs are not isomorphic, which is shown by proving that one of the properties above is broken.
