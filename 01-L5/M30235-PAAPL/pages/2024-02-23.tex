@@ -48,14 +48,60 @@ If we consider the following grammar:
     F & \rightarrow (E) | int
 \end{align*}
 Here, we have non-terminal symbols $E$, $T$ and $F$ which may stand for \verb|<exp>|, \verb|<term>|, \verb|<factor>| or other structures. $E$ is our start symbol.
+\begin{table}[H]
+\centering
+\small
+{\RaggedRight
+\begin{tabular}{C{0.15\textwidth} C{0.11\textwidth} C{0.11\textwidth} C{0.11\textwidth} C{0.11\textwidth} C{0.11\textwidth} C{0.11\textwidth}}
+\textbf{Top of parse stack} & \textbf{int} & \textbf{+} & \textbf{*} & \textbf{(} & \textbf{)} & \textbf{\$}\\
+\hline
+\hline
+$E$ & $E \rightarrow TE'$ & & & $E \rightarrow TE'$ & & \\
+\hline
+$E'$ & & $E' \rightarrow +TE'$ & & & $E' \rightarrow \varepsilon$ & $E' \rightarrow \varepsilon$\\
+\hline
+$T$ & $T \rightarrow FT'$ & & & $T \rightarrow FT'$ & & \\
+\hline
+$T'$ & & $T' \rightarrow \varepsilon$ & $T' \rightarrow ^*FT'$ & & $T' \rightarrow \varepsilon$ & $T' \rightarrow \varepsilon$\\
+\hline
+$F$ & $F \rightarrow \mathrm{int}$ & & & $F \rightarrow (E)$ & & \\
+\hline
+\end{tabular}
+} % end of rr     
+\caption{Parse Table}
+\end{table}
 
-% FINISH EXAMPLE
+\begin{minipage}{0.2\textwidth}
+    \begin{figure}[H]
+        \centering
+        \usetikzlibrary{shapes.multipart}
+        \begin{tikzpicture}[stack/.style={rectangle split, rectangle split parts=#1,draw, anchor=center}]
+            \node[stack=4]  {
+            \nodepart{one} $T$
+            \nodepart{two}$E'$
+            \nodepart{three}$\$$
+            };
+        \end{tikzpicture}
+        \caption{Stack}
+    \end{figure}
+\end{minipage}\hfill
+\begin{minipage}{0.75\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tabular}[H]{| C{0.08\textwidth} | C{0.08\textwidth} | C{0.08\textwidth} | C{0.08\textwidth} | C{0.08\textwidth} | C{0.08\textwidth} | C{0.08\textwidth} | C{0.08\textwidth} |}
+            \hline
+            $($ & int & $+$ & int & $*$ & int & $\cdots$ & $\$ $\\
+            \hline
+        \end{tabular}
+        \caption{Input Strings (tokens)}
+\end{figure}
+\end{minipage}
 
 \subsection{Parsing Table}
 For LL(1) parsing, the grammar is arranged into a parsing table.
 \begin{itemize}
     \item The first column has the non-terminal symbols of the grammar,
-    \item THe first row contains the terminal symbols and $\$$ is for the end of input 
+    \item The first row contains the terminal symbols and $\$$ is for the end of input 
     \item The table entries give the rules of choice based on the current input (a terminal symbol) and the current non-terminal symbols (the symbol on top of the stack)
 \end{itemize}
 
