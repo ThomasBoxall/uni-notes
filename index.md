@@ -1,4 +1,4 @@
-# Thomas Boxall's BSc Computer Science notes
+<!-- # Thomas Boxall's BSc Computer Science notes -->
 [View on GitHub](https://github.com/ThomasBoxall/uni-notes)
 
 ## Links to Notes
