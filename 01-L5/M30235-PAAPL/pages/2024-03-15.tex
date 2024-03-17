@@ -1,0 +1,222 @@
+\taughtsession{Lecture}{Elementary Data Types}{2024-03-15}{14:00}{Jiacheng}{}
+
+Elementary Data Types have fixed values that can be stored in a memory space of fixed size. Typically, languages provide the following kinds of elementary types:
+\begin{itemize}
+    \item Numeric (these are integer / floating points)
+    \item Boolean
+    \item Character
+    \item Enumerated
+    \item Reference or pointer
+\end{itemize}
+We will not look at all of these data types in great detail. \\
+
+Imperative languages provide built-in operators for computing over these elementary data types. A selection of these operators is provided in the table below.
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.3\textwidth} p{0.2\textwidth} p{0.2\textwidth} p{0.2\textwidth}}
+    \textbf{Kind of Operator} & \textbf{Pascal} & \textbf{Python} & \textbf{C}\\
+    \hline
+    \hline
+    Arithmetic & \verb|+ - * /| & \verb|+ - * /| & \verb|+ - * /|\\
+    \hline
+    Int division & \verb|div mod| & \verb|/ %| & \verb|/ %|\\
+    \hline
+    Relational \verb|= < >| \verb|< <= > >=| & \verb|== !=| \verb|< <= > >=| & \verb|== != < <= > >=|\\
+    \hline
+    Boolean & \verb|and or not| & \verb|and or !| & \verb+&& || !+\\
+    \hline
+    Bitwise & \verb|-| & \verb+& |+ & \verb+& |+\\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{Operations on Elementary Data Types}
+\end{table}
+
+\section{Enumerated Types}
+Enumerated types are \textit{ordinal} type that the possible values can be associated with the set of positive integers. Enumerated types are used to represent order, for example used as indices of arrays.\\
+
+In Java - the primitive ordinal types are integer and char. The char data type is a single 16-bit Unicode character, which has a minimum value of `\textbackslash u0000' (or 0) and a maximum value of `\textbackslash uffff' (or 65,535). \\
+
+Enumerated types can be user-defined. For example, if we wanted to define a type to represent the four seasons in Pascal:
+\begin{verbatim}
+    type season = (spring, summer, autumn, winter);
+\end{verbatim}
+We can then declare a variable of type \verb|season|:
+\begin{verbatim}
+    var s : season;
+\end{verbatim}
+
+\subsection{Operations}
+Typically, enumerated types have a small set of operations - comparison and retrieval of the value of successor / predecessor value. We can see this in Java, which has included Enumerated Types (\verb|enum|) since version 1.5. The example below defines an \verb|enum| type \verb|Season| and then sets \verb|s| and displays the ordinal of it.
+\begin{verbatim}
+    public enum Season {SPRING, SUMMER, AUTUMN, WINTER};
+    Season s = Season.SUMMER;
+    System.out.println(s.ordinal()); // outputs '2'
+\end{verbatim}
+
+\section{Pointers}
+Pointer (or reference) variables have a memory address as their value (they ``point'' to another data item). Originally, pointers were designed to work with memory locations, enabling efficient use of limited memory space - a feature of assembly language. They provide a convenient way to manage (allocate and de-allocate) dynamic storage (heap memory). Memory spaces that are dynamically allocated from a heap are heap-dynamic variables. They often are anonymous (meaning they do not have identifiers associated with them) and thus can be referenced only be pointers (memory addresses). C and C++ natively include lots of support for pointers.
+
+\subsection{Pointer Type Declaration}
+The declaration of a pointer is given by preceding a variable name with a \verb|*|:
+\begin{verbatim}
+    int number, *numPtr;
+\end{verbatim}
+The above code snipped declares \verb|number| as an \verb|int| and \verb|numPtr| as a ``pointer to int''. At runtime, this means:
+\begin{itemize}
+    \item \verb|number| is the name of a location in memory where an integer is stored
+    \item \verb|numPtr| is the name of a location in memory where a memory address is stored.
+\end{itemize}
+
+\subsection{``\&'' Operator}
+The \verb|&| operator retrieves the address of a variable. This can be used as follows:
+\begin{verbatim}
+    number = 42;
+    numPtr = &number;
+\end{verbatim}
+whee the value of \verb|numPtr| is the address of variable \verb|number|. 
+
+\subsection{Pointer Dereferencing}
+The dereferencing operator (\verb|*|) of pointers to access the value pointed to by a pointer, for example if we wanted to print the value:
+\begin{verbatim}
+    printf("%d\n", *numPtr);
+\end{verbatim}
+The dereferencing operator is also used ot modify the value of the memory location that the pointer points to:
+\begin{verbatim}
+    *numPtr = 7
+\end{verbatim}
+The line above updates the value pointed to by \verb|numPointer| to be the value \verb|7|. 
+
+\subsection{Null Pointers}
+A special value \verb|null| (actually stored as \verb|0|) is assigned to pointer variables to signify that it doesn't point to any location. For example:
+\begin{verbatim}
+    numPtr = null;
+\end{verbatim}
+results in \verb|numPtr| not actually pointing to anything.
+
+\subsection{Assignments Involving Pointers}
+If we take the following code:
+\begin{verbatim}
+    int *p;
+    int *q;
+    int a = 100;
+    p = &a;
+
+    *q = *p;
+\end{verbatim}
+The code above involves pointer de-referencing, whereby it copies the content of the memory location pointed to by \verb|p| (\verb|100|) to the location pointed to by \verb|q|. This is distinctly different to the line
+\begin{verbatim}
+    q = p;
+\end{verbatim}
+which copies the value of \verb|p| (a memory address) to \verb|q|.
+
+\subsection{Dynamic Memory Allocation}
+Pointers are commonly used with dynamic memory allocation (where the memory allocation takes place at runtime). The following code allocates 400 bytes (100 spaces of 4 bytes each) and sets the variable \verb|data| to point to the first byte. Note that both of the first lines below do effectively the same thing:
+\begin{verbatim}
+    int *date = calloc(100, sizeof(int));
+    int *data = malloc(400);
+\end{verbatim}
+There is, however, a difference between \verb|malloc| and \verb|calloc|
+\begin{description}
+    \item[calloc] allocates a block of memory of ``n elements'', each of \verb|sizeof| bytes and initializes the contents of the memory to zeroes. It contains info about memory organisation. Example above has created an integer array of 100 elements.
+    \item[malloc] allocates specified size, with no organisation information, of memory however does not erase the memory space. This may lead to the memory containing garbage values.
+\end{description}
+
+\subsection{Semantics of Pointer Allocation}
+When reading pointer arithmetic, it's important to understand it with reference to the pointer type on which they operate. For example:
+\begin{verbatim}
+    int *p;
+    int *q;
+    p = (int *) malloc(sizeof(int));
+    q = (char *) malloc(sizeof(char));
+    p = p + 1;
+    q = q + 1;
+\end{verbatim}
+If two \verb|malloc| functions return \verb|addr1| for \verb|p| and \verb|addr2| for \verb|q|, after the increment operations - then the values of \verb|p| and of \verb|q| are not \verb|addr+1| and \verb|addr2+1| but instead are \verb|addr1+sizeof(int)| and \verb|addr2+sizeof(char)|. 
+
+\subsection{Array Indices and Pointers}
+Arrays in C are essentially pointers to large blocks of memory. For example, if we take:
+\begin{verbatim}
+    int a[10], *iPtr, sum, i;
+    iPtr = &a[0];
+\end{verbatim}
+It would then be possible to access the individual elements of the array by using the indices of the array:
+\begin{verbatim}
+    a[0], a[1], a[2], ..., a[9]
+\end{verbatim}
+or by dereferencing the pointers:
+\begin{verbatim}
+    *(iPtr + 0),*(iPtr + 1), *(iPtr + 2),..., *(iPtr + 9) 
+\end{verbatim}
+This means the the following two for loops have the same effect\\
+
+\begin{minipage}{0.45\textwidth}
+\begin{verbatim}
+for(i = 0, sum = 0; i < 10; i++){
+    sum += a[i];
+}
+\end{verbatim}
+\end{minipage}\hfill
+\begin{minipage}{0.45\textwidth}
+\begin{verbatim}
+for(i = 0, sum = 0; i < 10; i++){
+    sum += *(iPtr + i);
+}
+\end{verbatim}
+\end{minipage}
+\vspace{1em}
+
+It is also possible to use indices on pointers:
+\begin{verbatim}
+    iPtr[2] is the same as
+    *(iPtr + 2)
+\end{verbatim}
+
+When an array is declared ,the memory is allocated and the array name holds the address to the first byte of this block of memory. The name of the array is like a pointer which points to the first element of the array (for example \verb|a=&a[0]|)
+\begin{verbatim}
+    int a[10];
+    int *iPtr;
+    iPtr = a + 2;
+\end{verbatim}
+The last statement is the same as saying:
+\begin{verbatim}
+    iPrt = &a[0] + 2;
+\end{verbatim}
+
+it is also possible to do pointer arithmetic with array names. From this we can see that the following two statements are equivalent:
+\begin{verbatim}
+    *(a + 2) = 11;
+    a[2] = 11;
+\end{verbatim}
+
+\subsection{Memory Deallocation}
+Deallocation of memory can be explicit or implicit
+\begin{verbatim}
+    int *p = (int *) malloc (sizeof(int));
+    *p = 5;
+    p = null;
+\end{verbatim}
+In the above example, we see that assigning \verb|null| to \verb|p| destroys the only way to access the allocated memory (which is still in existence). The runtime environment can recognise the inaccessibility of this piece of memory and free it implicitly (through a process called garbage collection).\\
+
+However, it is also possible to explicitly deallocate memory using the \verb|free(p)| statement as seen below:
+\begin{verbatim}
+    int *p = (int *) malloc(sizeof(int));
+    int *q;
+    *p = 5;
+    q = p;
+    free(p);
+    p = null;
+\end{verbatim}
+It is regarded as good practice to assign \verb|null| to \verb|p| after freeing it. Note that it is a semantic error (with an unpredictable result) to invoke \verb|free| on a pointer which does not point to an object allocated using \verb|malloc|
+
+\subsection{Dangling Pointers}
+Taking the above example, after freeing \verb|p| - the pointer \verb|q| points to a heap-dynamic variable that has been deallocated. \verb|q| becomes a \textit{dangling pointer} that can cause unexpected errors at runtime. Another example:
+\begin{verbatim}
+    int *arrayPtr1;
+    int *arrayPtr2 = new int[100];
+    arrayPtr = arrayPtr2;
+    delete [] arrayPtr2; // returns memory to heap
+\end{verbatim}
+Now, \verb|arrayPtr1| is dangling because the heap storage to which it was pointing has been deallocated.
