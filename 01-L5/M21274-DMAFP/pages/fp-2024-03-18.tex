@@ -1,0 +1,210 @@
+\taughtsession{Lecture}{Input / Output}{2024-03-18}{12:00}{Matthew}{}
+
+So far, our Haskell programs have been self-contained (meaning they have had no interaction with the user). This lecture will introduce the concept of handling input and output in a Haskell program. 
+
+\section{Input \& Output - Breaking Referential Transparency}
+As we have seen for many lectures leading to this point, the fundamental building block of functional programming is the function definitions. The most important property of a function, is that it will always give the same result when given the same arguments. If we take the following example:
+\begin{verbatim}
+    square :: Int -> Int
+    square n = n * n
+\end{verbatim}
+then if \verb|x = y| then \verb|square x = square y|. This property is known as \textit{referential transparency}.\\
+
+Referential Transparency allows us to mre easily reason about program code, both formally and informally. For example, if we take the following expression
+\begin{verbatim}
+    e - e
+\end{verbatim}
+then for any number, \verb|e|, the expression will always evaluate to \verb|0|. It is easy to prove a functional program as being correct, when compared to a imperative language using a loop.\\
+
+This approach to I/O taken by some functional languages is to provide ``functions'' to read values from the keyboard and return the read value. For example the generic, non Haskell, function below:
+\begin{verbatim}
+    inputInt :: Int
+\end{verbatim}
+This approach breaks referential transparency, as we now do not know what the user has entered. The fact that \verb|inputInt| will now return different values every time the program is run is due to the \textit{side effects} of reading a new value from the keyboard. 
+
+\section{Haskell's Approach to I/O}
+Since any function in a functional program might include an \verb|inputInt|, the whole program becomes difficult to understand. For this reason - Haskell provides a different approach to input / output. Haskell's approach is known as the \textit{monadic approach} since it is based on the mathematical concept of a monad. Input \& Output is viewed as a sequence of actions (or programs) that happens in the specified sequence. Haskell provides the types
+\begin{verbatim}
+    IO a
+\end{verbatim}
+of I/O actions of type \verb|a|.\\
+
+A value of type \verb|IO a| is an action which when executed:
+\begin{itemize}
+    \item performs an input or output operation and then
+    \item returns a value of type \verb|a|
+\end{itemize}
+Haskell also provides a mechanism for sequencing actions, meaning actions can be sequenced to run one after the other. This can be seen to behave in a way similar to that of a simple imperative language. This means that typically programs in Haskell therefore comprise of some:
+\begin{itemize}
+    \item function definitions (without any I/O)
+    \item I/O programs
+\end{itemize}
+These imperative I/O programs are really an illusion, rather they are actually ``syntactic sugar'' for purely functional expressions. 
+
+\subsection{Reading Input}
+The Prelude contains two functions for reading input, one for getting a string and one for getting a character. 
+\begin{verbatim}
+    getLine :: IO String
+    getChar :: IO Char
+\end{verbatim}
+The first line above gets a string from the standard input and the second line above reads a single character form the standard input.
+
+\subsection{Writing Output}
+Unsurprisingly, performing output is different to retrieving input - as we do not expect output actions to return results. Despite this fact, Haskell I/O programs have to be of type \verb|IO a| for some \verb|a|. Haskell provides a one-element type called \verb|()|, which contains the single value \verb|()| - this is used to denote that a Haskell I/O program returns nothing of interest.\\
+
+Haskell includes the function to print strings:
+\begin{verbatim}
+    putStr :: String -> IO ()
+\end{verbatim}
+
+Haskell also includes the function which appends a newline after the outputted string:
+\begin{verbatim}
+    putStrLn :: String -> IO ()
+\end{verbatim}
+
+For example - the Haskell ``Hello, World!'' program is:
+\begin{verbatim}
+    main :: IO ()
+    main = purStrLn "Hello, World!"
+\end{verbatim}
+
+This also illustrates the concept of a `starting point' of a \textit{complete} Haskell program: an action of type \verb|IO ()| called \verb|main|.\\
+
+Haskell also provides a polymorphic function which displays data of any type that is an instance of the \verb|Show| class (i.e. any value that can be converted to a string):
+\begin{verbatim}
+    print :: Show a => a -> IO ()
+    print = putStrLn . show
+\end{verbatim}
+
+\section{The do notation}
+Now we have covered the basics of how input and output functions in Haskell, it's time to build a program with it! As part of this, we need to consider how to sequence I/O actions so that they complete in the correct order. Our example will consider:
+\begin{enumerate}
+    \item Ask the user to enter any string
+    \item Reads in (but does not store) the string
+    \item Display a ``done'' message to the user
+\end{enumerate}
+To ensure that these actions perform in the prescribed order, we must use the \verb|do| notation:
+\begin{verbatim}
+    readALine :: IO ()
+    readALine = do
+        putStrLn "Enter a string"
+        getLine
+        putStrLn "Done"
+\end{verbatim}
+Note that each line in the \verb|do| consists of an action of type \verb|IO a| for some \verb|a|. 
+
+\section{Capturing Inputted Values}
+As we are now well versed in the \verb|getLine| expression - it's time to take it one step further, capturing them into a named value so we can use it in the future! This is done using the \verb|<-| operator and would look something like this:
+\begin{verbatim}
+    line <- getLine
+\end{verbatim}
+This symbol might look, and operate, a bit like an assignment (commonly the \verb|=| symbol) however it is not an assignment! This means what we can do with \verb|line|, without doing something else to it first, is very limited. 
+
+\subsection{Reading Integers}
+An excellent illustration of this behaviour is the case in which we are reading an integer from the Standard Input. In this example, we'll be writing our own action:
+\begin{verbatim}
+    getInt :: IO Int
+\end{verbatim}
+for reading an integer from the standard input.\\
+
+To do this - we first need to use \verb|getLine| to obtain a string from the standardInput:
+\begin{verbatim}
+    do str <- getLine 
+\end{verbatim}
+We will then need to translate \verb|str| into an integer using the \verb|read| function, as declared in the \verb|Read| type class:
+\begin{verbatim}
+    read str :: Int
+\end{verbatim}
+(This forces a conversion to a\verb|Int| using \verb|:: Int|)
+
+Putting these stages together, we have the following function to obtain an Integer inputted from the Standard I/O
+\begin{verbatim}
+    getInt :: IO Int
+    getInt = do
+        str <- getLine
+        return (read str :: Int)
+\end{verbatim}
+
+\subsection{Read}
+In the above example, we saw the \verb|read| function be used to ``read'' the integer contents of the string returned from \verb|getLine|. An example of this in action can be seen below:
+\begin{verbatim}
+    read "  456       " :: Int
+    456
+\end{verbatim}
+
+\section{File I/O}
+The Prelude comes with built-in functions for reading from and writing to files:
+\begin{verbatim}
+    readFile :: String -> IO String
+    writeFile :: String -> String -> IO ()
+    appendFile :: String -> String -> IO ()
+\end{verbatim}
+The first argument of each function is the file's path; and the second is the contents (for \verb|write| and \verb|append|) only. \\
+
+The example function below displays the files content on the screen:
+\begin{verbatim}
+    displayFile :: IO ()
+    displayFile = do
+        putStr "Enter the filename: "
+        name <- getLine
+        contents <- readFile name
+        putStr contents
+\end{verbatim}
+
+\section{Conditionals in do}
+As we saw in week 1, Haskell includes a conditional operator. This can be used within a \verb|do| construct. For example, in the following program - a string is read from the user and is then tested to see if it's a palindrome or not.
+\begin{verbatim}
+    pal :: IO ()
+    pal = do
+        str <- getLine
+        if str == reverse str
+            then putStr (str ++ " is a palindrome")
+            else putStr (str ++ " is not a palindrome")
+\end{verbatim}
+The test which is completed is of type \verb|Bool|, and the branches are single actions. Note that if one of the branches had two or more actions then these would need to be combined into another \verb|do| construct.\\
+
+An alternative solution to the above program is to move more of the computation to a normal function:
+\begin{verbatim}
+    isPalindrome :: String -> String
+    isPalindrome str
+        | str == reverse str = str ++ " is a palindrome"
+        | otherwise          = str ++ " is not a palindrome"
+\end{verbatim}
+and then simplify the I/O program
+\begin{verbatim}
+    pal :: IO ()
+    pal = do
+        line <- getLine
+        putStrLn (isPalindrome line)
+\end{verbatim}
+This example illustrates a typical separation of the purely functional core of a program from its user interface code.
+
+\subsection{Local Definitions in I/O Programs}
+It would be possible to break the last line of \verb|pal| into two parts (separating the computation from the output), as follows:
+\begin{verbatim}
+    pal = do
+        line <- getLine
+        response <- return (isPalindrome line)
+        putStrLn response
+\end{verbatim}
+However the middle line is ugly, we have had to introduce some IO (through introducing \verb|return|) just so we can use \verb|<-|. There is a better way to do this with a local definition:
+\begin{verbatim}
+    pal = do
+        line <- getLine
+        let response = isPalindrome line
+        putSrtLn response
+\end{verbatim}
+
+\section{Recursion}
+Like functions, IO programs can be recursive. The following program allows the user to enter several lines, checking whether each one is a palindrome; it terminates when the user enters a blank line.
+\begin{verbatim}
+    palLines :: IO ()
+    palLines = do
+        putStr "Enter a line: "
+        str <- getLine
+        if str == "" then
+            return ()
+        else do
+            putStrLn (isPalindrome str)
+            palLines
+\end{verbatim}
