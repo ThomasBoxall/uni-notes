@@ -1,0 +1,245 @@
+\taughtsession{Lecture}{Compound \& Composite Data Types}{2024-03-22}{14:00}{Jiacheng}{}
+
+A \textit{compound data type} is any data type which can be constructed using a programming languages' primitive data types. Common examples of compound types include: arrays, string, records, structs and variant records. Note that \textit{records} aren't directly found in OO languages, rather classes can be seen as extensions of records.
+
+\section{Arrays}
+The \textit{array} is the most common compound type found in programming languages. Generally speaking, an array has the following attributes:
+\begin{itemize}
+    \item The \textit{type} of its elements. This is also the type of the composite type
+    \item The type of its \textit{indices}. Integers are normally used, however it is possible to use other types (for example, enumerated type)
+    \item The \textit{index range} (number of elements)
+\end{itemize}
+
+As could be expected, the syntax and characteristics of arrays vary from language to language.
+
+\subsection{Arrays in Different Languages}
+We will consider two languages, Java and Pascal, to explore the differences between different languages implementations of arrays.\\
+
+The first major difference is that in Pascal, the \textit{size} and \textit{indices} of an array oare part of it's type definition, for example:
+\begin{verbatim}
+    var rainfall: array [11 .. 20, 1..5] of real;
+\end{verbatim}
+The type of the variable \verb|rainfall| is an array of \verb|reals| indexed by integers between 11 and 20 (1st dimension), and between 1 and 5 (2nd dimension).\\
+
+Pascal arrays allow any ordinal type as its indices, for example the enumerated type as indices:
+\begin{verbatim}
+    type month = (jan, feb, march, ..., dec);
+    var rainfall : array [jan .. dec] of real;
+\end{verbatim}
+Or characters (128 ASCII characters, or 256 ANSI256 characters) as indices
+\begin{verbatim}
+    var anArray : array ['a' .. 'z'] of integer;
+\end{verbatim}
+Whereas in Java, arrays use integer type as its index and the index always starts from \verb|0|:
+\begin{verbatim}
+    double[] rainfall;
+\end{verbatim}
+Java supports a number of different index sizes:
+\begin{itemize}
+    \item Short (16-bit signed, -32768 to 32767)
+    \item Byte (-128 to 127)
+    \item Char (2 bytes, 65535)
+\end{itemize}
+These smaller types can be promoted (converted) to Integers which are bigger.
+
+\subsection{Static v Dynamic Arrays}
+As we saw in the Pascal definition example above, we now that the sizes of Pascal arrays are fixed at \textit{compile} time. We say that Pascal arrays are ``static''. By contrast, we saw that Java allows ``dynamic'' arrays. This means their sizes are determined at \textit{run-time} when they are created. For example:
+\begin{verbatim}
+    rainfall = new double[numDays];
+\end{verbatim}
+
+Dynamic arrays have the obvious advantage of allowing for the creation of more suitably-sized arrays.
+
+\subsubsection{Static Arrays}
+The subscript ranges (size of arrays) are statically bound and storage allocation is static at compile time. For example, all Pascal Arrays or C/C++ arrays which include the \verb|static| modifier. A key advantage is that they are more efficient as there is no dynamic allocation.
+
+\subsubsection{Stack-Dynamic Arrays}
+The subscript ranges are dynamically bound and the storage is allocated at run-time. It lives on the stack and the size of it is fixed once it is created. For example, C/C++ arrays without the \verb|static| modifier:
+\begin{verbatim}
+    double balance [100]; 
+    myType stackArray[100];
+\end{verbatim}
+A key advantage is that dynamic arrays are more flexible (as the size of an array need not be known until the array is to be used). 
+
+\subsubsection{Heap-Dynamic Arrays}
+As the name would suggest, a heap-dynamic array lives on the heap. This means that it's size can change. C++, JavaScript, Python, etc support Heap-Dynamic arrays. For example, in C++:
+\begin{verbatim}
+    myType *heapArray = new myType[100];
+    delete [] heapArray;
+\end{verbatim}
+A key advantage is that the Heap-Dynamic arrays are hugely flexible, meaning that they can grow or shrink during program execution.
+
+\subsubsection{Java Arrays}
+Java Arrays are objects and live on the heap (in the same way that other Java objects do), but they behave like stack-dynamic arrays. It's seen that they have fixed sizes once initialised:
+\begin{verbatim}
+    int [] a_array = new int (100);
+\end{verbatim}
+
+\subsection{Heterogeneous Arrays}
+A \textit{heterogeneous} array is one in which the elements do not need to be of the same type. They are supported by Perl, Python and JavaScript. Shown below is an example of a heterogeneous array in JavaScript:
+\begin{verbatim}
+    var mixArray1 = new Array();
+    mixArray1 [0] = "Hello, World!";
+    mixArray1 [1] = 100;
+\end{verbatim}
+As would be expected, a heterogeneous array can be an element of another heterogeneous array:
+\begin{verbatim}
+    var mixArray2 = new Array(
+        200,
+        300,
+        "Hello Again",
+        mixArray1
+    );
+\end{verbatim}
+
+\subsection{Rectangular \& Jagged Arrays}
+A rectangular array is a multi-dimensional (for example, 2D) array in which all the rows have the same number of elements and all the columns have the same number of elements. This is supported by Fortran and C\#. (Note that C\# also supports jagged arrays).\\
+
+A jagged array has rows with varying number of elements, however has no concept of columns. Therefore jagged multiple-dimensional arrays are actually arrays of arrays. C, C++, C\# and Java support jagged arrays. For example, a jagged array in Java:
+\begin{verbatim}
+    int [] [] myArray = { { 3, 4, 5 }, { 6, 7 } };
+\end{verbatim}
+Jagged arrays are more flexible and memory efficient. For example the second dimension of array \verb|a| can be allocated separately:
+\begin{verbatim}
+    int[][] a = int[3][];
+    a[0] = new int[1]; // row 1 has 1 element
+    a[1] = new int[2]; // row 2 has 2 element
+    a[2] = new int[3]; // row 3 has 3 elements
+\end{verbatim}
+If \verb|a| turns out to be a big triangular array, almost half of the memory space can be saved by using a Jagged Array.
+
+\section{Strings}
+\textit{Strings} can be regarded as arrays / collections of characters.\\
+
+In (standard) Pascal, strings need to be declared as arrays:
+\begin{verbatim}
+    var arr : packed array [1 .. 10] of char;
+\end{verbatim}
+\verb|packed| tells the compiler to use the minimum amount of memory.\\
+
+In C, strings are declared as arrays:
+\begin{verbatim}
+    char name[10]; // memory allocated
+\end{verbatim}
+or as pointers to character:
+\begin{verbatim}
+    char *name; // memory not yet allocated
+\end{verbatim}
+
+In modern languages, strings are viewed as important enough to be built-in and a set of typical operations are defined for the string type such as:
+\begin{itemize}
+    \item finding the length / size of a string
+    \item string concatenation
+\end{itemize}
+Note that the char array in C does not have these operations built in. 
+
+\section{Record}
+A \textit{record} is composed of a number of named elements of data. For example in Pascal:
+\begin{verbatim}
+    type date = record
+        day: integer;
+        month: integer;
+        year: integer;
+    end;
+\end{verbatim}
+
+We can see below how a variable \verb|d| is declared to be of type \verb|date|:
+\begin{verbatim}
+    var d: date;
+\end{verbatim}
+and how this has the \textit{fields} \verb|day|, \verb|month| and \verb|year|, which are accessed and modified using the dot notation / operator:
+\begin{verbatim}
+    writeln(d.year);  // access
+    d.day = 24;       // modify
+\end{verbatim}
+
+\subsection{Structs}
+A similar similar to record in C (and C++) are called \textit{structs}, for example:
+\begin{verbatim}
+    struct date {
+        int day;
+        int month;
+        int year;
+    }
+\end{verbatim}
+However! A struct in C++ is more powerful, as they may include \textit{member functions}:
+\begin{verbatim}
+    struct date {
+        int day;
+        int month;
+        int year;
+        void display();
+    }
+\end{verbatim}
+As we can see above, it only declares the member function \verb|display()|, which means it will need to be defined elsewhere in the program. To display a date, we might call:
+\begin{verbatim}
+    date d;
+    d.display();
+\end{verbatim}
+
+\subsection{Structs vs Classes}
+Structurally, structs are similar to classes (without constructors) and member functions is an alternative term for method. A C++ class is shown below:
+\begin{verbatim}
+    class Date {
+        int day;
+        int month;
+        int year;
+    public:
+        Date (int, int, int);  // constructor
+        void display();
+    }
+\end{verbatim}
+Another difference between structs and classes in C++ is that, by default, members are public in structs and private in classes.
+
+\subsection{Whats the difference: Records, Structs \& Classes}
+A Class is the concept of an Object Oriented language. It would be considered as an extension of records, given that procedural languages typically have records (containing fields), and object oriented languages have classes that contain fields (attributes) and methods (operators). 
+
+\subsection{Variant Records}
+Records can be inflexible and memory-inefficient, because all values of a record type have a fixed set of fields. For example, if we are creating a record to store students in; containing name, registration number, graduation status; then if they've graduated also storing their year of graduation and if not, storing their course number and year of enrolment.\\
+
+Depending on the implementation of this, it could result in wasted fields which must be present in each record even if they're not needed.\\
+
+However, in such cases - Pascal provides a \textit{variant record} to implement the alternative choices:
+\begin{verbatim}
+    type student = record
+        name: array [1..30] of char;
+        reg_no: integer;
+        case graduated: boolean of;
+        true (year_of_grad: integer);
+        false (course_no: integer;
+               year_of_enrol: integer);
+    end;
+\end{verbatim}
+
+In the above example, we used a \verb|boolean| as the tag to determine which fields to include - other types (for example \verb|byte|) can be used in circumstances where we need more than two cases.
+
+\subsection{Unions}
+C \& C++ makes use of ``Unions'' instead of ``Variant Records''. Unions are designed for storing data items of multiple types in the same memory space. For example in C:
+\begin{verbatim}
+    typedef enum (INTEGER, DOUBLE) MyType;
+
+    typedef struct {
+        MyType a_type;
+        union {
+            int i;
+            double d;
+        } myUnion;
+    } Value;
+\end{verbatim}
+Then we can either use the integer value:
+\begin{verbatim}
+    Value v;
+    v.a_type = INTEGER;
+    v.myUnion.i = 5;
+\end{verbatim}
+or we can use the double value:
+\begin{verbatim}
+    Value v;
+    v.a_type = DOUBLE;
+    v.myUnion.d = 5.4321;
+\end{verbatim}
+
+Here, we see that union is the storage for either an integer or a double but not both at the same time.
+
+\subsection{Variant Records vs Union}
+The main difference between the C implementation and the Pascal version is that in the C version (Union), it is possible to have both options set at the same time. This not the case in Pascal's Variant Records.
