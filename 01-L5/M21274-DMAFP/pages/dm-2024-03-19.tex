@@ -1,0 +1,212 @@
+\taughtsession{Lecture}{Walks, Trails, Paths}{2024-03-19}{1700}{Janka}{}
+
+\section{Walks}
+A \textit{walk} in a multigraph is an alternating sequence of vertices and edges (beginning and ending with a vertex), where each edge is incident with the vertex immediately preceding and following it. The length of a walk is the number of edges in it.\\
+
+Many real problems, when translated to graph theory - enquire about the possibility of walking through a graph. Most of the definitions and results about walks are valid for graphs and multigraphs, even if we don't always specific this.\\
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};
+
+            \draw[emphline] (a) edge[above] node[] {} (b);
+            \draw[emphline] (a) edge[above] node[] {} (d);
+            \draw[emphline] (b) edge[above] node[] {} (c);
+            \draw[emphline] (b) edge[above] node[] {} (d);
+            \draw[emphline] (b) edge[above] node[] {} (e);
+            \draw[emphline] (e) edge[above] node[] {} (d);
+            \draw[emphline] (c) edge[above] node[] {} (e);
+            \draw[emphline] (d) edge[above] node[] {} (f);
+            
+
+            \draw (a) edge[right] node[align=center] {$1$} (d);
+            \draw (a) edge[above] node[align=center] {$2$} (b);
+            \draw (b) edge[above] node[align=center] {$5$} (d);
+            \draw (b) edge[above] node[align=center] {$6$} (c);
+            \draw (b) edge[above] node[align=center] {$3$} (e);
+            \draw (b) edge[above] node[align=center] {} (e);
+            \draw (c) edge[right] node[align=center] {$7$} (e);
+            \draw (d) edge[below] node[align=center] {$9$} (f);
+            \draw (e) edge[below] node[align=center] {$4,8$} (d);
+            \draw (e) edge[above] node[align=center] {} (f);
+            \draw (e) edge[above] node[align=center] {} (g);
+            \draw (f) edge[above] node[align=center] {} (g);
+
+        \end{tikzpicture}
+        \caption{Example of a Walk}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+A walk of length 9: d - da - a - ab - b - be - e - ed - d - db - b - bc - c - ce - e - ed - d - df\\
+
+Alternatively represented as:\\
+(d, a, b, e, d, b, c, e, d, f)
+\end{minipage}
+
+A walk is \textit{closed} if the first vertex is the same as the last, for example the walk (d, a, b, e, d, b, c, e, d), and is otherwise said to be an \textit{open} walk.
+
+\subsection{Trails and Paths}
+A \textit{trail} is a walk in which all edges are distinct. A \textit{path} is a walk in which all vertices are distinct.
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};
+
+            \draw[emphline] (a) edge[above] node[] {} (b);
+            \draw[emphline] (a) edge[above] node[] {} (d);
+            \draw[emphline] (b) edge[above] node[] {} (e);
+            \draw[emphline] (e) edge[above] node[] {} (d);
+            \draw[emphline] (d) edge[above] node[] {} (f);
+            
+
+            \draw (a) edge[right] node[align=center] {$1$} (d);
+            \draw (a) edge[above] node[align=center] {$2$} (b);
+            \draw (b) edge[above] node[align=center] {} (d);
+            \draw (b) edge[above] node[align=center] {} (c);
+            \draw (b) edge[above] node[align=center] {$3$} (e);
+            \draw (b) edge[above] node[align=center] {} (e);
+            \draw (c) edge[right] node[align=center] {} (e);
+            \draw (d) edge[below] node[align=center] {$5$} (f);
+            \draw (e) edge[below] node[align=center] {$4$} (d);
+            \draw (e) edge[above] node[align=center] {} (f);
+            \draw (e) edge[above] node[align=center] {} (g);
+            \draw (f) edge[above] node[align=center] {} (g);
+
+        \end{tikzpicture}
+        \caption{Example of a Trail}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+A trail (d, a, b, e, d, f) of length 5.\\
+
+Not all the vertices of a trail are necessarily different.
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};
+
+            \draw[emphline] (d) edge[above] node[] {} (a);
+            \draw[emphline] (a) edge[above] node[] {} (b);
+            \draw[emphline] (b) edge[above] node[] {} (e);
+            \draw[emphline] (e) edge[above] node[] {} (f);
+            \draw[emphline] (f) edge[above] node[] {} (g);
+            
+
+            \draw (a) edge[right] node[align=center] {$1$} (d);
+            \draw (a) edge[above] node[align=center] {$2$} (b);
+            \draw (b) edge[above] node[align=center] {} (d);
+            \draw (b) edge[above] node[align=center] {} (c);
+            \draw (b) edge[above] node[align=center] {$3$} (e);
+            \draw (b) edge[above] node[align=center] {} (e);
+            \draw (c) edge[right] node[align=center] {} (e);
+            \draw (d) edge[below] node[align=center] {} (f);
+            \draw (e) edge[below] node[align=center] {} (d);
+            \draw (e) edge[left] node[align=center] {$4$} (f);
+            \draw (e) edge[above] node[align=center] {} (g);
+            \draw (f) edge[below] node[align=center] {$5$} (g);
+
+        \end{tikzpicture}
+        \caption{Example of a Path}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+A path of length 5: (d, a, b, e, f, g).\\
+
+All the vertices and edges of a path are different. 
+\end{minipage}
+
+\subsection{Circuits and Cycles}
+A closed walk in which all edges are different is called a \textit{circuit} (this is a closed trail). A closed walk in which all vertices (except are the first and the last vertex) are different is called a \textit{cycle} (this is a closed path). 
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            %nodes
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode, draw] (b) [right of=s1] {$b$};
+            \node[graphnode] (s3) [below of=b] {};
+            \node[graphnode, draw] (f) [below of=s3] {$f$};
+            \node[graphnode] (s2) [right of=b] {};
+            \node[graphnode, draw] (h) [above of=s2] {$h$};
+            \node[graphnode, draw] (c) [right of=s2] {$c$};
+            \node[graphnode, draw] (e) [below of=s2] {$e$};
+            \node[graphnode] (s4) [right of=e] {};
+            \node[graphnode, draw] (g) [below of=s4] {$g$};
+            \node[graphnode, draw] (i) [right of=s4] {$i$};
+
+            %circuit emphlines
+            \draw[emphline] (d) edge[above] node[] {} (a);
+            \draw[emphline] (a) edge[above] node[] {} (b);
+            \draw[emphline] (b) edge[above] node[] {} (c);
+            \draw[emphline] (c) edge[above] node[] {} (h);
+            \draw[emphline] (h) edge[above] node[] {} (b);
+            \draw[emphline] (b) edge[above] node[] {} (d);
+
+            %cycle emphlines
+            \draw[emphline, blueln] (f) edge[above] node[] {} (e);
+            \draw[emphline, blueln] (e) edge[above] node[] {} (i);
+            \draw[emphline, blueln] (i) edge[above] node[] {} (g);
+            \draw[emphline, blueln] (g) edge[above] node[] {} (f);
+
+            % lines
+            \draw (a) edge[above] node[align=center] {} (d);
+            \draw (b) edge[above] node[align=center] {} (a);
+            \draw (b) edge[above] node[align=center] {} (d);
+            \draw (b) edge[above] node[align=center] {} (h);
+            \draw (b) edge[above] node[align=center] {} (c);
+            \draw (b) edge[above] node[align=center] {} (e);
+            \draw (h) edge[above] node[align=center] {} (c);
+            \draw (e) edge[above] node[align=center] {} (c);
+            \draw (e) edge[above] node[align=center] {} (i);
+            \draw (e) edge[above] node[align=center] {} (g);
+            \draw (e) edge[above] node[align=center] {} (f);
+            \draw (e) edge[above] node[align=center] {} (d);
+            \draw (g) edge[above] node[align=center] {} (i);
+            \draw (g) edge[above] node[align=center] {} (f);
+            \draw (f) edge[above] node[align=center] {} (d);
+
+        \end{tikzpicture}
+        \caption{Examples of Circuits and Cycles}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+A circuit of length 6: (d, a, b, c, h, b, d)\\
+
+A cycle of length 4: (f, e, i, g, f)
+\end{minipage}
