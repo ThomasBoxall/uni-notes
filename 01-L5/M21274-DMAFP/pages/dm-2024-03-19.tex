@@ -20,14 +20,14 @@ Many real problems, when translated to graph theory - enquire about the possibil
             \node[graphnode, draw] (c) [above of=s3] {$c$};
             \node[graphnode, draw] (g) [below of=s3] {$g$};
 
-            \draw[emphline] (a) edge[above] node[] {} (b);
-            \draw[emphline] (a) edge[above] node[] {} (d);
-            \draw[emphline] (b) edge[above] node[] {} (c);
-            \draw[emphline] (b) edge[above] node[] {} (d);
-            \draw[emphline] (b) edge[above] node[] {} (e);
-            \draw[emphline] (e) edge[above] node[] {} (d);
-            \draw[emphline] (c) edge[above] node[] {} (e);
-            \draw[emphline] (d) edge[above] node[] {} (f);
+            \draw[emphline] (a) -- (b);
+            \draw[emphline] (a) -- (d);
+            \draw[emphline] (b) -- (c);
+            \draw[emphline] (b) -- (d);
+            \draw[emphline] (b) -- (e);
+            \draw[emphline] (e) -- (d);
+            \draw[emphline] (c) -- (e);
+            \draw[emphline] (d) -- (f);
             
 
             \draw (a) edge[right] node[align=center] {$1$} (d);
@@ -73,11 +73,11 @@ A \textit{trail} is a walk in which all edges are distinct. A \textit{path} is a
             \node[graphnode, draw] (c) [above of=s3] {$c$};
             \node[graphnode, draw] (g) [below of=s3] {$g$};
 
-            \draw[emphline] (a) edge[above] node[] {} (b);
-            \draw[emphline] (a) edge[above] node[] {} (d);
-            \draw[emphline] (b) edge[above] node[] {} (e);
-            \draw[emphline] (e) edge[above] node[] {} (d);
-            \draw[emphline] (d) edge[above] node[] {} (f);
+            \draw[emphline] (a) -- (b);
+            \draw[emphline] (a) -- (d);
+            \draw[emphline] (b) -- (e);
+            \draw[emphline] (e) -- (d);
+            \draw[emphline] (d) -- (f);
             
 
             \draw (a) edge[right] node[align=center] {$1$} (d);
@@ -118,11 +118,11 @@ Not all the vertices of a trail are necessarily different.
             \node[graphnode, draw] (c) [above of=s3] {$c$};
             \node[graphnode, draw] (g) [below of=s3] {$g$};
 
-            \draw[emphline] (d) edge[above] node[] {} (a);
-            \draw[emphline] (a) edge[above] node[] {} (b);
-            \draw[emphline] (b) edge[above] node[] {} (e);
-            \draw[emphline] (e) edge[above] node[] {} (f);
-            \draw[emphline] (f) edge[above] node[] {} (g);
+            \draw[emphline] (d) -- (a);
+            \draw[emphline] (a) -- (b);
+            \draw[emphline] (b) -- (e);
+            \draw[emphline] (e) -- (f);
+            \draw[emphline] (f) -- (g);
             
 
             \draw (a) edge[right] node[align=center] {$1$} (d);
@@ -171,35 +171,35 @@ A closed walk in which all edges are different is called a \textit{circuit} (thi
             \node[graphnode, draw] (i) [right of=s4] {$i$};
 
             %circuit emphlines
-            \draw[emphline] (d) edge[above] node[] {} (a);
-            \draw[emphline] (a) edge[above] node[] {} (b);
-            \draw[emphline] (b) edge[above] node[] {} (c);
-            \draw[emphline] (c) edge[above] node[] {} (h);
-            \draw[emphline] (h) edge[above] node[] {} (b);
-            \draw[emphline] (b) edge[above] node[] {} (d);
+            \draw[emphline] (d) -- (a);
+            \draw[emphline] (a) -- (b);
+            \draw[emphline] (b) -- (c);
+            \draw[emphline] (c) -- (h);
+            \draw[emphline] (h) -- (b);
+            \draw[emphline] (b) -- (d);
 
             %cycle emphlines
-            \draw[emphline, blueln] (f) edge[above] node[] {} (e);
-            \draw[emphline, blueln] (e) edge[above] node[] {} (i);
-            \draw[emphline, blueln] (i) edge[above] node[] {} (g);
-            \draw[emphline, blueln] (g) edge[above] node[] {} (f);
+            \draw[emphline, blueln] (f) -- (e);
+            \draw[emphline, blueln] (e) -- (i);
+            \draw[emphline, blueln] (i) -- (g);
+            \draw[emphline, blueln] (g) -- (f);
 
             % lines
-            \draw (a) edge[above] node[align=center] {} (d);
-            \draw (b) edge[above] node[align=center] {} (a);
-            \draw (b) edge[above] node[align=center] {} (d);
-            \draw (b) edge[above] node[align=center] {} (h);
-            \draw (b) edge[above] node[align=center] {} (c);
-            \draw (b) edge[above] node[align=center] {} (e);
-            \draw (h) edge[above] node[align=center] {} (c);
-            \draw (e) edge[above] node[align=center] {} (c);
-            \draw (e) edge[above] node[align=center] {} (i);
-            \draw (e) edge[above] node[align=center] {} (g);
-            \draw (e) edge[above] node[align=center] {} (f);
-            \draw (e) edge[above] node[align=center] {} (d);
-            \draw (g) edge[above] node[align=center] {} (i);
-            \draw (g) edge[above] node[align=center] {} (f);
-            \draw (f) edge[above] node[align=center] {} (d);
+            \draw (a) -- (d);
+            \draw (b) -- (a);
+            \draw (b) -- (d);
+            \draw (b) -- (h);
+            \draw (b) -- (c);
+            \draw (b) -- (e);
+            \draw (h) -- (c);
+            \draw (e) -- (c);
+            \draw (e) -- (i);
+            \draw (e) -- (g);
+            \draw (e) -- (f);
+            \draw (e) -- (d);
+            \draw (g) -- (i);
+            \draw (g) -- (f);
+            \draw (f) -- (d);
 
         \end{tikzpicture}
         \caption{Examples of Circuits and Cycles}
@@ -210,3 +210,316 @@ A circuit of length 6: (d, a, b, c, h, b, d)\\
 
 A cycle of length 4: (f, e, i, g, f)
 \end{minipage}
+
+\section{Connected Graphs}
+A graph, $G$ is \textit{connected} if there is a path in $G$ between any pair of vertices; if this condition is not true then the graph is \textit{disconnected}.
+
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 0.75cm,]
+            \node[graphnodesml, draw] (tl) {};
+            \node[] (ml) [below of=tl] {};
+            \node[graphnodesml, draw] (bl) [below of=ml] {};
+            \node[] (bml) [right of=bl] {};
+            \node[] (bmr) [right of=bml] {};
+            \node[graphnodesml, draw] (br) [right of=bmr] {};
+            \node[] (mr) [above of=br] {};
+            \node[graphnodesml, draw] (tr) [above of=mr] {};
+            \node[graphnodesml, draw] (mll) [right of=ml] {};
+            \node[graphnodesml, draw] (mlr) [right of=mll] {};
+
+            \draw (tl) -- (bl);
+            \draw (bl) -- (br);
+            \draw (br) -- (tr);
+            \draw (tr) -- (tl);
+            \draw (bl) -- (mll);
+            \draw (mll) -- (mlr);
+            \draw (mlr) -- (br);
+
+        \end{tikzpicture}
+        \caption{Connected Graph}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 0.75cm,]
+            \node[graphnodesml, draw] (tl) {};
+            \node[] (ml) [below of=tl] {};
+            \node[graphnodesml, draw] (bl) [below of=ml] {};
+            \node[] (bml) [right of=bl] {};
+            \node[] (bmr) [right of=bml] {};
+            \node[graphnodesml, draw] (br) [right of=bmr] {};
+            \node[] (mr) [above of=br] {};
+            \node[graphnodesml, draw] (tr) [above of=mr] {};
+            \node[graphnodesml, draw] (mll) [right of=ml] {};
+            \node[graphnodesml, draw] (mlr) [right of=mll] {};
+
+            \draw (tl) -- (bl);
+            \draw (bl) -- (br);
+            \draw (br) -- (tr);
+            \draw (tr) -- (tl);
+            \draw (mll) -- (mlr);
+
+        \end{tikzpicture}
+        \caption{Disconnected Graph}
+    \end{figure}
+\end{minipage}
+
+\subsection{Bridges}
+An edge in a connected graph is a \textit{bridge} if deleting it would create a disconnected graph.
+
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1cm,]
+            \node[graphnodesml, draw] (tl) {};
+            \node[graphnodesml, draw] (bl) [below of=tl] {};
+            \node[graphnodesml, draw] (br) [right of=bl] {};
+            \node[graphnodesml, draw] (tr) [above of=br] {};
+            
+            \node[graphnodesml, draw] (z1) [right of=tr] {};
+            \node[graphnodesml, draw] (z2) [below of=z1] {};
+            \node[graphnodesml, draw] (z3) [right of=z2] {};
+
+            \draw (tl) -- (bl);
+            \draw (bl) -- (br);
+            \draw (br) -- (tr);
+            \draw (tr) -- (tl);
+
+            \draw (z1) -- (z2);
+            \draw (z2) -- (z3);
+            \draw (z1) -- (z3);
+
+            \draw[emphline] (z2) -- (br);
+            \draw (z2) -- (br);
+
+
+        \end{tikzpicture}
+        \caption{Example of a Bridge}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1cm,]
+            \node[graphnodesml, draw] (tl) {};
+            \node[graphnodesml, draw] (bl) [below of=tl] {};
+            \node[graphnodesml, draw] (br) [right of=bl] {};
+            \node[graphnodesml, draw] (tr) [above of=br] {};
+            
+            \node[graphnodesml, draw] (z1) [right of=tr] {};
+            \node[graphnodesml, draw] (z2) [below of=z1] {};
+            \node[graphnodesml, draw] (z3) [right of=z2] {};
+
+            \draw (tl) -- (bl);
+            \draw (bl) -- (br);
+            \draw (br) -- (tr);
+            \draw (tr) -- (tl);
+
+            \draw (z1) -- (z2);
+            \draw (z2) -- (z3);
+            \draw (z1) -- (z3);
+
+
+        \end{tikzpicture}
+        \caption{Disconnected Graph}
+    \end{figure}
+\end{minipage}
+
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1cm,]
+            \node[graphnodesml, draw] (tl) {};
+            \node[graphnodesml, draw] (bl) [below of=tl] {};
+            \node[graphnodesml, draw] (br) [right of=bl] {};
+            \node[graphnodesml, draw] (tr) [above of=br] {};
+            
+            \node[graphnodesml, draw] (z1) [right of=br] {};
+
+            \draw (tl) -- (bl);
+            \draw (bl) -- (br);
+            \draw (br) -- (tr);
+            \draw (tr) -- (tl);
+
+            \draw[emphline] (z1) -- (br);
+            \draw (z1) -- (br);
+
+
+        \end{tikzpicture}
+        \caption{Example of a Bridge}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1cm,]
+            \node[graphnodesml, draw] (tl) {};
+            \node[graphnodesml, draw] (bl) [below of=tl] {};
+            \node[graphnodesml, draw] (br) [right of=bl] {};
+            \node[graphnodesml, draw] (tr) [above of=br] {};
+            
+            \node[graphnodesml, draw] (z1) [right of=br] {};
+
+            \draw (tl) -- (bl);
+            \draw (bl) -- (br);
+            \draw (br) -- (tr);
+            \draw (tr) -- (tl);
+
+        \end{tikzpicture}
+        \caption{Disconnected Graph}
+    \end{figure}
+\end{minipage}
+
+\section{K\"{o}nigsberg Bridge Problem \& Eulerian Graphs}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[] (s1) [left of=a] {};
+            \node[graphnode, draw] (c) [above of=s1] {$c$};
+            \node[] (s2) [right of=a] {};
+            \node[graphnode, draw] (d) [above of=s2] {$d$};
+            \node[graphnode, draw] (b) [right of=s2] {$b$};
+            \node[] (s3) [right of=b] {};
+            \node[graphnode, draw] (e) [above of=s3] {$e$};
+            
+            \draw (a) -- (c);
+            \draw (c) -- (b);
+            \draw (b) -- (d);
+            \draw (d) -- (a);
+            \draw (a) -- (e);
+            \draw (e) -- (b);
+            \draw (b) -- (a);
+
+        \end{tikzpicture}
+        \caption{K\"{o}nigsberg bridges represented as a graph}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+\textbf{K\"{o}nigsberg Bridge Problem:} Is it possible to start on one of the land masses, walk over each of the seven bridges exactly once, and return to the starting point (without getting wet!)?
+\end{minipage}\vspace{0.5em}
+
+A graph is Eulerian if and only if it has a circuit that contains every edge - expressed a different way this is a closed walk using each edge exactly once (called an Eulerian circuit). 
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[] (s1) [left of=a] {};
+            \node[graphnode, draw] (c) [above of=s1] {$c$};
+            \node[] (s2) [right of=a] {};
+            \node[graphnode, draw] (d) [above of=s2] {$d$};
+            \node[graphnode, draw] (b) [right of=s2] {$b$};
+            \node[] (s3) [right of=b] {};
+            \node[graphnode, draw] (e) [above of=s3] {$e$};
+
+            \draw[emphline] (a) -- (c);
+            \draw[emphline] (c) -- (b);
+            \draw[emphline] (b) -- (d);
+            \draw[emphline] (d) -- (a);
+            \draw[emphline] (a) -- (e);
+            \draw[emphline] (e) -- (b);
+            \draw[emphline] (b) -- (a);
+            
+            \draw (a) -- (c);
+            \draw (c) -- (b);
+            \draw (b) -- (d);
+            \draw (d) -- (a);
+            \draw (a) -- (e);
+            \draw (e) -- (b);
+            \draw (b) -- (a);
+
+        \end{tikzpicture}
+        \caption{K\"{o}nigsberg bridges represented as a graph, showing circuit}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+Eulerian circuit: $(a, c, b, d, a, e, b, a)$
+\end{minipage}
+
+\subsection{Eulerian Graphs}
+Not all graphs are Eulerian graphs, in fact there are many which are not.\\
+
+We can characterise Eulerian graphs as graphs which can be drawn without removing the pen from the paper, and without covering any edges twice. This means that for each vertex there is one edge ``in'' and one edge ``out'' which means that the degree of each vertex must be even. This is a necessary and sufficient condition. \\
+
+From the above information, we can deduce the theorem: \textit{A multigraph is Eulerian if and only if it is connected and every vertex has an even degree}.\\
+
+Applying the Theorem to our K\"{o}nigsberg bridge problem, we see that: the graph has vertices of odd degree $\Rightarrow$ the graph is not Eulerian $\Rightarrow$ a closed walk containing each edge exactly once does not exist. Therefore Euler has to destroy one bridge! (or just accept that the problem isn't solvable...)
+
+\subsection{Construction of Eulerian Circuit}
+We have a necessary and sufficient condition for a graph being Eulerian. To find an Eulerian circuit within Eulerian graphs, there exists an efficient algorithm. This algorithm is called \textit{Fleury's Algorithm}. 
+
+\subsection*{Fleury's Algorithm}
+We start with an Eulerian Graph on the input
+\begin{enumerate}
+    \item Choose any vertex to start
+    \item From that vertex, choose an edge to traverse. Choose a bridge only if there is no alternative.
+    \item After traversing that edge, erase it (and vertices of degree 0), coming to the next vertex.
+    \item Repeat steps 2 - 3 until all edges have been traversed, and you should be back at the starting Vertex. 
+\end{enumerate}
+
+\subsection{Semi-Eulerian Graphs}
+A connected graph with exactly two vertices of odd degree (called semi-Eulerian) contains an open (Eulerian trail) which includes every edge. This works because when we add an edge connecting the vertices of odd degree, we get a graph with all vertices of even degree. Therefore the graph is Eluerian, and therefore must contain an Eluerian circuit.\\
+
+To find an Eluerian trail:
+\begin{itemize}
+    \item Start at one of the odd degree vertices
+    \item Construct an Eluerian circuit (and use the new edge at the end)
+    \item The last vertex must be the second odd degree vertex
+    \item You now have an open trail which includes every edge
+\end{itemize}
+
+\section{Travelling Salesman Problem \& Hamiltonian Graphs}
+A graph is \textit{Hamiltonian} if and only if it has a cycle that contains every vertex - a closed path using each vertex exactly once (this is called a \textit{Hamiltonian cycle}). For example:
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (d) {$d$};
+            \node[] (s1) [below of=d] {};
+            \node[graphnode, draw] (b)[below of=s1] {$b$};
+            \node[] (s3) [right of=b] {};
+            \node[graphnode, draw] (c) [right of=s3] {$c$};
+            \node[] (s2) [above of=c] {};
+            \node[graphnode, draw] (e) [above of=s2] {$e$};
+            \node[graphnode, draw] (f) [right of=s2] {$f$};
+
+            \draw[emphline] (d) -- (e);
+            \draw[emphline] (e) -- (f);
+            \draw[emphline] (f) -- (c);
+            \draw[emphline] (c) -- (b);
+            \draw[emphline] (b) -- (d);
+
+
+            \draw (d) -- (e);
+            \draw (e) -- (f);
+            \draw (f) -- (c);
+            \draw (c) -- (b);
+            \draw (b) -- (d);
+            \draw (b) -- (e);
+            \draw (c) -- (d);
+            \draw (c) -- (c);
+
+        \end{tikzpicture}
+        \caption{Hamiltonian cycle}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+Hamiltonian cycle: $(d, e, f, c, b, d)$
+\end{minipage} \vspace{0.5em}
+
+Note that the definition might look similar to Eulerian graphs, however the results are very different.\\
+
+There is no ``if and only if'' sufficient and necessary condition which can be used to categorise a Hamiltonian Graph.
+
+\subsection{Construction of a Hamiltonian Graph}
+There are known algorithms for finding a Hamiltonian cycle however none at present are known that would guarantee to find it in a reasonable amount of time. The known algorithms use an exhaustive search of all possibilities, requiring exponential or factorial time in the worst case. 
+
+\section{Adjacency Matrix}
