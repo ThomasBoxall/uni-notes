@@ -523,3 +523,175 @@ There is no ``if and only if'' sufficient and necessary condition which can be u
 There are known algorithms for finding a Hamiltonian cycle however none at present are known that would guarantee to find it in a reasonable amount of time. The known algorithms use an exhaustive search of all possibilities, requiring exponential or factorial time in the worst case. 
 
 \section{Adjacency Matrix}
+So far, we have explored graphs using pictorial representations of them - this is all well and good when we are looking at them in notes, however when we are trying to get a computer to understand them, we have to store the graph in a slightly different format. There are several possibilities of how the information about a graph can be coded when working in a program, for example using sets, or more commonly the \textit{adjacency matrix}.\\
+
+We can take the formal definition of the adjacency matrix to be: Let $G$ be a graph with $n$ vertices labelled $v_1$, $v_2$, \ldots, $v_n$. The \textit{adjacency matrix} of $G$ is the $n \times n$ matrix $A=(a_{ij})$ whose$(i,j)$ entry is $a_{ij}$, where for each $i$ and $j$ with $1 \leq i,j, \leq n$, define:
+\[ a_{ij} \begin{cases}
+    1 \quad \mathrm{if\ } v_i v_j \mathrm{\ is\ an\ edge} \\
+    0 \quad \mathrm{if\ } v_i v_j \mathrm{\ is\ not\ an\ edge}
+\end{cases} \]
+
+\subsection{Example Adjacency Matrix}
+Shown below is an example graph, $G$, the corresponding adjacencies represented in a table and the corresponding adjacency matrix, $A$.
+
+\begin{minipage}{0.35\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (tl) {$v_4$};
+            \node[] (ml) [below of=tl] {};
+            \node[graphnode, draw] (bl) [below of=ml] {$v_1$};
+            \node[] (bml) [right of=bl] {};
+            \node[] (bmr) [right of=bml] {};
+            \node[graphnode, draw] (br) [right of=bmr] {$v_2$};
+            \node[] (mr) [above of=br] {};
+            \node[graphnode, draw] (tr) [above of=mr] {$v_3$};
+            \node[graphnode, draw] (mll) [right of=ml] {$v_5$};
+            \node[graphnode, draw] (mlr) [right of=mll] {$v_6$};
+
+            \draw (tl) -- (bl);
+            \draw (bl) -- (br);
+            \draw (br) -- (tr);
+            \draw (tr) -- (tl);
+            \draw (bl) -- (mll);
+            \draw (mll) -- (mlr);
+            \draw (mlr) -- (br);
+            \draw (mlr) -- (bl);
+            \draw (mll) -- (br);
+
+        \end{tikzpicture}
+        \caption{$G$}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.55\textwidth}
+    \begin{table}[H]
+        \centering
+        {\RaggedRight
+        \begin{tabular}{p{0.075\textwidth} || p{0.075\textwidth} p{0.075\textwidth} p{0.075\textwidth} p{0.075\textwidth} p{0.075\textwidth} p{0.075\textwidth}}
+        \textbf{} & \textbf{$v_1$} & \textbf{$v_2$} & \textbf{$v_3$} & \textbf{$v_4$} & \textbf{$v_5$} & \textbf{$v_6$} \\
+        \hline
+        \hline
+        \textbf{$v_1$} & 0 & 1 & 0 & 1 & 1 & 1 \\
+        \hline
+        \textbf{$v_2$} & 1 & 0 & 1 & 0 & 1 & 1 \\
+        \hline
+        \textbf{$v_3$} & 0 & 1 & 0 & 1 & 0 & 0 \\
+        \hline
+        \textbf{$v_4$} & 1 & 0 & 1 & 0 & 0 & 0 \\
+        \hline
+        \textbf{$v_5$} & 1 & 1 & 0 & 0 & 0 & 1 \\
+        \hline
+        \textbf{$v_6$} & 1 & 1 & 0 & 0 & 1 & 0 \\
+        \hline
+        \end{tabular}
+        } % end of rr     
+        \caption{Table of adjacencies}
+    \end{table}
+\end{minipage}\vspace{0.5em}
+
+\begin{minipage}{0.35\textwidth}
+    \begin{equation*}
+        A =  
+        \begin{bmatrix}
+        0 & 1 & 0 & 1 & 1 & 1 \\
+        1 & 0 & 1 & 0 & 1 & 1 \\
+        0 & 1 & 0 & 1 & 0 & 0 \\
+        1 & 0 & 1 & 0 & 0 & 0 \\
+        1 & 1 & 0 & 0 & 0 & 1 \\
+        1 & 1 & 0 & 0 & 1 & 0 \\
+        \end{bmatrix}
+    \end{equation*}
+\end{minipage} \hfill
+\begin{minipage}{0.55\textwidth}
+    \
+\end{minipage}
+
+\subsection{Properties of an Adjacency Matrix}
+\begin{itemize}
+    \item The diagonal entries of $A$ are always 0; that is $a_{ii} = 0$ for $i = 1, \ldots, n$.
+    \item The adjacency matrix is symmetric, that is $a_{ij} = a_{ji}$ for all $i, j$.
+    \item $\deg v_i$ is the number of 1's in row $i$; this is also the number of 1's in column $i$ (row $i$ and column $i$ are the same). 
+    \item If we square the matrix $A$, we get $A^2$ and some interesting properties:
+    \begin{itemize}
+        \item The $(i, i)$ entry of $A^2$ is the degree of $v_i$
+        \item The $(i, j)$ entry of $A^2$ is the number of different walks of length 2 from $v_i$ to $v_j$. 
+        \item In general, for any $k \geq 1$, the $(i, j)$ entry of $A^k$ is the number of walks of length $k$ from $v_i$ to $v_j$. 
+        \item In general, for any $k \geq 1$, the $(i, j)$ entry of $A^k$ is the number of walks of length $k$ from $v_i$ to $v_j$. 
+    \end{itemize}
+\end{itemize}
+
+\section{Matrix Multiplication: a recap}
+\textit{NB: This was originally taught in M30943 (Architectures \& Operating Systems, Maths Component) at level 4.}\\
+
+If we take two matricies:
+\begin{equation*}
+    A = 
+    \begin{bmatrix}
+        1, 7\\
+        2, 4
+    \end{bmatrix}
+    \quad \mathrm{and} \quad
+    B = 
+    \begin{bmatrix}
+        3, 3\\
+        5, 2
+    \end{bmatrix}
+\end{equation*}
+We can find the matrix $C = A \times B$. \\
+
+However first, we will assign each element of the matrix an identifier and see how the rows of $A$ are multiplied by the columns of $B$ to produce $C$:
+
+\begin{equation*}
+    \begin{bmatrix}
+        a_{1,1}, a_{1,2}\\
+        a_{2,1}, a_{2,2}
+    \end{bmatrix}
+    \times
+    \begin{bmatrix}
+        b_{1,1}, b_{1,2}\\
+        b_{2,1}, b_{2,2}
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+        (a_{1, 1} \times b_{1, 1} + a_{1, 2} \times b_{2, 1}), (a_{1, 1} \times b_{1, 2} + a_{1, 2} \times b_{2, 2})\\
+        (a_{2, 1} \times b_{1, 1} + a_{2, 2} \times b_{2, 1}), (a_{1, 2} \times b_{2, 1} + a_{2, 2} \times b_{2, 2})
+    \end{bmatrix}
+\end{equation*}
+
+Now we can substitute the references in for their values into the equations:
+
+\begin{equation*}
+    \begin{bmatrix}
+        1, 7\\
+        2, 4
+    \end{bmatrix}
+    \times
+    \begin{bmatrix}
+        3, 3\\
+        5, 2
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        (1 \times 3 + 7 \times 5), (1 \times 3 + 7 \times 2)\\ 
+        (2 \times 4 + 3 \times 5), (2 \times 3 + 4 \times 2)
+    \end{bmatrix}
+\end{equation*}
+
+Now we can, finally, substitute the actual values into $C$:
+
+\begin{equation*}
+    \begin{bmatrix}
+        1, 7\\
+        2, 4
+    \end{bmatrix}
+    \times
+    \begin{bmatrix}
+        3, 3\\
+        5, 2
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        38, 17\\
+        26, 14
+    \end{bmatrix}
+\end{equation*}
