@@ -1,0 +1,266 @@
+\taughtsession{Lecture}{Expression and Assignment}{2024-04-15}{14:00}{Jiacheng}{}
+
+\section{Expressions}
+An \textit{expression} is a combination of values ,variables, operators and function calls. Expressions perform operations on data and move data around. Expressions can be of the type:
+\begin{itemize}
+    \item arithmetic (\verb|4 * I + func(5)|)
+    \item relational (\verb|a >= b|)
+    \item boolean (\verb|A && B|)
+    \item assignment (\verb|i = 4|)
+\end{itemize}
+
+Some expressions are very important and some of them are instrumental for implementing various algorithms. To correctly evaluate the expressions we need to know the rules of precedence and rules of associativity of operators.
+
+\subsection{Arithmetic Expressions}
+Arithmetic evaluation was one of the motivations for the development of the first programming languages. Arithmetic expressions consist of:
+\begin{itemize}
+    \item operators
+    \item operands
+    \item parentheses
+    \item function calls
+\end{itemize}
+
+\section{Operators}
+A \textit{unary} operator has one operand. For example:
+\begin{itemize}
+    \item The Negation operator ``\verb|-|'', used as \verb|-b| where \verb|-| is the operator and \verb|b| is the operand
+    \item The \textit{Integer Promotion} operator ``\verb|+|'', used as \verb|+b| converts \verb|b| to \verb|int| if it is a \verb|short|, \verb|byte| or \verb|char|. 
+\end{itemize}
+
+WheWhen the operators \textit{precede} (or \textit{follow}) their operands, we say that the operators are ``prefix'' ()
+
+When the operators precede their operands, we say the operators are ``prefix''; and when the operators follow follow their operands, we say the operators are ``postfix''. Unary operators can be prefix or postfix. For example the increment operator \verb|++| can either be used as \verb|i++| or \verb|++i|. A Binary operator has two operands - for example \verb|+|, \verb|-|, \verb|*|, \verb|/|. In most languages, binary operators are ``infix'' which means they appear between the operands.
+
+\subsection{Operator Precedence Rules}
+The \textit{operator precedence rules} define the order in which operations are evaluated within an expression. Typical precedence levels (from high to low) are shown below, with examples in brackets:
+\begin{itemize}
+    \item Parentheses (\verb|(| and \verb|)|)
+    \item Unary Operators (\verb|++| and \verb|--|)
+    \item Unary Operators (\verb|+| and \verb|-|)
+    \item Binary Operators (\verb|*| and \verb|/|)
+    \item Binary Operators (\verb|+| and \verb|-|)
+\end{itemize}
+
+\subsection{Operator Associativity Rules}
+The operator associativity is a property that determines how operators of the same precedence are grouped in the absence of parentheses. For example, in the expression \verb|3/5*0|, operand \verb|5| is preceded and followed by operators \verb|/| and \verb|*| (which both have equal precedence). Which operator to apply to the operand is determined by the associativity of the operators. The operators may be:
+\begin{description}
+    \item[associative] the operations can be grouped arbitrarily. For example \verb|a * b * c| could be grouped as \verb|(a * b) * c| or as \verb|a * (b * c)|
+    \item[left-associative] the operations are grouped from the left
+    \item[right-associative] the operations are grouped from the right 
+\end{description}
+
+If we consider the expression \verb|a - b - c|. If the operator has left associativity, this expression would be interpreted as \verb|(a - b) - c|. Whereas if the operator has right associativity, this expression would be interpreted as \verb|a - (b - c)|.\\
+
+However, it should be noted that some mathematical operators have inherent associativity. For example:
+\begin{itemize}
+    \item Subtraction (\verb|-|) and division (\verb|/|) are inherently left-associative
+    \item Addition (\verb|+|) and multiplication (\verb|*|), by contrast are both left and right associative.
+\end{itemize}
+
+Many programming language manuals (also known as their documentation), provide a table of operator precedence and associativity. Normally this would be from \textit{left to right}. However there are some which are different - for example the Exponentiation operator is normally \textit{right to left}. 
+
+\subsection{Operator Overloading}
+Use of an operator for more than one purpose is called \textit{operator overloading}. This can be seen in Java, for example, where \verb|+| is used for \verb|int| and \verb|float| additions but it is also the operator for String concatenations. The semantics of the operator could be evident in program context.\\
+
+C++ and C\# allow user-defined overloaded operators. These, when sensibly used, can be an aid to readability (whereby they avoid method calls, and expressions appear natural).\\
+
+Overloading could cause problems or difficulties. For example the ampersand (\verb|&|) in C and C++ specify both bitwise AND (binary) operation and ``address of'' (unary) operations. This could lead to a compiler error detection being affected (for example missing the operand \verb|x| in the expression \verb|x&y|). 
+
+\subsection{Compound Assignment Operators}
+\textit{Compound} means combining assignment with arithmetic operators. For example, \verb|+=|, \verb|-=|, \verb|*=|, \verb|/=|, \verb|<<=|, \dots (general form \verb|operator=|). It is a shorthand method of specifying a commonly needed form of assignment.\\
+
+Originally introduced in ALGOL; and then adopted by C and inherited by the C-derived languages. It means we can take an expression \verb|a = a + b| and rewrite it as \verb|a += b|, using the compound assignment operator \verb|+=|.\\
+
+As you might come to expect, there are some edge cases to these helpful operators. For example:
+\begin{verbatim}
+    a[i++] *= 2;
+    a[i++] = a[i++] * 2;
+\end{verbatim}
+In the first expression, \verb|i++| (and therefore \verb|a|) is evaluated once. Whereas in the second expression, \verb|i++| (and therefore \verb|a|) is evaluated twice:
+\begin{itemize}
+    \item index of \verb|i++| in \verb|a[i++]| on the right hand side is evaluated
+    \item value of \verb|a[i++]| is retrieved; addition is performed
+    \item \verb|i++| in \verb|a[i++]| on the left hand side is evaluated
+    \item assignment operation is performed
+\end{itemize}
+This is bad, and whilst it will always execute to the same thing - it may not be what the programmer is expecting to happen. 
+
+\subsection{Unary Assignment Operators}
+Unary assignment operators in C-based languages combine increment and decrement operations with assignment. For example the line \verb|count++| would be equal to \verb|count = count + 1|; and \verb|-count++| would be equal to count getting incremented then negated (as \verb|++| has a higher level of precedence than negation). \\
+
+The location of the \verb|++| in the expression is important:
+\begin{itemize}
+    \item \verb|sum = count++| means that \verb|count| is incremented by 1, then assigned to \verb|sum|
+    \item \verb|sum = ++count| means that \verb|count| is assigned to \verb|sum|, then incremented by 1
+\end{itemize}
+
+
+
+\section{Expressions \& Assignments}
+\subsection{Side Effect of Expressions}
+We say that an expression has a side effect it also modifies variables or causes something else to happen, in addition to returning a value (the main aim of an expression). Side effects come about when an expression involves:
+\begin{itemize}
+    \item an assignment
+    \item increment / decrement operations
+    \item function call
+    \item method invocation
+\end{itemize}
+
+For example, a function might modify a global or static variable, or modify one of it's arguments. 
+
+\subsection{Side Effects \& Assignment}
+In the presence of side effects, a program's behavior may depend on (execution) history; that is, the order of evaluation matters. In programming, sometimes the side effect is exactly what we want to use, for example in an assignment.
+
+\subsection{Assignment as an Expression}
+In the C-derived languages (for example Java, Per and JavaScript), the assignment operator (\verb|=|) is treated in the same way as other binary operators (for example \verb|+|). This means that assignment returns a value, but it has the side effect of changing its left operand (the effect of the assignment). For example in Java and C, the expression
+\begin{verbatim}
+    x = y + 1;
+\end{verbatim}
+returns a value (which equals the value assigned to the variable on the left, therefore equals \verb|y+1|) and assigning the value to \verb|x| is just a side effect. 
+
+\subsection{Use / Abuse of Assignment as Expression}
+In the following statement
+\begin{verbatim}
+    while ((ch = getchar())!= EOF){...}
+\end{verbatim}
+where \verb|ch = getchar()| is an expression (assignment) it returns a value as the result of evaluating the expression. In addition, it assigns a value to variable \verb|ch|. Such uses of assignment may cause a loss of error detection, for example (in C), if we write:
+\begin{verbatim}
+    if (x=y) ...
+\end{verbatim}
+where \verb|x=y| is an assignment and the returned numeric value form evaluation of assignment \verb|x=y| could be treated as a boolean value; instead of:
+\begin{verbatim}
+    if (x==y) ...
+\end{verbatim}
+where \verb|x==y| us a relational expression. This mistake is not detectable by the compiler. \\
+
+It is also possible to use assignment as an expression to assign a value to more than one variable at once, for example
+\begin{verbatim}
+    z = x = 1
+\end{verbatim}
+
+When multiple assignment operators appear in an expression, they are evaluated from right-to-left (because \verb|=| is right associative). 
+
+\subsection{Type Conversions in Assignment}
+If we consider the following assignment:
+\begin{verbatim}
+    aFloat := aInt
+    anInt := aFloat
+\end{verbatim}
+We would need to convert types of values during it. Different languages take different approaches to the type compatibility between the left and right hand sides. For some languages, this has to be done explicitly. For example in Pascal and Java.\\
+
+In Java - this is done using a \textit{cast}. A \textit{cast} refers to type conversion that is explicitly requested by the programmer. For example, in Java:
+\begin{verbatim}
+    int a;
+    float b, c;
+    c = (float) a*b;
+\end{verbatim}
+
+In other languages, for example C, the conversion is done automatically by the compiler by \textit{coercion}. Coercion is an \textit{implicit type conversion} that is initiated by the compiler. The compiler checks the type compatibility of the assignment and changes the type of the right side of the assignment, if needed.
+
+\subsection{Type Conversion in Arithmetic Expressions}
+There are two key conversion rules in arithmetic expressions:
+\begin{description}
+    \item[Widening Conversions] are conversions in which an object is converted to a type that allows any possible value of the original data (means that converting to a type takes a larger memory space). This can be seen in the \verb|int| to \verb|float| conversion. Widening Conversions are safe and are widely used.
+    \item[Narrowing Conversions] are conversions in which the data type is converted in the opposite direction to widening. It is usually done explicitly as a request from programmers, who feel such a conversion is necessary. The conversion is not safe because there is a chance that overflow may happen.  
+\end{description}
+
+In arithmetic expressions, all numeric types are coerced using \textit{widening conversions}, for example 
+\begin{verbatim}
+    int a;
+    float b, c;
+    ...
+    c = b * a;
+\end{verbatim}
+In the example above, \verb|a| is widened to \verb|float| before multiplication. Coercion weakens the type error detection ability of the compiler, for example if \verb|a| is a typing error (it was supposed to be \verb|c|), the compiler would not be able to detect it.
+
+\subsection{Relational Expressions}
+A \textit{relational operator} is a binary operator that compares the values of its operands and the result is a boolean value, either \verb|True| or \verb|False|. Operator symbols vary somewhat among languages, for example the ``not equal'' operator could be one of these: \verb|!=|,\verb|/=|, \verb|~=|, \verb|.NE|, or \verb|<>|.\\
+
+JavaScript and PHP have two additional relational operators \verb|===| and \verb|!==|. Whilst similar to \verb|==| and \verb|!=|, they do not prevent the operands being coerced, as \verb|==| would result in coercion:
+\begin{itemize}
+    \item \verb|"7" == 7| would evaluate to as \verb|True|, where string ``7'' is coerced to number 7; whereas
+    \item \verb|"7" === 7| is \verb|False|
+\end{itemize}
+
+\subsection{Boolean Expressions}
+In \textit{Boolean expressions} - both the operands and results are both Boolean. Boolean Operators include the following, note that every language uses a different symbol to represent them:
+\begin{itemize}
+    \item OR (\verb+||+)
+    \item AND (\verb|&&|)
+    \item NOT (\verb|!|)
+\end{itemize}
+C89 does not include a Boolean type, rather programmers are reduced to using \verb|int| type with \verb|0| for \verb|False| and a nonzero value for \verb|True|. A \textit{quirk} of C's expressions:
+\begin{verbatim}
+    a < b < c
+\end{verbatim}
+is, shockingly, a legal expression. However the result is not what you would express at first glance. The \textit{left} operator (\verb|a < b|) is evaluated, producing 0 or 1, which is then treated as a \textit{numeric value} (rather than a boolean, as apparently this makes sense) and is then compared with the third operand (\verb|c|). \footnote{I lost braincells understanding this.}
+
+
+\section{Notation}
+In the absence of associativity and precedence rules, the \textit{infix notation is inherently ambiguous}. For example the following expression has two possible values:
+\begin{verbatim}
+    a = 3
+    b = 4
+    c = 5
+    print a + b * c
+\end{verbatim}
+The value could either be \verb|35| if evaluated from left to right and \verb|23| if evaluated right to left.\\
+
+So here we have a problem - infix notation isn't actually perfect and we need to consider using alternative notation styles. There are three more notations we will explore in this lecture.
+
+\subsection{Prefix Notation}
+In this notation, the operators appear before their operands. For example, the usual mathematical expression \verb|a+b-c*d| would be written in prefix form as \verb|-+ab*cd|. then it would be evaluated from right to left by combining the two operands with the operator in front of them (we will use parenthesis to show the order of evaluation)
+\begin{itemize}
+    \item \verb|- (+ab) * cd| then
+    \item \verb|- (+ab) (*cd)| then
+    \item \verb|(- (+ab) (*cd))|
+\end{itemize}
+As we can see above, prefix notation is inherently unambiguous. 
+
+\subsection{Postfix Notation}
+In postfix notation, operators appear after their operands. Using postfix notation, the expression \verb|a+b-c*d| would be expressed as \verb|ab+cd*-| or \verb|abcd*-+|. It is also evaluated from right to left but by combining the two operands with the operator after them:
+\begin{itemize}
+    \item \verb|(ab+) (cd*) -| then
+    \item \verb|((ab+)(cd*)-)|
+\end{itemize}
+Postscript (a Printer Control Language from Adobe) uses this notation. 
+
+\subsection{Cambridge Prefix Notation}
+Cambridge notation introduces parentheses into prefix notation. For example \verb|a+b-c*d| would be written as \verb|(-(+ab) (*cd))|. An advantage of this is that it makes operators like \verb|+| and \verb|-| become n-nary (for example \verb|a+b+c+d| would be written as \verb|(+abcd)|). Lisp uses this notation.
+
+\section{Short Circuit Evaluation}
+\textit{Short Circuit Evaluation} is a way of expression evaluation in which the result is determined without evaluating all the operands and / or operators. For example:
+\begin{verbatim}
+    (13 * a) * (13 / b - 1)
+\end{verbatim}
+If \verb|a| is 0, the whole expression evaluates to zero therefore there is no need to evaluate the second half. However, such a case is difficult to detect, which means that short circuit evaluation like this is never taken.\\
+
+We can also see this in the following expression:
+\begin{verbatim}
+    (a >= 0) && (b < 10)
+\end{verbatim}
+The value of the Boolean expression is independent of the second relational expression if \verb|(a<0)| is \verb|False| because \verb|False & (b<0)| is \verb|False| for all values of \verb|b|. Therefore, there is no need to evaluate \verb|(b<0)|. Unlike the case of arithmetic expressions, this shortcut can be easily discovered and taken during execution.\\
+
+Many programming languages provide both standard and short-circuit versions of the boolean operators. For example in C++, C\#, Java, Matlab, etc, provide both:
+\begin{itemize}
+    \item \verb|&|, \verb+|+ (standard) and
+    \item \verb|&&|, \verb+||+ (short-circuit version)
+\end{itemize}
+However, some languages do not; for example C, Python, Lisp. Some allow compilers to choose between standard and short-circuit evaluation; for example, Fortran operator \verb|.and.|, \verb|.or.| are neither short-circuit or standard. 
+
+\subsection{Use of Short Circuit Evaluation}
+If we consider a Java loop for searching for an item (\verb|valueToFind|) in a \verb|list|:
+\begin{verbatim}
+    index = 0;
+    while (index < length) && (list[index] != valueToFind)
+        index++;
+\end{verbatim}
+
+Without the use of short-circuit, the right hand side of the program will always be executed. This will cause the program with a \textit{subscript out of range} exception, if the searched item is not in the list. 
+
+\subsection{Potential Problems}
+Short-Circuit evaluation of Boolean expressions allows subtle errors to occur, for example:
+\begin{verbatim}
+    (a>b || b++>3)    
+\end{verbatim}
+In this expression, \verb|b++>3| is evaluated (therefore \verb|b| changes) only when \verb|a>b| is \verb|False|. If the programmer assumes that \verb|b++>3| is evaluated every time (therefore treating it as standard evaluation), the program will fail. In short-circuit evaluation, the order of the expression being typed by the programmer is important. It does not allow the compiler to reorder and prune expressions as it sees fit.
