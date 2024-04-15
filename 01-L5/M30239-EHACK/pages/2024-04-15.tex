@@ -1,0 +1,86 @@
+\taughtsession{Lecture}{Web Application Attacks (SQL Injection)}{2024-04-15}{0900}{Tobi}{}
+
+\section{The Web Server}
+The \textit{server} software or hardware satisfies client requests over the World Wide Web. Web Servers will use port 80 (for http traffic) and port 443 (for https traffic). It's primary function is to serve HTML content to users. Web Servers can also host databases, and may support server-side scripting. They may also be used to monitor or perform other activities.\\
+
+Common examples of web server software includes:
+\begin{itemize}
+    \item Apache
+    \item Nginx Server
+    \item Cloudflare Server
+    \item Microsoft IIS 
+    \item LiteSpeed
+    \item Google Servers
+\end{itemize}
+
+\section{Web Applications}
+% diagram from slides
+
+A web application works through the client making a HTTP request to the server. The server receives this then processes it and returns a HTTP response. The client may be a web browser, a crawler, or a tool. \\
+
+Unsurprisingly - it's possible to execute an attack on a web application. On the client side (HTML, CSS, JS, etc) this can result in compromise to users including users' access to the server. On the server side (events which occur on the server, eg PHP, Python, Database, Authentication) this can compromise the server.
+
+\section{Database}
+A relational database is an extremely common method used to store data, they are commonly used on web servers to store database for web applications. A relational database stores records in tables, which are linked together. Users which can access the database have permissions applied to them - these can either be role based or applied to individual users.
+
+\subsection{SQL Injection Attacks}
+An SQL Injection Attack is an attack in which you trick the interpreter into executing unintended commands or accessing data by sending untrusted data as part of a command or query.\\
+
+Commonly - the attack vector is any source for inputting data, environment variables, parameters, users, GET and POST requests.\\
+
+The steps to perform a SQL injection attack are outlined below:
+\begin{enumerate}
+    \item Find all sources for sending data
+    \item Understand how that data is interpreted and processed
+    \item Fuzz (Manually, Burp Suite - Intruder, SQLMap, WFUZZ)
+\end{enumerate}
+
+There are a number of different types of SQL Injection Attacks:
+\begin{description}
+    \item[In-band SQLi] Data is retrieved using the same channel that is used to inject the SQL code. This is simple, union, or Error-based.
+    \item[Inferential SQLi (Bind SQLi)] Data is not transferred via the web application and the attacker is unable to see the result of an attack. This is time-based.
+    \item[Out-of-band SQLi] Data is transferred using a different channel, such as an email.   
+\end{description}
+
+\subsection{SQL Injection In Practice}
+In the first lab, we saw that \textit{WP Google Maps} was vulnerable to SQL Injection - through the WP Rest Route. As we can see in the URL below, the \verb|fields| value is \verb|id| - this is where we can add our SQL Injection Command:
+\begin{verbatim}
+    http://loan.atlas.local/?rest_route=/wpgmza/v1/markers&filter={}&fields=id
+\end{verbatim}
+
+There are a few options for how we test that the URL is vulnerable to SQL Injection
+\begin{itemize}
+    \item \verb|*-| is a catch-all situation. This will attempt to retrieve all
+    \item \verb|1=1| The answer should be \verb|true| and return \verb|1|
+    \item \verb|1=0| The answer should be \verb|false| and return \verb|0|
+\end{itemize}
+
+An alternative method is to use \textit{Union Based SQL Injection} - where the SQL \verb|UNION| operator (allows two \verb|SELECT| statements to be concatenated together) is appended to the command the server executes. in practice, the threat actor may inset a string like so to the vulnerable input field:
+\begin{verbatim}
+    ' UNION SELECT username, password FROM users--
+\end{verbatim}
+This would then get added into the Server's SQL code like so:
+\begin{verbatim}
+    SELECT name, description FROM products WHERE category = 'Gifts
+    ' UNION SELECT username, password FROM users--
+\end{verbatim}
+\textit{NB: the injected SQL is shown on the second line, in reality this would be a single string which gets executed.}\\
+
+The \textit{time-blind SQL injection} technique is called ``blind'' because the attacker cannot see information from the database directly. Rather it relies on the response behaviour of the server to reconstruct the database information. This may be, for example, instructing the SQL Server to wait for 10 seconds causing the browser to hang, awaiting the page to complete loading - therefore indicating that the attack has worked. There is a subtype of Bind SQLi where the query's success is determined by the database server's response time.\\
+
+These attacks will work by the attacker sending SQL queries to the database, which if true, cause the database to delay the response. The time delay helps the attacker guess if the result of the query is true or false. For example:
+\begin{verbatim}
+    IF (SELECT user FROM users WHERE username='admin' AND SLEEP(10)) --
+\end{verbatim}
+These can be automated using SQLMAP and WFUZZ. 
+
+\section{Injection Attack Prevention}
+To protect against injection attacks - developers need to validate all input, filtering out potential attacks in a process called \textit{sanitization}. Developers can also utilise parametrised queries, stored procedures and output escaping. it is also possible to use whitelist server-side input validation, as well as using Database controls like LIMIT to prevent mass disclosure. It is also possible to use Web Application Firewalls, IDS / IPS to filter out traffic containing SQL Injection before it reaches the server. \\
+
+However - there are a number of ways in which detection tools can be bypassed:
+\begin{itemize}
+    \item Fuzzing
+    \item Encoding
+    \item Encryption
+    \item Internal Components
+\end{itemize}

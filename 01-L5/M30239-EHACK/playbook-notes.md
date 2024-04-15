@@ -68,4 +68,6 @@ then lookup on https://gtfobins.github.io/
 - should then get `meterpreter>` prompt, `help` gives list of available commands. from here, get into shell then you're into normal shell steps
 - check wp-config.php!
 - `sudo su` to switch user to root account
-- 
+
+
+rockyou path
