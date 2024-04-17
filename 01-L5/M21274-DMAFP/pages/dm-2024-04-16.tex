@@ -1,0 +1,492 @@
+\taughtsession{Lecture}{Trees}{2024-04-16}{17:00}{Janka}{}
+
+\section{Trees: A Gentle Introduction}
+
+The word ``tree'' has many different uses in the English Language. We will not be exploring Christmas trees, outdoor trees or file trees in this module - rather we will be exploring the mathematical sub-class of graphs called a ``tree''. In maths, a ``tree'' is a connected graph that contains no cycles.
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node {$B$}
+                child {node {$A$}
+                    child {node {$E$}}
+                    child {node {$F$}}}
+                child {node {$G$}}
+                child {node {$H$}}
+                child {node {$C$}
+                    child {node {$I$}}
+                    child {node {$D$}}
+                    child {node {$S$}}};
+
+        \end{tikzpicture}
+        \caption{$G$, a tree}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+Alternatively, we can consider the following \textit{mathematical} definition of a tree: $G$ is a tree. $G$ is connected and acyclic (without cycles). Between any two vertices of $G$ there is precisely one path
+\end{minipage}\vspace{0.5em}
+
+As we can see above, trees have a simple structure. However, to enumerate all (non-isomorphic) trees with $n$ vertices is very difficult unless $n$ is small. An example of this can be seen below.
+
+\begin{minipage}[b][][b]{0.18\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1cm,]
+            \node[graphnodesml] {};
+
+        \end{tikzpicture}
+        \caption{Tree}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}[b][][b]{0.18\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1cm,]
+            \node[graphnodesml] {}
+                child {node[graphnodesml] {}} ;
+        \end{tikzpicture}
+        \caption{Tree}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}[b][][b]{0.18\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1cm,]
+            \node[graphnodesml] {}
+                child {node[graphnodesml] {}}
+                child {node[graphnodesml] {}} ;
+
+        \end{tikzpicture}
+        \caption{Tree}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}[b][][b]{0.18\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1cm,]
+            \node[graphnodesml] {}
+                child {node[graphnodesml] {}
+                    child {node[graphnodesml] {}}
+                    child {node[graphnodesml] {}}};
+        \end{tikzpicture}
+        \caption{Tree}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}[b][][b]{0.18\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1cm,]
+            \node[graphnodesml] {}
+                child {node[graphnodesml] {}
+                    child {node[graphnodesml] {}
+                        child {node[graphnodesml] {}}}};
+
+        \end{tikzpicture}
+        \caption{Tree}
+    \end{figure}
+\end{minipage} \vspace{0.5em}
+
+The above trees all are $n \leq 4$
+
+\subsection{Basic Properties of Trees}
+A tree with more than one vertex must contain a vertex of degree 1 - this is considered to be a leaf (or terminal vertex). This is because if we take a vertex at random, $v_1$, we can then search outward along a path from $v_1$ looking for a vertex of degree 1; finding this vertex would indicate the end of the path and therefore indicate we have a tree. Should this vertex not be found - we would find a circuit (proving this is not a tree). 
+
+\section{Is It A Tree?}
+To work out if a graph contains a tree, we can use the following theorem: \textit{A connected graph with $n$ vertices is a tree \textbf{if and only if} it has $n-1$ edges}.\\
+
+Within this theorem - we are most concerned with the conditional propositional (``\textit{if and only if}'') as this is the deciding factor as to if the graph contains a tree or not.
+
+\subsection{Example}
+If we take a connected graph's degree sequence as:
+\[(1, 1, 2, 2, 2)\]
+Is it a tree?\\
+
+The solution to this starts with identifying the number of vertices and the number of edges. The number of edges can be calculated from the sum of the degree sequence, divided by two. Therefore we know that this graph has 4 edges. The number of vertices is the number of entries in the degree sequence, therefore we know that this graph has 5 vertices. As the number of edges is 1 less than the number of vertices, the condition $n-1$ is true and therefore we have a tree!
+
+\section{Spanning Trees}
+A \textit{Spanning Tree} of a connected graph, $G$, is a subgraph that is a tree and that includes every vertex of $G$. Spanning Trees are considered to be different if they make use of different edges on the graph.
+
+\begin{minipage}[b][][b]{0.3\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (b) {$B$};
+            \node[] (s) [right of=b] {};
+            \node[graphnode, draw] (f) [right of=s] {$F$};
+            \node[graphnode, draw] (e) [below of=f] {$E$};
+            \node[graphnode, draw] (d) [left of=e] {$D$};
+            \node[graphnode, draw] (c) [left of=d] {$C$};
+            \node[graphnode, draw] (a) [above of=s] {$A$};
+
+            \draw (a) -- (b);
+            \draw (b) -- (c);
+            \draw (c) -- (d);
+            \draw (d) -- (e);
+            \draw (e) -- (f);
+            \draw (f) -- (a);
+            \draw (a) -- (d);
+            \draw (b) -- (f);
+            \draw (b) -- (e);
+            \draw (c) -- (f);
+        
+
+        \end{tikzpicture}
+        \caption{Original Graph}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}[b][][b]{0.3\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (b) {$B$};
+            \node[] (s) [right of=b] {};
+            \node[graphnode, draw] (f) [right of=s] {$F$};
+            \node[graphnode, draw] (e) [below of=f] {$E$};
+            \node[graphnode, draw] (d) [left of=e] {$D$};
+            \node[graphnode, draw] (c) [left of=d] {$C$};
+            \node[graphnode, draw] (a) [above of=s] {$A$};
+
+            \draw (a) -- (b);
+            \draw (b) -- (c);
+            \draw (c) -- (d);
+            \draw (d) -- (e);
+            \draw (b) -- (f);
+        
+
+        \end{tikzpicture}
+        \caption{Spanning Tree 1}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}[b][][b]{0.3\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (b) {$B$};
+            \node[] (s) [right of=b] {};
+            \node[graphnode, draw] (f) [right of=s] {$F$};
+            \node[graphnode, draw] (e) [below of=f] {$E$};
+            \node[graphnode, draw] (d) [left of=e] {$D$};
+            \node[graphnode, draw] (c) [left of=d] {$C$};
+            \node[graphnode, draw] (a) [above of=s] {$A$};
+
+            \draw (a) -- (b);
+            \draw (b) -- (c);
+            \draw (e) -- (f);
+            \draw (f) -- (a);
+            \draw (a) -- (d);
+        
+
+        \end{tikzpicture}
+        \caption{Spanning Tree 2}
+    \end{figure}
+\end{minipage} \vspace{0.5em}
+
+Spanning Trees can be used in a variety of cases, one of these is in a problem of a cash-strapped Council attempting to repave some pavements...
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};            
+
+            \draw (a) edge[right] node[align=center] {$1$} (d);
+            \draw (a) edge[above] node[align=center] {$1$} (b);
+            \draw (b) edge[above] node[align=center] {$1$} (d);
+            \draw (b) edge[above] node[align=center] {$1$} (c);
+            \draw (b) edge[above] node[align=center] {$1$} (e);
+            \draw (b) edge[above] node[align=center] {$1$} (e);
+            \draw (c) edge[right] node[align=center] {$1$} (e);
+            \draw (d) edge[below] node[align=center] {$1$} (f);
+            \draw (e) edge[below] node[align=center] {$1$} (d);
+            \draw (e) edge[above] node[align=center] {$1$} (f);
+            \draw (e) edge[above] node[align=center] {$1$} (g);
+            \draw (f) edge[above] node[align=center] {$1$} (g);
+
+        \end{tikzpicture}
+        \caption{Untouched Pavement Layout}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+    \textit{Problem:} The Council plans to pave certain roads in a way such that anyone can get between any two towns on pavement. What roads should be paved so as to minimise the total length of pavement required? (Note that, at this stage, all pavements have length 1.)
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};
+
+            \draw[emphline] (a) -- (d);
+            \draw[emphline] (a) -- (b);
+            \draw[emphline] (b) -- (d);
+            \draw[emphline] (b) -- (c);
+            \draw[emphline] (b) -- (e);
+            \draw[emphline] (b) -- (e);
+            \draw[emphline] (c) -- (e);
+            \draw[emphline] (d) -- (f);
+            \draw[emphline] (e) -- (d);
+            \draw[emphline] (e) -- (f);
+            \draw[emphline] (e) -- (g);
+            \draw[emphline] (f) -- (g);
+
+            
+
+            \draw (a) edge[right] node[align=center] {$1$} (d);
+            \draw (a) edge[above] node[align=center] {$1$} (b);
+            \draw (b) edge[above] node[align=center] {$1$} (d);
+            \draw (b) edge[above] node[align=center] {$1$} (c);
+            \draw (b) edge[above] node[align=center] {$1$} (e);
+            \draw (b) edge[above] node[align=center] {$1$} (e);
+            \draw (c) edge[right] node[align=center] {$1$} (e);
+            \draw (d) edge[below] node[align=center] {$1$} (f);
+            \draw (e) edge[below] node[align=center] {$1$} (d);
+            \draw (e) edge[above] node[align=center] {$1$} (f);
+            \draw (e) edge[above] node[align=center] {$1$} (g);
+            \draw (f) edge[above] node[align=center] {$1$} (g);
+
+        \end{tikzpicture}
+        \caption{First Attempt at paving}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+In this first attempt, we pave all roads. This means that the Council would need to pay for 11 roads to be paved.\\
+
+However this is not the ideal solution - we can use the idea of a Spanning Tree to improve this solution and therefore reduce the number of roads which need paving.
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};
+
+            \draw[emphline] (a) -- (d);
+            \draw[emphline] (a) -- (b);
+            \draw[emphline] (b) -- (e);
+            \draw[emphline] (b) -- (e);
+            \draw[emphline] (c) -- (e);
+            \draw[emphline] (d) -- (f);
+            \draw[emphline] (e) -- (g);
+
+            
+
+            \draw (a) edge[right] node[align=center] {$1$} (d);
+            \draw (a) edge[above] node[align=center] {$1$} (b);
+            \draw (b) edge[above] node[align=center] {$1$} (d);
+            \draw (b) edge[above] node[align=center] {$1$} (c);
+            \draw (b) edge[above] node[align=center] {$1$} (e);
+            \draw (b) edge[above] node[align=center] {$1$} (e);
+            \draw (c) edge[right] node[align=center] {$1$} (e);
+            \draw (d) edge[below] node[align=center] {$1$} (f);
+            \draw (e) edge[below] node[align=center] {$1$} (d);
+            \draw (e) edge[above] node[align=center] {$1$} (f);
+            \draw (e) edge[above] node[align=center] {$1$} (g);
+            \draw (f) edge[above] node[align=center] {$1$} (g);
+
+        \end{tikzpicture}
+        \caption{First Attempt at paving}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+This is now \textit{an} optimum solution. We have removed all edges from the Tree other than those which are required to satisfy the property that there is one path between any two given nodes. 
+\end{minipage}
+
+\subsection{Finding a Spanning Tree}
+It is relatively easy to find a spanning tree in a connected graph, $G$. If $G$, with $n$ vertices, has $n-1$ edges - it is already a spanning tree; or if $G$ has no cycles then it is already a tree, so $G$ itself is a spanning tree for $G$. For trees where it's spanning tree has not already presented itself to us - we work through the edges in the graph, deleting them until the spanning tree property is achieved. This can be seen below.
+
+\begin{minipage}[b][][b]{0.3\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (b) {$B$};
+            \node[] (s) [right of=b] {};
+            \node[graphnode, draw] (f) [right of=s] {$F$};
+            \node[graphnode, draw] (e) [below of=f] {$E$};
+            \node[graphnode, draw] (d) [left of=e] {$D$};
+            \node[graphnode, draw] (c) [left of=d] {$C$};
+            \node[graphnode, draw] (a) [above of=s] {$A$};
+
+            \draw (a) -- (b);
+            \draw (b) -- (c);
+            \draw (c) -- (d);
+            \draw (d) -- (e);
+            \draw (e) -- (f);
+            \draw (f) -- (a);
+            \draw (a) -- (d);
+            \draw (b) -- (f);
+            \draw (b) -- (e);
+            \draw (c) -- (f);
+
+        \end{tikzpicture}
+        \caption{Original Graph}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}[b][][b]{0.3\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (b) {$B$};
+            \node[] (s) [right of=b] {};
+            \node[graphnode, draw] (f) [right of=s] {$F$};
+            \node[graphnode, draw] (e) [below of=f] {$E$};
+            \node[graphnode, draw] (d) [left of=e] {$D$};
+            \node[graphnode, draw] (c) [left of=d] {$C$};
+            \node[graphnode, draw] (a) [above of=s] {$A$};
+
+            \draw (a) -- (b);
+            \draw (b) -- (c);
+            \draw (c) -- (d);
+            \draw (d) -- (e);
+            \draw (e) -- (f);
+            \draw (f) -- (a);
+            \draw (b) -- (f);
+            \draw (b) -- (e);
+            \draw (c) -- (f);
+
+        \end{tikzpicture}
+        \caption{Removed $AD$}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}[b][][b]{0.3\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (b) {$B$};
+            \node[] (s) [right of=b] {};
+            \node[graphnode, draw] (f) [right of=s] {$F$};
+            \node[graphnode, draw] (e) [below of=f] {$E$};
+            \node[graphnode, draw] (d) [left of=e] {$D$};
+            \node[graphnode, draw] (c) [left of=d] {$C$};
+            \node[graphnode, draw] (a) [above of=s] {$A$};
+
+            \draw (a) -- (b);
+            \draw (b) -- (c);
+            \draw (c) -- (d);
+            \draw (d) -- (e);
+            \draw (e) -- (f);
+            \draw (f) -- (a);
+            \draw (b) -- (f);
+            \draw (c) -- (f);
+        
+        \end{tikzpicture}
+        \caption{Removed $BE$}
+    \end{figure}
+\end{minipage} \vspace{0.5em}
+
+\begin{minipage}[b][][b]{0.3\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (b) {$B$};
+            \node[] (s) [right of=b] {};
+            \node[graphnode, draw] (f) [right of=s] {$F$};
+            \node[graphnode, draw] (e) [below of=f] {$E$};
+            \node[graphnode, draw] (d) [left of=e] {$D$};
+            \node[graphnode, draw] (c) [left of=d] {$C$};
+            \node[graphnode, draw] (a) [above of=s] {$A$};
+
+            \draw (a) -- (b);
+            \draw (b) -- (c);
+            \draw (c) -- (d);
+            \draw (d) -- (e);
+            \draw (e) -- (f);
+            \draw (f) -- (a);
+            \draw (b) -- (f);
+        
+        \end{tikzpicture}
+        \caption{Removed $CF$}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}[b][][b]{0.3\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (b) {$B$};
+            \node[] (s) [right of=b] {};
+            \node[graphnode, draw] (f) [right of=s] {$F$};
+            \node[graphnode, draw] (e) [below of=f] {$E$};
+            \node[graphnode, draw] (d) [left of=e] {$D$};
+            \node[graphnode, draw] (c) [left of=d] {$C$};
+            \node[graphnode, draw] (a) [above of=s] {$A$};
+
+            \draw (b) -- (c);
+            \draw (c) -- (d);
+            \draw (d) -- (e);
+            \draw (e) -- (f);
+            \draw (f) -- (a);
+            \draw (b) -- (f);
+        
+        \end{tikzpicture}
+        \caption{Removed $AB$}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}[b][][b]{0.3\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (b) {$B$};
+            \node[] (s) [right of=b] {};
+            \node[graphnode, draw] (f) [right of=s] {$F$};
+            \node[graphnode, draw] (e) [below of=f] {$E$};
+            \node[graphnode, draw] (d) [left of=e] {$D$};
+            \node[graphnode, draw] (c) [left of=d] {$C$};
+            \node[graphnode, draw] (a) [above of=s] {$A$};
+
+            \draw (c) -- (d);
+            \draw (d) -- (e);
+            \draw (e) -- (f);
+            \draw (f) -- (a);
+            \draw (b) -- (f);
+        
+        \end{tikzpicture}
+        \caption{Removed $BC$}
+    \end{figure}
+\end{minipage} \vspace{0.5em}
+
+\subsection{Using a Depth First Search To Find Spanning Trees}
+Rather than testing to see if each edge is in a cycle, and removing it if it is, to find spanning trees - it is possible to use a Depth First Search based algorithm. Depth First Searches are also useful in other Graph Applications, for example to test whether a graph is connected and to produce a spanning tree in the connected case. The method is based on exploring the vertices.\\
+
+A Depth First Search to find a spanning tree works by:
+\begin{enumerate}
+    \item Start at any vertex (label it)
+    \item Choose any adjacent unlabelled vertex to it (label it, and move to it).
+    \item Repeat step 2 until there is no unlabelled adjacent vertex to it
+    \item Find the last labelled vertex with an unlabelled adjacent vertex (backtrack to this) then go to step 2
+    \item Algorithm complete when you get back to the first labelled vertex
+\end{enumerate}
+
+The algorithm for finding a Spanning Tree using DFS is shown below. The input is a connected graph $G$ with vertices ordered ($v_1$, $v_2$, \ldots, $v_n$) and the output is a spanning tree $T = (V', E')$.
+
+\begin{lstlisting}[style=haskellTrace]
+    $V' = \{v_1\}, E' = \emptyset, w = v_1$
+    while (true)
+        while
+\end{lstlisting}
