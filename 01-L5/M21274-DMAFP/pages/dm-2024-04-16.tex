@@ -312,7 +312,7 @@ However this is not the ideal solution - we can use the idea of a Spanning Tree 
             \draw (f) edge[above] node[align=center] {$1$} (g);
 
         \end{tikzpicture}
-        \caption{First Attempt at paving}
+        \caption{An optimum paved solution}
     \end{figure}
 \end{minipage} \hfill
 \begin{minipage}{0.45\textwidth}
@@ -488,5 +488,929 @@ The algorithm for finding a Spanning Tree using DFS is shown below. The input is
 \begin{lstlisting}[style=haskellTrace]
     $V' = \{v_1\}, E' = \emptyset, w = v_1$
     while (true)
-        while
+        while ($\exists wv \in W$ such that $T$ and $wv$ don't create a cycle in T)
+            choose the vertex with min $k, v_k$, that when added to $T$
+            doesn't create a cycle in $T$
+            $E' = E' \cup \{wv_k\}, V' = V' \cup \{v_k\}, w = v_k$
+        end while
+        if $w=v_1$
+            return $T$
+        $w = $ parent of $w$ in $T$ //backtrack
+    end while
 \end{lstlisting}
+
+\section{Minimum Spanning Trees}
+It's all well and good fining a tree when all the edge `weights' are equal to 1 - this works for \textit{some} graphs. However, when we consider a properly weighted graph with it's edges having different weightings, we need to look for a slightly different tree type. A \textit{minimum spanning tree} of a weighted graph is a spanning tree of least weight (that is, a spanning tree for which the sum of the least weights of all its edges is least among all spanning trees). In some good news, there's a few algorithms which can be used to find the minimum spanning tree\ldots
+
+\subsection{Kruskal's Algorithm}
+Kruskal's algorithm works by starting with a weighted graph then adding edges in order from lowest weight to highest weight, as long as they don't create a circuit. The steps are shown below:
+\begin{enumerate}
+    \item Start with the last edge
+    \item Add the next edge with the least weight, as long as this won't create a circuit
+    \item Repeat step 2
+    \item Stop when you have $n-1$ edges (where $n$ is the number of vertices)
+\end{enumerate}
+
+Kruskal's algorithm is a \textit{greedy algorithm}, this means it makes decisions without any regard for consequences which this decision might have in the future, however the current decisions are appearing to be good.\\
+
+The full process of this is displayed below.
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};            
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$7$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Initial Graph}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+This is the graph which we need to find the spanning tree of.
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};    
+            
+            \draw[emphline] (a) -- (d);
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$7$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Kruskal's step 1}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+To start, we analyse what weights we have on the edges. The lowest weight is 5 and the highest is 11. We therefore pick one of the edges with weight 5 and mark that as part of our Minimum Spanning Tree.
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};    
+            
+            \draw[emphline] (a) -- (d);
+            \draw[emphline] (c) -- (e);
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$7$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Kruskal's step 2}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+Next, we repeat the same process again. As there is still one edge with weight 5, we analyse that one; and as when connecting it to the Minimum Spanning Tree, we don't get a circuit - we can add it to the Minimum Spanning Tree.
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};    
+            
+            \draw[emphline] (a) -- (d);
+            \draw[emphline] (c) -- (e);
+            \draw[emphline] (d) -- (f);
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$7$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Kruskal's step 3}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+We've now exhausted all edges with weight 5, so we look for the next weight up. In this case it's 6. We check for circuits then add to the Minimum Spanning Tree.
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};    
+            
+            \draw[emphline] (a) -- (d);
+            \draw[emphline] (c) -- (e);
+            \draw[emphline] (d) -- (f);
+            \draw[emphline] (a) -- (b);
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$7$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Kruskal's step 4}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+We've now exhausted all edges with weight 6, so we look for the next weight up. In this case it's 7. As there are a few options for which edge we could pick, we choose one at random. We check for circuits then add to the Minimum Spanning Tree.
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};    
+            
+            \draw[emphline] (a) -- (d);
+            \draw[emphline] (c) -- (e);
+            \draw[emphline] (d) -- (f);
+            \draw[emphline] (a) -- (b);
+            \draw[emphline] (d) -- (e);
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$7$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Kruskal's step 5}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+As there are still edges with weight 7 which we are yet to examine and add, we do so. We check for circuits then add to the Minimum Spanning Tree. 
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};    
+            
+            \draw[emphline] (a) -- (d);
+            \draw[emphline] (c) -- (e);
+            \draw[emphline] (d) -- (f);
+            \draw[emphline] (a) -- (b);
+            \draw[emphline] (d) -- (e);
+            \draw[emphline] (e) -- (g);
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$7$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Kruskal's step 6}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+We now find ourselves in the most complicated step, typical for the last step! We know that we need to add 1 more edge to the Minimum Spanning Tree to make the $n-1$ criteria come true.\\
+
+We cannot add the $be$ edge, as this would result in a circuit being formed, so we look to the next logical option. However, we cannot add either the $bc$ or $ef$ edges as either of these would also cause a circuit to be formed. Therefore, we are forced to go for the edge $eg$, as this is the lowest weighted edge which we can add without forming a circuit.
+\end{minipage}
+
+\subsection{Prim's Algorithm}
+Prim's Algorithm works by starting with any random vertex, then adding all the adjacent edges to that to a list of possible edges. From these possible edges, an edge is selected where it doesn't already connect to another visited vertex and that has the least weighting value, and this is added to the Minimum Spanning Tree. This process is then repeated, with edges of the new vertex added to the possible list and the edge with the lowest weighting (that doesn't cause a circuit when added) is added to the Minimum Spanning Tree. The algorithm stops when either there are $n$ vertices in the Minimum Spanning Tree or when there are $n-1$ edges in the Minimum Spanning Tree. The stages of the algorithm are outlined below, with the edges added to the Minimum Spanning Tree in grey and the potential edges in blue. 
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};            
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$15$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Initial Graph}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+This is the graph which we need to find the spanning tree of.
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};   
+            
+            \draw[emphline, blueln] (a) -- (b);
+            \draw[emphline, blueln] (d) -- (b);
+            \draw[emphline, blueln] (b) -- (e);
+            \draw[emphline, blueln] (b) -- (c);
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$15$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Prim's step 1}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+We choose node $b$ to start with. From this, we mark all it's adjacent edges as potential to add.
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};   
+            
+            \draw[emphline] (a) -- (b);
+            \draw[emphline, blueln] (d) -- (b);
+            \draw[emphline, blueln] (b) -- (e);
+            \draw[emphline, blueln] (b) -- (c);
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$15$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Prim's step 2}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+Now we have our potential vertices, we can choose one. After looking at the options, we see that there are two which are possibilities ($ab$ and $be$) which both have weights of 7. As neither would cause a circuit to be created, we choose one at random. In this case, we've chosen $ab$.
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};   
+            
+            \draw[emphline] (a) -- (b);
+            \draw[emphline, blueln] (d) -- (b);
+            \draw[emphline, blueln] (b) -- (e);
+            \draw[emphline, blueln] (b) -- (c);
+            \draw[emphline, blueln] (a) -- (d);
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$15$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Prim's step 3}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+We now have a new vertex available to use. From this, we can add all it's adjacent nodes which are not part of the Minimum Spanning Tree to the list of potentials. 
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};   
+            
+            \draw[emphline] (a) -- (b);
+            \draw[emphline, blueln] (d) -- (b);
+            \draw[emphline, blueln] (b) -- (e);
+            \draw[emphline, blueln] (b) -- (c);
+            \draw[emphline] (a) -- (d);
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$15$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Prim's step 4}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+We now take a look at the options for edges to add to the Minimum Spanning Tree and see that the edge with the lowest value is our new one, $ad$. As from adding this to the Minimum Spanning Tree, we don't get a circuit - we can progress with adding $ad$ to our Minimum Spanning Tree.
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};   
+            
+            \draw[emphline] (a) -- (b);
+            \draw[emphline, blueln] (b) -- (e);
+            \draw[emphline, blueln] (b) -- (c);
+            \draw[emphline] (a) -- (d);
+            \draw[emphline, blueln] (d) -- (f);
+            \draw[emphline, blueln] (d) -- (e);
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$15$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Prim's step 5}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+As vertex $d$ is now in our Minimum Spanning Tree, we can add all it's adjacent edges to our potential list. We can also remove $db$ as it is no longer a viable option for adding to the Minimum Spanning Tree as it would cause a circuit. 
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};   
+            
+            \draw[emphline] (a) -- (b);
+            \draw[emphline, blueln] (b) -- (e);
+            \draw[emphline, blueln] (b) -- (c);
+            \draw[emphline] (a) -- (d);
+            \draw[emphline, blueln] (d) -- (e);
+            \draw[emphline] (d) -- (f);
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$15$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Prim's step 6}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+We now look at the options for what edge to add to the Minimum Spanning Tree. The next lowest edge value is $df$, at a weight of 6. As this doesn't create a circuit - we can add it to the Minimum Spanning Tree. 
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};   
+            
+            \draw[emphline] (a) -- (b);
+            \draw[emphline, blueln] (b) -- (e);
+            \draw[emphline, blueln] (b) -- (c);
+            \draw[emphline] (a) -- (d);
+            \draw[emphline] (d) -- (f);
+            \draw[emphline, blueln] (f) -- (g);
+            \draw[emphline, blueln] (f) -- (e);
+            \draw[emphline, blueln] (d) -- (e);
+
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$15$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Prim's step 7}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+We can now add edges adjacent to $f$ to the potential list. 
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};   
+            
+            \draw[emphline] (a) -- (b);
+            \draw[emphline] (b) -- (e);
+            \draw[emphline, blueln] (b) -- (c);
+            \draw[emphline] (a) -- (d);
+            \draw[emphline] (d) -- (f);
+            \draw[emphline, blueln] (f) -- (g);
+            \draw[emphline, blueln] (f) -- (e);
+            \draw[emphline, blueln] (d) -- (e);
+
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$15$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Prim's step 8}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+We now look again at options for what edges we can add to the Minimum Spanning Tree. The option with the lowest weight is $be$, and if adding it, it wouldn't create a circuit. Therefore we add it. 
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};   
+            
+            \draw[emphline] (a) -- (b);
+            \draw[emphline] (b) -- (e);
+            \draw[emphline, blueln] (b) -- (c);
+            \draw[emphline] (a) -- (d);
+            \draw[emphline] (d) -- (f);
+            \draw[emphline, blueln] (f) -- (g);
+            \draw[emphline, blueln] (c) -- (e);
+            \draw[emphline, blueln] (e) -- (g);
+
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$15$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Prim's step 9}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+As we have added a new node to our Minimum Spanning Tree, we can add it's adjacent edges to the potential list. We also need to remove a number of edges from the potential list as these are no longer viable solutions, as they would cause circuits to be created. 
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};   
+            
+            \draw[emphline] (a) -- (b);
+            \draw[emphline] (b) -- (e);
+            \draw[emphline, blueln] (b) -- (c);
+            \draw[emphline] (a) -- (d);
+            \draw[emphline] (d) -- (f);
+            \draw[emphline, blueln] (f) -- (g);
+            \draw[emphline] (c) -- (e);
+            \draw[emphline, blueln] (e) -- (g);
+
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$15$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Prim's step 10}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+We can now repeat the step of looking for the edge with the least weighting and then checking to see if by adding that we would introduce a circuit or not. The edge $ec$ has weight 5 which is the lowest of the potential list, and by adding it we would not be introducing a circuit. 
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};   
+            
+            \draw[emphline] (a) -- (b);
+            \draw[emphline] (b) -- (e);
+            \draw[emphline] (a) -- (d);
+            \draw[emphline] (d) -- (f);
+            \draw[emphline, blueln] (f) -- (g);
+            \draw[emphline] (c) -- (e);
+            \draw[emphline, blueln] (e) -- (g);
+
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$15$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Prim's step 11}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+As we have now added $c$ to the Minimum Spanning Tree, we can review the potential list and remove invalid options, such as $bc$. There are no new edges to add to the potential list as they all have existed from other vertices. 
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};   
+            
+            \draw[emphline] (a) -- (b);
+            \draw[emphline] (b) -- (e);
+            \draw[emphline] (a) -- (d);
+            \draw[emphline] (d) -- (f);
+            \draw[emphline, blueln] (f) -- (g);
+            \draw[emphline] (c) -- (e);
+            \draw[emphline] (e) -- (g);
+
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$15$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Prim's step 12}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+We can now look for the edge in the potential list with the lowest weight. This is $eg$. We then check to see if by adding it to the Minimum Spanning Tree, a circuit would be created and as the answer is no, we can add it to the Minimum Spanning Tree. 
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnode, draw] (a) {$a$};
+            \node[graphnode] (s1) [below of=a] {};
+            \node[graphnode, draw] (d) [below of=s1] {$d$};
+            \node[graphnode] (s2) [right of=d] {};
+            \node[graphnode, draw] (b) [above of=s2] {$b$};
+            \node[graphnode, draw] (f) [below of=s2] {$f$};
+            \node[graphnode, draw] (e) [right of=s2] {$e$};
+            \node[graphnode] (s3) [right of=e] {};
+            \node[graphnode, draw] (c) [above of=s3] {$c$};
+            \node[graphnode, draw] (g) [below of=s3] {$g$};   
+            
+            \draw[emphline] (a) -- (b);
+            \draw[emphline] (b) -- (e);
+            \draw[emphline] (a) -- (d);
+            \draw[emphline] (d) -- (f);
+            \draw[emphline] (c) -- (e);
+            \draw[emphline] (e) -- (g);
+
+
+            \draw (a) edge[right] node[align=center] {$5$} (d);
+            \draw (a) edge[above] node[align=center] {$7$} (b);
+            \draw (b) edge[above] node[align=center] {$9$} (d);
+            \draw (b) edge[above] node[align=center] {$8$} (c);
+            \draw (b) edge[above] node[align=center] {$7$} (e);
+            \draw (c) edge[right] node[align=center] {$5$} (e);
+            \draw (d) edge[below] node[align=center] {$6$} (f);
+            \draw (e) edge[below] node[align=center] {$15$} (d);
+            \draw (e) edge[above] node[align=center] {$8$} (f);
+            \draw (e) edge[above] node[align=center] {$9$} (g);
+            \draw (f) edge[above] node[align=center] {$11$} (g);
+
+        \end{tikzpicture}
+        \caption{Prim's step 13}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+The final stage for Prim's algorithm is to remove any edges from the potential list.\\
+
+Prim's Algorithm has produced a Minimum Spanning Tree with length 39. 
+\end{minipage}
+
+\section{Rooted Tree Terminology}
+A tree is rooted if it comes with a specified vertex, called the root. Each vertex in a tree has zero or more children - the vertices ``below'' it in the tree. A vertex that has a child is called the child's parent vertex. If two vertices have the same parent, they are called siblings. 
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node {$B$}
+                child {node {$A$}
+                    child {node {$E$}}
+                    child {node {$F$}}}
+                child {node {$G$}}
+                child {node {$H$}}
+                child {node {$C$}
+                    child {node {$I$}}
+                    child {node {$D$}}
+                    child {node {$S$}}};
+
+        \end{tikzpicture}
+        \caption{Example of a Rooted Tree}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+$B$ is the root node\\
+$A$ is a child of $B$\\
+$E$ and $F$ are siblings\\
+$D$ is the parent of $C$
+\end{minipage}
