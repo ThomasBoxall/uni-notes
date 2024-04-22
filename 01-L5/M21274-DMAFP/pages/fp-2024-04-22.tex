@@ -1,0 +1,165 @@
+\taughtsession{Lecture}{Functional Programming in Python}{2024-04-22}{12:00}{Matthew}{}
+
+\textit{This lecture is for information only; the content will not be assessed}.\\
+
+In recent years, functional programming concepts have become increasingly common in mainstream imperative languages. These include languages such as: Python, JavaScript, C\#, Java (from v8). This lecture will introduce the concept of Functional Programming in Python. 
+
+\section{Functions are Data in Python}
+When defining a function in Python, we are in fact introducing a new variable with the function as it's value. This can be seen below:
+\begin{verbatim}
+    def f(arg):
+        return arg + 1
+    print(f) # prints <function f at 0xb56b11ec>
+    g = f
+    g(3) # returns 4
+    f = 7
+    f, g # returns (7, <function f at 0xb56b11ec>)
+\end{verbatim}
+In the above example we can see the function, \verb|f|, be defined then used. Then the data value of \verb|f| (this is the function) gets assigned to \verb|g| and we re-assign \verb|f| to \verb|7|. We finally return the values of \verb|f| and \verb|g| as a tuple.
+
+\section{List Comprehension}
+Python's list comprehension is very similar to that of Haskell's. They work by forming a new list from an old list. 
+\begin{verbatim}
+    >>> aList = [1, 2, 3, 4, 5]
+    >>> [2 * i for i in aList]
+    [2, 4, 6, 8, 10]
+\end{verbatim}
+In the above example, we can see how we can use the keyword \verb|for| and \verb|in| to iterate through every item in the list and multiply it by 2. The below example takes this further, discarding all values where they are less than or equal to 3.
+\begin{verbatim}
+    >>> [i * 2 for i in aList if i > 3]
+    [8, 10]
+\end{verbatim}
+
+In Python, tuples are indexed like lists, however they are immutable. In the following example, note how you can iterate through a tuple containing list, using a \verb|for| loop. This example is written in an imperative way.
+\begin{verbatim}
+    testData = [("Sam",67), ("Kate",35), ("Jill",75),
+                ("Fred", 45), ("Alice",50), ("Bob", 38)]
+    def passed(lst):
+        names = []
+        for (name, mark) in lst:
+            if mark >= 40:
+                names.append(name)
+        return names 
+\end{verbatim}
+
+This is all well and good, however it's a bit too imperative - we want to make it more functional, as below:
+\begin{verbatim}
+    def passed(lst):
+        return [name for (name, mark) in lst if mark >= 40]
+\end{verbatim}
+
+\section{Lambda Expressions}
+Python includes, in a similar way to Haskell, anonymous functions - called lambda expressions; for example:
+\begin{verbatim}
+    lambda x : x * 10
+\end{verbatim}
+
+A lambda expression represents a function that multiplies its arguments by 10 (and is therefore similar to the \verb|(*10)| in Haskell). 
+
+Python also supports higher-order functions, for example the following function returns a function which can then be called. 
+\begin{verbatim}
+    def multiplier(n):
+        return lambda x: x * n
+\end{verbatim}
+Which can therefore be used:
+\begin{verbatim}
+    >>> m10 = multiplier(10)
+    >>> m10(6)
+    60
+\end{verbatim}
+
+\subsection{Higher Order Functions}
+We recall that Haskell has the higher order functions \verb|map|, \verb|filter| and \verb|foldr|. Python includes built-in equivalents functions \verb|map|, \verb|filter| and \verb|reduce| (which is almost equivalent to \verb|foldr|). \\
+
+Python's \verb|map| function takes a function and a list and gives a new list:
+\begin{verbatim}
+    >>> aList = [2, 3, 4, 9, 4, 7]
+    >>> map(lambda x : x * 10, aList)
+    [20, 30, 60, 90, 40, 70]
+\end{verbatim}
+
+The \verb|filter| function gives a new list of only those elements that have a given property:
+\begin{verbatim}
+    >>> filter(lambda x : x % 2 == 0, aList)
+    [2, 6, 4]
+\end{verbatim}
+
+The \verb|reduce| function takes takes a binary function (which is a function of two arguments), and a list and then returns a single value. It applies the function to the first two elements of the list then on the result and the next item and so on. 
+\begin{verbatim}
+    >>> reduce(lambda x, y : x + y, aList)
+    31
+    >>> reduce(lambda x, y : x * y, aList)
+    9072
+\end{verbatim}
+
+There is an optional third argument which can be passed as a `starting' value:
+\begin{verbatim}
+    >>> aList = []
+    >>> reduce(lambda x, y: x * y, aList, 1)
+    1
+\end{verbatim}
+
+\section{Benefits to Functions as Data}
+If we consider the following simple function which maps the number of days, based on the month number passed as parameter:
+\begin{verbatim}
+    def daysInMonth(month):
+        numDays =  [31,28,31,30,31,30,31,31,30,31,30,31]
+        return numDays[month - 1]
+\end{verbatim}
+
+We here have an \textit{inefficiency} (no, not just the fact we're using Python), in that for every time the function is called - a new instance of \verb|numDays| is stored in memory. So a possible solution to this problem could be to define \verb|numDays| as a global variable:
+\begin{verbatim}
+    numDays = [31,28,31,30,31,30,31,31,30,31,30,31]
+    def daysInMonth(month):
+        return numDays[month - 1]
+\end{verbatim}
+However, this is another bad idea - as it's using a global variable. Another potential solution could be to encapsulate it as a class and write the method as a static method, however this is also a bad use of an OO concept and is overly complicated.\\
+
+So, instead we use a \textit{closure}:
+\begin{verbatim}
+    def makeDaysInMonth():
+        numDays =  [31,28,31,30,31,30,31,31,30,31,30,31]
+        def f(month):
+            return numDays[month-1]
+        return f
+    daysInMonth = makeDaysInMonth()
+\end{verbatim}
+The returned function (which we've assigned to \verb|daysInMonth|) has access to a local variable of another function that has exited. 
+
+\section{Recursion}
+Recursion fanboys will argue that using recursion instead of iteration will lead to simpler, more readable functions. For example:
+\begin{verbatim}
+    def fibonacci(n):
+        if n < 2:
+            return n
+        else:
+            return fibonacci(n-2) + fibonacci(n-1)
+\end{verbatim}
+
+However, this function will suffer from a major issue of efficiency caused by the repeated computation of intermediate results. We can attempt to solve this using a higher-order function. Our solution will make use of a Python Dictionary.
+
+\subsection{Dictionaries}
+Dictionaries are unordered collections of data, whose values are indexed by key. Dictionary literals are written as a sequence of \verb|key:value| paris within braces (\verb|{| and \verb|}|). For example:
+\begin{verbatim}
+    >>> shopping  = {"eggs" : 2, "ham" : 4}
+\end{verbatim}
+
+\textit{Further notes on Dictionaries in Python are available in 1st Year Programming Module}.
+
+\subsection{Memoization}
+Our solution to the recursive problem is to use a technique called memoization for remembering results of calls to a function such as fibonacci. We can use a general purpose memoization function:
+\begin{verbatim}
+    def memoize(f):
+        cache = {}
+        def g(arg):
+            if arg in cache:
+                return cache[arg]
+            else:
+                cache[arg] = f(arg)
+                return cache[arg]
+        return g
+\end{verbatim}
+Which we can then give to the function we want to optimise:
+\begin{verbatim}
+    fibonacci = memoize(fibonacci)
+\end{verbatim}
