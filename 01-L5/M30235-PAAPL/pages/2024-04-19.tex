@@ -1,0 +1,145 @@
+\taughtsession{Lecture}{Statement-Level Control Structures}{2024-04-19}{14:00}{Jiacheng}{}
+
+\section{Levels of Flow Control}
+Flow Control in programs, or execution sequence, makes it possible to implement algorithms to do various things. The flow control of programs can be explored at different levels:
+\begin{itemize}
+    \item Within Expression - governed by associativity and precedence rules
+    \item Program Statements
+    \item Program Units
+\end{itemize}
+
+Statements that provide capabilities such sa selecting among control flow paths or causing the repeated execution of certain collection of statements are called control statements.\\
+
+Control Flow comes form the early days of programming - where they would use statements, such as \verb|goto|, which sent the program to a different line to execute. This would result in programs which are hard to read and maintain. 
+
+\section{Programming Theorem}
+Structured Programming Theorem states that all algorithms which can be expressed by flowcharts can be coded in programming languages that are equipped with two control statements:
+\begin{itemize}
+    \item selection (choosing from two, or more, control flow paths)
+    \item pre-test logical loop, or iterative statement (the condition is tested before the body of the loop is executed)
+\end{itemize}
+
+These two control structures are necessary for any imperative programming language. In programming language design \& implementations, variations of these two types of control statements are often provided. 
+
+\section{Selection Statements}
+Selection statements choose between two or more execution paths in a program. The two-way variety select between one of two execution paths; and the multiple-selection statements select one of many execution paths.
+
+\subsection{Two-Way Selection}
+The general form (syntax) of a two-way selector is as follows:
+\begin{verbatim}
+    if control_expression
+        then
+            do something
+        else
+            do something
+\end{verbatim}
+The control expression, within contemporary languages, is a boolean expression which is evaluated. Older languages did not support a boolean type and therefore would use arithmetic expressions, some languages still support this. The expressions within the \verb|then| or \verb|else| blocks could either be single statements or compound statements.\\
+
+Many languages use braces to form compound statements (blocks):
+\begin{verbatim}
+    if (control_expression) then{
+        ...
+    } else{
+        ...
+    }
+\end{verbatim}
+
+However in true quirky fashion, Python uses indentation and a colon:
+\begin{verbatim}
+    if control_expression:
+        ...
+    else:
+        ...
+\end{verbatim}
+
+\subsection{Nesting Selectors}
+Selector nesting is supporting and used. But there should be no ambiguity in the semantics of nesting selectors. For example:
+\begin{verbatim}
+    if (control_expression){
+        if (another_control_expression){
+            ...
+        } else{
+            ...
+        }
+    } else{
+        ...
+    }
+\end{verbatim}
+
+\subsection{Shorthand Selection}
+A full selection statement can be quite big and obtuse - especially in the case that it's controlling part of an output to the user. Conveniently, there exists shorthand selectors which enable more succinct code. For example, the normal Java expression:
+\begin{verbatim}
+    int x;
+    if (expression) {
+        x = -1;
+    } else {
+        x = 1;
+    }
+\end{verbatim}
+Can be condensed to:
+\begin{verbatim}
+    int x=(expression)? -1: 1;
+\end{verbatim}
+
+\subsection{Multiple-Way Selection Statements}
+Multiple-Way Selection Statements allow the selection of one of any number of statements or statement groups. In C, C++, Java and JavaScript - it takes the form:
+\begin{verbatim}
+    switch (expression){
+        case const_expr:
+            statement;
+            break;
+            ...
+        default:
+            statement;
+    }
+\end{verbatim}
+
+In most languages the control expression can be a character, integer, string or enumerated type. Once the case is matched, the statements starting from the matched case are executed until a \verb|break| statement or until the end of the switch statement is reached (the latter being referred to as fall-through behaviour). C\# does not implement fall-through behaviour. it requires every segment must end with an explicit unconditional branch statement (\verb|break|, \verb|goto|, or \verb|return|).\\
+
+The question of why you would want to fall-through is an interesting one. It is occasionally useful to allow control to flow from one selectable segment to another. For example, where the same code would be executed for multiple cases as using fall-through would minimise repeated code.
+
+\section{Iterative Statements}
+Iterative Statements are a mechanism for the repeated execution of a statement or compound statement. It is implemented either by various loops (iteration) or recursion. Common loop would either be the \verb|for| loop (which is counter controlled) or \verb|while| loop (which is logically controlled). 
+
+\subsection{For Loop}
+In C-derived languages, for loops take the form:
+\begin{verbatim}
+    for (init; loopControl; stepSize){
+        loopBody
+    }
+\end{verbatim}
+
+The \verb|init| value is the initialisation value for the loop and is executed once at the start of the loops execution. The second expression (\verb|loopControl|) is the loop control and is evaluated before every execution of the loop body; it produces a Boolean value as the condition to continue or stop. The last expression (\verb|stepSize|) is the control for how big step sizes to take, and is executed after each execution of the body.\\
+
+Different to Java and C\#, C and C++ allow for a non-numeric \verb|loopControl|. To them, a zero means false and all non-zero values mean true. Therefore if the value of \verb|loopControl| is zero, the for loop is terminated, otherwise the loop body is executed.\\
+
+In the event that \verb|loopControl| is absent, the loop will be an infinite loop. 
+
+\subsection{Logically Controlled Loops}
+Logically controlled loops come in two forms:
+\begin{description}
+    \item[Pre-Test] where the loop condition is tested before execution of the loop body In most languages this is the \verb|while| loop however in Pascal, this is the \verb|while ... do| loop
+    \item[Post-Test] where the loop body is executed before the condition is tested, meaning that the loop body is always executed at least one time. In most languages, this is the \verb|do ... while| loop however in Pascal, this is the \verb|repeat ... until| loop. 
+\end{description}
+
+All for loops can be rewritten as while loops. \\
+
+C and C++ have both pre-test and post-test forms, in which the control expression can be arithmetic. Java has both pre-test and post-test forms, however the control expression bust be boolean. 
+
+\subsection{Unconditional Branching}
+Unconditional Branching statements are statements that chance control flow without any condition. They include \verb|break|, \verb|continue| and \verb|return|. They are usually used within loop / iteration structures:
+\begin{description}[font=\ttfamily]
+    \item[break] provides unconditional exits from loops
+    \item[continue] skips the remainder of the current iteration but does not exit the loop
+    \item[return] terminates the function / method call 
+\end{description}
+
+Some of these unconditional branching statement come with labelled and unlabelled varieties:
+\begin{itemize}
+    \item Unlabelled \verb|break| - terminates the innermost `breakable' statement when nested. Can break: \verb|switch|, \verb|for|, \verb|while| or \verb|do-while|
+    \item Labelled \verb|break| terminates the labelled statement / loop and then program control flow is transferred to the statement immediately following the labelled (and now terminated) statement
+    \item Unlabelled \verb|continue| statement terminates the current iteration of the innermost loop and skips to the end of loop, then evaluates the boolean expression that controls the loop. 
+    \item Labelled \verb|continue| skips the current iteration of a loop marked with the given label
+\end{itemize}
+
+The \verb|return| statement, in addition to terminating function calls, can have a return value. Pascal does not have a return statement.
