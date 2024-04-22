@@ -1,0 +1,82 @@
+\taughtsession{Lecture}{Introduction to Binary Exploitation}{2024-04-22}{0900}{Tobi}{}
+
+\section{Trusted Input}
+As we have already seen, anywhere where users of an application or service can enter text - is potentially vulnerable. Depending on the type of input field, it may be vulnerable to SQL injection or to command injection. 
+
+\section{Finding Files}
+When we are doing exploitation, we first have to do some information gathering. A key step of this is to work out what files exist, what permissions they have and therefore if any are vulnerable.\\
+
+To find files with the SUID bit set:
+\begin{verbatim}
+    find / -perm -4000 or find / -perm -u=s -type f
+\end{verbatim}
+To find files with the SGID bit set:
+\begin{verbatim}
+    find / -perm -2000 or find / -perm -g=s -type f
+\end{verbatim}
+To find files with the SUID and SGID bit set:
+\begin{verbatim}
+    find / -perm -6000 or find / -perm -u+g=s -type f
+\end{verbatim}
+
+\textit{See Misconfigured File Permissions lecture for more information on file permissions and finding files.}
+
+\section{Binary Files}
+Once we have compiled a file, it gets turned into binary code - this will either be in 32 bit or 64 bit. Under Windows, compiled files will be in the \verb|exe| format and under Linux, they're in \verb|elf| format.
+
+\subsection{Loading to Memory}
+When the code is prepared to be executed, it is loaded into Memory. Registers will get set with values which pertain to the execution of the code. Registers are quickly accessible locations on the computer's processor. Memory will contain the program code. The stack will be ready to accept values from registers and from the CPU during execution.\\
+
+Registers can either be 8-bit, 32-bit or 64-bit. There are a few different types which are used for different purposes:
+\begin{itemize}
+    \item General registers store data, pointers or indexes in Memory
+    \item Control registers are used to control the CPU
+    \item Segment registers
+\end{itemize}
+
+There are a number of different types of data register - these each have a specified purpose of storing a specific data item during execution:
+\begin{itemize}
+    \item Accumulator stores arithmetic instructions
+    \item Base Register stores indexed addressing
+    \item Count Registers stores counts in iterative operations
+\end{itemize}
+
+Pointer registers contain pointers to addresses in memory:
+\begin{itemize}
+    \item Instruction Pointer stores the offset address of the next instruction to be executed
+    \item Stack pointer provides offset value within the program stack
+    \item Base Pointer references a parameter within a subroutine
+\end{itemize}
+
+\subsection{Buffer Overflow}
+A buffer, or data buffer, is an area of physical memory storage to temporarily store data. A challenge is experienced when the data entered into the buffer extends beyond the intended location. This will cause the program to crash and can be used to run unintended functions or to run inputted code. \\
+
+There are two different types:
+\begin{description}
+    \item[Stack-Based] overflows a buffer onto the call stack
+    \item[Heap-based] attacks target data in the open memory pool known as the heap
+\end{description}
+
+The stack is a portion of memory which is used to save temporary data; including function calls, local variables, and function parameters. 
+
+\subsection{Vulnerable Functions}
+There are a number of vulnerable functions:
+\begin{itemize}
+    \item \verb|gets|
+    \item \verb|strcpy|
+    \item \verb|scanf|
+    \item And more!
+\end{itemize}
+These C functions are potentially vulnerable to attacks.
+
+\section{Defences}
+There are a number of defences which can be used against Binary Exploitation:
+\begin{itemize}
+    \item Address Space Layout Randomization (ASLR)
+    \item Data Execution Protection
+    \item Structured Exception Handling
+    \item Patch device / software
+    \item Safe Programming
+    \item Validating Data
+    \item Least Privilege
+\end{itemize}
