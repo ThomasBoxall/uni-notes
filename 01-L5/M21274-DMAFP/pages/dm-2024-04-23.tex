@@ -1,0 +1,575 @@
+\taughtsession{Lecture}{Network Models and Digraphs}{2024-04-23}{17:00}{Janka}{}
+
+\section{Directed Graphs}
+Another use of graphs, which we are yet to explore, is how they cna be used to model real life situations. In situations where edges are representing roads or pipes then they need to be associated with directions / weights, from this we get a directed graph (a \textit{digraph}). \\
+
+A Digraph is a pair $(V, E)$ of sets, $V$ is a nonempty set of vertices, $E$ is a set of ordered pairs of distinct elements of $V$, called arcs (edges).\\
+
+A digraph can be pictured like a graph, with the orientation of an arc indicated by an arrow. A digraph is just a graph in which each edge has an orientation or direction assigned to it.
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm, shorten >= 2pt, shorten <= 2pt]
+            \node[graphnode, draw] (u) {$u$};
+            \node[graphnode, draw] (v) [right of=u] {$v$};
+            \node[graphnode, draw] (w) [below of=u] {$w$};
+
+            \path[->] (v) edge[above] node[align=center] {} (u);
+            \path[->] (v) edge[above] node[align=center] {} (w);
+            \path[->] (u) edge[above] node[align=center] {} (w);
+            
+        \end{tikzpicture}
+        \caption{Example of a Digraph}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+$V = \{u, v, w\}$\\
+$E = \{vu, vw, uw\}$\\
+Note that for $vu$, the direction is from $v$ to $u$, therefore $uv$ and $vu$ are different.
+\end{minipage}
+
+\subsection{Some Properties}
+
+Similar to graphs, digraphs do not contain multiple arcs / loops.\\
+
+Each vertex of a digraph has:
+\begin{description}
+    \item[indegree] which is the number of arcs directed into that vertex; and
+    \item[outdegree] which is the number of arcs directed out of that vertex
+\end{description}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm, shorten >= 2pt, shorten <= 2pt]
+            \node[graphnode, draw] (u) {$u$};
+            \node[graphnode, draw] (v) [right of=u] {$v$};
+            \node[graphnode, draw] (w) [below of=u] {$w$};
+            \node[graphnode, draw] (z) [below of=v] {$z$};
+
+            \path[->] (v) edge[above] node[align=center] {} (u);
+            \path[->] (v) edge[above] node[align=center] {} (w);
+            \path[->] (u) edge[above] node[align=center] {} (w);
+            \path[->] (z) edge[above] node[align=center] {} (v);
+            
+        \end{tikzpicture}
+        \caption{Example of a Digraph}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+vertex $u$ has indegree 1 and outdegree 1,\\
+vertex $v$ has indegree 1 and outdegree 2,\\
+vertex $w$ has indegree 2 and outdegree 0,\\
+vertex $z$ has indegree 0 and outdegree 1
+\end{minipage}\vspace{0.5em}
+
+Similar, formal, definitions exist for digraphs as do that for walks, paths, etc. However it is necessary to follow the direction of the arcs.
+
+\subsection{Adjacency Matrix}
+The adjacency matrix $A$ of $G$ with vertices $v_1$, $v_2$, \ldots, $v_n$ is defined by setting $a_{ij} = 1$ if there is an arc from $v_i$ to $v_j$ (and set to 0 otherwise). $A$ is generally not symmetric.
+
+\begin{minipage}{0.3\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm, shorten >= 2pt, shorten <= 2pt]
+            \node[graphnode, draw] (u) {$u$};
+            \node[graphnode, draw] (v) [right of=u] {$v$};
+            \node[graphnode, draw] (w) [below of=u] {$w$};
+            \node[graphnode, draw] (z) [below of=v] {$z$};
+
+            \path[->] (v) edge[above] node[align=center] {} (u);
+            \path[->] (v) edge[above] node[align=center] {} (w);
+            \path[->] (u) edge[above] node[align=center] {} (w);
+            \path[->] (z) edge[above] node[align=center] {} (v);
+            
+        \end{tikzpicture}
+        \caption{A digraph, $G$}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.3\textwidth}
+\begin{equation*}
+    A = 
+    \begin{bmatrix}
+        0 & 0 & 0 & 0 \\
+        1 & 0 & 0 & 0 \\
+        1 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 
+    \end{bmatrix}
+\end{equation*}
+\end{minipage}\hfill
+\begin{minipage}{0.3\textwidth}
+\begin{equation*}
+    A^2=
+    \begin{bmatrix}
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 \\
+        1 & 0 & 0 & 0 \\
+        1 & 1 & 0 & 0
+    \end{bmatrix}
+\end{equation*}
+\end{minipage}\vspace{0.5em}
+
+Most assertions made about the adjacency matrix for graphs apply with appropriate changes for digraphs as well. Within an adjacency matrix, the outdegree of the vertex $v_1$ is the number of 1's in the row $i$; the indegree of the vertex $v_i$ is the number of 1's in the column $i$. The $(i, j)$ entry of $A^k$ is the number of different walks of length $k$ from $v_i$ to $v_j$ respecting the orientation of arcs, where $k \geq 1$. 
+
+\section{Network Models}
+Directed graphs can be useful for modelling network problems such as a transportation network; a pipeline network; or a computer network. In each case, the problem is generally to find the maximum flow. Maximising the flow in a network is a problem that belongs to both graph theory and operations research. \\
+
+If we take an example in which the arcs of a digraph (a network) can represent an oil pipeline network and show the direction the oil can flow.
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm, shorten >= 2pt, shorten <= 2pt]
+            \node[graphnode, draw] (s) {$S$};
+            \node[graphnode] (x1) [right of=s] {};
+            \node[graphnode, draw] (a) [above of=x1] {$A$};
+            \node[graphnode, draw] (b) [below of=x1] {$B$};
+            \node[graphnode, draw] (c) [right of=a] {$C$};
+            \node[graphnode, draw] (d) [right of=b] {$D$};
+            \node[graphnode] (x2) [right of=x1] {};
+            \node[graphnode, draw] (t) [right of=x2] {$T$};
+
+            \path[->] (s) edge[below left] node[align=center] {$11$} (b);
+            \path[->] (s) edge[above left] node[align=center] {$10$} (a);
+            \path[->] (a) edge[above] node[align=center] {$12$} (c);
+            \path[->] (a) edge[below left] node[pos=0.2] {$4$} (d);
+            \path[->] (b) edge[below] node[align=center] {$2$} (d);
+            \path[->] (b) edge[below right] node[pos=0.8] {$8$} (c);
+            \path[->] (c) edge[above right] node[align=center] {$11$} (t);
+            \path[->] (d) edge[below right] node[align=center] {$14$} (t);
+            
+        \end{tikzpicture}
+        \caption{Example of a Digraph}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+Oil is unloaded at the dock, $S$, (the source) and pumped through the network to the refinery, $T$, (the sink).
+\end{minipage}\vspace{0.5em}
+
+The weight on the arcs shows the capacities of the pipelines. Our goal is to pump as much oil as possible from $S$ to $T$. To formalise such a concept, we use the term \textit{a flow}. 
+
+\subsection{A Flow}
+A flow in a network is a description of the amount of commodity that can flow along the network (in a unit of time). No pipe must receive more than it can cope with (therefore `flow $leq$ capacity' for each arc); and no commodity must be lost along the way (`flow in = flow out' for all vertices except $S$ and $T$).\\
+
+A flow assigns to each arc $e$ which is a non-negative number, $f(e)$, subject to the previous two constraints. Note the notation is of the form \textit{flow, capacity} assigned to each arc.  This can be seen in the following example:
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm, shorten >= 2pt, shorten <= 2pt]
+            \node[graphnode, draw] (s) {$S$};
+            \node[graphnode] (x1) [right of=s] {};
+            \node[graphnode, draw] (a) [above of=x1] {$A$};
+            \node[graphnode, draw] (b) [below of=x1] {$B$};
+            \node[graphnode, draw] (c) [right of=a] {$C$};
+            \node[graphnode, draw] (d) [right of=b] {$D$};
+            \node[graphnode] (x2) [right of=x1] {};
+            \node[graphnode, draw] (t) [right of=x2] {$T$};
+
+            \draw[emphline] (s) -- (a);
+            \draw[emphline] (a) -- (d);
+            \draw[emphline] (d) -- (t);
+
+            \path[->] (s) edge[below left] node[align=center] {$0,11$} (b);
+            \path[->] (s) edge[above left] node[align=center] {$2,10$} (a);
+            \path[->] (a) edge[above] node[align=center] {$0,12$} (c);
+            \path[->] (a) edge[below left] node[pos=0.2] {$2,4$} (d);
+            \path[->] (b) edge[below] node[align=center] {$0,2$} (d);
+            \path[->] (b) edge[below right] node[pos=0.8] {$0,8$} (c);
+            \path[->] (c) edge[above right] node[align=center] {$0,11$} (t);
+            \path[->] (d) edge[below right] node[align=center] {$2,14$} (t);
+            
+        \end{tikzpicture}
+        \caption{Example of a Flow}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+We camp pump 2 units from $S$ to $T$ through $A$ and $D$ and 0 through the other arcs.
+\end{minipage}\vspace{0.5em}
+
+This assignment has the properties:
+\begin{itemize}
+    \item Each arc ``flow ($e$) \leq capacity ($e$)''
+    \item For each vertex $A, B, C, D$ ``the flow into each one is equal to the flow out of it''
+\end{itemize}
+Therefore this is a flow!\\
+
+The value of a flow is the sum of all flow for all outgoing arcs form the source $S$. In our above example, this would be $2 + 0 = 2$.\\
+
+The value of the flow must be the same as the sum of flows for all incoming arcs to $T$. So, the value of this flow is 2. 
+
+\subsection{Formalisation}
+\subsubsection{Formal Definition of a Network}
+Let $G = (V, E)$ be a directed weighted graph with the following properties:
+\begin{itemize}
+    \item a vertex $S$ (source) has no incoming arcs - and is the start of the flow
+    \item a vertex $T$ (sink) has no outgoing arcs - and is the end of the flow
+\end{itemize}
+The non-negative weight on each arc is the capacity of the edge, $e$, denoted by $c(e)$, and $c(e) \geq 0$, which is the maximum amount of some commodity which can flow through it in a unit of time (for example, litres of oil, kW of electricity, etc).
+
+\subsubsection{Formal Definition of a Flow}
+A flow is a mapping that assigns to each edge, $e$, a number, denoted by $f(e)$, which satisfies two conditions:
+\begin{itemize}
+    \item Feasibility Condition where $0 \leq f(e) \leq c(e)$ for each edge $e \in E$, in words - the flow along each arc must be less than or equal to the capacity of that arc.
+    \item Conservation of flow where for each internal vertex $u$ (not source or sink), the sum o flows along the arcs into $u$ is equal to the sum of the flows along the arcs out of $u$.
+    \[\sum_{v \in V} f(uv) = \sum_{v \in V} f(vu) \text{ for all } u \in V - \{S, T\}\]
+\end{itemize}
+
+\subsubsection{Formal Definition of the Value of a Flow}
+The value of a flow: $\displaystyle \sum_{v \in V} f(Sv)$ (which is the sum of S-outgoing arcs).\\
+
+By the flow conservation law, none of the flow is lost at any vertex. This means, the value of the flow is also equal to the sum of flows of all arcs going into $T$: 
+\[\sum_{v \in V} f(vT) = \sum_{v \in V} f(Sv) \]
+Which is equal to the sum of T-incoming arcs and the sum of S-outgoing arcs.\\
+
+A maximum flow is a flow of maximum value.
+
+\subsection{Construction of Flows}
+The simple way of finding a maximum flow is to locate a path, $P$, from $S$ to $T$ (which follows the direction specified by the arrows on arcs) and define a flow by setting:
+\[ f(e) = \begin{cases}
+    1, \quad \mathrm{if\ } e \in P \\
+    0, \quad \mathrm{if\ } e \notin P
+\end{cases} \]
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm, shorten >= 2pt, shorten <= 2pt]
+            \node[graphnode, draw] (s) {$S$};
+            \node[graphnode] (x1) [right of=s] {};
+            \node[graphnode, draw] (a) [above of=x1] {$A$};
+            \node[graphnode, draw] (b) [below of=x1] {$B$};
+            \node[graphnode, draw] (c) [right of=a] {$C$};
+            \node[graphnode, draw] (d) [right of=b] {$D$};
+            \node[graphnode] (x2) [right of=x1] {};
+            \node[graphnode, draw] (t) [right of=x2] {$T$};
+
+            \draw[emphline] (s) -- (a);
+            \draw[emphline] (a) -- (c);
+            \draw[emphline] (c) -- (t);
+
+            \path[->] (s) edge[below left] node[align=center] {$0,11$} (b);
+            \path[->] (s) edge[above left] node[align=center] {$1,10$} (a);
+            \path[->] (a) edge[above] node[align=center] {$1,12$} (c);
+            \path[->] (a) edge[below left] node[pos=0.2] {$0,4$} (d);
+            \path[->] (b) edge[below] node[align=center] {$0,2$} (d);
+            \path[->] (b) edge[below right] node[pos=0.8] {$0,8$} (c);
+            \path[->] (c) edge[above right] node[align=center] {$1,11$} (t);
+            \path[->] (d) edge[below right] node[align=center] {$0,14$} (t);
+            
+        \end{tikzpicture}
+        \caption{Flow Construction example pt. 1}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+This digraph shows the flow $SACT$, which has a value of 1. 
+\end{minipage}\vspace{0.5em}
+
+The next stage is to increment the arcs flow rate on the path until you reach the maximum capacity of the smallest arc on that path. 
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm, shorten >= 2pt, shorten <= 2pt]
+            \node[graphnode, draw] (s) {$S$};
+            \node[graphnode] (x1) [right of=s] {};
+            \node[graphnode, draw] (a) [above of=x1] {$A$};
+            \node[graphnode, draw] (b) [below of=x1] {$B$};
+            \node[graphnode, draw] (c) [right of=a] {$C$};
+            \node[graphnode, draw] (d) [right of=b] {$D$};
+            \node[graphnode] (x2) [right of=x1] {};
+            \node[graphnode, draw] (t) [right of=x2] {$T$};
+
+            \draw[emphline] (s) -- (a);
+            \draw[emphline] (a) -- (c);
+            \draw[emphline] (c) -- (t);
+
+            \path[->] (s) edge[below left] node[align=center] {$0,11$} (b);
+            \path[->] (s) edge[above left] node[align=center] {$10,10$} (a);
+            \path[->] (a) edge[above] node[align=center] {$10,12$} (c);
+            \path[->] (a) edge[below left] node[pos=0.2] {$0,4$} (d);
+            \path[->] (b) edge[below] node[align=center] {$0,2$} (d);
+            \path[->] (b) edge[below right] node[pos=0.8] {$0,8$} (c);
+            \path[->] (c) edge[above right] node[align=center] {$10,11$} (t);
+            \path[->] (d) edge[below right] node[align=center] {$0,14$} (t);
+            
+        \end{tikzpicture}
+        \caption{Flow Construction example pt. 2}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+The path $SACT$ has a saturated arc $SA$, this is a flow (10), equal to its capacity (10). A flow along the patch $SACT$ cannot be improved.\\
+
+The value of the flow is 10.
+\end{minipage}\vspace{0.5em}
+
+We now look for another path from $S$ to $T$ with an unsaturated edge.
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm, shorten >= 2pt, shorten <= 2pt]
+            \node[graphnode, draw] (s) {$S$};
+            \node[graphnode] (x1) [right of=s] {};
+            \node[graphnode, draw] (a) [above of=x1] {$A$};
+            \node[graphnode, draw] (b) [below of=x1] {$B$};
+            \node[graphnode, draw] (c) [right of=a] {$C$};
+            \node[graphnode, draw] (d) [right of=b] {$D$};
+            \node[graphnode] (x2) [right of=x1] {};
+            \node[graphnode, draw] (t) [right of=x2] {$T$};
+
+            \draw[emphline] (s) -- (a);
+            \draw[emphline] (a) -- (c);
+            \draw[emphline] (c) -- (t);
+            \draw[emphline] (s) -- (b);
+            \draw[emphline] (b) -- (d);
+            \draw[emphline] (d) -- (t);
+            
+
+            \path[->] (s) edge[below left] node[align=center] {$2,11$} (b);
+            \path[->] (s) edge[above left] node[align=center] {$10,10$} (a);
+            \path[->] (a) edge[above] node[align=center] {$10,12$} (c);
+            \path[->] (a) edge[below left] node[pos=0.2] {$0,4$} (d);
+            \path[->] (b) edge[below] node[align=center] {$2,2$} (d);
+            \path[->] (b) edge[below right] node[pos=0.8] {$0,8$} (c);
+            \path[->] (c) edge[above right] node[align=center] {$10,11$} (t);
+            \path[->] (d) edge[below right] node[align=center] {$2,14$} (t);
+            
+        \end{tikzpicture}
+        \caption{Flow Construction example pt. 3}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+The path $SBDT$ has a saturated arc $BD$ (where the flow along the path can't be improved)\\
+
+The value of the flow is 12.
+\end{minipage}\vspace{0.5em}
+
+We now look for another unsaturated edge which we can form into a path from $S$ to $T$. 
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm, shorten >= 2pt, shorten <= 2pt]
+            \node[graphnode, draw] (s) {$S$};
+            \node[graphnode] (x1) [right of=s] {};
+            \node[graphnode, draw] (a) [above of=x1] {$A$};
+            \node[graphnode, draw] (b) [below of=x1] {$B$};
+            \node[graphnode, draw] (c) [right of=a] {$C$};
+            \node[graphnode, draw] (d) [right of=b] {$D$};
+            \node[graphnode] (x2) [right of=x1] {};
+            \node[graphnode, draw] (t) [right of=x2] {$T$};
+
+            \draw[emphline] (s) -- (a);
+            \draw[emphline] (a) -- (c);
+            \draw[emphline] (c) -- (t);
+            \draw[emphline] (s) -- (b);
+            \draw[emphline] (b) -- (d);
+            \draw[emphline] (d) -- (t);
+            \draw[emphline] (b) -- (c);
+            
+
+            \path[->] (s) edge[below left] node[align=center] {$3,11$} (b);
+            \path[->] (s) edge[above left] node[align=center] {$10,10$} (a);
+            \path[->] (a) edge[above] node[align=center] {$10,12$} (c);
+            \path[->] (a) edge[below left] node[pos=0.2] {$0,4$} (d);
+            \path[->] (b) edge[below] node[align=center] {$2,2$} (d);
+            \path[->] (b) edge[below right] node[pos=0.8] {$1,8$} (c);
+            \path[->] (c) edge[above right] node[align=center] {$11,11$} (t);
+            \path[->] (d) edge[below right] node[align=center] {$2,14$} (t);
+            
+        \end{tikzpicture}
+        \caption{Flow Construction example pt. 4}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+The path $SBCT$ has a saturated arc, $CT$. \\
+
+The value of the flow is 13.
+\end{minipage}\vspace{0.5em}
+
+\subsection{Improving the Flow}
+However, as we could expect - we're not done yet! There are still further improvements to be made to our flow.\\
+
+If we consider a path, $P$, from $S$ to $T$ in the underlying undirected graph (eg $P = (S, B, C, A, D, T)$). Then:
+\begin{itemize}
+    \item an edge, $e$, is a forward arc (with respect to the path $P$) if the orientation of $e$ follows the direction of $p$, eg $SB$ or $AD$,
+    \item otherwise (if arcs are directed against the direction of the path $P$), $e$ is a backwards arc, eg $AC$.
+\end{itemize}
+
+We will now also consider a path from $S$ to $T$ (in an underlying undirected graph) with the properties:
+\begin{itemize}
+    \item All forward arcs on the path are unsaturated
+    \item All backwards arcs on the paths are carrying a non-zero flow
+\end{itemize}
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm, shorten >= 2pt, shorten <= 2pt]
+            \node[graphnode, draw] (s) {$S$};
+            \node[graphnode] (x1) [right of=s] {};
+            \node[graphnode, draw] (a) [above of=x1] {$A$};
+            \node[graphnode, draw] (b) [below of=x1] {$B$};
+            \node[graphnode, draw] (c) [right of=a] {$C$};
+            \node[graphnode, draw] (d) [right of=b] {$D$};
+            \node[graphnode] (x2) [right of=x1] {};
+            \node[graphnode, draw] (t) [right of=x2] {$T$};
+
+            \draw[emphline] (a) -- (c);
+            \draw[emphline] (s) -- (b);
+            \draw[emphline] (d) -- (t);
+            \draw[emphline] (b) -- (c);
+            \draw[emphline] (a) -- (d);
+            
+
+            \path[->] (s) edge[below left] node[align=center] {\footnotesize $3+4,11$} (b);
+            \path[->] (s) edge[above left] node[align=center] {$10,10$} (a);
+            \path[->] (a) edge[above] node[align=center] {\footnotesize $10-4,12$} (c);
+            \path[->] (a) edge[below left] node[pos=0.2] {\footnotesize $0+4,4$} (d);
+            \path[->] (b) edge[below] node[align=center] {$2,2$} (d);
+            \path[->] (b) edge[below right] node[pos=0.8] {\footnotesize $1+4,8$} (c);
+            \path[->] (c) edge[above right] node[align=center] {$11,11$} (t);
+            \path[->] (d) edge[below right] node[align=center] {\footnotesize $2+4,14$} (t);
+            
+        \end{tikzpicture}
+        \caption{Increasing Flow}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+Using the grey path the flow can be increased by 4.
+\end{minipage}\vspace{0.5em}
+
+Note that no feasibility condition has been broken in the process. The conservation condition (where before ``flow out = flow in'' for all internal vertices) is now:
+\begin{itemize}
+    \item For vertices $B$ and $D$: ``flow out + 4 = flow in + 4''
+    \item For vertex $C$: ``flow out = flow in + 4 - 4''
+    \item For vertex $A$: ``flow out + 4 - 4 = flow in''
+\end{itemize}
+Here we can see that changing the flow by 4 (+4 for forward arcs, -4 for backward arcs) along the ``path'' $(S, B, C, A, D, T)$ increases the flow by 4. \\
+
+We now need to look at why the value 4 is so special. For forward arcs, if we calculate $e$ using $c(e) - f(e)$:
+\begin{itemize}
+    \item $SB: 11-3=8$
+    \item $BC: 8-1=7$
+    \item $AD: 4-0=4$
+    \item $DT: 14-2=12$
+\end{itemize}
+And for backwards arcs, we take $e$ as $f(e)$ therefore:
+\begin{itemize}
+    \item $CA: 10$
+\end{itemize}
+
+To calculate the value of improvement which can be made on a path, we first have to calculate the values as we did above, then find the minimum resulting value (in our case, that's 4). We then add 4 to our forward arcs, and minus 4 from our backwards arcs on this new path. From this we get the new arc values which we can substitute in on our digraph.
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm, shorten >= 2pt, shorten <= 2pt]
+            \node[graphnode, draw] (s) {$S$};
+            \node[graphnode] (x1) [right of=s] {};
+            \node[graphnode, draw] (a) [above of=x1] {$A$};
+            \node[graphnode, draw] (b) [below of=x1] {$B$};
+            \node[graphnode, draw] (c) [right of=a] {$C$};
+            \node[graphnode, draw] (d) [right of=b] {$D$};
+            \node[graphnode] (x2) [right of=x1] {};
+            \node[graphnode, draw] (t) [right of=x2] {$T$};
+
+            \path[->] (s) edge[below left] node[align=center] {$7,11$} (b);
+            \path[->] (s) edge[above left] node[align=center] {$10,10$} (a);
+            \path[->] (a) edge[above] node[align=center] {$6,12$} (c);
+            \path[->] (a) edge[below left] node[pos=0.2] {$4,4$} (d);
+            \path[->] (b) edge[below] node[align=center] {$2,2$} (d);
+            \path[->] (b) edge[below right] node[pos=0.8] {$5,8$} (c);
+            \path[->] (c) edge[above right] node[align=center] {$11,11$} (t);
+            \path[->] (d) edge[below right] node[align=center] {$6,14$} (t);
+            
+        \end{tikzpicture}
+        \caption{Increased Flow}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+By checking all the possibilities, we can see that there are no further possibilities for improvement. This means tha maximum flow has now been achieved.\\
+
+The value of the flow is 17.
+\end{minipage}\vspace{0.5em}
+
+\subsection{Formal Definitions for Flow Improvement}
+Let $P$ be a path from $S$ to $T$ in an underlying undirected graph to a network $G$ satisfying the following conditions:
+\begin{itemize}
+    \item for each forward arc $e$ in $P: f(e) < c(e)$,
+    \item for each backward arc $e$ in $P: 0< f(e)$
+\end{itemize}
+Such a path is called a flow-augmenting path; and if on$\{f(e)|e \text{ is a backward arc in }P\}$e exists in the network - a flow can still be improved.\\
+
+The outline of the algorithm for finding the maximum flow is shown below:
+\begin{enumerate}
+    \item Start with a flow (e.g. a flow with 0 for each edge)
+    \item Search for a flow-augmenting path $P$. If no such path exists, stop - the flow is maximum
+    \item Increase the flow through the path by $\Delta$, where $\Delta$ is the minimum over the values\\ $\{f(e)|e \text{ is a backward arc in }P\}$ and $\{c(e) - f(e)|e \text{ is a forward arc in }P\}$. Change the flow along the arcs in $P$ to be:
+    \begin{itemize}
+        \item for each forward arc $e$ in $P$: $f(e) := f(e) + \Delta$
+        \item for each backward arc $e$ in $P$: $f(e) := f(e) - \Delta$
+    \end{itemize}
+    Go back to step 2. 
+\end{enumerate}
+
+An exhaustive search of all paths from $S$ to $T$ can be used for finding a flow-augmenting path $P$. When there exists more than one flow-augmenting path, the order in which we use them is not important. There is double check, whether our value is correct, using the following theorem:\\
+\textit{Theorem: In a directed graph, the value of a maximum flow is equal to the value of a minimum cut}.
+
+\subsection{(S, T)-cut}
+An $(S, T)$-cut is a partition $\{\mathcal{S}, \mathcal{T}\}$ of $V$ such that $S \in \mathcal{S}$ and $T \in \mathcal{T}$. This can be seen below:
+
+\begin{minipage}{0.5\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm, shorten >= 2pt, shorten <= 2pt]
+            \node[graphnode, draw] (s) {$S$};
+            \node[graphnode] (x1) [right of=s] {};
+            \node[graphnode, draw] (a) [above of=x1] {$A$};
+            \node[graphnode, draw] (b) [below of=x1] {$B$};
+            \node[graphnode, draw] (c) [right of=a] {$C$};
+            \node[graphnode, draw] (d) [right of=b] {$D$};
+            \node[graphnode] (x2) [right of=x1] {};
+            \node[graphnode, draw] (t) [right of=x2] {$T$};
+
+            \path[->] (s) edge[below left] node[align=center] {$7,11$} (b);
+            \path[->] (s) edge[above left] node[align=center] {$10,10$} (a);
+            \path[->] (a) edge[above] node[align=center] {$6,12$} (c);
+            \path[->] (a) edge[below left] node[pos=0.2] {$4,4$} (d);
+            \path[->] (b) edge[below] node[align=center] {$2,2$} (d);
+            \path[->] (b) edge[below right] node[pos=0.8] {$5,8$} (c);
+            \path[->] (c) edge[above right] node[align=center] {$11,11$} (t);
+            \path[->] (d) edge[below right] node[align=center] {$6,14$} (t);
+            
+        \end{tikzpicture}
+        \caption{Example Directed Graph}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+$\mathcal{S} = \{S, A, B\}, \mathcal{T} = \{C, D, T\}$\\
+or\\
+$\mathcal{S} = \{S, A\}, \mathcal{T} = \{C, D, T, B\}$\\
+or\\
+$\mathcal{S} = \{S\}, \mathcal{T} = \{C, D, T, B, A\}$\\
+\end{minipage}\vspace{0.5em}
+
+The capacity of an $(S, T)$-cut, $\{\mathcal{S}, \mathcal{T}\}$, is the sum of capacities of all arcs from $\mathcal{S}$ to $\mathcal{T}$.\\
+
+A minimum $(S, T)$-cut is an $(S, T)$-cut of the smallest possible capacity.\\
+
+For example, if we take the above Digraph and the following $(S, T)$-cut:
+\begin{align*}
+    \mathcal{S} &= \{S\}\\
+    \mathcal{T} &= \{A, B, C, D, T\}
+\end{align*}
+Then we can calculate the capacity of the $(S, T)$-cut as:
+\begin{align*}
+    cap(\mathcal{S}, \mathcal{T}) &=\\
+    &= c(SA) + c(SB) \\
+    &= 10 + 11 \\
+    &= 21
+\end{align*}
+
+We can use the property of a $(S, T)$-cut and max-flow to verify that we have found the maximum possible flow for a digraph - in that the value of a maximum flow is equal to the value of a minimum $(S, T)$-cut. 
