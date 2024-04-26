@@ -1,0 +1,182 @@
+\taughtsession{Lecture}{Subprograms and Parameter Passing}{2024-04-26}{14:00}{Jiacheng}{}
+
+\section{Subprograms}
+A common technique used to manage complexity of a larger problem is to decompose the problem into a series of smaller sub-problems. These smaller problems are easier to solve; however it is necessary that the programming language supports decomposition.\\
+
+The fundamental concept, provided by all modern programming languages is the subprogram, procedure or function.\\
+
+A \textit{subprogram} is a piece of code that is identified by a name, is given a local reference environment of its own, and can exchange information with the rest of the code using parameters. Subprograms come in two flavours - procedures and functions.\\
+
+Both \textit{procedures} and \textit{functions} are types of subprogram. Functions normally have a return value however procedures do not. They both accept parameters and perform code operations on those parameter values. During this lecture - we will only consider functions, however the concepts are also applicable to procedures.
+
+
+\section{Functions \& Abstraction}
+Functions provide one of the two fundamental abstraction facilities of programming languages:
+
+\begin{description}
+    \item[Process / Control abstraction] in which programmers can hide procedural detail and only be concerned with a procedures interface, rather than its implementation
+    \item[Data abstratction] in which sophisticated data types can be used without knowing how they are implemented. This separates concerns and promotes highly reusable code as well as making code more maintainable. This will be covered further in a different lecture 
+\end{description}
+
+An example of a function is shown below:
+\begin{verbatim}
+    int foo (int n, int a){
+        int temp = a;
+        if (temp == 0){
+            return n;
+        } else{
+            return n + 1;
+        }
+    }
+    ...
+    int x;
+    x = foo(3, 0);
+    x = foo(x+1, 1);
+\end{verbatim}
+
+The definition of the function refers to the actual implementation of the function. It describes the interface (header) and the actions of the function (body). The header compeises of the name, return type and the formal parameters of a function. The parameter profile of a function is the number, order and types of its parameters, for example:
+\begin{verbatim}
+    (int n, int a)
+\end{verbatim}
+
+A function call is an explicit request that the function be executed. For example:
+\begin{verbatim}
+    y = foo(3, 0);
+\end{verbatim}
+
+\subsection{Function Declarations}
+A function definition (known as a \textit{prototype} in C and C++) provides the header but not the body of a function. The parameter names can be omitted and it could be saved in a separate file, which contains only the declaration of the functions.\\
+
+The function definition comes after the declaration of the function. 
+
+\subsection{C \& C++ Prototypes and Header Files}
+Prototypes are often written in a separate header file which can be included in other C source files that wish to use the functions. For example, the header file \verb|stdio.h| contains prototypes for the standard input \& output files \verb|scanf| and \verb|printf|. THe actual source code is stored in a library elsewhere on the computer, however the header file says how to interface with the functions.
+
+\section*{Parameters \& Return Values}
+A parameter is a way in which data can be provided to the function. There are a number of different types:
+\begin{description}
+    \item[formal parameters] are dummy variables listed in the function header and used in the function body
+    \item[actual parameters] represent a value or address used in the function call statement 
+\end{description}
+
+Functions use \textit{return values} to return values to the calling program at the end of the function's execution. This calling program, which called the function, is suspended during execution of the called function. Control always return to the caller when function's execution terminates. Note that the calling program could be another function. 
+
+\subsection{Parameter Binding}
+There are two ways to bind the actual parameters to the formal ones:
+\begin{description}
+    \item[By position] means that the binding of actual parameters to formal parameters is by their order of appearance, therefore the first parameter is bound to the first formal parameter and so forth.  This is safe and effective
+    \item[By Keyword] means that the names of the formal and actual parameters are used. This means that parameters can appear in any order, thereby avoiding parameter correspondence errors; however the user must remember the formal parameters names.
+\end{description}
+
+An example of By Position is shown below:
+\begin{verbatim}
+    x = foo(3, 0);
+\end{verbatim}
+An example of By Keyword is shown below:
+\begin{verbatim}
+    func(value=my_value, array=my_array)
+    func(array=my_array, value=my_value)
+\end{verbatim}
+
+\subsection{Local Referencing Environment}
+When a function is called, a local referencing environment which includes all local variables is created. IN most contemporary languages, local variables are created on the stack and are stack-dynamic (dynamic meaning the variables are created on demand, and stack meaning there is a natural implementation of recursion).\\
+
+Local variables, however, can be static. This is especially helpful when their values are to be shared between different calls. For example, in C and C++, locals are by default stack-dynamic however cna be declared \verb|static|. 
+
+\section{Parameter Passing Methods}
+The \textit{parameter passing method} is the method in which parameters are transmitted to and / or from the called subprograms. THe relationship between the actual parameters is characterised by one of three semantic models:
+\begin{itemize}
+    \item formal parameters receive data from the corresponding actual parameters;
+    \item formal parameters transmit data to the actual parameters; 
+    \item do both
+\end{itemize}
+
+These models are called: in mode, out mode and inout mode, respectively. Further information on these models is below:
+\begin{description}
+    \item[In Mode] is implemented as pass by value. This is where the values are copied to the formal parameters
+    \item[Out Mode] is implemented as pass by result. This is where the values are copied to the actual parameters
+    \item[Inout Mode] is implemented as pass by value and result, which is a combination of pass by value (on function entry at the moment when functions are called) and pass by result (on termination of functions); or implemented as pass by reference where an access path (for example, an address) is transmitted to a formal parameter. 
+\end{description}
+
+\subsection{Pass by Value}
+Pass by Value works by transmitting the value when the function is called, and the value of the actual parameter is used to initialise the corresponding formal parameter. For example:
+\begin{verbatim}
+    void foo (int x){
+        x = x + 1;
+    }
+    int y = 1;
+    foo(y + 1);
+\end{verbatim}
+The above code works by, during the execution of \verb|foo|, local variable \verb|x| assumes the initial value \verb|2| by the effect of passing the parameter. It is then increased to \verb|3| (by the operations of the function body) and is finally destroyed on termination of the function call (execution control returns to the caller), therefore the value of \verb|3| is lost. \\
+
+Through this method, we take a copy of the values of the parameters which separates the actual parameters from the formal parameters which could be modified in the function; meaning that the original values (in the calling program) are not altered during the function execution. It is simple and fast for transmitting a few scalar (elementary types) values. Pass by Value is the default mechanism in many languages, for example C, C++, Java and pascal.\\
+
+However, additional storage is required (as the parameter values end up being stored twice) and the actual move of data can be costly (for parameters which contain a large amount of data). 
+
+\subsection{Pass by Result}
+Pass by Result works by transmitting the value of the parameters back to the calling program when execution terminates. Note that no value is transmitted from the caller to the function.\\
+
+During the execution of the function, the formal parameters acts as local variables of the function and their values are copied to the real parameters when control is returned to the caller. An example of this is shown below:
+\begin{verbatim}
+    void foo (result int x){
+        x=8
+    }
+    ...
+    int y = 1;
+    foo(y);
+\end{verbatim}
+After the function call, the value of \verb|y| becomes \verb|8|. When calling such functions in proper code, you shouldn't use actual values as the parameters to call them.\\
+
+A major limitation to this solution is that the actual parameters must be variables. However, there is a potential problem to this solution. In that the following C\# method specifies the pass by result by putting \verb|out| specifiers on it's formal and actual parameters. At the end of execution of the method, if \verb|x| is copied to \verb|a| firs, then the value of \verb|a| will be \verb|30|. If \verb|y| is copied first, then \verb|a| will be \verb|15|. This shows that the value of \verb|a| depends on the order of copying, which varies from language to language and implementation to implementation. 
+
+\begin{verbatim}
+    void myMethod (out int x, out int y){
+        x = 15;
+        y = 30;
+    }
+    ...
+    int a = 0;
+    someObj.myMethod(out a, out a);
+\end{verbatim}
+
+\subsection{Pass by Value-Result}
+Unsurprisingly, as the name would suggest, Pass by Value-Result is a combination of pass by value and pass by result. It is sometimes known as pass-by-copy, and an example of it can be seen below:
+\begin{verbatim}
+    void foo (valueresult int x) {
+        x = x + 1;
+    }
+    ...
+    int y = 8;
+    foo(y);
+\end{verbatim}
+
+At the point of call, the value of actual parameters are copied to and stored in the formal parameters; and at the end of the call, the values of formal parameters are copied to the actual parameters.\\
+
+The pass by value-result method facilities bi-directional data exchange, however isolates the formal parameters from the actual parameters. 
+
+\subsection{Mixture Mode of Parameter Passing}
+In a function, multiple different parameter passing mechanisms may be used depending upon languages and implementations. For example, in Ada:
+\begin{verbatim}
+    Procedure ADDER (A: in out INTEGER;
+                     B: in INTEGER;
+                     C: out FLOAT;)
+\end{verbatim}
+
+\subsection{Pass by Reference}
+In Pass by Reference, instead of passing values, access paths are passed. This is also called pass-by-sharing (referring to sharing a memory address between the calling program and the function). In this mode, the formal parameter and it's corresponding actual parameters are both referring to the same variable (and therefore the same memory address), even if they use different names.\\
+
+This allows for bi-directional data exchange, whereby each modification of the formal parameter is a modification of the actual parameter. This can be seen in the following example:
+\begin{verbatim}
+    void foo (reference int x){
+        x = x + 1
+    }
+    ...
+    int y = 0;
+    foo(y);
+\end{verbatim}
+
+During the execution of \verb|foo|, \verb|x| is a name for \verb|y|. After the call \verb|y| becomes \verb|1|. \\
+
+An advantage of this methodology is that the passing process is efficient, in that there is no copying and no duplicated storage. However, there is no separation between formal and actual parameter; and the accessed formal parameters might be slower (when compared to pass-by-value, where local variables are used).\\
+
+Pass-by-reference is a low-level operation (for example only an address needs to be stored). It has been excluded from some modern languages - for example Java, C and C++. In these languages, some forms of bidirectional communication between the caller and callee can still be achieved.
