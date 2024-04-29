@@ -1,0 +1,126 @@
+\taughtsession{Lecture}{Abstract Data Types \& Concurrency}{2024-04-29}{1400}{Jiacheng}{}
+
+\section{Abstraction}
+\textit{Abstraction} is the concept of separating the top-level usefulness of a given thing from the details of its implementation; thus freeing the programmer from thinking about its details. For example, after abstraction - you may only be concerned about what the function can do, and how to interact with it, but you don't care about how it does it's job.\\
+
+The idea of abstraction is to promote readability, maintainability, reusability, and security of software.\\
+
+Modern programming languages provide two types of mechanisms for abstraction: a mechanisms for data abstraction; and a mechanism for control / process abstraction via subprogram functions or procedures. We saw the later in the previous lecture, where it is necessary for achieving program modularity, which means dividing up a system into components or modules, each of which can be designed, implemented, tested, reasoned about, and reused separately from the rest of the system.\\
+
+This lecture, will look at \textit{abstraction as a mechanism for data abstraction}. Nearly all programming languages designed sing 1980 support data abstraction. Some achieve abstraction by borrowing the OO concepts (ie constructors, accessors, and mutators) for example OO Python, JavaScript, C\#, etc. However some languages provide data abstraction through classes / interfaces such as Java and C++.
+
+\subsection{Data Abstractions}
+The use of \textit{data abstraction} enforces a clear separation between the abstract properties (the uses of data) or a data type and the actual details of its implementation. This means that the abstract properties are visible to the client code, that uses the data type, however the actual implementation is kept entirely private and can change.\\
+
+Data abstraction is achieved by defining \textit{abstract data types} (ADTs), which are user-defined data types that consist of:
+\begin{itemize}
+    \item a set of data
+    \item necessary operations on the data
+\end{itemize}
+
+For example, we could define an ADT called \verb|lookupTable| which uniquely associates \verb|keys| with \verb|values|; and the values may be retrieved specifying their corresponding keys. The lookup table may be implemented in a number of different ways; for example as a: hash table, a binary search tree, or a linear list of key-value pairs. As far as the client code is concerned, the abstract properties aof the type are the same in each case.
+
+\section{ADTs and Data Structures}
+An ADT often implements a data structure, which is a representation of data and the operations allowed on the data. For example, a List is a widely used data structure containing:
+\begin{description}
+    \item[data] a collection of items, each item has a position in a sequential order
+    \item[operations] add / remove an item, sort the items, etc. 
+\end{description}
+
+An interface is an agreement / contract between two parties:
+\begin{itemize}
+    \item the \textit{implementer} of the ADT, who is concerned with making the operations correct and efficient
+    \item the \textit{applications programmer} who just wants to use the ADT to get a job done
+\end{itemize}
+It doesn't matter if you are both of these parties (ie, you have built an ADT for personal use), the contract is sill essential for good quality code. The separation of concerns is essential in any large project.
+
+\subsection{Support for ADTs}
+Many high-level languages (C++, Java, C\#, Ada) provide encapsulation mechanisms that support data abstraction and provide built-in ADTs. This is seen as the Standard Template Library (STL) in C++; or in Java as it's interfaces and implementations in the standard library.\\
+
+These libraries provide many widely used ADTs, for example:
+\begin{description}
+    \item[stacks] access to the most recent item in the collection
+    \item[queues] access to the least recent item=
+\end{description}
+
+\subsection{Build Your Own ADT}
+It is, of course, possible to build your own ADT - the first step of this process is designing the ADT.\\
+
+Designing an ADT involves choosing a set of core operations for users to use the data type. The core operations support the basic uses of the data. For example, every ADT should provide a way to:
+\begin{itemize}
+    \item add an item
+    \item remove an item
+    \item find, retrieve, or access an item
+\end{itemize}
+As well as many more non-essential but useful operations:
+\begin{itemize}
+    \item check if a collection is empty
+    \item make a collection empty
+    \item retrieve a sub-set of th collection
+\end{itemize}
+
+The next stage of building your own ADT is to implement the ADT. To implement the ADT, you need to choose a \textit{data representation} and \textit{algorithms}. Data Representation refers to the way in which the data is stored - usually through an internal storage container. The users do not need to know this representation, and they should not be able to tamper with the representation. For this reason, data is generally made private; then users use accessors and mutators to access the data. 
+
+\section{Concurrency}
+Concurrency is the existence of multiple simultaneously active execution contexts.\\
+
+Concurrency can occur at a number of different levels:
+\begin{itemize}
+    \item Machine instruction level (via processor design)
+    \item Statement level: statements of high-level languages that support parallel computing 
+    \item Subprogram level: a single program has multiple concurrently running subprograms/threads on a single computer
+    \item Program level, where either: multiple programs run concurrently on a single computer; or a program / application runs on multiple (networked) computers or on multi-cores of high performance computers.
+\end{itemize}
+
+Each of these different levels have different names and behave slightly differently.\\
+
+At program level, when concurrency exists between multiple programs on a single computer, we call it multitasking (e.g. the way most operating systems control multiple tasks). However, whenever a program implements concurrency on multiple computers, we call it a distributed program - a program of which different pieces are on computers connected by a network.\\
+
+At subprogram level, when a program implements concurrency on a single computer, we call the program concurrent / parallel program. This program is said to be \textit{multithreaded}. The rest of this lecture will focus on concurrency at subprogram level. 
+
+\section{Subprogram-Level Concurrency}
+A task, process or thread of a program is a program unit that can be in concurrent execution with other program units. A task / processes / thread differs from ordinary subprograms in that:
+\begin{itemize}
+    \item A process / task is implicitly stated 
+    \item When a multithreaded program starts the execution of a thread, the rest of the program is not necessarily suspended
+    \item When a thread's execution is completed, control may not return to the caller
+\end{itemize}
+
+A task / thread is \textit{disjoint} if it does not communicate with (or affect the execution of) any other tasks in the program; otherwise it is a joint task and needs to be synchronised. Inter-thread communication is necessary for joint tasks, because a thread may need either exclusive access to some resource or to exchange data with another thread. If not synchronised, joint tasks can lead to race conditions or deadlocks. 
+
+\subsection{Race Conditions}
+A race condition occurs when the resulting value of a variable (or the status of an attribute) depends on the execution order of two or more threads. Therefore, depending on the timing order of the instructions, there could be different results. 
+
+\subsection{Deadlock}
+A deadlock is a situation in which two or more competing threads are each waiting for the other to finish while holding resources that the other needs, and therefore neither ever finishes. \\
+
+For deadlock to occur, all of the following conditions must hold simultaneously in a system:
+\begin{description}
+    \item[mutual exclusion] where resources may only be under mutual exclusion - only one process can use the resource at any time
+    \item[hold and wait] where a process is allowed to hold resources wile waiting for others which are being held by other processes
+    \item[no preemption] where resources cannot be forcibly removed once it is granted to a process
+    \item[circular wait] where a circular chain of threads exists in which each thread holds a resource needed by the next thread in the chain 
+\end{description}
+
+\subsection{Task Synchronisation}
+To remove race conditions and deadlocks, the order of execution of the tasks need to be controlled (synchronised). Synchronisation requires communication between the tasks, which can be provided by:
+\begin{itemize}
+    \item shared non-local variables
+    \item message passing
+    \item special data types (semaphores \& monitors)
+\end{itemize}
+Synchronisation can be cooperative, or competitive, depending upon the nature of the resource that must be shared.
+
+\subsubsection{Cooperative Synchronisation}
+Cooperative Synchronisation ensures two (or more) tasks work in a cooperative way to avoid deadlock. This means tha tone task must wait for the other task to finish execution before it may proceed; and that there are more than one unit of resources to be shared.\\
+
+This is best illustrated by the producer-consumer problem where one task produces something that the other task consumes. 
+
+\subsubsection{Competitive Synchronisation}
+Competitive Synchronisation ensures the exclusive access to critical resources by a single task at any one time - to avoid race conditions.
+
+\subsection{Synchronisation Implementation}
+Synchronisation can be implemented using special data structures, called \textit{semaphores} and \textit{monitors}. Semaphores can be used to implement both cooperative and competitive synchronisations; while Monitors wrap the resources with the mechanism for exclusive access control and implement competitive synchronisation. 
+
+\subsection{Semaphores}
+A semaphore is a data structure consisting of
