@@ -1,0 +1,112 @@
+\taughtsession{Lecture}{Windows and Active Directory Exploitation \& Password Attaks}{2024-04-29}{09:00}{Tobi}{}
+
+AD Exploitation is a beast of its own, we will quickly cover it today however it is full course of it's own. In the real world - penetration testers would specialise in an area, web apps being one or AD \& Corporate Infrastructure being another.\\
+
+The process you would follow to penetrate a Windows environment is exactly the same as you would follow to compromise a Linux environment. The difference comes in the tooling and commands you would use. Before attempting to compromise something, you need to identify what the target system is running on. 
+
+\section{What is an Active Directory?}
+An Active Directory (AD) is a hierarchical strucutre tat stores information about objects on the network. It is a Microsoft product which has been around for many years. It stores:
+\begin{itemize}
+    \item User Accounts and passwords (or hashes of them)
+    \item Computers
+    \item Peripheral Devices like printers
+    \item File Shares (ie SMB)
+    \item Security Groups
+\end{itemize}
+
+AD allows for simplified and central management of a Windows corporate network, enabling control over users and computers from a single location. AD allows for `grouping' of users to segregate different teams from each other which allows for good permission management.
+
+\subsection{LDAP}
+The \textit{Lightweight Directory Access Protocol} is a core component of AD which is used to authenticate that a user is who they say they are. It works as follows:
+\begin{enumerate}
+    \item User application communicates with Active Directory Authentication Library (ADAL), user enters credentials
+    \item Active Directory authenticates the request and sends an access / refresh token pair
+    \item The access / refresh token passes to the requested service for a continued session.
+\end{enumerate}
+
+\subsection{AD Services}
+Not only is AD a directory for centralised management, it can perform other tasks in the network:
+\begin{itemize}
+    \item Domain Services
+    \item Lightweight Directory Services
+    \item Lightweight Directory Access Protocol (LDAP)
+    \item Certificate Services
+    \item Active Directory Federation Services
+    \item Rights Management
+\end{itemize}
+
+You might have more than one \textit{Domain Controller}, this is the thing which sits at the heart of the AD and controls all aspects of the domains. It is good practice to have a primary and a backup. 
+
+\subsection{Security Identifiers (SID)}
+A Security Identifier (SID) is a unique value of variable length that is used to identify a security principal (such as security group) in Windows operating systems.\\
+
+The first stage which Penetration Testers do when they gain access to a system is to identify what level of access they are running as. Under Linux, they would be running the \verb|whoami| command. On Windows, when they gain access to the SID of they can identify if the account has Administrator access or not.
+
+% add example of SID and of some of the well known SIDs
+
+\subsection{Domain Services}
+AD Domain Services uses a tiered structure of consisting of domains, trees and forests. A domain is aa group of objects, such as users or devices that share the same AD database. A tree is one or more domains grouped together. A forest is a group of multiple trees, which consists of shared catalogs, directory schemes, application information and domain configurations; the schema defines an object's class and attributes in a forest. \\
+
+Within a domain - there are a number of other key terms:
+\begin{itemize}
+    \item Organizational Units (OU): used in organizing users, groups and devices. A domain can tontain its own OU. OUs cannot have namespaces.
+    \item Global catalog: contains partial information about every object in the forest (usually domain controllers DC)
+    \item Trust relationship: a logical relationship established between domains that allow pass-through authentication, providing for users in a trusted domain access resources in a trusting domain, without having a user account in the trusting domain
+    \item Containers: similar to OUs but cannot have a group policy object linked to it
+\end{itemize}
+
+% finish ad stuff
+
+\section{Password Attacks}
+Password Attacks are common, however should not be a first point of call in Penetration Testing. They can be very \textit{noisy} in a network, in that they can generate a lot of network traffic which could be spotted by monitoring software and then blocked.\\
+
+There are two types of password attacks: online, where we brute force by trying every possible password, and offline, where we crack a password hash and use that. 
+
+\subsection{Password Guessing}
+The most basic form of Password Attack, is \textit{password guessing} whereby the target's password is guessed through injecting authentication attempts direct to end-point (which could be a web-based login). This method has a high likelyhood of easy detection, can take a long time and there is a potential for bandwidth issues. This can be blocked at both ends and there could be an impact on services.
+
+\subsection{Sniffing}
+Password Sniffing involves sniffing network traffic which may result in picking up credentials, which if we're lucky - will be in plain text (however with HTTPS, this is less likely). You may also be able to pickup information which is not directly related to passwords, such as emails which can still be useful. This methods does, however, require network access - which could be handled through WiFi.
+
+\subsection{Use of Malware}
+It is possible to use malware to grab authentication credentials. This could be installed on the target computer, through drive-by-download, USB / CD / DVD, or through a network boot. They could also be `man in the browser', in which the browser releases the malware into the computer. 
+
+\subsection{Brute Force Attacks}
+In brute force attacks, threat actors try a number of different possible passwords until you have either exhausted all possibilities or found the password. This can be noisy on the network and generate a lot of network traffic.
+
+\subsection{Dumping Password Hash}
+We saw in Linux, that all password hashes for all users are stored in the \verb|/etc/passwd| file. This is not the case in Windows, rather it stores hashed user passwords in the \textit{Security Account Manager} (SAM) 6. The SYSKEY feature is uses to partially encrypt the SAM file. Passwords are either hashed with LM (which is very weak, through converting everything before hashing and not using salts), or NTLM. LM is not used on newer Windows OS. SAM files cannot be copied while the system is running, which therefore means we need tooling to extricate this!
+
+\subsection{Windows Password Hash}
+As we saw above, the Windows Password Hash is stored in the SAM file. Access to the SAM file is restricted and requires special software to access. LM hashing is no longer supported by default, however may be needed for legacy support.
+
+% add eg of windows password hash
+
+The LM hash is the easiest target. It splits the password into two 7-character segments, pads to 14 characters (using nulls) and converts to uppercase. This means that a 7-character password will have a well known suffix! There are 95 possible ASCII characters which could be included in the password, therefore there are $95^{14}$ possibilities. However, LM reduces password space to two units of $69^7$. \\
+
+We can use in-memory attacks to dum the SAM hashes. Two common tools, pwdump and fgfump inject a DLL containing the hash dumping code into the \textit{Local Security Authority Subsystem} (LSASS) process. LSASS has the necessary privileges to do what it needs to do; and fgdump will attempt to kill local antiviruses (which may have, otherwise, detected its presence).\\
+
+Windows Credential Editor (WCE) can steal NTLM credentials by using DLL injection or by reading the LSASS process memory.
+
+\subsection{Password Profiling and Mutating}
+When considering the password profile across an organisation, or user, which you are attempting to compromise - the first thing to consider is what policies the organisation has in place already. Then, it's useful to consider what you already know about the passwords. There are tools, such as John the Ripper, which can mutate passwords.
+
+\subsection{Online Attacks}
+Online attacks should only be used as a last resort. This is because they can cause account lockout, and trigger log alerts. There is a tradeoff between the speed of doing them and therefore the quick rewards and the risk associated with them. There is lots of tooling available which can be used to automate these attacks, such as Hydra, Medusa or Ncrack.
+
+\subsection{Cracking Password Hashes}
+As we saw a few weeks ago, it is possible to crack a password hash - however this process can be time consuming. Such a thing as \textit{Rainbow Tables} exist which contain pre-computed hashes and plaintext passwords which can drastically reduce the time it takes to crack a hash. 
+
+\subsection{Pass the Hash in Windows}
+Pass the Hash allows an attacker to authenticate to a remote target using a valid combination of username and NTLM / LM hash rather than a plaintext password. This is possible because there is then no need for a salt and the password hash will remain static between sessions. 
+
+\section{Countermeasures}
+There are a number of countermeasures which it may be possible to use to reduce the ease at which a threat actor could gain access to the system. \\
+
+One of these is through adding a salt to a hashing algorithm which makes it harder for the hash to be compromised. This is particularly relevant in web authentication where database tables full of passwords are stolen. \\
+
+Another method used is to disable LM in Windows. This can be done locally, or through policies. At the same time, it is a good idea to raise the minimum password length to 14 thereby meaning that there will not be any null-padding and therefore no patterns of passwords. \\
+
+One of the strongest countermeasures is to educate users on strong passwords and enforce this. This involves enforcing a minimum password length, complexity, no sharing of them, enforcing a change at a predetermined frequency, disallowing reuse and disallowing default passwords.\\
+
+It is also important to ensure that admins and developers are aware of security issues, through ensuring a strong password selection process, giving feedback to this, having strength meters, validity checking and ensuring strong password storage as well as implementing lockouts if a maximum number of attempts is exceeded. 
