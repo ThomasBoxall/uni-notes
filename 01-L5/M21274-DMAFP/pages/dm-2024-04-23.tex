@@ -1,7 +1,7 @@
 \taughtsession{Lecture}{Network Models and Digraphs}{2024-04-23}{17:00}{Janka}{}
 
 \section{Directed Graphs}
-Another use of graphs, which we are yet to explore, is how they cna be used to model real life situations. In situations where edges are representing roads or pipes then they need to be associated with directions / weights, from this we get a directed graph (a \textit{digraph}). \\
+Another use of graphs, which we are yet to explore, is how they can be used to model real life situations. In situations where edges are representing roads or pipes then they need to be associated with directions / weights, from this we get a directed graph (a \textit{digraph}). \\
 
 A Digraph is a pair $(V, E)$ of sets, $V$ is a nonempty set of vertices, $E$ is a set of ordered pairs of distinct elements of $V$, called arcs (edges).\\
 
@@ -150,7 +150,7 @@ Oil is unloaded at the dock, $S$, (the source) and pumped through the network to
 The weight on the arcs shows the capacities of the pipelines. Our goal is to pump as much oil as possible from $S$ to $T$. To formalise such a concept, we use the term \textit{a flow}. 
 
 \subsection{A Flow}
-A flow in a network is a description of the amount of commodity that can flow along the network (in a unit of time). No pipe must receive more than it can cope with (therefore `flow $leq$ capacity' for each arc); and no commodity must be lost along the way (`flow in = flow out' for all vertices except $S$ and $T$).\\
+A flow in a network is a description of the amount of commodity that can flow along the network (in a unit of time). No pipe must receive more than it can cope with (therefore `flow $\leq$ capacity' for each arc); and no commodity must be lost along the way (`flow in = flow out' for all vertices except $S$ and $T$).\\
 
 A flow assigns to each arc $e$ which is a non-negative number, $f(e)$, subject to the previous two constraints. Note the notation is of the form \textit{flow, capacity} assigned to each arc.  This can be seen in the following example:
 
@@ -187,7 +187,13 @@ A flow assigns to each arc $e$ which is a non-negative number, $f(e)$, subject t
 \begin{minipage}{0.45\textwidth}
 We camp pump 2 units from $S$ to $T$ through $A$ and $D$ and 0 through the other arcs.
 \end{minipage}\vspace{0.5em}
-
+the potential edges in blue.
+a
+7
+5
+8
+b
+9
 This assignment has the properties:
 \begin{itemize}
     \item Each arc ``flow ($e$) \leq capacity ($e$)''
@@ -395,7 +401,7 @@ However, as we could expect - we're not done yet! There are still further improv
 If we consider a path, $P$, from $S$ to $T$ in the underlying undirected graph (eg $P = (S, B, C, A, D, T)$). Then:
 \begin{itemize}
     \item an edge, $e$, is a forward arc (with respect to the path $P$) if the orientation of $e$ follows the direction of $p$, eg $SB$ or $AD$,
-    \item otherwise (if arcs are directed against the direction of the path $P$), $e$ is a backwards arc, eg $AC$.
+    \item otherwise (if arcs are directed against the direction of the path $P$), $e$ is a backwards arc, eg $CA$.
 \end{itemize}
 
 We will now also consider a path from $S$ to $T$ (in an underlying undirected graph) with the properties:

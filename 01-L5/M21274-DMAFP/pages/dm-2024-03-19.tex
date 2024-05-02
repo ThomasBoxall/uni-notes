@@ -52,7 +52,7 @@ A walk of length 9: d - da - a - ab - b - be - e - ed - d - db - b - bc - c - ce
 
 Alternatively represented as:\\
 (d, a, b, e, d, b, c, e, d, f)
-\end{minipage}
+\end{minipage}\vspace{0.5em}
 
 A walk is \textit{closed} if the first vertex is the same as the last, for example the walk (d, a, b, e, d, b, c, e, d), and is otherwise said to be an \textit{open} walk.
 
@@ -455,7 +455,7 @@ Applying the Theorem to our K\"{o}nigsberg bridge problem, we see that: the grap
 \subsection{Construction of Eulerian Circuit}
 We have a necessary and sufficient condition for a graph being Eulerian. To find an Eulerian circuit within Eulerian graphs, there exists an efficient algorithm. This algorithm is called \textit{Fleury's Algorithm}. 
 
-\subsection*{Fleury's Algorithm}
+\subsection{Fleury's Algorithm}
 We start with an Eulerian Graph on the input
 \begin{enumerate}
     \item Choose any vertex to start
@@ -534,7 +534,7 @@ We can take the formal definition of the adjacency matrix to be: Let $G$ be a gr
 \subsection{Example Adjacency Matrix}
 Shown below is an example graph, $G$, the corresponding adjacencies represented in a table and the corresponding adjacency matrix, $A$.
 
-\begin{minipage}{0.35\textwidth}
+\begin{minipage}[b][][b]{0.35\textwidth}
     \begin{figure}[H]
         \centering
         \begin{tikzpicture}[node distance= 1.5cm,]
@@ -563,7 +563,7 @@ Shown below is an example graph, $G$, the corresponding adjacencies represented 
         \caption{$G$}
     \end{figure}
 \end{minipage} \hfill
-\begin{minipage}{0.55\textwidth}
+\begin{minipage}[b][][b]{0.55\textwidth}
     \begin{table}[H]
         \centering
         {\RaggedRight
@@ -589,7 +589,7 @@ Shown below is an example graph, $G$, the corresponding adjacencies represented 
     \end{table}
 \end{minipage}\vspace{0.5em}
 
-\begin{minipage}{0.35\textwidth}
+\begin{center}
     \begin{equation*}
         A =  
         \begin{bmatrix}
@@ -601,10 +601,7 @@ Shown below is an example graph, $G$, the corresponding adjacencies represented 
         1 & 1 & 0 & 0 & 1 & 0 \\
         \end{bmatrix}
     \end{equation*}
-\end{minipage} \hfill
-\begin{minipage}{0.55\textwidth}
-    \
-\end{minipage}
+\end{center}
 
 \subsection{Properties of an Adjacency Matrix}
 \begin{itemize}

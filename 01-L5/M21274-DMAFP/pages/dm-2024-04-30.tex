@@ -1,0 +1,317 @@
+\taughtsession{Lecture}{Connectivity and Cuts}{2024-04-30}{1700}{Janka}{}
+
+In Graph Theory, properties of graphs are intensively studied, These properties will be covered in this lecture:
+\begin{itemize}
+    \item edge-connectivity;
+    \item vertex-connectivity
+\end{itemize}
+
+\section{Edge-Connectivity}
+
+The edge-connectivity, $\lambda (G)$ of a connected graph, $G$, is the smallest number of edges whose removal may disconnect $G$. This can be seen with a graph below:
+
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 0.75cm,]
+            \node[graphnodesml, draw] (tl) {};
+            \node[] (ml) [below of=tl] {};
+            \node[graphnodesml, draw] (bl) [below of=ml] {};
+            \node[] (bml) [right of=bl] {};
+            \node[] (bmr) [right of=bml] {};
+            \node[graphnodesml, draw] (br) [right of=bmr] {};
+            \node[] (mr) [above of=br] {};
+            \node[graphnodesml, draw] (tr) [above of=mr] {};
+            \node[graphnodesml, draw] (mll) [right of=ml] {};
+            \node[graphnodesml, draw] (mlr) [right of=mll] {};
+
+            \draw (tl) -- (bl);
+            \draw (bl) -- (br);
+            \draw (br) -- (tr);
+            \draw (tr) -- (tl);
+            \draw (bl) -- (mll);
+            \draw (mll) -- (mlr);
+            \draw (mlr) -- (br);
+
+        \end{tikzpicture}
+        \caption{Connected Graph}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+    If we remove any edge, the graph is still connected. However, there exists two edges such that if we remove them, the graph becomes disconnected. Therefore $\lambda(G)=2$. 
+\end{minipage}\vspace{0.5em}
+
+As we have seen above, this means that we can take $G$ to have an edge-connectivity $\lambda (G)$ if:
+\begin{itemize}
+    \item there exists $\lambda (G)$ edges such that their removal disconnects $G$
+    \item removal of any $\lambda (G) - 1$ edges does not disconnect $G$.
+\end{itemize}
+
+\subsection{Edge-Cuts}
+The edge cut of a graph is a set of edges whose removal renders the graph disconnected. Two examples of this can be seen below, with the edges to remove in grey.
+
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 0.75cm,]
+            \node[graphnodesml, draw] (tl) {};
+            
+            \node[] (mtl) [below of=tl] {};
+            \node[] (mbl) [below of=mtl] {};
+            \node[graphnodesml, draw] (bl) [below of=mbl] {};
+
+            \node[] (bml) [right of=bl] {};
+            \node[] (bmr) [right of=bml] {};
+            \node[graphnodesml, draw] (br) [right of=bmr] {};
+
+            \node[] (mbr) [above of= br] {};
+            \node[] (mbt) [above of= mbr] {};
+            \node[graphnodesml, draw] (tr) [above of= mbt] {};
+
+            \node[graphnodesml, draw] (itl) [right of= mtl] {};
+            \node[graphnodesml, draw] (itr) [right of= itl] {};
+            \node[graphnodesml, draw] (ibr) [below of= itr] {};
+            \node[graphnodesml, draw] (ibl) [below of= itl] {};
+
+            \draw[emphline] (tl) -- (tr);
+            \draw[emphline] (tl) -- (itl);
+            \draw[emphline] (itl) -- (ibl);
+            \draw[emphline] (ibl) -- (ibr);
+            \draw[emphline] (ibr) -- (br);
+            \draw[emphline] (tr) -- (br);
+
+            \draw (tl) -- (bl);
+            \draw (bl) -- (br);
+            \draw (br) -- (tr);
+            \draw (tr) -- (tl);
+            
+            \draw (itl) -- (ibl);
+            \draw (ibl) -- (ibr);
+            \draw (ibr) -- (itr);
+            \draw (itr) -- (itl);
+
+            \draw (tl) -- (itl);
+            \draw (tr) -- (itr);
+            \draw (bl) -- (ibl);
+            \draw (br) -- (ibr);
+
+        \end{tikzpicture}
+        \caption{6 edges, displayed}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 0.75cm,]
+            \node[graphnodesml, draw] (tl) {};
+            
+            \node[] (mtl) [below of=tl] {};
+            \node[] (mbl) [below of=mtl] {};
+            \node[graphnodesml, draw] (bl) [below of=mbl] {};
+
+            \node[] (bml) [right of=bl] {};
+            \node[] (bmr) [right of=bml] {};
+            \node[graphnodesml, draw] (br) [right of=bmr] {};
+
+            \node[] (mbr) [above of= br] {};
+            \node[] (mbt) [above of= mbr] {};
+            \node[graphnodesml, draw] (tr) [above of= mbt] {};
+
+            \node[graphnodesml, draw] (itl) [right of= mtl] {};
+            \node[graphnodesml, draw] (itr) [right of= itl] {};
+            \node[graphnodesml, draw] (ibr) [below of= itr] {};
+            \node[graphnodesml, draw] (ibl) [below of= itl] {};
+
+            \draw (tl) -- (bl);
+            \draw (bl) -- (br);
+            
+            \draw (ibr) -- (itr);
+            \draw (itr) -- (itl);
+
+            \draw (tr) -- (itr);
+            \draw (bl) -- (ibl);
+
+        \end{tikzpicture}
+        \caption{6 edges, removed}
+    \end{figure}
+\end{minipage}\vspace{0.5em}
+
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 0.75cm,]
+            \node[graphnodesml, draw] (tl) {};
+            
+            \node[] (mtl) [below of=tl] {};
+            \node[] (mbl) [below of=mtl] {};
+            \node[graphnodesml, draw] (bl) [below of=mbl] {};
+
+            \node[] (bml) [right of=bl] {};
+            \node[] (bmr) [right of=bml] {};
+            \node[graphnodesml, draw] (br) [right of=bmr] {};
+
+            \node[] (mbr) [above of= br] {};
+            \node[] (mbt) [above of= mbr] {};
+            \node[graphnodesml, draw] (tr) [above of= mbt] {};
+
+            \node[graphnodesml, draw] (itl) [right of= mtl] {};
+            \node[graphnodesml, draw] (itr) [right of= itl] {};
+            \node[graphnodesml, draw] (ibr) [below of= itr] {};
+            \node[graphnodesml, draw] (ibl) [below of= itl] {};
+
+            \draw[emphline] (tl) -- (tr);
+            \draw[emphline] (itl) -- (itr);
+            \draw[emphline] (bl) -- (br);
+            \draw[emphline] (ibl) -- (ibr);
+            
+
+            \draw (tl) -- (bl);
+            \draw (bl) -- (br);
+            \draw (br) -- (tr);
+            \draw (tr) -- (tl);
+            
+            \draw (itl) -- (ibl);
+            \draw (ibl) -- (ibr);
+            \draw (ibr) -- (itr);
+            \draw (itr) -- (itl);
+
+            \draw (tl) -- (itl);
+            \draw (tr) -- (itr);
+            \draw (bl) -- (ibl);
+            \draw (br) -- (ibr);
+
+        \end{tikzpicture}
+        \caption{4 edges, displayed}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 0.75cm,]
+            \node[graphnodesml, draw] (tl) {};
+            
+            \node[] (mtl) [below of=tl] {};
+            \node[] (mbl) [below of=mtl] {};
+            \node[graphnodesml, draw] (bl) [below of=mbl] {};
+
+            \node[] (bml) [right of=bl] {};
+            \node[] (bmr) [right of=bml] {};
+            \node[graphnodesml, draw] (br) [right of=bmr] {};
+
+            \node[] (mbr) [above of= br] {};
+            \node[] (mbt) [above of= mbr] {};
+            \node[graphnodesml, draw] (tr) [above of= mbt] {};
+
+            \node[graphnodesml, draw] (itl) [right of= mtl] {};
+            \node[graphnodesml, draw] (itr) [right of= itl] {};
+            \node[graphnodesml, draw] (ibr) [below of= itr] {};
+            \node[graphnodesml, draw] (ibl) [below of= itl] {};
+
+            \draw (tl) -- (bl);
+            \draw (br) -- (tr);
+            
+            \draw (itl) -- (ibl);
+            \draw (ibr) -- (itr);
+
+            \draw (tl) -- (itl);
+            \draw (tr) -- (itr);
+            \draw (bl) -- (ibl);
+            \draw (br) -- (ibr);
+
+        \end{tikzpicture}
+        \caption{4 edges, removed}
+    \end{figure}
+\end{minipage}\vspace{0.5em}
+
+The edge-connectivity of a graph is the size of the smallest edge cut of $G$. A graph, $G$, is $k$-edge connected when $\lambda(G) \geq k$. This means it remains connected whenever fewer than $k$ edges are removed.\\
+
+For example, a 2-edge-connected or 3-edge-connected graph would have an edge-connectivity ($\lambda(G)$) of 3, therefore:
+\[\lambda (G) \geq k \text{ for } k = 1, 2, 3\]
+
+\section{Vertex Connectivity}
+The vertex-connectivity, $\kappa(G)$, of a connected graph, $G$, is the smallest number of vertices whose removal may disconnect $G$. Note that when a vertex is removed from a graph, the edges incident to it are also removed. This can be seen in an example below
+
+\begin{minipage}{0.3\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 0.75cm,]
+            \node[graphnodesml, draw] (tl) {};
+            \node[] (ml) [below of=tl] {};
+            \node[graphnodesml, draw] (bl) [below of=ml] {};
+            \node[] (bml) [right of=bl] {};
+            \node[] (bmr) [right of=bml] {};
+            \node[graphnodesml, draw] (br) [right of=bmr] {};
+            \node[] (mr) [above of=br] {};
+            \node[graphnodesml, draw] (tr) [above of=mr] {};
+            \node[graphnodesml, draw] (mll) [right of=ml] {};
+            \node[graphnodesml, draw] (mlr) [right of=mll] {};
+
+            \draw (tl) -- (bl);
+            \draw (bl) -- (br);
+            \draw (br) -- (tr);
+            \draw (tr) -- (tl);
+            \draw (bl) -- (mll);
+            \draw (mll) -- (mlr);
+            \draw (mlr) -- (br);
+
+        \end{tikzpicture}
+        \caption{Example Graph}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.3\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 0.75cm,]
+            \node[] (tl) {};
+            \node[] (ml) [below of=tl] {};
+            \node[graphnodesml, draw] (bl) [below of=ml] {};
+            \node[] (bml) [right of=bl] {};
+            \node[] (bmr) [right of=bml] {};
+            \node[] (br) [right of=bmr] {};
+            \node[] (mr) [above of=br] {};
+            \node[graphnodesml, draw] (tr) [above of=mr] {};
+            \node[graphnodesml, draw] (mll) [right of=ml] {};
+            \node[graphnodesml, draw] (mlr) [right of=mll] {};
+
+            \draw (tl) -- (bl);
+            \draw (bl) -- (br);
+            \draw (br) -- (tr);
+            \draw (tr) -- (tl);
+            \draw (bl) -- (mll);
+            \draw (mll) -- (mlr);
+            \draw (mlr) -- (br);
+
+        \end{tikzpicture}
+        \caption{TL \& BR vertices removed}
+    \end{figure}
+\end{minipage} \hfill
+\begin{minipage}{0.3\textwidth}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 0.75cm,]
+            \node[] (tl) {};
+            \node[] (ml) [below of=tl] {};
+            \node[graphnodesml, draw] (bl) [below of=ml] {};
+            \node[] (bml) [right of=bl] {};
+            \node[] (bmr) [right of=bml] {};
+            \node[] (br) [right of=bmr] {};
+            \node[] (mr) [above of=br] {};
+            \node[graphnodesml, draw] (tr) [above of=mr] {};
+            \node[graphnodesml, draw] (mll) [right of=ml] {};
+            \node[graphnodesml, draw] (mlr) [right of=mll] {};
+
+            \draw (bl) -- (mll);
+            \draw (mll) -- (mlr);
+
+        \end{tikzpicture}
+        \caption{Incident edges removed}
+    \end{figure}
+\end{minipage} \vspace{0.5em}
+
+After removing any one vertex, the graph is still connected; however there exists two vertices such that removing both of them means the graph becomes disconnected. Therefore $\kappa(G) = 2$. \\
+
+A vertex cut of a connected graph, $G$, is a set of vertices whose removal renders $G$ disconnected. The vertex-connectivity, $\kappa(G)$ is the size of the smallest vertex cut.\\
+
+In complete graphs, the vertex-connectivity definition breaks down because $G$ cannot be disconnected by removing vertices. The vertex connectivity of a complete graph, $K_n$, is $n-1$.\\
+
+A graph, $G$, is said to be $k$-vertex connected (or $k$-connected) if the graph remains connected when you delete fewer than $k$ vertices from the graph.

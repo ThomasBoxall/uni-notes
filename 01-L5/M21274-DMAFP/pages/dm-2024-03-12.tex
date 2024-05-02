@@ -34,7 +34,8 @@ A graph, $G$ is a pair $(V, E)$ of sets:
 \end{minipage} \hfill
 \begin{minipage}{0.55\textwidth}
 If $e \in E$, then $e = \{u, v\}$, $u$ and $v$ are different elements of $V$ called the end vertices of $e$ (where $e$ joins vertices $u$ and $v$). 
-\end{minipage}
+\end{minipage}\vspace{0.5em}
+
 The notation for $v$ and $u$ changes too; we can use $uv$ instead of $e = \{u, v\}$ for the edge $e$, meaning $uv$ and $vu$ are the same edge. The vertices $u$ and $v$ are said to be \textit{incident} with the edge $uv$ or that they are \textit{adjacent} because they are the end vertices of an edge.\\
 
 We are only considering Finite Graphs in this module. These are graphs in which all their elements are defined and are capped in a certain place.
@@ -57,7 +58,7 @@ We are only considering Finite Graphs in this module. These are graphs in which 
             \path (D) edge[above] node[align=center] {} (C);
             \path (D) edge[above] node[align=center] {} (E);
         \end{tikzpicture}
-        \caption{Example of a Finite Graph}
+        \caption{Finite Graph}
     \end{figure}
 \end{minipage} \hfill
 \begin{minipage}{0.65\textwidth}
@@ -66,7 +67,7 @@ We are only considering Finite Graphs in this module. These are graphs in which 
     E &= \{\{v_1, v_2\}, \{v_2, v_4\}, \{v_1, v_3\}, \{v_3, v_4\}, \{v_3, v_5\}, \{v_4, v_5\}\} \\
     \mathrm{or\ } E &= \{v_1v_2, v_2v_4, v_1v_3, v_3v_4, v_3v_5, v_4v_5\}
 \end{align*}
-\end{minipage}
+\end{minipage}\vspace{0.5em}
 
 Note that although the diagrams of the graph can look nice, and help us to visualise them - they are not actually important for most of our problems.
 
@@ -156,7 +157,7 @@ The number of edges incident with a vertex, $v$, is called the degree of $v$ and
     & \deg V_1 = 3, && \deg V_2 = 5, \\
     & \deg V_3 = 5 && 
 \end{align*}
-\end{minipage}
+\end{minipage}\vspace{0.5em}
 
 Note that $V_5$ is an isolated vertex in the above example. 
 
@@ -198,11 +199,11 @@ This is a great revelation, however it lead to two more revelations:
 \end{enumerate}
 
 \section{Special Types of Graphs}
-We will now see that there are special types of graphs that have their oen names.
+We will now see that there are special types of graphs that have their own names.
 \subsection{Complete Graphs}
 For any positive integer $n$, the complete graph on $n$ vertices, denoted $K_n$, is that graph with $n$ vertices every two of which are adjacent.
 
-\begin{minipage}{0.23\textwidth}
+\begin{minipage}[b][][b]{0.23\textwidth}
     \begin{figure}[H]
         \centering
         \begin{tikzpicture}[node distance= 1.5cm,]
@@ -211,7 +212,7 @@ For any positive integer $n$, the complete graph on $n$ vertices, denoted $K_n$,
         \caption{$K_1$}
     \end{figure}
 \end{minipage} \hfill
-\begin{minipage}{0.23\textwidth}
+\begin{minipage}[b][][b]{0.23\textwidth}
     \begin{figure}[H]
         \centering
         \begin{tikzpicture}[node distance= 1.5cm,]
@@ -222,7 +223,7 @@ For any positive integer $n$, the complete graph on $n$ vertices, denoted $K_n$,
         \caption{$K_2$}
     \end{figure}
 \end{minipage} \hfill
-\begin{minipage}{0.23\textwidth}
+\begin{minipage}[b][][b]{0.23\textwidth}
     \begin{figure}[H]
         \centering
         \begin{tikzpicture}[node distance= 1.5cm,]
@@ -236,7 +237,7 @@ For any positive integer $n$, the complete graph on $n$ vertices, denoted $K_n$,
         \caption{$K_3$}
     \end{figure}
 \end{minipage} \hfill
-\begin{minipage}{0.23\textwidth}
+\begin{minipage}[b][][b]{0.23\textwidth}
     \begin{figure}[H]
         \centering
         \begin{tikzpicture}[node distance= 1.5cm,]
@@ -253,13 +254,13 @@ For any positive integer $n$, the complete graph on $n$ vertices, denoted $K_n$,
         \end{tikzpicture}
         \caption{$K_4$}
     \end{figure}
-\end{minipage} 
+\end{minipage} \vspace{0.5em}
 % could do K_5 if I feel the urge in the future.
 
 The complete graph on $n$ has $\displaystyle \frac{n(n-1)}{2}$ edges because Eulers theorem. 
 
 \subsection{Bipartite Graphs}
-A bipartite graph is one whose vertices can be partitioned into disjoint sets $v_1$ and $V_2$ in such a way that every edge joins in a vertex in $V_1$ and a vertex in $V_2$ (no edges within $V_1$ nor within $V_2$). 
+A bipartite graph is one whose vertices can be partitioned into disjoint sets $V_1$ and $V_2$ in such a way that every edge joins in a vertex in $V_1$ and a vertex in $V_2$ (no edges within $V_1$ nor within $V_2$). 
 
 \begin{minipage}{0.5\textwidth}
     \begin{figure}[H]
@@ -307,7 +308,7 @@ A bipartite graph is one whose vertices can be partitioned into disjoint sets $v
         \end{tikzpicture}
         \caption{Complete bipartite graph}
     \end{figure}
-\end{minipage}
+\end{minipage}\vspace{0.5em}
 
 A complete bipartite graph is a bipartite graph in which every vertex in $V_1$ is joined to every vertex in $V_2$. 
 
@@ -409,7 +410,7 @@ Two graphs, $G$ and $H$ are said to be isomorphic if $H$ can be obtained from $G
     \end{tikzpicture}
     \caption{$H$}
 \end{figure}
-\end{minipage}
+\end{minipage}\vspace{0.5em}
 
 In the above example, $v_1$ maps to $u_1$, $v_2$ to $u_2$ and so on. What this means is that if the $u$ labelling was to be replaced with the $v$ labelling - the same graph would be obtained.\\
 

@@ -13,7 +13,8 @@ The elements of a set are enclosed in braces with their names being denoted by a
 
 There are two ways that we can describe the members of a set. We can \textit{list the elements} which is mainly used for finite sets, for example:
 \[A = \{3, 6, 9, 12\}\]
-We can \textit{specify a property} that all the elements in the set have in common. The `$|$' character is read `such that', sometimes `$:$' is used in it's place. For example:
+
+Alternatively, we can \textit{specify a property} that all the elements in the set have in common. The `$|$' character is read `such that', sometimes `$:$' is used in it's place. For example:
 \[B = \{x | x \mathrm{\ is\ a\ multiple\ of\ 3\ and\ } 0 < x < 15\}\]
 We can also use \textit{three dots} to informally denote a sequence of elements that we don't wish to write down, for example:
 \[C = \{1, \ldots, 10\}\]
@@ -76,6 +77,35 @@ The intersection of two sets $A$ and $B$ is defined as:
 \[A \cap B = \{ x | x \in A \mathrm{\ and\ } x \in B \}\]
 This is the set of elements which appear in both sets only. If we take a Venn Diagram with a set on either side -  its the overlapped elements which would be returned from an intersection operation. For example if $A = \{a, b, c\}$ and $B = \{c, d\}$ then $A \cap B = \{c\}$. 
 
+\begin{figure}[H]
+    \centering
+
+    \begin{tikzpicture}[thick,
+        set/.style = {circle,
+            minimum size = 3cm,
+            }]
+    
+    % Set A
+    \node[set,label={135:$A$}] (A) at (0,0) {};
+    
+    % Set B
+    \node[set,label={45:$B$}] (B) at (1.8,0) {};
+    
+    % Intersection
+    \begin{scope}
+        \clip (0,0) circle(1.5cm);
+        \clip (1.8,0) circle(1.5cm);
+        \fill[gray](0,0) circle(1.5cm);
+    \end{scope}
+    
+    % Circles outline
+    \draw (0,0) circle(1.5cm);
+    \draw (1.8,0) circle(1.5cm);
+    
+    \end{tikzpicture}  
+    \caption{$A \cap B$}  
+\end{figure}
+
 \subsection{Disjoint}
 If an intersection returns no elements, then the two sets are \textit{disjoint}. This is shown by:
 \[A \cap B = \emptyset\]
@@ -85,10 +115,101 @@ The \textit{union} of the two sets $A$ and $B$ is defined as:
 \[A \cup B = \{ x | x \in A \mathrm{\ or \ } x \in B \}\]
 This is the set of elements which are in either $A$ or $B$, this means elements which appear in both are returned. For example, if $A = \{a, b, c\}$ and $B=\{c, d\}$ then $A \cup B = \{a, b, c, d\}$.
 
+\begin{figure}[H]
+    \centering
+
+    \begin{tikzpicture}[thick,
+        set/.style = {circle,
+            minimum size = 3cm,
+            fill=gray
+            }]
+    
+    % Set A
+    \node[set,label={135:$A$}] (A) at (0,0) {};
+    
+    % Set B
+    \node[set,label={45:$B$}] (B) at (1.8,0) {};
+    
+    % Intersection
+    \begin{scope}
+        \clip (0,0) circle(1.5cm);
+        \clip (1.8,0) circle(1.5cm);
+        \fill[gray](0,0) circle(1.5cm);
+    \end{scope}
+    
+    % Circles outline
+    \draw (0,0) circle(1.5cm);
+    \draw (1.8,0) circle(1.5cm);
+    
+    \end{tikzpicture}  
+    \caption{$A \cup B$}  
+\end{figure}
+
 \subsection{Difference}
 The \textit{difference} between two sets, $A$ and $B$ is defined as:
 \[A \setminus B = \{ x | x \in A \mathrm{\ or \ } x \in B\}\]
 This is the set of elements which are in $A$ but not in $B$, so could be represented as $A-B$. Note that $A \setminus B \neq B \setminus A$.
+
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+        \centering
+    
+        \begin{tikzpicture}[thick,
+            set/.style = {circle,
+                minimum size = 3cm,
+                }]
+        
+        % Set A
+        \node[set,fill=gray,label={135:$A$}] (A) at (0,0) {};
+        
+        % Set B
+        \node[set,label={45:$B$}] (B) at (1.8,0) {};
+        
+        % Intersection
+        \begin{scope}
+            \clip (0,0) circle(1.5cm);
+            \clip (1.8,0) circle(1.5cm);
+            \fill[white](0,0) circle(1.5cm);
+        \end{scope}
+        
+        % Circles outline
+        \draw (0,0) circle(1.5cm);
+        \draw (1.8,0) circle(1.5cm);
+        
+        \end{tikzpicture}  
+        \caption{$A \setminus B$}  
+    \end{figure}
+\end{minipage}\hfill
+\begin{minipage}{0.45\textwidth}
+    \begin{figure}[H]
+        \centering
+    
+        \begin{tikzpicture}[thick,
+            set/.style = {circle,
+                minimum size = 3cm,
+                }]
+        
+        % Set A
+        \node[set,label={135:$A$}] (A) at (0,0) {};
+        
+        % Set B
+        \node[set,fill=gray,label={45:$B$}] (B) at (1.8,0) {};
+        
+        % Intersection
+        \begin{scope}
+            \clip (0,0) circle(1.5cm);
+            \clip (1.8,0) circle(1.5cm);
+            \fill[white](0,0) circle(1.5cm);
+        \end{scope}
+        
+        % Circles outline
+        \draw (0,0) circle(1.5cm);
+        \draw (1.8,0) circle(1.5cm);
+        
+        \end{tikzpicture}  
+        \caption{$B \setminus A$}  
+    \end{figure}
+\end{minipage}
 
 \subsection{Counting Elements In a Set}
 If we take $A$ and $B$ to be finite sets, we can calculate the number of elements in the union of $A$ and $B$. The correct way to count this is as follows:
