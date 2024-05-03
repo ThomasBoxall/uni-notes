@@ -53,7 +53,7 @@ If we take the example of the implementation of a Prelude defined function \verb
 \end{verbatim}
 The function is defined to return a sum of a list of integers.\\
 
-THe base case of our function will be when the list is empty, as the sum of \verb|[]| is obviously \verb|0|. The recursive case will be where \verb|xs| is greater than 0. Therefore, we can define the function as
+The base case of our function will be when the list is empty, as the sum of \verb|[]| is obviously \verb|0|. The recursive case will be where \verb|xs| is greater than 0. Therefore, we can define the function as
 \begin{verbatim}
     sum []      = 0
     sum (x:xs)  = x + sum xs

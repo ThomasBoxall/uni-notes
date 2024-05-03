@@ -34,7 +34,7 @@ It is also possible to use a wildcard to simplify pattern matching. This can be 
 \begin{verbatim}
     (||) :: Bool -> Bool -> Bool
     False || False = False
-    _ | _          = True
+    _ || _          = True
 \end{verbatim}
 Alternatively, we can also use \textit{named parameters} which can take a value from the pattern and use it in the output. An example of this is shown below
 \begin{verbatim}

@@ -22,10 +22,10 @@ The \verb|Char| module defines some useful functions on characters. Such as conv
 \end{verbatim}
 
 \section{Tuples}
-As seen in other languages, we can combine multiple pieces of data into one data type. For example, we may want to combine a name (represented as a string) and a mark (represented as an integer) for example \verb|("Dave", 74)| which would have the tuple type \verb|(String,Int)|. This example can be furthered to a small program which takes two Tuples representing a student and outputs the name of the student with the higher mark:
+As seen in other languages, we can combine multiple pieces of data into one data type. For example, we may want to combine a name (represented as a string) and a mark (represented as an integer) for example \verb|("Dave", 74)| which would have the tuple type \verb|(String, Int)|. This example can be furthered to a small program which takes two Tuples representing a student and outputs the name of the student with the higher mark:
 \begin{verbatim}
-    betterStu :: (String,Int) -> (String,Int) -> String
-    betterStu (s1,m1) (s2,m2)
+    betterStu :: (String, Int) -> (String, Int) -> String
+    betterStu (s1, m1) (s2, m2)
         | m1 >= m2  = s1
         | otherwise = s2
 \end{verbatim}
@@ -34,7 +34,7 @@ We can define a \textit{type synonym} which can be used in the place of the raw 
 \begin{verbatim}
     type StudentMark = (String, Int)
     betterStu :: StudentMark -> StudentMark -> String
-    betterStu (s1,m1) (s2,m2)
+    betterStu (s1, m1) (s2, m2)
         | m1 >= m2  = s1
         | otherwise = s2
 \end{verbatim}
@@ -133,7 +133,7 @@ However! The actual type of \verb|length| is given as:
 \begin{verbatim}
     length :: [a] -> Int
 \end{verbatim}
-Here, we are using a \textit{type variable} which stands for an \textit{arbitrary type}. By convention \verb|a|, \verb|b|, \verb|c|, \ldots are used as type variables.\\
+Here, we are using a \textit{type variable} which stands for an \textit{arbitrary type}. By convention \verb|a|, \verb|b|, \verb|c|, \ldots{} are used as type variables.\\
 
 The expressions \verb|[a] -> Int| is known as the \textit{most general type} for \verb|length|
 
