@@ -315,3 +315,17 @@ A vertex cut of a connected graph, $G$, is a set of vertices whose removal rende
 In complete graphs, the vertex-connectivity definition breaks down because $G$ cannot be disconnected by removing vertices. The vertex connectivity of a complete graph, $K_n$, is $n-1$.\\
 
 A graph, $G$, is said to be $k$-vertex connected (or $k$-connected) if the graph remains connected when you delete fewer than $k$ vertices from the graph.
+
+\section{Upper Bounds for Connectives}
+To get the upper bounds on $\lambda(G)$ and $\kappa(G)$ we can use the following theorem: \textit{For any connected graph} $G = (V, E)$:
+\[\kappa(G) \leq \lambda (G) \leq \delta (G) \leq \frac{2|E|}{|V|}\]
+$\delta(G)$ \textit{is the smallest vertex-degree in} $G$.\\
+
+Note that $\frac{2|E|}{|V|} \displaystyle$ is the average of the vertex-degrees; therefore the sum of the vertex-degrees is $2|V|$.  
+
+\section{Optimal Connectivity}
+A graph, $G$, where:
+\[\kappa(G) = \lambda (G) = \delta (G) = \frac{2|E|}{|V|}\]
+is a graph which has the maximum vertex-connectivity and the maximum edge-connectivity possible for any graph with $|V|$ vertices and $|E|$ edges. A graph with these conditions is said to have \textit{optimal connectivity}. \\
+
+All graphs which have optimal connectivity are regular graphs where every vertex has the same degree, however not every graph has optimal connectivity. 
