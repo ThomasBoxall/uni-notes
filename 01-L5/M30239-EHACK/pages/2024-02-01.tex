@@ -1,0 +1,119 @@
+\taughtsession{Lab}{Information Gathering}{2042-02-01}{14:00}{Tobi}{}
+
+Information Gathering is the process through which we aim to learn more about the target device.
+
+\section{DNS Enumeration}
+\textit{Domain Name System} is the protocol that allows us to translate IP addresses into domain names. DNS is a good source for active information gathering as it can show various information such as IP addresses, server names, and services. In last week's lab - we explored commands such as \verb|ping| and \verb|nslookup|.\\
+
+We are able to use the \verb|traceroute| command to trace the routes which the packet takes to reach it's destination:
+\begin{verbatim}
+    traceroute port.ac.uk
+\end{verbatim}
+
+There is also a lot more information out there about domains. Through using the \verb|whois| command, it is possible to find the name server, registrar, and full contact information about a domain. Each domain registrar must maintain a Whois database containing all contact information for their host domains. The InterNIC maintains a central registry, which is the master Whois database. The \verb|whois| command works over port 43 using TCP.
+\begin{verbatim}
+    whois port.ac.uk
+\end{verbatim}
+
+It is also possible to perform reverse lookups, where we query the IP address and it provides more information about the specified domain, including the block which the domain is part of.
+\begin{verbatim}
+    whois 148.197.254.1
+\end{verbatim}
+
+Not only can we use the \verb|nslookup| command to find out the DNS records mapped to it, we can also use the \verb|host| command - which can be used to discover the nameservers, using the \verb|ns| option, and to discover the mailservers, using the \verb|mx| option.
+\begin{verbatim}
+    host -t ns port.ac.uk
+    host -t mx port.ac.uk
+\end{verbatim}
+
+\subsection{DNS Forward Lookup Brute Force}
+A forward DNS lookup is where we lookup the IP address which corresponds to the domain name that we provide. In the process of this, the DNS Server `resolves' the IP address.\\
+
+It is possible to automate the brute-forcing of the forward DNS lookups using a file, called \verb|list.txt|, containing the following:
+\begin{verbatim}
+    www
+    ftp
+    mail
+    soc
+    icg
+    icp
+\end{verbatim}
+It is then possible to use this file and the following Bash command to automate the brute forcing of the forward DNS lookup process:
+\begin{verbatim}
+    for ip in $(cat list.txt);do host $ip.port.ac.uk;done
+\end{verbatim}
+
+\subsection{DNS Reverse Lookup Brute Force}
+A reverse DNS lookup is where we lookup the domain name which maps to a given IP address. We can automate this process, for example using the following Bash script:
+\begin{verbatim}
+    for ip in $(seq 1 254);do host 148.197.8.$ip;done |grep -v "not found"
+\end{verbatim}
+
+In the above command, we use the \verb|seq| command to generate a range between 1 and 254; and we use \verb|grep -v| to remove instances matching the string, in this case to remove instances where the information was not found. 
+
+\section{Directory Scanning}
+Directory Scanning is the process through which we, or a tool, searches through commonly known directory names on a webserver in an attempt to find what is on the webserver. Through doing this, we can look for hidden (in the sense of their not linked to anywhere) pages which might be vulnerable.\\
+
+To do this, we can use the tools \verb|gobuster| or \verb|lynx|. 
+
+\section{Google Dorking}
+Google Dorking is the process of using the \textit{advanced} search operators in a Google Search, enabling the user to filter and narrow down results. This can be exploited to help us filter data quickly or find exposed information. 
+
+\subsection{Searching through websites}
+We can exploit Google to search through an entire domain, using the \verb|site:| operator
+\begin{verbatim}
+    site:port.ac.uk
+\end{verbatim}
+It is then also possible, to retrieve all the subdomains from Google:
+\begin{verbatim}
+    site:port.ac.uk -site:www.port.ac.uk
+\end{verbatim}
+
+We can then use the \verb|ext:| operator to find files with the specified extension:
+\begin{verbatim}
+    site:port.ac.uk ext:doc | ext:docx | ext:odt | ext:rtf | ext:sxw | ext:psw | 
+    ext:ppt | ext:csv
+\end{verbatim}
+
+\subsection{Finding Directory Listings}
+Directory lists can be useful for mapping a site and sometimes gaining access to confidential files due to poor file permissions. We use \verb|intitle:index.of| to search for directories
+\begin{verbatim}
+    site:port.ac.uk intitle:index.of
+\end{verbatim}
+
+\subsection{Finding Login Pages}
+It is commonly helpful to find login pages for sites, these can be found using the \verb|inurl:| operator
+\begin{verbatim}
+    site:port.ac.uk inurl:login | inurl:signin | intitle:Login | 
+    intitle:"sign in" | inurl:auth
+\end{verbatim}
+
+\subsection{Finding Configuration Files}
+We can return to using the \verb|ext:| operator to locate configuration files if we provide common extensions used for configuration files. 
+\begin{verbatim}
+    site:port.ac.uk ext:xml | ext:conf | ext:cnf | ext:reg | ext:inf | ext:rdp | 
+    ext:cfg | ext:txt | ext:ora | ext:ini | ext:env
+\end{verbatim}
+
+\subsection{Finding Database Files}
+We can use the \verb|ext:| operator to find database file, which are sometimes exposed due to poor file permissions.
+\begin{verbatim}
+    site:port.ac.uk ext:sql | ext:dbf | ext:mdb
+\end{verbatim}
+
+\subsection{Searching through Public Paste Sites}
+Such a thing as \textit{public paste sites} exist, these are places where anonymous users can paste content - which then give a unique ID that can be used to retrieve said content at a later date. However, all the content on these sites is public and can be found with the \verb|site:| operator and a search query, encased in \verb|" "|
+\begin{verbatim}
+    site:pastebin.com | site:paste2.org | site:pastehtml.com | site:slexy.org | 
+    site:snipplr.com | site:snipt.net | site:textsnip.com | site:bitpaste.app | 
+    site:justpaste.it | site:heypasteit.com | site:hastebin.com | site:dpaste.org | 
+    site:dpaste.com | site:codepad.org | site:jsitor.com | 
+    site:codepen.io | site:jsfiddle.net | site:dotnetfiddle.net | 
+    site:phpfiddle.org | site:ide.geeksforgeeks.org | 
+    site:repl.it | site:ideone.com | site:paste.debian.net | site:paste.org | 
+    site:paste.org.ru | site:codebeautify.org  | site:codeshare.io | 
+    site:trello.com "port.ac.uk"
+\end{verbatim}
+
+\section{Open Source Intelligence: Image Analysis and Geolocating}
+During the process of penetration testing, there might be scenarios in which images become available to the penetration tester. Through analysing these, sensitive information such as network details, passwords, or system configurations could be leaked if they are captured in the photos. These could prove as potential entry points for cyber attacks. Additional, image metadata such as EXIF data can expose GPS coordinates or device information, aiding in the reconnaissance phase of a penetration test by uncovering physical locations or network environments. The \verb|exiftool| tool can be used to examine the EXIF data of an image. 

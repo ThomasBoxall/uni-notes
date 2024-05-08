@@ -1,0 +1,85 @@
+\taughtsession{Lab}{Introduction to Pentesting and Linux}{2024-01-25}{14:00}{Tobi}{}
+
+\section{Introduction to the Lab Environment}
+The lab environment in which we will complete practical sessions is a virtual machine within the Lion Gate 0.07 Digital Forensics Lab. We will use \textit{Virtual Box} as our Hypervisor and the machine is called VLABS.\\
+
+Within the VLABS virtual machine, we will use a series of Docker Containers to ``virtualise'' the machines which we will penetrate. (Yes, that is a VM running in a VM). In the lab worksheets, there are a number of commands we use to start the Docker containers running.
+
+\section{Planning \& Pre-Engagement}
+The first stage of the penetration testing cycle, is planning how we will engage with the target machine. Commonly, this will begin with \textit{Information Gathering} - which is a process where we will gather information about the target device that we can utilise during the penetration process.\\
+
+Much of the process we follow for each target device will differ, depending on what we know about it. In the following sections, we will use the hostname \verb|loan.atlas.local|
+
+\subsection{DNS Enumeration}
+The aim of \textit{Domain Name System (DNS) Enumeration} is to retrieve vital network information about the domain. For example, the IP addresses associated to it and if the target device is `up' or not.\\
+
+The \verb|ping| command can be used to check if the target device is up:
+\begin{verbatim}
+    ping -c 1 loan.atlas.local
+\end{verbatim}
+(note the \verb|-c 1| flag instructs the computer to send 1 request)\\
+
+We can then use the \verb|nslookup| command to identify the server's IP address from DNS.
+\begin{verbatim}
+    nslookup loan.atlas.local
+\end{verbatim}
+
+\subsection{Range Scanning}
+Once we have identified the network which our target device resides on, we are able to \textit{range scan} that network, to identify what other devices are on it. We can use the tool \verb|nmap| to do this.
+\begin{verbatim}
+    nmap 192.168.1.12/24 -T5
+\end{verbatim}
+(note the \verb|-T5| flag is used to set \verb|nmap| to maximum speed; the \verb|-p-| flag could be added to specify to scan all possible ports rather than standard-used ports)
+
+\subsection{Port Scanning / Banner Grabbing}
+We can use a process called \textit{port scanning} to identify what ports are open on our target device, and therefore identify potential vulnerabilities. TCP port scanning works by sending TCP \verb|SYN| flags while expecting an acknowledgement / \verb|ACK| response; which if it comes - we know that the port is open and therefore something is running on it.\\
+
+Commonly completed at the same time is a process called \textit{banner grabbing and service enumeration}, which is the process through which we can identify what service is running on each open port. When we send a message to the port, it will return it's `banner' which usually gives its service version. \\
+
+We can use the \verb|nmap| tool to complete this task.
+\begin{verbatim}
+    nmap -sV loan.atlas.local -T5
+\end{verbatim}
+(note that the \verb|-sV| flag tells \verb|nmap| to identify the service version; we can also append the \verb|-p-| flag as above)
+
+\section{Exploitation}
+After we have gathered a suitable amount of information about the target device, we are able to start exploiting vulnerabilities.\\
+
+There a masses of different ways in which you could exploit a device, this lab focused on a specific plugin within WordPresses vulnerabilities.
+
+\subsection{HTTP Enumeration}
+HTTP enumeration is the process in which we are looking for potential attack vectors within a HTTP service, most commonly a webserver. By default, HTTP traffic uses port 80 and HTTPS uses 443, these can be changed however.\\
+
+One tool which is useful is \textit{Nikto}, which scans against webservers for vulnerabilities. This is used as shown below:
+\begin{verbatim}
+    nikto -h http://loan.atlas.local
+\end{verbatim}
+
+In this lab, we see from the output of Nikto that the webserver is running a version of Wordpress. From here, we can use \textit{WPscan} to explore that in greater detail.
+\begin{verbatim}
+    wpscan --url http://loan.atlas.local
+\end{verbatim}
+
+From here, we would search the names of the identified plugins on Exploit Databases, and we would see that a plugin is vulnerable then work to exploit it. There are well-documented instructions across the internet for the majority of vulnerabilities which we would come across in this module.
+
+\subsection{Password Hash Cracking}
+In sensibly designed systems, passwords are stored as hashes (the how and why of this covered in a different lecture). To crack these hashes, we use a tool - in this lab, we use \verb|hashcat|
+\begin{verbatim}
+    hashcat -m 400 -a 0 hashfile rockyou.txt
+\end{verbatim}
+Note that we have to provide a wordlist as the final parameter, this is a list of possible passwords which are known. 
+
+\section{The Linux Environment}
+\textit{NB this is abbreviated as compared to the Lab Worksheet, in the attempt as to not reproduce the lab worksheets word for word.}\\
+
+As we have already seen, most of our exploitative work will take place in Linux, as it's better. There are a number of commands which can be used to retrieve information about the system we are working on:
+\begin{description}[font=\ttfamily]
+    \item[uname -r] gives the current operating systems kernel version
+    \item[whoami] gives the username of the current user
+    \item[id] gives the id of the current user, as well as what groups they are a member of
+    \item[ps aux | wc -l] gives the number of currently running processes
+    \item[service --status-all] gives the status of all the currently running services (note this is Ubuntu only)
+    \item[free -h] gives the current RAM status, including how much is in use and how much is free
+    \item[df -H] gives the current Disk status
+    \item[ip a] gives the all the IP addresses of the current devices
+\end{description}
