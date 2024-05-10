@@ -1,11 +1,11 @@
 \taughtsession{Lecture}{Windows and Active Directory Exploitation \& Password Attaks}{2024-04-29}{09:00}{Tobi}{}
 
-AD Exploitation is a beast of its own, we will quickly cover it today however it is full course of it's own. In the real world - penetration testers would specialise in an area, web apps being one or AD \& Corporate Infrastructure being another.\\
+AD Exploitation is a beast of its own, we will quickly cover it today however it is a full course of it's own. In the real world - penetration testers would specialise in an area, web apps being one or AD \& Corporate Infrastructure being another.\\
 
 The process you would follow to penetrate a Windows environment is exactly the same as you would follow to compromise a Linux environment. The difference comes in the tooling and commands you would use. Before attempting to compromise something, you need to identify what the target system is running on. 
 
 \section{What is an Active Directory?}
-An Active Directory (AD) is a hierarchical strucutre tat stores information about objects on the network. It is a Microsoft product which has been around for many years. It stores:
+An Active Directory (AD) is a hierarchical structure that stores information about objects on the network. It is a Microsoft product which has been around for many years. It stores:
 \begin{itemize}
     \item User Accounts and passwords (or hashes of them)
     \item Computers
@@ -40,12 +40,12 @@ You might have more than one \textit{Domain Controller}, this is the thing which
 \subsection{Security Identifiers (SID)}
 A Security Identifier (SID) is a unique value of variable length that is used to identify a security principal (such as security group) in Windows operating systems.\\
 
-The first stage which Penetration Testers do when they gain access to a system is to identify what level of access they are running as. Under Linux, they would be running the \verb|whoami| command. On Windows, when they gain access to the SID of they can identify if the account has Administrator access or not.
+The first stage which Penetration Testers do when they gain access to a system is to identify what level of access they are running as. Under Linux, they would be running the \verb|whoami| command. On Windows, when they gain access to the SID of they can identify if the account has Administrator access or not.\\
 
-% add example of SID and of some of the well known SIDs
+The most relevant component of the SID is the final four bits, the relative ID. In the event that this is the value \verb|500| (or \verb|0500|), the user is the root Administrator user. 
 
 \subsection{Domain Services}
-AD Domain Services uses a tiered structure of consisting of domains, trees and forests. A domain is aa group of objects, such as users or devices that share the same AD database. A tree is one or more domains grouped together. A forest is a group of multiple trees, which consists of shared catalogs, directory schemes, application information and domain configurations; the schema defines an object's class and attributes in a forest. \\
+AD Domain Services uses a tiered structure consisting of domains, trees and forests. A domain is a group of objects, such as users or devices that share the same AD database. A tree is one or more domains grouped together. A forest is a group of multiple trees, which consists of shared catalogs, directory schemes, application information and domain configurations; the schema defines an object's class and attributes in a forest. \\
 
 Within a domain - there are a number of other key terms:
 \begin{itemize}
@@ -55,7 +55,8 @@ Within a domain - there are a number of other key terms:
     \item Containers: similar to OUs but cannot have a group policy object linked to it
 \end{itemize}
 
-% finish ad stuff
+The Domain Controller is the server that is running a version of the Windows Server operating system and has Active Directory Domain Services installed. The Global Catalog Server stores the objects form all domains in the forest; and the Operation masters are designed to perform specific tasks to ensure consistency and to eliminate the potential for conflicting entries in the Active Directory database. 
+
 
 \section{Password Attacks}
 Password Attacks are common, however should not be a first point of call in Penetration Testing. They can be very \textit{noisy} in a network, in that they can generate a lot of network traffic which could be spotted by monitoring software and then blocked.\\
@@ -78,9 +79,12 @@ In brute force attacks, threat actors try a number of different possible passwor
 We saw in Linux, that all password hashes for all users are stored in the \verb|/etc/passwd| file. This is not the case in Windows, rather it stores hashed user passwords in the \textit{Security Account Manager} (SAM) 6. The SYSKEY feature is uses to partially encrypt the SAM file. Passwords are either hashed with LM (which is very weak, through converting everything before hashing and not using salts), or NTLM. LM is not used on newer Windows OS. SAM files cannot be copied while the system is running, which therefore means we need tooling to extricate this!
 
 \subsection{Windows Password Hash}
-As we saw above, the Windows Password Hash is stored in the SAM file. Access to the SAM file is restricted and requires special software to access. LM hashing is no longer supported by default, however may be needed for legacy support.
+As we saw above, the Windows Password Hash is stored in the SAM file. Access to the SAM file is restricted and requires special software to access. LM hashing is no longer supported by default, however may be needed for legacy support. An example of a Windows Password Hash is shown below:
 
-% add eg of windows password hash
+\begin{verbatim}
+Administrator:500:b5d3b243a56ff3568963805a19b0ed49:e2b0ba8d1c47c3dec3e30bd4f61f7398:::
+
+\end{verbatim}
 
 The LM hash is the easiest target. It splits the password into two 7-character segments, pads to 14 characters (using nulls) and converts to uppercase. This means that a 7-character password will have a well known suffix! There are 95 possible ASCII characters which could be included in the password, therefore there are $95^{14}$ possibilities. However, LM reduces password space to two units of $69^7$. \\
 

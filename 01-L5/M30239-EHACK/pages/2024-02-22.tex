@@ -1,0 +1,34 @@
+\taughtsession{Lab}{Privilege Escalation}{2024-02-22}{1400}{Tobi}{}
+
+This lab starts from having a reverse shell to the Docker container running DVWA.\\
+
+On a webserver, the default user is \verb|www-data|. This is a good thing for security as it has very limited permissions by default therefore meaning that should a threat actor be able to gain access, they are limited in what they can do. However, the \verb|www-data| user still has access to some elements of the system and can therefore be used to gain access to other files which may lead us to finding a password of SSH key which we can use to gain a higher level of access.\\
+
+The \verb|history| command can be used to see past commands entered, this could lead us to finding a password entered in plaintext.\\
+
+Alternatively, we could look in a number of known locations as these may have files which lead us to finding plaintext passwords or other vulnerabilities which we could exploit:
+\begin{itemize}
+    \item Webservers use \verb|/var/www| as the default webroot
+    \item SSH files are stored in the \verb|.ssh| file for each user
+    \item Database files, especially passwords for accounts, for example as found in \verb|wp_config.php| files
+\end{itemize}
+
+The \verb|find| command can be used to automate some of the searching, as seen below where we are searching the \verb|/var| directory for any files with the name \verb|*.sql| (the \verb|*| is a wildcard indicating everything) and sending errors to the \verb|/dev/null| file.
+\begin{verbatim}
+    find /var -name *.sql 2>/dev/null
+\end{verbatim}
+
+We can also use the \verb|grep| command to search iteratively within files. For example, the command below searches the \verb|/var| directory for the pattern \verb|password| and sends errors to the \verb|/dev/null| file. The \verb|-r| specifies recursively, \verb|-n| specifies line number, \verb|-w| specifies to match the whole word, \verb|-l| specifies to just give the filename of the matching files and \verb|-e [string]| specifies the pattern to match during the search.
+\begin{verbatim}
+    grep -Rnw /var -e password 2>/dev/null
+\end{verbatim}
+
+\section{The SUID Bit}
+For an executable when the SUID bit is set - it means that the executable is executed by the owner not by the person executing the file. This might sound helpful, however in reality it opens up a can of worms around privilege escalation. \\
+
+We can run the following command which finds all files where the SUID bit is set, again sending errors to the \verb|/dev/null| file:
+\begin{verbatim}
+    find / -perm -u=s -type f 2>/dev/null
+\end{verbatim}
+
+The majority of the things which come up here are Bash commands. What we are really looking for are fresh, unproven applications which might be carelessly programmed or still have the SUID bit set. 
