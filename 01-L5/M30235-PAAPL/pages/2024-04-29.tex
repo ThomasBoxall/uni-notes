@@ -123,4 +123,26 @@ Competitive Synchronisation ensures the exclusive access to critical resources b
 Synchronisation can be implemented using special data structures, called \textit{semaphores} and \textit{monitors}. Semaphores can be used to implement both cooperative and competitive synchronisations; while Monitors wrap the resources with the mechanism for exclusive access control and implement competitive synchronisation. 
 
 \subsection{Semaphores}
-A semaphore is a data structure consisting of
+A semaphore is a data structure consisting of:
+\begin{itemize}
+    \item a counter - which is an integer variable, sometimes known as the value of the semaphore and is used for keeping track of the units of available resources (for example, this might start at 10)
+    \item a queue - which is used for storing the processes that request access to the resources
+    \item two operations - which are used by processes
+    \begin{itemize}
+        \item wait (or P) - which is used by a process to indicate that it would like access to the shared resource
+        \item signal (or release or V) - which is used by a process to indicate that it has finished with the shared process
+    \end{itemize}
+\end{itemize}
+
+When a process needs access to the semaphore-guarded resource, it must call the \verb|wait()| method. When this is called, the method first decrements the value of the counter variable by 1. After this decrement - if the counter value is non-negative (ie $\geq 0$), then the calling process is granted access to the resource and put on the ready list for the CPU to execute; however, if the counter value becomes negative, the calling process / thread is added to the semaphore's waiting queue (we then say that ``the thread is blocked'').\\
+
+When a process finishes using the resource, it must release the resource by calling the \verb|signal()| method. When called, the \verb|signal()| method increments the value of the semaphore's counter variable by 1. After the increment, where the counter value is equal to or less than 0, from which we know that there are threads on the waiting queue - it transfers a blocked thread from the semaphore's waiting queue to the ready list. 
+
+\subsection{Monitors}
+A \textit{monitor} is an object that encapsulates the shared data / resources and guarantees that at any point in time - at most one thread may access the shared data. This is the monitor's mutual exclusion property.\\
+
+Monitors implement competition synchronisation.\\
+
+Mutual exclusion can be achieved by equipping an object (a resource) with a private lock. The lock, initially open (or unlocked), is locked at the start of each public call of the object and is unlocked on the return from each public method call.\\
+
+Monitors are used for synchronisation control by Java, C\#, concurrent Pascal, Python, Ada, etc. 
