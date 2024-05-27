@@ -82,7 +82,7 @@ If $r$ and $s$ are regular expressions, then concatenation $rs$ (read ``$r$ foll
 As with arithmetic expressions, parentheses can be used in RegExs to make the meaning of a RegEx clearer. For example $(a|b)a$ matches the strings $aa$ and $ba$. 
 
 \subsubsection{Definition 5}
-The RegEX $r^*$ (read ``zero or more instances of $r$'') is a Regular Expression. This matches all finite (possibly empty) concatenations of string matched by $r$.
+The RegEx $r^*$ (read ``zero or more instances of $r$'') is a Regular Expression. This matches all finite (possibly empty) concatenations of string matched by $r$.
 
 \subsubsection{Definition 6}
 The RegEx $rr^*$ read as ``one or more instances of strings matched by $r$'' can also be written as $r^+$. 
@@ -97,7 +97,7 @@ The RegEx $rr^*$ read as ``one or more instances of strings matched by $r$'' can
 \end{itemize}
 
 \subsection{Precedence}
-As with all `operators', the different symbols in Regular Expressions have different precedences, they are shown below in the order highest \rightarrow lowest.
+As with all `operators', the different symbols in Regular Expressions have different precedences, they are shown below in the order highest to lowest.
 \begin{enumerate}
     \item $()$
     \item $^*$ or $^+$
@@ -157,7 +157,7 @@ An algorithm that does this is called a decision procedure for $L$.
 \subsection{Regular Expressions and Decision Procedures}
 There are two different algorithms which can be used to write a decision procedure for language:
 \begin{itemize}
-    \item Deterministic Finite Automation (DFA)
-    \item Nondeterministic Finite Automation (NFA)
+    \item Deterministic Finite Automaton (DFA)
+    \item Nondeterministic Finite Automaton (NFA)
 \end{itemize}
 Languages that can be denoted by a RegEx, and can have a DFA / NFA as a decision procedure, are known as \textit{regular languages}. This means that  if we can describe a program's language using RegExs and the RegExs have a DFA / NFA then, we can write the lexical analyser using a DFA (or NFA). 
