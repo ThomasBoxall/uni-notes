@@ -23,7 +23,7 @@ Imperative languages provide built-in operators for computing over these element
     \hline
     Int division & \verb|div mod| & \verb|/ %| & \verb|/ %|\\
     \hline
-    Relational \verb|= < >| \verb|< <= > >=| & \verb|== !=| \verb|< <= > >=| & \verb|== != < <= > >=|\\
+    Relational & \verb|= < >| \verb|< <= > >=| & \verb|== !=| \verb|< <= > >=| & \verb|== != < <= > >=|\\
     \hline
     Boolean & \verb|and or not| & \verb|and or !| & \verb+&& || !+\\
     \hline
@@ -76,14 +76,14 @@ The \verb|&| operator retrieves the address of a variable. This can be used as f
     number = 42;
     numPtr = &number;
 \end{verbatim}
-whee the value of \verb|numPtr| is the address of variable \verb|number|. 
+where the value of \verb|numPtr| is the address of variable \verb|number|. 
 
 \subsection{Pointer Dereferencing}
 The dereferencing operator (\verb|*|) of pointers to access the value pointed to by a pointer, for example if we wanted to print the value:
 \begin{verbatim}
     printf("%d\n", *numPtr);
 \end{verbatim}
-The dereferencing operator is also used ot modify the value of the memory location that the pointer points to:
+The dereferencing operator is also used to modify the value of the memory location that the pointer points to:
 \begin{verbatim}
     *numPtr = 7
 \end{verbatim}
@@ -148,7 +148,7 @@ It would then be possible to access the individual elements of the array by usin
 \end{verbatim}
 or by dereferencing the pointers:
 \begin{verbatim}
-    *(iPtr + 0),*(iPtr + 1), *(iPtr + 2),..., *(iPtr + 9) 
+    *(iPtr + 0), *(iPtr + 1), *(iPtr + 2), ..., *(iPtr + 9) 
 \end{verbatim}
 This means the the following two for loops have the same effect\\
 
@@ -174,7 +174,7 @@ It is also possible to use indices on pointers:
     *(iPtr + 2)
 \end{verbatim}
 
-When an array is declared ,the memory is allocated and the array name holds the address to the first byte of this block of memory. The name of the array is like a pointer which points to the first element of the array (for example \verb|a=&a[0]|)
+When an array is declared, the memory is allocated and the array name holds the address to the first byte of this block of memory. The name of the array is like a pointer which points to the first element of the array (for example \verb|a=&a[0]|)
 \begin{verbatim}
     int a[10];
     int *iPtr;
@@ -194,7 +194,7 @@ it is also possible to do pointer arithmetic with array names. From this we can 
 \subsection{Memory Deallocation}
 Deallocation of memory can be explicit or implicit
 \begin{verbatim}
-    int *p = (int *) malloc (sizeof(int));
+    int *p = (int *) malloc(sizeof(int));
     *p = 5;
     p = null;
 \end{verbatim}

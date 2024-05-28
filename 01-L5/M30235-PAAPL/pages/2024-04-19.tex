@@ -8,7 +8,7 @@ Flow Control in programs, or execution sequence, makes it possible to implement 
     \item Program Units
 \end{itemize}
 
-Statements that provide capabilities such sa selecting among control flow paths or causing the repeated execution of certain collection of statements are called control statements.\\
+Statements that provide capabilities such as selecting among control flow paths or causing the repeated execution of certain collection of statements are called control statements.\\
 
 Control Flow comes form the early days of programming - where they would use statements, such as \verb|goto|, which sent the program to a different line to execute. This would result in programs which are hard to read and maintain. 
 
@@ -78,7 +78,7 @@ A full selection statement can be quite big and obtuse - especially in the case 
 \end{verbatim}
 Can be condensed to:
 \begin{verbatim}
-    int x=(expression)? -1: 1;
+    int x = (expression) ? -1 : 1;
 \end{verbatim}
 
 \subsection{Multiple-Way Selection Statements}
@@ -94,7 +94,7 @@ Multiple-Way Selection Statements allow the selection of one of any number of st
     }
 \end{verbatim}
 
-In most languages the control expression can be a character, integer, string or enumerated type. Once the case is matched, the statements starting from the matched case are executed until a \verb|break| statement or until the end of the switch statement is reached (the latter being referred to as fall-through behaviour). C\# does not implement fall-through behaviour. it requires every segment must end with an explicit unconditional branch statement (\verb|break|, \verb|goto|, or \verb|return|).\\
+In most languages the control expression can be a character, integer, string or enumerated type. Once the case is matched, the statements starting from the matched case are executed until a \verb|break| statement or until the end of the switch statement is reached (the latter being referred to as fall-through behaviour). C\# does not implement fall-through behaviour; it requires that every segment must end with an explicit unconditional branch statement (\verb|break|, \verb|goto|, or \verb|return|).\\
 
 The question of why you would want to fall-through is an interesting one. It is occasionally useful to allow control to flow from one selectable segment to another. For example, where the same code would be executed for multiple cases as using fall-through would minimise repeated code.
 

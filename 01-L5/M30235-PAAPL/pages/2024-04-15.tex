@@ -1,7 +1,7 @@
 \taughtsession{Lecture}{Expression and Assignment}{2024-04-15}{14:00}{Jiacheng}{}
 
 \section{Expressions}
-An \textit{expression} is a combination of values ,variables, operators and function calls. Expressions perform operations on data and move data around. Expressions can be of the type:
+An \textit{expression} is a combination of values, variables, operators and function calls. Expressions perform operations on data and move data around. Expressions can be of the type:
 \begin{itemize}
     \item arithmetic (\verb|4 * I + func(5)|)
     \item relational (\verb|a >= b|)
@@ -26,8 +26,6 @@ A \textit{unary} operator has one operand. For example:
     \item The Negation operator ``\verb|-|'', used as \verb|-b| where \verb|-| is the operator and \verb|b| is the operand
     \item The \textit{Integer Promotion} operator ``\verb|+|'', used as \verb|+b| converts \verb|b| to \verb|int| if it is a \verb|short|, \verb|byte| or \verb|char|. 
 \end{itemize}
-
-WheWhen the operators \textit{precede} (or \textit{follow}) their operands, we say that the operators are ``prefix'' ()
 
 When the operators precede their operands, we say the operators are ``prefix''; and when the operators follow follow their operands, we say the operators are ``postfix''. Unary operators can be prefix or postfix. For example the increment operator \verb|++| can either be used as \verb|i++| or \verb|++i|. A Binary operator has two operands - for example \verb|+|, \verb|-|, \verb|*|, \verb|/|. In most languages, binary operators are ``infix'' which means they appear between the operands.
 
@@ -67,7 +65,7 @@ C++ and C\# allow user-defined overloaded operators. These, when sensibly used, 
 Overloading could cause problems or difficulties. For example the ampersand (\verb|&|) in C and C++ specify both bitwise AND (binary) operation and ``address of'' (unary) operations. This could lead to a compiler error detection being affected (for example missing the operand \verb|x| in the expression \verb|x&y|). 
 
 \subsection{Compound Assignment Operators}
-\textit{Compound} means combining assignment with arithmetic operators. For example, \verb|+=|, \verb|-=|, \verb|*=|, \verb|/=|, \verb|<<=|, \dots (general form \verb|operator=|). It is a shorthand method of specifying a commonly needed form of assignment.\\
+\textit{Compound} means combining assignment with arithmetic operators. For example, \verb|+=|, \verb|-=|, \verb|*=|, \verb|/=|, \verb|<<=|, \dots{} (general form \verb|operator=|). It is a shorthand method of specifying a commonly needed form of assignment.\\
 
 Originally introduced in ALGOL; and then adopted by C and inherited by the C-derived languages. It means we can take an expression \verb|a = a + b| and rewrite it as \verb|a += b|, using the compound assignment operator \verb|+=|.\\
 
@@ -112,7 +110,7 @@ For example, a function might modify a global or static variable, or modify one 
 In the presence of side effects, a program's behavior may depend on (execution) history; that is, the order of evaluation matters. In programming, sometimes the side effect is exactly what we want to use, for example in an assignment.
 
 \subsection{Assignment as an Expression}
-In the C-derived languages (for example Java, Per and JavaScript), the assignment operator (\verb|=|) is treated in the same way as other binary operators (for example \verb|+|). This means that assignment returns a value, but it has the side effect of changing its left operand (the effect of the assignment). For example in Java and C, the expression
+In the C-derived languages (for example Java, Perl and JavaScript), the assignment operator (\verb|=|) is treated in the same way as other binary operators (for example \verb|+|). This means that assignment returns a value, but it has the side effect of changing its left operand (the effect of the assignment). For example in Java and C, the expression
 \begin{verbatim}
     x = y + 1;
 \end{verbatim}

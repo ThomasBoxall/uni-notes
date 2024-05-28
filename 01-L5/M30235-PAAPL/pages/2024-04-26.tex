@@ -50,7 +50,7 @@ A function definition (known as a \textit{prototype} in C and C++) provides the 
 The function definition comes after the declaration of the function. 
 
 \subsection{C \& C++ Prototypes and Header Files}
-Prototypes are often written in a separate header file which can be included in other C source files that wish to use the functions. For example, the header file \verb|stdio.h| contains prototypes for the standard input \& output files \verb|scanf| and \verb|printf|. THe actual source code is stored in a library elsewhere on the computer, however the header file says how to interface with the functions.
+Prototypes are often written in a separate header file which can be included in other C source files that wish to use the functions. For example, the header file \verb|stdio.h| contains prototypes for the standard input \& output files \verb|scanf| and \verb|printf|. The actual source code is stored in a library elsewhere on the computer, however the header file says how to interface with the functions.
 
 \section*{Parameters \& Return Values}
 A parameter is a way in which data can be provided to the function. There are a number of different types:
@@ -64,11 +64,11 @@ Functions use \textit{return values} to return values to the calling program at 
 \subsection{Parameter Binding}
 There are two ways to bind the actual parameters to the formal ones:
 \begin{description}
-    \item[By position] means that the binding of actual parameters to formal parameters is by their order of appearance, therefore the first parameter is bound to the first formal parameter and so forth.  This is safe and effective
+    \item[By Position] means that the binding of actual parameters to formal parameters is by their order of appearance, therefore the first parameter is bound to the first formal parameter and so forth.  This is safe and effective
     \item[By Keyword] means that the names of the formal and actual parameters are used. This means that parameters can appear in any order, thereby avoiding parameter correspondence errors; however the user must remember the formal parameters names.
 \end{description}
 
-An example of By Position is shown below:
+An example of by position is shown below:
 \begin{verbatim}
     x = foo(3, 0);
 \end{verbatim}
@@ -79,12 +79,12 @@ An example of By Keyword is shown below:
 \end{verbatim}
 
 \subsection{Local Referencing Environment}
-When a function is called, a local referencing environment which includes all local variables is created. IN most contemporary languages, local variables are created on the stack and are stack-dynamic (dynamic meaning the variables are created on demand, and stack meaning there is a natural implementation of recursion).\\
+When a function is called, a local referencing environment which includes all local variables is created. In most contemporary languages, local variables are created on the stack and are stack-dynamic (dynamic meaning the variables are created on demand, and stack meaning there is a natural implementation of recursion).\\
 
 Local variables, however, can be static. This is especially helpful when their values are to be shared between different calls. For example, in C and C++, locals are by default stack-dynamic however cna be declared \verb|static|. 
 
 \section{Parameter Passing Methods}
-The \textit{parameter passing method} is the method in which parameters are transmitted to and / or from the called subprograms. THe relationship between the actual parameters is characterised by one of three semantic models:
+The \textit{parameter passing method} is the method in which parameters are transmitted to and / or from the called subprograms. The relationship between the actual parameters is characterised by one of three semantic models:
 \begin{itemize}
     \item formal parameters receive data from the corresponding actual parameters;
     \item formal parameters transmit data to the actual parameters; 
@@ -127,7 +127,7 @@ During the execution of the function, the formal parameters acts as local variab
 \end{verbatim}
 After the function call, the value of \verb|y| becomes \verb|8|. When calling such functions in proper code, you shouldn't use actual values as the parameters to call them.\\
 
-A major limitation to this solution is that the actual parameters must be variables. However, there is a potential problem to this solution. In that the following C\# method specifies the pass by result by putting \verb|out| specifiers on it's formal and actual parameters. At the end of execution of the method, if \verb|x| is copied to \verb|a| firs, then the value of \verb|a| will be \verb|30|. If \verb|y| is copied first, then \verb|a| will be \verb|15|. This shows that the value of \verb|a| depends on the order of copying, which varies from language to language and implementation to implementation. 
+A major limitation to this solution is that the actual parameters must be variables. However, there is a potential problem to this solution. In that the following C\# method specifies the pass by result by putting \verb|out| specifiers on it's formal and actual parameters. At the end of execution of the method, if \verb|x| is copied to \verb|a| first, then the value of \verb|a| will be \verb|30|. If \verb|y| is copied first, then \verb|a| will be \verb|15|. This shows that the value of \verb|a| depends on the order of copying, which varies from language to language and implementation to implementation. 
 
 \begin{verbatim}
     void myMethod (out int x, out int y){
