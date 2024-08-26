@@ -23,7 +23,7 @@
   * [Maths](01-L4/M30943-architectureAndOperatingSystems/Maths/M30943-maths.pdf)
 </details>
 
-<details open>
+<details>
 <summary>Level 5 (2023 - 2024)</summary>
 
 * [M21270 (Data Structures and Algorithms)](01-L5/M21270-DSALG/M21270-DSALG.pdf)
@@ -33,6 +33,13 @@
 * [M30235 (Programming Applications and Programming Languages)](01-L5/M30235-PAAPL/M30235-PAAPL.pdf)
 * [M30239 (Ethical Hacking)](01-L5/M30239-EHACK/M30239-EHACK.pdf)
 * [M30819 (Software Engineering Theory and Practice)](01-L5/M30819-SETAP/M30819-SETAP.pdf)
+</details>
 
-*NB: Some modules are single teaching block therefore TB2 modules will remain empty until they begin in January.*
+<details>
+<summary>Placement Year (2024 - 2025)</summary>
+
+I am undertaking a Year in Industry placement for the academic year 2024 - 2025. So there won't be any notes here for Level 6 modules, yet. 
+
+I shall begin my Level 6 modules when I come crawling out of the mountain I'm working in this year...
+
 </details>
