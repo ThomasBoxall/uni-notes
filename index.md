@@ -35,11 +35,13 @@
 * [M30819 (Software Engineering Theory and Practice)](01-L5/M30819-SETAP/M30819-SETAP.pdf)
 </details>
 
-<details>
+<details open>
 <summary>Placement Year (2024 - 2025)</summary>
 
 I am undertaking a Year in Industry placement for the academic year 2024 - 2025. So there won't be any notes here for Level 6 modules, yet. 
 
-I shall begin my Level 6 modules when I come crawling out of the mountain I'm working in this year...
+All my uni work from my placement year is either assessed work, so will be stored in other repositories, or are Google Docs (ew, I know) so won't be stored in this repo.
+
+My Level 6 modules will begin in the Autumn of 2025.
 
 </details>
