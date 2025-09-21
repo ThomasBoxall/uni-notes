@@ -55,5 +55,4 @@ My Level 6 modules will begin in the Autumn of 2025.
 * [M30225 (Distributed Systems and Security)](01-L6/m30225-dssec/m30225-dssec.pdf) - Semester 2 Module
 * [M33141 (IT And Internetworking Security)](01-L6/m33141-itins/m33141-itins.pdf) - Semester 2 Module
 * [M34704 (Engineering Project)](01-L6/m34704-proje/m34704-proje.pdf) - Final Year Project (all assessed work stored elsewhere)
-* 
 </details>
