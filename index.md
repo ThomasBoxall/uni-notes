@@ -35,7 +35,7 @@
 * [M30819 (Software Engineering Theory and Practice)](01-L5/M30819-SETAP/M30819-SETAP.pdf)
 </details>
 
-<details open>
+<details>
 <summary>Placement Year (2024 - 2025)</summary>
 
 I am undertaking a Year in Industry placement for the academic year 2024 - 2025. So there won't be any notes here for Level 6 modules, yet. 
@@ -44,4 +44,16 @@ All my uni work from my placement year is either assessed work, so will be store
 
 My Level 6 modules will begin in the Autumn of 2025.
 
+</details>
+
+<details open>
+<summary>Level 6 (2025 - 2026)</summary>
+
+* [M21276 (Theoretical Computer Science)](01-L6/m21276-theoc/m21276-theoc.pdf)
+* [M21279 (Advanced Networks)](01-L6/m21279-adnet/m21279-adnet.pdf)
+* [M22733 (Comp Tutorial Level 6)](01-L6/m22733-ctut6/m22733-ctut6.pdf)
+* [M30225 (Distributed Systems and Security)](01-L6/m30225-dssec/m30225-dssec.pdf) - Semester 2 Module
+* [M33141 (IT And Internetworking Security)](01-L6/m33141-itins/m33141-itins.pdf) - Semester 2 Module
+* [M34704 (Engineering Project)](01-L6/m34704-proje/m34704-proje.pdf) - Final Year Project (all assessed work stored elsewhere)
+* 
 </details>

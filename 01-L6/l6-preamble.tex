@@ -1,0 +1,344 @@
+% LEVEL 6 UNIVERSITY NOTES PREAMBLE
+% THOMAS BOXALL <thomas@thomasboxall.net>
+% 21 September 2025
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% this preamble gets include in all university note documents. It contains custom styling and useful features to speed up note taking.
+
+% heavily inspired from l5 preamble but slightly different for added spice
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Basic Document Setup %
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+% BASIC PACKAGES
+\usepackage[dvipsnames, table]{xcolor}
+\usepackage{graphicx}
+\usepackage{fontawesome5}
+\usepackage[colorlinks=true, linkcolor=black]{hyperref}
+\usepackage{lastpage}
+\usepackage{datetime2} % changes \today format to be yyyy-mm-dd
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[skip=0.7em]{parskip} % change space between paragraphs so no need for \\ between each para
+
+% Margins
+\usepackage{geometry}
+\geometry{
+a4paper,
+total={170mm,257mm},
+left=20mm,
+top=20mm,
+marginparsep=0mm,
+}
+\setlength\parindent{0pt} % get rid of the stupid indent
+
+% add in capabilities for small notes in the left margin
+\reversemarginpar
+\newcommand{\marginnote}[1]{%
+\marginpar{\footnotesize\texttt{#1}}
+}
+
+% set toc depth to only show chapters
+\setcounter{tocdepth}{0}
+
+% use section numbering for everything up too and including subsubsection
+\setcounter{secnumdepth}{3}
+
+
+% CUSTOM COLOURS
+\definecolor{themeGrey}{HTML}{121212}
+\definecolor{themeBlue}{HTML}{0c243d}
+\definecolor{themeRed}{HTML}{ba3636}
+\definecolor{themePurple}{HTML}{80347C}
+\definecolor{themeGreen}{HTML}{506641}
+
+%%%
+% Coloured Boxes
+%%%
+
+\usepackage[skins, most]{tcolorbox}
+\newtcolorbox{example}[1]{
+    enhanced,
+    colback=white,
+    colframe=themeBlue,
+    coltext=black,
+    coltitle=white,
+    attach boxed title to top left={yshift*=-\tcboxedtitleheight}, 
+    title={#1},
+    breakable,
+    arc=2pt,
+    boxed title size=title,
+    boxed title style={%
+        rounded corners=northeast, 
+        rounded corners=northwest, 
+        colback=tcbcolframe, 
+        boxrule=0pt,
+    },
+    underlay boxed title={%
+        \path[fill=tcbcolframe] (title.south west)--(title.south east) 
+            to[out=0, in=180] ([xshift=5mm]title.east)--
+            (title.center-|frame.east)
+            [rounded corners=2pt] |- 
+            (frame.north) -| cycle; 
+    },
+}
+
+\newlist{worddefs}{description}{1}
+\setlist[worddefs]{font=\bfseries, labelindent=\parindent, leftmargin=2em, style=sameline}
+
+\newtcolorbox{define}{
+    enhanced,
+    colback=white,
+    colframe=themeGreen,
+    coltext=black,
+    coltitle=white,
+    attach boxed title to top left={yshift*=-\tcboxedtitleheight}, 
+    title=Definitions,
+    breakable,
+    arc=2pt,
+    boxed title size=title,
+    boxed title style={%
+        rounded corners=northeast, 
+        rounded corners=northwest, 
+        colback=tcbcolframe, 
+        boxrule=0pt,
+    },
+    underlay boxed title={%
+        \path[fill=tcbcolframe] (title.south west)--(title.south east) 
+            to[out=0, in=180] ([xshift=5mm]title.east)--
+            (title.center-|frame.east)
+            [rounded corners=2pt] |- 
+            (frame.north) -| cycle; 
+    },
+    before upper=\begin{worddefs},
+    after upper=\end{worddefs}
+}
+
+\newtcolorbox{todo}{
+    enhanced,
+    arc=2pt,
+    colback=white,
+    colframe=themeRed,
+    leftrule=10mm,
+    coltext=black,
+    overlay={
+        \node[
+            anchor=west,
+            outer sep=5pt
+        ] at (frame.west) {
+            % Replace the image with the Font Awesome icon
+            \color{white}\faExclamationTriangle
+        };
+}
+}
+
+\newtcolorbox{extlink}{
+    enhanced,
+    arc=2pt,
+    colback=white,
+    colframe=themePurple,
+    leftrule=10mm,
+    coltext=black,
+    overlay={
+        \node[
+            anchor=west,
+            outer sep=5pt
+        ] at (frame.west) {
+            \color{white}\faExternalLink*
+        };
+}
+}
+
+%%%
+% DOC PROPERTIES SETUP
+%%%
+
+\def\university{University of Portsmouth}
+\def\course{BSc (Hons) Computer Science}
+
+\def\notesAuthor{Thomas Boxall}
+\def\notesAuthorContact{thomas.boxall1@myport.ac.uk}
+
+\newcommand{\documentsetup}[6]{%
+    \def\moduleName{#1}
+    \def\moduleNameShort{#2}
+    \def\moduleCode{#3}
+    \def\moduleDates{#4}
+    \def\moduleCredits{#5}
+    \def\courseYear{#6}
+}
+
+\makeatletter
+\AtBeginDocument{
+  \hypersetup{
+    pdftitle={ \moduleName },
+    pdfauthor={Thomas Boxall},
+    pdfsubject={ \courseYear{} Year Computer Science Notes },
+    pdfcreator={Blood, Sweat \& Tears}
+  }
+}
+\makeatother
+
+%%%
+% TABLES & FLOATS
+%%% 
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{svg}
+\usepackage{longtable}
+
+\renewcommand{\arraystretch}{1.6} % make cells vertically bigger
+
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}} % create custom column type with definable width
+
+\newcommand{\thead}[1]{\centering\arraybackslash \cellcolor{themeGrey}\leavevmode\color{white}\textbf{#1}}
+
+%%%
+% Code Blocks etc
+%%%
+
+\usepackage{upquote}
+\usepackage{listings}
+
+\lstset{
+  basicstyle=\ttfamily,
+  mathescape,
+}
+
+\lstdefinestyle{haskellTrace}{
+  moredelim=[is][\underbar]{_}{_},
+  keepspaces=true,
+  escapechar=^
+}
+
+
+%%%
+% MATHEMATICAL ENVIRONMENTS
+%%%
+\usepackage{amsthm}
+\renewcommand\qedsymbol{$\blacksquare$}
+\newtheorem{theorem}{Theorem}[section]
+
+\usepackage[framemethod=tikz]{mdframed}
+% new mdframed style that places the edges at the corners:
+\mdfdefinestyle{proof}{
+  skipabove         = .5\baselineskip ,
+  skipbelow         = .5\baselineskip ,
+  leftmargin        = 0pt ,
+  rightmargin       = 0pt ,
+  innermargin       = 0pt ,
+  innertopmargin    = .5em ,
+  innerleftmargin   = .5em ,
+  innerrightmargin  = 0pt ,
+  innerbottommargin = .5em ,
+  hidealllines      = true ,
+  singleextra       = {
+    \draw (O) -- ++(0,.675em) (O) -- ++(.675em,0) ;
+    \draw (P-|O) -- ++(0,-.675em) (P-|O) -- ++(.675em,0) ;
+  },
+  firstextra        = {
+    \draw (P-|O) -- ++(0,-.675em) (P-|O) -- ++(.675em,0) ;
+  },
+  secondextra       = {
+    \draw (O) -- ++(0,.675em) (O) -- ++(.675em,0) ;
+  },
+}
+% put the new mdframed style around the proof environment:
+\surroundwithmdframed[style=proof]{proof}
+
+
+%%%
+% CHAPTER & HEADERS
+%%%
+\usepackage[raggedright,bf]{titlesec}
+\usepackage{fancyhdr}
+
+% reformat & rename chapter heading
+\titlespacing*{\chapter}{0pt}{-20pt}{0pt}
+\renewcommand*{\chaptername}{Page}
+
+% resize the chapter title
+\titleformat{\chapter}[display]
+  {\normalfont\Huge\bfseries} % <format>
+  {\chaptertitlename\ \thechapter} % <label>
+  {0.25em} % <sep>
+  {\Huge} % <before-code>
+
+% redefine \chapter so it uses pagestyle=fancy
+\makeatletter
+\renewcommand\chapter{\if@openright\cleardoublepage\else\clearpage\fi
+\thispagestyle{fancy}%
+\global\@topnum\z@
+\@afterindentfalse
+\secdef\@chapter\@schapter}
+\makeatother
+
+% design headers and footers
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\moduleCode{} (\moduleNameShort)}
+\fancyhead[R]{\leftmark}
+\fancyfoot[L]{\footnotesize \texttt{\DTMnow}}
+\fancyfoot[C]{\thepage{} of \pageref*{LastPage}}
+\fancyfoot[R]{\notesAuthor}
+\renewcommand{\footrulewidth}{0.4pt}
+\addtolength{\topmargin}{-1.59999pt}
+\setlength{\headheight}{13.59999pt}
+
+% custom headers for taught session
+\newcommand{\taughtsession}[6]{%
+    \chapter[#1 - #2 (#3)]{#1 - #2}
+    \chaptermark{#2}
+    \vspace{0.25em}
+    \begin{figure}[H]
+        \begin{minipage}[t]{0.2\textwidth}
+            \faCalendar*[regular]{} #3
+        \end{minipage}\hfill
+        \begin{minipage}[t]{0.2\textwidth}
+            \faClock[regular]{} #4
+        \end{minipage}\hfill
+        \begin{minipage}[t]{0.2\textwidth}
+            \faChalkboardTeacher{} #5
+        \end{minipage}\hfill
+    \end{figure}
+    \vspace{-1.5em}
+    \rule[0em]{\textwidth}{0.25px}
+    
+    } % end of new command
+
+% custom notes document title page
+
+\newcommand{\makedocumenttitlepage}{\begin{titlepage}
+    \pagecolor{themeBlue}
+    \color{white}
+    \rule{\textwidth}{1px}
+    \vspace{0.025\textheight}
+
+    \huge{\university}\\
+    \huge{\course}\\
+    \huge{\courseYear{} Year}
+
+    \vfill
+
+    \LARGE{\textbf{\moduleName} (\moduleNameShort)}\\[0.25em]
+    \Large{\moduleCode}\\[0.25em]
+    \large{\moduleDates}\\[0.25em]
+    \large{\moduleCredits{} Credits}
+
+    \vfill
+
+    \begin{flushright}
+        \large{\notesAuthor}\\[0.25em]
+        \texttt{\notesAuthorContact}
+    \end{flushright}
+    \vspace{0.2\textheight}
+    \rule{\textwidth}{1px}
+\end{titlepage}
+\nopagecolor
+}
