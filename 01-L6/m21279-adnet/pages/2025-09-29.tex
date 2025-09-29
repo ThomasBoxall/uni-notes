@@ -1,0 +1,131 @@
+\taughtsession{Lecture}{Signal Encoding Techniques}{2025-09-29}{11:00}{Asim}
+
+\begin{extlink}
+There are introductory slides on Moodle for this module.
+\end{extlink}
+
+\section{Introduction to Concepts}
+
+\subsection{Computer Networks}
+\begin{define}
+    \item[Computer Network] A system that connects two or more computing devices for transmitting and sharing information (data)
+\end{define}
+
+There are a number of different activities which can be done on a network:
+\begin{itemize}
+    \item Watching Videos
+    \item Playing Games
+    \item Sending and Receiving Messages (including not just text)
+    \item Paying Bills
+\end{itemize}
+
+The core function of the network is to exchange data between interconnected devices.
+
+\subsection{Data \& Signals}
+Data is the information which is transmitted between devices on the network. The type of the data depends on the context and may include:
+\begin{itemize}
+    \item Video
+    \item Audio
+    \item Text
+    \item Images
+\end{itemize}
+
+For data to be able to travel on the network - it has to be converted into digital or analog format. Once in either of these formats, they are known as \textit{signals}.
+
+\begin{define}
+\item[Signals] Electromagnetic Waves that carry data 
+\item[Analog Signals]  are signals which vary smoothly over time and have no fixed point to change at and don't have fixed levels
+\item[Discreet Signals] are signals which maintain constant level for some time then then change to another constant level
+\item[Digital Signal] are signals which have only two levels - one high to indicate on, or 1, and one low to indicate off, or 0
+\end{define}
+
+
+\begin{todo}
+Add graph from slides of Analog, Discrete, Digital Signal
+\end{todo}
+
+\section{Data Communications}
+Within a Data Communications Network - the data will convert between Digital and Analog data at various points. A \textit{modem} may be used to complete this conversion.
+
+\begin{todo}
+    Data Communications Model diagrams (block diagram as is then merge the icon diagram with the following slide's diagram including the waveforms)
+\end{todo}
+
+In the above diagram, the \textit{workstation} provides the \textit{modem} with a digital signal. The modem then converts this digital signal into an analog signal which can be transmitted across the \textit{Public Telephone Network} that uses analog signals. The receiving \textit{modem} converts the signal to a digital format which the \textit{server} receives. 
+
+In saying this, however, there are some devices which still work entirely on analog or digital signals. For example, the analog telephone network including the switching and transmission is entirely analog. There is also the inverse whereby there are entirely digital signals are processed. 
+
+\section{Digital-To-Digital Signal Encoding}
+Digital signals are transmitted such that an individual value is transmitted for a defined period of time called the \textit{bit duration}. The \textit{bit duration} is known to both the sender and receiver, allowing the receiver to correctly interpret the transmitted signal which the sender will always transmit at the beginning of the bit duration. We assume the sender and receiver are synchronised and therefore the clock or is not transmitted.
+
+The move between two different defined voltages within the transmission is called the \textit{transition}.
+
+As digital signals are discrete (meaning there are defined, absolute data levels) encoding a digital signal as another digital signal is considerably simpler as we don't have to convert one data level to another. 
+
+\subsection{Nonreturn to Zero Level (NRZ-L)}
+This method only has two levels of data transmitted. It works through mapping the high data level (1) and low data level (0) to a signal level:
+\begin{itemize}
+    \item 0 - represented by a high level signal
+    \item 1 - represented by a low level signal
+\end{itemize}
+
+\begin{todo}
+    graph example, possibly annotated?. use example box? interval lines definitely
+    use 110010 for all examples on page
+\end{todo}
+
+\subsection{Nonreturn to Zero Inverted (NRZ-I)}
+This method is similar to NRZ-L in that it uses two levels of data transmitted: high and low. However it uses the transitions to define the data being transmitted. Looking at the bit following a transition point, even if there is no transition present:
+\begin{itemize}
+    \item Where there is a transition (regardless of high to low, or low to high): the following bit is 1
+    \item Where there is not a transition (regardless of high to high, or low to low): the following bit is 0
+\end{itemize}
+
+\begin{todo}
+    graph example
+\end{todo}
+
+\subsection{Pseudoternary}
+This has three signal levels: high, zero, low. It works through setting the signal based on the bit to be transmitted:
+\begin{itemize}
+    \item 0 - represented by alternating high and low values, regardless of if there is a 1 value in the middle of them
+    \item 1 - represented by transmitting zero value
+\end{itemize}
+
+\begin{todo}
+    graph example
+\end{todo}
+
+\subsection{Manchester}
+This has two signal levels: high and low. It works through having up-to two transitions per interval:
+\begin{itemize}
+    \item 0 - represented by a transition from high to low in the middle of the interval (which for successive zeros will require a low-to-high transition at the start of the interval)
+    \item 1 - represented by a transition from low to high in the middle of the interval (which for successive ones will require a high-to-low transition at the start of the interval)
+\end{itemize}
+
+\begin{todo}
+    graph example
+
+    + the other methods in the slides not covered here already (diff manchester \& bipolar)
+\end{todo}
+
+\subsection{Multi-Level Transmit 3 (MLT-3)}
+This uses three different signal levels: low, zero and high. It works by cycling through these states based on the bit to be transmitted:
+\begin{itemize}
+    \item 0 - remain on the current signal level (regardless of signal level value)
+    \item 1 - move to the next state in the cycle of signal levels (high - zero - low - zero repeat)
+\end{itemize}
+
+\section{Electromagnetic Waves}
+Electromagnetic waves are the digital representation of an analog signal. They are considered to be smooth as they don't have fixed values. 
+
+
+\begin{todo}
+graph showing amplitude, frequency, phase, cycle, period
+\end{todo}
+
+\begin{todo}
+    finish notes.
+
+    find book as that's possibly more useful than slides?
+\end{todo}
