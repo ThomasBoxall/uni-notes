@@ -353,12 +353,6 @@ This has two signal levels: high and low. It works by always transitioning in th
 \caption{Example of Differential Manchester Encoding using 110010}
 \end{figure}
 
-\begin{todo}
-    graph example
-
-    + the other methods in the slides not covered here already (diff manchester \& bipolar)
-\end{todo}
-
 \subsection{Multi-Level Transmit 3 (MLT-3)}
 This uses three different signal levels: low, zero and high. It works by cycling through these states based on the bit to be transmitted:
 \begin{itemize}
@@ -366,16 +360,321 @@ This uses three different signal levels: low, zero and high. It works by cycling
     \item 1 - move to the next state in the cycle of signal levels (high - zero - low - zero repeat)
 \end{itemize}
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=stealth]
+
+    \draw[step=1cm,gray,very thin,dashed] (0,-1.5) grid (6,1.5);
+    \draw[->] (0, 0) -- (6, 0) node[right] {\tiny time};
+    \draw[->] (0, -1.5) -- (0, 1.5) node[above] {\tiny amplitude};
+
+    \node at (0.5, 1.25) {1};
+    \node at (1.5, 1.25) {1};
+    \node at (2.5, 1.25) {0};
+    \node at (3.5, 1.25) {0};
+    \node at (4.5, 1.25) {1};
+    \node at (5.5, 1.25) {0};
+
+    \node at (-0.5, 1) { high};
+    \node at (-0.5, -1) {low};
+    \node at (-0.5, 0) {zero};
+
+    \draw[themeBlue, thick] (0,0) -- (0,1) -- (1,1) -- (1,0) -- (4,0) -- (4,-1) -- (6,-1);
+
+\end{tikzpicture}
+\caption{Example of MLT-3 Encoding using 110010}
+\end{figure}
+
+
 \section{Electromagnetic Waves}
-Electromagnetic waves are the digital representation of an analog signal. They are considered to be smooth as they don't have fixed values. 
+Electromagnetic waves are the digital representation of an analog signal. They are considered to be smooth as they don't have fixed values. The key properties of any EM wave are as follows: Amplitude, Phase, Wavelength \& Frequency.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[h]{0.45\textwidth}
+        \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[>=stealth]
+
+            % \draw[step=1cm,gray,very thin,dashed] (0,-1) grid (6,1);
+
+            \draw[->] (0, 0) -- (6, 0) node[right] {\tiny time};
+            
+            \draw[->] (0, -1.5) -- (0, 1.5) node[above] {\tiny amplitude};
+            
+            \draw[themeBlue, thick, smooth, samples=100, domain=0:6] plot (\x, {sin(\x * 90)}); 
+
+            % amplitude
+            \draw[dashed, <->] (1,0) -- (1, 0.95) node[midway, left] {\footnotesize $A$};
+
+        \end{tikzpicture}
+        \caption{Electromagnetic Wave showing Amplitude ($A$)}
+        \end{figure}
+    \end{minipage}\hfill
+    \begin{minipage}[h]{0.45\textwidth}
+        \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[>=stealth]
+
+            % \draw[step=1cm,gray,very thin,dashed] (0,-1) grid (6,1);
+
+            \draw[->] (0, 0) -- (6, 0) node[right] {\tiny time};
+            
+            \draw[->] (0, -1.5) -- (0, 1.5) node[above] {\tiny amplitude};
+            
+            \draw[themeBlue, thick, smooth, samples=100, domain=0:6] plot (\x, {sin(\x * 90)}); 
+
+            % phase shift by +90
+            \draw[themeBlue, dashed, smooth, samples=100, domain=0:6] plot (\x, {sin(\x * 90 + 90)});
+
+        \end{tikzpicture}
+        \caption{Electromagnetic Wave showing Phase (dashed)}
+        \end{figure}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[h]{0.45\textwidth}
+        \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[>=stealth]
+
+            % \draw[step=1cm,gray,very thin,dashed] (0,-1) grid (6,1);
+
+            \draw[->] (0, 0) -- (6, 0) node[right] {\tiny time};
+            
+            \draw[->] (0, -1.5) -- (0, 1.5) node[above] {\tiny amplitude};
+            
+            \draw[themeBlue, thick, smooth, samples=100, domain=0:6] plot (\x, {sin(\x * 90)}); 
+
+            % wavelength / cycle
+            \draw[dashed, <->] (1, 1.1) --  (5,1.1) node[midway, above] {\footnotesize $\lambda$};
+
+        \end{tikzpicture}
+        \caption{Electromagnetic Wave showing Wavelength ($\lambda$)}
+        \end{figure}
+    \end{minipage}\hfill
+    \begin{minipage}[h]{0.45\textwidth}
+        \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[>=stealth]
+
+            % \draw[step=1cm,gray,very thin,dashed] (0,-1) grid (6,1);
+
+            \draw[->] (0, 0) -- (6, 0) node[right] {\tiny time};
+            
+            \draw[->] (0, -1.5) -- (0, 1.5) node[above] {\tiny amplitude};
+            
+            \draw[themeBlue, thick, smooth, samples=100, domain=0:6] plot (\x, {sin(\x * 90)}); 
+
+            \draw[themeBlue, dashed, smooth, samples=100, domain=0:6] plot (\x, {sin(\x * 180)});
+
+        \end{tikzpicture}
+        \caption{Electromagnetic Wave showing increased frequency (dashed)}
+        \end{figure}
+    \end{minipage}
+\end{figure}
+
+\subsection{Carrier Waves \& Modulation}
+\begin{define}
+    \item[Carrier Wave] a continuous, periodic waveform that carries no information
+\end{define}
+
+A \textit{carrier wave} is modified by an information-bearing signal to convey information. The modification can be by either changing: it's amplitude, frequency, phase, or some combination of the three. The process of modifying a carrier wave is called \textit{modulation}. 
+
+\section{Digital Data, Analog Signals}
+There are many examples of where digital data has to be transmitted through an analog medium. The most well-known of which being the public telephone network. This is designed to transmit voices, within the frequency of 300 to 3400 Hz; therefore a problem is presented when a digital device is connected to the network. This problem is overcome by connecting the digital device to a Modem (Modulator-Demodulator) which converts digital data to analog signals and the other way around. 
+
+There are a number of different methods which can be used to convert digital data onto a analog signal. These methods employ a carrier wave for the digital data to be modulated onto. For the subsequent examples - it's assumed the carrier wave is a sine wave. 
+
+\subsection{Amplitude-Shift Keying}
+Amplitude-Shift Keying (ASK) modulation works by modulating the digital signal onto the amplitude of the carrier wave. Meaning that the amplitude of the carrier wave is increased for a digital 0 and decreased for a digital 1. 
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=stealth]
+
+    \draw[step=1cm,gray,very thin,dashed] (0,-1.5) grid (6,4.5);
+    % analog x axis
+    \draw[->] (0, 0) -- (6, 0);
+    % y axis
+    \draw[->] (0, -1.5) -- (0, 1.25);
+    \draw[->] (0, 1.75) -- (0, 4.5);
+    % digital x axis
+    \draw[->] (0,3) -- (6,3);
+
+    %digital y axis markers
+    \node at (-0.5, 2) {0};
+    \node at (-0.5, 4) {1};
+    \draw [decorate, decoration={brace, amplitude=8pt, raise=4pt}] 
+            (-0.7, 1.75) -- (-0.7, 4.25)
+            node [midway, left=12pt] {Digital};
+    % analog y axis markers
+    \node at (-0.5, 1) {high};
+    \node at (-0.5, -1) {low};
+    \draw [decorate, decoration={brace, amplitude=8pt, raise=4pt}] 
+            (-0.7, -1.25) -- (-0.7, 1.25)
+            node [midway, left=12pt] {ASK};
+
+    % digital signal
+    \draw[themeBlue, thick] (0, 2) -- (1, 2) -- (1, 4) -- (3, 4) -- (3, 2) -- (5, 2) -- (5, 4) -- (6, 4);
+
+    % ask signal
+    \draw[themeBlue, thick, smooth, samples=100, domain=0:1] plot (\x, {sin(\x * 360)}); 
+    \draw[themeBlue, thick, smooth, samples=100, domain=1:3] plot (\x, {0.5 * sin(\x * 360)}); 
+    \draw[themeBlue, thick, smooth, samples=100, domain=3:5] plot (\x, {sin(\x * 360)}); 
+    \draw[themeBlue, thick, smooth, samples=100, domain=5:6] plot (\x, {0.5 * sin(\x * 360)}); 
 
 
-\begin{todo}
-graph showing amplitude, frequency, phase, cycle, period
-\end{todo}
+\end{tikzpicture}
+\caption{Example of ASK Modulation}
+\end{figure}
 
-\begin{todo}
-    finish notes.
+\subsection{Frequency-Shift Keying}
+Frequency-Shift Keying (FSK) modulation works by modulating the digital signal onto the frequency of the carrier wave. This means that the frequency of the carrier wave is increased for a digital 1 and decreased for a digital 0. 
 
-    find book as that's possibly more useful than slides?
-\end{todo}
+The sender and receiver may use different frequencies to allow full-duplex transmissions on the same channel. It is less susceptible to errors than ASK modulation is. FSK can be used for higher frequencies (3 - 30 MHz), radio and Local Area Network transmissions. It can also support Multiple Levels in MFSK.
+
+The most common form of FSK is Binary FSK (BFSK) in which the two binary values are represented by two different frequencies near the carrier frequency:
+\begin{itemize}
+    \item 0 - represented by $A \cos(2 \pi f_1 t)$
+    \item 1 - represented by $A \cos(2 \pi f_2 t)$
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=stealth]
+
+    \draw[step=1cm,gray,very thin,dashed] (0,-1.5) grid (6,4.5);
+    % analog x axis
+    \draw[->] (0, 0) -- (6, 0);
+    % y axis
+    \draw[->] (0, -1.5) -- (0, 1.25);
+    \draw[->] (0, 1.75) -- (0, 4.5);
+    % digital x axis
+    \draw[->] (0,3) -- (6,3);
+
+    %digital y axis markers
+    \node at (-0.5, 2) {0};
+    \node at (-0.5, 4) {1};
+    \draw [decorate, decoration={brace, amplitude=8pt, raise=4pt}] 
+            (-0.7, 1.75) -- (-0.7, 4.25)
+            node [midway, left=12pt] {Digital};
+    % analog y axis markers
+    \node at (-0.5, 1) {high};
+    \node at (-0.5, -1) {low};
+    \draw [decorate, decoration={brace, amplitude=8pt, raise=4pt}] 
+            (-0.7, -1.25) -- (-0.7, 1.25)
+            node [midway, left=12pt] {BFSK};
+
+    % digital signal
+    \draw[themeBlue, thick] (0, 2) -- (1, 2) -- (1, 4) -- (3, 4) -- (3, 2) -- (5, 2) -- (5, 4) -- (6, 4);
+
+    % bfsk signal
+    \draw[themeBlue, thick, smooth, samples=100, domain=0:1] plot (\x, {sin(\x * 360)}); 
+    \draw[themeBlue, thick, smooth, samples=100, domain=1:3] plot (\x, {sin(\x * 720)}); 
+    \draw[themeBlue, thick, smooth, samples=100, domain=3:5] plot (\x, {sin(\x * 360)}); 
+    \draw[themeBlue, thick, smooth, samples=100, domain=5:6] plot (\x, {sin(\x * 720)}); 
+
+
+\end{tikzpicture}
+\caption{Example of BFSK Modulation}
+\end{figure}
+
+\subsection{Phase Shift Keying}
+Phase Shift Keying (PSK) Modulation works by modulating the digital signal onto the phase of the carrier wave. This means that the phase of the carrier wave is adjusted to represent digital 0 and digital 1, respectively. There are two different types of PSK studied here.
+
+\subsubsection{Binary Phase Shift Keying}
+Binary PSK (BPSK) works by using two phases to represent two different binary digits (0 and 1) and shifting between them:
+\begin{itemize}
+    \item 0 - represented by the sine wave $A \cos (2 \pi f t + 180)$ which equals the sine wave $-A \cos (2 \pi ft)$
+    \item 1 - represented by the sine wave $A \cos (2 \pi f t)$
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=stealth]
+
+    \draw[step=1cm,gray,very thin,dashed] (0,-1.5) grid (6,4.5);
+    % analog x axis
+    \draw[->] (0, 0) -- (6, 0);
+    % y axis
+    \draw[->] (0, -1.5) -- (0, 1.25);
+    \draw[->] (0, 1.75) -- (0, 4.5);
+    % digital x axis
+    \draw[->] (0,3) -- (6,3);
+
+    %digital y axis markers
+    \node at (-0.5, 2) {0};
+    \node at (-0.5, 4) {1};
+    \draw [decorate, decoration={brace, amplitude=8pt, raise=4pt}] 
+            (-0.7, 1.75) -- (-0.7, 4.25)
+            node [midway, left=12pt] {Digital};
+    % analog y axis markers
+    \node at (-0.5, 1) {high};
+    \node at (-0.5, -1) {low};
+    \draw [decorate, decoration={brace, amplitude=8pt, raise=4pt}] 
+            (-0.7, -1.25) -- (-0.7, 1.25)
+            node [midway, left=12pt] {BPSK};
+
+    % digital signal
+    \draw[themeBlue, thick] (0, 2) -- (1, 2) -- (1, 4) -- (3, 4) -- (3, 2) -- (5, 2) -- (5, 4) -- (6, 4);
+
+    % bpsk signal
+    \draw[themeBlue, thick, smooth, samples=100, domain=0:1] plot (\x, {-sin(\x * 360)}); 
+    \draw[themeBlue, thick, smooth, samples=100, domain=1:3] plot (\x, {sin(\x * 360)}); 
+    \draw[themeBlue, thick, smooth, samples=100, domain=3:5] plot (\x, {-sin(\x * 360)}); 
+    \draw[themeBlue, thick, smooth, samples=100, domain=5:6] plot (\x, {sin(\x * 360)}); 
+
+
+\end{tikzpicture}
+\caption{Example of BPSK Modulation}
+\end{figure}
+
+\subsubsection{Differential Phase Shift Keying}
+Differential PSK (DPSK) works by referencing the previous bit in the current bit transmitted. DPSK removes the need for an accurate local oscillator phase at the receiver which is matched with the transmitter, because so long as the preceding phase is received correctly - the phase reference is accurate. 
+\begin{itemize}
+    \item 0 - send a signal similar to the previous one
+    \item 1 - send a signal with phase shift as compared to the previous one
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=stealth]
+
+    \draw[step=1cm,gray,very thin,dashed] (0,-1.5) grid (6,4.5);
+    % analog x axis
+    \draw[->] (0, 0) -- (6, 0);
+    % y axis
+    \draw[->] (0, -1.5) -- (0, 1.25);
+    \draw[->] (0, 1.75) -- (0, 4.5);
+    % digital x axis
+    \draw[->] (0,3) -- (6,3);
+
+    %digital y axis markers
+    \node at (-0.5, 2) {0};
+    \node at (-0.5, 4) {1};
+    \draw [decorate, decoration={brace, amplitude=8pt, raise=4pt}] 
+            (-0.7, 1.75) -- (-0.7, 4.25)
+            node [midway, left=12pt] {Digital};
+    % analog y axis markers
+    \node at (-0.5, 1) {high};
+    \node at (-0.5, -1) {low};
+    \draw [decorate, decoration={brace, amplitude=8pt, raise=4pt}] 
+            (-0.7, -1.25) -- (-0.7, 1.25)
+            node [midway, left=12pt] {DPSK};
+
+    % digital signal
+    \draw[themeBlue, thick] (0, 2) -- (1, 2) -- (1, 4) -- (3, 4) -- (3, 2) -- (5, 2) -- (5, 4) -- (6, 4);
+
+    % dpsk signal
+    \draw[themeBlue, thick, smooth, samples=100, domain=0:1] plot (\x, {-sin(\x * 360)}); 
+    \draw[themeBlue, thick, smooth, samples=100, domain=1:2] plot (\x, {sin(\x * 360)}); 
+    \draw[themeBlue, thick, smooth, samples=100, domain=2:5] plot (\x, {-sin(\x * 360)}); 
+    \draw[themeBlue, thick, smooth, samples=100, domain=5:6] plot (\x, {sin(\x * 360)}); 
+
+
+\end{tikzpicture}
+\caption{Example of DPSK Modulation}
+\end{figure}
