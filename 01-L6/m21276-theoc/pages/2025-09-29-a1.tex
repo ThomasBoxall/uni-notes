@@ -1,0 +1,167 @@
+\taughtsession{Lecture}{A1: Introduction to Languages}{2025-09-29}{14:00}{Janka}
+
+\begin{extlink}
+There are two useful decks of slides on Moodle: Introduction to THEOCs and Overview of THEOCs. There is also a \textit{Worksheet 0} which recaps the key concepts from year 1's Architecture \& Operating Systems (Maths) and 2nd year's Discrete Maths and Functional Programming. 
+\end{extlink}
+
+\section{Introduction}
+
+Languages are a system of communication. The languages we commonly use are built for communicating and passing along instructions to other humans or computers. Depending on the context in which a language is used, will vary the precision which must exist within the language. For example, a language to convey ``pub tonight?'' to a friend can be as simple as that, where the human can add context clues to fill in the blanks; however to convey \verb|print('hello, world')| to a computer - the language must be precise as it is not designed to interpret sloppy writing.
+
+Languages are defined in terms of the set of symbols (called it's \textit{alphabet}), which get combined into acceptable \textit{strings}, which happens based on rules of sensible combination called \textit{grammar}. 
+
+We can take this definition and see it in practice for the English Language:
+
+\begin{description}
+    \item[Alphabet] The alphabet for the English Language is Latin: $A = \{a, b, c, d, e, \ldots, x, y, z\}$
+    \item[Strings (words)] Strings are formed from $A$, for example `fun', `mathematics'. The English vocabulary defines which are really strings (for example which appear in the Oxford English Dictionary)
+    \item[Grammar] From the collection of words, we can build sentences using the English rules of \textit{grammar}
+    \item[Language] The set of possible sentences that make up the English Language 
+\end{description}
+
+Whilst this is an example around a tangible, understandable example - the elements of a formal language are exactly the same however they must be defined without any ambiguity. For example, programming languages have to be defined with a precise description of the syntax used.
+
+\section{Formalising Language Definitions}
+\begin{define}
+\item[Alphabet] A finite, nonempty set of symbols. For example: $\Sigma = \{a, b, c\}$
+\item[String] A finite sequence of symbols from the alphabet (placed next to each other in juxtaposition). For example: $abc, aaa, bb$ are examples of strings on $\Sigma$
+\item[Empty String] A string which has no symbols (therefore zero length), denoted $\Lambda$. 
+\item[Language] Where $\Sigma$ is an alphabet, then a language over $\Sigma$ is a set of strings (including empty string $\Lambda$) whose symbols come from $\Sigma$ 
+\end{define}
+
+For example, if $\Sigma = \{a, b\}$, then $L = \{ab, aaab, abbb, a\}$ is an example of a language over $\Sigma$. 
+
+Languages are not finite and they may or may not contain an empty string. 
+
+If $\Sigma$ is an alphabet, then $\Sigma^*$ denotes the infinite set of all strings made up from $\Sigma$ - including an empty string. For example, if $\Sigma = \{a, b\}$ then $\Sigma^* = \{\Lambda, a, b, ab, aab, aaab, bba, \ldots\}$. We can therefore say that when looking at $\Sigma^*$, a language over $\Sigma$ is any subset of $\Sigma^*$. 
+
+\begin{example}{Languages}
+For a given alphabet, $\Sigma$, it is possible to have multiple languages. For example:
+\begin{itemize}
+    \item $\emptyset$ - an empty language
+    \item $\{\Lambda\}$ - a language containing only an empty string (silly language)
+    \item $\Sigma$ - the alphabet itself
+    \item $\Sigma^*$ - the infinite set of all strings made up from the alphabet
+\end{itemize}
+
+Alternatively, we can make this slightly more tangible:
+
+Where $\Sigma = \{a\}$:
+\begin{itemize}
+    \item $\emptyset$
+    \item $\{\Lambda\}$
+    \item $\{a\}$
+    \item $\{\Lambda, a, aa, aaa, aaaa, \ldots\}$
+\end{itemize}
+
+\end{example}
+
+\section{Combining Languages}
+It is possible to combine languages together to create a new language.
+
+\subsection{Union and Intersection}
+As languages are just sets of strings, we can use the standard set operations for Union and Intersection to combine the languages together.
+
+\begin{example}{Union and Intersection}
+Where $L = \{aa, bb, ab\}$ and $M = \{ab, aabb\}$
+
+Intersection (common elements between the two sets):  $L \cap M = \{ab\}$
+
+Union (all elements from each set): $L \cup M = \{aa, bb, ab, aabb\}$
+\end{example}
+
+\subsection{Product}
+The product of two languages is based around concatenation of strings\dots
+
+The operation of \textit{concatenation of strings} places two strings in juxtaposition. For example, the concatenation of the two strings $aab$ and $ba$ is the string $aabba$. We use the name \textit{cat} to denote this operation: cat(aab, ba) = aabba. We can combine two languages $L$ and $M$ by forming the set of all concatenations of strings in $L$ with strings in $M$, which is called the product of two languages.
+
+\begin{define}
+    \item[Product of two languages] If $L$ and $M$ are languages, then the new language called the product of $L$ and $M$ is defined as $L \cdot M$ (or just $LM$). This can be seen in set notation below:
+    \[L \cdot M = \{cat(s, t) : s \in L\ \mathrm{and}\ t \in M\}\]
+\end{define}
+
+The product of a language, $L$, with the language containing only an empty string returns $L$:
+\[L \cdot \{\Lambda\} = \{\Lambda\} \cdot L = L\]
+
+The product of a language, $L$, with an empty set returns an empty set:
+\[L \cdot \emptyset = \emptyset \cdot L = \emptyset\]
+
+The operation of concatenation is not commutative - meaning the order of the two languages matters. For two languages, it's usually true that:
+\[L \cdot M \neq M \cdot L\]
+
+\begin{example}{Commutativity Laws of Concatenation}
+For example, if we take two languages: $L = \{ab, ac\}$ and $M = \{a, bc, abc\}$
+\begin{align*}
+  L \cdot M &= \{aba, abbc, ababc, aca, acbc, acabc\}  \\
+  M \cdot L &= \{aab, aac, bcab, bcac, abcab, abcac\}
+\end{align*}
+
+They have no strings in common!
+\end{example}
+
+The operation of concatenation is associative. Which means that if $L$, $M$, and $N$ are languages:
+\[L \cdot (M \cdot N) = (L \cdot M) \cdot N\]
+
+\begin{example}{Associativity Laws of Concatenation}
+For example, if $L = \{a, b\}$, $M = \{a, aa\}$ and $N = \{c, cd\}$ then:
+\begin{align*}
+    L \cdot (M \cdot N) &= L \cdot \{ac, acd, aac, aacd\} \\
+    &= \{aac, aacd, aaac, aaacd, bac, bacd, baac, baacd\}\\
+    \mathrm{which\ is\ the\ same\ as}\\
+    (L \cdot M) \cdot N &= \{aa, aaa, ba, baa\} \cdot N\\
+    &= \{aac, aacd, aaac, aaacd, bac, bacd, baac, baacd\}
+\end{align*}
+\end{example}
+
+\subsection{Powers of a Language}
+For a language, $L$, the product $L \cdot L$ is denoted by $L^2$.
+
+The language product $L^n$ for ever $n \in \{0, 1, 2, \ldots\}$ is defined as follows:
+\begin{align*}
+    L^0 &= \{\Lambda\}\\
+    L^n &= L \cdot L^{n-1}, \mathrm{if\ } n > 0
+\end{align*}
+
+\begin{example}{Powers of Languages}
+If we take $L = \{a, bb\}$:
+\begin{align*}
+L^0 &= \{\Lambda\} \\
+L^1 &= L = \{a, bb\}\\
+L^2 &= L \cdot L = \{aa, abb, bba, bbbb\}\\
+L^3 &= L \cdot L^2 = \{aaa, aabb, abba, abbbb, bbaa, bbabb, bbbba, bbbbbb\}
+\end{align*}
+\end{example}
+
+\section{Closure of a Language}
+\begin{todo}
+Attempt to extricate a better definition of closure out of Janka
+\end{todo}
+
+The \textit{closure} of a language is an operation which is applied to a language. 
+
+If $L$ is a language over $\Sigma$ (for example $L \subset \Sigma^*$) then the closure of $L$ is the language denoted by $L^*$ and is defined as follows:
+\[L^* = L^0 \cup L^1 \cup L^2 \cup \ldots\]
+
+The \textit{Positive Closure} of $L$ is the language denoted by $L^+$ and is defined as follows:
+\[L^+ = L^0 \cup L^1 \cup L^2 \cup \ldots\]
+
+So from this we can derive that $L^* = L^+ \cup \{\Lambda\}$. However - it's not necessarily true that $L^+ = L^* - \{\Lambda\}$. 
+
+For example, if we take our alphabet as $\Sigma = \{a\}$ and our language to be $L = \{\Lambda, a\}$ then $L^+ = L^*$. 
+
+Based on what we now know, there's some interesting properties of closure we can derive. Let $L$ and $M$ be languages over the alphabet $\Sigma$:
+\begin{itemize}
+    \item $\{\Lambda\}^* = \emptyset^* = \{\Lambda\}$
+    \item $L^* = L^* \cdot L^* = (L^*)^*$
+    \item $\Lambda \in L$ if and only if $L^+ = L^*$
+    \item $(L^* \cdot M^*)^* = (L^* \cup M^*)^* = (L \cup M)^*$
+    \item $L \cdot (M \cdot L)^* = (L \cdot M)^* \cdot L$
+\end{itemize}
+
+\textit{These will be explored more in the coming Tutorials}
+
+\section{Closure of an Alphabet}
+As we saw earlier, $\Sigma^*$ is the infinite set of all strings made up from $\Sigma$. The closure of $\Sigma$ coincides with our definition of $\Sigma^*$ as the set of all strings over $\Sigma$. In other words, it is a nice representation of $\Sigma^*$ as follows:
+\[\Sigma^* = \Sigma^0 \cup \Sigma^1 \cup \Sigma^2 \cup \ldots\]
+
+From this, we can see that $\Sigma^k$ represents the set of strings of length $k$, for each their symbols are in $\Sigma$. 
