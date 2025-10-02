@@ -156,10 +156,86 @@ We can use the following solution:
 \end{example}
 
 \section{Combining Grammars}
+If we take $L$ and $M$ to be languages which we are able to find the grammars; then there exist simple rules for creating grammars which produce the languages $L \cup M$, $L \cdot M$, and $L^*$. This therefore means we can describe $L$ and $M$ with grammars having disjoint sets (where neither set has common elements) of non-terminals. 
 
+The combination process is started by assigning start symbols for the grammars of $L$ and $M$ to be $A$ and $B$ respectively:
+\[L:A \rightarrow \ldots, \quad M:B \rightarrow \ldots \]
 
-% combining grammars
-%     union
-%     product
-%     closure
-% equivalent grammar
+\subsection{Union Rule}
+The union of two languages, $L \cup M$ starts with the two productions:
+\[S \rightarrow A|B\]
+which is followed by: the grammar rules of $L$ (start symbol $A$) and then the grammar rules of $M$ (start symbol $B$).
+
+\begin{example}{Combining Grammars Using Union Rule}
+If we take the following language:
+\[K =\{\Lambda, a, b, aa, bb, aaa, bbb, \ldots, a^n, b^n, \ldots\}\]
+Now to find the grammar for it. 
+
+Firstly we look at it and see quite clearly there is a pattern, $K$ is a union of the two languages:
+\[L = \{a^n | n \in \mathbb{N}\} \ \mathrm{and}\ M = \{b^n | n \in \mathbb{N}\} \]
+
+Therefore we can write a grammar for $K$ as follows:
+\begin{itemize}
+    \item $A \rightarrow \Lambda | aA$ (grammar for $L$)
+    \item $B \rightarrow \Lambda | bB$ (grammar for $M$)
+    \item $S \rightarrow A|B$ (union rule)
+\end{itemize}
+    
+\end{example}
+
+\subsection{Product Rule}
+Much the same as the Union Rule, the product of two languages, $L \cdot M$ starts with the production:
+\[S \rightarrow AB\]
+Which is then followed by: the grammar rules of $L$ (start symbol $A$) and then the grammar rules of $M$ (start symbol $B$).
+
+\begin{example}{Combining Grammars Using Product Rule}
+If we take the following language:
+\begin{align*}
+    K &= \{a^mb^n | m, n \in \mathbb{N}\}\\
+    &= \{\Lambda, a, b, aa, ab, aaa, bb\}
+\end{align*}
+We can first find out that $K$ is the product of two languages:
+\[L = \{a^n | n \in \mathbb{N}\} \ \mathrm{and}\ M = \{b^n | n \in \mathbb{N}\} \]
+
+Therefore we can write a grammar for $K$ as follows:
+\begin{itemize}
+    \item $A \rightarrow \Lambda | aA$ (grammar for $L$)
+    \item $B \rightarrow \Lambda | bB$ (grammar for $M$)
+    \item $S \rightarrow AB$ (product rule)
+\end{itemize}
+\end{example}
+
+\subsection{Closure Rule}
+The grammar for the closure of a language, $L^*$, starts with the production:
+\[S \rightarrow AS|\Lambda\]
+Which is followed by: the grammar rules of $L$ (start symbol $A$).
+
+\begin{example}{Grammar Closure Rule}
+If we take the problem that we want to construct a language, $L$, of all possible strings made up from zero or more occurrences of $aa$ or $bb$:
+\[L = \{aa, bb\}^* = M^*\]
+Where $M = {aa, bb}$
+
+Therefore:
+\[L = \{\Lambda, aa, bb, aaaa, aabb, bbbb, bbaa, \ldots\}\]
+
+Therefore, we can write a grammar for $L$ as follows:
+\begin{itemize}
+    \item $S \rightarrow AS | \Lambda$ (closure rule)
+    \item $A \rightarrow aa|bb$ (grammar for $\{aa, bb\}$)
+\end{itemize}
+\end{example}
+
+\section{Equivalent Grammars}
+Grammars are not unique; a given language can have many grammars which could produce it. Grammars can be simplified down to their simplest form. 
+
+\begin{example}{Simplifying Grammars}
+If we take the grammar from the previous example:
+\[S \rightarrow AS | \Lambda, \quad A \rightarrow aa|bb\]
+We can simplify this:
+\begin{itemize}
+    \item Replace the occurrence of $A$ in $S \rightarrow AS$ by the right side of $A \rightarrow aa$ to obtain the production $S \rightarrow aaS$
+    \item Replace $A$ in $S \rightarrow AS$ by the right side of $A \rightarrow bb$ to obtain the production $S \rightarrow bbS$
+\end{itemize}
+We can therefore write the grammar in simplified form as:
+\[S \rightarrow aaS | bbS | \Lambda\]
+\end{example}
