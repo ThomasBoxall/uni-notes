@@ -1,0 +1,84 @@
+\taughtsession{Lecture}{Spread Spectrum and Walsh Codes}{2025-10-06}{11:00}{Asim}
+
+\section{Communication Channels}
+There are two different types of Communications Channels.
+
+\begin{define}
+    \item[Guided Media] Wired (Bounded) Media (i.e Twisted Pair, Coaxial, Fibre Optic)
+    \item[Unguided Media] Wireless Media (i.e. Microwave, Radio Wave. Cellular, Infrared, Satellite)
+\end{define}
+
+Within Guided Media, the electromagnetic waves are guided along a physical path. The medium can be considered to be \textit{point-to-point} if it provides a direct link between two devices and those two devices are the only devices sharing the medium.
+
+Unguided media is the opposite - where the electromagnetic waves are not guided through any physical containment, rather they transmit through air, vacuum or seawater. 
+
+The term \textit{Direct Link} is used to refer to a transmission path where the signal is transmitted directly from sender to receiver without any intermediate devices. This can apply to both guided and unguided media.
+
+A transmission may be simplex, half duplex or full duplex.
+
+\begin{define}
+    \item[Simplex] a transmission in which signals are only transmitted in one direction
+    \item[Half-Duplex] a transmission in which both stations can send and receive but only one can send at one time
+    \item[Full-Duplex] a transmission in which both stations can send and receive at the same time; which requires a medium is required for signals to be sent in both directions at the same time
+\end{define}
+
+
+\begin{todo}
+Add diagram for telecoms spectrums
+
+add fsk transmission for voice grade line diagram and explanation
+\end{todo}
+
+\section{Interference and Noise}
+It is possible to alter the transmitted signals which means the receiver may interpret the signal differently. 
+
+\begin{define}
+\item[Interference] The combination of two or more electromagnetic waveforms to form a resultant wave in which the displacement is either reinforced or cancelled
+\item[Noise] An unwanted signal which is combined with desired signal 
+\end{define}
+
+\begin{todo}
+example of interference graphs
+\end{todo}
+
+\section{Spread Spectrum}
+When transmitting our analog signals (whether these originated as digital or analog), we can spread the signal over a wider bandwidth to avoid jamming and frequency interception. 
+
+Spread Spectrum is a technique used by military and intelligence applications which is also used in Wireless and Cordless networks. There are a number of different techniques which can be used, we will explore 3 of them. 
+
+\subsection{Frequency Hopping Spread Spectrum}
+In Frequency Hopping Spread Spectrum (FHSS), the signal is broadcast over a number of different radio frequencies, and the frequency used is changed at a fixed intervals which are generally extremely short (i.e. $1 ms$). The receiver will hop between the different frequencies used in sync with the transmitter.
+
+If the transmission is compromised, then the attacker would only hear unintelligible blips of the transmission. It would also thwart attempts to jam the signal as the attacker would only be able to block a few bits of the signal. 
+
+\begin{todo}
+example graph of freq and channels?
+
+fhss spectrum system block diagram
+\end{todo}
+
+\subsection{Direct Sequence Spread Spectrum}
+Direct Sequence Spread Spectrum (DSSS) works by encoding a single bit to be transmitted (i.e. $1$) as a multi-but sequence (i.e. $0110$) using a spreading code. The \textit{spreading code} spreads the signal across a wider frequency band in direct proportion to the number of bits used. Which means that a 4-bit spreading code spreads 1-bit of signal across a frequency band which is 4 times greater than a 1-bit spreading code. Of course, it doesn't have to be a 4-bit spreading code; it could be 10-bit or 20-bit. 
+
+A common method for encoding DSS is to combine the digital data input signal with a \textit{Pseudorandom Noise (PN)} sequence (the individual bits within are called \textit{chips}). The combined output signal is then referred to as a \textit{chip sequence}.
+
+In reality, this encoding process works by combining the digital data input signal with the Chip Sequence using an Exclusive Or (XOR) operation. 
+
+\begin{align*}
+    0 \oplus 0 &= 0\\
+    0 \oplus 1 &= 1\\
+    1 \oplus 0 &= 1\\
+    1 \oplus 1 &= 0
+\end{align*}
+
+This produces a \textit{combination bit stream} which has the data rate of the spreading code sequence, so therefore has a higher bandwidth than the information stream. 
+
+\begin{todo}
+example graph showing how this works
+\end{todo}
+
+\begin{todo}
+    finish lecture.
+
+    Consider putting tdm and fdm higher up (before spread spectrum?)
+\end{todo}
