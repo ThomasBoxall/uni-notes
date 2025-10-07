@@ -1,0 +1,44 @@
+\taughtsession{Lecture}{A4: Finite Automata}{2025-10-06}{15:00}{Janka}
+
+This topic will continue into lecture A5 (next Monday).
+
+\section{Models of Computation}
+In this module we'll study different models of computation. These are theoretical ways of representing the computation which is going on within the computer for a given scenario. Examples include \textit{finite automata}, \textit{push-down automata} and \textit{Turing machines}. 
+
+All these models have an \textit{input tape}. This is a continuous input string which is divided up into single string segments. The models can either accept or reject the input strings based on their rules. The set of all accepted strings over the alphabet is the language recognised by the model.
+
+They have different types of memory - some may have finite and others infinite. Some models may have additional features.
+
+\section{Finite Automata: An Introduction}
+The most basic model of a computer is the \textit{Finite Automata} (FA). These have three components:
+\begin{itemize}
+    \item an \textit{input tape} which contains an input string over $\Sigma$
+    \item a \textit{head} which reads the input string one symbol at a time
+    \item some \textit{memory} which is a finite set of $Q$ states. The FA is always only in one state, called a \textit{current state} of the automaton
+\end{itemize}
+
+The \textit{program} of the FA defines how the symbols that are read change the current program.
+
+Finite Automata are commonly represented as a transition graph (directed graph, cue flashbacks to DMAFP) because they are simpler to interpret than the formal definitions, which we will cover later.
+
+% from paapl - edit to suit this problem.
+% \begin{figure}[H]
+%     \centering
+%     \begin{tikzpicture}[node distance=3cm, shorten >= 2pt, shorten <= 2pt]
+%         \node[initial, state] (1) {$1$};
+%         \node[state] (2) [right of=1] {2};
+%         \node[state] (3) [below of=2] {3};
+%         \node[state, accepting] (4) [right of=2] {4};
+
+%         \path[->] (1) edge [above] node [align=center] {$a$} (2)
+%                   (2) edge [above] node [align=center] {$b$} (4)
+%                   (1) edge [right] node [align=center] {$b$} (3)
+%                   (2) edge [right] node [align=center] {$a$} (3)
+%                   (4) edge [right] node [align=center] {$a$} (3)
+%                   (3) edge [loop right] node [align=center] {$b$} (3)
+%                   (3) edge [loop left] node [align=center] {$a$} (3)
+%                   (4) edge [loop above] node [align=center] {$b$} (4);
+%     \end{tikzpicture}
+%     \caption{DFA Example 1}
+%     \label{fig:dfa-string}
+% \end{figure}
