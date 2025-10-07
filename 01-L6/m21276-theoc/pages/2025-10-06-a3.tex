@@ -1,0 +1,252 @@
+\taughtsession{Lecture}{A3: Regular Languages}{2025-10-06}{14:00}{Janka}{}
+
+\section{What Are We Trying To Solve Here?}
+The problem we are trying to solve with Regular Languages is that of precision and absolute certainty - a mathematicians favourite situation.
+
+If we take a statement: ``What do we mean by a decimal number?''
+
+We can solve this in a number of ways. One might assume \textit{``Some digits followed maybe by a point and some more digits''} is a good description. However they would be wrong - this is imprecise and inaccurate (mathematicians nightmare). 
+
+So we can make it more precise \textit{``Optional minus sign, any sequence of digits, followed by optional point and if so then optional sequence of digit''}. This is obviously better, and now more precise \& accurate as we're acknowledging negative numbers are a thing. Although it still isn't great, there's too many words for a mathematician to approve.
+
+So that brings us to the best option: a regular expression:
+\[(-+\Lambda) D D^* (\Lambda + .D^*), D \mathrm{\ stands\ for\ a\ digit}\]
+
+\section{Regular Languages}
+\begin{define}
+    \item[Regular Language] A formal language that can be described by a regular expression or recognised by a finite automaton
+\end{define}
+
+Regular Languages are extremely useful, they are easy to recognise and describe. They provide a simple tool to solve some problems. We see regular expressions in many places within Computing - for example in pattern matching in the \verb|grep| filter in UNIX systems or in lexical-analyser generators in breaking down the source program into logical units such as keywords, identifiers, etc.
+
+There are four different ways we can define a regular language:
+\begin{enumerate}
+    \item Languages that are \textit{inductively} formed from combining very simple languages
+    \item Languages described by a \textit{regular expression}
+    \item Languages produced by a grammar with a special, very restricted form
+    \item Languages that are accepted by some finite automaton (covered in subsequent lectures)
+\end{enumerate}
+
+\section{Defining a Regular Language with Induction}
+
+\begin{define}
+\item[Induction] This is a process which works through the problem, situation, etc in a step-by-step way. We can inference from one step to another, for example if we know 1 is a number then 1+1 will be a number.
+\end{define}
+
+Defining a regular language by induction starts with the basis of a very simple language which then gets combined together in particular ways. For example, if we take $L$ and $M$ to be regular languages then the following languages are also regular:
+\[L \cup M, L \cdot M, L^*\]
+
+So to generalise this, for a given alphabet $\Sigma$: all regular languages over $\Sigma$ can be built from combining these four in various ways by recursively using the union, product and closure operation. 
+
+\begin{example}{Regular Language Definitions}
+For this example, we take $\Sigma = \{a, b\}$. 
+
+This gives us four regular languages:
+\[\emptyset, \{\Lambda\}, \{a\}, \{b\}\]
+
+\textbf{Ex. 1:} Is the language $\{\Lambda, b\}$ regular?
+
+Yes, it can be written as the union of two regular languages $\{\Lambda\}$ and $\{b\}$:
+\[\{\Lambda\} \cup \{b\} = \{\Lambda, b\}\]
+
+\textbf{Ex. 2:} Is the language $\{a, ab\}$ regular?
+
+Yes, it can be written as the product of the two regular languages $\{a\}$ and $\{\Lambda, b\}$:
+\[\{a, ab\} = \{a\} \cdot \{\Lambda, b\} = \{a\} \cdot (\{\Lambda\} \cup \{b\})\]
+
+\textbf{Ex. 3:} Is the language $\{\Lambda, b, bb, \ldots, b^n, \ldots\}$ regular?
+
+Yes, it is the closure of the regular language $\{b^*\}$:
+\[\{b\}^* = \{\Lambda, b, bb, \ldots, b^n, \ldots\}\]
+
+\textbf{Ex. 4:} Is the language $\{a, ab, abb, \ldots, ab^n, \ldots\}$ regular?
+
+Yes, we can construct it:
+\[\{a, ab, abb, \ldots, ab^n, \ldots\} = \{a\} \cdot \{\Lambda, b, bb, \ldots, b^n, \ldots\} = \{a\} \cdot \{b\}^*\] 
+
+\textbf{Ex. 5:} Is the language $\{b, aba, aabbaa, \ldots, a^nba^n, \ldots\}$ regular?
+
+No. This cannot be regular because we have now way to ensure that the two sets of $a$ are both repeated $n$ times. 
+\end{example}
+
+\begin{extlink}
+There are additional examples in the Lecture A3 slides on Moodle.
+\end{extlink}
+
+So what we've learnt from the above is that regular languages can be finite or infinite, and that they cannot have the same symbol repeated in two different places the same number of repetitions.
+
+\section{Defining a Regular Language with Regular Expressions}
+\begin{define}
+    \item[Regular Expression] A sequence of characters that define a specific search pattern for matching text
+\end{define}
+
+In our use case, a \textit{Regular Expression} is a shorthand way of showing how a regular language is built from the bases set of regular languages. It uses symbols which are nearly identical to those used to construct the language. Any given regular expression has a language closely associated with it.
+
+For each regular expression $E$, there is a regular language $L(E)$. 
+
+Much like the languages they represent, a regular expression can be inductively manipulated to form new regular expressions. For example if we take $R$ and $E$ as regular expressions then the following are also regular:
+\[(R), R + E, R \cdot E, R^*\]
+
+\begin{example}{Regular Expresssions}
+If we take the alphabet to be $\Sigma = \{a, b\}$ then listed below are some of the infinitely many regular expressions:
+\[\Lambda, \emptyset, a, b\]
+\[\Lambda + b, b^*, a+(b \cdot a), (a + b) \cdot a, a \cdot b^*, a^* + b^*\]
+\end{example}
+
+Much like maths, we have an order of operations to help us understand how to interpret a given regular expression. This goes, evaluated first to last: $(\ )$, $*$, $\cdot$, $+$
+
+It's worth noting that the $\cdot$ symbol is often dropped so instead of writing $a + b \cdot a^*$, you would write $a+ba^*$; in it's bracketed form - this would be $(a+(b \cdot (a^*)))$. 
+
+The symbols of the regular expressions are distinct from those of the languages, as can be seen in the following table. The language will always be either an empty set, or a set. 
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.3\textwidth} p{0.3\textwidth}}
+    \thead{Regular Expression} & \thead{Language}\\
+    $\emptyset$ & $L(\emptyset) = \emptyset$ \\
+    \hline
+    $\Lambda$ & $L(\Lambda) = \{\Lambda\}$ \\
+    \hline
+    $a$ & $L(a) = \{a\}$\\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{Comparison of Regular Expression syntax and Language syntax}
+    \label{tab:regex-vs-language}
+\end{table}
+
+There are two binary operations on regular expressions ($+$ and $\cdot$) and one unary operator ($*$). These are closely associated with the union ($+$), product ($\cdot$) and closure ($*$) operations on the corresponding languages. 
+
+\begin{example}{Regular Language Operations}
+The regular expression $a + bc^*$ is effectively shorthand for the regular language:
+\[\{a\} \cup (\{b\} \cdot (\{c\}^*))\]
+\end{example}
+
+\begin{example}{Translating a Regular Expression into a Language}
+If we take the regular expression $a + bc^*$, we can find it's language:
+\begin{align*}
+L(a + bc^*) &= L(a) \cup L(bc^*)\\
+&= L(a) \cup (L(b) \cdot L(c^*))\\
+&= L(a) \cup (L(b) \cdot L(c)^*)\\
+&= \{a\} \cup (\{b\} \cdot \{c\}^*)\\
+&= \{a\} \cup (\{b\} \cdot \{\Lambda, c, c^2, \ldots, c^n, \ldots\})\\
+&= \{a\} \cup \{b, bc, bc^2, \ldots, bc^n, \ldots\}\\
+&= \{a, b, bc, bc^2, \ldots, bc^n, \ldots\}\\
+\end{align*}
+\end{example}
+
+\begin{example}{Translating from Language to Regular Expression}
+If we take the regular language:
+\[\{\Lambda, a, b, ab, abb, abbb, \ldots, ab^n, \ldots\}\]    
+We can represent with a regular expression:
+\[\Lambda + b + ab^*\]
+
+We've used \textit{union} not \textit{product} because the language doesn't include a leading $b$; there are three options for the strings structure:
+\begin{itemize}
+    \item[$\Lambda$] the empty string
+    \item[$b$] a singular $b$ on it's own
+    \item[$ab^*$] a single $a$ followed by zero or more $b$
+\end{itemize}
+\end{example}
+
+Regular Expressions may not be unique, in that two or more different regular expressions may represent the same languages. For example the regular expressions $a + b$ and $b + a$ are different, but they both represent the same language:
+\[L(a + b) = L(b + a) = \{a, b\}\]
+
+We can say that regular expressions $R$ and $E$ are equal if their languages are the same (i.e. $L(R) = L(E)$), and we denote this equality in the familiar way $R=E$. 
+
+There are many general equalities for regular expressions. All the properties hold for any regular expressions $R$, $E$, $F$ and can be verified by using properties of languages and sets.
+
+\begin{multicols}{2}
+\textbf{Additive ($+$) properties}
+\begin{align*}
+R + E &= E + R\\
+R + \emptyset &= \emptyset + R = R\\
+R + R &= R\\
+(R+E) + F &= R + (E + F)\\
+\end{align*}
+
+\textbf{Product ($\cdot$) properties}
+\begin{align*}
+R\emptyset &= \emptyset R = \emptyset\\
+R \Lambda &= \Lambda R = R\\
+(RE)F &= R(EF)
+\end{align*}
+\vfill\null
+
+\columnbreak
+
+\textbf{Distributive Properties}
+\begin{align*}
+R(E+F) &= RE + RF\\
+(R+E)F &= RF+EF
+\end{align*}
+
+\textbf{Closure Properties}
+\begin{align*}
+\emptyset^* &= \Lambda^* = \Lambda\\
+R^* &= R^* R^* = (R^*)^* = R+R^*\\
+R^* &= \Lambda + RR^* = (\Lambda + R)R^*\\
+RR^* &= R^*R\\
+R(ER)^* &= (RE)^*R\\
+(R+E)^* &= (R^*E^*)^* = (R^*+E^*)^* = R^*(ER^*)^*
+\end{align*}
+
+\end{multicols}
+
+We can use a combination of these properties to simplify regular expressions and prove equivalences.
+
+\begin{example}{Regular Expression Equivalence}
+Show that: $\Lambda + ab + abab(ab)^* = (ab)^*$ Using the above properties.
+
+\begin{align*}
+\Lambda + ab + abab(ab)^* = (ab)^* &= \Lambda + ab(\Lambda + ab(ab)^*)\\
+&= \Lambda + ab((ab)^*) \quad  (\textrm{Using } R^* = \Lambda + RR^*)\\
+&= \Lambda + ab(ab)^*\\
+&= (ab)^* \quad  (\textrm{Using } R^* = \Lambda + RR^* \textrm{ again})
+\end{align*}
+\end{example}
+
+\section{Defining a Regular Language using Regular Grammars}
+\begin{define}
+\item[Regular Grammar] A grammar where each production takes one of the following restricted forms:
+\begin{align*}
+B &\rightarrow \Lambda,\ B \rightarrow w,\\
+B &\rightarrow A,\\
+B &\rightarrow wA
+\end{align*}
+Where $A$, $B$ are non-terminals and $w$ is a non-empty string of terminals.
+\end{define}
+
+There are two regulations all regular grammars must adhere to:
+\begin{itemize}
+    \item Only one non-terminal can appear on the right hand side of a production
+    \item Non-terminals must appear on the right end of the right hand side
+\end{itemize}
+
+Therefore, $A \rightarrow aBc$ and $S \rightarrow TU$ are not part of a regular grammar. The production $A \rightarrow abcA$ is, however. Obviously things like $A \rightarrow aB |cC$ are allowed because they are two separate productions.
+
+For any given regular language, we can find a regular grammar which will produce it. However there may also be other non-regular grammars which also produce it. 
+
+\begin{example}{Regular and Irregular Grammars}
+If we take the regular language $a^*b^*$, we can see it has a regular grammar and an irregular grammar. 
+
+\begin{multicols}{2}
+\textbf{Irregular Grammar}
+\begin{align*}
+S &\rightarrow AB\\
+A &\rightarrow \Lambda | aA\\
+B &\rightarrow \Lambda | Bb 
+\end{align*}
+
+\columnbreak
+
+\textbf{Regular Grammar}
+\begin{align*}
+S &\rightarrow \Lambda | aS | A\\
+A &\rightarrow \Lambda | bA
+\end{align*}
+\vfill\null
+\end{multicols}
+
+\end{example}
