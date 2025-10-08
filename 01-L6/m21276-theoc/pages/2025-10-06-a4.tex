@@ -21,24 +21,39 @@ The \textit{program} of the FA defines how the symbols that are read change the 
 
 Finite Automata are commonly represented as a transition graph (directed graph, cue flashbacks to DMAFP) because they are simpler to interpret than the formal definitions, which we will cover later.
 
-% from paapl - edit to suit this problem.
-% \begin{figure}[H]
-%     \centering
-%     \begin{tikzpicture}[node distance=3cm, shorten >= 2pt, shorten <= 2pt]
-%         \node[initial, state] (1) {$1$};
-%         \node[state] (2) [right of=1] {2};
-%         \node[state] (3) [below of=2] {3};
-%         \node[state, accepting] (4) [right of=2] {4};
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {0};
+        \node[state] (1) [above right of=0, yshift=-1cm] {1};
+        \node[state] (2) [below right of=0, yshift=1cm] {2};
+        \node[state, accepting] (3) [below right of=1, yshift=1cm] {3};
 
-%         \path[->] (1) edge [above] node [align=center] {$a$} (2)
-%                   (2) edge [above] node [align=center] {$b$} (4)
-%                   (1) edge [right] node [align=center] {$b$} (3)
-%                   (2) edge [right] node [align=center] {$a$} (3)
-%                   (4) edge [right] node [align=center] {$a$} (3)
-%                   (3) edge [loop right] node [align=center] {$b$} (3)
-%                   (3) edge [loop left] node [align=center] {$a$} (3)
-%                   (4) edge [loop above] node [align=center] {$b$} (4);
-%     \end{tikzpicture}
-%     \caption{DFA Example 1}
-%     \label{fig:dfa-string}
-% \end{figure}
+        \path[->, bend left=30] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->, bend right=30] (0) edge [above] node [align=center] {$b$} (2);
+        \path[->, bend left=30] (1) edge [above] node [align=center] {$a$} (3);
+        \path[->, bend right=30] (2) edge [above] node [align=center] {$b$} (3);
+        \path[->] (1) edge [loop above] node [align=center] {$b$} (1);
+        \path[->] (2) edge [loop below] node [align=center] {$a$} (2);
+        \path[->] (3) edge [loop right] node [align=center] {$a,b$} (3);
+    \end{tikzpicture}
+    \caption{Example of Finite Automata}
+    \label{fig:eg-fa}
+\end{figure}
+
+All \textit{finite automata} will have one \textit{initial} state and at least one \textit{final state} (denoted by a double circle). 
+
+FAs work by starting in the initial state (0) and as we read off symbols in the string we move from state-to-state (vertex-to-vertex). If after reading the entire input string, the automaton is in the final state - the input string is accepted; if the automaton is not in the final state - the input string is rejected.
+
+To define the function of a FA in mathematical terms - they read a finite-length input string over $\Sigma$, one symbol at a time. A FA is always in a \textit{state}, from the set of states $Q$. They begin in a designated initial (start) state, then on reading a symbol - the state changes which is called a transition. The new state depends on the current state and the symbol read in. There is no option to re-read the input symbols or to write them anywhere. At the end of the string, the machine either accepts the string if and only if its state is one of the final state, otherwise it gets rejected. The language of the automaton is the set of strings it accepts.
+
+\begin{example}{Finite Automata Processing}
+Looking at the Automata in Figure \ref{fig:eg-fa}, we can take the example input $abbbba$.
+
+This would start in state 0, and travel to state 1, accepting the initial $a$. The automata then loops around from state 1 to state 1 accepting the $b$, which is repeated 4 times in total. The automata then takes the final $a$ and transitions from state 1 to 3. As we have processed all the input string and we are in the final state - the input string is accepted.
+
+Below is a representation of the transitions taken by the automata to process the input string:
+\[0 \rightarrow ^a\ 1 \rightarrow ^b\ 1 \rightarrow 1 ^b\ 1 \rightarrow 1 ^b\ 1 \rightarrow 1 ^b\ 1 \rightarrow 3 ^a\]
+\end{example}
+
+As much as pretty pictures of Finite Automata is all well and good - there is a second way to represent the transitions: using \textit{transition functions}.
