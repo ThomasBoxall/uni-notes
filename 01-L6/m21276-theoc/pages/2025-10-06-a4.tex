@@ -331,12 +331,16 @@ The final state of the DFA are those that include an NFA final state in the set.
 If there is no transition for a state / a symbol in the NFA (non-acceptance of the string), create a new state in the DFA labelled $\emptyset$ and add loops for all symbols (a non-final trap state).
 \end{example}
 
+\subsection{Trap States}
 \begin{define}
 \item[Trap State] A state in which the machine cannot reach any final or accepting state. 
 \end{define}
 
+Trap States are needed in DFAs because to satisfy the requirement to be a DFA - every state must have an outgoing transition for every symbol in the alphabet. This is not an issue in NFAs because the Automaton assumes that if it can't find a suitable transition to use - the input string is invalid.
+
+
 \begin{example}{Trap States in Action}
-If we take the regular expression from our previous example, $(a+b)^*ab$ and expand the alphabet used to be $\{a, b, c\}$. This presents a problem as the input could contain $c$, but there's no suitable transitions the DFA can take for such a letter. This is where a \textit{trap state} comes into play. The whole situation presented here is a non-issue with NFAs because if no suitable transition exists from a given state, and it has exhausted all possible transition options - the machine recognises that the input should be rejected.
+If we take the regular expression from our previous example, $(a+b)^*ab$ and expand the alphabet used to be $\{a, b, c\}$. This presents a problem as the input could contain $c$, but there's no suitable transitions the DFA can take for such a letter. We use a \textit{trap state} to catch this pesky $c$.
 
 We can add a trap state to the DFA we created in the previous example. 
 
@@ -358,15 +362,11 @@ We can add a trap state to the DFA we created in the previous example.
 
         \path[->] (t) edge [loop below] node [align=center] {$a, b, c$} (t);
         \path[->] (0) edge [below] node [align=center] {$c$} (t);
-        \path[->] (1) edge [below] node [align=center] {$c$} (t);
-        \path[->] (2) edge [below] node [align=center] {$c$} (t);
+        \path[->] (1.south west) edge [below] node [align=center] {$c$} (t);
+        \path[->] (2.south) edge [below] node [align=center] {$c$} (t);
 
     \end{tikzpicture}
     \caption{DFA showing a Trap State}
     \label{fig:dfa-showing-trap-state}
 \end{figure}
 \end{example}
-
-\begin{todo}
-Better definition \& placement of trap state notes
-\end{todo}
