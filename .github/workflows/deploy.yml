@@ -1,0 +1,47 @@
+name: Deploy GitHub Pages with Commit Message
+
+on:
+  push:
+    branches:
+      - main # Or 'master'—whatever your default branch is
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        # We need to fetch the entire history (depth: 0) to ensure 'git log' works reliably
+        with:
+          fetch-depth: 0 
+          
+      - name: Get Latest Commit Message
+        id: get_message
+        run: |
+          # Get the subject (first line) of the latest non-merge commit
+          COMMIT_MSG=$(git log -1 --no-merges --pretty=%s)
+          # Make the message safe for use in a sed command (escaping slashes, etc.)
+          ESCAPED_MSG=$(echo "$COMMIT_MSG" | sed 's/[\/&]/\\&/g')
+          # Set the escaped message as an output variable
+          echo "commit_message=$ESCAPED_MSG" >> $GITHUB_OUTPUT
+
+      - name: Inject Commit Message into HTML
+        run: |
+          COMMIT_MSG_TO_INJECT="${{ steps.get_message.outputs.commit_message }}"
+          PLACEHOLDER="COMMIT_MESSAGE_PLACEHOLDER"
+          
+          # Use sed to replace the placeholder in index.html with the actual message
+          # The -i flag edits the file in place
+          sed -i "s|$PLACEHOLDER|$COMMIT_MSG_TO_INJECT|" index.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.' # Uploads the entire repository, including the modified index.html
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
