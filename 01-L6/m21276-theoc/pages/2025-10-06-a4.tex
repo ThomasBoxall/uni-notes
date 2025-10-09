@@ -56,4 +56,204 @@ Below is a representation of the transitions taken by the automata to process th
 \[0 \rightarrow ^a\ 1 \rightarrow ^b\ 1 \rightarrow 1 ^b\ 1 \rightarrow 1 ^b\ 1 \rightarrow 1 ^b\ 1 \rightarrow 3 ^a\]
 \end{example}
 
-As much as pretty pictures of Finite Automata is all well and good - there is a second way to represent the transitions: using \textit{transition functions}.
+
+\subsection{State Transition Functions}
+As much as pretty pictures of Finite Automata are all well and good - there is a second way to represent the transitions: using \textit{transition functions}.
+
+Transition functions take the form:
+\[T : Q \times \Sigma \rightarrow Q\]
+
+Where $Q$ is the set of states and $\Sigma$ is the alphabet. We can see below an abstracted FA showing two states $i$ and $j$, with a single symbol $a$:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {$i$};
+        \node[state, accepting] (1) [right of=0] {$j$};
+        
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+    \end{tikzpicture}
+    \caption{Abstracted FA with two states}
+    \label{fig:fa-simple}
+\end{figure}
+
+In the above Finite Automata (Figure \ref{fig:fa-simple}) we can see how the transition function behaves. It is represented by $T(i, a) = j$, where $i, j \in Q$ and $a \in \Sigma$. 
+
+\begin{example}{State Transition Functions}
+If we take a more complex Finite Automata:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {0};
+        \node[state, accepting] (1) [right of=0] {1};
+        \node[state] (2) [below right of=0, yshift=0.5cm, xshift=-0.5cm] {2};
+        
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (0) edge [above] node [align=center] {$b$} (2);
+        \path[->] (1) edge [loop right] node [align=center] {$a,b$} (1);
+        \path[->] (2) edge [loop right] node [align=center] {$a,b$} (2);
+    \end{tikzpicture}
+    \caption{Example Finite Automata for Transition Functions}
+    \label{fig:eg-fa-transitionfunction}
+\end{figure}
+
+We know it has a set of states: $Q = \{0, 1, 2\}$; a start state: $0$; and some final state(s): $1$.
+
+We can take the transition function and see the possible transitions over $\Sigma = \{a,b\}$:
+\begin{align*}
+T(0,a) &= 1,\ T(0,b) = 2,\\
+T(1,a) &= T(1,b) = 1\\
+T(2,a) &= T(2,b) = 2
+\end{align*}
+
+\end{example}
+
+\section{Deterministic Finite Automata}
+\begin{define}
+\item[Deterministic Finite Automata] a DFA over a finite alphabet $\Sigma$ is a finite directed graph with the property that each node emits one labelled edge for each distinct element of $\Sigma$
+\end{define}
+Except, hang on - isn't that what we've just seen so far. Yes, all the examples explored in this lecture so far have been DFAs; as there is exactly one option of transition for every state and every symbol, with every node in the graph having exactly one edge coming out for each possible input symbol. 
+
+We can define DFA more formally in that a DFA \textit{accepts} a string $w$ over $\Sigma^*$ if there is a path from the start state to a final state such that $w$ is the concatenation of the edges of the path; otherwise the DFA \textit{rejects} $w$.
+
+We also need to know that the set of all strings over $\Sigma$ accepted by a DFA $M$ is called the language of $M$ and is denoted as $L(M)$.
+
+For any regular language, a DFA can be found which recognises it. This will be proved in the next lecture.
+
+\begin{example}{Constructing a DFA for a given Regular Expression}
+If we take the following regular expression:
+\[(a + b)^* abb \textrm{\ over\ the\ alphabet\ } \Sigma = \{a, b\}\]
+
+We can make an observation: the language is the set of strings that begin with anything but must end with the string $abb$ therefore we're looking for strings which have a particular patten to them. This method could be extended if we had a bigger alphabet, for example if we were looking for all strings ending in .tex, or .pdf. 
+
+The challenge with this regular expression is that we won't know when the string will end. For example, the string could be $abb$, or $abababababb$. So to get around this, we will keep track of the last three symbols we've seen:
+\begin{itemize}
+    \item If in state 1: the last character was $a$
+    \item If in state 2: the last two symbols were $ab$
+    \item If in state 3: the last three wee $abb$
+\end{itemize}
+
+With this in mind, we can now construct the DFA.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {0};
+        \node[state] (1) [right of=0] {1};
+        \node[state] (2) [right of=1] {2};
+        \node[state, accepting] (3) [right of=2] {3};
+        
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (1) edge [above] node [align=center] {$b$} (2);
+        \path[->] (2) edge [above] node [align=center] {$b$} (3);
+
+        \path[->] (1) edge [loop above] node [align=center] {$b$} (1);
+        \path[->] (2) edge [loop above] node [align=center] {$a$} (2);
+
+        \path[->, bend left=30] (2) edge [above] node [align=center] {$a$} (1);
+        \path[->, bend left=30] (3) edge [above] node [align=center] {$a$} (1.south);
+        \path[->, bend left=30] (3.south) edge [below] node [align=center] {$b$} (0);
+
+    \end{tikzpicture}
+    \caption{DFA constructed from Regular Expression}
+    \label{fig:eg-dfa-constructfromregex}
+\end{figure}
+
+\end{example}
+
+\begin{extlink}
+There are additional examples of DFA construction for a given regular expression in the slides available on Moodle.
+\end{extlink}
+
+\section{Non-Deterministic Finite Automata}
+As we know with \textit{Deterministic} Finite Automata - we know exactly which state it is in and the path it took to get there for any given input string. To take the inverse of this - \textit{Non-Deterministic} Finite Automata (NFA) may have more than one option we can follow with the same input character, or there may be no option for a given input character. A NFA accepts and rejects strings in the same way as a DFA: accepting any string which ends up in its final state and rejecting everything else. 
+
+A NFA over an alphabet $\Sigma$ is a finite transition graph with each node having zero or more edges. Each edge is labelled with either a letter from $\Sigma$ or $\Lambda$. Multiple edges may go from the same node with the same label, and some letters may not have an edge associated with them - strings following such paths are rejected. 
+
+If an edge is labelled with the empty string $\Lambda$, then we can move to the next state (along the edge) without consuming an input letter - effectively we could be in either state and so the possible paths could branch. If there are two edges with the same label from one node, we can move along any of them.
+
+\begin{example}{Construct a NFA for a given Regular Expression}
+If we take the regular expression $ab + a^*a$. We can draw a NFA to recognise the language of it.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {0};
+        \node[state] (1) [right of=0] {1};
+        \node[state] (2) [below of=1, yshift=1cm] {2};
+        \node[state, accepting] (3) [right of=1] {3};
+        
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (0) edge [below] node [align=center] {$\Lambda$} (2);
+        \path[->] (1) edge [above] node [align=center] {$b$} (3);
+        \path[->] (2) edge [below] node [align=center] {$a$} (3);
+        \path[->] (2) edge [loop below] node [align=center] {$a$} (2);
+    \end{tikzpicture}
+    \caption{Example Non-Deterministic Finite Automata}
+    \label{fig:eg-nfa}
+\end{figure}
+
+In this NFA, we see that the ``upper'' path corresponds to $ab$ and the ``lower'' path to $a^*a$. We know this is a NFA because it has a $\Lambda$ edge and two $a-$edge from state 2.
+\end{example}
+
+Due to the non-deterministic nature of a NFA, the output of the transition functions are sets of states, $T:Q \times \Sigma \rightarrow P(Q)$. 
+
+\begin{example}{NFA Transition Functions}
+For example, if there are no edges from state $k$ labelled with $a$, we'll write:
+\[T(k, a) = \emptyset\]
+
+If there are three edges from state $k$ all labelled with $a$ going to states $i$, $j$, and $k$, we'll write:
+\[T(k,a) = \{i, j, k\}\]
+
+Looking back at Figure \ref{fig:eg-nfa} from the previous example, we can see there are four states 0, 1, 2, 3; where 0 is the starting state and 3 is the final state. From here we can see the transition functions:
+\begin{align*}
+T(0,a) &= \{1\}\\
+T(0, \Lambda) &= \{2\}\\
+T(1,b) &= \{3\}\\
+T(3,a) &= \{2, 3\}
+\end{align*}
+\end{example}
+
+\section{DFA vs. NFA}
+All digital computers are deterministic. The usual mechanism for deterministic computers is to try one particular path and then to backtrack to the last decision point if that path proves to be poor. Parallel computers make non-determinism almost realisable; for example, we can let each process make a random choice at each branch point thereby exploring many possible trees. 
+
+
+
+Generally speaking, NFAs are easier to construct and tend to be simpler with fewer states, for a given regular expression to recognise. However, DFAs are easier to operate as the path followed is always unique. Given that they recognise the same language, one is always able to find a DFA which recognises the language of a given NFA. DFAs are a subset of NFAs, so we only need to show that we can map any NFA into a DFA.
+
+\begin{figure}[H]
+\begin{minipage}[H]{0.45\textwidth}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {0};
+        \node[state, accepting] (1) [right of=0] {1};
+        
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (0) edge [loop above] node [align=center] {$a$} (0);
+    \end{tikzpicture}
+    \caption{Example NFA for $a^*a$}
+    \label{fig:nfa-fordfavsnfa}
+\end{figure}
+\end{minipage}\hfill
+\begin{minipage}[H]{0.45\textwidth}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {0};
+        \node[state, accepting] (1) [right of=0] {1};
+        
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (1) edge [loop above] node [align=center] {$a$} (1);
+    \end{tikzpicture}
+    \caption{Example DFA for $a^*a = aa^*$}
+    \label{fig:dfa-fordfavsnfa}
+\end{figure}
+\end{minipage}    
+\end{figure}
+
+\section{Finding an Equivalent DFA for a given NFA}
+
+\begin{todo}
+    Continue here to finish lecture. Put example of DFA construction in this section.
+\end{todo}
