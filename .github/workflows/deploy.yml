@@ -12,6 +12,9 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed for checkout and standard deployment
+      id-token: write   # <-- THIS IS THE CRITICAL LINE
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
