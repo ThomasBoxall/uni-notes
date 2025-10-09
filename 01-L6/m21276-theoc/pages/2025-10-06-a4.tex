@@ -254,6 +254,119 @@ Generally speaking, NFAs are easier to construct and tend to be simpler with few
 
 \section{Finding an Equivalent DFA for a given NFA}
 
+We can prove the equivalence of NFAs and DFAs by showing how for any NFA by constructing a DFA which recognising the same language. Generally the DFA will have more possible states than the NFA; if the NFA has $n$ states then the DFA could have as many as $2^n$ states. 
+
+\begin{example}{Converting a NFA to a DFA}
+If we take the following NFA which recognises the language $(a+b)^*ab$ over the alphabet $\{a,b\}$
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {$q_0$};
+        \node[state] (1) [right of=0] {$q_1$};
+        \node[state, accepting] (2) [right of=1] {$q_2$};
+        
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (1) edge [above] node [align=center] {$b$} (2);
+        \path[->] (0) edge [loop below] node [align=center] {$a,b$} (0);
+    \end{tikzpicture}
+    \caption{NFA To Be Converted}
+    \label{fig:nfa-to-dfa-part1}
+\end{figure}
+
+\textbf{Step 1}
+
+Begin in the NFA stat state; if it is connected to any others by $\Lambda$, the DFA start state could be a set of states.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {$\{q_0\}$};
+        
+    \end{tikzpicture}
+    \caption{Start symbol of DFA}
+    \label{fig:nfa-to-dfa-part2}
+\end{figure}
+
+\textbf{Step 2}
+
+For each symbol - determine the set of possible NFA states you could be in after reading it. This set is a label for a new DFA state and is connected to the start by that symbol. In our example - the start state is $q_0$, but following an $a$ you could be in $q_0$ or $q_1$; following a $b$ you could only be in state $q_0$.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[state, initial] (0) {$\{q_0\}$};
+        \node[state] (1) [right of=0] {$\{q_0, q_1\}$};
+        
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (0) edge [loop below] node [align=center] {$b$} (0);
+    \end{tikzpicture}
+    \caption{First step of converting NFA to DFA}
+    \label{fig:nfa-to-dfa-part3}
+\end{figure}
+
+\textbf{Step 3}
+
+Repeat step 2 for each new DFA state, exploring the possible results for each symbol until the system is closed. 
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[state, initial] (0) {$\{q_0\}$};
+        \node[state] (1) [right of=0] {$\{q_0, q_1\}$};
+        \node[state, accepting] (2) [right of=1] {$\{q_0, q_2\}$};
+        
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (1) edge [above] node [align=center] {$b$} (2);
+        \path[->] (0) edge [loop below] node [align=center] {$b$} (0);
+        \path[->] (1) edge [loop below] node [align=center] {$a$} (1);
+        \path[->, bend right=30] (2.north west) edge [above] node [align=center] {$b$} (0.north east);
+        \path[->, bend left=30] (2.south west) edge [below] node [align=center] {$a$} (1.south east);
+
+    \end{tikzpicture}
+    \caption{DFA showing all valid states}
+    \label{fig:nfa-to-dfa-part4}
+\end{figure}
+The final state of the DFA are those that include an NFA final state in the set. 
+
+If there is no transition for a state / a symbol in the NFA (non-acceptance of the string), create a new state in the DFA labelled $\emptyset$ and add loops for all symbols (a non-final trap state).
+\end{example}
+
+\begin{define}
+\item[Trap State] A state in which the machine cannot reach any final or accepting state. 
+\end{define}
+
+\begin{example}{Trap States in Action}
+If we take the regular expression from our previous example, $(a+b)^*ab$ and expand the alphabet used to be $\{a, b, c\}$. This presents a problem as the input could contain $c$, but there's no suitable transitions the DFA can take for such a letter. This is where a \textit{trap state} comes into play. The whole situation presented here is a non-issue with NFAs because if no suitable transition exists from a given state, and it has exhausted all possible transition options - the machine recognises that the input should be rejected.
+
+We can add a trap state to the DFA we created in the previous example. 
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[state, initial] (0) {$\{q_0\}$};
+        \node[state] (1) [right of=0] {$\{q_0, q_1\}$};
+        \node[state, accepting] (2) [right of=1] {$\{q_0, q_2\}$};
+
+        \node[state] (t) [below of=1, xshift=-1cm] {$\emptyset$};
+                
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (1) edge [above] node [align=center] {$b$} (2);
+        \path[->] (0) edge [loop below] node [align=center] {$b$} (0);
+        \path[->] (1) edge [loop below] node [align=center] {$a$} (1);
+        \path[->, bend right=30] (2.north west) edge [above] node [align=center] {$b$} (0.north east);
+        \path[->, bend left=30] (2.south west) edge [below] node [align=center] {$a$} (1.south east);
+
+        \path[->] (t) edge [loop below] node [align=center] {$a, b, c$} (t);
+        \path[->] (0) edge [below] node [align=center] {$c$} (t);
+        \path[->] (1) edge [below] node [align=center] {$c$} (t);
+        \path[->] (2) edge [below] node [align=center] {$c$} (t);
+
+    \end{tikzpicture}
+    \caption{DFA showing a Trap State}
+    \label{fig:dfa-showing-trap-state}
+\end{figure}
+\end{example}
+
 \begin{todo}
-    Continue here to finish lecture. Put example of DFA construction in this section.
+Better definition \& placement of trap state notes
 \end{todo}
