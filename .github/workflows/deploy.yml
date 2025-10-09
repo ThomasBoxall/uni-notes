@@ -5,6 +5,10 @@ on:
     branches:
       - main # Or 'master'—whatever your default branch is
 
+permissions:
+  contents: write # Needed for checkout and standard deployment
+  id-token: write   # <-- THIS IS THE CRITICAL LINE
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
