@@ -1,7 +1,7 @@
 \taughtsession{Lecture}{Spread Spectrum and Walsh Codes}{2025-10-06}{11:00}{Asim}
 
 \section{Communication Channels}
-There are two different types of Communications Channels.
+There are two different types of Communications Channels (also sometimes referred to as \textit{Communication Media} or \textit{Transmission Media}).
 
 \begin{define}
     \item[Guided Media] Wired (Bounded) Media (i.e Twisted Pair, Coaxial, Fibre Optic)
@@ -12,33 +12,174 @@ Within Guided Media, the electromagnetic waves are guided along a physical path.
 
 Unguided media is the opposite - where the electromagnetic waves are not guided through any physical containment, rather they transmit through air, vacuum or seawater. 
 
-The term \textit{Direct Link} is used to refer to a transmission path where the signal is transmitted directly from sender to receiver without any intermediate devices. This can apply to both guided and unguided media.
+The term \textit{Direct Link} is used to refer to a transmission path where the signal is transmitted directly from sender to receiver without any intermediate devices. This can apply to both guided and unguided media. A \textit{multipoint guided configuration} is a configuration such that more than two devices share the same medium. 
 
 A transmission may be simplex, half duplex or full duplex.
 
 \begin{define}
-    \item[Simplex] a transmission in which signals are only transmitted in one direction
-    \item[Half-Duplex] a transmission in which both stations can send and receive but only one can send at one time
-    \item[Full-Duplex] a transmission in which both stations can send and receive at the same time; which requires a medium is required for signals to be sent in both directions at the same time
+    \item[Simplex] a transmission in which signals are only transmitted in one direction; one station is the transmitter and the other is the receiver.
+    \item[Half-Duplex] a transmission in which both stations can transmit and receive but only one can transmit at one time therefore
+    \item[Full-Duplex] a transmission in which both stations can transmit and receive at the same time; which requires a medium is required for signals to be transmitted in both directions at the same time
 \end{define}
 
+In a full-duplex transmission system there may sometimes be an overlap in the frequency ranges used for each direction of transmission. This is sometimes acceptable and sometimes not - depending on the application. In any case, the overlap would be at the very edges of the frequency range; however this would still cause some interference.
 
-\begin{todo}
-Add diagram for telecoms spectrums
-
-add fsk transmission for voice grade line diagram and explanation
-\end{todo}
+\begin{extlink}
+There is a diagram detailing the frequencies used for different unguided transmissions available both in the slides on Moodle \& in the textbook on page 109.
+\end{extlink}
 
 \section{Interference and Noise}
-It is possible to alter the transmitted signals which means the receiver may interpret the signal differently. 
+Often with transmissions - our signal may be interrupted in some way. This will alter the signal being transmitted which could change the data it represents - therefore garbling the resultant wave. Often this interference will come from \textit{noise}. 
 
 \begin{define}
 \item[Interference] The combination of two or more electromagnetic waveforms to form a resultant wave in which the displacement is either reinforced or cancelled
 \item[Noise] An unwanted signal which is combined with desired signal 
 \end{define}
 
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[>=stealth]
+
+            \draw[step=1cm,gray,very thin,dashed] (0,-1.5) grid (6,7.5);
+            % resultant x axis
+            \draw[->] (0, 0) -- (6, 0);
+            % y axis
+            \draw[->] (0, -1.5) -- (0, 1.25);
+            \draw[->] (0, 1.75) -- (0, 4.25);
+            \draw[->] (0, 4.75) -- (0, 7.5);
+            % wave1 x axis
+            \draw[->] (0,3) -- (6,3);
+            % wave2 x axis
+            \draw[->] (0,6) -- (6,6);
+
+
+            %wave1 y axis markers
+            \node at (-0.5, 5) {high};
+            \node at (-0.5, 7) {low};
+            
+            %wave2 y axis markers
+            \node at (-0.5, 2) {high};
+            \node at (-0.5, 4) {low};
+            
+            % interfering wave brace
+            \draw [decorate, decoration={brace, amplitude=8pt, raise=4pt}] 
+                    (-0.7, 1.75) -- (-0.7, 7.25)
+                    node [midway, left=12pt, rotate=90, anchor=south] {Interfering Waves};
+            % resultant y axis markers
+            \node at (-0.5, 1) {high};
+            \node at (-0.5, -1) {low};
+            \draw [decorate, decoration={brace, amplitude=8pt, raise=4pt}] 
+                    (-0.7, -1.25) -- (-0.7, 1.25)
+                    node [midway, left=12pt, rotate=90, anchor=south] {Resultant Wave};
+
+            % interference 1
+            \draw[themeBlue, thick, smooth, samples=100, domain=0:6] plot (\x, {0.5*(sin(\x * 180)+12)}); 
+            \draw[themeBlue, thick, smooth, samples=100, domain=0:6] plot (\x, {0.5*(sin(\x * 180)+6)}); 
+            \draw[themeBlue, thick, smooth, samples=100, domain=0:6] plot (\x, {(sin(\x * 180))}); 
+
+
+        \end{tikzpicture}
+        \caption{Constructive Interference}
+        \end{figure}
+    \end{minipage}\hfill
+    \begin{minipage}[H]{0.45\textwidth}
+        \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[>=stealth]
+
+            \draw[step=1cm,gray,very thin,dashed] (0,-1.5) grid (6,7.5);
+            % resultant x axis
+            \draw[->] (0, 0) -- (6, 0);
+            % y axis
+            \draw[->] (0, -1.5) -- (0, 1.25);
+            \draw[->] (0, 1.75) -- (0, 4.25);
+            \draw[->] (0, 4.75) -- (0, 7.5);
+            % wave1 x axis
+            \draw[->] (0,3) -- (6,3);
+            % wave2 x axis
+            \draw[->] (0,6) -- (6,6);
+
+
+            %wave1 y axis markers
+            \node at (-0.5, 5) {high};
+            \node at (-0.5, 7) {low};
+            
+            %wave2 y axis markers
+            \node at (-0.5, 2) {high};
+            \node at (-0.5, 4) {low};
+            
+            % interfering wave brace
+            \draw [decorate, decoration={brace, amplitude=8pt, raise=4pt}] 
+                    (-0.7, 1.75) -- (-0.7, 7.25)
+                    node [midway, left=12pt, rotate=90, anchor=south] {Interfering Waves};
+            % resultant y axis markers
+            \node at (-0.5, 1) {high};
+            \node at (-0.5, -1) {low};
+            \draw [decorate, decoration={brace, amplitude=8pt, raise=4pt}] 
+                    (-0.7, -1.25) -- (-0.7, 1.25)
+                    node [midway, left=12pt, rotate=90, anchor=south] {Resultant Wave};
+
+            % interference 1
+            \draw[themeBlue, thick, smooth, samples=100, domain=0:6] plot (\x, {(sin(\x * 180)+6)}); 
+            \draw[themeBlue, thick, smooth, samples=100, domain=0:6] plot (\x, {(-sin(\x * 180)+3)}); 
+            \draw[themeBlue, thick] (0,0) -- (6,0);
+
+        \end{tikzpicture}
+        \caption{Destructive Interference}
+        \end{figure}
+    \end{minipage}
+\end{figure}
+
+As we can see in the above figure, where we have two waves which are of the same phase interfering with each other - they will \textit{interfere constructively} to increase the amplitude of the resultant wave. However where two waves in opposite phase interfere with each other - they will \textit{interfere destructively} to effectively cancel each other our and the resultant wave has no amplitude.
+
+For any data transmission, the received signal will consist of the transmitted signal, modified by the various distortions used by the transmission system, plus additional unwanted signals that are inserted somewhere between transmission and reception (which is referred to as \textit{noise}). 
+
+Noise can be divided into four categories:
+\begin{itemize}
+    \item Thermal Noise
+    \item Intermodulation Noise
+    \item Crosstalk
+    \item Impulse Noise
+\end{itemize}
+
+\section{Basic Definitions}
+\begin{define}
+\item[Data Rate] The rate, in bits per second (bps), at which data can be communicated
+\item[Error] The reception of a 1 where 0 was transmitted, or the reception of a 0 when a 1 was transmitted
+\item[Error Rate] The rate at which errors occur
+\item[Frequency Bandwdith] The difference between the upper and lower frequencies in a continuous band of frequencies
+\item[Channel Capacity] The maximum rate at which information can be transmitted through a communication channel
+\item[Signal to Noise Ration (SNR)] The ratio of the signal power to the noise power, measured in Decibels $\displaystyle 10\log_{10} \frac{\textrm{signal\ power}}{\textrm{noise\ power}}$
+\end{define}
+
+The \textit{Channel Capacity} can be calculated using:
+\[C = 2B \log_2M\]
+Where $C$ is the channel capacity; $B$ is the bandwidth; $M$ is the signal or voltage levels. 
+
+The Nyquist Bandwidth Theory stipulates that if the rate of signal transmission is $2B$ then a signal with frequencies no greater than $B$ is sufficient to carry the signal rate. The converse is also true. This limitation is due to the effect of intersymbol interference, which is produced by delay distortion. This is in essence based on the Nyquist Sampling Theorem (flashback to A-Level Electronics). 
+
+From this we can see that permitting all other things being equal, when we double the bandwidth - we double the error rate. The error rate then only gets worse as we increase the data rate because a higher data rate will mean the bits are shorter so more bits are affected by a given pattern of noise. Mathematician \textit{Claude Shannon} tied these into a formula:
+\[C = B \log_2 (1+ SNR)\]
+Where $C$ is the capacity of the channel in bps and $B$ is the bandwidth of the channel in Hertz. 
+
+\section{Multiplexing}
+\begin{define}
+\item[Multiplexing] A technique that allows the simultaneous transmission of multiple signals through the same channel or link; several signals are combined into a single composite signal
+\end{define}
+
+\subsection{Frequency Division Multiplexing}
+In Frequency Division Multiplexing (FDM), the different message signals are modulated onto different carrier frequencies. This then means the signals being transmitted are separate from each other in the frequency domain. These modulated signals are then combined together to form the composite signal and this signal is sent over the shared medium or channel. To avoid the interference between the different message signals, a guard band is also kept between the message signals.
 \begin{todo}
-example of interference graphs
+Graph of FDM?
+\end{todo}
+
+\subsection{Time Division Multiplexing}
+In Time Division Multiplexing (TDM), the channel is divided into several time slots, and each signal allocated during it's time slot. As a result - several signals share the channel without interfering with each other. 
+\begin{todo}
+Graph of TDM?
 \end{todo}
 
 \section{Spread Spectrum}
@@ -46,16 +187,18 @@ When transmitting our analog signals (whether these originated as digital or ana
 
 Spread Spectrum is a technique used by military and intelligence applications which is also used in Wireless and Cordless networks. There are a number of different techniques which can be used, we will explore 3 of them. 
 
+\begin{define}
+    \item[Pseudorandom Noise] (PN) is a deterministic sequence of bits which satisfies one or more of the standard tests for statistical randomness while being repeatable after a period
+\end{define}
+
 \subsection{Frequency Hopping Spread Spectrum}
 In Frequency Hopping Spread Spectrum (FHSS), the signal is broadcast over a number of different radio frequencies, and the frequency used is changed at a fixed intervals which are generally extremely short (i.e. $1 ms$). The receiver will hop between the different frequencies used in sync with the transmitter.
 
 If the transmission is compromised, then the attacker would only hear unintelligible blips of the transmission. It would also thwart attempts to jam the signal as the attacker would only be able to block a few bits of the signal. 
 
-\begin{todo}
-example graph of freq and channels?
+FHSS transmission systems tend to work with the binary data being fed into a modulator using a digital-to-analog encoding scheme (for example FSK or BPSK). The resultant signal is centred in a frequency. A PN source serves as an index into a table of frequencies; this is the spreading code. Each $k$ bits of the PN source specifies one of the carrier frequencies. At each pre-agreed interval, a new carrier frequency is selected. This frequency is then modulated by the signal produced from the initial modulator to produce a new signal with the same shape, but now centred on the selected carrier frequency.
 
-fhss spectrum system block diagram
-\end{todo}
+On reception - the spread spectrum signal is demodulated using the same sequence of frequencies derived from the PN source, and then demodulated to produce the output data. 
 
 \subsection{Direct Sequence Spread Spectrum}
 Direct Sequence Spread Spectrum (DSSS) works by encoding a single bit to be transmitted (i.e. $1$) as a multi-but sequence (i.e. $0110$) using a spreading code. The \textit{spreading code} spreads the signal across a wider frequency band in direct proportion to the number of bits used. Which means that a 4-bit spreading code spreads 1-bit of signal across a frequency band which is 4 times greater than a 1-bit spreading code. Of course, it doesn't have to be a 4-bit spreading code; it could be 10-bit or 20-bit. 
@@ -74,11 +217,105 @@ In reality, this encoding process works by combining the digital data input sign
 This produces a \textit{combination bit stream} which has the data rate of the spreading code sequence, so therefore has a higher bandwidth than the information stream. 
 
 \begin{todo}
-example graph showing how this works
+Finish the DSSS encoding graph diagram. Commented out in this document.
 \end{todo}
 
-\begin{todo}
-    finish lecture.
+% \begin{figure}[H]
+% \centering
+% \begin{tikzpicture}[>=stealth]
 
-    Consider putting tdm and fdm higher up (before spread spectrum?)
-\end{todo}
+%     \draw[step=1cm,gray,very thin,dashed] (0,-9) grid (9,6);
+%     % % resultant x axis
+%     % \draw[->] (0, 0) -- (6, 0);
+%     % % y axis
+%     % \draw[->] (0, -1.5) -- (0, 1.25);
+%     % \draw[->] (0, 1.75) -- (0, 4.25);
+%     % \draw[->] (0, 4.75) -- (0, 7.5);
+%     % % wave1 x axis
+%     % \draw[->] (0,3) -- (6,3);
+%     % % wave2 x axis
+%     % \draw[->] (0,6) -- (6,6);
+
+
+%     % %wave1 y axis markers
+%     % \node at (-0.5, 5) {high};
+%     % \node at (-0.5, 7) {low};
+    
+%     % %wave2 y axis markers
+%     % \node at (-0.5, 2) {high};
+%     % \node at (-0.5, 4) {low};
+    
+%     % % interfering wave brace
+%     % \draw [decorate, decoration={brace, amplitude=8pt, raise=4pt}] 
+%     %         (-0.7, 1.75) -- (-0.7, 7.25)
+%     %         node [midway, left=12pt, rotate=90, anchor=south] {Interfering Waves};
+%     % % resultant y axis markers
+%     % \node at (-0.5, 1) {high};
+%     % \node at (-0.5, -1) {low};
+%     % \draw [decorate, decoration={brace, amplitude=8pt, raise=4pt}] 
+%     %         (-0.7, -1.25) -- (-0.7, 1.25)
+%     %         node [midway, left=12pt, rotate=90, anchor=south] {Resultant Wave};
+
+%     % input a
+%     \draw[themeBlue, thick] (0,5) -- (0,6) -- (1,6) -- (1,5) -- (2,5) -- (2,6) -- (4,6) -- (4,5) -- (5,5) -- (5,6) -- (7,6) -- (7,5) -- (9,5);
+%     %input pn
+%     \draw[themeBlue, thick] (0,3) -- (0,4) -- (0.25,4) -- (0.25,3) -- (0.75,3) -- (0.75,4) -- (1,4) -- (1,3) -- (1.25,3) -- (1.25,4) -- (1.75,4) -- (1.75,3) -- (2,3) -- (2,4) -- (2.25,4) -- (2.25,3) -- (2.75,3) -- (2.75,4) -- (3,4);
+
+% \end{tikzpicture}
+% \caption{Example of DSSS}
+% \end{figure}
+
+\subsection{Code Division Multiple Access Spread Spectrum}
+\textit{Code Division Multiple Access} (CDMA) is a multiplexing technique used with spread spectrum.
+
+It works taking our data signal with a bit-rate $R$ and assigning a unique code of $n$ chips according to the Walsh Matrix. Then, if the user $k$ sends a 1 - the transmitter sends the chip code $ck$; alternatively if the user $k$ sends a 0 - the transmitter sends the chip code $\overline{c}k$ (which is represented in this module with as $c'k$). 
+
+The chip codes of all users will add up into a bipolar signal $D$. The receiver performs the decoding function for user $k$, for example, by the cartesian product $D\times ck$. If $D\times ck = n$ (the number of bits in the chip code), then bit 1 is received; else if $D\times ck=-n$ then bit 0 is received.
+
+\begin{example}{CDMA}
+If we take the following users to have the following Chip Codes:
+\begin{itemize}
+    \item User A Chip Codes: $(-1, -1, -1, -1)$
+    \item User B Chip Codes: $(-1, +1, -1, +1)$
+    \item User C Chip Codes: $(-1, -1, +1, +1)$
+    \item User D Chip Codes: $(-1, +1, +1, -1)$
+\end{itemize}
+
+\textbf{Case 1}
+
+User A sends 1, user B sends 1, user C sends 1, and user D sends 0 (represented as -1).
+
+We sum their chip codes, for A, B, and C - these are as specified above; however for D we need to invert the chip codes because D is transmitting a 0 (-1).
+\begin{align*}
+A + B + C + D' &= (-1, -1, -1, -1) + (-1, +1, -1, +1) + (-1, -1, +1, +1)+ (+1, -1, -1, +1)\\
+&= (-2, -2, -2, 2)
+\end{align*}
+
+The receiver will receive this and perform an inner product multiplication using the Chip Code of A.
+\begin{align*}
+f &= (-2, -2, -2, 2) \times (-1, -1, -1, -1)\\
+&= (-2 \times -1) + (-2 \times -1) + (-2 \times -1) + (2 \times -1)\\
+&= 2 + 2 + 2 - 2\\
+&= 4
+\end{align*}
+Which therefore confirms that A is sending a bit 1.
+
+\textbf{Case 2}
+
+User A sends 0 (-1), user B sends 1, user C sends 1, and user D sends 0 (-1). 
+
+We sum their chip codes, this time inverting A and D because they're transmitting 0s.
+\begin{align*}
+A + B + C + D' &= (+1, +1, +1, +1) + (-1, +1, -1, +1) + (-1, -1, +1, +1)+ (+1, -1, -1, +1)\\
+&= (0, 0, 0, 4)
+\end{align*}
+
+Then we can find what the receiver decodes using A's chip code.:
+\begin{align*}
+f &= (0, 0, 0, 4) \times (-1, -1, -1, -1,)\\
+&= (0 \times -1) + (0 \times -1) + (0 \times -1) + (4 \times -1)\\
+&= 0 + 0 + 0 + -4\\
+&= -4
+\end{align*}
+As this results to $-n$ (remembering $n$ is the length of the users chip codes) - we know that A transforms to bit 0. 
+\end{example}
