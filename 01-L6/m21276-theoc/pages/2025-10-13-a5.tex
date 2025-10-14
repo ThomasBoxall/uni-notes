@@ -1,0 +1,571 @@
+\taughtsession{Lecture}{A5: Finite Automata and Regular Languages}{2025-10-13}{14:00}{Janka}{}
+
+\section{Introduction}
+This lecture will look at the idea that we can construct a NFA from any regular expression and vice versa.
+
+Looking at the production \textit{Regular Expressions $\Rightarrow$ Finite Automata}, we can show that for any regular expressions it is possible to find a NFA which recognises it. Therefore this proves:
+\[L(\textrm{Regular\ expressions}) \subseteq L(\textrm{NFA})\]
+
+Looking at the production \textit{Finite Automata $\Rightarrow$ Regular Expressions}, we can show that for a given NFA it is possible to find a Regular Expression which defines the same language. Therefore this proves:
+\[L(\textrm{NFA}) \subseteq L(\textrm{Regular\ Expression})\]
+
+This means, if we combine both of the previous results:
+\[L(\textrm{NFA}) = L(\textrm{Regular\ Expression})\]
+
+Let's prove it\ldots
+
+\section{Regular Expression $\Rightarrow$ Finite Automata}
+Given a regular expression, we will construct a finite automaton (NFA or DFA) which recognises its language. We can do this because the operations within a regular expression (union, product, and closure) can be translated into the directed graph style of a FA using a set of rules.
+
+\begin{description}
+\item[Rule 0] Start the algorithm with a draft of a machine that has: a start state; a single final state; and an edge labelled with the given regular expression.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {$s$};
+        \node[state, accepting] (1) [right of=0] {$f$};
+        
+        \path[->] (0) edge [above] node [align=center] {RegEx} (1);
+    \end{tikzpicture}
+    \caption{Rule 0 of Regular Expression $\Rightarrow$ Finite Automata}
+    \label{fig:regex-to-fa-rule0}
+\end{figure}
+
+\item[Rule 1] If any edge is labelled with $\emptyset$, then erase the edge
+\item[Rule 2] Transform any edge of the form:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {$s$};
+        \node[state, accepting] (1) [right of=0] {$f$};
+        
+        \path[->] (0) edge [above] node [align=center] {$R+S$} (1);
+    \end{tikzpicture}
+    \caption{Rule 2 (input) of Regular Expression $\Rightarrow$ Finite Automata}
+    \label{fig:regex-to-fa-rule2a}
+\end{figure}
+
+into the edge:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {$s$};
+        \node[state, accepting] (1) [right of=0] {$f$};
+        
+        \path[->, bend left=30] (0.north east) edge [above] node [align=center] {R} (1.north west);
+        \path[->, bend right=30] (0.south east) edge [below] node [align=center] {S} (1.south west);
+    \end{tikzpicture}
+    \caption{Rule 2 (output) of Regular Expression $\Rightarrow$ Finite Automata}
+    \label{fig:regex-to-fa-rule2b}
+\end{figure}
+
+\item[Rule 3] Transform any edge of the form:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {$s$};
+        \node[state, accepting] (1) [right of=0] {$f$};
+        
+        \path[->] (0) edge [above] node [align=center] {$R \cdot S$} (1);
+    \end{tikzpicture}
+    \caption{Rule 3 (input) of Regular Expression $\Rightarrow$ Finite Automata}
+    \label{fig:regex-to-fa-rule3a}
+\end{figure}
+
+into the edge:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {$s$};
+        \node[state] (1) [right of=0] {};
+        \node[state, accepting] (2) [right of=1] {$f$};
+        
+        \path[->] (0) edge [above] node [align=center] {$R$} (1);
+        \path[->] (1) edge [above] node [align=center] {$S$} (2);
+    \end{tikzpicture}
+    \caption{Rule 3 (output) of Regular Expression $\Rightarrow$ Finite Automata}
+    \label{fig:regex-to-fa-rule3b}
+\end{figure}
+
+\item[Rule 4] Transform any part of the diagram:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {$i$};
+        \node[state, accepting] (1) [right of=0] {$j$};
+        
+        \path[->] (0) edge [above] node [align=center] {$R^*$} (1);
+    \end{tikzpicture}
+    \caption{Rule 4 (input) of Regular Expression $\Rightarrow$ Finite Automata}
+    \label{fig:regex-to-fa-rule4a}
+\end{figure}
+
+into the diagram:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {$i$};
+        \node[state] (1) [right of=0] {};
+        \node[state, accepting] (2) [right of=1] {$j$};
+        
+        \path[->] (0) edge [above] node [align=center] {$\Lambda$} (1);
+        \path[->] (1) edge [above] node [align=center] {$\Lambda$} (2);
+        \path[->] (1) edge [loop above] node [align=center] {$R$} (1);
+    \end{tikzpicture}
+    \caption{Rule 4 (output) of Regular Expression $\Rightarrow$ Finite Automata}
+    \label{fig:regex-to-fa-rule4b}
+\end{figure}
+
+Continue these operations until no labels can be broken up any further.
+\end{description}
+
+Now we know the theory - lets see it in practice.
+
+\begin{example}{Construct a NFA for a given Regular Expression}
+If we take the regular expression $a^* + ab$.
+
+We start with \textbf{rule 0}:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {$s$};
+        \node[state, accepting] (1) [right of=0] {$f$};
+        
+        \path[->] (0) edge [above] node [align=center] {$a^*+ab$} (1);
+    \end{tikzpicture}
+    \caption{Applied rule 0}
+    \label{fig:regex-to-fa-eg-step1}
+\end{figure}
+
+Now we see that the ``last'' operation applied to the regular expression is the union, so this is the first we undo by applying \textbf{rule 2}:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {$s$};
+        \node[state, accepting] (1) [right of=0] {$f$};
+        
+        \path[->, bend left=30] (0.north east) edge [above] node [align=center] {$a^*$} (1.north west);
+        \path[->, bend right=30] (0.south east) edge [below] node [align=center] {$ab$} (1.south west);
+    \end{tikzpicture}
+    \caption{Applied rule 1}
+    \label{fig:regex-to-fa-eg-step2}
+\end{figure}
+
+We have two options of which rule to apply next, either 3 or 4. We will apply \textbf{rule 4}:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (s) {$s$};
+        \node[state] (1) [above right of=s, yshift=-1cm] {1};
+        \node[state, accepting] (f) [below right of=1, yshift=+1cm] {$f$};
+        
+        \path[->, bend right=30] (s.south east) edge [below] node [align=center] {$ab$} (f.south west);
+        \path[->] (s) edge [above] node [align=center] {$\Lambda$} (1);
+        \path[->] (1) edge [above] node [align=center] {$\Lambda$} (f);
+        \path[->] (1) edge [loop above] node [align=center] {$a$} (1);
+    \end{tikzpicture}
+    \caption{Applied rule 4}
+    \label{fig:regex-to-fa-eg-step3}
+\end{figure}
+
+We can then apply \textbf{rule 3}:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (s) {$s$};
+        \node[state] (1) [above right of=s, yshift=-1cm] {1};
+        \node[state] (2) [below right of=s, yshift=+1cm] {2};
+        \node[state, accepting] (f) [below right of=1, yshift=+1cm] {$f$};
+        
+        \path[->] (s) edge [above] node [align=center] {$\Lambda$} (1);
+        \path[->] (1) edge [above] node [align=center] {$\Lambda$} (f);
+        \path[->] (s) edge [above] node [align=center] {$a$} (2);
+        \path[->] (2) edge [above] node [align=center] {$b$} (f);
+        \path[->] (1) edge [loop above] node [align=center] {$a$} (1);
+    \end{tikzpicture}
+    \caption{Applied rule 3}
+    \label{fig:regex-to-fa-eg-step4}
+\end{figure}
+    
+\end{example}
+
+This generic formula can be applied to any regular expression.
+
+\section{Finite Automata $\Rightarrow$ Regular Expression}
+Rather than adding states, as we have just seen, we are looking to eliminate states and compose the transitions into more complex expressions until we reach just the start and final state exist, which are connected by the final regular expression. There is an algorithm which can be used to work through this\ldots
+
+\begin{description}
+\item[Step 1] Create a new start state $s$, and draw a new edge labelled with $\Lambda$ from $s$ to the original start state. This transforms the FA from:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {0};
+        \node[state, accepting] (1) [right of=0] {1};
+        
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (1) edge [loop right] node [align=center] {$a,b$} (1);
+    \end{tikzpicture}
+    \caption{Step 1 (input) of Finite Automata $\Rightarrow$ Regular Expression}
+    \label{fig:fa-to-regex-step1a}
+\end{figure}
+
+into the FA:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[state, initial] (s) {$s$};
+        \node[state] (0) [right of=s] {0};
+        \node[state, accepting] (1) [right of=0] {1};
+        
+        \path[->] (s) edge [above] node [align=center] {$\Lambda$} (0);
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (1) edge [loop right] node [align=center] {$a,b$} (1);
+    \end{tikzpicture}
+    \caption{Step 1 (output) of Finite Automata $\Rightarrow$ Regular Expression}
+    \label{fig:fa-to-regex-step1b}
+\end{figure}
+
+\item[Step 2] Create a new final state $f$, and draw a new edge labelled with $\Lambda$ from the original final state to $f$. This transforms the FA from:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {0};
+        \node[state, accepting] (1) [right of=0] {1};
+        
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (1) edge [loop right] node [align=center] {$a,b$} (1);
+    \end{tikzpicture}
+    \caption{Step 2 (input) of Finite Automata $\Rightarrow$ Regular Expression}
+    \label{fig:fa-to-regex-step2a}
+\end{figure}
+
+into the FA:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {0};
+        \node[state] (1) [right of=0] {1};
+        \node[state, accepting] (f) [right of=1] {$f$};
+        
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (1) edge [above] node [align=center] {$\Lambda$} (f);
+        \path[->] (1) edge [loop above] node [align=center] {$a,b$} (1);
+    \end{tikzpicture}
+    \caption{Step 2 (output) of Finite Automata $\Rightarrow$ Regular Expression}
+    \label{fig:fa-to-regex-step2b}
+\end{figure}
+
+
+\item[Step 3] Merge Edges: For each pair of states, $i$ and $j$, with more than one edge from $i$ to $j$ - replace all the edges from $i$ to $j$ by a single edge with the regular expression formed by the sum of the labels on each of the edges from $i$ to $j$. For example:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {$i$};
+        \node[state, accepting] (1) [right of=0] {$j$};
+        
+        \path[->, bend left=30] (0.north east) edge [above] node [align=center] {$a^*$} (1.north west);
+        \path[->, bend right=30] (0.south east) edge [below] node [align=center] {$ab$} (1.south west);
+    \end{tikzpicture}
+    \caption{Step 3 (input) of Finite Automata $\Rightarrow$ Regular Expression}
+    \label{fig:fa-to-regex-step3a}
+\end{figure}
+
+gets converted to:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {$i$};
+        \node[state, accepting] (1) [right of=0] {$j$};
+        
+        \path[->] (0) edge [above] node [align=center] {$a^*+ab$} (1);
+    \end{tikzpicture}
+    \caption{Step 3 (output) of Finite Automata $\Rightarrow$ Regular Expression}
+    \label{fig:fa-to-regex-step3b}
+\end{figure}
+
+\item[Step 4] Eliminate States: Step-by-step eliminate states (one at a time) and change their corresponding labels until the only states remaining are $s$ anf $f$. When we delete a state, we must replace any possible transitions that went through it with a regular expression which carries the information that was removed. For example, if we take the FA:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[state] (i) {$i$};
+        \node[state] (k) [right of=i]{$k$};
+        \node[state] (j) [right of=k] {$j$};
+        
+        \path[->] (i) edge [above] node [align=center] {$old(i,k)$} (k);
+        \path[->] (k) edge [above] node [align=center] {$old(k,j)$} (j);
+        \path[->] (k) edge [loop above] node [align=center] {$old(k,k)$} (k);
+        \path[->, bend right=30] (i) edge [below] node [align=center] {$old(i,j)$} (j);
+
+    \end{tikzpicture}
+    \caption{Step 4 (input) of Finite Automata $\Rightarrow$ Regular Expression}
+    \label{fig:fa-to-regex-step4a}
+\end{figure}
+
+We can see that $old(i,j)$ denotes the label on the edge between $i$ and $j$ before elimination; similarly for $old(k,j)$, $old(i,k)$, and $old(k,k)$. 
+
+We can now think about how best to represent this with a single edge (consolidating the four edges into one edge). We start building our regular expression which we will label our new single edge with. Looking at the FA - we can see there are two possible paths, the `top' and the `bottom' therefore we know our Regular Expression will take the form $new = bottom + top$. The `bottom' path will be $old(i,j)$, so we can substitute that into the regular expression: $new = old(i,j) + top$. We can calculate that the top must be $old(i,k)old(k,k)*old(k,j)$, so we can substitute that in:
+\[new = old(i,j) + old(i,k)old(k,k)*old(k,j) \]
+Now we can substitute a more sensible name for $new$:
+\[new(i,j) = old(i,j) + old(i,k)old(k,k)*old(k,j) \]
+
+This will leave our FA looking something like the following:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[state] (i) {$i$};
+        \node[state] (j) [right of=k] {$j$};
+        
+        \path[->] (i) edge [above] node [align=center] {$new(i,j)$} (j);
+
+    \end{tikzpicture}
+    \caption{Step 4 (output) of Finite Automata $\Rightarrow$ Regular Expression}
+    \label{fig:fa-to-regex-step4b}
+\end{figure}
+
+If no edge exists, we label it $\emptyset$, for example for a loop.
+
+Step 4 is repeated until all states except $s$ and $f$ are eliminated. We end up with a two-state machine with a single edge between $s$ and $f$ which is labelled with the desired regular expression. 
+\end{description}
+
+\begin{example}{Converting DFA to Regular Expression}
+If we take the DFA:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {0};
+        \node[state, accepting] (1) [right of=0] {1};
+        \node[state] (2) [below right of=0, yshift=0.5cm, xshift=-0.5cm] {2};
+        
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (0) edge [above] node [align=center] {$b$} (2);
+        \path[->] (1) edge [loop right] node [align=center] {$a,b$} (1);
+        \path[->] (2) edge [loop right] node [align=center] {$a,b$} (2);
+    \end{tikzpicture}
+    \caption{Initial DFA for conversion}
+    \label{fig:fa-to-regex-eg-initial}
+\end{figure}
+
+We can start by applying \textbf{step 1} and \textbf{step 2} to add start and final states
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (s) {$s$};
+        \node[state] (0) [right of=s] {0};
+        \node[state] (1) [right of=0] {1};
+        \node[state] (2) [below right of=0, yshift=0.5cm, xshift=-0.5cm] {2};
+        \node[state, accepting] (f) [right of=1] {$f$};
+        
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (0) edge [above] node [align=center] {$b$} (2);
+        \path[->] (1) edge [loop above] node [align=center] {$a,b$} (1);
+        \path[->] (2) edge [loop right] node [align=center] {$a,b$} (2);
+        \path[->] (s) edge [above] node [align=center] {$\Lambda$} (0);
+        \path[->] (1) edge [above] node [align=center] {$\Lambda$} (f);
+    \end{tikzpicture}
+    \caption{Converting DFA to Regular Expression step 1}
+    \label{fig:fa-to-regex-eg-step1}
+\end{figure}
+
+We then apply \textbf{step 3} - which has no effect on the FA.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (s) {$s$};
+        \node[state] (0) [right of=s] {0};
+        \node[state] (1) [right of=0] {1};
+        \node[state] (2) [below right of=0, yshift=0.5cm, xshift=-0.5cm] {2};
+        \node[state, accepting] (f) [right of=1] {$f$};
+        
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (0) edge [above] node [align=center] {$b$} (2);
+        \path[->] (2) edge [loop right] node [align=center] {$a,b$} (2);
+        \path[->] (1) edge [loop above] node [align=center] {$a,b$} (1);
+        \path[->] (s) edge [above] node [align=center] {$\Lambda$} (0);
+        \path[->] (1) edge [above] node [align=center] {$\Lambda$} (f);
+    \end{tikzpicture}
+    \caption{Converting DFA to Regular Expression step 2}
+    \label{fig:fa-to-regex-eg-step2}
+\end{figure}
+
+Now we begin working on \textbf{step 4}, which starts by eliminating state 2. This has no change to the other edges, as there are no paths passing through state 2.
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (s) {$s$};
+        \node[state] (0) [right of=s] {0};
+        \node[state] (1) [right of=0] {1};
+        \node[state, accepting] (f) [right of=1] {$f$};
+        
+        \path[->] (1) edge [loop above] node [align=center] {$a,b$} (1);
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (s) edge [above] node [align=center] {$\Lambda$} (0);
+        \path[->] (1) edge [above] node [align=center] {$\Lambda$} (f);
+    \end{tikzpicture}
+    \caption{Converting DFA to Regular Expression step 3}
+    \label{fig:fa-to-regex-eg-step3}
+\end{figure}
+    
+Continuing with \textbf{step 4}, we can eliminate state 0. This creates the label $\Lambda a$ which simplifies to $a$. 
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (s) {$s$};
+        \node[state] (1) [right of=0] {1};
+        \node[state, accepting] (f) [right of=1] {$f$};
+        
+        \path[->] (1) edge [loop above] node [align=center] {$a,b$} (1);
+        \path[->] (s) edge [above] node [align=center] {$a$} (1);
+        \path[->] (1) edge [above] node [align=center] {$\Lambda$} (f);
+    \end{tikzpicture}
+    \caption{Converting DFA to Regular Expression step 4}
+    \label{fig:fa-to-regex-eg-step4}
+\end{figure}
+
+Finally with \textbf{step 4}, we can eliminate state 1.
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (s) {$s$};
+        \node[state, accepting] (f) [right of=s] {$f$};
+        
+        \path[->] (s) edge [above] node [align=center] {$a(a+b)^*$} (f);
+    \end{tikzpicture}
+    \caption{Converting DFA to Regular Expression step 5}
+    \label{fig:fa-to-regex-eg-step5}
+\end{figure}
+
+This gives us the final regular expression: $a(a+b)^*$
+
+\end{example}
+
+\section{Finding Minimum State DFA}
+So far we have proven:
+\begin{center}
+    Regular Expression $\Leftrightarrow$ NFA $\Leftrightarrow$ DFA
+\end{center}
+
+In some cases our constructed DFAs can be complicated and have more states than are necessary. We can transform a given DFA into a unique DFA with the minimum number of states that recognise the same language. 
+
+The \textit{Myhill-Nerode Theorem} states that every regular expression has a unique (up to a simple renaming of the sates) minimum DFA.
+
+There are two parts to finding the minimum state of a given DFA:
+\begin{description}
+    \item[Part 1] Find all pairs of equivalent (indistinguishable) states
+    \item[Part 2] Combine equivalent states into a single state, modifying the transition functions appropriately
+\end{description}
+
+\subsection{Equivalent States}
+We define two states: $s$ and $t$ to be equivalent (indistinguishable) if for all possible strings $w$ left to consume (including $\Lambda$), the DFA after consuming $w$ will finish in the same type of state (final / non-final). This means, that once you arrive in an indistinguishable state ($s$ or $t$), they always lead to the same result ``accept''/``reject'' for any given input string.
+
+Two states $s$ and $t$ are not equivalent if $\exists$ a string $w$ such that ``following'' $w$ from $s$ and $t$ will finish in the final state for one state ($s$), and in the nonfinal state for the second state ($t$). 
+
+\begin{example}{Basic Equivalent States}
+If we take the following DFA:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {$0$};
+        \node[state] (1) [above right of=0, yshift=-1cm] {1};
+        \node[state, accepting] (x) [right of=1] {$f_1$};
+
+        \node[state] (2) [below right of=0, yshift=+1cm] {2};
+        \node[state, accepting] (y) [right of=2] {$f_2$};
+        
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (1) edge [above] node [align=center] {$a$} (x);
+        \path[->] (1) edge [loop above] node [align=center] {$b$} (1);
+        \path[->] (x) edge [loop above] node [align=center] {$a,b$} (x);
+
+        \path[->] (0) edge [above] node [align=center] {$b$} (2);
+        \path[->] (2) edge [above] node [align=center] {$a$} (y);
+        \path[->] (2) edge [loop below] node [align=center] {$b$} (2);
+        \path[->] (y) edge [loop below] node [align=center] {$a,b$} (y);
+    \end{tikzpicture}
+    \caption{Example DFA}
+    \label{fig:dfa-equivalent-state-eg-1-a}
+\end{figure}
+
+We can see that states 0 and 1 are not equivalent. This is because if we take $w=a$, state 0 will transition to state 1 (nonfinal) and state 1 will transition to state $f_1$ (final). 
+
+We can see that states 1 and 2 are equivalent. This is because if we take $w=b^*$, both states will transition to themselves unendingly and never reach a final state; while we if we take $w=a$, both states will transition to their respective final states and accept the string. 
+
+\end{example}
+
+Now we've seen this in action - we need to define it in some way useful to us:
+
+\begin{enumerate}
+    \item Begin with clearly distinguishable pairs of states (including final and nonfinal states)
+    \begin{center}
+        $E_0 = \{\{s,t\} | s$ and $t$ are distinct and either both states are final or both states are nonfinal$\}$
+    \end{center}
+    For example $E_0 = \{\{1,2\}, \{0,1\}, \{0,3\}, \ldots\}$ but $\{3,4\} \notin E_0$
+
+    \item Next eliminate all pairs, which on the same input symbol, lead to a distinguishable pair of states, construct $E_1$
+    \begin{center}
+        $E_1 = \{\{s,t\} | \{s, t\} \in E_0$ and for every $x \in \Sigma$ either $T(s,x) = T(t,x)$ or $\{T(s,x), T(t,x)\} \in E_0 \}$
+    \end{center}
+    For example, from the set $E_0$, we can eliminate $\{0,1\}$ because $T(1,a) = 4$ and $T(0,a) = 4$, and $\{3,4\}$ is not in $E_0$.
+
+    \item We repeat this process until there are some changes: calculating the sequence of sets of pairs $E_0, \supseteq E_1, \subseteq E_2, \subseteq \ldots$ as follows:
+    \begin{center}
+        $_{i+1} = \{\{s,t\} | \{s,t\} \in E_1$ and for every $x \in \Sigma$ either $T(s,x) = T(t,x)$ or $\{T(s,x), T(t,x)\} \in E_i \}$
+    \end{center}
+    Stop when $E_{k+1} = E_k$ for some $k$, the remaining pairs are indistinguishable.
+\end{enumerate}
+
+\begin{example}{Finding equivalent pairs in DFA}
+Given a DFA, find the equivalent pairs:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {$0$};
+        \node[state] (2) [right of=0] {$2$};
+        \node[state] (1) [above of=2, yshift=-0.5cm] {$1$};
+        \node[state] (3) [below of=2, yshift=+0.5cm] {$3$};
+        \node[state, accepting] (4) [right of=2] {$4$};
+
+        \path[->] (0) edge [above] node [align=center] {$b$} (1);
+        \path[->] (0) edge [above] node [align=center] {$a$} (3);
+        \path[->] (1) edge [above] node [align=center] {$a$} (4);
+        \path[->, bend left=30] (1.south east) edge [left] node [align=center] {$b$} (2.north east);
+        \path[->] (2) edge [above] node [align=center] {$a$} (4);
+        \path[->, bend left=30] (2.north west) edge [left] node [align=center] {$b$} (1.south west);
+        \path[->] (3) edge [left] node [align=center] {$b$} (2);
+        \path[->] (3) edge [above] node [align=center] {$a$} (4);
+        \path[->] (4) edge [loop above] node [align=center] {$a,b$} (4);
+                
+    \end{tikzpicture}
+    \caption{DFA to find pairs in}
+    \label{fig:dfa-equivalent-state-eg-2-a}
+\end{figure}
+    
+\end{example}
+
+
+% intro incl part 1 vs part 2 (slides 22-23)
+% equivl state intro (24)
+% equiv state eg 1 (25)
+% equiv state method (30,31)
+% equiv state eg 2 (26-29)
+% modifying DFA method (33)
+% modifying dfa example (32,34)
