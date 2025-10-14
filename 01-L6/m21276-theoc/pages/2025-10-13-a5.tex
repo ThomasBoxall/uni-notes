@@ -532,7 +532,7 @@ Now we've seen this in action - we need to define it in some way useful to us:
     Stop when $E_{k+1} = E_k$ for some $k$, the remaining pairs are indistinguishable.
 \end{enumerate}
 
-\begin{example}{Finding equivalent pairs in DFA}
+    \begin{example}{Finding equivalent pairs in DFA}
 Given a DFA, find the equivalent pairs:
 
 \begin{figure}[H]
@@ -558,14 +558,207 @@ Given a DFA, find the equivalent pairs:
     \caption{DFA to find pairs in}
     \label{fig:dfa-equivalent-state-eg-2-a}
 \end{figure}
-    
+
+We start by eliminating the simple options: it can't be any pair containing 4 as this is the only finite state. This means $\{0,4\}$, $\{1,4\}$, $\{2,4\}$ and $\{3,4\}$ are distinguishable, and therefore are eliminated.
+
+We can then explore all the pairs containing 0. Working through $\{0,1\}$, $\{0,2\}$ and $\{0,3\}$. We can see that they are all distinguishable when provided the input $a$; with $\{0,1\}$ ending up in states 3 \& 4 respectively (one final and one nonfinal therefore not equivalent), similarly for $\{0,2\}$ ending up in states 3 \& 4 respectively and for $\{0,3\}$ ending up in states 3 \& 4 respectively.
+
+We can then explore where the resultant states are known to be distinguishable therefore the input states are indistinguishable: $\{1,2\}$, $\{2,3\}$, and $\{1,3\}$. 
+
+
+We can see this in the formal notation below:
+\begin{align*}
+E_0 &= \{\{0,1\}, \{0,2\}, \{0,3\}, \{1,2\}, \{0,3\}, \{2,3\}\}\\
+E_1 &= \{\{1,2\}, \{1,3\}, \{2,3\}\}\\
+E_2 &= E_1
+\end{align*}
+
+The relation ``be equivalent'' is the equivalence relation:
+\[[1] = [2] = [3] = \{1, 2, 3\};\quad [4] = \{4\}\]
+
+States 1, 2 and 3 are all indistinguishable, therefore the minimal DFA will have three states: $\{0\}$, $\{1,2,3\}$ and $\{4\}$.
+
 \end{example}
 
+\subsection{Modifying DFA}
+Now that we have established how to get the minimum number of required states for our DFA to represent the same thing - we can modify the DFA such that it is drawn with the minimum number of states. Again, similar to the Equivalent States method, there is an algorithm to follow to do this:
 
-% intro incl part 1 vs part 2 (slides 22-23)
-% equivl state intro (24)
-% equiv state eg 1 (25)
-% equiv state method (30,31)
-% equiv state eg 2 (26-29)
-% modifying DFA method (33)
-% modifying dfa example (32,34)
+\begin{enumerate}
+    \item Construct a new DFA where any set of indistinguishable states for a single state in the new DFA
+    \item The start state will be the state containing the original start state, the final states will be those which contain original final states
+    \item The transitions will be the full set of transitions from the original states - these should all be consistent, $T_{min}([s],a)=[T(s,a)]$, where $[s]$ denotes the equivalence class containing $s$ and $a$ is any letter.
+\end{enumerate}
+
+\begin{example}{Minifying DFA}
+This is a continuation of the previous example, and will minify the DFA shown in Figure \ref{fig:dfa-equivalent-state-eg-2-a}. 
+
+We can construct the minified DFA as follows
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {$\{0\}$};
+        \node[state] (1) [right of=0] {$\{1,2,3\}$};
+        \node[state, accepting] (2) [right of=1] {$\{4\}$};
+
+        \path[->, bend left=30] (0) edge [above] node [align=center] {$b$} (1);
+        \path[->, bend right=30] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (1) edge [above] node [align=center] {$a$} (2);
+        \path[->] (1) edge [loop above] node [align=center] {$b$} (1);
+        \path[->] (2) edge [loop above] node [align=center] {$a,b$} (2);
+                
+    \end{tikzpicture}
+    \caption{Minified DFA}
+    \label{fig:dfa-minimal-state-eg-1-a}
+\end{figure}
+
+We can now explore the minified transitions. Originally, we had $T(0,a)=3$ and $T(0,b)=1$ and now the new transitions are:
+\begin{align*}
+& T_{min}(\{0\}, a) = T_{min}([0],a) = [T(0,a)] = [1] = \{1,2,3\}\\
+& T_{min}(\{1,2,3\},a) = 4 \textrm{and} T_{min}(\{1,2,3\},b) = \{1,2,3\}\\
+& T_{min}(\{4\},a) = 4 \textrm{and} T_{min}(\{4\},b) = 4
+\end{align*}
+
+\end{example}
+
+\section{The Complete Cycle}
+We have now seen the full circle, from Regular Expression through FA, and back to Regular Expression. This means we can now explore:
+\begin{enumerate}
+    \item Start with a regular expression $exp_0$
+    \item Construct an NFA which recognises the given expression $exp_0$
+    \item Transform the constructed NFA to the equivalent DFA
+    \item Simplify the DFA to the one with the minimum number of states
+    \item Convert the simplified DFA back to a regular expression, $exp_1$
+\end{enumerate}
+
+In this display of painful TikZ diagrams, we will see this full circle\ldots
+
+\begin{example}{Complete Cycle from RegEx to RegEx}
+\textbf{Step 1. Start with a Regular Expression}
+
+We start with the regular expression $a^*+ba$
+
+\textbf{Step 2. Construct a NFA which Recognises the given Regular Expression}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {$0$};
+        \node[state] (1) [above right of=0, yshift=-1cm] {$1$};
+        \node[state] (2) [below right of=0, yshift=+1cm] {$2$};
+        \node[state, accepting] (3) [below right of=1, yshift=+1cm] {$3$};
+
+        \path[->] (0) edge [above] node [align=center] {$\Lambda$} (1);
+        \path[->] (0) edge [above] node [align=center] {$b$} (2);
+        \path[->] (1) edge [above] node [align=center] {$\Lambda$} (3);
+        \path[->] (2) edge [above] node [align=center] {$a$} (3);
+        \path[->] (1) edge [loop above] node [align=center] {$a$} (1);
+                
+    \end{tikzpicture}
+    \caption{NFA which recognises $a^*+ba$}
+    \label{fig:regex-to-regex-eg-1}
+\end{figure}
+
+\textbf{Step 3. Transform the Constructed NFA to the Equivalent DFA}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state, accepting] (0) {$\{0,1,3\}$};
+        \node[state] (1) [right of=0] {$\{2\}$};
+        \node[state,accepting] (2) [right of=1] {$\{3\}$};
+        \node[state, accepting] (3) [below right of=0, yshift=-1cm, xshift=-1cm] {$\{1,3\}$};
+        \node[state] (4) [below right of=1, yshift=-1cm, xshift=-1cm] {$\emptyset$};
+
+        \path[->] (0) edge [above] node [align=center] {$b$} (1);
+        \path[->] (0) edge [above] node [align=center] {$a$} (3);
+
+        \path[->] (1) edge [above] node [align=center] {$a$} (2);
+        \path[->] (1) edge [above] node [align=center] {$b$} (4);
+
+        \path[->, bend left=30] (2) edge [below] node [align=center] {$a$} (4);
+        \path[->, bend right=30] (2) edge [above] node [align=center] {$b$} (4);
+        
+        \path[->] (3) edge [loop below] node [align=center] {$a$} (3);
+        \path[->] (3) edge [below] node [align=center] {$b$} (4);
+
+        \path[->] (4) edge [loop below] node [align=center] {$a,b$} (4);
+        
+    \end{tikzpicture}
+    \caption{DFA which recognises $a^*+ba$}
+    \label{fig:regex-to-regex-eg-2}
+\end{figure}
+
+\textbf{Step 4. Simplify the DFA to the one with the Minimum Number of States}
+
+Examining the DFA in Figure \ref{fig:regex-to-regex-eg-2}, we can see there are four possibly indistinguishable states: $B, \emptyset$; $A, C$; $C, D$; and $A,D$. However none of them are indistinguishable therefore no states can be removed from this DFA.
+
+\textbf{Step 5. Convert the Simplified DFA back to a Regular Expression}
+
+Starting with the DFA in Figure \ref{fig:regex-to-regex-eg-2}, we can add the start and final state, and eliminate any states not leading to $f$ (i.e. the trapped state).
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (s) {$s$};
+        \node[state] (a) [right of=s] {$A$};
+        \node[state] (b) [right of=a] {$B$};
+        \node[state] (c) [right of=b] {$C$};
+        \node[state] (d) [below of=a, yshift=+1cm] {$D$};
+        \node[state, accepting] (f) [below of=c, yshift=+1cm] {$f$};
+        
+        \path[->] (s) edge [below] node [align=center] {$\Lambda$} (a);
+        \path[->] (a) edge [above] node [align=center] {$b$} (b);
+        \path[->] (b) edge [above] node [align=center] {$a$} (c);
+        \path[->] (a) edge [left] node [align=center] {$a$} (d);
+        \path[->] (a) edge [below] node [align=center] {$\Lambda$} (f);
+        \path[->] (d) edge [below] node [align=center] {$\Lambda$} (f);
+        \path[->] (d) edge [loop below] node [align=center] {$a$} (d);
+        \path[->] (c) edge [left] node [align=center] {$\Lambda$} (f);
+        
+    \end{tikzpicture}
+    \caption{NFA having removed the trap state and added $s$ and $f$}
+    \label{fig:regex-to-regex-eg-3}
+\end{figure}
+
+We can now eliminate states $B$ and $C$.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (s) {$s$};
+        \node[state] (a) [right of=s] {$A$};
+        \node[state] (d) [below of=a, yshift=+1cm] {$D$};
+        \node[state, accepting] (f) [right of=d] {$f$};
+        
+        \path[->] (s) edge [below] node [align=center] {$\Lambda$} (a);
+        \path[->] (a) edge [left] node [align=center] {$a$} (d);
+        \path[->] (a) edge [above] node [align=center, yshift=+0.25cm, xshift=+0.25cm] {$\Lambda + ba$} (f);
+        \path[->] (d) edge [below] node [align=center] {$\Lambda$} (f);
+        \path[->] (d) edge [loop below] node [align=center] {$a$} (d);
+        
+    \end{tikzpicture}
+    \caption{NFA having eliminated state $B$ and state $C$}
+    \label{fig:regex-to-regex-eg-4}
+\end{figure}
+
+We can eliminate our final state now, $D$.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (s) {$s$};
+        \node[state] (a) [right of=s] {$A$};
+        \node[state, accepting] (f) [right of=a, xshift=+1cm] {$f$};
+        
+        \path[->] (s) edge [below] node [align=center] {$\Lambda$} (a);
+        \path[->] (a) edge [below] node [align=center] {$\Lambda + ba + aa^*$} (f);
+        
+    \end{tikzpicture}
+    \caption{NFA having eliminated state $D$}
+    \label{fig:regex-to-regex-eg-5}
+\end{figure}
+
+This leaves us with the regular expression $\Lambda + aa^* + ba$ which is equivalent to our original regular expression.
+\end{example}
+

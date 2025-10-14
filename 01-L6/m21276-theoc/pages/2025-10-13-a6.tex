@@ -1,0 +1,216 @@
+\taughtsession{Lecture}{A6: What Is Beyond Regular Languages}{2025-10-13}{15:00}{Janka}
+
+\section{NFAs to Regular Grammars}
+Every NFA can be simply converted into a corresponding regular grammar, and vice versa (remember these from lecture A3). Each state (node) of the NFA is associated with a non-terminal symbol of the grammar; the initial state is associated with the start symbol. Every transition is associated with a grammar production. Every final state has an additional production.
+
+\begin{example}{Converting NFA to Regular Grmmars}
+If we take the subsequent NFA:
+    \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {0};
+        \node[state] (1) [right of=0] {1};
+        \node[state, accepting] (3) [below right of=0] {3};
+        \node[state, accepting] (2) [right of=1] {2};
+        
+        \path[->] (0) edge [above] node [align=center] {$a$} (1);
+        \path[->] (1) edge [above] node [align=center] {$b$} (2);
+        \path[->] (0) edge [above] node [align=center] {$a$} (3);
+        \path[->] (3) edge [loop right] node [align=center] {$a$} (3);
+    \end{tikzpicture}
+    \caption{Example NFA}
+    \label{fig:reglang-eg-1}
+\end{figure}
+
+Then we can utilise the rules stated above to get it's grammar set:
+\begin{align*}
+S & \rightarrow aA\ |\ aC\\
+A & \rightarrow bB\\
+B & \rightarrow \Lambda\\
+C & \rightarrow aC\ |\ \Lambda
+\end{align*}
+
+Obviously in the above we've assigned state $0$ the start symbol, $S$; state 1 the non-terminal $A$; state 2 the non-terminal $B$; and state 3 the non-terminal $C$. 
+
+Yes, this isn't the simplest grammar we could produce - but it's clear and shows the point here: all NFAs can be converted into a Regular Grammar
+\end{example}
+
+\section{(Dis)Proving a Language's Regularity}
+As we saw in lecture A3, a regular language is one such that it can be recognised by regular expression or finite automaton. Naturally, all languages are not regular, for example:
+\[\{a^nb^n | n > 0\}\]
+
+This isn't regular because we do not have a way of defining $n$ with it's repeated use. This means that because FAs work without memory (possibly beyond the last state in certain circumstances) - we cannot guarantee that the number of $a$ is equal to the number of $b$. 
+
+We now need a way to prove that this language isn't regular as the hand-wavey explanation above isn't enough, because maths. This is where the \textit{Pumping Lemma} is introduced - which applies for infinite languages (remember all finite languages are regular). 
+
+\section{The Pumping Lemma}
+The underlying principle explored here is defined with \textit{The Pigeonhole Principle}, which states that if we put $n$ pigeons into $m$ pigeonholes (where $n>m$), then at least one pigeonhole must have more than one pigeon.
+
+Returning to computer science, not feathery beasties, we can see that if the input string is long enough (i.e. greater than the number of states of the minimum state DFA), then there must be at least one state $Q$ which is visited more than once. Therefore there must be at least one closed loop, which begins and ends at state $Q$ and a particular string, $y$, which corresponds to this loop. A schematic representation of this can be seen in the following figure.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=3cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[initial, state] (0) {};
+        \node[state] (1) [right of=0] {$Q$};
+        \node[state, accepting] (2) [right of=1] {};
+        
+        \path[->, dotted] (0) edge [above] node [align=center] {$x$} (1);
+        \path[->, dotted] (1) edge [above] node [align=center] {$z$} (2);
+        \path[->, dotted] (1) edge [loop above] node [align=center] {$y$} (1);
+    \end{tikzpicture}
+    \caption{Schematic Representation of the Pigeonhole Principle}
+    \label{fig:reglang-pigeonholeprinciple}
+\end{figure}
+
+Each dotted arrow represents a path that may contain other states of the DFA:
+\begin{itemize}
+    \item[$x$] is a string of letters which the automaton reads from the start to state $Q$
+    \item[$y$] is the string of letters around the closed loop
+    \item[$z$] is a string of letters from $Q$ to a final state
+\end{itemize}
+
+We know the string $xyz$ is accepted. But this means that the DFA must also accept $xz$, $xyyz$, $xyyyz$, \ldots, $x \underbrace{y\ldots y}_k z$, \ldots. We say that the middle string, $k$ is ``pumped''.
+
+We can formalise our theorem of the \textit{Pumping Lemma} as: Let $L$ be an infinite regular language accepted by a DFA with $m$ states. Then any string $w$ in $L$ with at least $m$ symbols can be decomposed as $w=xyz$ with $|xy|\leq m$, and $|y| \geq 1$ such that
+\[w_i = x\underbrace{y\ldots y}_i z\]
+is also in $L$ for all $i=0,1,2,\ldots$.
+
+The pumping lemma can be used to prove that a language is not regular. However, the pumping lemma alone cannot be used to prove that a language is regular. This is in line with the ``Necessary, but not sufficient'' condition covered in Discrete Maths at Level 5. 
+
+\begin{example}{Necessary, but not Sufficient}
+If $L$ is an infinite regular language ($A$) then all strings of $L$ must satisfy the pumping lemma (have a pre-described structure) ($B$)
+
+\textbf{Case 1}
+\[A \Rightarrow B \equiv \neg B \Rightarrow \neg A\]
+If an infinite language fails to satisfy the pumping lemma (i.e. there exists a string without pre-described structure) then it cannot be regular.
+
+\textbf{Case 2}
+\[A \Rightarrow B \not\equiv B \Rightarrow A\]
+But if all strings satisfy the pumping lemma (have pre-described structure), this alone does not prove the language is regular.
+\end{example}
+
+\begin{example}{Pumping Lemma in Action}
+This example will prove by contradiction using the pumping lemma the theorem that $L=\{a^nb^n | n \geq 0\}$ is not regular.
+
+If we assume that $L$ is regular, then $L$ is accepted by a unique DNF with $m$ states. Therefore any string from $L$ of length at least $m$ can be decomposed as
+\[xyz \textrm{with} |xy| \leq m \textrm{and} |y| \geq 1\]
+such that $x \underbrace{y\ldots y}_k z$ is also in $L$ for all $i=0,1,2,\ldots$.
+
+If we take $n>m$ and the string $a^nb^n$ from $L$ then the substring $y$ (of length $k$) must consist entirely of $a$'s.
+
+Due to the pumping lemma, the string $a^{n-k}b^n$ must be from $L$ which is not true.
+
+Therefore the assumption that $L=\{a^nb^n | n \geq 0\}$ is regular must be false.
+\end{example}
+
+Alternatively to the Pumping Lemma, we can consider the grammar for an Infinite Regular Language. The grammar must contain a production that is recursive or indirectly recursive. 
+
+If we take the following grammars:
+\begin{align*}
+S & \rightarrow xN\\
+N & \rightarrow yN\ |\ z
+\end{align*}
+
+We can then generate the following production sequence
+\[S \Rightarrow xN \Rightarrow xyN \Rightarrow xyyN \Rightarrow xyyyN \Rightarrow \ldots\]
+Therefore, this grammar accepts all strings of the form $x \underbrace{y\ldots y}_k z$ for all $k \geq 0$. 
+
+\section{Context Free Language}
+The grammar of the regular language is too strict and doesn't allow the description of many simple languages, for example $L = \{a^nb^n | n > 0\}$.
+
+To work around this, we will work step-by-step adding more freedom to the grammar production to define other families of the languages.
+
+\begin{define}
+    \item[Context Free Grammar] A grammar, $G$ where all of it's productions take the form $N \rightarrow \alpha$ where $N$ is a non-terminal and $\alpha$ is any string over the alphabet of terminals and non-terminals. 
+\end{define}
+All regular languages are context-free, but not all context-free languages are regular.
+
+From the above examples, we can see that the term ``context-free'' has come from the requirement that all productions contain a single non-terminal on the left. When this is the case, any production (ie $N \rightarrow \alpha$) can be used in a derivation without regard to the ``context'' in which the grammatical symbol $N$ appears. From this we can derive:
+\[aNb \Rightarrow a\alpha b\]
+Which we can see the ``context'' is in reference to whatever surrounds the $N$.
+
+\begin{example}{Context Free Grammars}
+\textbf{Ex. 1} The grammar over the alphabet $\{a,b\}$ with productions $S \rightarrow aSb\ |\ \Lambda$ is context-free. This generates the language $L=\{a^nb^n | n \geq 0\}$
+
+\textbf{Ex. 2} The grammar over the alphabet $\{a,b\}$ with productions $S \rightarrow aSa\ |\ bSb\ |\ \Lambda$ is context-free. This generates the language $L = \{ww^R : w \in \{a,b\}^*\}$
+\end{example}
+
+\subsection{Non Context-Free Grammars}
+A grammar that is not context-free must contain a production whose left hand side is a string of two or more symbols.
+
+For example, the production $Nc \rightarrow \alpha$ is not part of any context-free grammar; because a derivation that uses this production can replace the non-terminal $N$ \textit{only in a ``context''} that has $c$ on the right. For example $aNc \Rightarrow a\alpha$. 
+
+\subsection{Chomsky Normal Form}
+The grammar of every context-free language can be expressed in a more suitable way: \textit{Chomsky Normal Form}
+
+\begin{define}
+\item[Chomsky Normal Form] A context-free grammar is in Chomsky normal form if all productions are of the form $A \rightarrow BC$ and $A \rightarrow a$ where $a$ is any terminal, and $A, B, C$ are non-terminals (with $B$ and $C$ not being start symbols). If $\Lambda$ is needed, it is produced via $S \rightarrow \Lambda$. 
+\end{define}
+
+Any context-free grammar has an equivalent grammar in Chomsky normal form. 
+
+\subsection{Context-Free and Programming Languages}
+The text of a program is easy to understand by humans, but the computer must convert it into a form which it understands. This process is called ``parsing'' and consists of two parts:
+\begin{enumerate}
+    \item The \textit{tokenizer} (or \textit{lexer} or \textit{scanner}), which takes the source text and breaks it into the reserved words, constants, identifiers and symbols that are defined in the language (using a DFA)
+    \item These tokens are subsequently passed to the actual \textit{parser} which analyzes the series of tokens and determines when one of the language's syntax rules is complete.
+\end{enumerate}
+
+Following the language's grammar, a ``tree'' representing the program is created. Once this form is reached, the program is ready to be interpreted or compiled by the application.
+
+\section{Context Sensitive Languages}
+A context-sensitive grammar allows for even more complex transitions.
+\begin{define}
+\item[Context-Sensitive Grammar] A grammar whose productions are of the form
+\[\alpha A \beta \rightarrow \alpha \gamma \beta\]
+
+where $\alpha, \beta \in (N \cup T)^*$, $A \in N$ ; $\gamma \in (N \cup T)^+$ and a rule of the form $S \rightarrow \lambda$ is allowed if the start symbol $S$ does not appear on the right hand side of any rule.
+\end{define}
+
+The language generated by such a grammar is called a context-sensitive language.
+
+Every context-free grammar is also context-sensitive, therefore the context-free languages are a subset of the context-sensitive languages (see Chomsky Normal Form). However, not every context-sensitive language is context free.
+
+\begin{example}{Context Sensitive Languages}
+If we take the language $L=\{a^nb^nc^n, n \geq 1\}$, which is context-sensitive but not context-free. 
+
+It has the following production rules.
+\[S \rightarrow aSBC | aBC,\ CB \rightarrow HB,\ HB \rightarrow HC,\ HC \rightarrow BC,\ aB \rightarrow ab,\ bB \rightarrow bb,\ bC \rightarrow bc,\ cC \rightarrow cc\]
+
+We can then review a derivation of the string $aabbcc$ using this grammar.
+\begin{align*}
+S & \Rightarrow a \underline{S}bC && \\
+& \Rightarrow a \underline{aB}CBC && \textrm{(using }S \rightarrow aBC \textrm{)}\\
+& \Rightarrow aab \underline{CB}C && \textrm{(using }aB \rightarrow ab \textrm{)}\\
+& \Rightarrow aab \underline{HB}C && \textrm{(using }CB \rightarrow HB \textrm{)}\\
+& \Rightarrow aab \underline{HC}C && \textrm{(using }HB \rightarrow HC \textrm{)}\\
+& \Rightarrow aa \underline{bB}CC && \textrm{(using }HC \rightarrow BC \textrm{)}\\
+& \Rightarrow aab \underline{bC}C && \textrm{(using }bB \rightarrow bb \textrm{)}\\
+& \Rightarrow aabb \underline{cC} && \textrm{(using }bC \rightarrow bc \textrm{)}\\
+& \Rightarrow aabbcc && \textrm{(using }cC \rightarrow cc \textrm{)}
+\end{align*}
+\end{example}
+
+The Context-sensitive languages can also be generated by a \textit{monotonic grammar} where any production is allowed permitting there are no rules for making strings shorter (such as $S \rightarrow \Lambda$). 
+
+\section{Phrase Structure Grammars}
+The most general grammars which we can define are \textit{Phrase Structure Grammars} or \textit{Unrestricted Grammars}.
+\begin{define}
+\item[Phrase Structure Grammar] A grammar whose productions are of the form $\alpha \rightarrow \beta$ where $\alpha \in (N \cup T)^+$ and $\beta \in (N \cup T)^*$
+\end{define}
+
+The above definition means that $\alpha$ and $\beta$ can be any sequence of non-terminals and terminals, but $\beta$ could also be $\Lambda$. 
+
+The phrase structure grammars generate the most general class of languages, called \textit{recursively enumerable}. 
+
+\section{Chomsky Hierarchy}
+We can form a hierarchy of languages (called the Chomsky Hierarchy), where each language includes the ones below it. As the grammar rules become less restrictive, the language classes grow, but they include the simpler languages as subsets. 
+\begin{description}
+    \item[Type 0] Phrase Sensitive
+    \item[Type 1] Context-Sensitive
+    \item[Type 2] Context-Free
+    \item[Type 3] Regular 
+\end{description}
+
+There are also infinite languages which cannot be generated by a finite set of recursive productions which are known as \textit{non-grammatical} languages.
