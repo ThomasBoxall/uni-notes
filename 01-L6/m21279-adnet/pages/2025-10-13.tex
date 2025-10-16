@@ -1,0 +1,85 @@
+\taughtsession{Lecture}{Security}{2025-10-13}{11:00}{Asim}
+
+\section{Security Requirements}
+Within \textit{Network Security} there are three important requirements. The three requirements work together to ensure that network transmissions are of a good security standard.
+\begin{define}
+\item[Confidentiality] Ensuring that only authorised parties can read the message; therefore restricting unauthorised third parties from accessing it
+\item[Integrity] Ensuring that the transmitted message is exactly the same as the received message and that only authorised parties can modify, delete, or reply to the message
+\item[Availability] Ensuring the message is available on demand to authorised parties only
+\end{define}
+
+\section{Attack Types}
+There are two main types of attack used.
+
+\begin{define}
+\item[Passive Attacks] Threat Actors analyse the traffic or read message content
+\item[Active Attacks] Threat Actors modify the message content, deny the service to a request, replay to a message and masquerade (pretend to be a different entity) 
+\end{define}
+
+We can attempt to overcome the threats using cryptography to encrypt the message on the transmitter's side, and then ensure that only the designated recipient can decode the message.
+
+The message we want to encrypt, known as the \textit{plaintext}, is transformed by a function that is parametrised by a \textit{key}. The output of the encryption process, known as the \textit{ciphertext}, is then transmitted. If this ciphertext is intercepted by the threat actor, they are unable to directly interpret it as they do not know what the key used in the encryption process was. However, it may be possible for the threat actor to crack the cipher depending on the encryption method used.
+
+There is a standard notation for the plaintext, ciphertext and keys. $C=EK(P)$ is used to represent the encryption, $E$ of the plaintext, $P$ using the key, $K$ which results in the ciphertext, $C$. The decryption is defined as $P=DK(C)$ where the plaintext, $P$, is the result of applying the decryption, $D$, with the key, $K$, on the ciphertext, $C$. 
+
+\section{Encryption Techniques}
+There are a number of Encryption Techniques used commonly.
+
+\subsection{Substitution cipher}
+In a \textit{substitution cipher}, each letter or group of letters is directly replaced by another letter or group of letters which disguises it. 
+
+A well-known example of this is the Ceaser Cipher. 
+
+\begin{todo}
+add example
+\end{todo}
+
+Using a standard alphabet with 26 characters, assuming we only use lowercase letters, then there are $4 \times 10^{26}$ possible combinations. Which on a computer with one million CPU cores - can take up to 10,000 years to crack.
+
+\subsection{Transposition Cipher}
+In a \textit{transposition cipher}, we take a key and use this key to design a grid which we populate with our plaintext, working row-by-row. We then read the ciphertext from the grid reading column-by-column in alphabetical order of the key's letter.
+
+\begin{todo}
+add example. explanation in notes on slides
+\end{todo}
+
+\section{Symmetric Encryption}
+Symmetric Encryption is an encryption method in which the sender and receiver both use the same key to encode and decode the message. This is where it's alternative name, \textit{shared key encryption} comes from. 
+
+Symmetric Encryption works through taking the plaintext input which is then encrypted using the key, $K$. The encryption algorithm will perform various substitutions or transformations on the plaintext, which will be key-dependent. This means that the same plaintext, with two different keys and the same encryption algorithm will produce two different ciphertexts. The ciphertext is then transmitted to the receiver. The receiver then decrypts the message using that pre-shared-key, $K$. The decryption algorithm is effectively the encryption algorithm run in reverse. This gives them the plaintext. 
+
+We can see an example of a Symmetric Encryption in the DES encryption method.
+
+\subsection{DES}
+The \textit{Data Encryption Standard}, or DES, is a symmetric-key encryption algorithm which was developed in the 1970s and has been hugely influential in modern-day cryptography.
+
+The plaintext input for DES is always 64-bits in length, and the key is always 56-bits. If the total plaintext needing to be encrypted using DES is longer than 64-bits then it gets chunked into 64-bit chunks so then the DES algorithm can process its 64-bit blocks. 
+
+The DES algorithm works by taking the 56-bit key and generating 16 sub-keys from it. These 16 sub-keys are each used for their own round of encryption, therefore the DES algorithm encrypts the plaintext 16 times through a sequence iterating on the output of the previous as the input to the next. The keys are used in reverse order - meaning $K_{16}$ is used on the first iteration, $K_{15}$ on the second, and so on until $K_1$ is used on the final iteration. 
+
+\begin{todo}
+Confirm level of detail required with Asim. Add examples and further explanation if needed.
+\end{todo}
+
+\subsection{3DES}
+The \textit{Triple Data Encryption Standard}, or 3DES, is a symmetric-key encryption algorithm which apples the DES algorithm three times to each block. 
+
+3DES works with three keys, $K_1$, $K_2$, and $K_3$. It will use $K_1$ on the first round of DES encrypting the data. Then the second round of DES will decrypt the data using $K_2$. The third and final round of DES will encrypt the data using $K_3$. The middle decryption doesn't return the data to the plaintext state, as $K_1 \neq K_2$. 
+
+Decryption follows the same encryption process but in reverse: decrypting with $K_3$, encrypting with $K_2$ before decrypting with $K_1$. 
+
+\subsection{AES}
+The \textit{Advanced Encryption Standard}, or AES, is a symmetric-key encryption algorithm which was designed to replace DES.
+
+AES supports three different key lengths: 128-bit, 192-bit and 256-bit. Similarly to how DES works on 64-bits of data at a time, AES works on 128-bit blocks of data and will perform $n$ rounds depending on the different key-length used. 128-bit keys get 10 rounds, 192-bit keys get 12 rounds and 256-bit keys get 14 rounds. 
+
+\section{Asymmetric Encryption}
+Asymmetric Encryption is an encryption method where the sender and receiver both use different keys to encode and decode the message. This is where it's alternative name, \textit{Public Key Encryption} comes form.
+
+The sender encrypts the plaintext with the receivers public key to produce the ciphertext. The ciphertext is then transmitted over the network to the receiver. The receiver uses their private key to decrypt the message thus producing the plaintext. 
+
+The public key of the receiver is made available to anyone who wants to send the receiver a message. The public key of anyone is restricted to them and them alone - leaking of a public key would mean that a threat actor could decode the message. Due to the receivers public keys being required to be able to send the receiver a message - senders will have as many public keys as the number of people they send messages to.
+
+A major flaw with this model is that a threat actor could intercept the public-key encoded message and stop it from reaching the receiver. Whilst they couldn't read that message, they could spoof that message by sending their own payload encoded with the receivers public key. The receiver would receive this and decode it. 
+
+We can see an example of the Asymmetric Encryption in the RSA algorithm. 

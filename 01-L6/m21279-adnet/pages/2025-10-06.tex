@@ -57,12 +57,12 @@ Often with transmissions - our signal may be interrupted in some way. This will 
 
 
             %wave1 y axis markers
-            \node at (-0.5, 5) {high};
-            \node at (-0.5, 7) {low};
+            \node at (-0.5, 5) {low};
+            \node at (-0.5, 7) {high};
             
             %wave2 y axis markers
-            \node at (-0.5, 2) {high};
-            \node at (-0.5, 4) {low};
+            \node at (-0.5, 2) {low};
+            \node at (-0.5, 4) {high};
             
             % interfering wave brace
             \draw [decorate, decoration={brace, amplitude=8pt, raise=4pt}] 
@@ -104,12 +104,12 @@ Often with transmissions - our signal may be interrupted in some way. This will 
 
 
             %wave1 y axis markers
-            \node at (-0.5, 5) {high};
-            \node at (-0.5, 7) {low};
+            \node at (-0.5, 5) {low};
+            \node at (-0.5, 7) {high};
             
             %wave2 y axis markers
-            \node at (-0.5, 2) {high};
-            \node at (-0.5, 4) {low};
+            \node at (-0.5, 2) {low};
+            \node at (-0.5, 4) {high};
             
             % interfering wave brace
             \draw [decorate, decoration={brace, amplitude=8pt, raise=4pt}] 
@@ -172,6 +172,9 @@ Where $C$ is the capacity of the channel in bps and $B$ is the bandwidth of the 
 
 \subsection{Frequency Division Multiplexing}
 In Frequency Division Multiplexing (FDM), the different message signals are modulated onto different carrier frequencies. This then means the signals being transmitted are separate from each other in the frequency domain. These modulated signals are then combined together to form the composite signal and this signal is sent over the shared medium or channel. To avoid the interference between the different message signals, a guard band is also kept between the message signals.
+
+On the transmitter end, the signals to be transmitted are modulated onto the different carrier frequencies. Then on the receiver end - the frequencies first pass through a Band Pass Filter (definition not required for this module), then through the demodulator, then finally through a low pass filter (again, definition not needed in this module). The band pass filter is used to separate the specific signal from the composite signal, and the low pass filter is used to filter out the higher frequencies introduced as part of the FDM process.
+
 \begin{todo}
 Graph of FDM?
 \end{todo}
@@ -218,6 +221,8 @@ This produces a \textit{combination bit stream} which has the data rate of the s
 
 \begin{todo}
 Finish the DSSS encoding graph diagram. Commented out in this document.
+
+Alternatively - add written out example?
 \end{todo}
 
 % \begin{figure}[H]
@@ -269,6 +274,10 @@ Finish the DSSS encoding graph diagram. Commented out in this document.
 \textit{Code Division Multiple Access} (CDMA) is a multiplexing technique used with spread spectrum.
 
 It works taking our data signal with a bit-rate $R$ and assigning a unique code of $n$ chips according to the Walsh Matrix. Then, if the user $k$ sends a 1 - the transmitter sends the chip code $ck$; alternatively if the user $k$ sends a 0 - the transmitter sends the chip code $\overline{c}k$ (which is represented in this module with as $c'k$). 
+
+\begin{todo}
+Add Walsh Matrix derivations.
+\end{todo}
 
 The chip codes of all users will add up into a bipolar signal $D$. The receiver performs the decoding function for user $k$, for example, by the cartesian product $D\times ck$. If $D\times ck = n$ (the number of bits in the chip code), then bit 1 is received; else if $D\times ck=-n$ then bit 0 is received.
 
