@@ -273,13 +273,40 @@ Alternatively - add written out example?
 \subsection{Code Division Multiple Access Spread Spectrum}
 \textit{Code Division Multiple Access} (CDMA) is a multiplexing technique used with spread spectrum.
 
-It works taking our data signal with a bit-rate $R$ and assigning a unique code of $n$ chips according to the Walsh Matrix. Then, if the user $k$ sends a 1 - the transmitter sends the chip code $ck$; alternatively if the user $k$ sends a 0 - the transmitter sends the chip code $\overline{c}k$ (which is represented in this module with as $c'k$). 
+To understand how CDMA works, we first have to understand how \textit{Walsh Code} works. Walsh Code is a matrix from which codes can be taken by reading the rows of the matrix. The Walsh matrix starts with the general structure:
+\[W_1=(-1)\]
+We can then double $n$ to provide larger matricies, for the events in which we need longer sequences of chip codes.
+\begin{equation*}
+W_{2n} = W_2 =
+\begin{pmatrix}
+    W_1 & W_1\\
+    W_1 & \overline{W_1}
+\end{pmatrix}
+=
+\begin{pmatrix}
+    -1 & -1\\
+    -1 & +1
+\end{pmatrix}
+\end{equation*}
+Obviously, this can be taken further to see a $4\times4$ matrix which is a common size we will interact with in this module.
+\begin{equation*}
+W_{2n} = W_4 = 
+\begin{pmatrix}
+    W_2 & W_2 \\
+    W_2 & \overline{W_2}
+\end{pmatrix}
+=
+\begin{pmatrix}
+    -1 & -1 & -1 & -1\\
+    -1 & +1 & -1 & +1\\
+    -1 & -1 & +1 & +1\\
+    -1 & +1 & +1 & -1
+\end{pmatrix}
+\end{equation*}
 
-\begin{todo}
-Add Walsh Matrix derivations.
-\end{todo}
+CDMA works by taking the data signal, with a bit-rate $R$, and selecting a unique code of $n$ chips according to the Walsh Matrix; for example \textit{row 1 for a; row 2 for b; etc}. Then if a the user, $k$, sends a 1 - the transmitter sends the chip code $c_k$; alternatively if the user $k$ sends a 0 - the transmitter sends the chip code $\overline{c_k}$ (which may also be represented in this module as $c_k'$).
 
-The chip codes of all users will add up into a bipolar signal $D$. The receiver performs the decoding function for user $k$, for example, by the cartesian product $D\times ck$. If $D\times ck = n$ (the number of bits in the chip code), then bit 1 is received; else if $D\times ck=-n$ then bit 0 is received.
+The signal to be transmitted is the built by summing the ``columns'' of chip codes (i.e. all first indexes summed for A, B, C \& D; all second indexes summed for A, B, C \& D; etc; in a situation where 4 signals are being transmitted together). The receiver then decodes this signal by performing inner-product-multiplication for the user $k$. This works by them taking the original Chip Code (not the inverted chip where a -1 has been transmitted) and multiplying each element with the corresponding element in the received signal (i.e. first element of chip code multiplied with first received bit, etc). The output from these multiplications are then summed together, and where the result is the number of bits in the chip code, $n$: a 1 was transmitted; and where the result is $-n$: a 0 was transmitted. 
 
 \begin{example}{CDMA}
 If we take the following users to have the following Chip Codes:

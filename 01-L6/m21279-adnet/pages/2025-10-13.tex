@@ -20,7 +20,7 @@ We can attempt to overcome the threats using cryptography to encrypt the message
 
 The message we want to encrypt, known as the \textit{plaintext}, is transformed by a function that is parametrised by a \textit{key}. The output of the encryption process, known as the \textit{ciphertext}, is then transmitted. If this ciphertext is intercepted by the threat actor, they are unable to directly interpret it as they do not know what the key used in the encryption process was. However, it may be possible for the threat actor to crack the cipher depending on the encryption method used.
 
-There is a standard notation for the plaintext, ciphertext and keys. $C=EK(P)$ is used to represent the encryption, $E$ of the plaintext, $P$ using the key, $K$ which results in the ciphertext, $C$. The decryption is defined as $P=DK(C)$ where the plaintext, $P$, is the result of applying the decryption, $D$, with the key, $K$, on the ciphertext, $C$. 
+There is a standard notation for the plaintext, ciphertext and keys. $C=E_K(P)$ is used to represent the encryption, $E$ of the plaintext, $P$ using the key, $K$ which results in the ciphertext, $C$. The decryption is defined as $P=D_K(C)$ where the plaintext, $P$, is the result of applying the decryption, $D$, with the key, $K$, on the ciphertext, $C$. 
 
 \section{Encryption Techniques}
 There are a number of Encryption Techniques used commonly.
@@ -57,9 +57,12 @@ The plaintext input for DES is always 64-bits in length, and the key is always 5
 
 The DES algorithm works by taking the 56-bit key and generating 16 sub-keys from it. These 16 sub-keys are each used for their own round of encryption, therefore the DES algorithm encrypts the plaintext 16 times through a sequence iterating on the output of the previous as the input to the next. The keys are used in reverse order - meaning $K_{16}$ is used on the first iteration, $K_{15}$ on the second, and so on until $K_1$ is used on the final iteration. 
 
-\begin{todo}
-Confirm level of detail required with Asim. Add examples and further explanation if needed.
-\end{todo}
+DES works through the 16 rounds of encryption following a modified \textit{Feistel Network} structure. This works by taking the plaintext and splitting it into two substrings of equal length. One half of the key is passed to the F-Function (Feistel Function) which performs Expansion, Key-Mixing, Substitution and Permutation operations on the input and that round's key. The output from the F-Function then gets XOR'd with the other half of the input string. The next round is then prepared by feeding the output from the XOR operation into the next F-Function, and the input to the current round's F-Function to the next rounds XOR. There are 16 rounds of this in total. The final ciphertext is created by concatenating the output of the final XOR with the output of the penultimate XOR operation (which fed into the F-Function, the output from which fed into the input to the final XOR operation). 
+
+\begin{extlink}
+There is a diagram explaining the Feistel Network in the slides on Moodle.
+\end{extlink}
+
 
 \subsection{3DES}
 The \textit{Triple Data Encryption Standard}, or 3DES, is a symmetric-key encryption algorithm which apples the DES algorithm three times to each block. 
