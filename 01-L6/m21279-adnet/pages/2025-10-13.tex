@@ -30,18 +30,65 @@ In a \textit{substitution cipher}, each letter or group of letters is directly r
 
 A well-known example of this is the Ceaser Cipher. 
 
-\begin{todo}
-add example
-\end{todo}
+\begin{example}{Substitution Cipher}
+If we take the following substitution:
+
+\begin{figure}[H]
+\centering
+\begin{BVerbatim}
+Plaintext:     a b c d e f h g i j k l m n o p q r s t u v w x y z
+Ciphertext:    Q W E R T Y U I O P A S D F G H J K L Z X C V B N M
+\end{BVerbatim}
+\caption{Substitution Matrix}
+\end{figure}
+
+We can see how we convert from plaintext to ciphertext.
+
+For example, taking the plaintext \textit{attack} - we get the ciphertext \textit{QZZQEA}; or taking the plaintext \textit{london}, we get the Ciphertext \textit{SGFRGF}. 
+\end{example}
 
 Using a standard alphabet with 26 characters, assuming we only use lowercase letters, then there are $4 \times 10^{26}$ possible combinations. Which on a computer with one million CPU cores - can take up to 10,000 years to crack.
 
 \subsection{Transposition Cipher}
 In a \textit{transposition cipher}, we take a key and use this key to design a grid which we populate with our plaintext, working row-by-row. We then read the ciphertext from the grid reading column-by-column in alphabetical order of the key's letter.
 
-\begin{todo}
-add example. explanation in notes on slides
-\end{todo}
+\begin{example}{Transposition Cipher}
+If we take the plaintext \textit{pleasetransferonemilliondollarstomyswissbankaccountsixtwotwo} and the key \textit{MEGABUCK}. 
+
+We start by writing out the key at the top of the grid, and assigning a number to each column. In our case, the numbers are assigned in ascending order of the alphabet.
+
+\begin{figure}[H]
+\centering
+\begin{BVerbatim}
+M E G A B U C k
+7 4 5 1 2 8 3 6
+\end{BVerbatim}
+\caption{Transposition Cipher Matrix with Key and Number shown}
+\end{figure}
+
+We can then take our plaintext and write that into the matrix working down the rows. We pad the end of the string to fill out the last row entirely, in our case we're using the start characters of the alphabet.
+
+\begin{figure}[H]
+\centering
+\begin{BVerbatim}
+M E G A B U C K
+7 4 5 1 2 8 3 6
+p l e a s e t r
+a n s f e r o n
+e m i l l i o n
+d o l l a r s t
+o m y s w i s s
+b a n k a c c o
+u n t s i x t w
+o t w o a b c d
+\end{BVerbatim}
+\caption{Transposition Cipher Matrix with plaintext added}
+\end{figure}
+
+To get the ciphertext out of the matrix, we read from the matrix vertically in order of the column numbers: \textit{afllsksoselawaiatoossctclnmomantesilyntwrnntsowdpaedobuoeriricxb}. 
+
+To decode the message, a similar process is followed: setup the matrix by writing the key, and the column numbers; then write in the ciphertext in columns based on the order of the numbers; then read rows to obtain the plaintext.
+\end{example}
 
 \section{Symmetric Encryption}
 Symmetric Encryption is an encryption method in which the sender and receiver both use the same key to encode and decode the message. This is where it's alternative name, \textit{shared key encryption} comes from. 
@@ -86,3 +133,36 @@ The public key of the receiver is made available to anyone who wants to send the
 A major flaw with this model is that a threat actor could intercept the public-key encoded message and stop it from reaching the receiver. Whilst they couldn't read that message, they could spoof that message by sending their own payload encoded with the receivers public key. The receiver would receive this and decode it. 
 
 We can see an example of the Asymmetric Encryption in the RSA algorithm. 
+
+\subsection{RSA}
+The \textit{Rivest-Shamir-Adlerman} cryptosystem, or RSA, is a public-key cryptosystem which was developed in 1973 at GHCQ. 
+
+RSA works through taking two large prime numbers where their product is used to form the public key (along with other values used). The original prime numbers are kept secret. Then anyone can use the public key to encrypt the message. The message is transformed using mathematical operations which involve the public key. On the receiving end - only the corresponding private key can decrypt the message. The decryption process involves the original prime factors to reverse the encryption.
+
+The RSA process can be formalised below:
+\begin{enumerate}
+    \item Chose two large primes, $p$ and $q$.
+    \item $n=p\times q$ and $z=(q-1) \times (q-1)$
+    \item Choose a number relatively prime to $z$ and call it $d$
+    \item Find $e$ such that $e \times d = 1 \mod z$
+    \item To encrypt a message, $P$, compute $C=P^e(\mod n)$
+    \item To decrypt the ciphertext, $C$, compute $P=C^d(\mod n)$
+    \item The public key is $(e, n)$ and the private key is $(d, n)$.
+\end{enumerate}
+
+\begin{example}{RSA}
+We can see the above steps with real numbers substituted in below:
+\begin{enumerate}
+    \item Let $p=3$ and $q=11$
+    \item Therefore $n=33$ and $z=20$
+    \item Let $d=7$
+    \item We can calculate $e$ using  $e \times 7 = \mod 20$ which sets $e=3$
+    \item We can encrypt our message, for example $19$ by performing $C = 19^3(\mod 33)=28$
+    \item We can decrypt the ciphertext, in this example $28$ by performing $P=28^7(\mod 33)=19$
+    \item This means we know that the public key was $(3,33)$ and the private key was $(7,33)$.
+\end{enumerate}
+\end{example}
+
+\begin{extlink}
+There is a more fleshed-out example of the RSA process for the string ``SUZANNE'' in the slides on Moodle.
+\end{extlink}
