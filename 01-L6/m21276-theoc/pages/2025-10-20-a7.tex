@@ -1,0 +1,289 @@
+\taughtsession{Lecture}{A7: Pushdown Automata}{2025-10-20}{14:00}{Janka}{}
+
+We have already seen how \textit{Deterministic Finite Automata} and \textit{Non-Deterministic Finite Automata} can be used to identify regular languages. 
+
+Today we will explore the wonderful world of \textit{(Non-Deterministic) Pushdown Automata} (PDA) and how these can be used to identify context-free languages. When we talk about a PDA, we are talking about a Non-Deterministic Pushdown Automata (NPDA) by default.
+
+\section{Non-Deterministic Pushdown Automata}
+NPDAs are like finite automata, in that they read a single input character from the input tape at a time and may or may not perform a transition based on this. However, NPDAs also have a stack memory where they can store an arbitrary amount of information.
+
+\subsection{The Stack Memory}
+As we have seen in modules of years gone past, the stack operates in \textit{Last In First Out} where only the top element can be operated on in a single operation. 
+
+There are three operations we can do with the stack:
+\begin{description}
+    \item[pop] reads the top symbol and removes it from the stack
+    \item[push] writes a designed symbol onto the top of the stack; for example $push(X)$ means put $X$ on the top of the stack
+    \item[nop] does nothing to the stack 
+\end{description}
+
+The symbols put onto the stack are different from the language's alphabet which is used on the input tape.
+
+At the start of processing a fresh input on the input tape - the stack starts with only the initial stack symbol (\$) on the stack. The automaton starts in it's initial state, as we'd expect.
+
+\subsection{Transitions}
+For each step, there are three inputs used to determine the transition:
+\begin{itemize}
+    \item The Current State,
+    \item The Input Element,
+    \item The Top Symbol of The Stack
+\end{itemize}
+
+One transition step includes:
+\begin{itemize}
+    \item changing the state (as with FAs)
+    \item (optional) reading a symbol from the input tape and moving to the next right symbol (as with FA) 
+    \item change the stack - push a symbol onto the stack, pop a symbol off the stack, no change to the stack
+\end{itemize}
+
+Transition steps are formally defined by transition functions, although often represented in the form of transition instructions. 
+
+For each transition function, there are three inputs: the state, the input character (which can be $\Lambda$), and the character which must be at the top of the stack for the input condition to hold. There are two outputs of the transition functions: the ``new'' state, and a stack operation.
+
+There are three different ways we can represent the transition.
+
+Firstly, we can see the transition on a transition diagram. The label on the edge is vital here - as it gives us the input character, stack character, and output operation on the stack. The two states show the initial state, and the output state, as with a FA.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=5cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[state] (p) {$p$};
+        \node[state] (q) [right of=p] {$q$};
+        
+        \path[->] (p) edge [above] node [align=center] {$a,A/push(B)$} (q);
+        
+    \end{tikzpicture}
+    \caption{Transition Diagram representation of a transition}
+\end{figure}
+
+Alternatively, we can write this as a transition function:
+\[T(p, a, A) = (push(B), q)\]
+Where here we can see the left hand side are the three inputs: the input state, the input character, and the stack input character; and the right hand side shows us the output operation on the stack and the state to transition to. 
+
+Finally, we can re-write this as a transition instruction:
+\[(p, a, A, push(B), q)\]
+Here we can see that there is a single set of brackets containing, in order: the initial state; the input character; the stack input character; the stack output function; and the state to transition to. 
+
+\subsection{Formal Definition}
+We can formally describe NPDA as:
+\begin{itemize}
+    \item a finite set $Q$ of states (and the start states, and the set of accepting / final states)
+    \item a finite set $\Sigma$ which is called the input alphabet
+    \item a finite set $\Gamma$ which is called the stack alphabet (and the initial stack symbol \$)
+    \item a finite set of transition instructions, or a transition functions where
+    \[T:Q \times \Sigma \cup \{\Lambda\} \times \Gamma \rightarrow \Gamma^* \times Q\]
+    or represented by a `transition' diagram.
+\end{itemize}
+
+An input string is accepted by an NPDA if there is some path (i.e. a sequence of instructions) from the start state to a final state that consumes all letters of the string; otherwise the string is rejected. The language of an NPDA is the set of all strings that it accepts.
+
+There are a few reasons that an NPDA may reject a string:
+\begin{itemize}
+    \item If reading an input string finishes without reaching a final state 
+    \item If for a current state / symbol on the stack / input symbol there is no transition
+    \item If it attempts to pop the empty stack
+\end{itemize}
+
+\begin{example}{$\{a^nb^n|n\geq 0\}$}
+Yes, $\{a^nb^n|n\geq 0\}$ is back again. 
+
+To tackle this problem we first come up with a plan on how to solve it:
+\begin{enumerate}
+    \item Begin reading the string, and for each $a$ read push a $Y$ onto the stack
+    \item On the first $b$ change states, and begin removing one $Y$ fro the stack
+    \item If you reach the end of the input and have just cleared the stack, accept the string
+    \item Otherwise reject (e.g. if the stack runs out before the input - more $b$'s than $a$'s)
+\end{enumerate}
+
+Now we have figured out how we need our NPDA to behave - we can design it. 
+
+It will have 3 states: 0 (start), 1, 2 (final); the input alphabet will contain two elements: $\{a, b\}$ and the stack alphabet will also contain 2 elements: $\{Y, \$\}$.
+
+Note here that $\Lambda$ is not in the input alphabet as we can safely assume it always will be; and that the stack alphabet contains the initial stack symbol \$. 
+
+From here we can draw our NPDA.
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=5cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[state, initial] (0) {$0$};
+        \node[state] (1) [right of=0] {$1$};
+        \node[state, accepting] (2) [right of=1] {$2$};
+        
+        \path[->] (0) edge [above] node [align=center] {$b,Y/pop$} (1);
+        \path[->] (1) edge [above] node [align=center] {$\Lambda,\$/nop$} (2);
+        \path[->] (0) edge [loop above] node [align=center] {$a,Y/push(Y)$\\$a,\$/push(Y)$} (0);
+        \path[->] (1) edge [loop above] node [align=center] {$b,Y/pop$} (1);
+        \path[->, bend right=30] (0) edge [below] node [align=center] {$\Lambda,\$/nop$} (2);
+        
+    \end{tikzpicture}
+    \caption{NPDA Diagram}
+\end{figure}
+
+From this NPDA - we can learn there are 6 allowed instructions:
+\begin{align*}
+T_1: & (0, a \$, push(Y), 0)\\
+T_2: & (0, a, Y, push(Y), 0)\\
+T_3: & (0, \Lambda, \$, nop, 2)\\
+T_4: & (0, b, Y, pop, 1)\\
+T_5: & (1, b, Y, pop, 1)\\
+T_6: & (1, \Lambda, \$, nop, 2)
+\end{align*}
+\end{example}
+
+\subsection{Instantaneous Description}
+We are able to use \textit{Instantaneous Descriptions} to describe the process the NPDA is going through at any instant. Three are three things we need to keep track of:
+\begin{itemize}
+    \item The current state
+    \item What input characters are left
+    \item What is on the stack
+\end{itemize}
+
+The instantaneous descriptions take the form:
+\begin{center}
+    (current state, unconsumed input, stack contents)
+\end{center}
+
+We can see this in action if we take an NPDA which has the instantaneous description:
+\[(0, abba, YZ\$)\]
+and the NPDA includes an instruction of the following form:
+\[(0, a, Y, pop, 1)\]
+After the transition, the instantaneous description is changed to:
+\[1, bba, Z\$\]
+
+From this we can see that the transition function has changed the state from 0 to 1, used up the letter $a$ from the input tape and popped $Y$ from the top of the stack.
+
+\begin{example}{Instantaneous Descriptions}
+If we take the string $aabb$, we can represent it's journey through the NPDA with instantaneous descriptions.
+\begin{align*}
+    Start &\rightarrow (0, aabb, \$)\\
+    T_1 &\rightarrow (0, abb, Y\$)\\
+    T_2 &\rightarrow (0, bb, YY\$)\\
+    T_4 &\rightarrow (1, b, Y\$)\\
+    T_5 &\rightarrow (1, \Lambda, \$)\\
+    T_6 &\rightarrow (2, \Lambda, \$)
+\end{align*}    
+We have reached the final state, 2, therefore we accept the input string.
+
+Note the transition marker $T_n$ denotes which transition function was used for a given instantaneous description. 
+\end{example}
+
+\subsection{NPDAs and Context-Free Languages}
+As we have seen in previous lectures, the class of context-free languages are generated by context-free grammars which have all their production rules of the form $N \rightarrow \alpha$ where $N$ is a non-terminal $\alpha$ is any string over the alphabet of terminals and non-terminals. 
+
+This looks familiar - as we have seen that this $N \rightarrow \alpha$ is the form that the productions take for NPDAs. Therefore we can theorise that the Context-Free languages are exactly the languages that that are accepted by non-deterministic pushdown automata.
+
+This theorem can be proven in two steps (similar to NFA $\Leftrightarrow$ regular languages):
+\begin{enumerate}
+    \item If we take a NPDA: we can find a context-free grammar which generates the language accepted by the given NPDA.
+    \item If we take a context-free language: we can find an NPDA that accepts the given context-free language.
+\end{enumerate}
+
+\begin{example}{Finding a NPDA for a Context-Free Language}
+If we take a language containing all strings over $a$ and $b$ with exactly the same number of $a$'s as $b$'s. We can show that this is context-free. 
+
+We can plan for this as follows:
+\begin{itemize}
+    \item Keep track of the difference between the number of $a$'s and $b$'s we've read by changing the symbol in the stack.
+    \item Use one symbol, $X$, if we've seen more $a$s and another, $Y$, if we've seen more $b$s.
+\end{itemize}
+
+For our NPDA, we use two states: 0 (start) and 1 (final). We use the input alphabet $\{a,b\}$ and our stack alphabet as $\{X, Y, \$\}$.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=5cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[state, initial] (0) {$0$};
+        \node[state, accepting] (1) [right of=0] {$1$};
+        
+        \path[->] (0) edge [above] node [align=center] {$\Lambda, \$ / nop$} (1);
+        \path[->] (0) edge [loop above] node [align=center] {$a,\$/push(X)$ \\ $a,X/push(X)$ \\ $a,Y/pop$ \\ $b,\$/push(Y)$ \\ $b,Y/push(Y)$ \\ $b,X/pop$} (0);
+        
+    \end{tikzpicture}
+    \caption{NPDA Solution}
+\end{figure}
+
+Form here we can define the 7 instructions for this NPDA in instruction form:
+\begin{align*}
+T_1: & (0,a,\$, push(X), 0)\\
+T_2: & (0, a, X, push(X), 0)\\
+T_3: & (0, a, Y, pop, 0)\\
+T_4: & (0, b, \$, push(Y), 0)\\
+T_5: & (0, b, Y, push(Y), 0)\\
+T_6: & (0, b, X, pop, 0)\\
+T_7: & (0, \Lambda, \$, nop, 1)
+\end{align*}
+
+Alternatively, this can be represented using the Instantaneous Descriptions method:
+\begin{align*}
+Start \rightarrow & (0, abbbaa, \$)\\
+T_1 \rightarrow & (0, bbbaa, X\$)\\
+T_6 \rightarrow & (0, bbaa, \$)\\
+T_4 \rightarrow & (0, baa, Y\$)\\
+T_5 \rightarrow & (0, aa, YY\$)\\
+T_5 \rightarrow & (0, a, Y\$)\\
+T_5 \rightarrow & (0,\Lambda, \$)\\
+T_6 \rightarrow & (1, \Lambda, \$)
+\end{align*}
+
+\end{example}
+
+\section{Determinism vs Non-Determinism}
+In a similar way to that of the finite automata, push-down automata can either be \textit{deterministic} or \textit{non-deterministic}. 
+
+A deterministic PDA never has a choice of the next step. It has, at most, one possible output for every combination of state, input and character. This is in a similar way to that of the DFA. 
+
+For every combination of state \& stack character, only one of the transactions is allowed. This is either for the empty symbol, $\Lambda$, or for an input symbol, or there can be no transaction at all. 
+
+\begin{example}{NPDA vs DPDA}
+The following instructions cannot be contained by a deterministic push-down automata while they can be contained by a non-deterministic push-down automata.
+\[(0, a, \$, push(Y), 0); \quad (0, a, \$, pop, 1)\]   
+\end{example}
+
+In a different way to that of the DFA and NFA (where both recognise the same languages) - NPDA and DPDA accept different languages. Deterministic push-down finite automata cannot recognise the whole family of context-free languages. 
+
+\begin{example}{NPDA works where DPDA fails}
+If we take the language $L=\{ww^R | w \in \{a, b\}^+\}$ which recognises even length palindromes, we can design a PDA which recognises this.
+
+We start with our plan:
+\begin{itemize}
+    \item Read in each string and save it to the stack
+    \item At each step, consider the possibility that we might have reached the middle
+    \item Once reaching the midpoint - start working backwards, removing things from the stack if they match what was saved
+\end{itemize}
+Except this leaves us with a problem; how do we know we've reached the midpoint? A Non-deterministic PDA can help.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=5cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[state, initial] (0) {$0$};
+        \node[state] (1) [right of=0] {$1$};
+        \node[state, accepting] (2) [right of=1] {$2$};
+        
+        \path[->] (0) edge [above] node [align=center] {$\Lambda,X/nop$ \\ $\Lambda,Y/nop$} (1);
+        \path[->] (1) edge [above] node [align=center] {$\Lambda,\$/nop$} (2);
+        \path[->] (0) edge [loop below] node [align=center] {$a,*/push(X)$ \\ $b,*/push(Y)$} (0);
+        \path[->] (1) edge [loop below] node [align=center] {$a,X/pop$ \\ $b,Y/pop$} (1);
+        
+    \end{tikzpicture}
+    \caption{NPDA Solution}
+\end{figure}
+In the above figure, $*$ stands for $X, Y, \$$. 
+
+We can then see the instantaneous description derivation for an example palindrome: $aabbaa$.
+\begin{align*}
+\textrm{Start} & \rightarrow (0,aabbaa,\$)\\
+\textrm{Load\ stack} & \rightarrow (0, abbaa, X\$)\\
+\textrm{Load\ stack} & \rightarrow (0, bbaa, XX\$)\\
+\textrm{Load\ stack} & \rightarrow (0, baa, YXX\$)\\
+\textrm{Try:\ is\ this\ the\ middle?} & \rightarrow (1, baa, YXX\$)\\
+\textrm{Pop\ stack} & \rightarrow (1, aa, XX\$)\\
+\textrm{Pop\ stack} & \rightarrow (1, a, X\$)\\
+\textrm{Pop\ stack} & \rightarrow (1, \Lambda, \$)\\
+\textrm{Done} & \rightarrow (2, \Lambda, \$)\\
+\end{align*}
+
+\end{example}
+
+The above example was an example of a non-deterministic PDA. This is because, from state 0, it branches either loading another letter on or trying to take letters off. This could only be done non-deterministically. A deterministic PDA would need to know when to start removing letters from the stack. Therefore a NPDA can recognise the language of the even palindromes, but a DPDA cannot. 
+
+Deterministic push-down automata recognise regular languages and also some which are not regular, but not all of the context free languages. 
