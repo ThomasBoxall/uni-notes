@@ -68,6 +68,7 @@ marginparsep=0mm,
     coltitle=white,
     attach boxed title to top left={yshift*=-\tcboxedtitleheight}, 
     title={Example: #1},
+    parbox=false,
     breakable,
     arc=2pt,
     boxed title size=title,
@@ -97,6 +98,7 @@ marginparsep=0mm,
     coltitle=white,
     attach boxed title to top left={yshift*=-\tcboxedtitleheight}, 
     title=Definitions,
+    parbox=false,
     breakable,
     arc=2pt,
     boxed title size=title,
@@ -181,9 +183,9 @@ marginparsep=0mm,
 \makeatletter
 \AtBeginDocument{
   \hypersetup{
-    pdftitle={ \moduleName },
+    pdftitle={ \moduleName{} (\moduleCode) Notes },
     pdfauthor={Thomas Boxall},
-    pdfsubject={ \courseYear{} Year Computer Science Notes },
+    pdfsubject={ \courseYear{} Year BSc Computer Science Notes },
     pdfcreator={Blood, Sweat \& Tears}
   }
 }
