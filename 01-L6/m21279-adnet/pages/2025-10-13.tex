@@ -12,13 +12,13 @@ Within \textit{Network Security} there are three important requirements. The thr
 There are two main types of attack used.
 
 \begin{define}
-\item[Passive Attacks] Threat Actors analyse the traffic or read message content
-\item[Active Attacks] Threat Actors modify the message content, deny the service to a request, replay to a message and masquerade (pretend to be a different entity) 
+\item[Passive Attacks] Adversaries analyse the traffic or read message content
+\item[Active Attacks] Adversaries modify the message content, deny the service to a request, replay to a message and masquerade (pretend to be a different entity) 
 \end{define}
 
 We can attempt to overcome the threats using cryptography to encrypt the message on the transmitter's side, and then ensure that only the designated recipient can decode the message.
 
-The message we want to encrypt, known as the \textit{plaintext}, is transformed by a function that is parametrised by a \textit{key}. The output of the encryption process, known as the \textit{ciphertext}, is then transmitted. If this ciphertext is intercepted by the threat actor, they are unable to directly interpret it as they do not know what the key used in the encryption process was. However, it may be possible for the threat actor to crack the cipher depending on the encryption method used.
+The message we want to encrypt, known as the \textit{plaintext}, is transformed by a function that is parametrised by a \textit{key}. The output of the encryption process, known as the \textit{ciphertext}, is then transmitted. If this ciphertext is intercepted by the adversary, they are unable to directly interpret it as they do not know what the key used in the encryption process was. However, it may be possible for the adversary to crack the cipher depending on the encryption method used.
 
 There is a standard notation for the plaintext, ciphertext and keys. $C=E_K(P)$ is used to represent the encryption, $E$ of the plaintext, $P$ using the key, $K$ which results in the ciphertext, $C$. The decryption is defined as $P=D_K(C)$ where the plaintext, $P$, is the result of applying the decryption, $D$, with the key, $K$, on the ciphertext, $C$. 
 
@@ -130,9 +130,9 @@ Asymmetric Encryption is an encryption method where the sender and receiver both
 
 The sender encrypts the plaintext with the receivers public key to produce the ciphertext. The ciphertext is then transmitted over the network to the receiver. The receiver uses their private key to decrypt the message thus producing the plaintext. 
 
-The public key of the receiver is made available to anyone who wants to send the receiver a message. The public key of anyone is restricted to them and them alone - leaking of a public key would mean that a threat actor could decode the message. Due to the receivers public keys being required to be able to send the receiver a message - senders will have as many public keys as the number of people they send messages to.
+The public key of the receiver is made available to anyone who wants to send the receiver a message. The public key of anyone is restricted to them and them alone - leaking of a public key would mean that an adversary could decode the message. Due to the receivers public keys being required to be able to send the receiver a message - senders will have as many public keys as the number of people they send messages to.
 
-A major flaw with this model is that a threat actor could intercept the public-key encoded message and stop it from reaching the receiver. Whilst they couldn't read that message, they could spoof that message by sending their own payload encoded with the receivers public key. The receiver would receive this and decode it. 
+A major flaw with this model is that an adversary could intercept the public-key encoded message and stop it from reaching the receiver. Whilst they couldn't read that message, they could spoof that message by sending their own payload encoded with the receivers public key. The receiver would receive this and decode it. 
 
 They keys may be notated as follows:
 \begin{itemize}
@@ -178,32 +178,32 @@ There is a more fleshed-out example of the RSA process for the string ``SUZANNE'
 \end{extlink}
 
 \section{Ensuring Confidentiality}
-As we have already seen - we need to ensure confidentiality within the transmission to ensure that threat actors cannot intercept and access the message.
+As we have already seen - we need to ensure confidentiality within the transmission to ensure that adversaries cannot intercept and access the message.
 
 \subsection{Within a Symmetric Encryption Network}
-As both the sender and the receiver share the same private key ($K_{AB}$), the threat actor cannot decode the message as they do not have the key. 
+As both the sender and the receiver share the same private key ($K_{AB}$), the adversary cannot decode the message as they do not have the key. 
 
 The sender encodes the plain text message into a cipher text $C=D_{K_{AB}}(M)$. Only the receiver, who has the key, is able to decrypt it using $P=D_{K_{AB}}(E_{K_{AB}}(M))$
 
 \subsection{Within an Asymmetric Encryption Network}
-The threat actor is not able to read the transmitted message. 
+The adversary is not able to read the transmitted message. 
 
 Both the sender (A) and receiver (B) compute their own private keys ($K_{A-}$, $K_{B-}$) and public keys ($K_{A+}$, $K_{B+}$). The public keys are advertised on the network.
 
 When a transmission occurs - the sender will use the receivers public key to encrypt the message $C=E_{K_{B-}}(P)$. Therefore only the receiver can decode the message using their private key $P=D_{K_{B+}}(C)$, alternatively shown as $P=D_{K_{B+}}(E_{K_{B-}}(P))$. 
 
 \section{Ensuring Integrity}
-We have to ensure integrity of our transmitted messages to ensure that the user who says they transmitted the message are actually the person who transmitted the message. This is for in the event that a threat actor intercepts and replaces a message transmitted from Sender to Receiver with a message sent from threat actor to Receiver pretending it was from the original sender.
+We have to ensure integrity of our transmitted messages to ensure that the user who says they transmitted the message are actually the person who transmitted the message. This is for in the event that an adversary intercepts and replaces a message transmitted from Sender to Receiver with a message sent from adversary to Receiver pretending it was from the original sender.
 
 \subsection{Digital Signatures}
 The use of a \textit{Digital Signature}, or \textit{Reverse Public Key} is a method of ensuring integrity which removes confidentiality from the encryption process. 
 
-Digital Signatures work by the sender encrypting the message using their private key ($K_{A-})$. The receiver then uses the public key of the sender ($K_{A+}$) to decrypt the received message. This means that then the sender and only the sender can encrypt messages, however anyone on the network who has the senders public key is also able to decrypt the message. This therefore means that any threat actors on the network cannot change the contents of the message.
+Digital Signatures work by the sender encrypting the message using their private key ($K_{A-})$. The receiver then uses the public key of the sender ($K_{A+}$) to decrypt the received message. This means that then the sender and only the sender can encrypt messages, however anyone on the network who has the senders public key is also able to decrypt the message. This therefore means that any adversaries on the network cannot change the contents of the message.
 
 \subsection{Message Digests}
 The \textit{Message Digests} method works through producing a short fingerprint of the message, which is a hash of the message, represented as $H(M)$. The hash function works by encrypting a small block fo the message which is the function of the document. The hash of two different messages will always be different and it is impossible to find $M$ from $H(M)$.
 
-The has is encrypted with the senders private key, while the message itself is encrypted with the receivers public key. The hash therefore serves as a signature verifying the origin of the document, content and sequencing. This works because the threat actor does not have the senders private key, so they cannot spoof a hash value. 
+The has is encrypted with the senders private key, while the message itself is encrypted with the receivers public key. The hash therefore serves as a signature verifying the origin of the document, content and sequencing. This works because the adversary does not have the senders private key, so they cannot spoof a hash value. 
 
 \section{Authentication}
 Authentication verifies that the messages came from an authentic source. Authentication can be achieved by conventional techniques:
@@ -213,18 +213,18 @@ Authentication verifies that the messages came from an authentic source. Authent
     \item Timestamp for messages delayed 
 \end{itemize}
 
-Authentication is important because it shows that the message has come from a trusted, authentic source. Threat actors may record the messages and then re-play messages at a later time which they have captured. This would look like it's coming form the right person as they are correctly encrypted using the correct keys - however in reality it's a retransmission. This type of attack is called a \textit{Play-Back Attack}
+Authentication is important because it shows that the message has come from a trusted, authentic source. Adversaries may record the messages and then re-play messages at a later time which they have captured. This would look like it's coming form the right person as they are correctly encrypted using the correct keys - however in reality it's a retransmission. This type of attack is called a \textit{Play-Back Attack}
 
 \subsection{Symmetric Key Authentication}
 Authentication can be introduced to the symmetric-key encryption model through the following steps:
 \begin{enumerate}
     \item Sender sends their ID (i.e. a password) to receiver
-    \item Receiver responds with a one-time random number (called a \textit{nonce}). The threat actor as well as the sender could pick up the nonce $R_B$. 
-    \item The sender encrypts using the private shared key, $K_{AB}$ and sends this back to the receiver. The threat actor may also pick this up, however they cannot decrypt because they don't have the key. The receiver decrypts the message and now knows they are talking to the sender.
+    \item Receiver responds with a one-time random number (called a \textit{nonce}). The adversary as well as the sender could pick up the nonce $R_B$. 
+    \item The sender encrypts using the private shared key, $K_{AB}$ and sends this back to the receiver. The adversary may also pick this up, however they cannot decrypt because they don't have the key. The receiver decrypts the message and now knows they are talking to the sender.
     \item The sender sends their own Nonce number, $R_A$ to the receiver. The receiver encrypts this and sends it back to the sender. Only the sender can decrypt this, again because shared keys, and they now know they are talking to the sender. 
 \end{enumerate}
 
-This prevents playback because of the session established between the sender and the receiver. If the threat actor tried to re-send a message later in time - the session would most likely have expired and so the receiver of that message would know to discard because it's not valid any more. 
+This prevents playback because of the session established between the sender and the receiver. If the adversary tried to re-send a message later in time - the session would most likely have expired and so the receiver of that message would know to discard because it's not valid any more. 
 
 \subsection{Public Key Authentication}
 In what can only be described as \textit{the pinnacle of this lecture}, we will now see how Confidentiality, Integrity and Availability are maintained while transmitting secure messages across a communications network.
@@ -244,6 +244,11 @@ The Public Key Authentication process is numbered below (now featuring A and B r
 
 A authenticates B when they receive $R_A$ in step 6. This proves it's a fresh message, not playback. B authenticates A when they receive $R_B$ in step 7. 
 
-The threat actor can fabricate a message at step 3, but as soon as $A$ receives the wrong $R_A$ back in step 6 - the session will be terminated. 
+The adversary can fabricate a message at step 3, but as soon as $A$ receives the wrong $R_A$ back in step 6 - the session will be terminated. 
 
-The session key will be used as a private key for the duration of the communication; therefore achieving what we know to be the most secure form of communication. The short-lived session keys prevent playback because if a threat actor attempts to play back a message, it's session will have expired so the message is discarded.
+The session key will be used as a private key for the duration of the communication; therefore achieving what we know to be the most secure form of communication. The short-lived session keys prevent playback because if a adversary attempts to play back a message, it's session will have expired so the message is discarded.
+
+
+\begin{todo}
+Add diagrams for generic model of secure network as this will be needed in the exam.
+\end{todo}
