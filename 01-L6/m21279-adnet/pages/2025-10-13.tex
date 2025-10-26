@@ -185,12 +185,99 @@ As both the sender and the receiver share the same private key ($K_{AB}$), the a
 
 The sender encodes the plain text message into a cipher text $C=D_{K_{AB}}(M)$. Only the receiver, who has the key, is able to decrypt it using $P=D_{K_{AB}}(E_{K_{AB}}(M))$
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    actor/.style={
+            draw,
+            rectangle,
+            minimum height=1cm,
+            text width=1cm,
+            align=center,
+        },
+    >=stealth
+]
+
+\node[actor] (sender) at(-5,0) {A};
+\node[actor] (receiver) at(5,0) {B};
+\node[actor] (adversary) at(0,-3) {T};
+
+\draw[->, thick] 
+    (sender.south) 
+    -- ++(0, -1) coordinate (path_start)
+    -- (path_start -| receiver.south) coordinate (path_end)
+    -- (receiver.south);
+
+\draw[->] (adversary.north) ++ (-0.2, 0) -- (-0.2, -1.5);
+\draw[->] (0.2, -1.5) -- ($(adversary.north) + (0.2, 0)$);
+
+\node at ($(sender.west) + (-0.75, 0)$) {$K_{AB}$};
+\node at ($(receiver.east) + (0.75, 0)$) {$K_{AB}$};
+
+\node at ($(sender.south east) + (0.8, -0.75)$) {$C=E_{K_{AB}}(M)$};
+\node at ($(receiver.south west) + (-0.8, -0.75)$) {$M=D_{K_{AB}}(C)$};
+
+\end{tikzpicture}
+\caption{Example of Symmetric Key Encryption with a sender, A, receiver, B, and adversary, T showing confidentiality}
+\end{figure}
+
+As we can see in the above example, the adversary, $T$, can send messages onto the transmission network however these are not encrypted so $B$ knows they have not come from $A$. $T$ can also consume the ciphertext from the transmission network, however they can't decrypt it as they do not have the key.
+
 \subsection{Within an Asymmetric Encryption Network}
 The adversary is not able to read the transmitted message. 
 
 Both the sender (A) and receiver (B) compute their own private keys ($K_{A-}$, $K_{B-}$) and public keys ($K_{A+}$, $K_{B+}$). The public keys are advertised on the network.
 
 When a transmission occurs - the sender will use the receivers public key to encrypt the message $C=E_{K_{B-}}(P)$. Therefore only the receiver can decode the message using their private key $P=D_{K_{B+}}(C)$, alternatively shown as $P=D_{K_{B+}}(E_{K_{B-}}(P))$. 
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    actor/.style={
+            draw,
+            rectangle,
+            minimum height=1cm,
+            text width=1cm,
+            align=center,
+        },
+    >=stealth
+]
+
+\node[actor] (sender) at(-5,0) {A};
+\node[actor] (receiver) at(5,0) {B};
+\node[actor] (adversary) at(0,-3) {T};
+
+\draw[->, thick] 
+    (sender.south) 
+    -- ++(0, -1) coordinate (path_start)
+    -- (path_start -| receiver.south) coordinate (path_end)
+    -- (receiver.south);
+
+\draw[->] (adversary.north) ++ (-0.2, 0) -- (-0.2, -1.5);
+\draw[->] (0.2, -1.5) -- ($(adversary.north) + (0.2, 0)$);
+
+\node at ($(sender.west) + (-0.75, 0)$) {$K_{A+}$};
+\node at ($(sender.west) + (-0.75, 0.5)$) {$K_{A-}$};
+\node at ($(sender.west) + (-0.75, -0.5)$) {$K_{B+}$};
+
+\node at ($(receiver.east) + (0.75, 0)$) {$K_{B+}$};
+\node at ($(receiver.east) + (0.75, 0.5)$) {$K_{B-}$};
+\node at ($(receiver.east) + (0.75, -0.5)$) {$K_{A+}$};
+
+\node at ($(adversary.west) + (-0.75, 0)$) {$K_{A+}$};
+\node at ($(adversary.west) + (-0.75, 0.5)$) {$K_{B+}$};
+\node at ($(adversary.west) + (-0.75, -0.5)$) {$K_{T+}$};
+\node at ($(adversary.west) + (-0.75, -1)$) {$K_{T-}$};
+
+
+\node at ($(sender.south east) + (0.8, -0.75)$) {$C=E_{K_{B+}}(M)$};
+\node at ($(receiver.south west) + (-0.8, -0.75)$) {$M=D_{K_{B-}}(C)$};
+
+\end{tikzpicture}
+\caption{Example of Asymmetric Key Encryption with a sender, A, receiver, B, and adversary, T showing confidentiality}
+\end{figure}
+
+As we can see in the above figure, the adversary, $T$ can read whatever is on the transmission network however as it's been encoded using $K_{B+}$ which requires the use of $K_{B-}$ to decode it - they cannot decode it. $T$ can, however, block the message from $A$ ($C$) from being transmitted and transmit their own message in it's place which is encrypted using $K_{B+}$ which makes it look like $A$ sent it, because $T$ has B's public key in their keyring. 
 
 \section{Ensuring Integrity}
 We have to ensure integrity of our transmitted messages to ensure that the user who says they transmitted the message are actually the person who transmitted the message. This is for in the event that an adversary intercepts and replaces a message transmitted from Sender to Receiver with a message sent from adversary to Receiver pretending it was from the original sender.
@@ -200,10 +287,116 @@ The use of a \textit{Digital Signature}, or \textit{Reverse Public Key} is a met
 
 Digital Signatures work by the sender encrypting the message using their private key ($K_{A-})$. The receiver then uses the public key of the sender ($K_{A+}$) to decrypt the received message. This means that then the sender and only the sender can encrypt messages, however anyone on the network who has the senders public key is also able to decrypt the message. This therefore means that any adversaries on the network cannot change the contents of the message.
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    actor/.style={
+            draw,
+            rectangle,
+            minimum height=1cm,
+            text width=1cm,
+            align=center,
+        },
+    >=stealth
+]
+
+\node[actor] (sender) at(-5,0) {A};
+\node[actor] (receiver) at(5,0) {B};
+\node[actor] (adversary) at(0,-3) {T};
+
+\draw[->, thick] 
+    (sender.south) 
+    -- ++(0, -1) coordinate (path_start)
+    -- (path_start -| receiver.south) coordinate (path_end)
+    -- (receiver.south);
+
+\draw[->] (adversary.north) ++ (-0.2, 0) -- (-0.2, -1.5);
+\draw[->] (0.2, -1.5) -- ($(adversary.north) + (0.2, 0)$);
+
+\node at ($(sender.west) + (-0.75, 0)$) {$K_{A+}$};
+\node at ($(sender.west) + (-0.75, 0.5)$) {$K_{A-}$};
+\node at ($(sender.west) + (-0.75, -0.5)$) {$K_{B+}$};
+
+\node at ($(receiver.east) + (0.75, 0)$) {$K_{B+}$};
+\node at ($(receiver.east) + (0.75, 0.5)$) {$K_{B-}$};
+\node at ($(receiver.east) + (0.75, -0.5)$) {$K_{A+}$};
+
+\node at ($(adversary.west) + (-0.75, 0)$) {$K_{A+}$};
+\node at ($(adversary.west) + (-0.75, 0.5)$) {$K_{B+}$};
+\node at ($(adversary.west) + (-0.75, -0.5)$) {$K_{T+}$};
+\node at ($(adversary.west) + (-0.75, -1)$) {$K_{T-}$};
+
+
+\node at ($(sender.south east) + (0.8, -0.75)$) {$C=E_{K_{A-}}(M)$};
+\node at ($(receiver.south west) + (-0.8, -0.75)$) {$M=D_{K_{A+}}(C)$};
+
+\end{tikzpicture}
+\caption{Example of Asymmetric Key Encryption with a sender, A, receiver, B, and adversary, T showing Integrity through use of Digital Signatures}
+\end{figure}
+
 \subsection{Message Digests}
 The \textit{Message Digests} method works through producing a short fingerprint of the message, which is a hash of the message, represented as $H(M)$. The hash function works by encrypting a small block fo the message which is the function of the document. The hash of two different messages will always be different and it is impossible to find $M$ from $H(M)$.
 
-The has is encrypted with the senders private key, while the message itself is encrypted with the receivers public key. The hash therefore serves as a signature verifying the origin of the document, content and sequencing. This works because the adversary does not have the senders private key, so they cannot spoof a hash value. 
+The hash is encrypted with the senders private key, while the message itself is not encrypted. The hash therefore serves as a signature verifying the origin of the document, content and sequencing. This works because the adversary does not have the senders private key, so they cannot spoof a hash value. This method has no confidentiality as the content of the message is transmitted as plaintext, meaning an adversary can read the contents of the message.
+
+On the receiving end - the received message is hashed using the same hashing function, $H$, and this is compared to the decrypted hash transmitted from the sender. If the two values are the same, then the message is as intended; otherwise it is known that the message has been tampered with. 
+
+Popular examples of message digest functions are MD5 and SHA-1. 
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    actor/.style={
+            draw,
+            rectangle,
+            minimum height=1cm,
+            text width=1cm,
+            align=center,
+        },
+    proc/.style={
+            draw,
+            circle,
+            minimum height=0.75cm,
+            text width=0.75cm,
+            align=center,
+            inner sep=0pt
+        },
+    >=stealth
+]
+
+\node[actor] (m1) at (-6,2) {M};
+\node[actor] (m2) at (-3,0) {M};
+\node[actor] (h2) at (-3,-1) {$H(M)$};
+\node[actor] (m3) at (2,0) {M};
+\node[actor] (h3) at (2,-1) {$H(M)$};
+
+\node[proc] (p1) at (5, 2) {H};
+\node[proc] (p2) at (5, -3) {\resizebox{\textwidth}{!}{$D_{K_{A+}}$}};
+
+\node[proc] (p3) at (-6, -1) {H};
+\node[proc] (p4) at (-6, -3) {\resizebox{\textwidth}{!}{$E_{K_{A-}}$}};
+
+\node (o1) at (7, 2) {$H(M)$};
+\node (o2) at (7, -3) {$H(M)$};
+
+
+\draw[->] (m1.east) -- (m2.west);
+\draw[->] (m2.south east) -- (m3.south west) node[midway, above] {$(M, K_{A-}(H(M)))$};
+
+\draw[->] (m1.south) -- (p3.north);
+\draw[->] (p3.south) -- (p4.north) node[midway, left] {$H(M)$};
+\draw[->] (p4.east) -- (h2.west) node[midway, right] {$E_{K_{A-}}(H(M))$};
+
+\draw[->] (m3.east) -- (p1.west);
+\draw[->] (h3.east) -- (p2.west);
+
+\draw[->] (p1.east) -- (o1.west);
+\draw[->] (p2.east) -- (o2.west);
+
+
+\end{tikzpicture}
+\caption{Example of Message Digests transmission}
+\end{figure}
 
 \section{Authentication}
 Authentication verifies that the messages came from an authentic source. Authentication can be achieved by conventional techniques:
@@ -247,8 +440,3 @@ A authenticates B when they receive $R_A$ in step 6. This proves it's a fresh me
 The adversary can fabricate a message at step 3, but as soon as $A$ receives the wrong $R_A$ back in step 6 - the session will be terminated. 
 
 The session key will be used as a private key for the duration of the communication; therefore achieving what we know to be the most secure form of communication. The short-lived session keys prevent playback because if a adversary attempts to play back a message, it's session will have expired so the message is discarded.
-
-
-\begin{todo}
-Add diagrams for generic model of secure network as this will be needed in the exam.
-\end{todo}
