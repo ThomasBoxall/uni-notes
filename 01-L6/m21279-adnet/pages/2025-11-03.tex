@@ -1,0 +1,154 @@
+\taughtsession{Lecture}{Local Area Networks (Ethernet)}{2025-11-03}{11:00}{Asim}
+
+A \textit{Local Area Network (LAN)} is a network which covers a small geographical area. They are commonly founds in homes and offices, where their function is most apparent: provide personal computers and workstations the ability to easily share data between one another at a high rate of transfer. A LAN also enables users to access other devices such as printers, modems or local servers. LANs are generally privately owned. As LANs cover a small geographical area - noise and errors are minimiesd.
+
+Moving up in scale, we find the \textit{Metropolitan Area Network (MAN)} which is a class of network which serves a large geographical area between 5 and 50 kilometers in range. This could include several buildings such as a University Camps, or even up to a small city. MANs are larger than LANs and generally will provide their communication by fibre optic cable rather then copper. They mostly work at layer 2 (data link) of the OSI model.
+
+At the top of the size scale - we find the \textit{Wide Area Network (WAN)} which is the biggest class of networks. A WAN connects LANs and WANs together. The most common example of a WAN is the \textit{internet}. 
+
+\section{Topologies}
+\begin{define}
+\item[Topology] A representation of the layout of the network 
+\end{define}
+
+\subsection{Bus Topology}
+\begin{todo}
+diag
+\end{todo}
+
+In the bus topology, all the connected devices attach directly through to the linear transmission medium, known as the bus. There are specialist connectors used at the junction between the branch to device and the bus itself. 
+
+A transmission from any station will travel down the length of the medium in both directions and can be received by all other stations. At the end of the bus, there are terminators which absorb any signal, removing it from the bus. 
+
+There are two problems with this arrangement:
+\begin{itemize}
+    \item As all transmission will be received by all other stations - there is a need for regulation over demarcating which transmission is relevant to which stations
+    \item There is a need for there to be some regulation over the transmission - to minimise collisions between transmissions where two or more stations are simultaneously transmitting; and to prevent a single station broadcasting for a long period of time preventing other stations from transmitting.
+\end{itemize}
+
+These problems are resolved through breaking the data to be transmitted into \textit{frames}, which contain a header that contains the control information, including a stations unique identifier.
+
+The Carrier Sense Multiple Access Collision Detection (CSMA/CD) protocol can be used to detect and retransmit data lost to a collision.
+
+\subsection{Star Topology}
+\begin{todo}
+diag
+\end{todo}
+
+In the star topology, all the stations connect via a bi-direction connection to a central node. Generally, there are two alternatives for the central node to minimise a single point of failure in the network.
+
+One approach for the operation of the star topology is for the transmission of the frame to be initially from the transmitting station, received by the hub, which then broadcasts to all other connected stations. Only one station will actually want this message to be transmitted to them. In this option - the central node would be a hub.
+
+An alternative operation method for the central node is to act as a \textit{frame switching} device. This is where the frame is buffered in the node and then retransmitted on an outgoing link to the destination station. In this option - the central node would be a switch. 
+
+\section{OSI and IEEE 802.x Protocol Layers}
+\begin{todo}
+get from slides
+\end{todo}
+
+\section{MAC: Ethernet Access Protocol}
+The \textit{Media Access Control} Protocol is a protocol for sharing the bus or hub. 
+
+Only a single station can transmit at the time. If two stations attempt to transmit at the same time, then there will be a collision. 
+
+When a collision occurs - a message is transmitted on the bus to state that there is a collision. Then the station will wait a random back off time which will be a value between 0s and the maximum random back off time. The maximum back time can be calculated using the back off algorithm 
+\[2^{n}-1 \times \textrm{slot\ time}\]
+where $n$ is the number of collisions. After waiting the random back off time, the station then attempts to retransmit. In the event that there is excessive collision, where $n=15$, the error is reported up the OSI model to the upper layers. 
+
+The Slot Time is calculated based on the time it would take for 512 bits to be transmitted. For example on a 10Mbps transmission line, it will take $51.2\mu sec$ to transmit 512 bits. 
+
+\section{Networking Devices}
+In LANs there are key networking components which make the network function.
+
+\subsection{Bridge Operations}
+A bridge will connect two different LANs together where they use the same protocols. Due to this, the amount of processing which the bridge does is minimal. Some bridges are capable of mapping from one MAC format to another (for example to interconnect a Ethernet using LAN to a token-ring using LAN). 
+
+Bridges increase the reliability of the network, as it subdivides the network into smaller units. This reduces the impact potential if one part of the network fails. It increases performance by having multiple bus topologies so multiple frames can be transmitted at the same time. It can also increase the security of the network, as it may be needed for some segments of the network to be encrypted, but others not. Finally, bridges can interconnect multiple networks in different geographical locations where it would be impractical to run a single Bus topology through.
+
+\subsection{Routing in LANs}
+When a bridge receives a frame from the transmitting network - it must decide whether to forward it or not. Furthermore, if the bridge is connected to more than two LANs then it must decide which LAN to forward the frame onto.
+
+Within LANs - fixed routing is where the routing table has manual entries entered for the different destinations on the network. This requires manual updating when there is a change on the network, for example if a station is removed.
+
+Dynamic routing can also be used which is where the routing table is dynamically generated and is automatically updated to reflect changes to the network.
+
+\subsection{Hubs}
+Hubs act as a repeater - when a single station transmits, the hub repeats this signal on all other outgoing links to every other station. 
+
+If two stations transmit at the same time, there will be a collision. Multiple levels of hub can be configured in a hierarchical configuration, therefore each hub can have a mixture of stations and other hubs attached to it. This fits well with building wiring practices.
+
+\subsection{Switches}
+In contrast to Hubs, Switches work by forwarding the frame to the appropriate destination only. They take the frame, review the destination address and forward based on that.
+
+Some switches work at layer 3 and have some routing capabilities, or the ability to work with IP addresses. Other switches work at later 2 and use the MAC address to define destination.
+
+There are two different techniques which can be used by switches for receiving, processing and transmitting the packets. Both introduce small amounts of delay.
+
+Store and Forward works by receiving the packet, then once fully received, it is processed to identify which port the data will be transmitted out of. SF delay is calculated as follows:
+\begin{center}
+    Store \& Forward Delay = $\displaystyle \frac{\textrm{length of frame}}{\textrm{rate of transmission}}$ + Switch Latency (MAC processing) + $\displaystyle \frac{\textrm{length of frame}}{\textrm{rate of transmission}}$ + propagation delay of cable + propagation delay of cable
+\end{center}
+
+The length of frame divided by rate of transmission may be represented as $L/R$
+
+\begin{example}{Store and Forward Calculations}
+If we take that the packets have a length $L=10000$, the transmission rate is 100Mbps, the switch has a propagation time of $3\mu sec$, and a latency of $4.8\mu sec$. We can find the time for transmission.
+
+First we find the $L/R$ value:
+\[\frac{L}{R} = \frac{1000}{100} = 100\mu sec\]
+
+We can then substitute this into the above formula.
+
+\[100 + 4.8 + 100 + 3 + 3 = 218.8\mu sec\]
+\end{example}
+
+Virtual Cut Through works by reading the first bits of the packet as they are being received, then as soon as it's identified the port to transmit out of - the switch begins transmitting the packet out. This means that virtual cut through is considerably quicker than store and forward as there is no delay while waiting for the entire packet to be received by the switch before it transmits it. This can be seen in the delay algorithm.
+
+\begin{center}
+    Virtual Cut Through Delay = $\displaystyle \frac{\textrm{length of frame}}{\textrm{rate of transmission}}$ + Switch Latency (MAC processing) + propagation delay of cable
+\end{center}
+
+\begin{example}{Virtual Cut Through Calculations}
+If we take that the packets have a length $L=10000$, the transmission rate is 100Mbps and a latency of $4.8\mu sec$. We can find the time for transmission.
+
+First we find the $L/R$ value:
+\[\frac{L}{R} = \frac{1000}{100} = 100\mu sec\]
+
+We can then substitute this into the above formula.
+
+\[100 + 3 + 4.8 = 107.8\mu sec\]
+\end{example}
+
+\section{Ethernet Frame Format}
+\begin{todo}
+diag of frame
+\end{todo}
+
+The Ethernet Frame is the thing which is transmitted on Ethernet-protocol-using networks. It has a number of different fields:
+\begin{description}
+    \item[Preamble] Additional information, for example Manchester Encoding which is used to synchronise the clock of the receiver
+    \item[FD] Frame Delimiter - to signal the start of the frame
+    \item[Length] Data length in bytes.
+    \item[Pad] Additional data inserted to ensure that the frame is the minimum size (46 bytes)
+    \item[CRC] Checksum used to detect errors on the frame
+\end{description}
+
+\begin{todo}
+example of size table addition
+\end{todo}
+
+\section{Broadcast Domains}
+\begin{todo}
+add from slides
+\end{todo}
+
+\section{Virtual LANs}
+Virtual Local Area Networks (VLANs) are a logical group of devices within a LAN. 
+
+VLAN logic is implemented in switches at the MAC layer. They provide traffic isolation. VLAN membership is defined by port group, by MAC address, or by protocol information.
+
+\begin{todo}
+    find some more sane and sensible explanation of this, or at least go through the thing on the slides.
+
+    finish lecture.
+\end{todo}
