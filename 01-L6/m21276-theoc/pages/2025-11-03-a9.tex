@@ -1,0 +1,189 @@
+\taughtsession{Lecture}{A9: Turing Machines}{2025-11-03}{14:00}{Janka}
+
+\begin{extlink}
+There are a few slides onn the history of Alan Turing available in the slides on Moodle.
+\end{extlink}
+
+Turing Machines are are more powerful than both finite automata or pushdown automata - they are as powerful as any computer as we have ever built, except modern computers are just faster.
+
+The main improvement of a Turing Machine over a pushdown automata is that the TM has infinite accessible memory which can be written to and read from; and that the read/write head can move to the left and to the right on the input tape, or not change position at all. 
+
+The TM works on a tape divided into cells which is infinite in both directions from the read/write head. Each of the cells contain either a symbol from an alphabet or the blank symbol ($\square$). There are only a finite number of non-blank symbols written on the tape. 
+
+The Turing Machine is always in one of a finite number of states. The read/write head reads the symbol in the current cell. Depending on the symbol on the tape and the current state, the Turing Machine will do one of a number of things:
+\begin{itemize}
+    \item change the state
+    \item move the head (see below)
+    \item re-write the current symbol, or leave it unchanged
+\end{itemize}
+
+By default, we are talking about deterministic Turing Machines. 
+
+As we see above - the head of the Turing Machine moves. There are three possible movements that the head can undertake, note the bracketed identifier for each option:
+\begin{itemize}
+    \item Moves to the left by once cell from the current cell (L)
+    \item stay at the current cell (S)
+    \item Moves to the right by once cell (R)
+\end{itemize}
+
+\section{Formalising TM Instructions}
+We can see that a Turing Machine instruction takes a familiar yet unfamiliar form of
+\[T: Q \times \Gamma \rightarrow \Gamma \times Q \times \{L,R,S\}\]
+which is similar to that of the Transition Function seen in our pushdown automata of lectures gone past, but different in that there are more elements!
+
+Every Turing Machine contains five parts:
+\begin{itemize}
+    \item Input: The current machines state (from $Q$)
+    \item Input: The tape symbol read from the current tape cell, which can be blank symbol (from $\Gamma$)
+    \item Output: A tape symbol to write to the current tape cell, which may be the blank symbol or other symbols (from $\Gamma$)
+    \item Output: The next machine state (from $Q$)
+    \item A direction for the tape head to move in (from $\{L,R,S\}$)
+\end{itemize}
+
+It's important to note that $\Gamma$ (the tape alphabet) contains $\Sigma$ (the alphabet of the language), $\square$ (the empty tape symbol), and also other symbols as needed.
+
+So from this we can see that the instructions have two inputs and three outputs:
+\[T(i, a) = (b, j, L)\]
+Or alternatively represented as
+\[(i, a, b, L, j)\]
+
+Where the current stat of the machine is $i$, and the symbol in the current tape is $a$. Then we can write $b$ into the current tape cell, move left by one cell and go to state $j$. 
+
+Finally we can see this in the below transition diagram
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=5cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[state] (i) {$i$};
+        \node[state] (j) [right of=i] {$j$};
+        
+        \path[->] (i) edge [above] node [align=center] {$\displaystyle \frac{a}{b,L}$} (j);
+        
+    \end{tikzpicture}
+    \caption{Graphical form of a TM Instruction}
+\end{figure}
+
+\section{The Input Tape}
+The input string is represented on the tape by placing the letters of the string (which have come from $\Sigma$) into adjacent cells. All other cells of the tape contain the blank symbol. The head is usually positioned over the leftmost cell fo the input string, which is the leftmost non-blank tape symbol. 
+
+It's important when we're reading from and writing to the input tape that we don't write the blank symbol into the middle of the string, as this gets confusing. 
+
+\section{The Halt State}
+Much like our the automaton we've become friendly with so far in this module - Turing Machines have to start in a the one start state, they also have to stop somewhere. Unlike FAs or PDAs, Turing Machines must have only one final state - which is called the \textit{halt state}. 
+
+A Turing Machine halts when it either: enters the halt state; or when it enters a state for which there is no valid move. 
+
+\section{Turing Machines Recognise Languages}
+A Turing Machine, $T$, recognises a string $x$ (over $\Sigma$) if and only if when:
+\begin{enumerate}
+    \item $T$ starts in the initial position and $x$ is written on the tape
+    \item $T$ halts in a final state
+\end{enumerate}
+
+$T$ is said to recognise a language $A$ if $x$ is recognised by $T$ if and only if $x$ belongs to $A$. Except, while running - a TM can also read/write other symbols from/onto the tape which are not necessarily from the alphabet $A$. 
+
+A TM doesn't recognise a string if it doesn't halt ever, or halts in a non-final state. 
+
+\section{Instantaneous Descriptions}
+To describe a Turing Machine at any given time, we need to know three things:
+\begin{itemize}
+    \item What is on the tape?
+    \item Where is the tape head?
+    \item What stat is the control in?
+\end{itemize}
+
+We can then represent this information as follows:
+\[\textrm{State } i: \square\ a\ a\ \underline{b}\ a\ b\ \square\]
+
+Where the underlined symbol represents the current position of the tape head.
+
+As will be seen in the following examples, when doing questions relating to Turing Machines - show the plan for the operation of the TM in plain pseudocode (almost). This is so if you botch the syntax of the algorithm then Janka can see some insight into the logic (or lack thereof) and possibly award some marks for workings.
+
+\begin{example}{TM to recognise $a^*$}
+If we take $\Sigma = \{a,b\}$ we can design a Turing Machine that accepts the language denoted by the regular expression $a^*$. 
+
+The plan:
+\begin{itemize}
+    \item Starting at the left end of the input, we read each symbol and check that it is an $a$
+    \item If it is - we continue moving right
+    \item If we reach a blank symbol without encountering anything but $a$, we terminate and accept the string
+    \item If the input contains a $b$ anywhere (meaning the string is not in $L(a^*)$), we halt in a non-final state
+\end{itemize}
+
+This is nice and easy, there are two transitions:
+\begin{align*}
+T(0,a) &= (0,a,R),\\
+T(0,\square) &= (1, \square,R)
+\end{align*}
+
+Which we can represent with a pretty picture.
+Finally we can see this in the below transition diagram
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=5cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[state, initial] (i) {$0$};
+        \node[state, accepting] (j) [right of=i] {$1$};
+        
+        \path[->] (i) edge [above] node [align=center] {$\displaystyle \frac{\square}{\square,R}$} (j);
+        \path[->] (i) edge [loop above] node [align=center] {$\displaystyle \frac{a}{a,R}$} (i);
+        
+    \end{tikzpicture}
+    \caption{TM designed to accept $a^*$}
+\end{figure}
+\end{example}
+
+\begin{example}{TM for $\{a^nb^nc^n, n \geq 0\}$}
+Now for a slightly more complicated example.
+
+We can see that the language $\{a^nb^nc^n, n \geq 0\}$ is not context-free as it cannot be recognised by a PDA, however it can be recognised by a Turing Machine. 
+
+The plan:
+\begin{itemize}
+    \item If the current cell is empty, then accept and halt
+    \item If the current cell contains $a$
+    \begin{itemize}
+        \item then replace it by $X$ and scan right, looking for the corresponding $b$ to the right of any $a$s, replace this by $Y$
+        \item then continue scanning to the right, looking for a corresponding $c$ to the right of any $b$s, replace this by $Z$
+    \end{itemize}
+    \item Now scan left to the $X$ and see whether there is an $a$ to its right:
+    \begin{itemize}
+        \item if so - start the process again
+        \item if there are no $A$s, then scan right to make sure there are no $b$s and $c$s.
+    \end{itemize}
+\end{itemize}
+
+We can now design the algorithm
+\begin{align*}
+\intertext{If $\square$ is found then halt.}
+&(0, \square, \square, S, Halt) &&\textrm{Success}\\
+\intertext{If $a$ is found, then write $X$ and scan right}
+&(0, a, X, R, 1) &&\textrm{Replace $a$ by $X$ and scan right}\\
+\intertext{Scan right, looking for $b$. If found replace by $Y$}
+&(1, a, a, R, 1) &&\textrm{Scan right}\\
+&(1, Y, Y, R, 1) &&\textrm{Scan right}\\
+&(1, b, Y, R, 2) &&\textrm{Replace $b$ by $Y$ and scan right}\\
+\intertext{Scan right, looking for $c$. If found replace by $Z$}
+&(2, b, b, R, 2) &&\textrm{Scan right}\\
+&(2, Z, Z, R, 2) &&\textrm{Scan right}\\
+&(2, c, Z, R, 3) &&\textrm{Replace $c$ by $Z$ and scan left}\\
+\intertext{Scan left, looking for $X$. Then move right and repeat the process}
+&(3, a, a, L, 3) &&\textrm{Scan left}\\
+&(3, b, b, L, 3) &&\textrm{Scan left}\\
+&(3, Y, Y, L, 3) &&\textrm{Scan left}\\
+&(3, Z, Z, L, 3) &&\textrm{Scan left}\\
+&(3, X, X, R, 0) &&\textrm{Found $X$. Move right one cell}\\
+\intertext{Now being back in the state 0, we have to scan over $Y$s and $Z$s to find the right end of the string}
+&(0, Y, Y, R, 4) &&\textrm{Scan right}\\
+\intertext{Scan right over $Y$s and $Z$s looking for $\square$}
+&(4, Y, Y, R, 4) &&\textrm{Scan right}\\
+&(4, Z, Z, R, 4) &&\textrm{Scan right}\\
+&(4, \square, \square, S, Halt) &&\textrm{Success}\\
+\end{align*}
+\end{example}
+As we can see from the above, constructing Turing Machines to compute relatively simple tasks can be extremely lengthy. 
+
+\section{Computing Problems with Turing Machines}
+Turing Machines can recognise a set of strings (language) similarly to the finite automata and pushdown automata.
+
+Turing Machines can also do more - they can read an input, perform transformations of the string on the tape and write down a result on the tape. When performing in this mode, they are known as \textit{transducers}.
+
+The next lecture (over the page) will show how Turing Machines can solve mathematical problems like sums, products, etc. 
