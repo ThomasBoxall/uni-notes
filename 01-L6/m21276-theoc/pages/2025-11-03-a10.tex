@@ -85,9 +85,43 @@ In the multi-tape Turing machine, there are $k$ tapes with $k$ tape heads each m
 
 In each step, transition, the TM reads the symbols scanned by all heads. Then depending on the read symbols and the current state - each head writes, moves R or L and the control unit enters a new state. Actions of the heads are independent of each other. 
 
-\begin{todo}
-Add example of Multi-Tape Turing machine in action from slides
-\end{todo}
+\begin{example}{Multiplying two numbers with Multi-Tape Turing Machine}
+If we take the example that we want to multiply two numbers, each of which represented as a unary string of ones, to get a third number. This would be difficult to do with a simple Turing machine but is fairly straight forward with a three-tape machine.
+
+We can use a three-tape Turing Machine, each with a specific data item to represent:
+\begin{itemize}
+    \item Tape 1: the first number in the multiplication (i.e. 3)
+    \item Tape 2: the second number in the multiplication (i.e 4)
+    \item Tape 3: the output
+\end{itemize}
+
+We start by checking whether either number is zero
+\begin{align*}
+&(0,(\square, \square, \square), (\square, \square, \square), (S,S,S), Halt) && \textrm{Both are zero}\\
+&(0,(\square, 1, \square), (\square, 1, \square), (S,S,S), Halt) && \textrm{First is zero}\\
+&(0,(1, \square, \square), (1, \square, \square), (S,S,S), Halt) && \textrm{Second is zero}\\
+&(0,(1, 1, \square), (1, 1, \square), (S,S,S), 1) && \textrm{Both are non-zero}\\
+\end{align*}
+
+Add the number on the second tape to the third tape
+\begin{align*}
+&(1, (1, 1, \square), (1, 1, 1), (S, R, R), 1) && \textrm{Copy}\\
+&(1, (1, \square, \square), (1, \square, \square), (S, L, S), 2) && \textrm{Done Copying}\\
+\end{align*}
+
+Move the tape head of the second tape back to the left end of the number; move the tape head of the first number one cell to the right
+\begin{align*}
+&(2, (1, 1, \square), (1, 1, \square), (S,L,S),2) && \textrm{Move to the left end}\\
+&(2, (1,  \square, \square), (1, \square, \square), (R,R,S),3) && \textrm{Both types to the right one cell}\\
+\end{align*}
+
+Check the first tape head to see if all the additions have been performed
+\begin{align*}
+& (3, (\square, 1, \square), (\square, 1, \square), (S,S,L), Halt) && \textrm{Done}\\
+& (3, (1, 1, \square), (1, 1, \square), (S,S,S), 1) && \textrm{Do another add}\\
+\end{align*}
+
+\end{example}
 
 Every Multi-Tape Turing Machine has an equivalent single tape TM. If $M$ has $k$ tapes, $M'$ simulates the effect of $k$ tapes by storing the information on its single tape. It uses a new symbol \# as a delimiter to separate the contents of the different tapes (marks the left and the right portions of the tape). $M'$ also must keep track of the locations of the heads on each tape. It writes a tape symbol with  dot above it to mark where the head on that tape would be. Dotted symbols are simply new symbols added to the tape alphabet. 
 
