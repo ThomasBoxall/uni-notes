@@ -1,10 +1,10 @@
 \taughtsession{Lecture}{Local Area Networks (Ethernet)}{2025-11-03}{11:00}{Asim}
 
-A \textit{Local Area Network (LAN)} is a network which covers a small geographical area. They are commonly founds in homes and offices, where their function is most apparent: provide personal computers and workstations the ability to easily share data between one another at a high rate of transfer. A LAN also enables users to access other devices such as printers, modems or local servers. LANs are generally privately owned. As LANs cover a small geographical area - noise and errors are minimiesd.
+A \textit{Local Area Network (LAN)} is a network which covers a small geographical area. They are commonly founds in homes and offices, where their function is most apparent: provide personal computers and workstations the ability to easily share data between one another at a high rate of transfer. A LAN also enables users to access other devices such as printers, modems or local servers. LANs are generally privately owned. As LANs cover a small geographical area. Within LANs, noise and errors are minimised.
 
-Moving up in scale, we find the \textit{Metropolitan Area Network (MAN)} which is a class of network which serves a large geographical area between 5 and 50 kilometers in range. This could include several buildings such as a University Camps, or even up to a small city. MANs are larger than LANs and generally will provide their communication by fibre optic cable rather then copper. They mostly work at layer 2 (data link) of the OSI model.
+Moving up in scale, we find the \textit{Metropolitan Area Network (MAN)} which is a class of network which serves a large geographical area between 5 and 50 kilometers in range. This could include several buildings such as a University Campus, or even up to a small city. MANs are larger than LANs and generally will provide their communication by fibre optic cable rather then copper. They mostly work at layer 2 (data link) of the OSI model.
 
-At the top of the size scale - we find the \textit{Wide Area Network (WAN)} which is the biggest class of networks. A WAN connects LANs and WANs together. The most common example of a WAN is the \textit{internet}. 
+At the top of the size scale - we find the \textit{Wide Area Network (WAN)} which is the biggest class of networks. A WAN connects LANs and MANs together. The most common example of a WAN is the \textit{internet}. 
 
 \section{Topologies}
 \begin{define}
@@ -12,13 +12,53 @@ At the top of the size scale - we find the \textit{Wide Area Network (WAN)} whic
 \end{define}
 
 \subsection{Bus Topology}
-\begin{todo}
-diag
-\end{todo}
-
 In the bus topology, all the connected devices attach directly through to the linear transmission medium, known as the bus. There are specialist connectors used at the junction between the branch to device and the bus itself. 
 
 A transmission from any station will travel down the length of the medium in both directions and can be received by all other stations. At the end of the bus, there are terminators which absorb any signal, removing it from the bus. 
+
+We can see this arrangement in the below figure where the black squares represent the devices connected to the bus and the red squares represent the terminators on the end of the bus.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    n/.style={
+            draw,
+            rectangle,
+            minimum height=0.5mm,
+            text width=0.5mm,
+            align=center,
+        },
+    t/.style={
+            draw=themeRed,
+            rectangle,
+            minimum height=0.25mm,
+            text width=0.25mm,
+            align=center,
+            fill=themeRed!80,
+        },
+]
+
+\draw[line width=0.4mm] (-5,0) -- (5,0);
+
+\node[n] (n1) at (-4,-2) {};
+\node[n] (n2) at (-2,-2) {};
+\node[n] (n3) at (0,-2) {};
+\node[n] (n4) at (2,-2) {};
+\node[n] (n5) at (4,-2) {};
+
+\draw (-4,0) -- (n1.north);
+\draw (-2,0) -- (n2.north);
+\draw (0,0) -- (n3.north);
+\draw (2,0) -- (n4.north);
+\draw (4,0) -- (n5.north);
+
+\node[t] (t1) at (-5,0) {};
+\node[t] (t2) at (5,0) {};
+
+\end{tikzpicture}
+\caption{Example of a Bus Topology}
+\end{figure}
+
 
 There are two problems with this arrangement:
 \begin{itemize}
@@ -31,20 +71,100 @@ These problems are resolved through breaking the data to be transmitted into \te
 The Carrier Sense Multiple Access Collision Detection (CSMA/CD) protocol can be used to detect and retransmit data lost to a collision.
 
 \subsection{Star Topology}
-\begin{todo}
-diag
-\end{todo}
-
 In the star topology, all the stations connect via a bi-direction connection to a central node. Generally, there are two alternatives for the central node to minimise a single point of failure in the network.
+
+An example of a single-centre-node star topology can be seen in the below diagram. The central switch is represented by the green circle, while the individual workstations are represented by black squares.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    n/.style={
+            draw,
+            rectangle,
+            minimum height=0.5mm,
+            text width=0.5mm,
+            align=center,
+        },
+    cn/.style={
+            draw=themeGreen,
+            circle,
+            minimum height=1cm,
+            text width=1cm,
+            align=center,
+            fill=themeGreen!80,
+            text=white,
+        },
+]
+    \node[cn] (centrenode) {sw};
+    \node[n] (top) [above=of centrenode] {};
+    \node[n] (right) [right=of centrenode] {};
+    \node[n] (left) [left=of centrenode] {};
+    \node[n] (bttm) [below=of centrenode]{};
+    \node[n] (ne) [above right=of centrenode]{};
+    \node[n] (se) [below right=of centrenode]{};
+    \node[n] (sw) [below left=of centrenode]{};
+    \node[n] (nw) [above left=of centrenode]{};
+    
+    \draw[-] (top.south) -- (centrenode.north);
+    \draw[-] (right.west) -- (centrenode.east);
+    \draw[-] (left.east) -- (centrenode.west);
+    \draw[-] (bttm.north) -- (centrenode.south);
+    \draw[-] (ne.south west) -- (centrenode.north east);
+    \draw[-] (se.north west) -- (centrenode.south east);
+    \draw[-] (sw.north east) -- (centrenode.south west);
+    \draw[-] (nw.south east) -- (centrenode.north west);
+    
+\end{tikzpicture}
+\caption{Example of a Star Topology}
+\end{figure}
 
 One approach for the operation of the star topology is for the transmission of the frame to be initially from the transmitting station, received by the hub, which then broadcasts to all other connected stations. Only one station will actually want this message to be transmitted to them. In this option - the central node would be a hub.
 
 An alternative operation method for the central node is to act as a \textit{frame switching} device. This is where the frame is buffered in the node and then retransmitted on an outgoing link to the destination station. In this option - the central node would be a switch. 
 
 \section{OSI and IEEE 802.x Protocol Layers}
-\begin{todo}
-get from slides
-\end{todo}
+The \textit{Open Systems Interconnection} (OSI) Model is a reference model developed by the ISO that provides a common basis for the coordination of standards development for the purpose of system interconnection. This model underpins all network communications - giving a standard 7-layer stack taking the data to be transmitted from the application to the medium, and vice versa on the receiving end. 
+
+The IEEE 802 LAN Committee have developed a sub-architecture to the OSI architecture, focusing on the lower-level LAN transmissions. The IEEE 802 LAN architecture focuses on the lowest two layers of the OSI model: physical and data-link.
+
+\subsection{Physical Layer}
+The lowest level of the OSI model maps directly to the lowest level of the IEEE 802 LAN architecture, both calling it the \textit{physical} layer as this is the layer closest to the transmission medium. The physical layer of the IEEE 802 LAN architecture includes the following functions:
+\begin{itemize}
+    \item Encoding / decoding of signals
+    \item Preamble generation / removal (used for synchronisation)
+    \item Bit transmission / reception
+    \item Transmission medium specification
+    \item Topology specification
+\end{itemize}
+
+Note that the last two bullet points are not present in the OSI physical layer, as they are recognised in that model as being below the scope of the OSI model. They are included in the IEEE 802 LAN model because they are considered to be of critical importance to the design of the LAN.
+
+\subsection{Data Link Layer}
+Working up the OSI model, after the physical layer comes the \textit{data link} layer. This layer provides the following functions:
+
+\begin{itemize}
+    \item Governing access to the LAN transmission medium
+    \item On transmission - assemble the data into a \textit{frame} with address and error-detection fields (more on these later)
+    \item On reception - disassemble the frame and perform address recognition and error detection
+    \item Providing an interface to the higher layers, performing flow and error control
+\end{itemize}
+
+Within the IEEE 802 LAN architecture - the data link layer is subdivided into two different layers: the LLC and MAC. The IEEE has this separation because the OSI model doesn't include the logic required to manage access to the shared-medium at layer 2, as well as that there may be multiple MAC options for the same LLC.
+
+\subsubsection{LLC Layer}
+The \textit{Logical Link Control} (LLC) layer is the ``higher'' of the two layers and it's primary purpose is to interface with the higher layers, performing flow control and error control.
+
+In the bigger picture - data is passed down the protocol stack to the LLC which appends control information as a header. This creates a LLC \textit{protocol data unit} (PDU). The entire LLC PDU is then passed down to the MAC layer.
+
+\subsubsection{MAC Layer}
+The \textit{Medium Access Control} (MAC) layer is the ``lower'' of the two layers. It sits between the LLC and physical layer. The MAC layer handles the following functions:
+\begin{itemize}
+    \item On the transmission end - assemble the transmission frame (adding addresses and error detection)
+    \item On the receiving end - disassemble the received frame (removing the addresses, performing error detection using the provided data)
+    \item Perform Medium Access Control (governing access to the transmission medium)
+\end{itemize}
+
+The MAC layer takes the LLC PDU passed down from above and forms a MAC frame with it through appending control information at the front and back of the packet.
 
 \section{MAC: Ethernet Access Protocol}
 The \textit{Media Access Control} Protocol is a protocol for sharing the bus or hub. 
@@ -52,7 +172,7 @@ The \textit{Media Access Control} Protocol is a protocol for sharing the bus or 
 Only a single station can transmit at the time. If two stations attempt to transmit at the same time, then there will be a collision. 
 
 When a collision occurs - a message is transmitted on the bus to state that there is a collision. Then the station will wait a random back off time which will be a value between 0s and the maximum random back off time. The maximum back time can be calculated using the back off algorithm 
-\[2^{n}-1 \times \textrm{slot\ time}\]
+\[2^{n}-1 \times \textrm{slot time}\]
 where $n$ is the number of collisions. After waiting the random back off time, the station then attempts to retransmit. In the event that there is excessive collision, where $n=15$, the error is reported up the OSI model to the upper layers. 
 
 The Slot Time is calculated based on the time it would take for 512 bits to be transmitted. For example on a 10Mbps transmission line, it will take $51.2\mu sec$ to transmit 512 bits. 
@@ -61,7 +181,7 @@ The Slot Time is calculated based on the time it would take for 512 bits to be t
 In LANs there are key networking components which make the network function.
 
 \subsection{Bridge Operations}
-A bridge will connect two different LANs together where they use the same protocols. Due to this, the amount of processing which the bridge does is minimal. Some bridges are capable of mapping from one MAC format to another (for example to interconnect a Ethernet using LAN to a token-ring using LAN). 
+A bridge will connect two different similar LANs together where they use the same protocols. Due to this, the amount of processing which the bridge does is minimal. Some bridges are capable of mapping from one MAC format to another (for example to interconnect a Ethernet using LAN to a token-ring using LAN). 
 
 Bridges increase the reliability of the network, as it subdivides the network into smaller units. This reduces the impact potential if one part of the network fails. It increases performance by having multiple bus topologies so multiple frames can be transmitted at the same time. It can also increase the security of the network, as it may be needed for some segments of the network to be encrypted, but others not. Finally, bridges can interconnect multiple networks in different geographical locations where it would be impractical to run a single Bus topology through.
 
@@ -86,10 +206,11 @@ There are two different techniques which can be used by switches for receiving, 
 
 Store and Forward works by receiving the packet, then once fully received, it is processed to identify which port the data will be transmitted out of. SF delay is calculated as follows:
 \begin{center}
-    Store \& Forward Delay = $\displaystyle \frac{\textrm{length of frame}}{\textrm{rate of transmission}}$ + Switch Latency (MAC processing) + $\displaystyle \frac{\textrm{length of frame}}{\textrm{rate of transmission}}$ + propagation delay of cable + propagation delay of cable
+    Store \& Forward Delay = $\displaystyle \frac{L}{R}$ + Switch Latency (MAC processing) + $\displaystyle \frac{L}{R}$ + propagation delay of cable + propagation delay of cable
 \end{center}
 
-The length of frame divided by rate of transmission may be represented as $L/R$
+Within switch delay calculations - there is a common metric which we need to be aware of. This is commonly represented in shorthand as $L/R$. The full calculation can be seen below:
+\[\frac{L}{R} =  \frac{\textrm{length of frame}}{\textrm{rate of transmission}}\]
 
 \begin{example}{Store and Forward Calculations}
 If we take that the packets have a length $L=10000$, the transmission rate is 100Mbps, the switch has a propagation time of $3\mu sec$, and a latency of $4.8\mu sec$. We can find the time for transmission.
@@ -105,7 +226,7 @@ We can then substitute this into the above formula.
 Virtual Cut Through works by reading the first bits of the packet as they are being received, then as soon as it's identified the port to transmit out of - the switch begins transmitting the packet out. This means that virtual cut through is considerably quicker than store and forward as there is no delay while waiting for the entire packet to be received by the switch before it transmits it. This can be seen in the delay algorithm.
 
 \begin{center}
-    Virtual Cut Through Delay = $\displaystyle \frac{\textrm{length of frame}}{\textrm{rate of transmission}}$ + Switch Latency (MAC processing) + propagation delay of cable
+    Virtual Cut Through Delay = $\displaystyle \frac{L}{R}$ + Switch Latency (MAC processing) + propagation delay of cable
 \end{center}
 
 \begin{example}{Virtual Cut Through Calculations}
@@ -120,11 +241,7 @@ We can then substitute this into the above formula.
 \end{example}
 
 \section{Ethernet Frame Format}
-\begin{todo}
-diag of frame
-\end{todo}
-
-The Ethernet Frame is the thing which is transmitted on Ethernet-protocol-using networks. It has a number of different fields:
+The Ethernet Frame is the thing which is transmitted on Ethernet-protocol-using networks. It has a number of different fields each with a set size:
 \begin{description}
     \item[Preamble] Additional information, for example Manchester Encoding which is used to synchronise the clock of the receiver
     \item[FD] Frame Delimiter - to signal the start of the frame
@@ -133,22 +250,116 @@ The Ethernet Frame is the thing which is transmitted on Ethernet-protocol-using 
     \item[CRC] Checksum used to detect errors on the frame
 \end{description}
 
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \node[rectangle split, 
+         rectangle split horizontal, 
+         rectangle split parts=8, 
+         rectangle split draw splits=true, 
+         text width=1.75cm,
+         align=center,
+         draw] (main) 
+        {preamble \nodepart{two} FD 
+              \nodepart{three} destination    
+              \nodepart{four} source 
+              \nodepart{five} length 
+              \nodepart{six} data 
+              \nodepart{seven} pad 
+              \nodepart{eight} CRC};
+        
+        \node[anchor=south] at (main.one north) {56};
+        \node[anchor=south] at (main.two north) {8};
+        \node[anchor=south] at (main.three north) {48};
+        \node[anchor=south] at (main.four north) {48};
+        \node[anchor=south] at (main.five north) {16};
+        \node[anchor=south] at (main.six north) {0-12000};
+        \node[anchor=south] at (main.seven north) {0-368};
+        \node[anchor=south] at (main.eight north) {32};
+    \end{tikzpicture}
+    \caption{Ethernet Frame showing field size in bits}
+\end{figure}
+
+Frames have a minimum data length of 46 bytes (368 bits). If the data is shorter than this, for example 100 bits, padding will be added to the frame to make up to the minimum data length. Obviously data can be longer than 368 bits minimum, as long as it's within the 12000 bit maximum. 
+
+Frame size can be calculated using the lengths of the fields of the frame:
+\begin{center}
+    Frame size = Destination + Source + Length + Data + Padding + CRC
+\end{center}
+
+Packet size can be calculated using the frame size and some other obscure values??
+
 \begin{todo}
-example of size table addition
+Check Packet size calculations with Asim. This looks wrong.
 \end{todo}
 
+\begin{example}{Frame Length Calculations}
+For the following payload (data) values, calculate the Padding, Frame size \& packet sizes.
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.1\textwidth} p{0.1\textwidth} p{0.4\textwidth} p{0.3\textwidth}}
+    \thead{Payload} & \thead{Padding} & \thead{Frame} & \thead{Packet}\\
+    0 & 368 & 48 + 48 + 16 + 0 + 368 + 32 = 512 & 576 = 512 + 56 + 8\\
+    \hline
+    100 & 268 & 48 + 48 + 16 + 100 + 268 + 32 = 512 & 576 = 512 + 56 + 8\\
+    \hline
+    368 & 0 & 48 + 48 + 16 + 368 + 0 + 32 = 512 & 576 = 512 + 56 + 8 \\
+    \hline
+    1000 & 0 & 48 + 48 + 16 + 1000 + 0 + 32 = 1144 & 1208 = 1144 + 56 + 8\\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{Frame \& Packet size calculations}
+\end{table}
+
+\end{example}
+
 \section{Broadcast Domains}
-\begin{todo}
-add from slides
-\end{todo}
+The \textit{broadcast domain} is the set of devices which receive broadcast frames from each other. 
+
+A \textit{broadcast} is a special message on a network designated for all devices on that network to receive. The MAC address in the frame indicates this fact. Broadcasts are generally used for purposes such as network management or transmitting an alert to lots of devices. 
+
+Broadcasts are the opposite to a \textit{unicast} message which is destined for a single device on the network - as the intended recipient's MAC address is in the destination field of the frame. 
 
 \section{Virtual LANs}
 Virtual Local Area Networks (VLANs) are a logical group of devices within a LAN. 
 
-VLAN logic is implemented in switches at the MAC layer. They provide traffic isolation. VLAN membership is defined by port group, by MAC address, or by protocol information.
+VLANs combine workstations and network devices into a single broadcast domain regardless of the physical LAN segment they are attached to. Where traffic needs to travel from one VLAN to another VLAN - routing is required. Routers can be implemented as separate devices so that traffic from one VLAN to another is directed to a router, or the router logic can be implemented as part of the LAN switch. 
 
-\begin{todo}
-    find some more sane and sensible explanation of this, or at least go through the thing on the slides.
+VLAN membership is not constrained by physical location - as they are entirely logical. This means there is a need to define VLAN membership, for which there are a number of different approaches:
+\begin{itemize}
+    \item Membership by port group - each switch in the LAN configuration contains two types of port (trunk to connect switches together, or access port which connects the switch to an end system). This approach is advantageous as it's relatively easy to configure however the network manager must reconfigure the port when it is needed for a different device to connect to it. 
+    \item Membership by MAC address - a MAC address is assigned to be a member of a designated VLAN. This is advantageous as the right VLAN will always be used when the same device connects to the network, however in situations where intermediary devices (such as docking stations) are used - these also have to have their MAC address configured into the right VLAN.
+    \item Membership based on protocol information - VLAN membership can be assigned based on IP address, transport protocol information, or even higher-layer protocol information. This is flexible, but does require switches to examine portions of the MAC frame above the MAC layer which can have degrade performance. 
+\end{itemize}
 
-    finish lecture.
-\end{todo}
+\section{IEEE 802.3 10Mbps}
+So far in this lecture we've been discussing 10 Mbps speed networks, which are painfully slow and out-dated. 
+
+There are a number of alternative physical layer mediums, which can be seen in the below table.
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.2\textwidth} p{0.15\textwidth} p{0.15\textwidth} p{0.15\textwidth} p{0.15\textwidth}}
+    \thead{\ } & \thead{10BASE5} & \thead{10BASE2} & \thead{10BASE-T} & \thead{10BASE-FP}\\
+    Transmission Medium & Coaxial Cable ($50\Omega$) & Coaxial cable ($50\Omega$) & Unshielded Twisted pair & 850-nm optical fibre pair\\
+    \hline
+    Signalling Technique & Baseband (Manchester) & Baseband (Manchester) & Baseband (Manchester) & Manchester / on-off\\
+    \hline
+    Topology & Bus & Bus & Star & Star \\
+    \hline
+    Maximum Segment Length (m) & 500 & 185 & 100 & 500 \\
+    \hline
+    Nodes per segment & 100 & 30 & - & 33 \\
+    \hline
+    Cable diameter (mm) & 10 & 5 & 0.4-0.6 & 62.5/125 $\mu m$\\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{Comparison of IEEE 802.3 10Mbps physical layer medium alternatives}
+\end{table}
+
+Network speed can increase up to 10 Gbps Ethernet, which is seen in the core backbone of networks; or even up to 100 Gbps Ethernet which is seen in the core of datacentres or large server farms. 
