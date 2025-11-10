@@ -1,0 +1,91 @@
+\taughtsession{Lecture}{Wireless LANs}{2025-11-10}{11:00}{Asim}
+
+\section{What is a Wireless LAN?}
+
+Wireless LANs (WLAN) are an extension of a wired LAN, as we saw last week. Wireless LANs allow the client devices to connect wirelessly to the LAN as the name would suggest.
+
+Within wireless LAN architecture - there is a backbone wired LAN which supports the wired components within the LAN and provides one or more bridges or routers to link with other networks. There is also a \textit{control module} (CM) which acts as an interface to a WLAN, often seen as the ``Router'' in a small domestic LAN or a Wireless Access Point (AP) in a larger LAN.
+
+The CM includes either bridge or router functionality to link the WLAN to the backbone. They also include some sort of control logic, such as a polling or token-passing scheme to regulate the access from the end-systems. 
+
+When discussing WLANs, we refer to \textit{user modules} (UM), which are the end-user devices. They can be stand-alone devices such as Laptops or Smartphones, etc. Alternatively, UMs can also be wireless receiver devices which output a wired LAN signal which allows devices to have a wired connection.
+
+\subsection{Large WLANs}
+In larger networks - there can be multiple control modules, each interconnected by a wired LAN. Each control module supports a number of wireless end systems within their transmission systems (often between 100 and 300m for enterprise APs). Where there are multiple control modules on a network - they each have to have their own frequencies assigned, to prevent interference. When moving from one cell, the coverage area of a CM, to another cell and staying connected to the same network - the CMs will hand off the device providing a seamless experience for the end-user. 
+
+In multi-cell networks - a single cell is referred to as a \textit{basic service set}. The entire wireless network including the LAN backbone is referred to as the \textit{extended service set}.
+
+\subsection{Ad-Hoc WLANs}
+The final type of WLAN we may come across is an \textit{Ad-Hoc Wireless LAN}. In this topology, there is no fixed infrastructure (i.e. CMs, APs, etc). Rather, a collection of stations within a range of each other may dynamically configure themselves into a temporary network of peer-to-peer communications.
+
+\section{WLAN Requirements}
+There are a number of requirements for a WLAN to be effective and efficient.
+
+\begin{description}
+    \item[Throughput] The MAC protocol should make efficient use of the wireless medium to maximise capacity
+    \item[Number of Nodes] WLANs may need to support hundreds of nodes across multiple cells
+    \item[Connection to backbone LAN] There should be a good quality connection to the backbone LAN. For infrastructure WLANs - this is accomplished through CMs
+    \item[Service Area] Typically, the coverage area for a WLAN is between 100 and 300m
+    \item[Battery Power Consumption] Often the devices connecting to a WLAN are battery powered - it is important that the battery isn't drained through connecting to a WLAN. Typical WLAN implementations have features to reduce power consumption when not using the network (i.e. a sleep mode)
+    \item[Transmission Robustness and Security] WLANs can be vulnerable to interference and network eavesdropping. The design of WLAN must permit reliable transmission even in a noisy environment and should provide some level of security from eavesdropping. 
+    \item[License Free Operation] WLANs should operate within available frequency-bands which do not require the purchase of special licenses
+    \item[Handoff / Roaming] The MAC protocol used in the WLAN should enable mobile stations to move from one cell to another
+    \item[Dynamic Configuration] The MAC addressing and network management aspects of the WLAN should permit dynamic and automated addition, deletion and relocation of end systems without disruption to other users.
+\end{description}
+
+\section{IEEE 802.11}
+The IEEE 802.11 protocol is the main protocol used for communications within the wireless network. This is the protocol which is commonly known as Wi-Fi. There have been many variations and subsequent discoveries, which are represented by a letter, or multiple letters on the end of the name - such as 802.11ax. 
+
+\begin{definition}
+    \item[Associated Stations] Connected devices to a WLAN
+    \item[Access Point] Provides access to the distribution system for associated stations
+    \item[Basic Service Set (BSS)] Set of stations controlled by a single coordinator
+    \item[Extended Service Set (ESS)] A set of one or more connected BSSs
+    \item[Distribution Systems (DS)] A system used ot interconnect a set of BSSs and integrated LANs to create an ESS
+    \item[Frame] MAC protocol data uint 
+\end{definition}
+
+\subsection{Architecture}
+
+\begin{todo}
+diagram of IEE 802.11 architecture
+
+add explanation from slides on what this is and how it works.
+\end{todo}
+
+\subsection{Services}
+The IEEE 802.11 protocol specifies a number of services. 
+
+\begin{todo}
+add from table on slides - turn into sentences. include explanation about what each one does.
+\end{todo}
+
+\section{Access Control}
+There is a need within WLANs to control who can communicate on the network and when. This is to prevent collisions in the wireless network. 
+
+There are two modes in which WLANs can operate. Both of these operate at the MAC layer. 
+
+\begin{todo}
+add diag from slides
+\end{todo}
+
+\subsection{Point Coordination Function}
+Point Coordination Function (PCF) is a centralised control which provides a contention free service (for example base stations to a backbone). PCF sits on top of the contentious DCF function.
+
+PCF works by the base station polling the other stations asking them if they hve frames to transmit, guaranteeing no collision. The base station sends a beacon frame (between 10 and 100 times a second) which invites stations to sign in. The frame contains information such as hopping frequencies, dwell time, clock synchronisation, etc. When a station is signed in, it is guaranteed a fraction of the bandwidth (therefore making it possible to get quality of service) in a round-robin tims-share style. The base station also manages the power; through putting some stations in a standby mode until awakened by a reception. 
+
+When polling, the Point Coordinator makes use of \textit{PCF Interframe Space} (PIFS) which is smaller than \textit{DCF Interframe Space} (DIFS). The point coordinator can seize the medium and lock out all asynchronous traffic while it issues polls and receives responses.
+
+When a station is polled, it may respond with a \textit{Short Interframe Space} (SIFS) which are smaller than PIFS or DIFS and are designed for this situation. 
+
+\begin{todo}
+sifs? 
+
+notes on slides talk about this.
+\end{todo}
+
+\subsection{Distributed Coordination Frame}
+
+\begin{todo}
+finish lecture from slides.
+\end{todo}

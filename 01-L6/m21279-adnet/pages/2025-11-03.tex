@@ -287,11 +287,10 @@ Frame size can be calculated using the lengths of the fields of the frame:
     Frame size = Destination + Source + Length + Data + Padding + CRC
 \end{center}
 
-Packet size can be calculated using the frame size and some other obscure values??
-
-\begin{todo}
-Check Packet size calculations with Asim. This looks wrong.
-\end{todo}
+As above, the `frame size' doesn't actually include all the values. It doesn't include the preamble or the FD. These values are added when working out the packet size. Packet size can be calculated as follows:
+\begin{center}
+    Packet Size = Frame size + Preamble + FD
+\end{center}
 
 \begin{example}{Frame Length Calculations}
 For the following payload (data) values, calculate the Padding, Frame size \& packet sizes.
