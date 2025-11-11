@@ -1,0 +1,96 @@
+\taughtsession{Lecture}{A11: More about Turing Machines}{2025-11-10}{14:00}{Janka}
+
+\section{Some Turing Machines Don't Halt}
+It is possible to design a Turing Machine which doesn't halt. For example the following TM takes an input from $\Sigma = \{a, b\}$ and scans on the input tape turning $a$ to $b$ and leaving $b$ as $b$. Then when it reaches the end of the input, it scans left over the input turning $b$ into $a$. Then it returns to state 0 and starts again. It will never hit the transition function $T(1, a) = (\square, 2, S)$ because when in state 1, the input tape will never be in the condition where $a$ is on the input tape. What a silly Turing Machine...
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=5cm, on grid, shorten >= 2pt, shorten <= 2pt]
+        \node[state, initial] (0) {$0$};
+        \node[state] (1) [right of=0] {$1$};
+        \node[state, accepting] (2) [right of=1] {$2$};
+        
+        \path[->, bend left=30] (0) edge [above] node [align=center] {$\displaystyle \frac{\square}{\square,L}$} (1);
+        \path[->, bend left=30] (1) edge [below] node [align=center] {$\displaystyle \frac{\square}{\square,R}$} (0);
+        \path[->] (0) edge [loop above] node [align=center] {$\displaystyle \frac{a}{b,R}, \frac{b}{b,R}$} (0);
+        \path[->] (1) edge [loop above] node [align=center] {$\displaystyle \frac{b}{a,L}$} (1);
+        \path[->] (1) edge [above] node [align=center] {$\displaystyle \frac{a}{\square,S}$} (2);
+        
+    \end{tikzpicture}
+    \caption{Silly Turing Machine which never halts}
+\end{figure}
+
+If we let $L$ be the language accepted by a TM, then:
+\begin{itemize}
+    \item If the input string is in the language $L$, then the machine must halt in a finite number of steps
+    \item For a string that is not in the language $L$ the TM can finish in a non-halt state or get stuck in a loop / go on forever
+\end{itemize}
+
+The key difference here is that it is possible for a TM to finish in a non-halt state, or not halt at all. Both of these conditions would mean that the TM rejects the input string.
+
+\subsection{Recursive and Recursive Enumerable Languages}
+\begin{define}
+\item[Recursive Language] A language, $L$, is recursive (decidable) if $L$ is the set of strings accepted by some TM that halts on every input
+\item[Recursively Enumerable] A language, $L$, is recursively enumerable if $L$ is the set of strings accepted by some TM 
+\end{define}
+
+If $L$ is a recursive language then:
+\begin{itemize}
+    \item if $w \in L$ then a TM halts in a final state
+    \item if $w \notin L$ then TM halts in a non-final state
+\end{itemize}
+
+If $L$ is a recursive enumerable language then:
+\begin{itemize}
+    \item if $w \in L$ then a TM halts in a final state
+    \item if $w \notin L$ then a TM halts in a non-final state or loops forever
+\end{itemize}
+
+So from this we can see that every recursive language is also recursive enumerable, but not the other way around. 
+
+\section{Models of Computing: The Final Version}
+As can be seen in the following list - the most restrictive languages are \textit{regular languages} with the least restrictive being \textit{languages without grammar}. This final type are uncomputable, meaning there is not a way for them to be programmatically recognised (ie through FA, PDA, TM, etc). 
+
+List of models of computing from least restrictive to most restrictive including what machine can recognise them:
+\begin{itemize}
+    \item Languages without grammar (uncomputable)
+    \item Recursive Enumerable language (Nondeterministic Turing Machine (NTM) / Turing Machine (TM))
+    \item Recursive Language (Nondeterministic Turing Machine (NTM) / Turing Machine (TM) that halts for every input)
+    \item Context-Sensitive Languages (Linear Bound Automaton(LBA))
+    \item Non-deterministic context-free languages (Non-deterministic Push-down Automata (NPDA))
+    \item Deterministic context-free language (Deterministic Push-down Automata (DPDA))
+    \item Regular Language (Non-deterministic Finite Automata (NFA) / Deterministic Finite Automata (DFA))
+\end{itemize}
+
+\section{Universal Turing Machines}
+We can construct a Turing Machine which can do the job of any other Turing Machine. So not truly universal, but as close as we can get...
+
+We take an arbitrary Turing machine, $M$, and an input $w$, the Universal Turing Machine, $U$ will simulate the operations of $M$ on $w$. It returns the output from $M$ for $w$. $U$ must halt for a given input if and only if $M$ halts. If $M$ accepts, then $U$ must accept. If $M$ rejects, then $U$ must reject. This is known as the \textit{Universal Turing Machine}.
+
+We can imagine the UTM as a TM with three tapes:
+\begin{description}
+    \item[Tape 1] will correspond to $M$'s tape
+    \item[Tape 2] will contain $M$'s program which is the program that $U$ is running
+    \item[Tape 3] will contain the encoding of the state that $M$ is in at any point during the simulation  
+\end{description}
+
+A UTM acts as a completely general purpose computer, effectively storing a program and data on the tape (1 and 2 respectively) and then executing the program. 
+
+\section{Busy Beavers}
+If we consider a deterministic Turing Machine that:
+\begin{itemize}
+    \item can write either $\square$ or 1 on a tape cell and
+    \item must shift left or right after each move
+\end{itemize}
+
+The Busy Beaver problem is about finding a Turing Machine which will run and find the longest finite sequence of 1s with a given number of TM states. This number of states is given without the halt state included. For example, if we take a 1 state Turing Machine, it can write 1 1 on the tape before reaching the halt state, either using $(0, \square, 1, R, 0)$ or $(0, \square, 1, L, 0)$. 
+
+We can formally define the problem as: Let $b(n)$ denote the number of 1s that can be written by a busy beaver with $n$ states, not including the halt state. The critical component of the busy beaver is that it must not loop infinitely, rather it must always reach the halt state. 
+
+This is a deceptively simple problem. Rado in 1962 discovered that $b(2) = 4$, meaning for 2 states - the longest sequence of 1s able to be written to the tape is 4. Rado then went on to discover that $b$ cannot be computed by any TM, so the busy beaver problem is now described as a \textit{noncomputable function}. 
+
+Subsequently, it has been calculated that $b(3) = 6$ and $b(4) = 13$. Marxen and Buntrock in 1989 found $b(5) \geq 4098$ using 47,176,870 steps; and Kropitz in 2010 found that $b(6) \geq 10^{18267}$ which used over $10^{36534}$ steps. 
+
+\vspace{3em}
+
+And that's it. Part A of this module has reached it's halt state (ha). Part B will commence next Monday, the Part A exam is next Wednesday. 
