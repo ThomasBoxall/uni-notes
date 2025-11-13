@@ -67,6 +67,8 @@ There are two modes in which WLANs can operate. Both of these operate at the MAC
 
 \begin{todo}
 add diag from slides
+
+add something about the pcf vs dcf and what they mean: ie dcf means ap is in sleep mode so all distributed vs when in pcf the ap is controlling the comms (contention-free mode).
 \end{todo}
 
 \subsection{Point Coordination Function}
@@ -79,12 +81,21 @@ When polling, the Point Coordinator makes use of \textit{PCF Interframe Space} (
 When a station is polled, it may respond with a \textit{Short Interframe Space} (SIFS) which are smaller than PIFS or DIFS and are designed for this situation. 
 
 \begin{todo}
-sifs? 
+sifs?
 
 notes on slides talk about this.
+
+slide 20 
+
+rts (request to send), cts (clear to send) - at least acknowledge the acronym.
 \end{todo}
 
-\subsection{Distributed Coordination Frame}
+\subsection{Distributed Coordination Function}
+The \textit{Distributed Coordination Function} (DCF) makes use of the CSMA/CA (Carrier Sense Multiple Access with Collision Avoidance) protocol. In this protocol - where a station has a MAC frame to transmit, it listens to the medium. If the medium is idle, the station may transmit; otherwise the station must wait for the current transmission to complete before transmitting. 
+
+DCF doesn't include a collision detection function (i.e. CSMA/CD) because collision detection isn't practical on a wireless network. The dynamic range of the signals on the medium is very large, meaning that a transmitting station cannot effectively distinguish incoming weak signals from noise and the effects of its own transmission. 
+
+DCF makes use of a set of delays that amount to a priority scheme. 
 
 \begin{todo}
 finish lecture from slides.
