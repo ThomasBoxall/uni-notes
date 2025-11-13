@@ -53,7 +53,7 @@ Looking at the Automata in Figure \ref{fig:eg-fa}, we can take the example input
 This would start in state 0, and travel to state 1, accepting the initial $a$. The automata then loops around from state 1 to state 1 accepting the $b$, which is repeated 4 times in total. The automata then takes the final $a$ and transitions from state 1 to 3. As we have processed all the input string and we are in the final state - the input string is accepted.
 
 Below is a representation of the transitions taken by the automata to process the input string:
-\[0 \rightarrow ^a\ 1 \rightarrow ^b\ 1 \rightarrow 1 ^b\ 1 \rightarrow 1 ^b\ 1 \rightarrow 1 ^b\ 1 \rightarrow 3 ^a\]
+\[0 \xrightarrow{a} 1 \xrightarrow{b} 1 \xrightarrow{b} 1  \xrightarrow{b} 1 \xrightarrow{b} 1 \xrightarrow{a} 3\]
 \end{example}
 
 
@@ -246,7 +246,7 @@ Generally speaking, NFAs are easier to construct and tend to be simpler with few
         \path[->] (0) edge [above] node [align=center] {$a$} (1);
         \path[->] (1) edge [loop above] node [align=center] {$a$} (1);
     \end{tikzpicture}
-    \caption{Example DFA for $a^*a = aa^*$}
+    \caption{Example DFA for $a^*a + aa^*$}
     \label{fig:dfa-fordfavsnfa}
 \end{figure}
 \end{minipage}    

@@ -298,7 +298,7 @@ gets converted to:
     \label{fig:fa-to-regex-step3b}
 \end{figure}
 
-\item[Step 4] Eliminate States: Step-by-step eliminate states (one at a time) and change their corresponding labels until the only states remaining are $s$ anf $f$. When we delete a state, we must replace any possible transitions that went through it with a regular expression which carries the information that was removed. For example, if we take the FA:
+\item[Step 4] Eliminate States: Step-by-step eliminate states (one at a time) and change their corresponding labels until the only states remaining are $s$ and $f$. When we delete a state, we must replace any possible transitions that went through it with a regular expression which carries the information that was removed. For example, if we take the FA:
 
 \begin{figure}[H]
     \centering
@@ -615,8 +615,8 @@ We can construct the minified DFA as follows
 We can now explore the minified transitions. Originally, we had $T(0,a)=3$ and $T(0,b)=1$ and now the new transitions are:
 \begin{align*}
 & T_{min}(\{0\}, a) = T_{min}([0],a) = [T(0,a)] = [1] = \{1,2,3\}\\
-& T_{min}(\{1,2,3\},a) = 4 \textrm{and} T_{min}(\{1,2,3\},b) = \{1,2,3\}\\
-& T_{min}(\{4\},a) = 4 \textrm{and} T_{min}(\{4\},b) = 4
+& T_{min}(\{1,2,3\},a) = 4 \textrm{ and } T_{min}(\{1,2,3\},b) = \{1,2,3\}\\
+& T_{min}(\{4\},a) = 4 \textrm{ and } T_{min}(\{4\},b) = 4
 \end{align*}
 
 \end{example}

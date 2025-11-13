@@ -93,8 +93,8 @@ But if all strings satisfy the pumping lemma (have pre-described structure), thi
 \begin{example}{Pumping Lemma in Action}
 This example will prove by contradiction using the pumping lemma the theorem that $L=\{a^nb^n | n \geq 0\}$ is not regular.
 
-If we assume that $L$ is regular, then $L$ is accepted by a unique DNF with $m$ states. Therefore any string from $L$ of length at least $m$ can be decomposed as
-\[xyz \textrm{with} |xy| \leq m \textrm{and} |y| \geq 1\]
+If we assume that $L$ is regular, then $L$ is accepted by a unique DFA with $m$ states. Therefore any string from $L$ of length at least $m$ can be decomposed as
+\[xyz \textrm{ with } |xy| \leq m \textrm{ and } |y| \geq 1\]
 such that $x \underbrace{y\ldots y}_k z$ is also in $L$ for all $i=0,1,2,\ldots$.
 
 If we take $n>m$ and the string $a^nb^n$ from $L$ then the substring $y$ (of length $k$) must consist entirely of $a$'s.

@@ -319,9 +319,9 @@ The languages based on LR(k) grammars can be parsed bottom up.
 
 The L in LR(k) means that we scan the string from left to right, however the R means we produce a right-most derivation (R) in reverse. This involves reversing the productions and more more difficult to see through.
 
-LR(1) languages are exactly LR(k) languages which are exactly deterministic context-free languages (DFCL).
+LR(1) languages are exactly LR(k) languages which are exactly deterministic context-free languages (DCFL).
 
-Deterministic context-free grammars (DCFG) are a proper subset of the context-free grammars - they can be recognises by the DPDA. DCFGs are always unambiguous.DCFGs are of great practical interest - they cna be parsed in linear time and in fact a parser can be automatically generated from the grammar by a parser generator. 
+Deterministic context-free grammars (DCFG) are a proper subset of the context-free grammars - they can be recognises by the DPDA. DCFGs are always unambiguous.DCFGs are of great practical interest - they can be parsed in linear time and in fact a parser can be automatically generated from the grammar by a parser generator. 
 
 \begin{example}{LR(0) Grammars}
 If we consider the language $L = \{ab^{2n+1}c | n \geq 0\}$ with the grammar $S \rightarrow aAc$ and $A \rightarrow Abb\ |\ b$. We can take the input string $abbbbbc$

@@ -90,7 +90,7 @@ Yes, $\{a^nb^n|n\geq 0\}$ is back again.
 To tackle this problem we first come up with a plan on how to solve it:
 \begin{enumerate}
     \item Begin reading the string, and for each $a$ read push a $Y$ onto the stack
-    \item On the first $b$ change states, and begin removing one $Y$ fro the stack
+    \item On the first $b$ change states, and begin removing one $Y$ from the stack
     \item If you reach the end of the input and have just cleared the stack, accept the string
     \item Otherwise reject (e.g. if the stack runs out before the input - more $b$'s than $a$'s)
 \end{enumerate}
@@ -121,7 +121,7 @@ From here we can draw our NPDA.
 
 From this NPDA - we can learn there are 6 allowed instructions:
 \begin{align*}
-T_1: & (0, a \$, push(Y), 0)\\
+T_1: & (0, a, \$, push(Y), 0)\\
 T_2: & (0, a, Y, push(Y), 0)\\
 T_3: & (0, \Lambda, \$, nop, 2)\\
 T_4: & (0, b, Y, pop, 1)\\

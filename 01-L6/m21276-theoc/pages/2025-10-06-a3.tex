@@ -156,7 +156,6 @@ Regular Expressions may not be unique, in that two or more different regular exp
 We can say that regular expressions $R$ and $E$ are equal if their languages are the same (i.e. $L(R) = L(E)$), and we denote this equality in the familiar way $R=E$. 
 
 There are many general equalities for regular expressions. All the properties hold for any regular expressions $R$, $E$, $F$ and can be verified by using properties of languages and sets.
-
 \begin{multicols}{2}
 \textbf{Additive ($+$) properties}
 \begin{align*}
@@ -172,15 +171,6 @@ R\emptyset &= \emptyset R = \emptyset\\
 R \Lambda &= \Lambda R = R\\
 (RE)F &= R(EF)
 \end{align*}
-\vfill\null
-
-\columnbreak
-
-\textbf{Distributive Properties}
-\begin{align*}
-R(E+F) &= RE + RF\\
-(R+E)F &= RF+EF
-\end{align*}
 
 \textbf{Closure Properties}
 \begin{align*}
@@ -192,6 +182,13 @@ R(ER)^* &= (RE)^*R\\
 (R+E)^* &= (R^*E^*)^* = (R^*+E^*)^* = R^*(ER^*)^*
 \end{align*}
 
+\textbf{Distributive Properties}
+\begin{align*}
+R(E+F) &= RE + RF\\
+(R+E)F &= RF+EF
+\end{align*}
+
+\vfill\null
 \end{multicols}
 
 We can use a combination of these properties to simplify regular expressions and prove equivalences.
@@ -224,7 +221,7 @@ There are two regulations all regular grammars must adhere to:
     \item Non-terminals must appear on the right end of the right hand side
 \end{itemize}
 
-Therefore, $A \rightarrow aBc$ and $S \rightarrow TU$ are not part of a regular grammar. The production $A \rightarrow abcA$ is, however. Obviously things like $A \rightarrow aB |cC$ are allowed because they are two separate productions.
+Therefore, $A \rightarrow aBc$ and $S \rightarrow TU$ are not part of a regular grammar. The production $A \rightarrow abcA$ is, however. Obviously things like $A \rightarrow aB\ |\ cC$ are allowed because they are two separate productions.
 
 For any given regular language, we can find a regular grammar which will produce it. However there may also be other non-regular grammars which also produce it. 
 
@@ -235,16 +232,16 @@ If we take the regular language $a^*b^*$, we can see it has a regular grammar an
 \textbf{Irregular Grammar}
 \begin{align*}
 S &\rightarrow AB\\
-A &\rightarrow \Lambda | aA\\
-B &\rightarrow \Lambda | Bb 
+A &\rightarrow \Lambda\ |\ aA\\
+B &\rightarrow \Lambda\ |\ Bb 
 \end{align*}
 
 \columnbreak
 
 \textbf{Regular Grammar}
 \begin{align*}
-S &\rightarrow \Lambda | aS | A\\
-A &\rightarrow \Lambda | bA
+S &\rightarrow \Lambda\ |\ aS\ |\ A\\
+A &\rightarrow \Lambda\ |\ bA
 \end{align*}
 \vfill\null
 \end{multicols}

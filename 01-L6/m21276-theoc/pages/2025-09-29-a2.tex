@@ -64,7 +64,7 @@ Let a grammar, $G$, be defined by:
     \item the set of terminals $T = \{a, b\}$
     \item the only non-terminal start symbol $S$
     \item the set of production rules: $S \rightarrow \Lambda, \quad S \rightarrow aSb$\\
-    or in shorthand: $S \rightarrow \Lambda | aSb$
+    or in shorthand: $S \rightarrow \Lambda\ |\ aSb$
 \end{itemize}
 
 Now, beginning the derivations. We have to start with the start symbol $S$, and we can either derive $\Lambda$ or $aSb$. Obviously deriving $\Lambda$ would end the production and deriving $aSb$ would allow  us to keep re-using the production rules:
@@ -90,7 +90,7 @@ This brings us to the end of the example as we can now define $L(G)$:
         \item $S \rightarrow bS$
         \item $S \rightarrow cS$
     \end{itemize}
-    Which can alternatively be represented in Shorthand: $S \rightarrow \Lambda | aS | bS | cS$
+    Which can alternatively be represented in shorthand: $S \rightarrow \Lambda\ |\ aS\ |\ bS\ |\ cS$
 
     To derive the string $aacb$ we would undergo the following derivation:
     \[S \Rightarrow aS \Rightarrow aaS \Rightarrow aacS \Rightarrow aacbS \Rightarrow aacb\Lambda = aacb\]
@@ -105,7 +105,7 @@ As in the previous example, note how there is no bound on the length of the stri
 Where a language is infinite - some of the productions or sequence of productions must be used repeatedly to construct the derivations. 
 
 \begin{example}{Infinite language}
-Take the infinite language $\{a^nb | n \geq 0\}$ which can be described by the grammar $S \rightarrow b | aS$. 
+Take the infinite language $\{a^nb | n \geq 0\}$ which can be described by the grammar $S \rightarrow b\ |\ aS$. 
 
 To derive the string $a^nb$, the production $S \rightarrow aS$ is used repeatedly, $n$ times and then the derivation is stopped by using the production $S \rightarrow b$. 
 \end{example}
@@ -118,7 +118,7 @@ A production is called recursive if its left side occurs on it's right side. For
 
 A production $A \rightarrow \ldots$ is indirectly recursive if $A$ derives a sentential form that contains $A$ in two or more steps.
 \begin{example} {Indirect Recursion}
-If the grammar contains the rules $S \rightarrow b|aA, A \rightarrow c|bS$ then both productions $S \rightarrow aA$ and $A \rightarrow bS$ are indirectly recursive:
+If the grammar contains the rules $S \rightarrow b\ |\ aA,\ A \rightarrow c\ |\ bS$ then both productions $S \rightarrow aA$ and $A \rightarrow bS$ are indirectly recursive:
 \begin{align*}
     S &\Rightarrow aA \Rightarrow abS\\
     A &\Rightarrow bS \Rightarrow baA
@@ -137,7 +137,7 @@ If the number of strings in a language is finite, then a grammar can consist of 
 
 \begin{example}{Finite Language}
 The finite language $\{a, ba\}$ can be described by the grammar:
-\[S \rightarrow a|ba\]
+\[S \rightarrow a\ |\ ba\]
 \end{example}
 
 \subsection{Infinite Languages}
@@ -151,7 +151,7 @@ We can use the following solution:
 \begin{itemize}
     \item We know the set of terminals: $T = \{a\}$
     \item We know the only non-terminal start symbol: $S$
-    \item So therefore we can generate the production rules: $S \rightarrow \Lambda, S \rightarrow aS$
+    \item So therefore we can generate the production rules: $S \rightarrow \Lambda,\ S \rightarrow aS$
 \end{itemize}
 \end{example}
 
@@ -163,7 +163,7 @@ The combination process is started by assigning start symbols for the grammars o
 
 \subsection{Union Rule}
 The union of two languages, $L \cup M$ starts with the two productions:
-\[S \rightarrow A|B\]
+\[S \rightarrow A\ |\ B\]
 which is followed by: the grammar rules of $L$ (start symbol $A$) and then the grammar rules of $M$ (start symbol $B$).
 
 \begin{example}{Combining Grammars Using Union Rule}
@@ -176,9 +176,9 @@ Firstly we look at it and see quite clearly there is a pattern, $K$ is a union o
 
 Therefore we can write a grammar for $K$ as follows:
 \begin{itemize}
-    \item $A \rightarrow \Lambda | aA$ (grammar for $L$)
-    \item $B \rightarrow \Lambda | bB$ (grammar for $M$)
-    \item $S \rightarrow A|B$ (union rule)
+    \item $A \rightarrow \Lambda\ |\ aA$ (grammar for $L$)
+    \item $B \rightarrow \Lambda\ |\ bB$ (grammar for $M$)
+    \item $S \rightarrow A\ |\ B$ (union rule)
 \end{itemize}
     
 \end{example}
@@ -199,8 +199,8 @@ We can first find out that $K$ is the product of two languages:
 
 Therefore we can write a grammar for $K$ as follows:
 \begin{itemize}
-    \item $A \rightarrow \Lambda | aA$ (grammar for $L$)
-    \item $B \rightarrow \Lambda | bB$ (grammar for $M$)
+    \item $A \rightarrow \Lambda\ |\ aA$ (grammar for $L$)
+    \item $B \rightarrow \Lambda\ |\ bB$ (grammar for $M$)
     \item $S \rightarrow AB$ (product rule)
 \end{itemize}
 \end{example}
@@ -237,5 +237,5 @@ We can simplify this:
     \item Replace $A$ in $S \rightarrow AS$ by the right side of $A \rightarrow bb$ to obtain the production $S \rightarrow bbS$
 \end{itemize}
 We can therefore write the grammar in simplified form as:
-\[S \rightarrow aaS | bbS | \Lambda\]
+\[S \rightarrow aaS\ |\ bbS\ |\ \Lambda\]
 \end{example}
