@@ -1,0 +1,87 @@
+\taughtsession{Lecture}{Bluetooth networks}{2025-11-17}{11:00}{Asim}{}
+
+A \textit{Bluetooth Network} is another type of Local Area Network. It is similar to an ad-hoc network, in that there is no fixed organisation, or fixed access point. 
+
+Bluetooth can be seen in many different applications including the following:
+\begin{itemize}
+    \item Wireless headphones
+    \item Wireless, bluetooth, mouse
+    \item Wireless gaming controller
+\end{itemize}
+
+Bluetooth is a universal radio interface for ad-hoc wireless connectivity. It interconnects computers, their peripherals, handheld devices, PDAs and mobile phones. The bluetooth technology is embedded into devices, with a target cost of less than £5/device or can be sold as a separate USB antenna, costing less than £20/device.
+
+Bluetooth has a short range, between 10m and 100m maximum and therefore uses very low power. The license for transmission is free under the Industrial Scientific and Medicine (ISM) band at 2.54GHz, and requires no registration. There are also no regulations which keep the cost low.
+
+Voice and data transmissions are transmitted at about 1Mbps, or for Bluetooth 2.0 and later it reaches about 3Mbps. 
+
+\section{Piconet}
+A \textit{Piconet} is a collection of devices which are connected with a bluetooth connection. Within a single Piconet, there is a maximum of 8 devices; with one acting as a master and the remaining devices acting as a slave. The devices are connected in an ad-hoc manner and synchronised to the same hopping sequence. 
+
+There are 79 different frequencies which are used in the hopping sequence in a random order, which has been determined by the master. The benefit of using this frequency hopping is that it provides security (see frequency hopping from an earlier lecture); and that the changing in frequency should prevent interference between Piconets which are near each other in geographical locations. 
+
+Each Piconet has a unique hopping pattern to avoid interference with other Piconets. If a device wants to join a specific Piconet, it must synchronise with the same pattern. 
+
+\begin{todo}
+piconet states from notes on slides
+\end{todo}
+
+\section{Scatternets}
+A \textit{Scatternet} is a collection of multiple Piconets. This means that a device which is part of a Scatternet - is able to be participate in more than one Piconets at once. A device which is in more than one Piconet is known as a \textit{bridge device}, and can either be master in one, slave in one, master in both, or slave in both. 
+
+Slaves transmit once permission has been granted by the master using Time Division Multiplexing (TDM) access. This means that each slave gets a round-robin-like slice of time to broadcast it's message, and after all the other broadcasting devices have had a chance to transmit - it loops around again.\footnote{See more in `Spectrum Spread and Walsh Codes' lecture}
+
+\section{Bluetooth Protocols}
+Bluetooth is defined as a layered protocol architecture which consists of a number of different protocols.
+
+\begin{todo}
+diagram of protocol stack
+\end{todo}
+
+The core elements of the protocols form a five-layer stack, the outline for which can be seen below:
+\begin{description}
+    \item[Radio] Specifics details of the air interface, including frequency, the use of frequency hopping, modulation scheme and transmit power
+    \item[Baseband] Concerned with connection establishment, addressing, packet forming, timing and power control
+    \item[Link Manager Protocol (LMP)] Responsible for link setup between Bluetooth devices and ongoing link management. Includes security aspects such as authentication and encryption, as well as control and negotiation of baseband packet size 
+    \item[Logical Link Control and Adaption Protocol (L2CAP)]  Adapts upper-layer protocols to the baseband layer. L2CAP provides both connectionless and connection-oriented services.
+    \item[Service Discovery Protocol (SDP)] Device information, services, and the characteristics of the services can be queried to enable the establishment of a connection between two or more Bluetooth devices. 
+\end{description}
+
+\begin{todo}
+more explanation in notes of slides about the different protocols, including specifics. Absorb into notes.
+\end{todo}
+
+
+\section{Frequency and Time Division Duplex}
+\begin{todo}
+get from notes on slides.
+\end{todo}
+
+\section{Bluetooth Radio Specification}
+\begin{todo}
+add from slides. possibly move to higher in notes if doing as table? baseband specification slide gives some words around the table on the radio spec slides.
+\end{todo}
+
+\section{Bluetooth Packets}
+Bluetooth packets have three fields:
+\begin{description}
+    \item[Access Code] Used for timing synchronisation, offset compensation, paging and inquiry
+    \item[Header] Used to identify packet type and to carry protocol control information
+    \item[Payload] If present - contains user voice or data, and in most cases a payload header
+\end{description}
+
+\begin{todo}
+diag from slides
+\end{todo}
+
+\begin{todo}
+ACL specifications slide was talked about here. Not a clue what was said - figure this out and add it to notes. possibly a diagram too?
+\end{todo}
+
+\section{Physical LInks between Master and Slaves}
+\subsection{Synchronous Connection Oriented}
+Within Synchronous Connection Oriented (SCO)
+
+\begin{todo}
+finish lecture. read textbook or something to make sense of this. 
+\end{todo}
