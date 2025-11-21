@@ -2,7 +2,132 @@
 
 10 minute doom-scroll-of-cat-photos break later, we're back at it for Part 2 of this 2 parter.
 
-\begin{todo}
-add after lecture. not even trying to type and keep up with a 2 slide/minute lecture.
-\end{todo}
+This lecture picks up directly from the last - starting with...
 
+\section{Model 5: Recursive Functions}
+As we have seen in the second year Discrete Maths module - the concept of a \textit{function} is fundamental to much of mathematics.
+
+In this topic, we consider functions whose arguments and values are natural numbers. The basic characteristic of a \textit{computable function} is that there must be a finite procedure (known as an algorithm) telling the `computer' how to compute the function. Expressions can be one way to define this, such as $f(n) = n^3 + 1$ as a clear recipe is given; however for more vague functions (such as the busy beaver), there isn't a definitive recipe for them. 
+
+Church, Kleene \& Rosser created a formal definition of a class of functions whose values could be calculated by recursion, which are known as the \textit{partial recursive functions}.
+
+We believe that functions of the following form are computable:
+\[f(x)=0, \quad g(x)=x+1, \quad H(x,y,z)=x\]
+
+In some fun news - all we need to construct all possible computational functions are basic functions like those above, and some simple combining rules! Unlike for Turing Machines, the description of recursive functions is \textit{inductive}. 
+
+\subsection{The Idea...}
+The idea of recursive functions is simple - we break down the target into a series of steps which the computer is able to compute.
+
+If we consider the function $exp(x,y)$ which finds the $y$ exponent of $x$ ($x^y$), we know that
+\begin{align*}
+    x^0 &= 1\\
+    x^1 &= x\\
+    x^2 &= x \cdot x\\
+    x^3 &= x \cdot x \cdot x
+\end{align*}
+
+We can see a sort of generalisation forming here:
+\begin{align*}
+    x^y &= x \cdot x \cdots x && (y \textrm{ occurrences of } x)\\
+    x^{y+1} &= x \cdot x \cdots x && (y+1 \textrm{ occurrences of } x)\\
+    &= x \cdot x^y && \ 
+\end{align*}
+
+From this we can see two ``rewriting rules'' emerge which are enough to define the $exp$ function:
+\begin{align*}
+    x^0 &= 1\\
+    x^{y+1} & x \cdot x^y
+\end{align*}
+
+Well this is most exciting - we can see that the rules for $exp$ reduce exponentiation to multiplication. 
+
+If we now consider multiplication:
+\begin{align*}
+    x \cdot 0 &= 0\\
+    x \cdot (y+1) &= x + x \cdot y
+\end{align*}
+
+We can see that rules for multiplication reduce the multiplication operation to additions. I spy a pattern here...
+
+We can finally take a look at the rules for addition:
+\begin{align*}
+    x+0 &= x \\
+    x + (y+1) &= (x+y) + 1
+\end{align*}
+
+Here we find the simplest, most primitive operation we know about: $succ$, which adds 1. 
+
+From this exercise of inductive decomposition, we've found that primitive recursion is in the spirit of ``computation by rewriting'' definitions of $exp$, $\cdot$ and $+$. If we want to use ``recursion'', it consists of one rule for $y=0$ and one rule for $y>0$ where $y$ acts as a countdown for the number of remaining steps in the computation.
+
+There are five building blocks for primitive recursive functions:
+\begin{itemize}
+    \item Three basic functions: \textit{successor}, \textit{zero} and \textit{projections}
+    \item Two ways of building new primitive functions from old ones: \textit{composition} and \textit{primitive recursion}
+\end{itemize}
+
+\subsection{Recursive Function Building Blocks}
+The \textit{successor} function we met in the last lecture as part of the simple programming language. Successor takes a value and returns the successor number to it: $succ(x) = x+1$. 
+
+The \textit{zero} function is a simple function. It takes a natural number and returns 0: $zero(x) = 0$. 
+
+The \textit{projection} function takes a natural number as input, $i$ and returns the $i$-th element of the provided tuple of natural numbers: $project_i: \mathbb{N}^k \rightarrow \mathbb{N}$, where
+\[project_i(x_1, \ldots, x_k) = x_i, i \in \{1, \ldots, k\}\]
+
+\textit{Composition} replaces the arguments of a function with other functions. If we take $g_1$, $g_2$, \ldots, $g_m$ as functions $\mathbb{N}^k \rightarrow \mathbb{N}$, and $f$ is a function $\mathbb{N}^m \rightarrow \mathbb{N}$, then the function $h: \mathbb{N}^k \rightarrow \mathbb{N}$ is given by:
+\[h(x_1, \ldots, x_k) = f(g_1(x_1, \ldots, x_k), \ldots, g_m(x_1, \ldots, x_k))\]
+Then the function $h$ is said to arise by composition from $f$, $g_1$, \ldots, $g_m$. 
+
+\begin{example}{Composition}
+If we consider the function:
+\[h(x) = succ(succ(zero(x)))\]
+
+We can see that this function will always return 2 and is made of three functions: $succ$ twice, and $zero$ once.
+\end{example}
+
+\textit{Primitive Recursion} is where a new function is defined in terms of existing functions as follows:
+\begin{align*}
+    f(x_1, x_2, \ldots, x_n, 0) &= h(x_1, x_2, \ldots, x_n)\\
+    f(x_1, x_2, \ldots, x_n, succ(y)) &= g(x_1, x_2, \ldots, x_n, y, f(x_1, x_2, \ldots, x_n, y))
+\end{align*}
+
+The first function above uses $y=0$ and as we saw above in our inductive experiments - this is defined in a different way as this is often directly computable. The second function then increases $y$ to the point needed for the equation - the right hand side using $y$ as is and the left hand side using $succ(y)$ to increase it's value by 1. (We'll see an example of this in action shortly).
+
+A function is \textit{primitive recursive} if it can be built up using the base functions and the operations of composition and primitive recursion.  
+
+\begin{example}{Addition as a Primitive Recursive Function}
+If we take the function $add(x,y) = x+y$ we can see it's primitive recursiveness.
+
+Firstly, we define addition recursively:
+\begin{align*}
+    add(x,0) &= x\\
+    add(x,succ(y)) &= succ(add(x,y))
+\end{align*}
+Where the first row is the zero-condition which the computer will always be able to compute, and the second row is the recursive statement which we can use to sum two numbers. 
+
+\begin{align*}
+    add(2,2) &= succ(add(2,1))\\
+    &= succ(succ(add(2,0)))\\
+    &= succ(succ(2))\\
+    &= succ(3)\\
+    &= 4
+\end{align*}
+
+We can see that rewriting the right hand side of the recursive addition definition to use primitive recursive functions:
+\begin{align*}
+    f(x,0) &= h(x)\\
+    f(x, succ(y)) &= g(x,y,f(x,y))
+\end{align*}
+
+where:
+\begin{align*}
+    h(x) &= x = project_1(x)\\
+    g(x,y,u) &= succ(u) = succ(project_3(x,y,u))
+\end{align*}
+\end{example}
+
+Most of the functions normally studied in number theory are primitive recursion. Addition, division, factorial, exponential and the $n$-th prime are all primitive recursion. From this we see that the primitive recursive functions are defined for all non-negative natural numbers (total functions).
+
+From the definition it follows a primitive recursive function is computable by a Turing Machine. However, there are known functions which are not primitive recursive. 
+
+\subsection{Ackermann Function}

@@ -21,14 +21,133 @@ The ``computable'' property has something to do with a formal process (execution
 
 A \textit{model} is a formalization of an idea. This means we have several ways to model the idea of computability.
 
-We know that one computational model is more powerful than other computational models. For example, using what we've learnt in Part A, the Turing Machine is more powerful than a pushdown automata.
+We know that one computational model is more powerful than other computational models. For example, using what we've learnt in Part A, the Turing Machine is more powerful than a pushdown automata. However there are also models with the same power, for example non-deterministic and deterministic finite automata.
 
 There is a most powerful model. There are many models equivalent to that. Therefore, as proven by the Church-Turing Thesis, anything that is intuitively computable can be computed by a Turing machine. 
 
-This is called a `thesis' rather than a `theorem' as we only have an informal idea of what being computable is, as mathematicians have not yet been able to define this. 
+This is called a `thesis' rather than a `theorem' as we only have an informal idea of what being computable is, as mathematicians have not yet been able to define this. However, we have been able to define the Turing Machine and this is a formal and well-understood concept. 
 
-\begin{todo}
-finish from slides. 
+As yet, there hasn't been a computational model invented which is more powerful than the Turing Machine! There are, however, several alternative formalisations for the notion of computability which are equivalent to the Turing Machine. These will be discussed in this lecture and the subsequent lecture.
 
-TIL it doesn't work doing this live as Janka moves too fast.
-\end{todo}
+\section{Equivalence of Computational Models}
+In the early 20th century, there were a number of attempts to formalise the notion of computability. The American mathematician Alonzo Church created a method for defining functions called the $\lambda$-calculus. Later, British mathematician Alan Turing created a theoretical model for a machine that could carry out calculations from inputs. Church, along with mathematician Stephen Kleene and a logician J.B. Rosser created a formal definition of a class of functions whose values could be calculated by recursion (these are known as the \textit{partial recursive functions}, we'll see more of these later).
+
+Even through computational models may process different kinds of data, they can still be compared with respect to how they process natural numbers (represented as $\mathbb{N}$). 
+
+While exploring the computation models in the subsequent sections, we'll make the assumption that there is an unlimited amount of memory available. This means that we can represent any natural number or any finite string. 
+
+\section{Model 1: $\lambda$-calculus}
+The $\lambda$-calculus was introduced by Church in the 1930s as part of an investigation into the foundations of mathematics. 
+
+Church's original system was shown to be logically inconsistent - so he later introduced two weaker systems:
+\begin{itemize}
+    \item untyped lmbda calculus
+    \item lambda calculus
+\end{itemize}
+
+Both types of calculus played an important role in the theoretical side of development of programming languages, with untyped lambda calculus being the original inspiration for functional programming, especially Lisp.
+
+\section{Model 2: Simple Programming Language}
+Stepherdson and Sturgis introduced a \textit{simple programming language} in 1963. It has the same power as a Turing Machine which means:
+\begin{itemize}
+    \item any program that can be solved by a Turing Machine can be solved with a simple program
+    \item any problem that can be solved by a simple program can be solved by a Turing machine
+\end{itemize}
+
+The Simple Programming Language is, as the name suggests, simple. All the variables within the Simple Programming Language are values from the set $\mathbb{N}$ of natural numbers. There exists a while statement of the form:
+\begin{center}
+    while X $\neq$ 0 do \textit{statement} od
+\end{center}
+
+There is an assignment statement taking one of the three forms:
+\begin{center}
+    $X:=0$, \quad $X:=succ(Y)$, \quad $X:=pred(Y)$
+\end{center}
+
+From this we can see that a statement is always one of the following:
+\begin{itemize}
+    \item a while statement
+    \item an assignment statement
+    \item a sequence of two or more statements separated by semicolons
+\end{itemize}
+
+A simple program is a statement.
+
+As we saw earlier, all values used within the simple programming language are form $\mathbb{N}$. This means that it's not possible to go below zero in our operations, therefore $pred(0) = 0$.
+
+All variables in a simple programming language program have been given initial values and the output consists of the collection of values at program termination.
+
+\begin{example}{Simple Programming Language Snippets}
+\textbf{Ex. 1: Code for the macro statement} $X:=Y$
+
+\[X:= succ(Y);\ X:= pred(X)\]
+
+\textbf{Ex. 2: Code for the macro statement} $X := 3$
+
+\[X:=0;\ X:= succ(X);\ X:= succ(X);\ X:= succ(X)\]
+\end{example}
+
+\begin{extlink}
+More examples of the Simple Programming language available in the Tutorial.
+\end{extlink}
+
+\section{Model 3: Markov Algorithms}
+In 1954, Markov designed an approach to computation which is equivalent in power to Turing Machines.
+
+A Markov algorithm over an alphabet $\Sigma$ is a finite ordered sequence of productions $x \rightarrow y$, where $x, y \in \Sigma^*$. Some productions may be labelled with the word ``halt'' although this is not a requirement. If there is a production $x \rightarrow y$ such that $x$ occurs as a substring of $w$, then the leftmost occurrence of $x$ in $w$ is replaced by $y$. A Markov algorithm transforms an input string into an output string, we can see it computes a function from $\Sigma^*$ to $\Sigma^*$. 
+
+The Markov algorithm works as follows, when given an input string:
+\begin{enumerate}
+    \item Check the productions in order from top to bottom to se whether any of the patterns can be found in the input string
+    \item If none are found - the algorithm stops
+    \item If one (or more) is found, use the first (topmost) of them to replace the leftmost matching text in the input string with it's replacement
+    \item If the applied production was a terminating one - the algorithm stops
+    \item Return to step 1 and carry on
+\end{enumerate}
+
+When processing string with the Markov Algorithm - we assume $w = \Lambda w$. Which in non-mathematical speak translates to every string ($w$) beginning with the empty string character ($\Lambda$). We can then see that a production of the form $\Lambda \rightarrow y$ would transform $w$ to $yw$. 
+
+\begin{example}{Markov Algorithm Execution}
+If we take $M$ as the Markov algorithm over $\{a,b\}$ consisting ovf the following sequence of three productions:
+\begin{enumerate}
+    \item $aba \rightarrow b$
+    \item $ba \rightarrow b$
+    \item $b \rightarrow \Lambda$
+\end{enumerate}
+We can trace the execution of $M$ for the string $w=aabaaa$
+
+\begin{align*}
+    w = aabaaa & \rightarrow abaa && (1)\\
+    & \rightarrow ba && (1)\\
+    & \rightarrow b && (2)\\
+    & \rightarrow \Lambda && (3) 
+\end{align*}
+
+From this we can see that this algorithm returns $\Lambda$ for all strings of the form $a^iba^j$ where $i \leq j$; and $a^{j-i}$ for all strings of the form $a^iba^j$ where $i > j$.
+\end{example}
+
+\section{Model 4: Post Algorithms}
+Emil \textit{Post} developed the \textit{Post} algorithm in 1943 which is another string processing model with equivalent power to the Turing machines.
+
+A post algorithm over an alphabet, $\Sigma$, is the set of productions that are used to transform strings. The productions have the form $s \rightarrow t$, where $s$ and $t$ are strings made up of symbols form $\Sigma$ and possibly some variables. If a variable $X$ occurs in $t$ then $X$ occurs in $s$. Some productions may be labelled with the word ``halt'', although this is not required.
+
+Given an input string, $w \in \Sigma^*$, the Post algorithm works as follows:
+\begin{enumerate}
+    \item Find a production $x \rightarrow y$ such that $w$ matches $x$.
+    \item If so, use the match and $y$ to construct a new string. Otherwise - halt.
+    \item If the $x \rightarrow y$ is labelled with ``halt'', then halt.
+    \item Otherwise, return to step 1 and carry on.
+\end{enumerate}
+
+Post algorithms can be deterministic or non-deterministic and variables may also match $\Lambda$.
+
+\begin{example}{Post Algorithm Execution}
+If we consider the following single production over the alphabet $\{a,b\}$:
+\[aXb \rightarrow X\]
+
+If we take the start string $aab$, we can see how the string is processed. First the string $aab$ is matched with $aXb$, meaning $X=a$. Therefore the string $aab$ is transformed into the string $a$. Now that $a$ doesn't match the left hand side of the production - the computation halts. 
+
+Note that $X$ can match the empty string too and in that way, $ab$ can be transformed to $\Lambda$. 
+
+This Post algorithm does many things, for example it transforms the string of form $a^ib$ to $a^{i-1}$ for $i>0$. 
+\end{example}
