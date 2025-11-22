@@ -131,3 +131,55 @@ Most of the functions normally studied in number theory are primitive recursion.
 From the definition it follows a primitive recursive function is computable by a Turing Machine. However, there are known functions which are not primitive recursive. 
 
 \subsection{Ackermann Function}
+The Ackermann Function is a total function which is very fast growing. It grows faster than any primitive recursive function does. Ackermann's function is defined by:
+\begin{align*}
+    A(0,y) &= y + 1\\
+    A(x,0) &= A(x-1, 1)\\
+    A(x,y+1) &= A(x-1, A(x,y))
+\end{align*}
+
+This definition is given by formula, which is not a primitive recursive formula. However this is not a proof, although this doesn't mean that the formula cannot be massaged into the primitive recursive function.
+
+Ackermann's function is not primitive recursive.
+
+\subsection{Minimisation}
+\textit{Minimisation} defines a new function $f$ in terms of a total function $g$ as follows (where $x$ represents any number of arguments). The value $f(x)$ is determined by searching the following sequence for the smallest $y$ such that $g(x,y)=0$. 
+\[g(x,0),\ g(x,1),\ g(x,2),\ \ldots\]
+If such a $y$ exists then define $f(x)=y$. Otherwise, $f(x)$ is undefined.
+\[f(x) = min(y,g(x,y)=0)\]
+
+The algorithm used by $f(x)$ is shown below:
+\begin{verbatim}
+y = 0;
+while (not (g(x,y) = 0)){
+    y = y + 1;
+}
+return y;
+\end{verbatim}
+
+\subsection{Recursive Functions: A Summary}
+A function is considered to be \textit{partial recursive} if it can be built up using the base functions and the operations of composition, primitive recursion, and minimisation. A function can be computed by a Turing machine if and only if it is partial recursive, which can also be denoted as $\mu$-recursive. 
+
+\begin{example}{Recursive Functions}
+\textbf{Ex. 1} $f(x) = min(y,xy=0)$ defines $f(x) = 0$. 
+
+\textbf{Ex. 2} $f(x) = min(y,x+y = 0)$ defines $f(x)=$ `if $x=0$ then 0, else undefined'.
+\end{example}
+
+\section{Model 6: Cellular Automata - The Game of Life (Interest Only)}
+As we saw towards the end of Part A - one variation of the Turing Machine is to have many tape heads where many cells can be modified in each step. If we take this one step further such that we can modify every cell in each step, all in parallel - we find the basis of \textit{cellular automata}.
+
+We will focus on one particular cellular automata called the \textit{Game of Life} which was devised by Conway, a British mathematician in 1970. Rendell in 2000 and 2010 proved that the Game of Life is equivalent in power to the Universal Turing Machine.
+
+The Game of Life is an infinite two-dimensional orthogonal grid of square cells. Each cell is in one of two states: live or dead. Every cell interacts with it's neighbours which are the cells that are horizontally, vertically, or diagonally adjacent. At each step in time - there are three possible transitions which can occur depending on the number of live neighbours:
+\begin{description}
+    \item[Death] if the count is less than 2 or greater than 3, the current cell is switched off (dies) 
+    \item[Survival] if the count is exactly 2 or the count is exactly 3 and the current cell lives, the current cell is left unchanged (it lives on to the next generation)
+    \item[Birth] if the current cell is off (dead) and the count is exactly 3, the current cell is switched on (becomes live)
+\end{description}
+
+The initial pattern in the GoL is called the \textit{seed} of the system. The first generation is created by applying the rules above simultaneously to every cell in the seed - births and deaths occur simultaneously in each generation, depending on the neighbours of the previous generation. The rules continue to be applied repeatedly to create further generations.
+
+\begin{extlink}
+There are links in the slides on Moodle, as well as on Moodle itself, to simulators for the Game of Life.
+\end{extlink}
