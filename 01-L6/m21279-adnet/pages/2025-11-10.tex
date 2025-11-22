@@ -18,6 +18,8 @@ In multi-cell networks - a single cell is referred to as a \textit{basic service
 \subsection{Ad-Hoc WLANs}
 The final type of WLAN we may come across is an \textit{Ad-Hoc Wireless LAN}. In this topology, there is no fixed infrastructure (i.e. CMs, APs, etc). Rather, a collection of stations within a range of each other may dynamically configure themselves into a temporary network of peer-to-peer communications.
 
+A common example of an ad-hoc network is an Independent Basic Service Set (IBSS). This is a BSS where all the stations are mobile stations which have no connection to other BSS's. Within an IBSS - all stations communicate directly, there is no AP involved. 
+
 \section{WLAN Requirements}
 There are a number of requirements for a WLAN to be effective and efficient.
 
@@ -46,57 +48,161 @@ The IEEE 802.11 protocol is the main protocol used for communications within the
 \end{define}
 
 \subsection{Architecture}
+There is a common prescribed architecture for all WLANs, as stipulated within the IEEE 802.11 specification. This architecture consists one or more basic service sets, which consist of some number rof stations executing the same MAC protocol and competing for access to the same shared wireless medium. A BSS may be isolated or it may be connected to a backbone distribution system (DS) through an AP. The AP functions as a bridge and relay point. The DS can be a switch, a wired network, or a wireless network. 
 
-\begin{todo}
-diagram of IEE 802.11 architecture
+In a BSS - clients do not communicate directly with one another. Rather, if one station in the BSS wants to communicate with another station in the same BSS, the MAC frame is first sent from the originating station to the AP and then from the AP to the destination station. Similarly where a station wants to communicate with a station in a different BSS - the MAC frame is first sent from the sending station to the AP, which relays the frame over the DS to the destination station. 
 
-add explanation from slides on what this is and how it works.
-\end{todo}
+It is possible for two BSS to overlap geographically, so that a single station can participate in more than one BSS. The association between a station and a BSS is dynamic - stations may turn off, come within range, and go out of range. 
+
+An Extended Service Set consists of two or more BSSs interconnected by a distribution system. Typically the distribution system isa wired backbone LAN but can be any communications network. The ESS appears as a single logical LAN to the Logical Link Control (LLC) Level. 
+
+An AP is implemented sa part of a station; the AP is the logic within a station that provides access to the DS by providing DS services in addition to acting as a station. To integrate the IEEE 802.11 architecture with a traditional wired LAN, a portal is used. The portal logic is implemented in a device such as a bridge or router that is part of the wired LAN and that is attached to the DS. 
 
 \subsection{Services}
-The IEEE 802.11 protocol specifies a number of services. 
+The IEEE 802.11 protocol specifies a number of services. The services are divided into two types: those provided by \textit{distribution system} and those provided by the \textit{station} itself.
 
-\begin{todo}
-add from table on slides - turn into sentences. include explanation about what each one does.
-\end{todo}
+Distribution system services handle the connection and data transfer across multiple access points and networks:
+
+\begin{description}
+    \item[Association] This is a service which establishes a data link-layer connection between a wireless station and an access point (AP)
+    \item[Disassociation] This service terminates an established association with an AP.
+    \item[Distribution]  This service handles the distribution of data frames from an AP to other APs or stations.
+    \item[Intergration] This enables the integration of the wireless network stations with other wired networks such as the internet.
+    \item[Reassociation] This allows a station to switch its connection from one AP to another within the same ESS.
+\end{description}
+
+Station services provide the authentication, deauthentication and MSDU delivery for individual devices: 
+
+\begin{description}
+    \item[Authentication] This is the process where a device verifies itself to gain access to the WLAN. 
+    \item[Deauthentication] This is the process used to terminate a previously authenticated network connection.
+    \item[MSDU delivery] This is the delivery of the MSDUs which are the units of data exchanged between wireless stations.
+    \item[Privacy] THis service implements encryption (like WEP) to secure data transmissions and ensure privacy. 
+\end{description}
 
 \section{Access Control}
 There is a need within WLANs to control who can communicate on the network and when. This is to prevent collisions in the wireless network. 
 
-There are two modes in which WLANs can operate. Both of these operate at the MAC layer. 
-
-\begin{todo}
-add diag from slides
-
-add something about the pcf vs dcf and what they mean: ie dcf means ap is in sleep mode so all distributed vs when in pcf the ap is controlling the comms (contention-free mode).
-\end{todo}
+There are two possible modes which can be used to coordinate communications on a Wireless Network. \textit{Distributed Coordination Function} (DCF) provides a distributed approach where there is no centralised controller; while \textit{Point Coordination Function} (PCF) is an alternative paradigm sitting on top of DCF's core functions but also providing centralised control over the communications ensuring contention-free communication. Both of these operate at the MAC layer of the OSI model. 
 
 \subsection{Point Coordination Function}
 Point Coordination Function (PCF) is a centralised control which provides a contention free service (for example base stations to a backbone). PCF sits on top of the contentious DCF function.
 
-PCF works by the base station polling the other stations asking them if they hve frames to transmit, guaranteeing no collision. The base station sends a beacon frame (between 10 and 100 times a second) which invites stations to sign in. The frame contains information such as hopping frequencies, dwell time, clock synchronisation, etc. When a station is signed in, it is guaranteed a fraction of the bandwidth (therefore making it possible to get quality of service) in a round-robin tims-share style. The base station also manages the power; through putting some stations in a standby mode until awakened by a reception. 
+PCF works by the base station polling the other stations asking them if they have frames to transmit, guaranteeing no collisions. The base station sends a beacon frame (between 10 and 100 times a second) which invites stations to sign in. The frame contains information such as hopping frequencies, dwell time, clock synchronisation, etc. When a station is signed in, it is guaranteed a fraction of the bandwidth (therefore making it possible to get quality of service) in a round-robin time-share style. The base station also manages the power; through putting some stations in a standby mode until awakened by a reception. 
 
 When polling, the Point Coordinator makes use of \textit{PCF Interframe Space} (PIFS) which is smaller than \textit{DCF Interframe Space} (DIFS). The point coordinator can seize the medium and lock out all asynchronous traffic while it issues polls and receives responses.
-
-When a station is polled, it may respond with a \textit{Short Interframe Space} (SIFS) which are smaller than PIFS or DIFS and are designed for this situation. 
-
-\begin{todo}
-sifs?
-
-notes on slides talk about this.
-
-slide 20 
-
-rts (request to send), cts (clear to send) - at least acknowledge the acronym.
-\end{todo}
 
 \subsection{Distributed Coordination Function}
 The \textit{Distributed Coordination Function} (DCF) makes use of the CSMA/CA (Carrier Sense Multiple Access with Collision Avoidance) protocol. In this protocol - where a station has a MAC frame to transmit, it listens to the medium. If the medium is idle, the station may transmit; otherwise the station must wait for the current transmission to complete before transmitting. 
 
 DCF doesn't include a collision detection function (i.e. CSMA/CD) because collision detection isn't practical on a wireless network. The dynamic range of the signals on the medium is very large, meaning that a transmitting station cannot effectively distinguish incoming weak signals from noise and the effects of its own transmission. 
 
-DCF makes use of a set of delays that amount to a priority scheme. 
+DCF makes use of a set of delays that amount to a priority scheme. The DCF transmission algorithm works as follows:
+\begin{enumerate}
+    \item A station with a frame to transmit senses the medium. If the medium is idle, it waits to see if the medium remains idle for a time equal to IFS. If so - the station may transmit immediately
+    \item If the medium is busy - either because the station initially finds the medium busy or because the medium becomes busy during the IFS idle time; the station defers transmission and continues to monitor the medium until the current transmission is over.
+    \item Once the current transmission is over - the station delays another IFS. If the medium remains idle for this period, then the station backs off a random amount of time and again senses the medium. If the medium is still idle - the station may transmit. During the backoff time, if the medium becomes busy  - the backoff timer is paused and resumes with the medium becomes idle.
+    \item If the transmission is unsuccessful, which is determined by the absence of an acknowledgement, then it is assumed that a collision has occurred. To ensure that the backoff maintains stability - binary exponential backoff is used. This provides a means of handling a heavy load with repeated failed attempts to transmit resulting in longer and longer backoff times, which help to smooth out the load. Without such a backoff - it could occur that two or more stations attempt to transmit at the same time causing a collision, then they attempt to retransmit again immediately, causing another collision. 
+\end{enumerate}
+
+Where a station wants to transmit to another station - first a \textit{Request To Send} (RTS) is issued. If the destination ins clear to receive the transmission then a \textit{Clear To Send} (CTS) is sent back. The source then transmits the frames, and the destination responds with an \textit{Acknowledgement} (ACK) for each frame received - so the source the knows what has been received and what hasn't.
 
 \begin{todo}
-finish lecture from slides.
+diagram of this in process - slide 16 of the lecture. 
 \end{todo}
+
+\begin{extlink}
+There are additional example diagrams of how DCF works in the slides available on Moodle.
+\end{extlink}
+
+\subsection{Interframe Spaces}
+\textit{InterFrame Spaces} (IFS) are used to control when data frames and control frames cna be transmitted within the WLAN. There are different durations of IFS which are used by different scenarios - as they are of different priorities.
+
+The \textit{Short InterFrame Space} (SIFS) is used by priority traffic. For example, acknowledgements of transmissions, Clear To Send, or Poll responses within PCF. Multi-frame data units are also transmitted at SIFS intervals, so the multiple frames are kept together rather than them all being transmitted with potentially other frames jumping in front of them. SIFS is generally about $16\mu s$. 
+
+The \textit{PCF InterFrame Space} (PIFS) is used by the coordinator when PCF operation is taking place. This is longer than SIFS as it is not the highest priority traffic on the network, but shorter than DIFS as it is lower priority than the general data transmission. PIFS is generally about $25\mu s$. 
+
+The \textit{DCF InterFrame Space} (DIFS) is used for normal traffic on the network. DIFS is generally about $34\mu s$.
+
+The InterFrame spacing works such that if the SIFS slot is not used, then the PIFS slot is available to be used. Then if the PIFS slot is not used, the DIFS slot is available to be used. 
+
+\subsection{Super Frame}
+A super frame is used to prioritise time-sensitive traffic from wireless nodes. It is used to prevent coordinators continually issuing polls, locking out asynchronous traffic. 
+
+The first part of the super frame is where the point coordinator issues polls in a round-robin fashion (PCF). The second part is where the point coordinator idles and allows a contention period for asynchronous access (DCF).
+
+\subsection{Basic Access Method}
+An alternative access method to the Super Frame is that called `Basic Access'. 
+
+After the medium becomes free - the first space of time is allocated for SIFS, then PIFS, then DIFS. SIFS is used for Acknowledgements, Clear to Send Messages \& Poll Responses. 
+
+\begin{example}{Wireless Communication Between Two Devices}
+This example will show the communication between two subscribers, A and B, and an access point. Subscriber A wants to send 200 bytes to B; and B wants to send 150 bytes to A. This communication has a fragment size of 150 bits.
+
+\begin{enumerate}
+    \item PIFS: AP $\rightarrow$ - A Beacon (34 bits) \\ PIFS: AP $\rightarrow$ - B Beacon (34 bits)
+    \item SIFS: AP $\rightarrow$ - A CF-Poll (34 bits)
+    \item SIFS: A $\rightarrow$ - AP Data (150 bits)
+    \item SIFS: AP $\rightarrow$ - B Data (150 bits) + Poll (34 bits)
+    \item SIFS: B $\rightarrow$ - AP Data (150 bits) + ACK (34 bits)
+    \item SIFS: AP $\rightarrow$ - A Data (150 bits) + ACK (34 bits) + Poll (34 bits)
+    \item SIFS: A $\rightarrow$ - AP Data (50 bits) + ACK (34 bits)
+    \item SIFS: AP $\rightarrow$ - B Data (50 bits) + ACK (34 bits) + Poll (34 bits)
+    \item SIFS: B $\rightarrow$ AP - ACK (34 bits) 
+    \item SIFS: AP $\rightarrow$ A - ACK (34 bits)
+    \item SIFS: AP $\rightarrow$ A - CF-END (34 bits) \\ SIFS: AP $\rightarrow$ B - CF-END (34 bits)
+\end{enumerate}
+
+We can then calculate the total communications time, knowing the data rate for this communication is 54MBps.
+
+\begin{align*}
+   &= (PIFS \times 1)+(SIFS \times 10)+\frac{(34\times 12+(150+150+150+150+50+50)\times 8)}{54}\\
+   &= (25 \times 1)+(16 \times 10)+\frac{(34\times 12+(150+150+150+150+50+50)\times 8)}{54}\\
+   &= 25 + 160 + \frac{(408 + 5600)}{54}\\
+   &= 185 + \frac{6008}{54}\\
+   &= 185 + 111.26\\
+   &= 296.26\mu s
+\end{align*}
+
+\begin{extlink}
+A diagramatic representation of this communication can be seen in the slides for this lecture and it's Tutorial.
+\end{extlink}
+
+\end{example}
+
+\section{MAC Protocol Data Units}
+The IEEE 802.11 frame is known as the \textit{MAC Protocol Data Unit} (MPDU). This has a general format which is used for all data and control frames, but not all the fields in it are used in all the contexts.
+
+The fields, their sizes and their uses can be seen in the below table. Fields marked with * are only present only in certain types of frames.
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.3\textwidth} p{0.1\textwidth} p{0.5\textwidth}}
+    \thead{Field} & \thead{Octets} & \thead{Content}\\
+    Frame control & 2 & Indicates the type of frame (control, management, or data) and provides control information which includes whether the frame is to for frm a DS, fragmentation information and privacy information\\
+    \hline
+    Duration / Connection ID & 2 & If used as a duration field - indicates the time (in ms) the channel will be allocated for successful transmission of a MAC frame. In some control frames, this field contains an association or connection identifier\\
+    \hline
+    Address 1 & 6 & The number and meaning of the 48-bit address fields depend on context. Transmitter address and receiver address are the MAC addresses of stations joined to the BSS that are transmitting and receiving frames over the WLAN. The service set ID (SSID) identifies the WLAN over which frame is transmitted. The source address and destination addresses are the MAC addresses of stations, wireless or otherwise. The source address may be identical to the transmitter address and the destination address may be identical to the receiver address.\\
+    \hline
+    Address 2 * & 6 & \\
+    \hline
+    Address 3 * & 6 & \\
+    \hline
+    Sequence Control * & 2 & Contains a 4-bit fragment number subfield used for fragmentation and reassembly, and a 12-bit sequence number used to number frames sent between a given transmitter and receiver \\
+    \hline
+    Address 4 * & 6 & \\
+    \hline
+    Quality of Service Control * & 2 & Information relating to the IEEE 802.11 QoS facility. \\
+    \hline
+    High throughput control * & 4 & Control bits related to the operation of 802.11n, 802.11ac and 802.11ad \\
+    \hline
+    Frame body * & 0-7951 & Contains a MSDU or fragment of MSDU \\
+    \hline
+    Frame Check Sequence & 4 & A 32-bit cyclic redundancy check \\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{MAC Frame Format}
+\end{table}
