@@ -22,14 +22,20 @@ There are 79 different frequencies which are used in the hopping sequence in a r
 
 Each Piconet has a unique hopping pattern to avoid interference with other Piconets. If a device wants to join a specific Piconet, it must synchronise with the same pattern. 
 
-\begin{todo}
-piconet states from notes on slides
-\end{todo}
+There are a number of different states a \textit{piconet} device can be in:
+\begin{description}
+    \item[Park] A device that is not actively participating in piconet traffic, but is still synchronised with the master device. The master device can park up to 255 slave devices and bring them back into active service when needed.
+    \item[Hold] A device that retains its synchronisation with the master device and can listen to \textit{Synchronous Connection Oriented} (SCO) link packet transmissions. This device can also participate in or initiate the creation of other piconets.
+    \item[Sniff] A power-saving mode where the device sleeps and only listens for transmissions at a set interval.
+    \item[Active] The regular connected mode - where the device is actively transmitting or receiving data.
+\end{description}
+
+The Link Management Protocol (LMP) provides the state diagram for piconet devices. 
 
 \section{Scatternets}
 A \textit{Scatternet} is a collection of multiple Piconets. This means that a device which is part of a Scatternet - is able to be participate in more than one Piconets at once. A device which is in more than one Piconet is known as a \textit{bridge device}, and can either be master in one, slave in one, master in both, or slave in both. 
 
-Slaves transmit once permission has been granted by the master using Time Division Multiplexing (TDM) access. This means that each slave gets a round-robin-like slice of time to broadcast it's message, and after all the other broadcasting devices have had a chance to transmit - it loops around again.\footnote{See more in `Spectrum Spread and Walsh Codes' lecture}
+Slaves transmit once permission has been granted by the master using Time Division Multiplexing (TDM) access. This means that each slave gets a round-robin-like slice of time to broadcast it's message, and after all the other broadcasting devices have had a chance to transmit - it loops around again.\footnote{See more in `Spectrum Spread and Walsh Codes' lecture} There is more on the methods of transmission later in this lecture. 
 
 \section{Bluetooth Protocols}
 Bluetooth is defined as a layered protocol architecture which consists of a number of different protocols.
@@ -47,20 +53,67 @@ The core elements of the protocols form a five-layer stack, the outline for whic
     \item[Service Discovery Protocol (SDP)] Device information, services, and the characteristics of the services can be queried to enable the establishment of a connection between two or more Bluetooth devices. 
 \end{description}
 
-\begin{todo}
-more explanation in notes of slides about the different protocols, including specifics. Absorb into notes.
-\end{todo}
+Sitting on top of the L2CAP is RFCOMM which is the cable replacement protocol. RFCOMM presents a virtual serial port that is designed to make replacement of cable technologies as transparent as possible. Serial cables are the most common types of communications interfaces used within computing and communications devices, hence the decision to emulate this to reduce the amount of modification required in existing devices. RFCOMM provides binary data transport and emulates EIA-232 control signals over the Bluetooth baseband layer. EIA-232 (previously known as RS-232) is a widely used serial port interface.
 
+The \textit{Telephone Control Specification - Binary} (TCS-BIN) is a bit-oriented protocol that defines the call control signalling for the establishment of speech and data calls between Bluetooth devices. In addition - it defines mobility management procedures for handling groups of Bluetooth TCS devices.
+
+The philosophy within the Bluetooth development team is to adopt protocols where they exist already, rather than defining more and more protocols. The adopted protocols include the following:
+\begin{description}
+    \item[PPP] The Point-To-Point Protocol is an internet standard protocol for transporting IP datagrams over a point-to-point link
+    \item[TCP / UDP / IP] These are the foundation of the TCP/IP protocol suite
+    \item[OBEX] The object exchange protocol is a session-level protocol developed by the Infrared Data Association (IrDA) for the exchange of objects. OBEX provides functionality similar to that of HTTP but in a simpler fashiopn. It also provides a model for representing objects and operations - for example, vCard and vCalendar formats are transferred by OBEX
+    \item[WAE/WAP] Bluetooth incorporates the wireless application environment and the wireless application protocol into it's architecture
+\end{description}
 
 \section{Frequency and Time Division Duplex}
-\begin{todo}
-get from notes on slides.
-\end{todo}
+LTE-M supports both \textit{Frequency Division Duplex} as well as \textit{Time Division Duplex}.
+
+Frequency Division Duplex (FDD) makes use of two different carrier frequencies, one for Download (DL) and one for Upload (UL). If the device supports \textit{Full-Duplex FDD} (FD-FDD) it can perform reception and transmission at the same time. However if the device only supports \textit{Half-Duplex FDD} (HD-FDD), it has to switch back and forth between reception and transmission. 
+
+Time Division Duplex (TDD) makes use of a single carrier frequency for both DL and UL transmission. TDD alternates between DL and UL periods, therefore it cannot perform reception and transmission at the same time.
+
+\begin{extlink}
+Only a summary has been taken from the notes on the slides as this is talking about LTE-M which appears to not be directly related to Bluetooth networks. There is further information within the notes on the slides about oscillators and subframes.
+\end{extlink}
 
 \section{Bluetooth Radio Specification}
-\begin{todo}
-add from slides. possibly move to higher in notes if doing as table? baseband specification slide gives some words around the table on the radio spec slides.
-\end{todo}
+Naturally with all specifications we have seen so far in this module, there is a specification document which was originally part of the IEEE 802.15.1 specification, however this has since been disbanded. 
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.4\textwidth} p{0.5\textwidth}}
+    \thead{Parameter} & \thead{Details}\\
+        Topology & Up to 7 simultaneous links (8 devices) in a logical star\\
+        \hline
+        Modulation & Gaussian FSK (with binary 1 represented by positive frequency deviation and binary 0 represented by negative frequency deviation)\\
+        \hline
+        Peak Data Rate & 1Mbps\\
+        \hline
+        RF bandwidth & 220kHz (-3dB), 1MHz (-20dB)\\
+        \hline
+        RF band & 2.4GHz (ISM bnd)\\
+        \hline
+        RF carriers & 23 / 79 channels\\
+        \hline
+        Carrier spacing & 1MHz \\
+        \hline
+        Transmit Power & 0.1W (implemented using LMP between master and slaves in a piconet)\\
+        \hline 
+        Piconet access & FH-TDD-TDMA\\
+        \hline
+        Frequency hop rate & 1600 hops/s\\
+        \hline
+        Scatternet access & FH-CDMA\\
+        \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{Bluetooth Radio Parameters}
+\end{table}
+
+Frequency Hopping Spread Spectrum (FHSS) is used to hop between 79 different channels in a pseudorandom sequence. This sequence is determined by a master within a piconet, and all the slaves abide by this. The frequency is hopped 1600 times a second, giving a dwell time of $625\mu s$ per hop (which is also equal to the slot time). This hopping makes it hard to eavesdrop on the transmission.
+
+Piconet access is allocated by the master. The master gets all the even numbered slots and the slaves get the odd numbered slots which they share using TDMA. Slots are labelled from 0 to $2^{27}-1$ and then cycles back to 0 again. 
 
 \section{Bluetooth Packets}
 Bluetooth packets have three fields:
@@ -70,18 +123,51 @@ Bluetooth packets have three fields:
     \item[Payload] If present - contains user voice or data, and in most cases a payload header
 \end{description}
 
-\begin{todo}
-diag from slides
-\end{todo}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \node[rectangle split, 
+         rectangle split horizontal, 
+         rectangle split parts=3, 
+         rectangle split draw splits=true, 
+         text width=1.75cm,
+         align=center,
+         draw] (main) 
+        {Access code \nodepart{two} Header 
+              \nodepart{three} Payload};
+        
+        \node[anchor=south] at (main.one north) {72};
+        \node[anchor=south] at (main.two north) {54};
+        \node[anchor=south] at (main.three north) {0-2745};
+    \end{tikzpicture}
+    \caption{Bluetooth Packet showing field size in bits}
+\end{figure}
 
-\begin{todo}
-ACL specifications slide was talked about here. Not a clue what was said - figure this out and add it to notes. possibly a diagram too?
-\end{todo}
+\section{Communications between Master and Slaves}
+As we have already seen - communications always take place between master and slave, never directly between slave and slave. This means if one slave wants to send another slave some information - this has to travel slave - master - slave. There are two different methods of communication - one being connection oriented and the other being connectionless.
 
-\section{Physical LInks between Master and Slaves}
+The table showing the different Packet Types will be made available in the exam.
+
 \subsection{Synchronous Connection Oriented}
-Within Synchronous Connection Oriented (SCO)
+Within Synchronous Connection Oriented (SCO), the master allocates fixed slots for communication between itself and a specific slave. These will come at a regular interval and generally are reserved in pairs so there's a slot for each direction, for example every 3rd pair of slots will be used for communication between Master and Slave A. Payload transmitted may be 80, 160 or 240 bits. 
+
+The most reliable variant of SCO is 80 bits where master and slave get 800 slots/second which achieves 64000bps full-duplex which is used for a voice channel. Forward Error Correction (FEC) is used as SCO packets are never retransmitted, rather they use error correction techniques. While maintaining the maximum data rate (64Kbps) - the best quality transmission is where there is only a single slave with 1/3 FEC which means each payload of 80 bits is replicated 3 times. Where there are two slaves and we want to maintain our maximum data rate - we can replicate each payload twice and use 2/3 FEC. For 3 devices, each wanting 64Kbps transmission - no FEC is used.
+
+SCO is used for real-time data, video and audio applications.
 
 \begin{todo}
-finish lecture. read textbook or something to make sense of this. 
+Add graph showing SCO connection
+\end{todo}
+
+\subsection{Asynchronous Connectionless}
+Asynchronous Connectionless (ACL) is used in the gaps which exist between reserved SCO blocks. ACL is a link between the master and all the slaves, again in a direct communication method - not in a slave-to-slave communication method. 
+
+ACL packets take up either 1, 3 or 5 slots. An ACL is returned by a slave if it was addressed in the preceding master-to-slave slot. This means ACL packets are bigger than SCO packets. Where an ACL packet is greater than 1 slot - the entire packet is transmitted on the same hopping frequency, rather than hopping mid-packet. 
+
+ACL packet transmission requires a short ($~250\mu s$) settling time before the header can be transmitted - this is to allow for synchronisation between the master and slave. 
+
+There is no guaranteed bandwidth for ACL packets; and it does not include error correction - so retransmission is required.
+
+\begin{todo}
+Add graph showing SCO vs ACL connection
 \end{todo}
