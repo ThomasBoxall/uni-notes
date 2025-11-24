@@ -1,0 +1,128 @@
+\taughtsession{Lecture}{Cellular Networks}{2025-11-24}{11:00}{Asim}
+
+\begin{extlink}
+There are two YouTube videos linked on Moodle which are informative about this topic. 
+\end{extlink}
+
+\begin{define}
+    \item[Bandwidth] The maximum amount of data that can be transmitted at a given time.
+    \item[Frequency Reuse] The technique used by cellular networks whereby they use the same frequency in two different geographical areas to increase capacity without requiring a greater spectrum
+    \item[Cell] A specific geographical area covered by a base station
+    \item[Base Station] A fixed-location radio transmitter and receiver which handles wireless communication within a cell
+    \item[Channel] A specific pathway, often a set of frequencies, used for transmitting data between a device and a base station
+    \item[Control Channel] A dedicated channel used for transmitting control data not user data
+    \item[Forrward Channel] The transmission path for signals sent from the base station to the device (also known as \textit{downlink})
+    \item[Backward Channel] The transmission path for signals sent from device to base station (also known as \textit{uplink})
+    \item[MTSO] (Mobile Telephone Switching Office) This is the central hub of of a cellular network that connects all the cell towers to each other and to the Public Telephone Switched Network (PTSN)
+    \item[Hand Off] The process of transferring an active call or data session from one cell or channel to another without interrupting service.
+\end{define}
+
+\section{Single Cell Network}
+A single cell network is comprised of a base station which is comprised of an antenna, controller (which handles calls within the cell) and transceivers to communicate on the chosen channel for the cell. 
+
+The end-user devices connect to the base station; or, in the event that the base station is too far away - to a \textit{relay} station which relay traffic back to the base station and vice versa. 
+
+In a similar way to that of the Bluetooth network or the WLAN architecture - the end user devices cannot communicate between each other directly, rather all communications must go through the base station. 
+
+Each cell has a number of available channels - this makes up the cell's bandwidth.
+
+\section{Multi-Cell Networks}
+Multiple single-cell networks are combined together to make a larger Cellular Network. The larger cellular network is comprised of `hexagonal' cells, each with a base station in the middle of it. Relay stations are used on the borders of the cells to provide a stronger connection strength to each of the devices within that cell.
+
+Each of the transmitters within the network are less than 100W powerful. Each cell is allocated a band of frequencies and is served by a base station consisting of a transmitter, receiver and control unit. Adjacent cells are assigned different frequencies to avoid interference or crosstalk. However, cells sufficiently distant from each other can use the same frequency band.
+
+\subsection{Geometry of Multi-Cell Networks}
+The `hexagonal' patterns enables equidistant antennas within a multi-cell network. The radius of a hexagon is defined to be the radius of the circle that circumbscribes it, or equivalently, the distance from the centre to each vertex, or equal to the length of a side of the hexagon.
+
+For a given radius, $R$, the distance between the cell centre and each adjacent cell centre is $d = \sqrt{3}R$
+
+The area of cell can be calculated as $A = 2.6 \times R \times R$
+
+\subsection{Frequency Reuse}
+As we know - each cell is assigned a set of frequency channels. We cannot reuse these channels on directly adjacent cells as this would cause too much interference. However, we can reuse these channels if we separate the cells using the same frequencies with the same distance, $D$. The safe distance can be calculated as follows:
+
+\begin{align*}
+\frac{D}{d} &= \sqrt{N}\\
+\frac{D}{R} &= \sqrt{3N}
+\end{align*}
+
+Where $R$ is the radius of a cell; $d$ is the distance between centres of adjacent cells; $D$ is the distance between centres of cells using the same frequency (safe distance); and $N$ is the number of cells in a repetitious patters.
+
+\subsection{Network Structure}
+We saw above that each cell is a logical hexagon. These aren't real hexagons - as that's not how radio frequencies work - but we can think of them as hexagons.
+
+Two cells using the same frequency create a Co-Channel Interference (CCI).
+
+The re-use pattern distance can be evaluated by parameters $i$ and $j$.
+\begin{enumerate}
+    \item Move $i$ steps from the reference cell in any hexagonal chain
+    \item Turn counter clockwise by $60\deg$
+    \item Move $j$ steps in that direction
+\end{enumerate}
+
+So from this we can see that the number of cells in a cluster $N = i^2 + j^2 + i\times j$ with $i$ and $j$ from $\mathbb{N}$.
+
+\begin{extlink}
+There is an example of this in the slides on Moodle - I'm not writing that out in TikZ.
+\end{extlink}
+
+\begin{example}{Calculating Network Capacitt}
+If we take an example system with 32 cells, each with a radius of 1.6km, a total frequency bandwith of 336 channels and a reuse factor of 7.
+
+\textbf{Ex. 1 Find the area covered by a single cell}
+\[A = 2.6 \times R \times R = 2.6 \times 1.6 \times 1.6 = 6.65km^2\]
+
+\textbf{Ex. 2 Find the area covered by all cells}
+\[32 \times 6.65 = 213km^2\]
+
+\textbf{Ex. 3 Find the number of channels available in a single cell}
+\[\frac{336}{7} = 48\]
+
+\textbf{Ex. 4 Find the number of channels available in all the cells}
+\[32 \times 48 = 1536\]
+
+\textbf{Ex. 5 Find the number of users who can be served within all the cells}
+\[1536 \times 8 = 12228\]
+(The 8 comes from TDMA mentioned in the previous lecture)
+\end{example}
+
+\subsection{Increasing Cell Capacity}
+It is possible to increase capacity of a single cell when more customers join the cell than the cell can support. There are a few ways this can be achieved:
+\begin{description}
+    \item[Adding New Channels] Typically, when a system is set up in a region, not all of the channels are used. Therefore growth and expansion can be managed in an orderly fashion by adding new channels from the unused set
+    \item[Frequency Borrowing] Frequencies are taken from adjacent cells by congested cells. The frequencies can als obe assigned to cells dynamically
+    \item[Cell Splitting] The distribution of traffic and topographic features is not uniform and this presents opportunities for capacity increases. Cells in areas of high usage can be split into smaller cells. The original cells start out at between 6.5 and 13km in size and these then get split down. The smaller cells can be subdivided yet again into picocells or femtocells. To use a smaller cell, the power level must be reduced to keep the signal within the cell. A radius reduction by a factor, $F$, reduces the coverage area and increases the required number of base stations by a factor of $F2$. 
+    \item[Cell Sectoring] A cell is divided into a number of wedge-shaped sectors, each with its own set of channels. Typically there are three sectors per cell and directional antennas at the base station are used to focus signals on each sector. This can be seen in the triangular shape of typical cellular antenna configurations.
+    \item[Microcells] As the cells become smaller, antennas move from the top of tall buildings or hills to the top of small buildings or lampposts where they form \textit{picocells}. Each decrease in size is accompanied by a reduction in power emitted by the base stations and mobile units. If we need to go smaller than a picocell - we can place a small cell inside buildings where they are known as \textit{femtocells}. Femtocells may be restricted to certain users only, which is known as a \textit{closed subscriber group}.
+\end{description}
+
+\section{Operation of Cellular Networks}
+At the centre of each cell is a Base Station (BS). The BS includes an antenna, a controller and a number of transceivers for communicating on the channels assigned to that cell. The controller is used to handle the call process between the mobile unit and the rest of the network. At any time, a number of mobile units may be active and moving about within a cell communicating with the BS.
+
+Each BS is connected to a \textit{Mobile Telecommunications Switching Office} (MTSO). One MTSO serves multiple BSs. Typically MTSOs and BSs are connected by a wire, although wireless connection is becoming increasingly popular with technologies like WiMAX. The MTSO connects calls between mobile units. The MTSO is also connected to the public telephone or communications network and can make a connection between a fixed subscriber to the public network and a mobile subscriber to the cellular network. The mobile is also given access to the Internet. The MTSO assigns the voice channel to each call and performs hand-offs and monitors the call for billing information.
+
+When a mobile unit is turned on, it scans and selects the strongest \textit{setup control channel} used for this system. Cells repeatedly broadcast on different setup channels. As part of this process, the mobile unit will automatically select BS antenna of the cell within which it will operate; then a handshake takes place between the mobile unit and the MTSO controlling this cell (through the BS in the cell). The handshake is used to identify the user and register its location. As long as the mobile unit is on - this scanning procedure is repeated periodically to account for the motion of the unit. If the unit enters a new cell, then a new BS is selected.
+
+A mobile-unit originated call starts by sending the number of the unit it wants to call on the preselected setup channel. This is done by first checking that the setup channel is idle by examining information in the forward channel. When an idle state is detected - the mobile unit may transmit on the uplink channel. The BS sends the request to the MTSO.
+
+The MTSO then attempts to complete the connections to the called unit. The MTSO does this by sending a paging message to certain BSs to find the called mobile unit, although this depends on the called mobile unit's number and the latest information on the unit's whereabouts. The MTSO does not always know where every mobile unit is, especially if they have been in idle mode. Each BS transmits the paging signal on its own assigned setup channel.
+
+The called mobile unit recognises its number on the setup channel which it is monitoring and responds to that BS which sends the response to the MTSO. The MTSO sets up a circuit between the calling and called BS. At the same time - the MTSO selects an available traffic channel within each BS's cell and notifies each BS, which notify its mobile unit. The two mobile units tune to their respective assigned channels
+
+While the call is ongoing - the two mobile units exchange voice or data signals, going through their respective BSs and the MTSO.
+
+If a mobile unit moves out of range of one cell and into the range of another during a connection - the traffic channel has ot change to the one assigned to the BS int he new cell. The system makes the change without interrupting the call or alerting the user.
+
+When roaming - the use of the cellular network works in a similar way. The big difference being that the mobile unit is connecting to a different network to it's home network. The mobile unit is referred to as a guest on the roaming network. 
+
+\section{GSM Network}
+\begin{todo}
+Add diagram of GSM Network from slides
+
+Add notes from slides on this too...
+\end{todo}
+
+
+\begin{todo}
+Finish Lecture.
+\end{todo}
