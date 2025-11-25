@@ -116,13 +116,65 @@ If a mobile unit moves out of range of one cell and into the range of another du
 When roaming - the use of the cellular network works in a similar way. The big difference being that the mobile unit is connecting to a different network to it's home network. The mobile unit is referred to as a guest on the roaming network. 
 
 \section{GSM Network}
+The GSM network is a legacy form of cellular network. Despite it being classed as a legacy system - it is still in use in many locations to this date. The GSM architecture is comprised of a number of sub-systems which are formally standardised in the GSM specification. This means that it is possible to purchase equipment from different vendors with the expectation that they will successfully interoperate. 
+
 \begin{todo}
 Add diagram of GSM Network from slides
-
-Add notes from slides on this too...
 \end{todo}
 
+Each \textit{Mobile Station} is comprised of two components:
+\begin{description}
+    \item[Mobile Equipment] (ME) is the physical terminal, such as a telephone of Personal Communications Service (PCS) device which includes the radio transceiver, digital signal processors and the SIM.
+    \item[Subscriber Identity Module] (SIM) is a portable device in the form of a smart card of plug in module which stores the subscriber's identification number, the networks the subscriber is authorised to use, the encryption keys and other information specific to the subscriber.  
+\end{description}
 
-\begin{todo}
-Finish Lecture.
-\end{todo}
+The \textit{Base Station Subsystem} is comprised of two components, although there may be multiple Base Transceiver stations per Base Station Controller.
+\begin{description}
+    \item[Base Transceiver Station] (BTS) defines a single cell. it includes a radio antenna, a radio transceiver and a link to a base station controller. A GSM cell can ave a radius of between 100m and 35km depending on the environment.
+    \item[Base Station Controller] (BSC) may be co-located with a BTS or may control multiple BTS units and therefore multiple cells. The BSC reserves radio frequencies, manages the handoff of a mobile unit from one cell to another within the BSS and controls paging.
+\end{description}
+
+The \textit{Network Subsystem} (NS) provides the link between the cellular network and the Public Switched Telecommunications Network (PTSN). The NS controls hand off between cells in different BSSs, authenticates users and validates their accounts, and includes functions for enabling worldwide roaming of mobile users. There are a number of components and, crucially, 4 databases involved in the NS:
+\begin{description}
+    \item[Mobile Switching Centre] (MSC) coordinates the functions and manages the databases.
+    \item[Data Communication Network]
+    \item[Operation and Maintenance Centre]  
+    \item[Authenticaiton Centre database] (AuC) is used for the authentication activities of the system - for example holding the authentication and encryption keys for all the subscribers in both the home and visitor location registers
+    \item[Equipment Identity Register database] (EIR) keeps track of the type of equipment that exists at the mobile station
+    \item[Home Location Register database] stores information about each of the subscribers that `belong' to it - this is both permanent information about the subscribers and temporary information about those subscribers.   
+    \item[Visitor Location Register database] (VLR) stores the location of temporary subscribers (for example, those roaming)
+\end{description}
+
+\section{History of Cellular Communication}
+\textit{This is not a complete history. This history section covers the start of cellular connectivity through to the inception of 3G. We are currently on 5G connectivity.}
+
+\subsection{First Generation: Analog Connections}
+The first generation cellular networks did not use encryption - this introduced risk on the control channels to get users identifications. The quality of a call of a first generation network was also far inferior to that of later generations - analog traffic is easily degraded by interferences, and there are practically no control or error control to overcome interference. There were also a number of inefficiencies with the spectrum and frequency allocation within - RF carriers were always allocated to users whether they are active (speaking) or idle within a given call.
+
+The most common 1G service was originally developed in the 1980s and called the \textit{Advanced Mobile Phone Service} (AMPS) was developed by AT\&T. AMPS was deployed in Central \& South America, Canada, Australia and China.
+
+As goes the ways with technological development - there were a number of other systems developed and implemented at the same time which didn't have any interoperability. In the UK, Italy, Spain, Austria and Ireland - \textit{Total Access Communication System} (TACS) was used; while in France the \textit{Radiocom 200} was used, Germany made use of \textit{C-450} and \textit{Nordic Mobile Telephone} (NMT) was used in several other countries.
+
+\subsection{Second Generation: Digital, Voice \& Data}
+Initially, D-AMPS was developed as an extension to AMPS which was an overlay to steal carriers from AMPS and convert them to digital signals using CDMA. This system was updated further under the IS-136 name to be fully digital and operate at about 800MHz and use TDMA. This system had a lot in common with GSM.
+
+At the time of the conception of the Global System for Mobile Communication (GSM) - the 1G network in Europe was not compatible, so GSM was developed as the European standard for 2G. GSM had a goal to meet; it wanted to provide good speech quality; low terminal and service costs; international roaming; spectral efficiency; and be ISDN compatible. There are 4 different versions of GSM operating at different frequencies.
+
+The GSM spectral allocation is 25MHz for base transmission (935-960MHz) and 25MHz for mobile transmission (890-915MHz). Other GSM bands have been defined outside of Europe. Users access the network using a combination of FDMA and TDMA, around radio frequency carriers every 200kHz which provide for 125 full-duplex channels. The channels are modulated at a data rate of 270.833kbps. As with AMPS - there are two different types of channels: traffic and control. 
+
+GSM uses a complex hierarchy of TDMA frames to define logical channels. Each 200KHz frequency band is divided into 8 logical channels defined by the repetitive occurrence of time slots. Each time slot is allocated 4.15ms.
+
+As we saw above - this second generation makes use of CDMA for the D-AMPS system. CDMA was already proven and had a few advantages: frequency diversity, multi-path resistance and privacy. However, CDMA comes with a number of drawbacks: self-jamming, near-far problem, soft hand-off. In the IS-95 standards - it's defined to use 64 logical channels on the same bandwidth (1250KHz). Each channel has a chip code derived from the Walsh Matrix (sized $64\times 64$). Meaning that  35 users can simultaneously transmit within the same bandwidth. There are 55 traffic channels and additional channels for paging, synchronisation, etc. They transmit at different data rates - ranging from 1200 to 14400bps. 
+
+\subsection{Third Generation: WCDMA}
+The \textit{International Mobile Telecommunication} IMT-2000 defined the spectrum, services and technologies for the 3rd generation. The spectrum used in most countries is now over 2GHz so the idea is to to define new allocations or re-use the 2nd Generation frequencies. 
+
+The third generation came with similar services to the second generation:
+\begin{itemize}
+    \item High quality voice transmission
+    \item Messaging (e-mail, fax, SMS, chat, etc)
+    \item Multimedia (Playing music, viewing videos, film, TV, etc)
+    \item Internet Access (web surfing, text, audio, and video)
+\end{itemize}
+
+The voice quality of 3G is comparable to that of the PTSN. A data rate of 144kbps is available to users in high-speed motor vehicles over large areas, or 384kbps is available to pedestrians standing or moving slowly over small areas. There is support for 2.048Mbps for office use as well as symmetrical \& asymmetrical data transmission rates. 3G supports both packet-switched and circuit-switched data services and has an adaptive interface to the Internet to reflect efficiently the common asymmetry between inbound and outbound traffic. It makes more efficient use of the available spectrum in general and provides support for a wide variety of mobile equipment. 3G also provides the flexibility to allow the introduction of new services and technologies. 
