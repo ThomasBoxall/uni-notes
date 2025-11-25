@@ -1,0 +1,152 @@
+\taughtsession{Lecture}{B3: Diagonalisation and the Halting Problem}{2025-11-24}{14:00}{Janka}
+
+We all like problem solving - this is a core component of Computer Science. However, what about problems which can't be solved? Does this mean that they're unsolvable, or does this mean that the solution is tricky to find and we'll eventually find it. 
+
+We have already seen a number of different computational models which have the same power as the Turing Machine. However, there are some limits of computation and we know that not all problems are algorithmically solvable (meaning they're not able to be solved by a TM or any computational model). 
+
+This lecture will introduce some classic problems which cannot be solved by any computer - they're known as the \textit{Undecidable Problems}.
+
+\section{Introductory Concepts}
+There are a couple of concepts which we need to be familiar with to be able to understand this lecture. We will see this in the form of an example.
+
+\subsection{Tool 1: Self Reference}
+If we take the following scenario:
+\begin{itemize}
+    \item There is only a small town
+    \item Every man in the own keeps himself clean-shaved; some by shaving themselves, some by visiting the barber
+    \item the barber obeys the following rule (the definition of the barber): ``He shaves all and only those men in town who do not shave themselves.''
+\end{itemize}
+
+This presents a question: does the barber shave himself? 
+
+This feels like an obvious answer - Yes, as we know all men in the town keep themselves clean shaven. However for the definition of the barber to be considered true:
+\begin{itemize}
+    \item If the barber does not shave himself, he must abide by the rule and shave himself
+    \item If he does shave himself, according to the rule, he will not shave himself
+\end{itemize}
+
+We now get endlessly confused and decide there is no solution - this is a paradox.
+
+\subsection{Tool 2: Diagonalization}
+If we take two sets, $S$ and $T$ - how do we know if they're the same size or not? 
+
+If they're finite then we can pair-off the elements (seeing 1-1 correspondence), taking an element form $S$ and an element from $T$ until either both sets are empty (same size) or one set has elements remaining \& one is empty (not same size). 
+
+However if the sets are infinite - ie a set of all the natural numbers $\mathbb{N}$, then we have no easy way of telling how big the set is so therefore we can't pair off in the same way. 
+
+We can use $\mathbb{N}$ to our advantage when referring to infinite sets; as we known $\mathbb{N}$ itself is infinite. Therefore we can define a set as \textit{countably infinite} if it is the same size as $\mathbb{N}$. 
+
+From this, we can see that a set is \textit{countable} if it is finite or countably infinite - meaning we can construct a numbered list of all its elements. 
+
+\begin{example}{Countable Sets}
+The set of integers is countable, the set of odd numbers is countable, the set of rational numbers is countable.
+\end{example}
+
+This brings us onto diagonalisation, which was invented by Cantor (around 1880). Diagonalisation is the idea that there are some sets in which some sense contain different elements from another set, which therefore shows that your original set does not contain all the possibilities of the infinite elements which therefore proves that the original set is not countable. 
+
+\begin{example}{Diagonalisaiton 1}
+If we take a list of words of the same length:
+
+\begin{verbatim}
+    Q U I E T
+    S T O N E
+    O F F E R
+    C L E A R
+    P H L O X
+\end{verbatim}
+
+We can very easily see that there are words of the same length which are not in the list, for example \verb|SNACK|. But how can we prove this? We need to find a way to definitively define what is going on here this is Level 6 - so we're beyond the point of plucking words out of the air and hoping for the best.
+
+What about if we take the diagonal string within the above matrix and advance each string by one place. We take \verb|QTFAX| and produce \verb|RUGBY|. 
+
+This new word cannot be in the list because:
+\begin{itemize}
+    \item It is different to the first word in the first letter
+    \item It is different to the second word in the second letter
+    \item etc...
+\end{itemize}
+
+\end{example}
+
+Cantor theorised that the set $P(\mathbb{N})$ is not countable. 
+
+If we assume that it is countable then we can write down a list of all the subsets of $\mathbb{N}$. It could look like this:
+\[\{2,3\},\ \{4,7\},\ \{2,4,6,8\},\ \ldots\]
+
+From this we can see that we have a function $f: \mathbb{N} \rightarrow P(\mathbb{N})$ that maps numbers to sets such that every set appears in the list.
+
+If we define a set $T$ as follows: add $i$ to the set $T$ exactly when $i \notin f(i)$, for example:
+\begin{itemize}
+    \item $1 \in T$ because $1 \notin f(1)$
+    \item $3 \in T$ because $3 \notin f(2)$
+    \item etc...
+\end{itemize}
+
+However the set $T$ is not on the list! $T$ is different from the first set, the second set, etc. Therefore $T$ is no ton the list which contains all subsets of $\mathbb{N}$ despite the fact that $T$ is a subset of $\mathbb{N}$. 
+
+We have proven, by contradiction, that such a list does not exist and therefore $P(\mathbb{N})$ is not countable. 
+
+\section{Decision Problems}
+This brings us onto the next type of problem to consider - \textit{decision problems}.
+
+\begin{define}
+    \item[Decision Problem] is a problem that asks a question that has a \textit{yes} or \textit{no} answer.
+\end{define}
+
+Some examples of decision problems can be seen below:
+\begin{itemize}
+    \item Decide whether in a given finite array of integers the maximum is larger than 10
+    \item For a given language, $L$, decide whether a string $s$ is from $L$ or not
+    \item Decide whether the following polynomial has a solution in the natural numbers
+    \[f(x) = 2x^{10} - 3x^8 + 4x^6 + 32x + 10\]
+\end{itemize}
+
+We can take a decision problem and view it as a formal language where the members of the language are instances whose answer is yes and the non-members are those instances whose output is no. 
+
+\begin{define}
+    \item[Decidable] means that for a decision problem, there is an algorithm that for every input instance of the program halts with a correct answer outputting `YES' or `NO'.
+    \item[Undecidable] means that for a decision problem, there is not an algorithm that outputs `YES' or `NO' for every input instance of of the program. 
+\end{define}
+
+\begin{example}{Decidable}
+To decide whether a particular string $w$ is in a given regular language is a decidable problem. 
+
+Decidable problems correspond to recursive languages. They can be recognised by a Turing Machine that halts for every input. 
+\end{example}
+
+\subsection{Partially Decidable Problems / Undecidable Problems}
+\begin{define}
+    \item[Partially Decidable] problem is an undecidable problem if there is an algorithm that halts with the answer yes for those instances of the problem that have `YES' answers, but may run forever for those instances of the problem whose answers are `NO', and the opposite. 
+\end{define}
+
+Partial decidable problems correspond to the recursive enumerate languages (unrestricted grammar). They can be recognised with Turing Machines. 
+
+\begin{example}{Partial Decisions}
+\textbf{Ex. 1} Deciding whether a particular string $w$ is in a language generated by an unrestricted grammar is a partially decidable problem. 
+
+\textbf{Ex. 2} Deciding whether a polynomial has a solution in the natural numbers is a partially decidable problem.
+\end{example}
+
+Now we've seen what the undecidable problem is - we need to define how we prove tht a problem is undecidable.
+
+To prove that a problem is undecidable - it is enough to compare the number of decidable problems and the number of decision problems, or to simply find one and prove that it is undecidable. 
+
+\begin{example}{Undecidable Problems}
+\textbf{Ex. 1: How many TMs exist?}
+
+If we let $S$ be a countable set of symbols, then any TM can be coded as a finite string of symbols over $S$ (all transition functions one after the other). There are a countable number of finite strings over $S$. 
+
+There exists an assignment which assigns a unique number $<M>$ to each TM $M$. 
+
+This means that the set of TMs is countable.
+
+\textbf{Ex. 2: How Many Languages Can We Have?}
+
+A language is a subset of a countable set of strings. We have shown that the size of the set of all subsets of $\mathbb{N}$ is not countable. This therefore means that the set of languages is uncountable.
+\end{example}
+
+\section{The Halting Problem}
+The \textit{Halting Problem} is famous because it was one of the first problems to be proven to be algorithmically undecidable (by Turing in 1936).
+
+The Halting problem asks ``is there an algorithm that can decide whether the execution of an arbitrary program halts on an arbitrary input?''
+

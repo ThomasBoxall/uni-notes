@@ -1,0 +1,105 @@
+\taughtsession{Lecture}{B4: Undecidable Problems}{2025-11-24}{15:00}{Janka}
+
+\section{Halting problem}
+As we saw in the last lecture - the halting problem is set around deciding if there is an algorithm that can decide whether the execution of an arbitrary program halts on an arbitrary input. 
+
+We cna see this in action if we consider the following JavaScript programs:
+\begin{verbatim}
+    for(quarts = 1 ; quarts < 10 ; quarts++){
+        liters = quarts/1.05671;
+        alert( quarts+" "+liters);
+    }
+\end{verbatim}
+
+We can clearly see that it will terminate after outputting 10 lines of output. 
+
+\begin{verbatim}
+    limit = prompt("Max Value","");
+        for(quarts = 1 ; quarts < limit ; quarts++){
+        liters = quarts/1.05671;
+        alert( quarts+" "+liters);
+    }
+\end{verbatim}
+
+The above program will alert as may times as indicated by the input.
+
+\begin{verbatim}
+    green = ON; red = amber = OFF;
+    while(true){
+        amber = ON; green = OFF; wait 10 seconds;
+        red = ON; amber = OFF;
+        wait 40 seconds; green = ON; red = OFF;
+    }
+\end{verbatim}
+
+The above program will run forever, never halting. 
+
+From these three algorithms, we learn a few things:
+\begin{itemize}
+    \item Algorithms may contain loops which may be infinite or finite in length
+    \item The amount of work done in algorithms usually depends on the data in put
+    \item Algorithms may consist of various numbers of loops, nested or in sequence.
+\end{itemize}
+
+\subsection{Solving the Halting Problem}
+Using what we now know - we want to try and solve the \textit{Halting problem}. We first try running the program with the given inputs; if the program stops we know the program halts; but if the program doesn't stop in a reasonable amount of time - we cannot conclude that it won't stop as we don't know if we waited long enough or not. What is a reasonable amount of time anyway? 
+
+The Halting problem is partially decidable. This means that there is no algorithm (and no TM) which could solve the Halting problem - meaning return the correct `YES' or `NO' answer for any input in the finite number of steps. There is only an algorithm for a finite `YES' decision. 
+
+We can prove the Halting problem is partially decidable using a direct diagonalisation argument. 
+
+If we define the set:
+\[A = \{<M,w> : M \textrm{ is a TM that accepts } w\}\]
+where $<M,w>$ is a unique coding. So we consider all possible TMs (which are countable) and all possible strings (again, countable) and if $M$ accepts $w$, it belongs to $A$. 
+
+Another formulation of the Halting problem can be defined as: Is there a TM which will recognise the set $A$. No - there is not! However, for some simpler computing models, such as FA or PDA, we can always find a TM which recognises $A$. 
+
+\subsection{Proving the Halting Problem}
+We can prove the Halting problem using a Proof by Contradiction: \textit{Suppose there was a machine SOLVER that on every input} $w$ \textit{and for every TM} $M$ \textit{would tell us if} $M$ \textit{accepted / rejected $w$}.
+
+If we now build a new TM, \textit{OPPOSER}, that does the following:
+\begin{itemize}
+    \item \textit{OPPOSER} takes the input $w$ and determines the TM $<w>$ that $w$ encodes (If the input is not the encoding of a TM then \textit{OPPOSER} rejects the input)
+    \item Ask \textit{SOLVER} for the answer: ``Does the TM $<w>$ accept $w$?''
+    \item If \textit{SOLVER} accepts, then \textit{OPPOSER} rejects;\\
+    if \textit{SOLVER} rejects, then \textit{OPPOSER} accepts
+\end{itemize}
+
+\textit{OPPOSER} is a perfectly valid TM because \textit{SOLVER} always halts.
+
+Let's play with this a bit now. What does \textit{OPPOSER} do if the input is the encoding of \textit{OPPOSER}. Let \textit{<OPPOSER>} = $\tilde{w}$:
+\begin{itemize}
+    \item \textit{OPPOSER} asks \textit{SOLVER} for an answer on ``Does the TM $<\tilde{w}>$ accept $\tilde{w}$?''
+    \item If \textit{SOLVER} claims that \textit{OPPOSER} accepts $\tilde{w}$, then \textit{OPPOSER} rejects $\tilde{w}$.
+    \item If \textit{SOLVER} claims that \textit{OPPOSER} rejects $\tilde{w}$, then \textit{OPPOSER} accepts $\tilde{w}$. 
+\end{itemize}
+
+This is now what was to be expected - and is the opposite to that of the above. The thing which went wrong this time around was assuming that \textit{SOLVER} exists. Meaning that \textit{SOLVER} does not exist.
+
+The Halting problem shows that computers can't help mathematicians to solve old hard problems.
+
+\begin{example}{Golbach's Conjecture}
+If we consider a TM that tries to find a counterexample to Golbach's conjectture (from the 18th century):
+\begin{center}
+Every even number $\geq$ 4 is the sum of two primes.
+\end{center}
+
+The TM tries every even value of $n$ in increasing in order. For each $n$, it checks if there is a value of $i$ such that $i$, $n - i$ are primes. If not, it stops; otherwise it continues forever.
+
+If the halting problem returns `YES' - it has found a counterexample of Goldbach's conjecture. However if the Halting problem returns `NO' - Goldbach's Conjecture is valid.
+
+Unfortunately - the halting problem is undecidable, so computers can't help mathematicians in this way. 
+\end{example}
+
+
+\subsection{Proving a Problem is Undecidable}
+To prove that a problem is undecidable - we have two options.
+
+Firstly, we can use \textit{contradiction}: we start by assuming it is solvable and see if it leads to an internal contradiction, or conflicts with something else we believe is true. 
+
+Or alternatively, we can use \textit{reduction}: see if another unsolvable problem can be reduced to solving it. This means if we assume it is solvable, then can we show that another problem we believe is unsolvable (like the Halting problem) be solved. 
+
+The rest of this lecture will look at examples of undecidable problems.
+
+\section{Post Correspondence Problem}
+cont'd slide 13
