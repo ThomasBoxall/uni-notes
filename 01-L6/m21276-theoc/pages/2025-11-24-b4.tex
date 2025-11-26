@@ -102,4 +102,76 @@ Or alternatively, we can use \textit{reduction}: see if another unsolvable probl
 The rest of this lecture will look at examples of undecidable problems.
 
 \section{Post Correspondence Problem}
-cont'd slide 13
+The \textit{Post Correspondence Problem} was introduced by \textit{Post} in 1946. It is a decision problem that looks at if there is a sequence of pairs of strings from a given finite set such that the concatenation of the first in pairs equals the concatenation of the second in pairs. 
+
+We can see this formalised if we take an alphabet, $\Sigma$, and a finite sequence of pairs of strings over $\Sigma$:
+\[(s_1, t_1), \ldots, (s_n, t_n)\]
+
+We then look for a sequence of indexes $i_1, \ldots, i_k$ with repetition allowed such that:
+\[s_{i_1}, \ldots, s_{i_k} = t_{i_1}, \ldots, t_{i_k}\]
+
+\begin{example}{Post Correspondence Problems}
+\textbf{Ex. 1: Valid}
+
+If we consider an instance of the problem consisting of the following sequence of pairs over $\{a,b\}$:
+\[1. (ab,a),\ 2. (aba,bb),\ 3.(aa,b),\ 4.(b,aab)\]
+
+After some fiddling - we find out solution:
+\[\underbrace{ab}_1 \underbrace{aa}_3 \underbrace{b}_4 = \underbrace{a}_1 \underbrace{b}_3 \underbrace{aab}_4\]
+
+We see here that (1, 3, 4) is a solution.
+
+\textbf{Ex. 2: Invalid}
+
+We can see how an instance over $\{a,b\}$:
+\[1. (ab,a),\ 2. (b,ab)\]
+may not have a solution. 
+
+\textbf{Ex. 3: Repetition}
+
+We can take another instance of the problem, again over $\{a,b\}$:
+
+\[1. (a,baa),\ 2.(ab,aa),\ 3.(bba,bb)\]
+
+And we can find that:
+\[\underbrace{bba}_3 \underbrace{ab}_2 \underbrace{bba}_3 \underbrace{a}_1 = \underbrace{bb}_3 \underbrace{aa}_2 \underbrace{bb}_3 \underbrace{baa}_1\]
+
+Therefore we can see that (3,2,3,1) is a valid solution.
+\end{example}
+
+All the problems we've looked at in the above example have been reasonably small; small enough that we can just brute force the answer out of it. However this will begin to be an issue as we use larger and larger input strings. 
+
+If there is no solution - the algorithm will just keep churning, and churning, and churning - never stopping. This means we can see that the Post correspondence problem is undecidable, but partially decidable.
+
+\section{The Tiling Problem}
+\begin{todo}
+Add when I'm feeling brave with TikZ
+\end{todo}
+
+\section{Hilbert's Tenth Problem}
+Hilbert's 10th problem states that: Does a polynomial equation $p(x_1, \ldots, x_n) = 0$ with integer coefficients have a solution consisting of integers.
+
+\begin{example}{Specific Instance of Hilbert's Tenth Problem}
+We can generally solve specific instances of the problem - such as integer solutions to the equation:
+\[2x + 3y + 1 = 0\]
+\end{example}
+
+In 1970, Matiyasevich proved that Hilbert's tenth problem is undecidable. Meaning that there is no algorithm to decide whether an arbitrary polynomial equation with integer coefficients has a solution of integers. However this problem is partially decidable - as we can write an algorithm (or a TM) which returns a solution if the solution exists.
+
+\section{The Equivalence Problem}
+The Equivalence problem asks if there exists an algorithm that can decide whether two arbitrary computable functions produce the same output. 
+
+We can tell that two functions, $f$ and $g$ are equal where $f(x) = x+x$ and $g(x) = 2x$. 
+
+So is the Equivalence Problem a decidable problem? No, of course it isn't - the equivalence problem is undecidable. 
+
+\section{The Total Problem}
+The Total Problem asks if there is an algorithm to tell whether an arbitrary computer function is total. 
+
+As we saw in DMAFP - a Total Function is one who for every input has a defined output. 
+
+\begin{example}{A Total Problem(atic Function)}
+If we take a function $f: \mathbb{N} \rightarrow \mathbb{N}$ as defined by $f(x) = x+1$ we can see that it's total.
+\end{example}
+
+The Total Problem is an undecidable problem as there is not an algorithm to answer the problem for all computable functions. 
