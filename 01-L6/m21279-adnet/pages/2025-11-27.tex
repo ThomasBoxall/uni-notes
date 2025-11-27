@@ -1,0 +1,41 @@
+\taughtsession{Seminar}{Cellular Networks Exercises}{2025-11-27}{10:00}{Asim}
+
+\begin{example}{Cell Networks Calculations}
+A mobile phone service provider has leased a spectrum starting from the frequency 1094MHz and has adopted the re-use factor of 4, which is 4 cells per cluster to cover greater Manchester area. The greater Manchester area has a population of approximately 3Millions and a geographical area of 1277km-square. The service provider decides to set up cells of 1.5KM radius each.  The encoding system is based on CDMA (64-bits), only and the service provider is planning to offer about 300 KHz of bandwidth to all its customers.  The regulation for bandwidth assignment is the standard 25MHz band on the up and down channels and 20MHz of gap to avoid interference. The service provider has done some market research and found out 75\% of the population use mobile phones and 30\% out of them might be potential clients.     
+
+\textbf{Ex. 1: What are the border frequencies for this spectrum?}
+
+Up-link will start at 1094MHz and be 25MHz wide: 1094-1119MHz
+
+Guard Band (gap between up \& down) will be 20MHz wide: 1119-1139MHz
+
+Down-link will be 25MHz wide: 1139-1164MHz
+
+\textbf{Ex. 2: What are the values of i and j for the design of the cluster?}
+
+Question says the reuse factor of cells is 4 - therefore plugging 4 into the $N=i^2+j^2 + i \times j$, we get either $i=0$ \& $j=2$ or $i=2$ \& $j=0$. 
+
+\textbf{Ex. 3: How many channels are there per cell?}
+
+Taking the size of a frequency band, 25MHz and the offered bandwidth, 300KHz, we can calculate the number of channels in total: $\displaystyle \frac{25000000}{300000}=83$
+
+We can then use the  83 channels, and our re-use factor of 4 from the question: $\displaystyle \frac{83}{4} = 20.75 \approx 20$
+
+\textbf{Ex. 4: How many cells are needed to cover the whole Greater Manchester are?}
+
+We can calculate the size of a single cell by calculating the area of the hexagonal cell: $2.6 \times 1.5 \times 1.5 = 5.82km^2$.
+
+Knowing that the area of Manchester is 1277km$^2$, we can divide the two to find the total number of cells needed: $\displaystyle \frac{1277}{5.82} = 218.29 \approx 219$
+
+\textbf{Ex. 5: How many mobile users can be supported at the same time without co-channel interference in the greater Manchester are? Does the current infrastructure support the predicted number of customers?}
+
+We can calculate the number of mobile users supported at the same time for the Greater Manchester Area using the total number of cells needed, 219, the number of channels per cell, 20, and the number of bits used in the encoding system (CDMA), 64: $219 \times 20 \times 64 = 280320$. 
+
+We can find the number of mobile users as given in the question: $0.75 \times 3000000 = 2250000$. Then we can calculate the potential clients using $0.3 \times 250000 = 675000$. 
+
+As $280320 < 675000$, the current infrastructure does not support the potential number of clients for this network. 
+\end{example}
+
+\begin{extlink}
+There are additional examples of this type of question, well exactly the same question with different numbers, on Moodle. 
+\end{extlink}
