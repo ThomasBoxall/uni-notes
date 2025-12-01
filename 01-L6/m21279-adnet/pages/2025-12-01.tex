@@ -1,0 +1,65 @@
+\taughtsession{Lecture}{Satellite Networks}{2025-12-01}{11:00}{Asim}
+
+A \textit{satellite} is a large reflector which orbits in the sky, around the earth. Satellites have several transponders, which are electronics that listen to different portions of the spectrum - each amplifying the incoming signal (the uplink), changing its frequency then broadcasting it to earth (the downlink). 
+
+The sky-based satellites are combined with components on the ground which are called \textit{gateway stations}. These gateway stations are equipped with antennas directed towards the satellite, and some will have network control centres and operation control centres which deal with satellite management and orbit control. 
+
+A satellite communication system works where two or more stations on or near the earth (gateway stations) communicate via one or more satellites that serve as relay stations in space. 
+
+There are a number of different ways of categorising communication satellites:
+\begin{description}
+    \item[Coverage Area] which could be global, regional or national. The larger the coverage area, the more satellites must be involved in a single networked system
+    \item[Service Type] which could be fixed service satellite (FSS), broadcast service satellite (BSS) and mobile service satellite (MSS).
+    \item[General Usage] which could involve commercial, military, amateur, or experimental
+\end{description}
+
+The area of coverage for a satellite communication system exceeds that of a terrestrial system. In the case of a geostationary satellite - a single antenna is visible to about one quarter of the earths surface. Spacecraft power and allocated bandwidth are limited resources that call for careful tradeoffs in gateway stations / satellite design parameters. The conditions between communication between satellites are more time invariant than those between satellite and earth station or between two terrestrial wireless antennas. Therefore, satellite-to-satellite communication links can be designed with great precision. Transmission cost is independent of distance, within the satellites area of coverage. Satellites can transmit in broadcast, multicast and point-to-point mode. Satellites provide very high bandwidth and the quality of transmission is usually extremely high. For a geostationary satellite - there is an earth-satellite-earth propagation delay of about a quarter of a second. However, in many cases - a transmitting earth station can receive its own transmissions.
+
+Satellite can be used for any of the following: telephone communications; television, radio or digital cinema broadcasting; amateur radio; providing internet access; military activities; and disaster management.
+
+\section{Topology of Satellite Networks}
+There are two common topologies which satellite networks may adopt.
+
+Firstly, it is possible for a satellite to provide a point-to-point link between two distant ground-based antennas.
+
+Alternatively, the satellite provides communication abilities between one ground-based transmitter and a number of ground based receivers. There exists a variation of this configuration wherein there is two-way communications among earth stations with one central hub and many remote stations.
+
+\section{Satellite Orbits}
+\begin{todo}
+Add diagram from slides
+\end{todo}
+
+Satellite orbits may be classified in a number of ways:
+\begin{itemize}
+    \item The orbit may be circular, with the centre of the circle at the centre of the earth, or elliptical - with the earths centre at one of the two foci of the ellipse.
+    \item A satellite may orbit around the earth in different planes. An equatorial orbit is directly above the earth's equator. A polar orbit passes over both poles; while other orbits are referred to as inclined orbits.
+    \item The altitude of communications satellites is classified as geostationary orbit (GEO), medium earth orbit (MEO), and low earth orbit (LEO) - more on this in a moment...
+\end{itemize}
+
+The \textit{orbital period} is the time it takes for the satellite to go around the earth and can be calculated as follows:
+\begin{center}
+    Orbital Period = $\displaystyle \frac{1}{1000} \times$ (Radius of the earth + Altitude of a satellite)$^{1.5}$
+\end{center}
+
+\begin{example}{Orbital Periods}
+\textbf{Ex. 1: The Moon}
+\begin{center}
+    Orbital Period = $\displaystyle \frac{1}{1000} \times (6378Km + 384000Km)^{1.5} = 2439090sec \approx 1 month$
+\end{center}
+
+\textbf{Ex. 2: GEO Satellite}
+\begin{center}
+    Orbital Period = $\displaystyle \frac{1}{1000} \times (6378Km + 35786Km)^{1.5} = 86579sec \approx 24 hours$
+\end{center}
+\end{example}
+
+\begin{todo}
+check if table from slide 6 needed or if this is represented elsewhere
+\end{todo}
+
+\subsection{Geosynchronous (Geostationary) Satellites}
+Geosynchronous, or Geostationary, (GEO) satellites orbit at about 35786Km above the earth's surface moving at the same speed as the earth. 
+
+\begin{todo}
+Finish notes from slides.
+\end{todo}
