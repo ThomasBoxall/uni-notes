@@ -1,0 +1,144 @@
+\taughtsession{Lecture}{B5: Introduction to Computational Complexity}{2025-12-01}{14:00}{Janka}
+
+Up until today's lecture - we've taken a bit of a ``timey-wimey'' approach to algorithmic complexity; in that we haven't cared how long it takes, rather looking at if a solution will be found \textit{eventually} or not. This all changes today...
+
+\section{Why is Time Efficiency Important?}
+Within Computer Science, a major goal is to understand how to solve problems using computers. We can see a few example problems we may try to solve below:
+\begin{description}
+    \item[Array Sum Problem] Given an array of $n$ integers, return their sum
+    \item[Searching for a key] Given an ordered list $L$ of $n$ integers, find a given key in it
+    \item[Sorting Problem] Given an array $L$ of integers, arrange $L$ in ascending order (i.e. for any $1 \leq i < j \leq n, L[i] \leq L[j]$)
+    \item[Travelling Salesperson Problem] Find the shortest path for a salesman to visit all the cities on his route 
+\end{description}
+
+Some of these problems we have seen before and some are new to us today; it's not the problem that's important - rather we're thinking about \textit{how} we solve this problem, and how efficient the algorithm is.
+
+When we come to solve a problem - we'll commonly go through a few steps:
+\begin{enumerate}
+    \item Designing an algorithm or step-by-step procedure for solving the problem
+    \item Analysing the correctness and efficiency of the algorithm
+    \item Implementing the procedure in some programming language
+    \item Testing the implementation
+\end{enumerate}
+
+We'll focus around step 2 today, looking at the time efficiency of an algorithm.
+
+Informally, we may often refer to a program as ``fast'' or ``slow,'' but in reality - this is a naff definition and we need to be more precise. The absolute execution time of an algorithm can depend on may factors:
+\begin{itemize}
+    \item the algorithm used to solve the problem
+    \item the programming language used to interpret the algorithm (where interpreted languages such as Python are typically slower than compiled languages such as C++)
+    \item the quality of the actual implementation (where good code can be much faster than poor, sloppy code)
+    \item the machine on which the code is run (a supercomputer is faster than a laptop)
+    \item the size of the input (meaning searching through a list of length 1000 takes longer than searching through a list of length 10)
+\end{itemize}
+
+\section{Time Complexity}
+The \textit{time complexity function}, $T(n)$ expresses the number of primitive operations (usually the addition of two numbers or their comparison) which the algorithm needs to execute on an input of size $n$.
+
+In analysing the efficiency of an algorithm - we focus on the \textit{speed} of the algorithm (the complexity of the algorithm) as a function of the size of the input on which it is run; where we think of \textit{speed} in terms of the number of basic steps / operations in the program. 
+
+\subsection{Worst Case Time Complexity}
+Generally when discussing time complexity, we'll be considering the \textit{worst-case} time complexity. The algorithm has to finish in time $T(n)$ for all instances of size $n$, but for some instances it may finish quicker.
+
+\begin{example}{Array Sum Problem}
+The Array Sum Problem adds all the $n$ integers in the array $S$. It's inputs are the positive integer $n$ and the array of numbers $S$ indexed from 1 to $n$; and its output is the sum of the integers in $S$.
+
+An algorithm can be seen below:
+
+\begin{verbatim}
+    function sum (n: integer; S : array[1, 2, . . . , n] of integers)
+        var
+            i : index;
+        begin
+            sum := 0;
+            for i := 1 to n do
+                sum:= sum + S[i]
+            print sum;
+        end;
+\end{verbatim}
+
+We can see this quite simply loops over all the array elements, adding each in turn to \verb|sum| which gets outputted at the end of the function.
+
+The basic operation here is the addition of an item in the array to \verb|sum|. This is the most expensive (in time) of operations in the function. The size of the input is proportional to $n$ which is the number of items in the array. Therefore, the time complexity function can be seen as $T(n) = A \cdot n$. (Where $A$ is a suitable constant - ie how many primitive operations correspond to our operation with the array)
+
+\end{example}
+
+The above example shows us an important detail of the way in which time complexity works - only \textit{some} of the statements in a function are weighty by way of time complexity. What this means is that an if statement or a print statement are often considered to be negligible - as they are constant. However, a loop is considered to be expensive by way of time so this is a factor we consider. 
+
+\begin{example}{Searching for a Key}
+We will explore two different searching algorithms and the way in which they approach the problem of searching for a key in an ordered list of numbers.
+
+\textbf{Ex. 1: Sequential Search}
+The Sequential Search works by looping through all the elements in the array and checking for a match to the key. An algorithmic implementation can be seen below:
+\begin{verbatim}
+    procedure seqsearch (n: integer; S : array [1, 2, . . . , n] of integers;
+                        x: integer);
+        var
+            location : index;
+        begin
+            location := 1;
+            while location <= n and S[location] != x do
+                location := location + 1;
+            if location > n then
+                location := 0
+        end;
+\end{verbatim}
+
+This algorithm also works with unsorted arrays and and has the same complexity: $T(n) = A \cdot n$. 
+
+\textbf{Ex. 2: Binary Search Algorithm}
+The Binary Search Algorithm also finds if the key $x$ is in the \textit{sorted} array $S$ of $n$ integers. The key component here is that the array must already be sorted. The idea of the algorithm is to, at each step, cut the number of possible positions the search key could be in by half. An algorithmic implementation can be seen below:
+\begin{verbatim}
+    procedure binsearch (n: integer; S : array [1, 2, . . . , n] of integer;
+                        x: key);
+        var location : index; low, high, mid : index;
+        begin
+            low := 1; high := n; location := 0;
+            while low <= high and location = 0 do
+                mid := (low + high) div 2
+                if x = S[mid] then location := mid
+                    // Checks the middle entry in the array!
+                    else if x < S[mid] then high := mid - 1
+                        else low:= mid + 1
+            od;
+        end;
+\end{verbatim}
+We can see here that the time complexity of a Binary Search is lower than that of a sequential search, as it will do considerably less operations given that the binary search halves the list every loop until nothing is left. The binary search has a worst case time complexity of: $T(n) = B \cdot \log_2 n$. 
+\end{example}
+
+From these examples - we can see the name ``worst-case'' in action - as for both algorithms the key may be found in the first step, which would be excellent; but it also may never be found meaning all the possible options must be checked according to each algorithm's way of working. 
+
+\begin{example}{Travelling Salesman Problem}
+The Travelling Salesman problem is a problem which has been studied for as long as it's existed. The problem seeks out the shortest path between all nodes on a weighted graph, with the least accumulated weight for the whole journey, representing the journey a salesman takes travelling between cities in the country selling his goods. 
+
+We're left trying to find the optimal route for our salesman, as he's on a tight budget and doesn't want to spend lots of money on train travel - so we have to find him a route. If we take that there are $n$ cities to visit, and he's currently in the first one - then there are:
+\begin{itemize}
+    \item $n-1$ ways to choose the next city
+    \item $n-2$ ways to choose the city after that
+    \item etc, etc, until he only has 1 city left to visit
+\end{itemize}
+We can formalise this as follows:
+\[\frac{(n-1) \times (n-2) \times \ldots \times 1}{2} = \frac{(n-1)!}{2}\]
+
+This defines the factorial function, which grows very quickly with $n$:
+\[15! = 1,307,674,368,000\]
+
+This is the start of our brute-force algorithm:
+
+\begin{verbatim}
+    begin
+        mindist := 'total distance of any one route';
+        for each of the possible different routes R
+            begin
+                compute total distance D of R;
+                if D <= mindist then mindist := D
+            end
+    end;
+\end{verbatim}
+
+So how's this looking from a Time Complexity perspective? There are $(n-1)!$ possible routes to the travelling salesman problem so to compute the total distance per route requires $n$ additions. Therefore we get a time complexity of $T(n)=C \cdot n!$. 
+
+In tangible time - how long does the algorithm take? If $n=30$ then we would have to do $10^{20}$ computations. The fastest processors can do is about $10^{12}$ additions per second. So this would take $10^8$ seconds (a couple of weeks) to run. If we increase $n$ to 100, the time needed to execute increases to exceed the age of the universe. 
+
+There have been various branch-and-bound algorithms used to process TSPs containing 85900 cities. Progress improvement algorithms which use techniques of linear programming works well for up to 200 cities. An exact solution for 15,112 German towns was found in 2001 base don linear programming. The computations were performed on a network of 110 processors, the total computation time was equivalent to 22.6 years on a single 50MHz Alpha processor. 
+\end{example}

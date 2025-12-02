@@ -1,0 +1,64 @@
+\taughtsession{Lecture}{B6: Asymptotic Growth}{2025-12-01}{15:00}{Janka}
+
+Usually, there are several algorithms which exist to solve the same problem. We want to find and use the most efficient, in terms of resources like time and storage, to solve the problem. Efficient algorithms lead to better programs; efficient programs sell better; efficient programs make sell better and make better use of hardware; and programmers who write efficient programs are more marketable than those who don't. 
+
+If we return to an example we saw in the previous lecture - searching for a key in an array. We saw two different methods: the Sequential Search and the Binary Search; and we saw that the binary search was more efficient than the sequential search. 
+
+There aren't, however, just two types of algorithmic efficiency steps - there are many, which can be seen in the following graph.
+
+\begin{todo}
+Add graph from slide 5
+\end{todo}
+
+The below table shows the growth of these functions in a numerical capacity.
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.1\textwidth} p{0.1\textwidth} p{0.1\textwidth} p{0.1\textwidth} p{0.1\textwidth} p{0.1\textwidth} p{0.1\textwidth} }
+    \thead{$n$} & \thead{$n \log_2 n$} & \thead{$n^2$} & \thead{$n^3$} & \thead{$2^n$} & \thead{$n!$} & \thead{$n^n$}\\
+    10 & 33 & 100 & 1000 & 1024 & 7 digits & 11 digits\\
+    \hline
+    50 & 282 & 2500 & 125000 & 16 digits & 65 digits & 85 digits \\
+    \hline
+    100 & 665 & 10000 & 7 digits & 31 digits & 161 digits & 201 digits\\
+    \hline
+    300 & 2469 & 90000 & 8 digits & 91 digits & 623 digits & 744 digits \\
+    \hline
+    1000 & 9966 & 7 digits & 10 digits & 302 digits & :O & :O \\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{Comparison of growth functions}
+\end{table}
+
+For reference - the number of protons in the known universe has 79 digits; and the number of microseconds since the Big Bang has 24 digits - so some of these numbers are flipping humongous!
+
+\section{Asymptotic Analysis of the Algorithm}
+\textit{Asymptotic} refers to something that approaches a specific value or curve arbitrarily close as it gets closer to a limit, most often infinity. 
+
+We are usually interested in how fast the time a program takes to run changes as the size of the input becomes larger and larger. As well as the fact that the counting of basic steps in the time complexity function doesn't given an accurate picture - the details depends on the programming language, compiler, etc; the distance is at most a constant factor.
+
+Comparing the time complexity of two algorithms is the same as comparing the asymptotic growth of the time complexity functions. 
+
+\begin{example}{Asymptotic Analysis}
+\textbf{Ex. 1} If the algorithm $A$ has a time complexity $T_A(n) = n+10$ and the algorithm $B$ has time complexity $T_B(n)=n$ then the asymptotic growth of both functions is the same $n$, so $n \sim n+10$. 
+
+\textbf{Ex. 2} If $T_A(n)=4n^2 + 3n+ 10$ and $T_B(n)=2n^2$ then asymptotic growth of both functions is the same $n^2$, so $4n^2 + 3n + 10 \sim 2n^2 \sim n^2$. 
+
+\textbf{Ex. 3} If $T_A(n)= 4n^2 + 3n + 10$ and $T_B(n) = 2^n$, the asymptotic growth of both functions is not the same.    
+\end{example}
+
+From the above we can see a generalisation of what we're looking for: we look at the running time of an algorithm when the input size $n$ is large enough so that constants and lower-order terms do not matter. 
+
+These ideas can be formalised to show the growth rate of a function with the dominant term in respect to $n$ and ignoring any constants in front of it:
+
+\begin{align*}
+    k_1n + k2 & \sim n \\
+    k_1n \log n & \sim n \log n \\
+    k_1n^2 + k_2n & \sim n^2
+\end{align*}
+
+We also want to formalise that one type of algorithm is better than another (for example $n \log n$ is better than $n^2$). There are three different notational forms we see to formalise this: Big-O, $\Omega$-notation, and $\Theta$-notation
+
+\section{Big-O Notation}
