@@ -4,11 +4,11 @@ Usually, there are several algorithms which exist to solve the same problem. We 
 
 If we return to an example we saw in the previous lecture - searching for a key in an array. We saw two different methods: the Sequential Search and the Binary Search; and we saw that the binary search was more efficient than the sequential search. 
 
-There aren't, however, just two types of algorithmic efficiency steps - there are many, which can be seen in the following graph.
+There aren't, however, just two types of algorithmic efficiency steps - there are many.
 
-\begin{todo}
-Add graph from slide 5
-\end{todo}
+\begin{extlink}
+A graph showing the different functions and their growth can be found in the slides on Moodle.
+\end{extlink}
 
 The below table shows the growth of these functions in a numerical capacity.
 
@@ -25,7 +25,7 @@ The below table shows the growth of these functions in a numerical capacity.
     \hline
     300 & 2469 & 90000 & 8 digits & 91 digits & 623 digits & 744 digits \\
     \hline
-    1000 & 9966 & 7 digits & 10 digits & 302 digits & :O & :O \\
+    1000 & 9966 & 7 digits & 10 digits & 302 digits & :o & :o \\
     \hline
     \end{tabular}
     } % end of rr     
@@ -62,3 +62,179 @@ These ideas can be formalised to show the growth rate of a function with the dom
 We also want to formalise that one type of algorithm is better than another (for example $n \log n$ is better than $n^2$). There are three different notational forms we see to formalise this: Big-O, $\Omega$-notation, and $\Theta$-notation
 
 \section{Big-O Notation}
+Big O notation represents the asymptotic upper bound of a function. When $f$ and $g$ are two non-negative functions then $f(n)$ is $O(g(n))$ if $f$ grows at most as fast as $g$. 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+    \draw[->]  (0,0)coordinate(O) -- (8,0) node[anchor=north] {$n$};
+    \draw[->]  (0,0) -- (0,5);
+
+\draw[domain=0:8,smooth,variable=\x,name path=c1] plot ({\x},{0.5*\x+2*sin(\x r)+1})node[right]{$cg(n)$};
+\draw[domain=0:8,smooth,variable=\x,dashed,name path=c2] plot ({\x},{0.2*\x+0.5*sin(\x r)+2})node[right,black]{$f(n)$};
+\fill[red,name intersections={of=c1 and c2}]
+    (intersection-1) circle (0pt)
+    (intersection-2) circle (0pt)
+        (intersection-3) circle (0pt) ;
+
+\draw[dotted] (intersection-3) -- (intersection-3|-O) node[below]{$n_0$};
+\end{tikzpicture}
+\caption{Big-O notation functions}
+\end{figure}
+
+This can be formally defined as $f(n) = O(g(n))$ if there exists $c, n_0 \in \mathbb{R}^+$ such that for all $n \geq n_0, f(n) \leq c \cdot g(n)$. 
+
+We express our Big O notation as:
+\[f(n) = O(g(n)) \quad \textrm{or} \quad f(n) \in O(g(n))\]
+and read this as ``$f(n)$ is big O of $g(n)$''
+
+\begin{example}{Big O}
+\textbf{Ex. 1} $2n^2 + 10 = O(g(n))$ if there exists $c, n_0 \in \mathbb{R}^+$ such that:
+\[c \cdot g(n) \geq 2n^2 + 10 \textrm{ for all } n \geq n_0\]
+
+After a think, we an decide that $2n^2 + 10 = O(n^2)$ because
+\[3n^2 \geq 2n^2 + 10 \textrm{ for all } n \geq 4\]
+
+Therefore we can see that $c=3$ and $n_0=4$. However it would also work for many other combinations such as $100n^2 \geq 2n^2 + 10$ for all $n \geq 1$. 
+
+\textbf{Ex. 2} $\frac{1}{3}n^2 - 3n = O(n^2)$ because:
+\[\frac{1}{3}n^2 - 3n \leq cn^2 \textrm{ if } c \geq \frac{1}{3}-\frac{3}{n}\]
+which is true if $c=\frac{1}{3}$ and $n \geq 1$
+
+\textbf{Ex. 3} Generalising a bit more, we can see how $O()$ gives an upper bound on $f$, but not always a tight one:
+\[n=O(n),\ 3n=O(n^2),\ 7n=O(n^3),\ n=O(n^{100})\]
+\end{example}
+
+\section{Big-$\Omega$ Notation}
+Big Omega (Big-$\Omega$) is an asymptotic lower bound of a function. Informally described as when $f$ and $g$ are two functions then $f(n)$ is $\Omega(g(n))$ if $f$ grows at least as fast as $g$.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+    \draw[->]  (0,0)coordinate(O) -- (8,0) node[anchor=north] {$n$};
+    \draw[->]  (0,0) -- (0,5);
+
+\draw[domain=0:8,smooth,variable=\x,dashed,name path=c1] plot ({\x},{0.5*\x+2*sin(\x r)+1})node[right]{$f(n)$};
+\draw[domain=0:8,smooth,variable=\x,name path=c2] plot ({\x},{0.2*\x+0.5*sin(\x r)+2})node[right,black]{$cg(n)$};
+\fill[red,name intersections={of=c1 and c2}]
+    (intersection-1) circle (0pt)
+    (intersection-2) circle (0pt)
+        (intersection-3) circle (0pt) ;
+
+\draw[dotted] (intersection-3) -- (intersection-3|-O) node[below]{$n_0$};
+\end{tikzpicture}
+\caption{Big-$\Omega$ notation functions}
+\end{figure}
+
+This can be formally defined as $f(n) = \Omega(g(n))$ if there exists $c, n_0 \in \mathbb{R}^+$ such that for all $n \geq n_0, f(n) \geq c \cdot g(n)$. 
+
+We express our Big-$\Omega$ notation as:
+\[f(n) = \Omega(g(n))\quad \textrm{or} \quad f(n)\in\Omega(g(n))\]
+and read this as ``$f(n)$ is big omega of $g(n)$''
+
+\begin{example}{Big-$\Omega$ Notation}
+\textbf{Ex. 1} $4n^2-10=\Omega(n^2)$ because $f(n)=4n^2-10$ and $n \leq 4n^2-10$ for all $n \geq 2$, hence $c=1$ and $n_0=2$
+
+\textbf{Ex. 2} $\frac{1}{3}n^2-3n=\Omega(n^2)$ because $\frac{1}{3}n^2-3n \geq cn^2$ if $c \leq \frac{1}{3}-\frac{3}{n}$ which is true if $c=\frac{1}{6}$ and $n \geq 18$. 
+
+\textbf{Ex. 3} $\Omega()$ gives a lower bound on $f$ but not necessarily a tight one:
+\[n=\Omega(n),\ n^2=\Omega(n),\ n^3=\Omega(n),\ n^{100}=\Omega(n)\]
+\end{example}
+
+\section{Big-$\Theta$}
+Big Theta (Big-$\Theta$) notation is used to denote the asymptotic tight bound of a function. Informally, this is when $f$ and $g$ are two functions then $f(n)$ is $\Theta(g(n))$ if $f$ is essentially the same as $g$ to within a constant multiple. 
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+    \draw[->]  (0,0)coordinate(O) -- (8,0) node[anchor=north] {$n$};
+    \draw[->]  (0,0) -- (0,5);
+
+\draw[domain=0:8,smooth,variable=\x,name path=c1] plot ({\x},{0.5*\x+1*sin(\x r)+2})node[right]{$c_2g(n)$};
+\draw[domain=0:8,smooth,variable=\x,dashed,name path=c2] plot ({\x},{0.4*\x+0.5*sin(\x r)+2})node[right,black]{$f(n)$};
+\draw[domain=0:8,smooth,variable=\x,name path=c3] plot ({\x},{0.5*\x+1*sin(\x r)})node[right]{$c_1g(n)$};
+
+\fill[red,name intersections={of=c1 and c2}]
+    (intersection-1) circle (0pt)
+    (intersection-2) circle (0pt)
+        (intersection-3) circle (0pt) ;
+
+\draw[dotted] (intersection-3) -- (intersection-3|-O) node[below]{$n_0$};
+\end{tikzpicture}
+\caption{Big-$\Theta$ notation functions}
+\end{figure}
+
+Formally, $f(n)=\Theta(g(n))$ if $f(n)=O(g(n))$ and $f(n)=\Omega(g(n))$ meaning there exists $n_0, c_1, c_2 \in \mathbb{R}^+$ such that for all $n \geq n_0, c_1 \cdot g(n) \leq f(n) \leq c_2 \cdot g(n)$. 
+
+We express our Big-$\Theta$ notation as:
+\[f(n) = \Theta(g(n)) \quad \textrm{or} \quad f(n)\in \Theta(g(n))\]
+and read this as ``$f(n)$ is big theta of $g(n)$''.
+
+\begin{example}{Big-$\Theta$ Notation}
+\textbf{Ex. 1} $4n^2-10=\Omega(n^2)$ and $4n^2-10=O(n^2)$ which means $4n^2-10=\Theta(n^2)$.
+
+\textbf{Ex. 2} $\frac{1}{3}n^2-3n=\Omega(n^2)$ and $\frac{1}{3}n^2-3n=O(n^2)$ which means $\frac{1}{3}n^2-3n=\Theta(n^2)$
+
+\textbf{Ex. 3} However, Big-$\Theta$ is considerably more restrictive than either of Big O or Big-$\Omega$ alone...
+\[n \neq \Theta(n^2),\ n^2 + 3n \neq \Theta(n^3),\ \log n \neq \Theta(n)\]
+\end{example}
+
+\section{Comparing $T(n)$}
+Naturally, as with all things in life, we want to know which is best. In this case - we are looking for the lowest time complexity of an algorithm as this will naturally be the quickest to run. We can compare two functions with $f(n) \prec g(n)$ if and only iff:
+\[f(n) = O(g(n))\quad \textrm{and}\quad f(n) \neq \Theta(g(n))\]
+
+Below is a hierarchy of some familiar functions from this lecture, according to their growth rates:
+\[1 \prec \log n \prec n \prec n \log n \prec n^2 \prec n^3 \prec 2^n \prec 3^n \prec n! \prec n^n\]
+
+We can even name these functions:
+\begin{description}
+    \item[Constant Functions] $\Theta(1)$
+    \item[Logarithmic Functions] $\Theta(\log n)$
+    \item[Quadratic Functions] $\Theta(n^2)$
+    \item[Cubic Functions] $\Theta(n^3)$ 
+    \item[Polynomial Functions] $\Theta(n^a)$
+    \item[Exponential Functions] $\Theta(2^n), \Theta(a^n), \Theta(n!), \Theta(n^n), \ldots$    
+\end{description}
+
+Calculating the time complexity, $T(n)$ for an algorithm is often very difficult - there are lots of different techniques which could be used. When analysing an algorithm, you might need to estimate the complexity of sums; so it's worth knowing their complexity:
+\begin{align*}
+    \sum_{i=1}^{n} i &= \Theta(n^2)\\
+    \sum_{i=1}^{n} i^2 &= \Theta(n^3)\\
+    \sum_{i=1}^{n} i^k &= \Theta(n^{k+1})\\
+    \log n! &= \Theta(n \log n)
+\end{align*}
+
+\begin{example}{Asymptotic Behaviour}
+If we take the function $f(n) = log_{10} (n^3 - 4n^2 + 6n + 5)$.
+
+We can see pretty clearly that when $n>20$ that $n^2<n^3-4n^2+6n+5<n^4$.
+
+Therefore $f(n) > 2 \log_{10} n, n >20$, thus $f(n) = \Omega (\log_{10}n)$. 
+
+We can also then see that $f(n) <4 \log_{10} n, n>20$, therefore $f(n) = O(\log_{10}n)$.
+
+Putting this together - we can see that $f(n) = \Theta(\log_{10}n)$
+\end{example}
+
+Exponential time is bad, polynomial time is better. For each problem, it is always best to find an algorithm with a polynomial time complexity and then to make the leading exponent of that polynomial as small as possible. 
+
+\section{Tractable and Intractable}
+A Tractable Problem, one that's easy to control or deal with, is a problem that is solvable by a polynomial-time algorithm. There are a number of examples of \textit{tractable} problems below:
+
+\begin{itemize}
+    \item Searching an unordered list
+    \item Searching an ordered list
+    \item Sorting a list of two numbers
+    \item Multiplication of two matrices
+    \item Finding a minimum spanning tree in a weighted graph
+    \item Finding a Eulerian circuit in a graph
+    \item Finding the shortest path between any two vertices in a graph
+\end{itemize}
+
+As you'd expect - an Intractable problem, one that which is hard to control or deal with, is a problem where there is not a known polynomial time algorithm. For some of these problems - there exists a proof that a polynomial algorithm doesn't exist, and for others - no one has been able to prove it so far. There are a number of intractable problems below:
+\begin{itemize}
+    \item Travelling salesman problem
+    \item Tower of Hanoi
+    \item Finding a Hamiltonian cycle in a graph
+    \item Finding the longest path between any two vertices in a graph
+    \item More to be covered later in this module...
+\end{itemize}
