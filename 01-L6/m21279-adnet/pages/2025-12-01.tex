@@ -1,8 +1,8 @@
 \taughtsession{Lecture}{Satellite Networks}{2025-12-01}{11:00}{Asim}
 
-A \textit{satellite} is a large reflector which orbits in the sky, around the earth. Satellites have several transponders, which are electronics that listen to different portions of the spectrum - each amplifying the incoming signal (the uplink), changing its frequency then broadcasting it to earth (the downlink). 
+A \textit{satellite} is a large reflector which orbits in the sky around the earth. Satellites have several transponders, which are electronics that listen to different portions of the spectrum - each amplifying the incoming signal (the uplink), changing its frequency then broadcasting it to earth (the downlink). 
 
-The sky-based satellites are combined with components on the ground which are called \textit{gateway stations}. These gateway stations are equipped with antennas directed towards the satellite, and some will have network control centres and operation control centres which deal with satellite management and orbit control. 
+The sky-based satellites are combined with components on the ground which are called \textit{gateway stations}. These gateway stations are equipped with antennas directed towards the satellite, and some will have network control centres and operation control centres which deal with satellite management and orbit control.
 
 A satellite communication system works where two or more stations on or near the earth (gateway stations) communicate via one or more satellites that serve as relay stations in space. 
 
@@ -53,13 +53,134 @@ The \textit{orbital period} is the time it takes for the satellite to go around 
 \end{center}
 \end{example}
 
-\begin{todo}
-check if table from slide 6 needed or if this is represented elsewhere
-\end{todo}
+Satellite orbits are within certain altitude ranges, based on distance from earth. There are also two \textit{Van Allen Belts}, one between 2000 and 5000km and the second between 15000 and 20000km. These belts are layers containing charged particles so therefore any satellite falling into that layer will be destroyed by the particles.
 
 \subsection{Geosynchronous (Geostationary) Satellites}
-Geosynchronous, or Geostationary, (GEO) satellites orbit at about 35786Km above the earth's surface moving at the same speed as the earth. 
+Geosynchronous, or Geostationary, (GEO) satellites orbit at about 35786Km above the earth's surface moving at the same speed as the earth. They were introduced in 1945. The Geostationary orbit has a number of advantages to it:
+\begin{itemize}
+    \item The satellite is stationary relative to the earth, meaning there is no problem with frequency change due to the relative motion of the satellite and antennas on earth (Doppler Effect)
+    \item Tracking of the satellite by its earth stations is simplified
+    \item At 35,863km above the earth - the satellite can communicate with roughly a quarter of the earth; meaning that three satellites in geostationary orbit separated by 120\textdegree covers most of the inhabited portions of the entire earth excluding only areas near the north and south poles.
+\end{itemize}
 
-\begin{todo}
-Finish notes from slides.
-\end{todo}
+However, in saying this - there are problems with Geostationary satellites:
+\begin{itemize}
+    \item The signal can get quite weak after travelling over 35000km
+    \item The polar regions and the far northern and southern hemispheres are poorly served
+    \item Even at the speed of light (about 300000km/s), the delay in sending a signal from a point on the equator beneath the satellite to the satellite is in fact 0.24s. For other locations not directly under the satellite - the delay is even longer.
+\end{itemize}
+
+If the satellite link is used for telephone communication, the added delay between when a person speaks and when that person receives a response is almost 0.5s. This is definitely a noticeable delay and that's not good. 
+
+Geostationary satellites use their assigned frequencies over a very large area. This can be a desirable feature for Point-to-Multipoint (PMP) applications such as broadcasting TV programmes; however for Point-to-Point communication it is a very wasteful use of the spectrum. Some special sports and steered beam antennas, which restrict the area covered by the satellite's signal, can be used to control the footprint or signalling area. 
+
+To launch a GEO satellite - there is a high cost to send rockets and a high delay to get a rocket launched. Despite this, the satellites - once in orbit in the right place, can last for a long time as there is no atmospheric friction. 
+
+Up-to 180 satellites can exist in the GEO orbit, each with 2\textdegree between them. 
+
+To solve some of these problems - orbits other than geostationary have been designed for satellites. An alternative is \textit{Low-Earth-Orbiting} (LEO) and \textit{Medium-Earth-Orbiting} (MEO) satellites which will be covered subsequently. 
+
+
+\subsection{Low Earth Orbit Satellites}
+Low Earth Orbit (LEO) satellites orbit under 1500km. The orbit period (time to do a complete lap of the earth) ranges from 1.5 to 2 hours, with a diameter or coverage at about 8000km. 
+
+The round-trip signal propagation delays is typically less than 20ms, with a single satellite visible for about 20 minutes. The system must cope with large Doppler shifts. 
+
+In the lower atmosphere than a GEO satellite, LEO satellites see more atmospheric drag which results in orbital deterioration. They will eventually fall back towards earth and they have a short life. Usually they are put back on course with space boosters, which require fuel and cannot use solar power; or use of a space shuttle as in the Hubble Telescope. Practical applications of this system require multiple orbital planes to be used, each with multiple satellites in orbit.
+
+Communication between two earth stations will typically involve handing off the signal from one satellite to another.
+
+LEO satellites have a number of advantages over GEO satellites:
+\begin{itemize}
+    \item LEO signals are much stronger than GEO signals for the same transmission power
+    \item LEO coverage can be better for localised so that the spectrum can be better conserved. For this reason - this technology is currently being proposed for communicating with mobile terminals and personal terminals that need stronger signals to function. However, to provide broad covereage over 24 hours - many satellites are needed. 
+\end{itemize}
+
+There have been a number of commerical proposals to use clusters of LEOs to provide communication services. These proposals can be divided into two categories.
+
+A \textit{Little LEO} is intended to work at communication frequencies below 1GHz using no more than 5MHz of bandwidth and supporting data rates of up to 10kbps. It's aimed for these systems to be used for paging, tracking and low-rate messaging.
+
+A \textit{Big LEO} works at frequencies above 1GHz and supports data rates up to a few megabits per second. These systems tend to offer the same services as tohse of small LEOs with the addition of voice and positioning services. 
+
+\begin{extlink}
+There is some more information about Little LEO and Big LEO in the notes on the slides on Moodle. Not included here as it wasn't discussed in the Lecture.
+\end{extlink}
+
+\subsection{Medium Earth Orbit Satellites}
+Medium Earth Orbit (MEO) satellites orbit in the altitude range of 5000 to 15000km. The orbit period is approximately 6 hours, and they have a far longer life from LEO satellites due to the fact that they are further away from the earth atmosphere and its friction. They have a moderate round-trip delay of 50ms. 
+
+A common example of MEO satellites is GPS (Global Positioning System), which is comprised of 24 satellites orbiting with the MEO range, at 18000km. GPS uses the triangulation principle to compute the position of an object on earth where three circles intersect on one point, or 4 spheres (4 satellites signals) intersect on 1 point. The GPS receiver sends signals to 4 MEO satellites and measures how long it takes for the signals to return, then calculates the position on the earth and also the location on the map. 
+
+Few MEO satellites orbit above 10000km as the deployment cost and propagation delay are significant without any additional advantages. 
+
+\section{Frequency Bands}
+There are a number of frequency bands available for satellite communications. As the frequency range increases, their bandwidth also increases. However, generally the higher the frequency is, it;'s found that there is a greater effect of transmission impairments. 
+
+The Mobile Satellite Service (MSS) is allocated frequencies in the L and S bands which, when compared to higher frequencies, there is found to be a greater degree of refraction and greater penetration of physical obstacles such as foliage and nonmetallic structures. These characteristics are desirable for mobile services; however, the L and S bands are also heavily used for terrestrial applications. Therefore there is competition amongst the various microwave services for L and S band capacity.
+
+For any given frequency allocation for a service - there is always an allocation of an uplink band and a downlink band, with the uplink band always of a higher frequency. The higher frequency suffers greater spreading (also known as free space loss) than the lower frequency counterpart. This is compensated by the earth station where the earth station is of higher power than the satellite. 
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.1\textwidth} p{0.2\textwidth} p{0.2\textwidth} p{0.4\textwidth}}
+    \thead{Band} & \thead{Frequency Range} & \thead{Total Bandwidth} & \thead{General Application}\\
+    L & 1 - 2GHz & 1GHz & Mobile Satellite Service (MSS)\\
+    \hline
+    S & 2 - 4GHz & 2GHz & MSS, NASA, Deep Space Research\\
+    \hline
+    C & 4 - 8GHz & 4GHz & Fixed Satellite Service (FSS)\\ 
+    \hline
+    X & 8 - 12.5GHz & 4.5GHz & FSS military, terrestrial earth exploration and meteorological studies\\
+    \hline
+    Ku & 12.5 - 18GHz & 5.5GHz & FSS, broadcast satellite service (BSS) \\
+    \hline
+    K & 18 - 26.5GHz & 8.5GHz & BSS, FSS\\
+    \hline
+    Ka & 26.5 - 40GHz & 13.3GHz & FSS\\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{Frequency Band Allocation}
+\end{table}
+
+\section{Transmission Impairments}
+As we can expect - satellite transmissions can be impaired. The performance of a satellite link depends on three factors:
+\begin{itemize}
+    \item Distance between earth station antenna and satellite antenna
+    \item (For downlink only) Terrestrial distance between the earth station antenna and the ``aim point'' of the satellite
+    \item Atmospheric Attenuation
+\end{itemize}
+
+Distance is perhaps the easiest to comprehend - with the higher the frequency, the greater the loss. Losses seen at points on the surface of the earth away from the equator but still visible from the satellite will be somewhat higher.
+
+\begin{extlink}
+There is an equation in the notes on the slides which can be uses to calculate the \textit{Free Space Loss}.
+\end{extlink}
+
+The footprint of a satellite's downlink signal is reasonably fixed. The centre of this area will receive the highest radiated power, with this value reducing as you move away form the centre point in any direction. 
+
+Atmospheric Attenuation refers to the weather impacting the signals as they're transmitted between earth station and satellite. The biggest impacting factor here is oxygen and water. Attenuation due to water is commonly found when it's humid and more pronounced with fog and rain. Atmospheric attenuation can also depend on the frequency - with a higher frequency causing a greater effect. 
+
+\section{Satellite Capacity Allocation}
+As with other communication systems - there has to be some governance as to what can communicate and when, with which encoding to ensure that all devices in the network get fair and equal access to the medium. Satellite communication is no exception to this and the communication techniques used will fall into one of the three following categories:
+\begin{itemize}
+    \item Frequency Division Multiple Access (FDMA)
+    \item Time Division Multiple Access (TDMA)
+    \item Code Division Multiple Access (CDMA) - not covered in detail in this section
+\end{itemize}
+
+\subsection{Frequency Division Multiple Access}
+Frequency Division Multiple Access (FDMA) works similarly to that where we've seen it before - in that the signal wave is modulated onto a carrier wave to position it differently in the frequency spectrum. The whole allocated frequency spectrum is divided into a series of smaller bands, each 36MHz with a guard band before the next band, which in this case are 4MHz. These smaller bands may contain one or more transmitted signals - depending on the required bandwidth for a given signal. 
+
+\subsection{Time Division Multiple Access}
+Time Division Multiple Access (TDMA) works similarly to that where we've seen it before. The uplink of TDMA works in that stations take it in turns to use the uplink channel and may put a burst of data in their assigned time slot. Between each satellite's time allocation, handled in a round-robin method, there is a short guard time. The downlink works in much the same way with each signal to be transmitted being taken in turn. 
+
+The TDMA frame begins with two reference bursts to define the beginning of the frame. Two bursts are used, each provided by a different earth station, so that even if one of the reference stations are lost - the system can continue to function. Each reference burst begins with a carrier and bit timing recovery pattern, which is a unique pattern that allows all stations to synchronise to a master clock. Each of the $N$ stations are then assigned one or more slots in the frame, where the stations use an assigned slot to transmit a burst of data. The bursts of data consist of a preamble, and the user information. The preamble contains control and timing information as well as the identification of the destination station. Each burst within a frame is separated by guard times to ensure that there is no overlap which prevents signal garbling. 
+
+It is beginning to be more common to see TDM used and FDM not used for a number of reasons:
+\begin{itemize}
+    \item The continuing drop in the cost of digital components
+    \item The advantages of digital techniques including the use of error correction
+    \item The increased efficiency of TDM due to the lack of intermodulation noise
+\end{itemize}
