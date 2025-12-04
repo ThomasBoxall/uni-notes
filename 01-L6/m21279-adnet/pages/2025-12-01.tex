@@ -173,6 +173,12 @@ As with other communication systems - there has to be some governance as to what
 \subsection{Frequency Division Multiple Access}
 Frequency Division Multiple Access (FDMA) works similarly to that where we've seen it before - in that the signal wave is modulated onto a carrier wave to position it differently in the frequency spectrum. The whole allocated frequency spectrum is divided into a series of smaller bands, each 36MHz with a guard band before the next band, which in this case are 4MHz. These smaller bands may contain one or more transmitted signals - depending on the required bandwidth for a given signal. 
 
+There are two types of \textit{polarisation} which we see signals modulated onto - vertical and horizontal. Vertical Polarisation is where the signal moves sideways in a horizontal plane, while with Horizontal Polarisation - the signal oscillates up and down in the vertical plane. Signals modulated with FDMA make use of both of these polarisations - with the channels alternating between horizontal and vertical. 
+
+\begin{todo}
+Add example of polarisation - possibly full worked example like from Seminar?
+\end{todo}
+
 \subsection{Time Division Multiple Access}
 Time Division Multiple Access (TDMA) works similarly to that where we've seen it before. The uplink of TDMA works in that stations take it in turns to use the uplink channel and may put a burst of data in their assigned time slot. Between each satellite's time allocation, handled in a round-robin method, there is a short guard time. The downlink works in much the same way with each signal to be transmitted being taken in turn. 
 
