@@ -1,0 +1,243 @@
+\taughtsession{Lecture}{B8: Problem Complexity}{2025-12-08}{15:00}{Janka}{}
+
+\section{Introduction to Problems}
+No, this lecture is not talking about \textit{that} pesky straight boy.
+
+So far we have been studying \textit{algorithmic complexity} (i.e. the complexity of merge sort, exchange sort, binary search, etc). More often, we need to study \textit{problem complexity} (i.e. the complexity of sorting or searching in general). 
+
+For lots of problems, we do not know the problem complexity, however we do often have bounds on the complexity. We can often see that the complexity of a given problem falls between an \textit{upper bound} and a \textit{lower bound}. 
+
+\subsection{Upper Bounds}
+The discovery of a better algorithm to solve a given problem brings the upper bound on the worst-case time complexity down. If we take a problem, $Q$, and someone comes along with algorithm $A$ of complexity $O(n^3)$. Therefore we know that the problem complexity cannot be higher than $O(n^3)$. 
+
+Later on in time, someone might discover a better algorithm whose complexity is $O(n^2)$. This now means that the problem complexity cannot be higher than $O(n^2)$. 
+
+Each better algorithm brings the upper bounds downwards.
+
+\subsection{Lower Bounds}
+Computer Scientists prove statements about the lower bound. If we take that the problem $Q$ cannot be solved in less than linear time, $\Omega(n)$. They prove that no algorithm could possibly exist that would solve this problem in less than $\Omega(n)$ time. Therefore the problem complexity cannot be lower than $\Omega(n)$.
+
+However later someone finds that the problem cannot be solved in less than $\Omega(n \times \log n)$ time. Therefore the problem complexity cannot be lower than $\Omega(n \log n)$. Each better proof brings the lower bound upwards.
+
+\subsection{Unsolved Complexity}
+The complexity for many problems is still an open discussion. 
+
+In some situations, the lower bound (discovered by proof) and the upper bound (exhibited by an algorithm) will coincide. This shows us the complexity of the problem $Q$ and tha the problem is close d as far as big-Theta time estimates are concerned. Regardless of this, we may continue to search for algorithms whose constant factors are smaller. 
+
+More often, however, there is a gap between the lower and upper bound. For example we may find a proof that no algorithm can solve $Q$ in less than $\Omega(n \log n)$ time and that the best algorithm we know takes $O(n^2)$. 
+
+Where we find a gap like this later example, we should seek both better proofs and algorithms to close the gap and find the complexity for a problem.
+
+\begin{example}{Problem Complexities}
+\textbf{Ex. 1:} Searching an unordered list of $n$ items
+\begin{itemize}
+    \item Upper bound: $O(n)$ comparisons (from linear search)
+    \item Lower bound: $\Omega(n)$ comparisons
+\end{itemize}
+As there is no gap, we know the problem complexity is $\Theta(n)$. 
+
+\textbf{Ex. 2:} Searching an ordered list of $n$ items
+\begin{itemize}
+    \item Upper bound: $O(\log n)$ comparisons (from binary search)
+    \item Lower bound: $\Omega(\log n)$ comparisons (from decision trees)
+\end{itemize}
+As there is no gap, we know the problem complexity is $\Theta(\log n)$. 
+
+\textbf{Ex. 3:} Sorting $n$ arbitrary elements
+\begin{itemize}
+    \item Upper bound: $O(n \times \log n)$ comparisons (from merge sort)
+    \item Lower bound: $O(n \times \log n)$ comparisons
+\end{itemize}
+As there is no gap, we know the problem complexity is $\Theta(n \times \log n)$. 
+
+\textbf{Ex. 4:} Towers of Hanoi
+\begin{itemize}
+    \item Upper bound: $O(2^n)$ moves
+    \item Lower bound: $\Omega(2^n)$ moves
+\end{itemize}
+As there is no gap, we know that the problem complexity is $\Theta(2^n)$.
+\end{example}
+
+\subsection{Proving Lower Bounds}
+Proofs of lower bounds are hard to come up with. This is one of the main reasons why there are gaps for so many problems. 
+
+A useful method for proving a lower bound as $\log n$ for searching for an item $x$ in an ordered array $S$ of $n$ items is based on decision trees. This method can also be used for solving other problems and providing a lower bound $n \log n$ for sorting. 
+
+The binary search algorithm has a complexity of $O(\log n)$, so the complexity of the problem ``searching an ordered list'' is at most $O(\log n)$. Using the decision trees it is already a lower bound for the problem. 
+
+\section{Decision Trees}
+A \textit{decision tree} can be used to represent the process that takes place in an algorithm. They are trees, as we became familiar with in DMAFP in second year. The internal nodes represent decision point sin the algorithm (a query) and the leaves represent possible outcomes (an output). 
+
+Decision trees can be useful in trying to construct an algorithm or trying to find properties of algorithm, for example lower bounds may equate to the depth of a decision tree. If every query only has two possible outcomes - the decision tree is a \textit{binary decision tree}. 
+
+For a given leaf on a decision tree, the number of decisions is the number of internal nodes from the root to the leaf. The worst case scenario corresponds to the height of the tree, so the worst case running time is just the height of the tree. We may sometimes want to consider decision trees with hight a higher degree where every query has (at most) $k$ different answers, for a given constant $k$. 
+
+\begin{extlink}
+There are some examples of decision trees in the slides available on Moodle.
+\end{extlink}
+
+The number of decisions in a decision tree is a lower bound on teh actual running time. This is good enough to prove a lower bound on the complexity of a given problem. If a problem has $n$ different outputs, then any decision tree must have at least $n$ leaves (it's possible for several leaves to specify the same output). 
+
+Harking back to DMAFP, the number of leaves in a binary tree of height $d$ is at most $2^d$. Therefore if every query has at most possible two answers, then $2^d \geq n$, meaning that the height of the decision tree must be at least $\lceil \log_2 n \rceil = \Omega(\log n)$. 
+
+If we see a tree with 15 different outputs, the height of the decision tree must be at least $\lceil \log_2 15 \rceil = 4$. The best performance we can hope for on this problem comes from algorithms that carry out these comparisons, therefore the lower bound is $\Omega(\log n)$ and no algorithm could be better than this. We can also consider the binary search algorithm with the complexity $O(\log n)$. Finally, knowing all this - we can see that we have an algorithm whose performance is as good as the lower bound therefore the complexity of the problem is $\Theta(\log n)$. 
+
+\section{Problem Classification}
+So far, we have focused on two large families of problems: decidable and undecidable.
+
+\subsection{Undecidable Problems}
+We know that undecidable problems, also known as decision problems, are problems where it has been proven that no algorithm can ever exist to return `yes'/`no' answers. These include: 
+\begin{itemize}
+    \item the Halting problem;
+    \item the Post Correspondence problem;
+    \item Hilbert's Tenth problem;
+    \item the (unbounded) Tiling problem;
+    \item the total problem.
+\end{itemize}
+
+Some of these problems are partially decidable - meaning that there is an algorithm which returns `yes' but might never return `no'. 
+
+\subsection{Decidable Problems: Overview}
+Decidable problems, those who always return `yes'/`no' for any given input can be divided into three categories:
+\begin{itemize}
+    \item Proven intractable - solvable, but impractical
+    \item Apparently intractable - those which appear to be intractable but which could possibly be tractable, we're not sure...
+    \item Tractable - practically solvable
+\end{itemize}
+
+\subsection{Decidable Problems: Proven Intractable}
+A proven intractable problem is a problem where it has been proved that no polynomial algorithm for such a problem exists. 
+
+We can subdivide this category of decidable problems further.
+
+\subsubsection{Decidable Problems: Proven Intractable: Type 1}
+Type 1 Proven Intractable problems are those that require a non-polynomial amount of output. these problems ordinarily pose no difficulty. We are asking for more information than we could possibly use, the problem is not defined realistically. 
+
+\begin{example}{Type 1 Proven Intractable Problems}
+\textbf{Ex. 1} Find all routes for the Travelling Salesman problem with lengths less than $B$ (a given constant). 
+
+To solve this problem, we have to go through $(n-1)!$ such routes (cycles) which means that our request is not reasonable. 
+
+\textbf{Ex. 2} Finding the number of steps for $n$ disks in the Tower of Hanoi.
+
+A simple recursive solution is known with $2^n-1$ steps which is also a lower bound for the problem. This means that it is decidable (solvable) but intractable.
+\end{example}
+
+\subsubsection{Decidable Problem: Proven Intractable: Type 2}
+Type 2 Proven Intractable problems are those who do not require a non-polynomial amount of output, but we can prove that the problem cannot be solved in polynomial time. 
+
+There are a few such problems of this type are known, which includes all undecidable problems.
+
+In the 1950/60s the decidable problems were ``artificially'' constructed to have such properties. In the early 1970s, some natural decidable decision problems were proven to be intractable, for example Presburger Arithmetic. 
+
+\begin{example}{Type 2 Proven Intractable Problems}
+We can see this type of problem through Draughts. For a $n \times n$ draughts board with an arrangement of pieces, we are asked to determine whether there is a winning strategy (a sequence of moves) for White so that no matter what Black does, White is guaranteed to win.
+
+This has been proven that any algorithm that solves this problem must have a worst-case running time that is at least $2^n$. 
+\end{example}
+
+\subsection{Decidable Problems: Apparently Intractable}
+An apparently intractable problem is problem for which a polynomial time algorithm has never been found, but yet no one ever proved that such an algorithm is not possible.
+
+Examples of these problems include:
+\begin{itemize}
+    \item the Hamiltonian Cycle problem
+    \item the Travelling Salesman problem
+    \item bounded tiling problem
+    \item the Minimum Colouring problem
+\end{itemize}
+
+\begin{example}{Hamiltonian Cycle Problem}
+In a graph, a Hamiltonian cycle is a path that passes through all the vertices of the graph, passing through each vertex exactly once and the path ends at the same vertex that the path starts at. It takes an input of a graph, $G$, and produces an output of `YES' where $G$ has a Hamiltonian cycle or `NO' in all other cases.
+
+The best known algorithm for this problem is \textit{exponential} and nobody knows whether there exists a polynomial algorithm. 
+\end{example}
+
+\subsection{Decidable Problems: Tractable}
+A tractable problem is a problem for which we have found a polynomial time algorithm has been found. For example:
+\begin{itemize}
+    \item sorting or searching for a key in an array
+    \item matrix multiplication
+    \item the Minimum Spanning Tree problem
+    \item deciding whether a graph is Eulerian (has an Eulerian circuit)
+    \item the shortest path between two vertices in a graph
+    \item the Maximum Flow in a network
+\end{itemize}
+
+\begin{example}{Eulerian Circuit Problem}
+In a graph, an Eulerian circuit is a walk that passes through all the edges of the graph, traversing each edge exactly once and the walk edges at the same vertex where it started. It takes an input of a graph, $G$ and produces an output of `YES' where $G$ is Eulerian and `NO' otherwise. 
+
+Contrary to what one might think when approaching this problem, we don't need to brute force and check through all possible cycles (there would be about $(n!)^2$ of them). We can follow Euler's advice and see that a connected graph contains and Eulerian circuit if and only if the degree of each vertex is even (known as \textit{Property X}).
+
+There exists a simple polynomial algorithm for the decision problem - checking only the degree of each vertex \textit{Property X} and similarly for the problem of finding the Eulerian cycle. 
+\end{example}
+
+\section{An Aside on Decision Problems}
+The previous section includes discussion on not only decision problems, but also the problem of sorting, or to find the maximum values. Which are obviously not decision problems...
+
+Going forth, we will focus on \textit{decision problems}, the problems whose outputs are just `YES' or `NO'. 
+
+Most problems can be re-written in decision form. Take the standard Travelling Salesman Problem:
+
+``\textit{Given n cities and the pairwise distances between them, find the shortest possible rount trip (visiting each vertex exactly once)}.''
+
+Which we can rewrite as a decision problem:
+
+``\textit{Given n cities, the pairwise distance between them and a constant $d > 0$. Is it possible to find round trip with the total length less than d?}''
+
+See that it's now not asking us to solve the problem of TSP, rather it's asking us if we \textit{can} solve the problem.
+
+\section{Complexity Classes}
+Decision problems can be separated into various complexity classes, where we only restrict on time complexity. 
+
+The basic complexity classes are $P$, $NP$, and $NP-$complete. 
+
+\subsection{Class $P$}
+$P$ is the set of all decision problems that can be solved by polynomial-time algorithms. 
+
+This means that, for any given problem who is a member of $P$, we know of an algorithm that solves any instance of size $n$ in $O(n^k)$ time. From this we can deduce that $P$ is just the set of tractable decision problems: the decision problems for which we have polynomial-time algorithms. 
+
+There are a number of different kinds of problem in $P$:
+\begin{itemize}
+    \item Decide whether the maximum of $n$ integers is larger than a given constant 
+    \item Decide whether a graph is Eulerian
+    \item Determine if a key appears three or more times in a given list of integers
+    \item Decision problems corresponding to optimisation problems for which we have found a polynomial time algorithm, for example the maximum flow problem
+\end{itemize}
+
+There are obviously some problems which are not in $P$. One type being the proven intractable or undecidable problems, as these are the only ones for which we know that there is no polynomial algorithm, for example the Halting problem. 
+
+\subsection{Class $NP$}
+The class $NP$ is the set of all problems that can be solved by non-deterministic algorithms in polynomial time. $NP$ stands for \textit{non-deterministically polynomial}.
+
+A non-deterministic algorithm can allow at every possible step multiple continuation. For example - a man walking down a path and every time he steps further, he must pick which fork in the road he wishes to take; the path to his destination isn't clear. 
+
+A non-deterministic algorithm accepts an input, $x$, if there exists a sequence of choices for the algorithm that returns a `YES'. Note that the formal definition of $NP$ says nothing about the running time of producing `NO' answers.
+
+We can consider a two-stage solution:
+\begin{description}
+    \item[Guessing Stage] (non-deterministic part) Make a guess at a solution (choices of continuations), either by plucking from thin air or using our special THEOC magic wands
+    \item[Verification Stage] A deterministic algorithm checks if the `certificate' produced by the above stage is a solution in polynomial time, definitely halting in every true case
+\end{description}
+
+\begin{example}{Decision Version of TSP}
+The decision version of the Travelling Salesman Problem is $NP$. 
+
+We can see it's inputs: a graph with the pairwise distances between $n$ vertices and a value $d$.
+
+We can see it's outputs: Is it possible to find a complete round trip (visit each vertex exactly once) in the total length less than $d$?
+
+If someone claimed that they have a solution to a given instance, can we verify it in polynomial time? In other words, and a given number $d$, can we test if a particular tour has the length less or equal to $d$? 
+
+Yes, we can. An algorithm for checking is shown below:
+
+\begin{lstlisting}[style=haskellTrace]
+    function verify(G: graph; d: number; S: claimed-tour): boolean;
+    begin
+        if S is a tour and length-of-tour(S) <= d then
+            verify:= true
+        else
+            verify:= false
+    end;
+\end{lstlisting}
+\end{example}

@@ -1,0 +1,181 @@
+\taughtsession{Lecture}{B7: Analysis of Algorithms}{2025-12-08}{14:00}{Janka}
+
+As we have seen over the last few lectures, the design of the algorithm is very important when solving a problem. We often strive to find a fast algorithm that doesn't use lots of memory and time (both of which are `bounded' resources). We saw, last week, some fundamental techniques and tools used to analyse algorithms for their time and space that they require to execute, and learnt that our main focus is the time complexity function of a given algorithm. The time complexity for a given algorithm is a dependency of the time it takes to solve a problem as a function of the problem dimension (or size). The worst-case analysis gives an upper bound as to how much time will be needed to solve any instance of the problem.
+
+\section{Sorting Algorithms}
+We're very familiar with the concept of a sorting algorithm. These are the handy algorithms that when fed an array of integers, $S$, which is indexed from 1 to $n$ and a positive integer, $n$, they return the array $S$ containing the integers sorted into ascending order. 
+
+There are a number of sorting algorithms which exist, but we want to find out which of them are the best asymptotically, i.e. when $n \rightarrow \infty$. 
+
+\begin{extlink}
+For all the below examples, there are links in the slides on Moodle which contain graphical animations of the sorting algorithms in practice.
+\end{extlink}
+
+\subsection{Bubble Sort Algorithm}
+The bubble sort works by going through the list of numbers comparing each pair of adjacent items and swapping them if they are in the wrong order. The algorithm repeats passing through the list unitl there are now swaps needed which indicates that the list is sorted.
+
+The algorithm for the bubble sort is shown below, including it's time complexities per line
+
+\begin{lstlisting}[style=haskellTrace]
+    procedure bubblesort (n: integer; var S: array [1...n] of integers)
+        var i, j: integer;
+        begin
+    1.      for i := 1 to n - 1 do              $(\sum_{i=1}^{n-1} (n-1) \times Const)$
+    2.          for j := 1 to n - i do          $((n-i) \times Const)$
+    3.              if S[j] > S[j+1] then       $(1 \textrm{ comparison}: Const)$
+    4.                  swap S[j] and S[j+1]    $(Const)$
+        end
+\end{lstlisting}
+
+From the above we can see a few things. Line 3 uses one comparison, which is always in constant time. The swap of two elements which take place in line 4 happens in constant time. The for loop running on lines 2-4 runs in $(n-i) \times$ constant time, while the for loop on lines 1 to 4 runs in $\sum_{i=1}^{n-1} (n-i) \times$ constant time. 
+
+We can express simplify this as follows:
+\[\sum_{i=1}^{n-1} (n-i) = n(n-1) - \sum_{i=1}^{n-1} i = n (n-1) - \frac{n(n-1)}{2} = \frac{n(n-1)}{2}\]
+
+Therefore we can see that $T(n) = \Theta(n^2)$
+
+\subsection{Exchange Sort Algorithm}
+The exchange sort works differently to the bubble sort. It works by comparing the first unsorted element with each following element of the array, making any necessary swaps to sort the first then the second, etc elements into the right place. This is repeated unitl no swaps are needed which indicates that the list is sorted.
+
+The algorithm including the relevant lines complexities can be seen below.
+
+\begin{lstlisting}[style=haskellTrace]
+    procedure exchangesort (n: integer; var S: array [1...n] of integers)
+        var i, j: integer;
+        begin
+    1.      for i := 1 to n - 1 do          $(\sum_{i=1}^{n-1} (n-i) \times Const)$
+    2.          for j := i + 1 to n do      $((n-i) \times Const)$
+    3.              if S[j] < S[i] then     $(Const)$
+    4.                  swap S[i] and S[j]  $(Const)$
+        end
+\end{lstlisting}
+
+The Exchange Sort algorithm's complexity tells a similar story to that of the bubble sort. Line 3 uses one comparison, therefore constant time and the swap taking place in line 4 is always constant time. The for loop on lines 2 to 4 runs in $(n-i) \times$ constant time and the for loop on lines 1 to 4 uses $\sum_{i=1}^{n-1} (n-i) \times$ constant time to execute.
+
+This can be simplified as follows:
+\[\sum_{i=1}^{n-1}(n-i)=n(n-1)-\sum_{i=1}^{n-1}i = \frac{n(n-1)}{2}\]
+
+Therefore, as with the bubble sort, the worst-case time complexity for the Exchange Sort is $T(n) = \Theta(n^2)$. 
+
+\subsection{Insertion Sort}
+The insertion sort works by maintaining a sorted front section of the array; and then at each step inserting the current element to sort into the appropriate point in the sorted section, then moving onto the next unsorted element.
+
+An algorithm to do this task can be seen below.
+
+\begin{lstlisting}[style=haskellTrace]
+    procedure insertsort (n: integer; var S: array [1...n] of integers)
+        var i, j, key: integer;
+        begin
+            for j:= 2 to n do
+                key := S[j]; i:= j - 1;
+                while i > 0 and S[i] > key
+                    S[i+1] := S[i]; i := i - 1;
+            S[i+1] := key
+        end
+\end{lstlisting}
+
+Analysing the time complexity of the insertion sort gives us the same outcome as the bubble and exchange sort, that being a worst case complexity of $T(n) = \Theta(n^2)$. 
+
+\subsection{Merge Sort}
+From the three sorting algorithms we've seen so far - it would seem that the fastest an array of $n$ integers can be sorted is in $T(n) = \Theta(n^2)$ time. However, this is wrong. The merge sort is much faster.
+
+The merge sort works by taking the initial array and then dividing it into two sub-arrays with approximately half the items in each sub-array. Each sub-array is then sorted by recursively calling the same algorithm. Then the solutions ot the sub-arrays are merged into a single sorted array.
+
+The merge sort algorithm is an example of a \textit{divide-and-conquer} algorithm. 
+
+An example algorithm for the implementation of merge sort can be seen below
+
+\begin{lstlisting}[style=haskellTrace]
+    procedure mergesort (n: integer; var S: array [1...n] of integers)
+        const h = ⌈n/2⌉;
+              m = ⌈n/2⌉ + 1;
+        var U: array[1...h] of integer;
+            V: array[1...m] of integer;
+        begin
+            if n > 1 then
+                copy S[1] through S[h] to U;
+                copy S[m] through S[n] to V;
+                mergesort(h, U);
+                mergesort(m, V);
+                merge(h, m, U, V, S);.
+            end
+        end;
+\end{lstlisting}
+
+From the above algorithm we can see that where $n=1$, the mergesort is complete, therefore this uses constant time. However where $n\neq1$ - we have to recursively sort $S[1...\lceil n/2 \rceil]$ and $S[\lceil n/2 \rceil +1 ... n]$ which gives a time complexity of $2T(n/2)$.  
+
+To be pedantic - where $n\neq1$ the time complexity \textit{should} be $T(\lceil n/1 \rceil) + T(\lfloor n/2 \rfloor)$ instead of $2T(n/2)$ but the difference here does matter asymptotically. 
+
+Now that we've split our array into the smallest sub-array we can find and sorted them, we need to merge them. This calls for the \textit{merge} algorithm.
+
+\begin{lstlisting}[style=haskellTrace]
+    procedure merge (h, m: integer; U: array [1...h] of integer
+                     V: array [1...m] of integer;
+                     S: array [1...(h+m)] of integer;)
+        var i, j, k: index;
+        begin
+            i := 1; j := 1; k := 1;
+            while i <= h and j <= m do
+                if U[i] < V[j] then S[k] := U[i]; i := i + 1
+                    else S[k] := V[j]; j := j + 1
+                k := k + 1;
+            od;
+            if i>h then copy V[j] through V[m] to S[k] through S[h+m]
+                else copy U[i] through U[h] to S[k] through S[h+m]
+            // Once one list is empty, copy the rest
+        end;
+\end{lstlisting}
+
+The merge part of the algorithm always has a constant time: $const \times (h + m)$. 
+
+We can see a recurrence for the merge algorithm's time complexity: 
+\begin{equation*}
+    T(n) = \begin{cases}
+        C_0, & \textrm{if } n=1;\\
+        2T(n/2) + C \times n, & \textrm{if } n > 1.
+    \end{cases}
+\end{equation*}
+
+In the above recurrence, $C_0$ and $C$ are suitable constants; in further discussions we omit the constant $C_0$. 
+
+We can use a recursion tree to solve the time complexity of a merge sort.
+
+\begin{todo}
+add diagram of tree and explanation here including about last line
+\end{todo}
+
+The worst case time complexity for a merge sort can be seen as $\Theta(n \log_2 n)$. From this we can learn that the merge sort asymptotically beats the insertion, exchange and bubble sort in the worst case as $n \log_2 n$ grows more slowly than $n^2$. This is as fast as we can get with a sorting algorithm. 
+
+\section{Recurrences}
+We have seen an example of a \textit{recurrent problem} with the merge sort this lecture. Recurrent problems come up again and again in the analysis of recursive algorithms. A recurrent problem is one which is solved with recursion, i.e. calling itself from inside itself with different input parameters. 
+
+A common example of a problem solved using a recurrence is \textit{The Tower of Hanoi}. This is a problem where a tower of $n$ disks are initially stacked in increasing size on one of three pegs. The objective is to transfer the entire tower of one of the other pegs, however we can only move one disk at a time and we must never place a large disk on top of a smaller one. The question we seek to solve is finding how many steps do we need for $n$ disks?
+
+We can start trying to solve this by investigating a small number of disks, where $T(n)$ is the minimum number of steps to solve for $n$ disks:
+\[T(0) = 0, \quad T(1) = 1, \quad T(2) \leq 3, \quad T(3) \leq ?? \]
+
+From this we can start to see a pattern - the Towers of Hanoi problem can be solved recursively, as we know the base case (where $n=1$). This means the problem always has a solution. The generalised formula for this can be seen as follows:
+\[T(n) \leq 2 \times T(n-1)+1\]
+
+Or, with a specific example, trying to solve for $n=3$:
+\[T(3) \leq 2 \times T(2) + 1 = 7\]
+
+Extrapolating this idea is how we can find the lower bound. We know that to solve the problem we must move the $n$th disk from the first post to a different post, which then means the $n-1$ smaller disks must all be stacked out of the way on the only remaining post. To arrange the $n-1$ smaller disks this way requires at least $T_{n-1}$ moves. This gives us our base case and recurrence case:
+\begin{align*}
+    T(1) &= 1,\\
+    T(n) &= 2 \times T(n-1) + 1
+\end{align*}
+
+To solve a recurrence for a given $n$, we first construct what we know, using the recurrence case. We then substitute what we don't know with the next instance of the recurrence case. We repeat this until we reach something that we do know, the base case.
+
+\begin{align*}
+    T(n) &= 1 + 2T(n-1) \\
+    &= 1 + 2(1 + 2T(n-1))\\
+    &= 1 + 2 + 4T(n-2)\\
+    &= 1 + 2 + 4 + 8T(n-3)\\
+    &= \ldots\\ 
+    &= 1 + 2 + 4 + \ldots + 2^{n-2} + 2^{n-1} T(1)\\
+    &= 1 + 2 + 4 + \ldots + 2^{n-2} + 2^{n-1} = \sum_{i=0}^{n-1}2^i\\
+    &= 2^n - 1
+\end{align*}
+
