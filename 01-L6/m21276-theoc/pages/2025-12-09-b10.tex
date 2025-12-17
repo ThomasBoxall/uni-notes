@@ -1,0 +1,78 @@
+\taughtsession{Lecture}{B10: Tackling NP-Complete \& NP-Hard Problems}{2025-12-09}{11:00}{Janka}
+
+It's useful to study these $P$, $NP$, $NP$-complete, etc problems, as if we can identify that our problem is $NP$-complete, we know it's probably not worth looking for an optimal solution so we can then spend our time looking for a solution which is not ideal but which fits our needs.
+
+This lecture will look at a series of methods which can be used to tackle $NP$-complete and $NP$-hard problems.
+
+\section{Method 1: Using a Heuristic}
+A `heuristic' is an algorithm that works \textit{reasonably well} for many instances but for which there is no proof that the algorithm is always \textit{fast} or always produces a \textit{good} solution. Similarly, \textit{genetic} algorithms also belong to this category. 
+
+\subsection{Using a Heuristic for the Graph Colouring Problem}
+As we know this problem has an input of a graph, $G$, and the output is the minimum number $k$ such that $G$ is $k$-colourable. The problem is $NP$-hard and the decision is $NP$-complete.
+
+A Heuristic algorithm could work by ordering the vertices $v_1$, \ldots, $v_n$ of $G$; then for each $i$ from 1 to $n$ assign to $v_i$ the smallest available colour not used by $v_i$'s neighbouring among $v_1$, \ldots, $v_{n-1}$ adding a new colour if needed. 
+
+\subsection{Using a Heuristic for TSP}
+There are three different heuristic oriented methods we can explore for the Travelling Salesman Problem.
+
+\subsubsection{Nearest Neighbour Heuristic (NN)}
+This is a natural greedy heuristic which start at an arbitrary vertex, $s$, then from the current vertex, $u$, go to the nearest unvisited vertex $v$; and when all vertices are visited, return to $s$. 
+
+This algorithm quickly yields a reasonably short route. For $n$ cities randomly distributed in a plane, the algorithm on average yields a path 25\% longer than the shortest possible path. However there exist instances which make the NN algorithm give the worst route. 
+
+\subsubsection{Insertion Heuristics}
+If we start with a subtour (a tour on a subset of vertices), we can intuitively extend this tour by inserting the remaining vertices one after the other until all vertices have been inserted. 
+
+There is a choice of how to construct the initial tour, however normally this is usually a tour on three vertices (for example the three that form the largest triangle).
+
+There is then a choice of how to choose the next vertex to be inserted, which there are two popular methods for:
+\begin{description}
+    \item[Cheapest Insertion] Among all vertices not inserted so far, choose a vertex whose insertion causes the lowest increase in the length of the tour
+    \item[Farthest Insertion] Insert the vertex whose minimal distance to a tour node is maximal
+\end{description}
+
+\subsubsection{Improving Solutions}
+The tours computed by the various heuristics we've seen so far can be further improved. There are several strategies to this - for example using a local search technique 2-OPT.
+
+This works by eliminating two edges from the existing tour and reconnecting the two resulting paths in a different way to obtain a new tour, and iterating this procedure until no such pair of edges is found.
+
+\section{Method 2: Using Approximate Algorithms}
+An approximate algorithm is an algorithm that finds a solution, in polynomial time, that is close to the optimal solution for every instance; and there exists a proof for all of these properties. 
+
+\textit{Close} can have different meanings; it could mean arbitrarily close to the optimal solution (for example 1+ $\epsilon$ for any $\epsilon$) or or differ by a constant factor, or even worse. For example, $r$-approximation algorithm, $A$, for a minimisation problem, $M$, means $A$ is a polynomial time algorithm for which any instance $M$ returns a solution at most $r$-times larger than an optimal one (where $r>0$ is a constant). 
+
+\subsection{Approximation Algorithms for metric TSP}
+The metric TSP looks for distances on the edges which correspond to the Euclidean distances - TSP with triangle inequality:
+\[d(A,B) + d(B,C) \geq d(A,C)\]
+
+For example, if the distance measure is a metric and symmetric, there is a known 3/2 approximation algorithm for the TSP. This means that for any instance of the TSP with the distance measure being a metric and symmetric, there exists a polynomial time algorithm which returns a solution at most 1.5 times larger than the optimal one. 
+
+The construction of this solution is based on the solution of the Minimum Spanning Tree. First we find the Minimum Spanning Tree (MST) of the graph with $n$ vertices. The MST is a connected subgraph of the graph with all vertices and the total sum of the edges in the tree is minimal from all connected subgraphs with such properties. An $O(n^2 \log n)$ algorithm exists to compute the MST. 
+
+With our MST, we duplicate all the edges - giving us an Eulerian graph. We find an Eulerian cycle within it and then walk along the cycle. Each time we are about to arrive at an already visited vertex - skip it and try to go to the next one along the Eulerian cycle. 
+
+This gives us a TSP tour no more than twice a long as the optimal one. It can be further improved to a tour of length, at most, 1.5 times the shortest tour. 
+
+\section{Method 3: Restrict the Problem to the Instances with a Polynomial Time Algorithm}
+Some $NP$-hard or $NP$-complete problems can be in $P$ when we solve them only for a subset of all instances:
+\begin{itemize}
+    \item The 3-satisfiability problem is $NP$-complete, but the 1-satisfiability or 2-satisfiability problems are in $P$.
+    \item The $k$-colouring problem is in $P$ for trees and bipartite graphs; in fact many $NP$-hard graph optimisations are in $P$ for a class of trees.
+    \item The timetabling problem has some polynomial solutions in the case when there are less than three subjects.
+\end{itemize}
+
+\section{Method 4: Parametrisation}
+It is seen that the very fast algorithms often have certain parameters set to fixed, or small values. 
+
+For example, if we take a problem which takes a graph, $G$, an an integer, $k$ as input and finds if $G$ has a vertex cover of at most size $k$. We see that the problem itself is $NP$-hard while the decision version is $NP$-complete. The running time of a brute force algorithm is $O(kn({n \atop k}))=kn^{k+1}$ but there is also an algorithm with an exponential running time in $k$ but polynomial in $n$: $O(2^kn)$. 
+
+If a graph has a small vertex cover, it cannot have too many edges. If $G$ has $n$ vertices and $G$ has a vertex cover of size at most $k$, then $G$ has at most $kn$ edges. The easy part of the algorithm is that we can simply return `NO' if $G$ has more than $kn$ edges. However, it gets more complicated where $G$ has less than $kn$ edges. If we consider an edge $(u,v)$, we know that either $u$ or $v$ must be in the vertex cover. So $G$ has a vertex cover of size at most $k$ if and only if for any edge $(u,v)$ either $G \backslash \{u\}$ or $G \backslash \{v\}$ has a vertex cover of size at most $k-1$. Where the graph $G \backslash \{u\}$ is the graph $G$ without vertex $u$ and the edges incident with $u$. 
+
+\section{Method 5: Find a Probabilistic Polynomial Algorithm}
+A \textit{Probabilistic Polynomial Algorithm} is an algorithm which is usually correct in all cases, except a very small number of cases.
+
+A problem which has such an algorithm is the \textit{primeness problem}; which is based on the selection of $k$ random numbers between 1 and $n-1$ where $n$ is the number to be tested for primeness. If $n$ is prime the algorithm returns `YES' while if $n$ is not prime, then there is a small possibility that the algorithm will return `YES' instead of `NO'; which is less than $\frac{1}{2^k}$. 
+
+\vspace{3em}
+
+That's it. We're done. This is the end of Part B lectures of this module. Exam on Part B to happen during January.

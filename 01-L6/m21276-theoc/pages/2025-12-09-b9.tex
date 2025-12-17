@@ -1,0 +1,130 @@
+\taughtsession{Lecture}{B9: NP and NP-Complete Problems}{2025-12-09}{10:00}{Janka}{}
+
+Janka is out of the university on a Side Quest next Monday so this lecture has been brought forwards to this week instead. This will be the last lecture (B9 and B10) of the semester and therefore the module :(
+
+\section{Introduction}
+
+As we saw in the previous lecture, B8, there are three classes for problems: $P$, $NP$ and $NP$-complete. 
+
+The class $P$ is the set of all decision problems that can be solved by polynomial time algorithms, or alternatively, the tractable decision problems. To prove a problem is in $P$, you must write a polynomial time algorithm to solve it. 
+
+The class $NP$ is the set of all decision problems that can be solved by non-deterministic algorithms in polynomial time, also known as apparently intractable decision problem. To prove a problem is in $NP$ you must write a polynomial algorithm to verify whether a given certificate (a solution) is the proof (evidence) that the answer is `YES'. 
+
+No conventional computer can carry out the chosen operation for $NP$ problems. No one has yet shown how even an unconventional computer could simulate a non-deterministic polynomial-time algorithm in polynomial time. Equivalently, there must exist a polynomial algorithm, a \textit{verifier} which, if the answer is `YES' can verify the affirmative answer (a certificate) in a polynomial bounced number of steps. 
+
+And now for a bad Shakespeare pun...
+
+\begin{example}{$NP$ or not'$NP$}
+\textbf{A} $NP$ \textbf{problem} 
+
+For a given input, a graph $G$, the output is `YES' if $G$ is a Hamiltonian graph. It is easy to verify a given solution when a certificate - a sequence of the edges in $G$ is given (the verification  can be done in polynomial time). 
+
+\textbf{Not a} $NP$ \textbf{problem}
+
+For a given input, a graph $G$, the output is `YES' if $G$ is not a Hamiltonian graph. This is not a $NP$ problem as there is not a known certificate which could be verified in polynomial time. 
+\end{example}
+
+So, what's the difference between $P$ and $NP$? To prove an algorithm is in $P$, it must be possible to write a polynomial time algorithm to solve it. However, to prove a problem is in $NP$ you must write a polynomial algorithm to check a given `YES' solution. 
+
+We can see here that everything in $P$ is also in $NP$ as to be in $P$ the problem must be solvable in polynomial time by a deterministic TM, which is also obviously a non-deterministic TM. This can equivalently be represented as:
+\[P \subset NP\]
+
+It has never been proven that $NP = P$. No one has found a problem in $NP$ which is definitely not in $P$. Despite this, the consensus amongst scientists who have been working on this problem for years is that $P \neq NP$. 
+
+\section{$NP$-complete}
+$NP$-complete are the hardest problems in $NP$. They are problems which have been found to be harder than the other problems in the $NP$ class. 
+
+\subsection{The Satisfiability Problem}
+The satisfiability problem ask that for a given boolean expression written using only AND, OR, NOT, variables and parentheses - is there an assignment of TRUE / FALSE  values to the variables that make the entire expression TRUE? 
+
+Every boolean expression is equivalent to the one in Conjunctive Normal Form, consisting of a conjunction (AND), or only OR clauses so we focus only on those. For example:
+\[(x \vee y \vee \neg z) \wedge (x \vee z)\]
+is satisfiable by letting $x$ = TRUE; $y$ = FALSE; and $z$ = FALSE. 
+
+However,
+\[(x \vee y \vee ) \wedge (x \vee \neg y) \wedge \neg x \]
+is not satisfiable because it is false for any assignment of TRUE for $x$ and $y$. 
+
+Cook theorised that \textit{The CND-satisfiability problem is NP-complete}. 
+
+We can see this proved as the problem is in $NP$, and if we let the length of an expression $n$ be the total number of literals that appear in it - then the number of distinct variables in the expression is at most $n$, and the checking stage can be done in $O(n)$ time. 
+
+Cook also proved that a restricted form of the CNF-satisfiability problem, the \textit{3-satisfiability} problem is $NP$-complete where the expression contains at most 3 literals in each OR clause. The 3-satisfiability problem is $NP$-complete. 
+
+\section{Importance of $NP$-complete Problems}
+$NP$-complete problems arte all effectively equivalent in the sense that if any one of them is in $P$ then they all are. If any $NP$-complete problem is ever shown to have a polynomial algorithm, then we can deduce that $P=NP$. 
+
+In 1972, Richard Karp showed that there are 21 combinatorial and graph theoretical problems which are $NP$-complete. Today there are well over 1000 problems which are known to be $NP$-complete.
+
+\subsection{Examples of $NP$-complete Problems}
+The \textit{graph colouring problem} ask that if we are given a graph and a number, $k$, can we colour the vertices of the graph using at most $k$ colours such that no two vertices connected by an edge has the same colour? 
+
+The \textit{Steiner Tree Problem} takes a weighted graph, $G$, and a subset of vertices $S$ and a numerical value $k$ as input. It asks is there a subgraph of $G$ (which would be a tree) containing the vertices of $S$ (and possibly some others too if needed) with a total weight of at most $k$? 
+
+The \textit{Timetabling Decision Problem} asks that given a list of subjects and students enrolled in them, as well as the number of times slots available, is it possible to time table the subjects so that no student has a clash?
+
+And there are, of course, problems we are more familiar with...
+\begin{itemize}
+    \item The CNF-satisfiability problem (also 3-satisfiability)
+    \item The travelling salesman problem
+    \item The Hamiltonian cycle problem 
+    \item Tetris, Minesweeper, the 15 puzzle
+\end{itemize}
+
+We can gleam from this that any $NP$ problem can be solved by an exponential algorithm, but none of them have a known polynomial algorithm. To that extent, no one has been able to prove that no polynomial algorithm exists for any of these problems. 
+
+Generally speaking, many applied problems are $NP$-complete. If a given problem is decidable problem, then it is most probably a $NP$-complete problem. However, this doesn't necessarily mean that all $NP$ problems are $NP$-complete - as we don't know the answer to this yet. 
+
+\subsection{Defining a problem as $NP$-complete}
+We can see that a decision problem, $B$, is $NP$-complete if $B \in NP$ and $A \leq B$ for all problems $A \in NP$; meaning that $NP$-complete problems are in $NP$ to which all other $NP$ problems can be reduced in polynomial time. 
+
+To prove that our problem is $NP$ complete, we must first prove that our problem is $NP$ then we need to find a $NP$-complete problem ($A$) that can be \textit{polynomially reduced} to our problem. 
+
+\section{Polynomially Reducible}
+If we are given two problems, a polynomial-time reduction is an algorithm that runs in polynomial time and reduces one problem to another. 
+
+When we come to solve a problem, we provide an input $I_A$ to the program, $A$ and get the desired outcome. However if we take our $I_A$ and provide that to program $B$, it gets very confused. Suppose that we want to know how to solve problem $A$ but we don't know how, rather we only know how to solve problem $B$. 
+
+To solve this - we have to find a polynomial reduction which transforms input $I_A$ of $A$ to the input $I_B$ of $B$ in a way such that $B$'s answer to $I_B$ is precisely $A$'s answer to $I_A$. Therefore:
+\begin{itemize}
+    \item Where $I_A$ is an instance of $A \rightsquigarrow I_B$ is an instance of $B$;
+    \item Where $I_A$ is a `YES' instance $\Leftrightarrow$ $I_B$ is a `YES' instance.
+\end{itemize}
+
+In plain-speak, if we have an input $I_A$ to our problem $A$, we can transform $I_A$ into the input $I_B$ for the problem $B$ and use our algorithm for $B$. If $B$ has a polynomial algorithm, then we now have a polynomial algorithm for $A$ as well. 
+
+\begin{example}{The Decision TSP}
+As we already know, the decision version of the Travelling Salesman Problem is in $NP$. We want to find out if it $NP$-complete. 
+
+We need to find a polynomial reduction from a $NP$-complete problem, $A$ to the TSP... 
+
+If we let $A$ be the Hamiltonian cycle problem, which we already know is $NP$-complete. Then a solution of the TSP is simply a solution of $A$. So if we have a TSP solver, we could use it to solve the Hamiltonian problem in polynomial time. 
+
+We would do this by transforming an instance $(V,E)$ of the Hamiltonian cycle problem to the instance $(V,E')$ of the TSP that has the same set of vertices, $V$; has an edge between every pair of vertices; and has the following weight:
+\begin{equation*}
+\textrm{Weight of } (u,v) \textrm{ equal to } \begin{cases}
+    1 & \textrm{if } (u,v) \in E\\
+    2 & \textrm{if } (u,v) \notin E.
+\end{cases}
+\end{equation*}
+
+\begin{todo}
+diagram
+\end{todo}
+
+From this we can see that $(V,E)$ has a Hamiltonian cycle if and only if $(V,E')$ has a tour with total weight no more than $n$ where $n$ is the number of vertices in $V$. 
+\end{example}
+
+\section{What Comes Between $P$ and $NP$?}
+We find some useful problems in the gap between $P$ and $NP$. A bit like finding that missing ten pound note down the back of the sofa? Not quite...
+
+The factorisation decision problem asks that when given an integer $n$ and an integer $m$, with $1 \leq m \leq n$, does $n$ have a factor $d$ with $1 \leq d \leq m$? 
+
+No one has ever been able to convert the satisfiability (or any other $NP$-complete problem) to the factorisation problem, which is $NP$ and we don't know how to solve it in polynomial time. Many cryptographic protocols are based on the difficulty of factorising large composite integers. 
+
+Factorisation, which is the basis of RSA, is believed to be neither $P$ or $NP$-complete.
+
+\section{$NP$-Hard}
+A problem is classified as $NP$-hard if all $NP$ problems can be polynomially reduced to it. This means that the difference between $NP$-complete and $NP$-hard is that an $NP$-complete problem must be in $NP$. Therefore a $NP$-hard problem does not need to be in $NP$ and doesn't need to be a decision problem.
+
+For example, the Travelling Salesman Problem is $NP$-hard while the decision version of the Travelling Salesman Problem is $NP$-complete.
