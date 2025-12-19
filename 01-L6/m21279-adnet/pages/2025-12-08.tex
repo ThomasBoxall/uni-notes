@@ -82,4 +82,35 @@ A \textit{flow} in this context refers to a sequence of packets traversing a net
 
 An OpenFlow switch encapsulates and forwards a flow's first packet to a SDN controller. The switch forwards incoming packets out of the appropriate port based on the flow table. The switch can drop packets on a particular flow, either temporarily or permanently as dictated by the controller. 
 
-% continue from slide 15
+There are three different communication classes defined in the OpenFlow protocol. \textit{Controller to Switch} is used by the controller to program, configure and retrieve information from the switch. \textit{Asynchronous (switch to controller)} is initiated by the OpenFlow switch to and sends to the controller to report packet arrivals, state changes, errors, etc. \textit{Symmetric (switch to controller) and Controller to switch} allows either to side to send message without solicitation; for example hello or echo messages to identify if the control channel is still alive and available. 
+
+\subsection{Domains}
+It is possible for multiple SDNs to exist in proximity to one another. The existence of multiple domains creates a requirements for individual controllers to communicate with each other via a standardised protocol and to exchange routing information. A protocol, SDNi, is being developed for interfacing between SDN domain controllers. It's functionality includes the following:
+\begin{itemize}
+    \item coordinate flow setup originated by applications containing information such as path requirement, QoS and SLA
+    \item Exchange reachability informaiton to facilitate inter-SDN routing; allowing a single flow to traveerse multiple SDNs and have each controller select the most appropriate path when multiple such paths are available
+\end{itemize}
+
+As of when these slides were written, SDNi is discussed as something coming in the future. It doesn't appear SDNi has gone anywhere, with the IETF noting the draft as `no longer active'.
+
+\subsection{Scope and Scale}
+Typically a physically centralised control plane is adapted for SDN. It can be implemented in a single server but this is a single point of failure and a potential bottleneck. There may also be reliability or scalability issues.
+
+The alternative to this is a logically centralised distributed control plane. This comprises of physically distributed elements that interface to each other through east \& west bound interfaces. The dta plane and the applications only see a single logical controller.
+
+\section{SDN Flows}
+As we already know, the OpenFlow protocol uses tables to route packet sequences (flows) from the sender to the receiver. When a flow arrives to a OpenFlow switch, a table lookup is performed. If no matching route is found, a request to the controller is made; the reply from the controller is handled in one of three different modes - Proactive, Reactive or Hybrid.
+
+\subsection{Reactive Mode}
+In reactive mode, the controller is queried when packets arrive and there is no entry or an expired timer has expired for the required destination. The controller creates and installs a rule in the corresponding packet if necessary. Importantly, the rule is only installed on switches which will be implicated in the forwarding of this flow. 
+
+\begin{todo}
+example? (slide 20)
+\end{todo}
+
+\subsection{Proactive Mode}
+In proactive mode, the controller populates flow tables for all possible traffic matches. These are static entries and they are installed ahead of time of the transmission. Following this - no request is sent to the controller since all incoming flows will find a matching entry. This is advantageous (over reactive mode) as all packets are forwarded in line rate so there is no delay; however it is at a disadvantage because the flow table when implemented in Associative memory is very expensive for large tables. 
+
+\begin{todo}
+example? slide 21
+\end{todo}
