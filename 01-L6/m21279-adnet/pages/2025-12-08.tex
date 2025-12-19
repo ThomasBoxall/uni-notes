@@ -1,0 +1,85 @@
+\taughtsession{Lecture}{Software Defined Networking}{2025-12-08}{11:00}{Asim}
+
+Software Defined Networking (SDN) is an alternative paradigm of networking which separates the network control from the data forwarding by using software. This allows for centralised, programmable management of the entire network. 
+
+\section{Virtual Local Area Networks}
+A Virtual Local Area Network (VLAN) is a broadcast domain consisting of a group of networked devices, sometimes on different physical LAN segments, which can communicate as though they are on a common LAN.
+
+VLAN membership is defined by one of the following:
+\begin{description}
+    \item[Port Group] Each switch in the LAN configuration contains two types of ports: trunk ports which connect to switches; or an end port which connects the switch to an end-system. A VLAN can be defined by assigning each end port to a specific VLAN. This approach hsa an the advantage that it is relatively easy to configure; while a key disadvantage is that the network manager must reconfigure VLAN membership when an end system moves from one port to another. 
+    \item[MAC Address] Since MAC-layer addresses are hardwired into the workstations NIC, VLANs based on MAC addresses enable the network managers to move a worksation to a different physical location on the network and have that workstation automatically retain its VLAN membership. A key problem with this method is that VLAN membership must be assigned initially which is a big task in a network with thousands of end systems. 
+    \item[Protocol Information] Membership can be assigned based on IP address, transport protocol information or even higher layer protocol information. This is a quite flexible approach but it does require switches to examine portions of the MAC frame above the MAC layer which may have a performance impact on the switch.
+\end{description}
+
+\section{Planes}
+No, not the things flying in the sky...
+
+\subsection{Data Plane}
+The data plane transmits and receives data packets. It focuses on forwarding data packets based on routing destinations; and uses protocols such as TCP/IP and UDP. 
+
+\subsection{Control Plane}
+The control plane is concerned with routing of data, naming of devices, declaring policies and performing security checks. It is responsible with managing and controlling the network. The control plane uses protocols such as OSPF, BGP and MPLS.
+
+\subsection{Management Plane}
+The management plane configures and monitors network devices. It uses protocols such as SSH, Telnet and SNMP.
+
+\section{Server Virtualisation}
+Traditionally, servers were used in a single server per application paradigm. Taking into account testing, development, pre-production, production, and disaster recovery - a single application may require 3 to 5 servers. However the traditional workload of a single one of these servers would be very low which is obviously bad. 
+
+Server Virtualisation is a way to consolidate servers by allowing a single physical host to run multiple workloads. A `virtual server' is a software implementation that executes programs like a real server. Multiple virtual servers can work simultaneously on one single physical host server server. Therefore instead of operating many servers at low utilisation, virtualisation combines the processing power onto fewer servers that operate at a higher total utilisation. 
+
+Virtualisation improves scalability, reduces downtime and enables faster deployments. It can also speed up disaster recovery efforts because virtual servers can restart applications much faster than physical servers. With virtualisation, entire systems cna be moved from one physical host to another in just a few seconds - to optimise workloads or to perform maintenance without causing downtime.
+
+Some virtualisation solutions also have built-in resiliency features such as high availability, load balancing and failover capabilities. Virtualisation has become commonplace in large data centres; however is less common (as of 8 years ago when these slides were written) in smaller data centres. 
+
+The application running directly on a physical host server is called a Hypervisor, specifically a type 1 hypervisor. 
+
+Server virtualisation masks server resources (both hardware and software) from users. Virtual server hosts can host multiple VM servers. 
+
+However, virtual servers introduce the need for virtual LANs to be configured. The physical server and the VM need to use the same switch port. The network needs to be reconfigured whenever the VM migrates. 
+
+\section{Dynamic Configuration of Network Resources}
+Especially when using Server Virtualisaiton, but also more generally in modern networks - there is a need for dynamic configuration of network resources. 
+
+This is needed for management of traffic amongst virtual servers for the following:
+\begin{itemize}
+    \item To maintain consistent database images
+    \item Invoke security functions such as access control
+    \item Server-to-server traffic changes with location and time
+\end{itemize}
+
+This is also needed for performance management of enterprise networks:
+\begin{itemize}
+    \item Users access enterprise resources through mobile devices
+    \item Load changes dynamically with location and time
+    \item Manual configuration of network servers take long time due to different vendors and different interfaces of devices
+    \item Managers need to configure equipment from different vendors separately on per session per application basis
+\end{itemize}
+
+\subsection{Traditional Network Configuration}
+Network managers must be able to respond to changing resources, quality of service needs, and security requirements by providing differentiated QoS levels and security levels for individual traffic flows. The network manager must configure each vendor's equipment separately and adjust security parameters on a per-session, per-application basis. 
+
+In a large enterprise network, every time a new VM is brought up, it can take hours or even days for network managers to do the necessary reconfiguration. 
+
+\section{SDN Architecture}
+The architecture of SDN centres around a central controller who performs all complex functions, including routing, naming, policy declaration and security checks. This controller is the SDN control plane and consists of one or more SDN servers. The SDN controller defines the data flow that occurs in the SDN data plane. 
+
+Each flow through the network has to first get permission from the controller, which verifies the communication is permissible by the network policy. If the controller allows a flow, it computes a route for the flow to take and adds an entry for that flow in each of the switches along the path. With all complex functions handled by the controller, the switches are able to solely manage the flow tables.
+
+Communication between the controller and the switches uses a standardised protocol and API. This is most commonly in line with the OpenFlow specification. 
+
+\subsection{OpenFlow}
+OpenFlow is the protocol used for communication between the SDN Controller and switches. This communication takes place over SSL.
+
+Each OpenFlow switch will connect to other OpenFlow switches and sometimes to end-user devices. Within each switch, there are a series of tables which are typically implemented in hardware or firmware, that are used to manage the flows of the packets through the switch. The OpenFlow specification defines a number of types of tables in the logical switch architecture:
+\begin{description}
+    \item[Flow Table] matches incoming packets to a particular flow and specifies what functions are to be performed on the packets. There may be multiple flow tables that operate in a pipeline fashion. A flow table may direct a flow to a group table which may trigger a variety of actions that affect one or more flows.
+    \item[Meter Table] can trigger a variety of performance related actions on a flow.
+\end{description}
+
+A \textit{flow} in this context refers to a sequence of packets traversing a network that share a set of header field values (source IP, destination IP, VLAN identifier, etc).
+
+An OpenFlow switch encapsulates and forwards a flow's first packet to a SDN controller. The switch forwards incoming packets out of the appropriate port based on the flow table. The switch can drop packets on a particular flow, either temporarily or permanently as dictated by the controller. 
+
+% continue from slide 15
