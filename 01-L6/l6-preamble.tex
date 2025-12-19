@@ -353,3 +353,66 @@ marginparsep=0mm,
 \end{titlepage}
 \nopagecolor
 }
+
+% custom backpage
+
+\newtcolorbox{backpagenotice}{
+    enhanced,
+    colback=white,
+    colframe=themeRed,
+    coltext=black,
+    coltitle=white,
+    attach boxed title to top left={yshift*=-\tcboxedtitleheight}, 
+    title=\textsc{Freely Given, Highly Questionable},
+    parbox=false,
+    breakable,
+    arc=2pt,
+    boxed title size=title,
+    boxed title style={%
+        rounded corners=northeast, 
+        rounded corners=northwest, 
+        colback=tcbcolframe, 
+        boxrule=0pt,
+    },
+    underlay boxed title={%
+        \path[fill=tcbcolframe] (title.south west)--(title.south east) 
+            to[out=0, in=180] ([xshift=5mm]title.east)--
+            (title.center-|frame.east)
+            [rounded corners=2pt] |- 
+            (frame.north) -| cycle; 
+    },
+}
+
+
+\newcommand{\makedocumentbackpage}{
+
+    % --- Force jump to the next EVEN (left) page ---
+    \clearpage
+    \ifodd\value{page}\else
+        \null
+        \thispagestyle{empty}
+        \vfill
+        % \begin{center}
+        %     This page has intentionally been left blank because aesthetics. Go use a 2-sided, facing page PDF viewer.
+        % \end{center}
+        % \vfill
+        \newpage
+    \fi
+
+    \thispagestyle{empty} % Keep the disclaimer page clean
+    \vspace*{\fill}
+
+    % \newpage
+    \thispagestyle{empty}   
+    \rule{\textwidth}{0pt}
+    \vfill
+    \begin{backpagenotice}
+        These notes are a byproduct of my learning process - mistakes, bad jokes and snark included. If you take an error of mine as gospel and ruin your perfect 1st, that is a \textit{you} problem boo. I am a student, not a prophet, use a textbook if you want certainty.
+
+        Yes, they have been typeset in \LaTeX{}; I'd rather typeset in stone with a blunt chisel than use Word Online for another minute. If the formatting looks obsessive, it's because it was either this or a breakdown. You can find the source on my GitHub. 
+
+        They're licensed under CC-BY-4.0. So do what you will with them; just attribute them to me. Plagiarism is a bad look, and I've got just enough snark left for you bestie.
+    \end{backpagenotice}
+    \vspace{2em}
+    \small{Thomas Boxall is a Computer Science Student studying at the University of Portsmouth, UK. In all honesty, he should probably be revising or doing some work towards his dissertation, not fondling the template of his notes again. You can find Thomas online at thomasboxall.net} 
+}
