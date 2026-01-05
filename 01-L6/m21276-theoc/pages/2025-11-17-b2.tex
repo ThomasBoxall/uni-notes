@@ -1,6 +1,6 @@
 \taughtsession{Lecture}{B2: Computability and Equivalent Models P2. 2}{2025-11-17}{15:00}{Janka}
 
-10 minute doom-scroll-of-cat-photos break later, we're back at it for Part 2 of this 2 parter.
+10 minute doom-scroll-of-cat-photos break later, we're back at it for part 2 of this 2 parter.
 
 This lecture picks up directly from the last - starting with...
 
@@ -12,14 +12,14 @@ In this topic, we consider functions whose arguments and values are natural numb
 Church, Kleene \& Rosser created a formal definition of a class of functions whose values could be calculated by recursion, which are known as the \textit{partial recursive functions}.
 
 We believe that functions of the following form are computable:
-\[f(x)=0, \quad g(x)=x+1, \quad H(x,y,z)=x\]
+\[f(x)=0, \quad g(x)=x+1, \quad h(x,y,z)=x\]
 
 In some fun news - all we need to construct all possible computational functions are basic functions like those above, and some simple combining rules! Unlike for Turing Machines, the description of recursive functions is \textit{inductive}. 
 
 \subsection{The Idea...}
 The idea of recursive functions is simple - we break down the target into a series of steps which the computer is able to compute.
 
-If we consider the function $exp(x,y)$ which finds the $y$ exponent of $x$ ($x^y$), we know that
+If we consider the function $exp(x,y)$ which finds the $y$ exponent of $x$ (meaning $x^y$), we know that
 \begin{align*}
     x^0 &= 1\\
     x^1 &= x\\
@@ -58,7 +58,7 @@ We can finally take a look at the rules for addition:
 
 Here we find the simplest, most primitive operation we know about: $succ$, which adds 1. 
 
-From this exercise of inductive decomposition, we've found that primitive recursion is in the spirit of ``computation by rewriting'' definitions of $exp$, $\cdot$ and $+$. If we want to use ``recursion'', it consists of one rule for $y=0$ and one rule for $y>0$ where $y$ acts as a countdown for the number of remaining steps in the computation.
+From this exercise of inductive decomposition, we've found that primitive recursion is in the spirit of ``computation by rewriting'' for definitions of $exp$, $\cdot$ and $+$. If we want to use ``recursion'', it consists of one rule for $y=0$ and one rule for $y>0$ where $y$ acts as a countdown for the number of remaining steps in the computation.
 
 There are five building blocks for primitive recursive functions:
 \begin{itemize}

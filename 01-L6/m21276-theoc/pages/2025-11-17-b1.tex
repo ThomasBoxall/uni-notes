@@ -32,7 +32,7 @@ As yet, there hasn't been a computational model invented which is more powerful 
 \section{Equivalence of Computational Models}
 In the early 20th century, there were a number of attempts to formalise the notion of computability. The American mathematician Alonzo Church created a method for defining functions called the $\lambda$-calculus. Later, British mathematician Alan Turing created a theoretical model for a machine that could carry out calculations from inputs. Church, along with mathematician Stephen Kleene and a logician J.B. Rosser created a formal definition of a class of functions whose values could be calculated by recursion (these are known as the \textit{partial recursive functions}, we'll see more of these later).
 
-Even through computational models may process different kinds of data, they can still be compared with respect to how they process natural numbers (represented as $\mathbb{N}$). 
+Even though computational models may process different kinds of data, they can still be compared with respect to how they process natural numbers (represented as $\mathbb{N}$). 
 
 While exploring the computation models in the subsequent sections, we'll make the assumption that there is an unlimited amount of memory available. This means that we can represent any natural number or any finite string. 
 
@@ -73,17 +73,15 @@ From this we can see that a statement is always one of the following:
 
 A simple program is a statement.
 
-As we saw earlier, all values used within the simple programming language are form $\mathbb{N}$. This means that it's not possible to go below zero in our operations, therefore $pred(0) = 0$.
+As we saw earlier, all values used within the simple programming language are from $\mathbb{N}$. This means that it's not possible to go below zero in our operations, therefore $pred(0) = 0$.
 
 All variables in a simple programming language program have been given initial values and the output consists of the collection of values at program termination.
 
 \begin{example}{Simple Programming Language Snippets}
 \textbf{Ex. 1: Code for the macro statement} $X:=Y$
-
 \[X:= succ(Y);\ X:= pred(X)\]
 
 \textbf{Ex. 2: Code for the macro statement} $X := 3$
-
 \[X:=0;\ X:= succ(X);\ X:= succ(X);\ X:= succ(X)\]
 \end{example}
 
@@ -98,7 +96,7 @@ A Markov algorithm over an alphabet $\Sigma$ is a finite ordered sequence of pro
 
 The Markov algorithm works as follows, when given an input string:
 \begin{enumerate}
-    \item Check the productions in order from top to bottom to se whether any of the patterns can be found in the input string
+    \item Check the productions in order from top to bottom to see whether any of the patterns can be found in the input string
     \item If none are found - the algorithm stops
     \item If one (or more) is found, use the first (topmost) of them to replace the leftmost matching text in the input string with it's replacement
     \item If the applied production was a terminating one - the algorithm stops
@@ -115,7 +113,6 @@ If we take $M$ as the Markov algorithm over $\{a,b\}$ consisting ovf the followi
     \item $b \rightarrow \Lambda$
 \end{enumerate}
 We can trace the execution of $M$ for the string $w=aabaaa$
-
 \begin{align*}
     w = aabaaa & \rightarrow abaa && (1)\\
     & \rightarrow ba && (1)\\
@@ -129,7 +126,7 @@ From this we can see that this algorithm returns $\Lambda$ for all strings of th
 \section{Model 4: Post Algorithms}
 Emil \textit{Post} developed the \textit{Post} algorithm in 1943 which is another string processing model with equivalent power to the Turing machines.
 
-A post algorithm over an alphabet, $\Sigma$, is the set of productions that are used to transform strings. The productions have the form $s \rightarrow t$, where $s$ and $t$ are strings made up of symbols form $\Sigma$ and possibly some variables. If a variable $X$ occurs in $t$ then $X$ occurs in $s$. Some productions may be labelled with the word ``halt'', although this is not required.
+A post algorithm over an alphabet, $\Sigma$, is the set of productions that are used to transform strings. The productions have the form $s \rightarrow t$, where $s$ and $t$ are strings made up of symbols from $\Sigma$ and possibly some variables. If a variable $X$ occurs in $t$ then $X$ occurs in $s$. Some productions may be labelled with the word ``halt'', although this is not required.
 
 Given an input string, $w \in \Sigma^*$, the Post algorithm works as follows:
 \begin{enumerate}
