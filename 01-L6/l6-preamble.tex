@@ -159,8 +159,26 @@ marginparsep=0mm,
 %%%
 
 \usepackage{tikz}
-\usetikzlibrary{positioning, arrows.meta, decorations.pathreplacing, automata, shapes, calc, intersections, fit}
+\usetikzlibrary{positioning, arrows.meta, arrows, decorations.pathreplacing, automata, shapes, calc, intersections, fit}
 \usepackage{pgfplots}
+
+\tikzset{%
+  graphnode/.style={
+    circle,
+    minimum width=0.3cm,
+    inner sep=0pt,
+    text width=4mm,
+    align=center
+    },
+    graphnodesml/.style={
+    circle,
+    minimum width=0.1cm,
+    inner sep=0pt,
+    text width=1.5mm,
+    align=center,
+    fill=black
+    }
+}
 
 %%%
 % DOC PROPERTIES SETUP
@@ -228,6 +246,22 @@ marginparsep=0mm,
   escapechar=^
 }
 
+
+%%%
+% Inkscape Figures
+%%%
+
+% shamelessly stolen from https://castel.dev/post/lecture-notes-2/#including-inkscape-figures-in-a-latex-document
+
+\usepackage{import}
+\usepackage{xifthen}
+\usepackage{pdfpages}
+\usepackage{transparent}
+
+\newcommand{\inkscapefigure}[1]{%
+    \def\svgwidth{\columnwidth}
+    \import{./figures/}{#1.pdf_tex}
+}
 
 %%%
 % MATHEMATICAL ENVIRONMENTS
