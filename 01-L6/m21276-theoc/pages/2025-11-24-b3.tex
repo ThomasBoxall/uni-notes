@@ -9,7 +9,7 @@ This lecture will introduce some classic problems which cannot be solved by any 
 \section{Introductory Concepts}
 There are a couple of concepts which we need to be familiar with to be able to understand this lecture.
 
-\subsection{Tool 1: Self Reference}
+\subsection{Self Reference (Paradox)}
 If we take the following scenario:
 \begin{itemize}
     \item There is only a small town
@@ -27,12 +27,12 @@ This feels like an obvious answer - Yes, as we know all men in the town keep the
 
 We now get endlessly confused and decide there is no solution - this is a paradox.
 
-\subsection{Countable Sets}
+\subsection{Diagonalisation - Countable Sets}
 If we take two sets, $S$ and $T$ - how do we know if they're the same size or not? 
 
 If they're finite then we can pair-off the elements (seeing 1-1 correspondence), taking an element form $S$ and an element from $T$ until either both sets are empty (same size) or one set has elements remaining \& one is empty (not same size). 
 
-However if the sets are infinite - ie a set of all the natural numbers $\mathbb{N}$, then we have no easy way of telling how big the set is so therefore we can't pair off in the same way. 
+However if the sets are infinite - i.e. a set of all the natural numbers $\mathbb{N}$, then we have no easy way of telling how big the set is so therefore we can't pair off in the same way. 
 
 We can use $\mathbb{N}$ to our advantage when referring to infinite sets; as we known $\mathbb{N}$ itself is infinite. Therefore we can define a set as \textit{countably infinite} if it is the same size as $\mathbb{N}$ (i.e. we can assign a member form $\mathbb{N}$ in a 1-1 relationship to an element from the set we are trying to determine if it is countable or not).  We may find that using a function (i.e. $f(x) = \frac{x-1}{2} + 1$) is useful in matching an element in our set to the set to an element in the set of natural numbers.
 
@@ -42,9 +42,7 @@ From this, we can see that a set is \textit{countable} if it is finite or counta
 The set of integers is countable, the set of odd numbers is countable, the set of rational numbers is countable.
 \end{example}
 
-
-\subsection{Tool 2: Diagonalisation}
-This brings us onto diagonalisation, which was invented by Cantor (around 1880). Diagonalisation is the idea that there are some sets in which some sense contain different elements from another set, which therefore shows that your original set does not contain all the possibilities of the infinite elements which therefore proves that the original set is not countable. 
+Diagonalisation is the idea that there are some sets $P(S)$ in which some elements (which are sets) contain different elements from another subset of $P(S)$, which therefore shows that your original set does not contain all the possibilities of the infinite elements which therefore proves that the original set is not countable. This can be seen particularly with power sets. 
 
 \begin{example}{Diagonalisaiton}
 If we take a list of words of the same length:
@@ -87,7 +85,7 @@ If we define a set $T$ as follows: add $i$ to the set $T$ exactly when $i \notin
     \item etc...
 \end{itemize}
 
-However the set $T$ is not on the list! $T$ is different from the first set, the second set, etc. Therefore $T$ is no ton the list which contains all subsets of $\mathbb{N}$ despite the fact that $T$ is a subset of $\mathbb{N}$. 
+However the set $T$ is not on the list! $T$ is different from the first set, the second set, etc. Therefore $T$ is not on the list which contains all subsets of $\mathbb{N}$ despite the fact that $T$ is a subset of $\mathbb{N}$. 
 
 We have proven, by contradiction, that such a list does not exist and therefore $P(\mathbb{N})$ is not countable. This is the general rule - a power set of an infinitely countable set is uncountable.
 

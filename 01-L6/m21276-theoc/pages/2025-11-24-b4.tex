@@ -3,11 +3,11 @@
 \section{The Halting Problem}
 As we saw in the last lecture - the halting problem is set around deciding if there is an algorithm that can decide whether the execution of an arbitrary program halts on an arbitrary input. 
 
-We cna see this in action if we consider the following JavaScript programs:
+We can see this in action if we consider the following JavaScript programs:
 \begin{verbatim}
     for(quarts = 1 ; quarts < 10 ; quarts++){
         liters = quarts/1.05671;
-        alert( quarts+" "+liters);
+        alert(quarts + " " + liters);
     }
 \end{verbatim}
 
@@ -17,7 +17,7 @@ We can clearly see that it will terminate after outputting 10 lines of output.
     limit = prompt("Max Value","");
         for(quarts = 1 ; quarts < limit ; quarts++){
         liters = quarts/1.05671;
-        alert( quarts+" "+liters);
+        alert(quarts + "  " + liters);
     }
 \end{verbatim}
 
@@ -37,7 +37,7 @@ The above program will run forever, never halting.
 From these three algorithms, we learn a few things:
 \begin{itemize}
     \item Algorithms may contain loops which may be infinite or finite in length
-    \item The amount of work done in algorithms usually depends on the data in put
+    \item The amount of work done in algorithms usually depends on the data input
     \item Algorithms may consist of various numbers of loops, nested or in sequence.
 \end{itemize}
 
@@ -144,9 +144,59 @@ All the problems we've looked at in the above example have been reasonably small
 If there is no solution - the algorithm will just keep churning, and churning, and churning - never stopping. This means we can see that the Post correspondence problem is undecidable, but partially decidable.
 
 \section{The Tiling Problem}
-\begin{todo}
-Add when I'm feeling brave with TikZ
-\end{todo}
+The \textit{tiling problem} takes an unlimited number of three types of patterned tiles, as seen in Figure \ref*{fig:tiling-1}. Each tile is divided along the diagonal with each quarter coloured one of three colours (white, green or red). 
+
+\begin{figure}[H]
+    \centering
+    \inkscapefigure{tiling-1}
+    \caption{The Tiles of the Tiling Problem}
+    \label{fig:tiling-1}
+\end{figure}
+
+We want to use these three different types of tiles to tile a mythical floor. But, we must follow two constraints:
+\begin{itemize}
+    \item An edge that touches another edge must must have the same colour as the other edge
+    \item We cannot rotate the tiles - they must stay in the same orientation.
+\end{itemize}
+
+Informally, the tiling problem asks ``using the given tiles, can we tile a floor of size $n \times n$?''
+
+There are some examples of this in action in Figure \ref*{fig:tiling-2}. 
+
+\begin{figure}[H]
+    \centering
+    \inkscapefigure{tiling-2}
+    \caption{Patterns made with tiles}
+    \label{fig:tiling-2}
+\end{figure}
+
+This pattern does continue expanding with repeated segments.
+
+\begin{extlink}
+More examples of sequentially larger patterns made of these tiles can be found in the slides on Moodle. 
+\end{extlink}
+
+Whilst we can see above that the tiles we have work to make a pattern, this isn't always the case as below. 
+
+\begin{figure}[H]
+    \centering
+    \inkscapefigure{tiling-3}
+    \caption{Alternative pattern tiles}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \inkscapefigure{tiling-4}
+    \caption{Patterns made with alternative tiles}
+\end{figure}
+
+We can formalise the problem, specifically for the \textit{unbounded tiling problem} as \textit{``Is there an algorithm that can decide for a given particular set of tiles whether any sizes of floor $n \times n$ can be tiled?''}
+
+The unbounded tiling problem is undecidable; it is impossible to devise an algorithm to solve all instances of the problem. 
+
+The tiling problem manifests in a second form, the \textit{bounded tiling problem}: \textit{``Is there an algorithm that can decide for a given particular set of tiles whether a specific size of floor $n \times n$ can be tiled?''}
+
+This is a much easier problem to solve than the unbounded tiling problem, and is decidable as we can brute force it to check every possibility for arranging the tiles. 
 
 \section{Hilbert's Tenth Problem}
 Hilbert's 10th problem states that: Does a polynomial equation $p(x_1, \ldots, x_n) = 0$ with integer coefficients have a solution consisting of integers.

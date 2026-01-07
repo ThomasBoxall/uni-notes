@@ -22,7 +22,7 @@ However later someone finds that the problem cannot be solved in less than $\Ome
 \subsection{Unsolved Complexity}
 The complexity for many problems is still an open discussion. 
 
-In some situations, the lower bound (discovered by proof) and the upper bound (exhibited by an algorithm) will coincide. This shows us the complexity of the problem $Q$ and tha the problem is close d as far as big-Theta time estimates are concerned. Regardless of this, we may continue to search for algorithms whose constant factors are smaller. 
+In some situations, the lower bound (discovered by proof) and the upper bound (exhibited by an algorithm) will coincide. This shows us the complexity of the problem $Q$ and the problem is closed as far as big-$\Theta$ time estimates are concerned. Regardless of this, we may continue to search for algorithms whose constant factors are smaller. 
 
 More often, however, there is a gap between the lower and upper bound. For example we may find a proof that no algorithm can solve $Q$ in less than $\Omega(n \log n)$ time and that the best algorithm we know takes $O(n^2)$. 
 
@@ -66,17 +66,17 @@ A useful method for proving a lower bound as $\log n$ for searching for an item 
 The binary search algorithm has a complexity of $O(\log n)$, so the complexity of the problem ``searching an ordered list'' is at most $O(\log n)$. Using the decision trees it is already a lower bound for the problem. 
 
 \section{Decision Trees}
-A \textit{decision tree} can be used to represent the process that takes place in an algorithm. They are trees, as we became familiar with in DMAFP in second year. The internal nodes represent decision point sin the algorithm (a query) and the leaves represent possible outcomes (an output). 
+A \textit{decision tree} can be used to represent the process that takes place in an algorithm. They are trees, as we became familiar with in DMAFP in second year. The internal nodes represent decision points in the algorithm (a query) and the leaves represent possible outcomes (an output). 
 
 Decision trees can be useful in trying to construct an algorithm or trying to find properties of algorithm, for example lower bounds may equate to the depth of a decision tree. If every query only has two possible outcomes - the decision tree is a \textit{binary decision tree}. 
 
-For a given leaf on a decision tree, the number of decisions is the number of internal nodes from the root to the leaf. The worst case scenario corresponds to the height of the tree, so the worst case running time is just the height of the tree. We may sometimes want to consider decision trees with hight a higher degree where every query has (at most) $k$ different answers, for a given constant $k$. 
+For a given leaf on a decision tree, the number of decisions is the number of internal nodes from the root to the leaf. The worst case scenario corresponds to the height of the tree, so the worst case running time is just the height of the tree. We may sometimes want to consider decision trees with a higher degree where every query has (at most) $k$ different answers, for a given constant $k$. 
 
 \begin{extlink}
 There are some examples of decision trees in the slides available on Moodle.
 \end{extlink}
 
-The number of decisions in a decision tree is a lower bound on teh actual running time. This is good enough to prove a lower bound on the complexity of a given problem. If a problem has $n$ different outputs, then any decision tree must have at least $n$ leaves (it's possible for several leaves to specify the same output). 
+The number of decisions in a decision tree is a lower bound on the actual running time. This is good enough to prove a lower bound on the complexity of a given problem. If a problem has $n$ different outputs, then any decision tree must have at least $n$ leaves (it's possible for several leaves to specify the same output). 
 
 Harking back to DMAFP, the number of leaves in a binary tree of height $d$ is at most $2^d$. Therefore if every query has at most possible two answers, then $2^d \geq n$, meaning that the height of the decision tree must be at least $\lceil \log_2 n \rceil = \Omega(\log n)$. 
 
@@ -111,7 +111,7 @@ A proven intractable problem is a problem where it has been proved that no polyn
 We can subdivide this category of decidable problems further.
 
 \subsubsection{Decidable Problems: Proven Intractable: Type 1}
-Type 1 Proven Intractable problems are those that require a non-polynomial amount of output. these problems ordinarily pose no difficulty. We are asking for more information than we could possibly use, the problem is not defined realistically. 
+Type 1 Proven Intractable problems are those that require a non-polynomial amount of output. These problems ordinarily pose no difficulty. We are asking for more information than we could possibly use (more than a computer can handle), the problem is not defined realistically. 
 
 \begin{example}{Type 1 Proven Intractable Problems}
 \textbf{Ex. 1} Find all routes for the Travelling Salesman problem with lengths less than $B$ (a given constant). 

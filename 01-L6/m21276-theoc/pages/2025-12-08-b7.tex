@@ -67,9 +67,11 @@ An algorithm to do this task can be seen below.
         var i, j, key: integer;
         begin
             for j:= 2 to n do
-                key := S[j]; i:= j - 1;
+                key := S[j];
+                i:= j - 1;
                 while i > 0 and S[i] > key
-                    S[i+1] := S[i]; i := i - 1;
+                    S[i+1] := S[i]; 
+                    i := i - 1;
             S[i+1] := key
         end
 \end{lstlisting}
@@ -138,11 +140,37 @@ We can see a recurrence for the merge algorithm's time complexity:
 
 In the above recurrence, $C_0$ and $C$ are suitable constants; in further discussions we omit the constant $C_0$. 
 
-We can use a recursion tree to solve the time complexity of a merge sort.
+We can use a recursion tree to solve the time complexity of a merge sort. The recursion tree can show how we decompose a statement, for example $C \times n$ into two smaller sub problems. 
 
-\begin{todo}
-add diagram of tree and explanation here including about last line
-\end{todo}
+If we take the above recurrence to solve $T(n) = 2T(n/2) + C \times n$, where $C>0$ is a constant. We can see how this is first split into two equations of $T(n/2)$
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[level 1/.style={sibling distance=4cm}, level 2/.style={sibling distance=2cm}]
+\node{$C \times n$}   
+    child {node {$T(n / 2)$}}
+    child {node {$T(n / 2)$}};
+\end{tikzpicture}
+\caption{First level of recursion tree}
+\end{figure}
+
+After this, the branches subdivide again so they are now $T(n/4)$.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[level 1/.style={sibling distance=4cm}, level 2/.style={sibling distance=2cm}]
+\node{$C \times n$}   
+    child {node {$C \times n / 2$}
+        child {node {$T(n/4)$}}
+        child {node {$T(N/4)$}}}
+    child {node {$C \times n / 2$}
+        child {node {$T(n/4)$}}
+        child {node {$T(N/4)$}}};
+\end{tikzpicture}
+\caption{Second level of recursion tree}
+\end{figure}
+
+This subdivision will continue down the layers of branches until we reach the base case, where the leaves are $Const \times n$. The total number of leaves in the tree will equal $n$.
 
 The worst case time complexity for a merge sort can be seen as $\Theta(n \log_2 n)$. From this we can learn that the merge sort asymptotically beats the insertion, exchange and bubble sort in the worst case as $n \log_2 n$ grows more slowly than $n^2$. This is as fast as we can get with a sorting algorithm. 
 

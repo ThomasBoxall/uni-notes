@@ -46,20 +46,20 @@ The Array Sum Problem adds all the $n$ integers in the array $S$. It's inputs ar
 An algorithm can be seen below:
 
 \begin{verbatim}
-    function sum (n: integer; S : array[1, 2, . . . , n] of integers)
+    function sum (n: integer; S: array[1, 2, ..., n] of integers)
         var
-            i : index;
+            i: index;
         begin
             sum := 0;
             for i := 1 to n do
-                sum:= sum + S[i]
+                sum := sum + S[i]
             print sum;
         end;
 \end{verbatim}
 
 We can see this quite simply loops over all the array elements, adding each in turn to \verb|sum| which gets outputted at the end of the function.
 
-The basic operation here is the addition of an item in the array to \verb|sum|. This is the most expensive (in time) of operations in the function. The size of the input is proportional to $n$ which is the number of items in the array. Therefore, the time complexity function can be seen as $T(n) = A \cdot n$. (Where $A$ is a suitable constant - ie how many primitive operations correspond to our operation with the array)
+The basic operation here is the addition of an item in the array to \verb|sum|. This is the most expensive (in time) of operations in the function. The size of the input is proportional to $n$ which is the number of items in the array. Therefore, the time complexity function can be seen as $T(n) = A \cdot n$. (Where $A$ is a suitable constant - i.e. how many primitive operations correspond to our operation with the array)
 
 \end{example}
 
@@ -71,10 +71,10 @@ We will explore two different searching algorithms and the way in which they app
 \textbf{Ex. 1: Sequential Search}
 The Sequential Search works by looping through all the elements in the array and checking for a match to the key. An algorithmic implementation can be seen below:
 \begin{verbatim}
-    procedure seqsearch (n: integer; S : array [1, 2, . . . , n] of integers;
-                        x: integer);
+    procedure seqsearch (n: integer; S: array [1, 2, ..., n] of integers;
+                         x: integer);
         var
-            location : index;
+            location: index;
         begin
             location := 1;
             while location <= n and S[location] != x do
@@ -89,9 +89,10 @@ This algorithm also works with unsorted arrays and and has the same complexity: 
 \textbf{Ex. 2: Binary Search Algorithm}
 The Binary Search Algorithm also finds if the key $x$ is in the \textit{sorted} array $S$ of $n$ integers. The key component here is that the array must already be sorted. The idea of the algorithm is to, at each step, cut the number of possible positions the search key could be in by half. An algorithmic implementation can be seen below:
 \begin{verbatim}
-    procedure binsearch (n: integer; S : array [1, 2, . . . , n] of integer;
-                        x: key);
-        var location : index; low, high, mid : index;
+    procedure binsearch (n: integer; S: array [1, 2, ..., n] of integers;
+                         x: key);
+        var location: index; 
+            low, high, mid: index;
         begin
             low := 1; high := n; location := 0;
             while low <= high and location = 0 do
@@ -140,5 +141,5 @@ So how's this looking from a Time Complexity perspective? There are $(n-1)!$ pos
 
 In tangible time - how long does the algorithm take? If $n=30$ then we would have to do $10^{20}$ computations. The fastest processors can do is about $10^{12}$ additions per second. So this would take $10^8$ seconds (a couple of weeks) to run. If we increase $n$ to 100, the time needed to execute increases to exceed the age of the universe. 
 
-There have been various branch-and-bound algorithms used to process TSPs containing 85900 cities. Progress improvement algorithms which use techniques of linear programming works well for up to 200 cities. An exact solution for 15,112 German towns was found in 2001 base don linear programming. The computations were performed on a network of 110 processors, the total computation time was equivalent to 22.6 years on a single 50MHz Alpha processor. 
+There have been various branch-and-bound algorithms used to process TSPs containing 85900 cities. Progress improvement algorithms which use techniques of linear programming works well for up to 200 cities. An exact solution for 15,112 German towns was found in the year 2001 based on linear programming. The computations were performed on a network of 110 processors, the total computation time was equivalent to 22.6 years on a single 50MHz Alpha processor. 
 \end{example}

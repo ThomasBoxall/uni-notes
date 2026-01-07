@@ -54,7 +54,7 @@ From the above we can see a generalisation of what we're looking for: we look at
 These ideas can be formalised to show the growth rate of a function with the dominant term in respect to $n$ and ignoring any constants in front of it:
 
 \begin{align*}
-    k_1n + k2 & \sim n \\
+    k_1n + k_2 & \sim n \\
     k_1n \log n & \sim n \log n \\
     k_1n^2 + k_2n & \sim n^2
 \end{align*}
@@ -179,7 +179,7 @@ and read this as ``$f(n)$ is big theta of $g(n)$''.
 \end{example}
 
 \section{Comparing $T(n)$}
-Naturally, as with all things in life, we want to know which is best. In this case - we are looking for the lowest time complexity of an algorithm as this will naturally be the quickest to run. We can compare two functions with $f(n) \prec g(n)$ if and only iff:
+Naturally, as with all things in life, we want to know which is best. In this case - we are looking for the lowest time complexity of an algorithm as this will naturally be the quickest to run. We can compare two functions with $f(n) \prec g(n)$ if and only if:
 \[f(n) = O(g(n))\quad \textrm{and}\quad f(n) \neq \Theta(g(n))\]
 
 Below is a hierarchy of some familiar functions from this lecture, according to their growth rates:

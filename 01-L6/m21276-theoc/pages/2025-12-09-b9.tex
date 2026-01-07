@@ -27,7 +27,7 @@ For a given input, a graph $G$, the output is `YES' if $G$ is not a Hamiltonian 
 So, what's the difference between $P$ and $NP$? To prove an algorithm is in $P$, it must be possible to write a polynomial time algorithm to solve it. However, to prove a problem is in $NP$ you must write a polynomial algorithm to check a given `YES' solution. 
 
 We can see here that everything in $P$ is also in $NP$ as to be in $P$ the problem must be solvable in polynomial time by a deterministic TM, which is also obviously a non-deterministic TM. This can equivalently be represented as:
-\[P \subset NP\]
+\[P \subseteq NP\]
 
 It has never been proven that $NP = P$. No one has found a problem in $NP$ which is definitely not in $P$. Despite this, the consensus amongst scientists who have been working on this problem for years is that $P \neq NP$. 
 
@@ -45,14 +45,14 @@ However,
 \[(x \vee y \vee ) \wedge (x \vee \neg y) \wedge \neg x \]
 is not satisfiable because it is false for any assignment of TRUE for $x$ and $y$. 
 
-Cook theorised that \textit{The CND-satisfiability problem is NP-complete}. 
+Cook theorised that \textit{``The CND-satisfiability problem is NP-complete''}. 
 
 We can see this proved as the problem is in $NP$, and if we let the length of an expression $n$ be the total number of literals that appear in it - then the number of distinct variables in the expression is at most $n$, and the checking stage can be done in $O(n)$ time. 
 
 Cook also proved that a restricted form of the CNF-satisfiability problem, the \textit{3-satisfiability} problem is $NP$-complete where the expression contains at most 3 literals in each OR clause. The 3-satisfiability problem is $NP$-complete. 
 
 \section{Importance of $NP$-complete Problems}
-$NP$-complete problems arte all effectively equivalent in the sense that if any one of them is in $P$ then they all are. If any $NP$-complete problem is ever shown to have a polynomial algorithm, then we can deduce that $P=NP$. 
+$NP$-complete problems are all effectively equivalent in the sense that if any one of them is in $P$ then they all are. If any $NP$-complete problem is ever shown to have a polynomial algorithm, then we can deduce that $P=NP$. 
 
 In 1972, Richard Karp showed that there are 21 combinatorial and graph theoretical problems which are $NP$-complete. Today there are well over 1000 problems which are known to be $NP$-complete.
 
@@ -108,9 +108,34 @@ We would do this by transforming an instance $(V,E)$ of the Hamiltonian cycle pr
 \end{cases}
 \end{equation*}
 
-\begin{todo}
-diagram
-\end{todo}
+\begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[node distance= 1.5cm,]
+            \node[graphnodesml, draw] (tl) {};
+            \node[graphnodesml, draw] (bl) [below of=tl] {};
+            \node[graphnodesml, draw] (br) [right of=bl] {};
+            \node[graphnodesml, draw] (tr) [above of=br] {};
+            
+            \node[graphnodesml, draw] (rtl) [right of=tr]{};
+            \node[graphnodesml, draw] (rbl) [below of=rtl] {};
+            \node[graphnodesml, draw] (rbr) [right of=rbl] {};
+            \node[graphnodesml, draw] (rtr) [above of=rbr] {};
+
+            \draw (tl) -- (bl);
+            \draw (bl) -- (br);
+            \draw (bl) -- (tr);
+            \draw (tr) -- (tl);
+
+            \draw (rtl) -- (rbl) node [midway, left] {1};
+            \draw (rbl) -- (rbr) node [midway, below] {1};
+            \draw (rbr) -- (rtr) node [midway, right] {2};
+            \draw (rtr) -- (rtl) node [midway, above] {1};
+            \draw (rtl) -- (rbr) node [pos=0.25, below] {2};
+            \draw (rbl) -- (rtr) node [pos=0.65, above] {1};
+
+        \end{tikzpicture}
+        \caption{Original graph (left); transformed graph (right)}
+    \end{figure}
 
 From this we can see that $(V,E)$ has a Hamiltonian cycle if and only if $(V,E')$ has a tour with total weight no more than $n$ where $n$ is the number of vertices in $V$. 
 \end{example}
