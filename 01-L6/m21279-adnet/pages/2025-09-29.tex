@@ -46,7 +46,7 @@ For data to be able to travel on the network - it has to be converted into digit
         \centering
         \begin{tikzpicture}[>=stealth]
 
-            \draw[step=1cm,gray,very thin,dashed] (0,-1) grid (6,1);
+            \draw[step=1cm,gray,very thin,dashed] (0,-1.5) grid (6,1.5);
 
             \draw[->] (0, 0) -- (6, 0) node[right] {\tiny time};
             
@@ -63,7 +63,7 @@ For data to be able to travel on the network - it has to be converted into digit
         \centering
         \begin{tikzpicture}[>=stealth]
 
-            \draw[step=1cm,gray,very thin,dashed] (0,-1) grid (6,1);
+            \draw[step=1cm,gray,very thin,dashed] (0,-1.5) grid (6,1.5);
 
             \draw[->] (0, 0) -- (6, 0) node[right] {\tiny time};
             
@@ -84,7 +84,7 @@ For data to be able to travel on the network - it has to be converted into digit
         \centering
         \begin{tikzpicture}[>=stealth]
 
-            \draw[step=1cm,gray,very thin,dashed] (0,-1) grid (6,1);
+            \draw[step=1cm,gray,very thin,dashed] (0,-1.5) grid (6,1.5);
 
             \draw[->] (0, 0) -- (6, 0) node[right] {\tiny time};
             
@@ -153,7 +153,7 @@ In the above diagram, the \textit{workstation} provides the \textit{modem} with 
 In saying this, however, there are some devices which still work entirely on analog or digital signals. For example, the analog telephone network including the switching and transmission is entirely analog. There is also the inverse whereby there are entirely digital signals are processed. 
 
 \section{Digital-To-Digital Signal Encoding}
-Digital signals are transmitted such that an individual value is transmitted for a defined period of time called the \textit{bit duration}. The \textit{bit duration} is known to both the sender and receiver, allowing the receiver to correctly interpret the transmitted signal which the sender will always transmit at the beginning of the bit duration. We assume the sender and receiver are synchronised and therefore the clock or is not transmitted.
+Digital signals are transmitted such that an individual value is transmitted for a defined period of time called the \textit{bit duration}. The \textit{bit duration} is known to both the sender and receiver, allowing the receiver to correctly interpret the transmitted signal which the sender will always transmit at the beginning of the bit duration. We assume the sender and receiver are synchronised and therefore the clock is not transmitted.
 
 The move between two different defined voltages within the transmission is called the \textit{transition}.
 
@@ -192,10 +192,10 @@ This method only has two levels of data transmitted. It works through mapping th
 \end{figure}
 
 \subsection{Nonreturn to Zero Inverted (NRZ-I)}
-This method is similar to NRZ-L in that it uses two levels of data transmitted: high and low. However it uses the transitions to define the data being transmitted. Looking at the bit following a transition point, even if there is no transition present:
+This method is similar to NRZ-L in that it uses two levels of data transmitted: high (1) and low (0). However it uses the transitions to define the data being transmitted:
 \begin{itemize}
-    \item Where there is a transition (regardless of 1 to 0, or 0 to 1): the following signal bit is transmitted as is high
-    \item Where there is not a transition (regardless of 1 to 1, or 0 to 0): the following signal bit is transmitted as low
+    \item 0 - no transition at the beginning of the bit duration
+    \item 1 - transition at the beginning of the bit duration
 \end{itemize}
 
 \begin{figure}[H]
@@ -217,7 +217,7 @@ This method is similar to NRZ-L in that it uses two levels of data transmitted: 
     \node at (-0.5, -1) {low};
     \node at (-0.5, 0) {zero};
 
-    \draw[themeBlue, thick] (0,-1) -- (0,1) -- (1,1) -- (2,1) -- (2,-1) -- (3,-1) -- (4,-1) -- (4,1) -- (5,1) -- (5,-1) -- (6,-1);
+    \draw[themeBlue, thick] (0,-1) -- (0,1) -- (1,1) -- (1,-1) -- (3,-1) -- (4,-1) -- (4,1) -- (5,1) -- (6,1);
 
 \end{tikzpicture}
 \caption{Example of NRZ-I Encoding using 110010}
@@ -481,7 +481,7 @@ Electromagnetic waves are the digital representation of an analog signal. They a
     \item[Carrier Wave] a continuous, periodic waveform that carries no information
 \end{define}
 
-A \textit{carrier wave} is modified by an information-bearing signal to convey information. The modification can be by either changing: it's amplitude, frequency, phase, or some combination of the three. The process of modifying a carrier wave is called \textit{modulation}. 
+A \textit{carrier wave} is modified by an information-bearing signal to convey information. The modification can be by either changing its amplitude, frequency, phase, or some combination of the three. The process of modifying a carrier wave is called \textit{modulation}. 
 
 \section{Digital Data, Analog Signals}
 There are many examples of where digital data has to be transmitted through an analog medium. The most well-known of which being the public telephone network. This is designed to transmit voices, within the frequency of 300 to 3400 Hz; therefore a problem is presented when a digital device is connected to the network. This problem is overcome by connecting the digital device to a Modem (Modulator-Demodulator) which converts digital data to analog signals and the other way around. 

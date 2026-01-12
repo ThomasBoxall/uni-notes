@@ -126,7 +126,7 @@ The \textit{Advanced Encryption Standard}, or AES, is a symmetric-key encryption
 AES supports three different key lengths: 128-bit, 192-bit and 256-bit. Similarly to how DES works on 64-bits of data at a time, AES works on 128-bit blocks of data and will perform $n$ rounds depending on the different key-length used. 128-bit keys get 10 rounds, 192-bit keys get 12 rounds and 256-bit keys get 14 rounds. 
 
 \section{Asymmetric Encryption}
-Asymmetric Encryption is an encryption method where the sender and receiver both use different keys to encode and decode the message. This is where it's alternative name, \textit{Public Key Encryption} comes form.
+Asymmetric Encryption is an encryption method where the sender and receiver both use different keys to encode and decode the message. This is where it's alternative name, \textit{Public Key Encryption} comes from.
 
 The sender encrypts the plaintext with the receivers public key to produce the ciphertext. The ciphertext is then transmitted over the network to the receiver. The receiver uses their private key to decrypt the message thus producing the plaintext. 
 
@@ -221,7 +221,7 @@ The sender encodes the plain text message into a cipher text $C=D_{K_{AB}}(M)$. 
 \caption{Example of Symmetric Key Encryption with a sender, A, receiver, B, and adversary, T showing confidentiality}
 \end{figure}
 
-As we can see in the above example, the adversary, $T$, can send messages onto the transmission network however these are not encrypted so $B$ knows they have not come from $A$. $T$ can also consume the ciphertext from the transmission network, however they can't decrypt it as they do not have the key.
+As we can see in the above example, the adversary, T, can send messages onto the transmission network however these are not encrypted so B knows they have not come from A. T can also consume the ciphertext from the transmission network, however they can't decrypt it as they do not have the key.
 
 \subsection{Within an Asymmetric Encryption Network}
 The adversary is not able to read the transmitted message. 
@@ -277,7 +277,7 @@ When a transmission occurs - the sender will use the receivers public key to enc
 \caption{Example of Asymmetric Key Encryption with a sender, A, receiver, B, and adversary, T showing confidentiality}
 \end{figure}
 
-As we can see in the above figure, the adversary, $T$ can read whatever is on the transmission network however as it's been encoded using $K_{B+}$ which requires the use of $K_{B-}$ to decode it - they cannot decode it. $T$ can, however, block the message from $A$ ($C$) from being transmitted and transmit their own message in it's place which is encrypted using $K_{B+}$ which makes it look like $A$ sent it, because $T$ has B's public key in their keyring. 
+As we can see in the above figure, the adversary, T can read whatever is on the transmission network however as it's been encoded using $K_{B+}$ which requires the use of $K_{B-}$ to decode it - they cannot decode it. T can, however, block the message from A ($C$) from being transmitted and transmit their own message in it's place which is encrypted using $K_{B+}$ which makes it look like A sent it, because T has B's public key in their keyring. 
 
 \section{Ensuring Integrity}
 We have to ensure integrity of our transmitted messages to ensure that the user who says they transmitted the message are actually the person who transmitted the message. This is for in the event that an adversary intercepts and replaces a message transmitted from Sender to Receiver with a message sent from adversary to Receiver pretending it was from the original sender.

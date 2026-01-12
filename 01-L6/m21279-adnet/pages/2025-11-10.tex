@@ -77,7 +77,7 @@ Station services provide the authentication, deauthentication and MSDU delivery 
     \item[Authentication] This is the process where a device verifies itself to gain access to the WLAN. 
     \item[Deauthentication] This is the process used to terminate a previously authenticated network connection.
     \item[MSDU delivery] This is the delivery of the MSDUs which are the units of data exchanged between wireless stations.
-    \item[Privacy] THis service implements encryption (like WEP) to secure data transmissions and ensure privacy. 
+    \item[Privacy] This service implements encryption (like WEP) to secure data transmissions and ensure privacy. 
 \end{description}
 
 \section{Access Control}
@@ -120,7 +120,7 @@ There are additional example diagrams of how DCF works in the slides available o
 
 The \textit{Short InterFrame Space} (SIFS) is used by priority traffic. For example, acknowledgements of transmissions, Clear To Send, or Poll responses within PCF. Multi-frame data units are also transmitted at SIFS intervals, so the multiple frames are kept together rather than them all being transmitted with potentially other frames jumping in front of them. SIFS is generally about $16\mu s$. 
 
-The \textit{PCF InterFrame Space} (PIFS) is used by the coordinator when PCF operation is taking place. This is longer than SIFS as it is not the highest priority traffic on the network, but shorter than DIFS as it is lower priority than the general data transmission. PIFS is generally about $25\mu s$. 
+The \textit{PCF InterFrame Space} (PIFS) is used by the coordinator when PCF operation is taking place. This is longer than SIFS as it is not the highest priority traffic on the network, but shorter than DIFS as it is higher priority than the general data transmission. PIFS is generally about $25\mu s$. 
 
 The \textit{DCF InterFrame Space} (DIFS) is used for normal traffic on the network. DIFS is generally about $34\mu s$.
 
@@ -140,21 +140,21 @@ After the medium becomes free - the first space of time is allocated for SIFS, t
 This example will show the communication between two subscribers, A and B, and an access point. Subscriber A wants to send 200 bytes to B; and B wants to send 150 bytes to A. This communication has a fragment size of 150 bits.
 
 \begin{enumerate}
-    \item PIFS: AP $\rightarrow$ - A Beacon (34 bits) \\ PIFS: AP $\rightarrow$ - B Beacon (34 bits)
-    \item SIFS: AP $\rightarrow$ - A CF-Poll (34 bits)
-    \item SIFS: A $\rightarrow$ - AP Data (150 bits)
-    \item SIFS: AP $\rightarrow$ - B Data (150 bits) + Poll (34 bits)
-    \item SIFS: B $\rightarrow$ - AP Data (150 bits) + ACK (34 bits)
-    \item SIFS: AP $\rightarrow$ - A Data (150 bits) + ACK (34 bits) + Poll (34 bits)
-    \item SIFS: A $\rightarrow$ - AP Data (50 bits) + ACK (34 bits)
-    \item SIFS: AP $\rightarrow$ - B Data (50 bits) + ACK (34 bits) + Poll (34 bits)
+    \item PIFS: AP $\rightarrow$ A - Beacon (34 bits) \\ PIFS: AP $\rightarrow$ - B Beacon (34 bits)
+    \item SIFS: AP $\rightarrow$ A - CF-Poll (34 bits)
+    \item SIFS: A $\rightarrow$ AP - Data (150 bits)
+    \item SIFS: AP $\rightarrow$ B - Data (150 bits) + Poll (34 bits)
+    \item SIFS: B $\rightarrow$ AP - Data (150 bits) + ACK (34 bits)
+    \item SIFS: AP $\rightarrow$ A - Data (150 bits) + ACK (34 bits) + Poll (34 bits)
+    \item SIFS: A $\rightarrow$ AP - Data (50 bits) + ACK (34 bits)
+    \item SIFS: AP $\rightarrow$ B - Data (50 bits) + ACK (34 bits) + Poll (34 bits)
     \item SIFS: B $\rightarrow$ AP - ACK (34 bits) 
     \item SIFS: AP $\rightarrow$ A - ACK (34 bits)
     \item SIFS: AP $\rightarrow$ A - CF-END (34 bits) \\ SIFS: AP $\rightarrow$ B - CF-END (34 bits)
 \end{enumerate}
 
 We can then calculate the total communications time, knowing the data rate for this communication is 54MBps.
-
+ 
 \begin{align*}
    &= (PIFS \times 1)+(SIFS \times 10)+\frac{(34\times 12+(150+150+150+150+50+50)\times 8)}{54}\\
    &= (25 \times 1)+(16 \times 10)+\frac{(34\times 12+(150+150+150+150+50+50)\times 8)}{54}\\
@@ -180,7 +180,7 @@ The fields, their sizes and their uses can be seen in the below table. Fields ma
     {\RaggedRight
     \begin{tabular}{p{0.3\textwidth} p{0.1\textwidth} p{0.5\textwidth}}
     \thead{Field} & \thead{Octets} & \thead{Content}\\
-    Frame control & 2 & Indicates the type of frame (control, management, or data) and provides control information which includes whether the frame is to for frm a DS, fragmentation information and privacy information\\
+    Frame control & 2 & Indicates the type of frame (control, management, or data) and provides control information which includes whether the frame is to for from a DS, fragmentation information and privacy information\\
     \hline
     Duration / Connection ID & 2 & If used as a duration field - indicates the time (in ms) the channel will be allocated for successful transmission of a MAC frame. In some control frames, this field contains an association or connection identifier\\
     \hline

@@ -149,7 +149,7 @@ As we have already seen - communications always take place between master and sl
 The table showing the different Packet Types will be made available in the exam.
 
 \subsection{Synchronous Connection Oriented}
-Within Synchronous Connection Oriented (SCO), the master allocates fixed slots for communication between itself and a specific slave. These will come at a regular interval and generally are reserved in pairs so there's a slot for each direction, for example every 3rd pair of slots will be used for communication between Master and Slave A. Payload transmitted may be 80, 160 or 240 bits. 
+Within Synchronous Connection Oriented (SCO), the master allocates fixed slots for communication between itself and a specific slave. These will come at a regular interval and generally are reserved in pairs so there's a slot for each direction, for example every third pair of slots will be used for communication between Master and Slave A. Payload transmitted may be 80, 160 or 240 bits. 
 
 The most reliable variant of SCO is 80 bits where master and slave get 800 slots/second which achieves 64000bps full-duplex which is used for a voice channel. Forward Error Correction (FEC) is used as SCO packets are never retransmitted, rather they use error correction techniques. While maintaining the maximum data rate (64Kbps) - the best quality transmission is where there is only a single slave with 1/3 FEC which means each payload of 80 bits is replicated 3 times. Where there are two slaves and we want to maintain our maximum data rate - we can replicate each payload twice and use 2/3 FEC. For 3 devices, each wanting 64Kbps transmission - no FEC is used.
 

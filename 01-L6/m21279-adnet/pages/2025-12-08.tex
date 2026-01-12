@@ -96,20 +96,20 @@ As of when these slides were written, SDNi is discussed as something coming in t
 \subsection{Scope and Scale}
 Typically a physically centralised control plane is adapted for SDN. It can be implemented in a single server but this is a single point of failure and a potential bottleneck. There may also be reliability or scalability issues.
 
-The alternative to this is a logically centralised distributed control plane. This comprises of physically distributed elements that interface to each other through east \& west bound interfaces. The dta plane and the applications only see a single logical controller.
+The alternative to this is a logically centralised distributed control plane. This comprises of physically distributed elements that interface to each other through east \& west bound interfaces. The data plane and the applications only see a single logical controller.
 
 \section{SDN Flows}
 As we already know, the OpenFlow protocol uses tables to route packet sequences (flows) from the sender to the receiver. When a flow arrives to a OpenFlow switch, a table lookup is performed. If no matching route is found, a request to the controller is made; the reply from the controller is handled in one of three different modes - Proactive, Reactive or Hybrid.
 
 \subsection{Reactive Mode}
-In reactive mode, the controller is queried when packets arrive and there is no entry or an expired timer has expired for the required destination. The controller creates and installs a rule in the corresponding packet if necessary. Importantly, the rule is only installed on switches which will be implicated in the forwarding of this flow. 
+In reactive mode, the controller is queried when packets arrive and there is no entry or an expired timer has expired for the required destination. The controller creates and installs a rule in the corresponding switch if necessary. Importantly, the rule is only installed on switches which will be implicated in the forwarding of this flow. 
 
 \begin{todo}
 example? (slide 20)
 \end{todo}
 
 \subsection{Proactive Mode}
-In proactive mode, the controller populates flow tables for all possible traffic matches. These are static entries and they are installed ahead of time of the transmission. Following this - no request is sent to the controller since all incoming flows will find a matching entry. This is advantageous (over reactive mode) as all packets are forwarded in line rate so there is no delay; however it is at a disadvantage because the flow table when implemented in Associative memory is very expensive for large tables. 
+In proactive mode, the controller populates flow tables for all possible traffic matches. These are static entries and they are installed ahead of time of the transmission. Following this - no request is sent to the controller since all incoming flows will find a matching entry. This is advantageous (over reactive mode) as all packets are forwarded at line rate so there is no delay; however it is at a disadvantage because the flow table when implemented in associative memory is very expensive for large tables. 
 
 \begin{todo}
 example? slide 21
