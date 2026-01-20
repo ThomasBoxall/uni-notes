@@ -18,7 +18,7 @@ In multi-cell networks - a single cell is referred to as a \textit{basic service
 \subsection{Ad-Hoc WLANs}
 The final type of WLAN we may come across is an \textit{Ad-Hoc Wireless LAN}. In this topology, there is no fixed infrastructure (i.e. CMs, APs, etc). Rather, a collection of stations within a range of each other may dynamically configure themselves into a temporary network of peer-to-peer communications.
 
-A common example of an ad-hoc network is an Independent Basic Service Set (IBSS). This is a BSS where all the stations are mobile stations which have no connection to other BSS's. Within an IBSS - all stations communicate directly, there is no AP involved. 
+A common example of an ad-hoc network is an Independent Basic Service Set (IBSS). This is a BSS where all the stations are mobile stations which have no connection to other BSS'. Within an IBSS - all stations communicate directly, there is no AP involved. 
 
 \section{WLAN Requirements}
 There are a number of requirements for a WLAN to be effective and efficient.
@@ -42,21 +42,21 @@ The IEEE 802.11 protocol is the main protocol used for communications within the
     \item[Associated Stations] Connected devices to a WLAN
     \item[Access Point] Provides access to the distribution system for associated stations
     \item[Basic Service Set (BSS)] Set of stations controlled by a single coordinator
-    \item[Extended Service Set (ESS)] A set of one or more connected BSSs
-    \item[Distribution Systems (DS)] A system used ot interconnect a set of BSSs and integrated LANs to create an ESS
+    \item[Extended Service Set (ESS)] A set of one or more connected BSS'
+    \item[Distribution Systems (DS)] A system used to interconnect a set of BSS' and integrated LANs to create an ESS
     \item[Frame] MAC protocol data uint 
 \end{define}
 
 \subsection{Architecture}
-There is a common prescribed architecture for all WLANs, as stipulated within the IEEE 802.11 specification. This architecture consists one or more basic service sets, which consist of some number rof stations executing the same MAC protocol and competing for access to the same shared wireless medium. A BSS may be isolated or it may be connected to a backbone distribution system (DS) through an AP. The AP functions as a bridge and relay point. The DS can be a switch, a wired network, or a wireless network. 
+There is a common prescribed architecture for all WLANs, as stipulated within the IEEE 802.11 specification. This architecture consists one or more basic service sets, which consist of some number of stations executing the same MAC protocol and competing for access to the same shared wireless medium. A BSS may be isolated or it may be connected to a backbone distribution system (DS) through an AP. The AP functions as a bridge and relay point. The DS can be a switch, a wired network, or a wireless network. 
 
 In a BSS - clients do not communicate directly with one another. Rather, if one station in the BSS wants to communicate with another station in the same BSS, the MAC frame is first sent from the originating station to the AP and then from the AP to the destination station. Similarly where a station wants to communicate with a station in a different BSS - the MAC frame is first sent from the sending station to the AP, which relays the frame over the DS to the destination station. 
 
 It is possible for two BSS to overlap geographically, so that a single station can participate in more than one BSS. The association between a station and a BSS is dynamic - stations may turn off, come within range, and go out of range. 
 
-An Extended Service Set consists of two or more BSSs interconnected by a distribution system. Typically the distribution system isa wired backbone LAN but can be any communications network. The ESS appears as a single logical LAN to the Logical Link Control (LLC) Level. 
+An Extended Service Set consists of two or more BSS' interconnected by a distribution system. Typically the distribution system is a wired backbone LAN but can be any communications network. The ESS appears as a single logical LAN to the Logical Link Control (LLC) Level. 
 
-An AP is implemented sa part of a station; the AP is the logic within a station that provides access to the DS by providing DS services in addition to acting as a station. To integrate the IEEE 802.11 architecture with a traditional wired LAN, a portal is used. The portal logic is implemented in a device such as a bridge or router that is part of the wired LAN and that is attached to the DS. 
+An AP is implemented as part of a station; the AP is the logic within a station that provides access to the DS by providing DS services in addition to acting as a station. To integrate the IEEE 802.11 architecture with a traditional wired LAN, a portal is used. The portal logic is implemented in a device such as a bridge or router that is part of the wired LAN and that is attached to the DS. 
 
 \subsection{Services}
 The IEEE 802.11 protocol specifies a number of services. The services are divided into two types: those provided by \textit{distribution system} and those provided by the \textit{station} itself.
@@ -107,16 +107,57 @@ DCF makes use of a set of delays that amount to a priority scheme. The DCF trans
 
 Where a station wants to transmit to another station - first a \textit{Request To Send} (RTS) is issued. If the destination ins clear to receive the transmission then a \textit{Clear To Send} (CTS) is sent back. The source then transmits the frames, and the destination responds with an \textit{Acknowledgement} (ACK) for each frame received - so the source the knows what has been received and what hasn't.
 
-\begin{todo}
-diagram of this in process - slide 16 of the lecture. 
-\end{todo}
+\begin{example}{DCF}
+We can see an example of DCF in action, albeit without any interframe spacing, as that's too complicated to make happen in TikZ. 
+
+In this example, C is a station within the range of A, and D is a station within the range of B. A sends a RTS to B before transmitting the first fragment. C, being within the range of A, hears this and uses the estimation of transmission time included in the RTS to enter NAV (Non-Active Mode). When B replies to A with the CTS, the stations within it's range, D, enter NAV.
+
+A will then begin transmission of the first fragment, and sets a timer; if the timer expires before receiving the ACK frame from B, the whole process is repeated.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[>=stealth]
+
+    % \draw[step=1cm,gray,very thin,dashed] (0,-0.5) grid (9.5,7.5);
+
+    % base lines and aaxis labels
+    \draw[->] (0,0) -- (9.5,0);
+    \node at (-0.5, 0) {D};
+    \draw[->] (0,2) -- (9.5,2);
+    \node at (-0.5, 2) {C};
+    \draw[->] (0,4) -- (9.5,4);
+    \node at (-0.5, 4) {B};
+    \draw[->] (0,6) -- (9.5,6);
+    \node at (-0.5, 6) {A};
+
+
+    \draw[themeBlue, thick] (0,6) rectangle (1,7) node[pos=.5] {RTS};
+    \draw[themeBlue, thick] (1,4) rectangle (2,5) node[pos=.5] {CTS};
+
+    \draw[themeBlue, thick] (2,6) rectangle (3,7) node[pos=.5] {F$_1$};
+    \draw[themeBlue, thick] (3,4) rectangle (4,5) node[pos=.5] {ACK};
+
+    \draw[themeBlue, thick] (4,6) rectangle (5,7) node[pos=.5] {F$_2$};
+    \draw[themeBlue, thick] (5,4) rectangle (6,5) node[pos=.5] {ACK};
+
+    \draw[themeBlue, thick] (6,6) rectangle (7,7) node[pos=.5] {F$_3$};
+    \draw[themeBlue, thick] (7,4) rectangle (8,5) node[pos=.5] {ACK};
+    
+    \draw[themeBlue, thick] (2,2) rectangle (8,3) node[pos=.5] {NAV};
+    \draw[themeBlue, thick] (3,0) rectangle (8,1) node[pos=.5] {NAV};
+    
+\end{tikzpicture}
+\caption{DCF Example}
+\end{figure}
+
+\end{example}
 
 \begin{extlink}
 There are additional example diagrams of how DCF works in the slides available on Moodle.
 \end{extlink}
 
 \subsection{Interframe Spaces}
-\textit{InterFrame Spaces} (IFS) are used to control when data frames and control frames cna be transmitted within the WLAN. There are different durations of IFS which are used by different scenarios - as they are of different priorities.
+\textit{InterFrame Spaces} (IFS) are used to control when data frames and control frames can be transmitted within the WLAN. There are different durations of IFS which are used by different scenarios - as they are of different priorities.
 
 The \textit{Short InterFrame Space} (SIFS) is used by priority traffic. For example, acknowledgements of transmissions, Clear To Send, or Poll responses within PCF. Multi-frame data units are also transmitted at SIFS intervals, so the multiple frames are kept together rather than them all being transmitted with potentially other frames jumping in front of them. SIFS is generally about $16\mu s$. 
 

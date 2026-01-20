@@ -2,16 +2,6 @@
 
 Software Defined Networking (SDN) is an alternative paradigm of networking which separates the network control from the data forwarding by using software. This allows for centralised, programmable management of the entire network. 
 
-\section{Virtual Local Area Networks}
-A Virtual Local Area Network (VLAN) is a broadcast domain consisting of a group of networked devices, sometimes on different physical LAN segments, which can communicate as though they are on a common LAN.
-
-VLAN membership is defined by one of the following:
-\begin{description}
-    \item[Port Group] Each switch in the LAN configuration contains two types of ports: trunk ports which connect to switches; or an end port which connects the switch to an end-system. A VLAN can be defined by assigning each end port to a specific VLAN. This approach hsa an the advantage that it is relatively easy to configure; while a key disadvantage is that the network manager must reconfigure VLAN membership when an end system moves from one port to another. 
-    \item[MAC Address] Since MAC-layer addresses are hardwired into the workstations NIC, VLANs based on MAC addresses enable the network managers to move a worksation to a different physical location on the network and have that workstation automatically retain its VLAN membership. A key problem with this method is that VLAN membership must be assigned initially which is a big task in a network with thousands of end systems. 
-    \item[Protocol Information] Membership can be assigned based on IP address, transport protocol information or even higher layer protocol information. This is a quite flexible approach but it does require switches to examine portions of the MAC frame above the MAC layer which may have a performance impact on the switch.
-\end{description}
-
 \section{Planes}
 No, not the things flying in the sky...
 
@@ -29,7 +19,7 @@ Traditionally, servers were used in a single server per application paradigm. Ta
 
 Server Virtualisation is a way to consolidate servers by allowing a single physical host to run multiple workloads. A `virtual server' is a software implementation that executes programs like a real server. Multiple virtual servers can work simultaneously on one single physical host server server. Therefore instead of operating many servers at low utilisation, virtualisation combines the processing power onto fewer servers that operate at a higher total utilisation. 
 
-Virtualisation improves scalability, reduces downtime and enables faster deployments. It can also speed up disaster recovery efforts because virtual servers can restart applications much faster than physical servers. With virtualisation, entire systems cna be moved from one physical host to another in just a few seconds - to optimise workloads or to perform maintenance without causing downtime.
+Virtualisation improves scalability, reduces downtime and enables faster deployments. It can also speed up disaster recovery efforts because virtual servers can restart applications much faster than physical servers. With virtualisation, entire systems can be moved from one physical host to another in just a few seconds - to optimise workloads or to perform maintenance without causing downtime.
 
 Some virtualisation solutions also have built-in resiliency features such as high availability, load balancing and failover capabilities. Virtualisation has become commonplace in large data centres; however is less common (as of 8 years ago when these slides were written) in smaller data centres. 
 
@@ -104,13 +94,39 @@ As we already know, the OpenFlow protocol uses tables to route packet sequences 
 \subsection{Reactive Mode}
 In reactive mode, the controller is queried when packets arrive and there is no entry or an expired timer has expired for the required destination. The controller creates and installs a rule in the corresponding switch if necessary. Importantly, the rule is only installed on switches which will be implicated in the forwarding of this flow. 
 
-\begin{todo}
-example? (slide 20)
-\end{todo}
+\begin{example}{Reactive Mode}
+In this example Host 1 (H1) sends a packet to Host 2 (H2) which is split into two fragments: P1.F1 and P1.F2. H1 also sends a packet to Host 3 (H3) which is split into three fragments: P2.F1, P2.F2 and P2.F3. 
+
+The network in this example is made up of the following: H1 connects to Switch 1 (S1) which is connected to Switch 4 (S4). S4 is connected to both Switch 2 (S2) (connected to H2) and Switch 3 (S3) (connected to H3). All Switches are connected to the SDN Controller (C).
+
+The reactive data flow works as follows:
+\begin{itemize}
+    \item H1 (P1.F1) $\rightarrow$ S1 (Req) $\rightarrow$ C (Entry) $\rightarrow$ (S1, S4, S2)
+    \item S1 (P1.F1) $\rightarrow$ S4 (P1.F1) $\rightarrow$ S2 (P1.F1) $\rightarrow$ H2
+    \item H1 (P1.F2) $\rightarrow$ S1 (P1.F2) $\rightarrow$ S4 (P1.F2) $\rightarrow$ S2 (P1.F2) $\rightarrow$ H2
+    \item H1 (P2.F1) $\rightarrow$ S1 (Req) $\rightarrow$ C (Entry) $\rightarrow$ (S1, S4, S3)
+    \item S1 (P2.F1) $\rightarrow$ S4 (P2.F1) $\rightarrow$ S3 (P2.F1) $\rightarrow$ H3
+    \item H1 (P2.F2) $\rightarrow$ S1 (P2.F2) $\rightarrow$ S4 (P2.F2) $\rightarrow$ S3 (P2.F2) $\rightarrow$ H3
+    \item H1 (P2.F3) $\rightarrow$ S1 (P2.F3) $\rightarrow$ S4 (P2.F3) $\rightarrow$ S3 (P2.F3) $\rightarrow$ H3
+\end{itemize}
+\end{example}
 
 \subsection{Proactive Mode}
 In proactive mode, the controller populates flow tables for all possible traffic matches. These are static entries and they are installed ahead of time of the transmission. Following this - no request is sent to the controller since all incoming flows will find a matching entry. This is advantageous (over reactive mode) as all packets are forwarded at line rate so there is no delay; however it is at a disadvantage because the flow table when implemented in associative memory is very expensive for large tables. 
 
-\begin{todo}
-example? slide 21
-\end{todo}
+\begin{example}{Proactive Mode}
+In this example Host 1 (H1) sends a packet to Host 2 (H2) which is split into two fragments: P1.F1 and P1.F2. H1 also sends a packet to Host 3 (H3) which is split into three fragments: P2.F1, P2.F2 and P2.F3. 
+
+The network in this example is made up of the following: H1 connects to Switch 1 (S1) which is connected to Switch 4 (S4). S4 is connected to both Switch 2 (S2) (connected to H2) and Switch 3 (S3) (connected to H3). All Switches are connected to the SDN Controller (C).
+
+The reactive data flow works as follows:
+\begin{itemize}
+    \item H1 (P1.F1) $\rightarrow$ S1 (Req) $\rightarrow$ C (Table) $\rightarrow$ (S1, S2, S3, S4)
+    \item S1 (P1.F1) $\rightarrow$ S4 (P1.F1) $\rightarrow$ S2 (P1.F1) $\rightarrow$ H2
+    \item H1 (P1.F2) $\rightarrow$ S1 (P1.F2) $\rightarrow$ S4 (P1.F2) $\rightarrow$ S2 (P1.F2) $\rightarrow$ H2
+    \item H1 (P2.F1) $\rightarrow$ S1 (P2.F1) $\rightarrow$ S4 (P2.F1) $\rightarrow$ S3 (P2.F1) $\rightarrow$ H3 
+    \item H1 (P2.F2) $\rightarrow$ S1 (P2.F2) $\rightarrow$ S4 (P2.F2) $\rightarrow$ S3 (P2.F2) $\rightarrow$ H3 
+    \item H1 (P2.F3) $\rightarrow$ S1 (P2.F3) $\rightarrow$ S4 (P2.F3) $\rightarrow$ S3 (P2.F3) $\rightarrow$ H3 
+
+\end{itemize}
+\end{example}

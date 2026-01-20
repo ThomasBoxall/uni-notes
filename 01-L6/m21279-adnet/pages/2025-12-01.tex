@@ -25,11 +25,8 @@ Firstly, it is possible for a satellite to provide a point-to-point link between
 Alternatively, the satellite provides communication abilities between one ground-based transmitter and a number of ground based receivers. There exists a variation of this configuration wherein there is two-way communications among earth stations with one central hub and many remote stations.
 
 \section{Satellite Orbits}
-\begin{todo}
-Add diagram from slides
-\end{todo}
-
 Satellite orbits may be classified in a number of ways:
+
 \begin{itemize}
     \item The orbit may be circular, with the centre of the circle at the centre of the earth, or elliptical - with the earths centre at one of the two foci of the ellipse.
     \item A satellite may orbit around the earth in different planes. An equatorial orbit is directly above the earth's equator. A polar orbit passes over both poles; while other orbits are referred to as inclined orbits.
@@ -60,7 +57,7 @@ Geosynchronous, or Geostationary, (GEO) satellites orbit at about 35786Km above 
 \begin{itemize}
     \item The satellite is stationary relative to the earth, meaning there is no problem with frequency change due to the relative motion of the satellite and antennas on earth (Doppler Effect)
     \item Tracking of the satellite by its earth stations is simplified
-    \item At 35,863km above the earth - the satellite can communicate with roughly a quarter of the earth; meaning that three satellites in geostationary orbit separated by 120\textdegree covers most of the inhabited portions of the entire earth excluding only areas near the north and south poles.
+    \item At 35,863km above the earth - the satellite can communicate with roughly a quarter of the earth; meaning that three satellites in geostationary orbit separated by 120\textdegree{} covers most of the inhabited portions of the entire earth excluding only areas near the north and south poles.
 \end{itemize}
 
 However, in saying this - there are problems with Geostationary satellites:
@@ -76,7 +73,7 @@ Geostationary satellites use their assigned frequencies over a very large area. 
 
 To launch a GEO satellite - there is a high cost to send rockets and a high delay to get a rocket launched. Despite this, the satellites - once in orbit in the right place, can last for a long time as there is no atmospheric friction. 
 
-Up-to 180 satellites can exist in the GEO orbit, each with 2\textdegree between them. 
+Up-to 180 satellites can exist in the GEO orbit, each with 2\textdegree{} between them. 
 
 To solve some of these problems - orbits other than geostationary have been designed for satellites. An alternative is \textit{Low-Earth-Orbiting} (LEO) and \textit{Medium-Earth-Orbiting} (MEO) satellites which will be covered subsequently. 
 
@@ -175,9 +172,21 @@ Frequency Division Multiple Access (FDMA) works similarly to that where we've se
 
 There are two types of \textit{polarisation} which we see signals modulated onto - vertical and horizontal. Vertical Polarisation is where the signal moves sideways in a horizontal plane, while with Horizontal Polarisation - the signal oscillates up and down in the vertical plane. Signals modulated with FDMA make use of both of these polarisations - with the channels alternating between horizontal and vertical. 
 
-\begin{todo}
-Add example of polarisation - possibly full worked example like from Seminar?
-\end{todo}
+\begin{example}{Polarisation}
+We can see how Polarisation works if we take a set of channels each 40MHz with inclusive guard-band of 4MHz (so this means we don't need to write the guard bands separate). The following list of channels shows their channel number, direction, frequency range as well as their carrier frequency. 
+
+\begin{itemize}
+    \item C1 (Horizontal): 3700MHz - 3740MHz (CF 3720MHz)
+    \item C2 (Vertical): 3720MHz - 3760MHz (CF 3740MHz)
+    \item C3 (Horizontal): 3740MHz - 3780MHz (CF 3760MHz)
+    \item C4 (Vertical): 3760MHz - 3800MHz (CF 3780MHz)
+    \item etc...
+\end{itemize}
+
+The channels used will repeat alternating between Horizontal and Vertical until they reach the end of the allocated bandwidth. Note the overlap between horizontal and vertical channels. 
+\end{example}
+
+
 
 \subsection{Time Division Multiple Access}
 Time Division Multiple Access (TDMA) works similarly to that where we've seen it before. The uplink of TDMA works in that stations take it in turns to use the uplink channel and may put a burst of data in their assigned time slot. Between each satellite's time allocation, handled in a round-robin method, there is a short guard time. The downlink works in much the same way with each signal to be transmitted being taken in turn. 

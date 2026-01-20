@@ -28,7 +28,7 @@ There are a number of Encryption Techniques used commonly.
 \subsection{Substitution cipher}
 In a \textit{substitution cipher}, each letter or group of letters is directly replaced by another letter or group of letters which disguises it. 
 
-A well-known example of this is the Ceaser Cipher. 
+A well-known example of this is the Ceaser Cipher or a substitution cipher. 
 
 \begin{example}{Substitution Cipher}
 If we take the following substitution:
@@ -335,7 +335,7 @@ Digital Signatures work by the sender encrypting the message using their private
 \end{figure}
 
 \subsection{Message Digests}
-The \textit{Message Digests} method works through producing a short fingerprint of the message, which is a hash of the message, represented as $H(M)$. The hash function works by encrypting a small block fo the message which is the function of the document. The hash of two different messages will always be different and it is impossible to find $M$ from $H(M)$.
+The \textit{Message Digests} method works through producing a short fingerprint of the message, which is a hash of the message, represented as $H(M)$. The hash function works by encrypting a small block of the message which is the function of the document. The hash of two different messages will always be different and it is impossible to find $M$ from $H(M)$.
 
 The hash is encrypted with the senders private key, while the message itself is not encrypted. The hash therefore serves as a signature verifying the origin of the document, content and sequencing. This works because the adversary does not have the senders private key, so they cannot spoof a hash value. This method has no confidentiality as the content of the message is transmitted as plaintext, meaning an adversary can read the contents of the message.
 

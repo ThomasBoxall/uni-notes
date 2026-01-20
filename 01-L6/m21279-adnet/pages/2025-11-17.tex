@@ -1,4 +1,4 @@
-\taughtsession{Lecture}{Bluetooth networks}{2025-11-17}{11:00}{Asim}{}
+\taughtsession{Lecture}{Bluetooth Networks}{2025-11-17}{11:00}{Asim}{}
 
 A \textit{Bluetooth Network} is another type of Local Area Network. It is similar to an ad-hoc network, in that there is no fixed organisation, or fixed access point. 
 
@@ -40,9 +40,9 @@ Slaves transmit once permission has been granted by the master using Time Divisi
 \section{Bluetooth Protocols}
 Bluetooth is defined as a layered protocol architecture which consists of a number of different protocols.
 
-\begin{todo}
-diagram of protocol stack
-\end{todo}
+\begin{extlink}
+A diagram of the protocol stack can be found on slide 6 of the slides on Moodle.
+\end{extlink}
 
 The core elements of the protocols form a five-layer stack, the outline for which can be seen below:
 \begin{description}
@@ -155,10 +155,6 @@ The most reliable variant of SCO is 80 bits where master and slave get 800 slots
 
 SCO is used for real-time data, video and audio applications.
 
-\begin{todo}
-Add graph showing SCO connection
-\end{todo}
-
 \subsection{Asynchronous Connectionless}
 Asynchronous Connectionless (ACL) is used in the gaps which exist between reserved SCO blocks. ACL is a link between the master and all the slaves, again in a direct communication method - not in a slave-to-slave communication method. 
 
@@ -167,7 +163,3 @@ ACL packets take up either 1, 3 or 5 slots. An ACL is returned by a slave if it 
 ACL packet transmission requires a short ($~250\mu s$) settling time before the header can be transmitted - this is to allow for synchronisation between the master and slave. 
 
 There is no guaranteed bandwidth for ACL packets; and it does not include error correction - so retransmission is required.
-
-\begin{todo}
-Add graph showing SCO vs ACL connection
-\end{todo}
