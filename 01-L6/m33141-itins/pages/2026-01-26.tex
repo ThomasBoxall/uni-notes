@@ -1,0 +1,106 @@
+\taughtsession{Lecture}{Introduction}{2026-01-26}{14:00}{Shikun}
+
+\textit{NB: This was split between 26th January and 2nd February lectures.}
+
+\section{Introduction to Module}
+
+This module could alternatively be known as ``Cyber Security for Enterprise and Infrastructure'' however course leadership didn't like the sound of it, so ITINS it is. 
+
+The module will be delivered through a mix of lectures and practical tutorials. The tutorials will use Cisco Packet Tracer to simulate networks, rather than use real hardware. There may be an option later in the module to visit the networking labs and see the real hardware. Worth noting that simulations are easier and quicker than completing the same activities on the real hardware.
+
+There are a number of useful books for this module. The Cisco CCNA Security Guide (210-260) will be the main book for this module, and even the older versions are still relevant (and cheaper to acquire). 
+
+Assessments for the module will be worth 50\% and will involve submitting 3 labs (2 to be selected from a list of 5) and a short report. The exam will be a mix of MCQ and longer form questions. The questions in the final exam will be from the CCNA. The final exam will be held during the May/June exam period and has previously fell towards the end of the time slot.
+
+\section{Introduction to Security}
+Computer Security is the idea of protection afforded to an information system in order to preserve the integrity, availability and confidentiality of information system resources. This covers hardware, software, firmware, information / data, and telecommunications.
+
+\begin{define}
+\item[Threat] A potential for violation of security
+\item[Vulnerability] A way by which loss can happen
+\item[Attack] An assault on system security, a deliberate attempt to evade security services
+\end{define}
+
+\subsection{Impact of a Cyber Incident}
+A cyber incident is said to have a \textit{low} impact if there is a limited adverse effect on organisational operations, assets or individuals. The loss may cause degradation in mission capabilities to an extent and duration that the organisation is able to perform its primary functions, but the effectiveness of the functions is noticeably reduced. There may also be minor damage to organisational assets, minor financial loss or minor harm to individuals. 
+
+The impact is classified as \textit{moderate} if there is a serious adverse effect on the operations of the organization, assets or individuals. There may be a significant degradation in the mission capabilities, duration and extent that the organisation is able to perform its primary functions but the effectiveness of the functions is significantly reduced. It may result in significant damage to organisational assets, result in significant financial loss or result in significant harm to individuals that does not involve loss of life, or serious or life threatening injuries.
+
+A \textit{high} impact incident is classified as one which has a significant or catastrophic adverse effect on organisational operations, assets or individuals. The loss might cause a severe degradation in or loss of mission capability to an extent and duration that the organisation is not able to perform one or more of its primary functions. It may result in major damage to organisational assets, result in major financial loss or result in severe or catastrophic harm to individuals involving loss of life or serious life threatening injuries.
+
+\subsection{Security Requirements}
+Different situations will prioritise different aspects of cyber security and therefore protecting assets differently. While all of the below examples all require strong security surrounding them, there is a security trait (confidentiality, integrity, availability, etc) which is considered to be the most important trait.
+
+\begin{description}
+    \item[Student Grades] are considered \textit{confidential} as they should not be shared
+    \item[Paitient Information] is considered for it's \textit{integrity} to be the strongest
+    \item[Authentication Services] are considered to require \textit{availability} as the strongest trait as so many other systems rely on them
+    \item[Admission Tickets] should be \textit{authentic} to prevent people spoofing them
+    \item[Stock Sell Order] should have \textit{non-repudiation} as it's strongest trait to ensure the order is maintained. 
+\end{description}
+
+\subsection{Challenges with Security}
+Naturally, given users are involved in the equation, there are challenges with security:
+\begin{itemize}
+    \item Security isn't simple, it is easy to get it wrong
+    \item All potential attacks must be considered
+    \item Procedures used can seem counter-intuitive
+    \item Often involves algorithms and secret information
+    \item Engineers must decide where to deploy mechanisms
+    \item There is a battle of wits between attacker / administrators
+    \item Not perceived until it fails
+    \item Requires regular monitoring
+    \item Security is often considered as an after-thought
+    \item Regarded as an impediment to using the system
+\end{itemize}
+
+\subsection{Cloud and Virtual Networking Security}
+Within a Data Center, there is a need for elevated security. This may include, for example, on-prem security officers, fences and gages, continuous video surveillance, security breach alarms, electronic motion detectors, security traps, and biometric access and exit sensors.
+
+\begin{define}
+    \item[Hyperjacking] Attackers hijack a VM controlling software to attack other devices
+    \item[Instant On Activation] Old VM is activated with out of date security policies
+    \item[Antivirus Storm] When all VMs attempt do download antivirus data file at the same time
+\end{define}
+
+\section{Introduction to Hackers}
+Modern hackers will go by many titles including:
+\begin{itemize}
+    \item Script Kiddies
+    \item Vulnerability Brokers
+    \item Hacktivists
+    \item Cyber Criminals
+    \item State-Sponsored Hackers
+\end{itemize}
+
+However, generally they will fall into one of three categories.
+
+\textit{White Hat Hackers} are those who hack ethically. They use their skills in an ethical way to identify and responsibly report vulnerabilities in a legal way.
+
+\textit{Grey Hat Hackers} are those who commit crimes, and do arguably unethical things - but not for personal gain or to cause damage. They sit in the grey area between White and Black hat hackers. 
+
+\textit{Black Hat Hackers} are unethical criminals. They violate computers and network security for personal gain or for malicious reasons.
+
+\subsection{Tooling}
+The tooling used by hackers has also evolved. Back in the 1980s, the tools were more rudimentary, requiring more specialist knowledge to operate them. While more recently, the tools have become more sophisticated therefore requiring less technical knowledge to operate them. 
+
+Attack tools can be categorised into the following:
+\begin{itemize}
+    \item Eavesdropping
+    \item Data modification
+    \item IP based spoofing
+    \item Password-based
+    \item Denial-of-Service
+    \item Man-in-the-Middle
+    \item Compromised Key
+    \item Sniffer
+\end{itemize}
+
+\section{Policy}
+Policy says what is not allowed. It might sometimes also say what is allowed with relation to computer system. 
+
+The secure mechanism to enforce policy, where the set of reachable states are entirely contained within the set of secure states with a buffer, is regarded as often unobtainable yet the cyber security professional's preference.
+
+The precise mechanism to enforce policy, where the set of reachable states is entirely contained within the set of secure states with no buffer, is precise in that there is no additional security; this is what managers like to aim for.
+
+However in reality, the board mechanism to enforce policy is where some of the set of reachable is within secure but the other half is dangling out of secure. This is the reality for many organisations. 
