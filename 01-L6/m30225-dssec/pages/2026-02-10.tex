@@ -1,0 +1,117 @@
+\taughtsession{Lecture}{Communication Models}{2026-02-10}{09:00}{Amanda}
+
+Distributed Systems communication models define how different processes and nodes (systems) interact with each other. The models influence the design of the system, efficiency and reliability. One model used may feed communications to another model, and therefore a different system. 
+
+There are a number of different models which will be explored in this lecture. However this is not an exhaustive list - as that would fill 8 weeks of lectures, not just a 1 hour lecture!
+
+We will never negate all the issues with these communication models, however we can try to improve them. The networks connecting devices together are improving which is inherently improving the models. 
+
+\section{Message Passing}
+Message Passing works by processes sending and receiving messages over a network. This is commonly used in distributed computing for inter-process communication. 
+
+Message Passing can work asynchronously or synchronously to exchange messages. It works both ways so it can best fit the message contents and what needs to happen with the data on receipt. Messages must be serialised before transmission and deserialized on receipt. Messages passing is susceptible to network failures, so some thought has to be given as to how to overcome this when designing the system. Message passing is a form of direct communication.
+
+Typically, message passing is seen where a process needs to communicate with another process. Through the first process passing the second a message - the second process then has a copy of the data. From this arises a need to keep the data consistent across the network.
+
+Examples of applications of message passing:
+\begin{itemize}
+    \item Web Sockets (TCP / UDP)
+    \item Remote Procedure Calls (RPCs)
+    \item Message Queue Systems (Rabbit MQ, Kafka)
+    \item REST APIs
+\end{itemize}
+
+\section{Shared Memory}
+Shared Memory is a model in which multiple processes / nodes read from and write to a shared memory space. This model is more common in multi-threaded systems but can be used in distributed systems where it becomes the \textit{Distributed Shared Model} (DSM). With the uprising in cloud computing, the memory can now geographically be anywhere. 
+
+The Shared Memory model doesn't have a need for message exchange, rather the systems just directly interface with the shared memory. However it does require some form of synchronisation - often seen with Locks or Semaphores (as seen in L5 OSINT). 
+
+To the user, shared memory is seen as a single memory location when in reality - this is split across multiple different nodes. 
+
+Examples of applications of shared memory:
+\begin{itemize}
+    \item Distributed Shared Memory
+    \item Distributed File Systems (Google Drive, Hadoop HDFS)
+\end{itemize}
+
+An issue with shared memory is the need for ensuring that the data is saved on a sensible node. What this means is that if Node 1 is asking Node 2 for some data, where in reality only Node 1 needs this data - then it would be most sensible to store the data on Node 1. This should also be extended to ensure that the data is stored on a node which is geographically close to the users.
+
+\section{Remote Procedure Calls}
+Remote Procedure Calls (RPCs) allow a process to invoke a function on a remote system as if it were a local function call. They abstract the details of the communication on the network. 
+
+RPCs work through the client sending the request to the server which processes the request and then responds to the client with it's response. They can be blocking (synchronous), or non-blocking (asynchronous). The data used in an RPC requires serialisation before it can be transmitted on the network, which is commonly achieved using protocol buffers or JSON.
+
+Within a RPC system - there has to be a clear and consistent naming convention - something which can be understood by both the client and server. On the server side, there may be a stub which can translate received names into local names, alternatively to decide if the data can be request can be processed or not.
+
+Examples of applications of RPCs:
+\begin{itemize}
+    \item Google RPC (gRPC)
+    \item Apache Thrift
+    \item Java Remote Method Invocation (Java RMI) - which was one of the big features that made Java explode in popularity
+\end{itemize}
+
+\section{Publish/Subscribe Model}
+The Publish/Subscribe (Pub/Sub) model is an event-driven communication method. Publishers broadcast messages without knowing what subscribers (if any) are listening for them.
+
+This is a decoupled architecture, where there is no direct connection between the sender and receiver. Communications are handled asynchronously. Pub/Sub is seen in real-time streaming and event-driven architectures.
+
+Examples of applications of Pub/Sub:
+\begin{itemize}
+    \item Apache Kafka
+    \item Google Cloud Pub/Sub
+    \item MQTT
+\end{itemize}
+
+\section{Data Streaming Model}
+The data streaming model handles processes continuously sending and receiving data in real time. This is ideal for applications that need low latency data transmissions. 
+
+Data streaming often involves continuous data flow working in a push model, where a process continuously pushes data at the receiver who has to deal with the flow in some way. There may be a broker of sorts in the middle of the flow, cleaning the data or merging it with other data streams. This model is suitable for real-time analytics and monitoring systems and can commonly be seen working with Pub/Sub systems.
+
+Due to the relentless data pushing aspect of the model - there is a need for a lot of bandwidth to handle the traffic and some decent infrastructure for the system to run on. We strive for there to be zero latency in this system in case we are looking to make critical decisions on realtime data. There may also be some storage for archived data, which is separate to working storage.
+
+Examples of applications of Data Streaming:
+\begin{itemize}
+    \item Apache Kafka
+    \item Apache Flink
+    \item Spark Streaming
+\end{itemize}
+
+\section{Peer-to-Peer}
+Peer-to-Peer (P2P) is a model in which all nodes in the system act as both a client and server. They share resources and data without a central authority commanding and conducting the way they work. 
+
+P2P is a decentralised architecture, it is easier to bring in nodes and ensure replication between them. It is highly scalable but may have inconsistency issues between nodes. P2P is used in blockchain, file sharing and decentralised applications.
+
+In a way, utilising P2P is almost like utilising shared memory. However there is a risk that if one node goes down and there is no suitable data replication in place, the entire system could loose access to the data that node is holding. 
+
+In the early days of P2P systems, back to the Limewire era, there were a number of issues with the P2P software utilising too much of the PCs resources, making the system unusable for the user. 
+
+Examples of applications of P2P:
+\begin{itemize}
+    \item Bit Torrent
+    \item Blockchain
+    \item Skype
+\end{itemize}
+
+\section{Tuple Space Model}
+The Tuple Space Model is an example of coordination based communication, where the processes interact through a shared tuple space. The processes read, write and take data tuples instead of direct message exchange. 
+
+This model is based on the Linda Coordination Models. It is decoupled in time and space as the processes don't need to be online simultaneously - however does require some coordination. It is used in distributed coordination and parallel computing. This can be more efficient, however there are complexities with managing the tuples effectively.
+
+Examples of applications of Tuple Space:
+\begin{itemize}
+    \item JavaScript
+    \item Apache ZooKeeper
+    \item Tibco Rendezvous
+\end{itemize}
+
+\section{Cons With These Systems}
+There are of course cons with using these communication models:
+\begin{itemize}
+    \item Message Passing - requires message handling
+    \item Shared Memory - synchronisation overhead
+    \item RPC - can be blocking to other processes / applications
+    \item Pub/Sub - latency in event delivery
+    \item Data Stream - complex implementation
+    \item P2P - data consistency issues
+    \item Tuple Space - complexity in managing tuples
+\end{itemize}
