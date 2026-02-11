@@ -1,0 +1,180 @@
+\taughtsession{Lecture}{Threats, Risk Assessments \& Trust}{2026-02-10}{14:00}{Shikun}
+
+\section{Policies}
+Within Cyber Security, policies are used to unambiguously partition system states. They correctly capture security requirements for a given system, user or the organisation as a whole. This definition can be simplified to \textit{a statement of what is and what is not allowed}. 
+
+All security policy and mechanisms for their enforcement sit on top of assumptions. The assumptions support the mechanisms for enforcement to work correctly. Some of these assumptions may be documented in the policy, however some may not be. 
+
+There may also be `grey areas' in the policies, or where they are not as precise as needed. For example - if an imaginary bank's policy states that bank officers are authorised to transfer money amongst account; and a bank officer moves £100,000 into their account - has the bank's security policy been violated? The answer can be seen both ways for this - yes in that they shouldn't be able to touch their own account, but also no - as this hasn't been documented in the policy. This makes the `yes' answer assumption based and someone else may see this differently.
+
+Alternatively, if it is deemed that a website has to be available, however the security policy doesn't mention availability - the definition of security isn't appropriate. 
+
+\section{Trust vs. Assurance}
+\begin{define}
+\item[Trust] the assumption that a system or service is secure
+\item[Assurance] the degree of confidence that a system or service meets its security requirements
+\end{define}
+
+Trust is considerably more subjective than assurance. Trust is founded in beliefs, expectations, perceptions and subjective opinions often of those who shout the loudest. While assurance is based in evidence, standards, metrics and criteria - it's a quantitative way of saying ``yes, this is a secure system.''
+
+Assurance is a measure of how well the system meets its requirements. It doesn't say what the system is to do, rather it only covers how well the system does it. Assurance proves confidence; helps to identify and address any gaps or weaknesses; provides evidence and assurance to stakeholders, customers, regulators and auditors; and enables continuous improvement of the service. 
+
+In traditional industries - drugs are considered trustworthy based on a few factors:
+\begin{itemize}
+    \item Certification
+    \item Manufacturing standards
+    \item Preventative sealing in packages
+\end{itemize}
+
+In cyber industries, data and services are considered trustworthy based on:
+\begin{itemize}
+    \item Testing
+    \item Auditing
+    \item Monitoring
+    \item Evaluating both effectiveness and performance
+\end{itemize}
+
+\section{Analysis}
+Businesses are presented the question ``Is it cheaper to prevent x from happening, or recover if x happens?''
+
+This isn't an easy question to answer - especially when x could be a major cyber incident stopping all business activities for n time; loss of earnings and loss of padding in the CEO's back pocket... However, what if x doesn't happen and never comes close to happening - that's just a waste of money on preventative measures surely.
+
+Cost-Benefit analysis is the solution to this - it is a data driven process used to evaluate the strengths and weakness of the options. 
+
+Part of CBA is Risk Analysis, which asks if the thing should even be protected in the first place, and how much should we protect this thing.
+
+Risk analysis can be seen in a simple of example of what is the loss if a mobile phone gets stolen. Obviously there is the loss of service, and the loss of the physical asset - but what about the other dangers? What about the bank cards connected to Google Pay (or Apple pay for \textit{those} weirdos)? When phrasing it like that - cyber cover for a mobile phone while still extortionately expensive, doesn't feel like such a bad deal...
+
+\section{Humans Are Insecure}
+The systems we use are only as secure as the humans driving them. It would be great to have an IT system which users can't get within 10' of - so secure, but also just a bit useless as no one can do anything with it. A ``secure'' system can be breached by improper operation (for example when accounts with no passwords are created). 
+
+Within organisations, there is a need for there to be a match between those who have the power and those who have the responsibility for cyber security. For example, those who are responsible for security have the power to enforce security, otherwise there is confusion. However, when system administrators are responsible for implementing security officers can make the rules, there is power given without responsibility. 
+
+Data (from somewhere) shows that 80-90\% of all security problems initiate from ``insiders.'' This is the situation where an account (either with the account holders' knowledge or not) that already exists in the system is used in an unauthorised way. The remaining 10-20\% of attacks come from outside the organisation, most commonly seen in the form of DDoS attacks. 
+
+It's not just internal roles (Management, IT staff, Custodians, Ops Staff, Compliance officers, etc) who are risks in the system here - external (vendors, suppliers, contractors, temporary employees, etc) also provide risk. Often higher than that of internal staff as less internal vetting may have been conducted when taking on a new contractor. In this equation - HR are often the linchpin, as they are responsible for the hiring, termination and employee training.
+
+\begin{define}
+    \item[Masquerader] A person who is not authorised to use a computer, but gaines access appearing to be someone with authorisation
+    \item[Misfeasor] A person who has limited authorisation to use a computer, but misuses that authorisation
+    \item[Clandestine User] A person who seizes supervisory control of a computer and proceeds to evade auditing and access controls
+    \item[Hacker] Generic term for someone who does unauthorised things with other people's computers
+\end{define}
+
+\section{Risk}
+Risk is \textit{the likelihood that something bad will happen that causes harm to an informational asset (or the loss of the asset)}.
+
+A vulnerability is a weakness that could be used to endanger or cause harm to an informational asset. A threat is anything (man made or act of nature) that has the potential to cause harm. The likelihood that a threat will use a vulnerability to cause harm creates a risk. 
+
+The impact of a risk happening is the loss of availability, integrity, and confidentiality; as well as possible other business losses such as lost income, loss of life and loss of real property. 
+
+It is not possible to identify all risks nor to eliminate all risks. However we can use a risk assessment to do some of this for us. 
+
+\subsection{Risk Assessment}
+A risk assessment is a systematic and comprehensive analysis of the probability of a certain event occurring and the potential consequences that might result from that event. It is used to identify and characterise risks. 
+
+Risk assessments, while dense paperwork, can help to improve security and may even increase productivity. They can also reduce costs. They work in a four step process:
+\begin{enumerate}
+    \item Identify risks
+    \item Analyse the likelihood of those risks
+    \item Formulate solutions for reducing risks
+    \item Continuously monitor risks
+\end{enumerate}
+
+There are lots of different types of risk assessment:
+\begin{itemize}
+    \item Business impact assessment
+    \item Qualitative risk assessment
+    \item Quantitative risk assessment
+    \item Cost-Benefit analysis
+    \item Probability profile analysis
+    \item Failure modes, effective and criticality analysis
+\end{itemize}
+
+There are a number of formal Cyber Security risk frameworks which can be used to identify and respond to risks in:
+\begin{itemize}
+    \item NIST Cyber Security Framework
+    \item ISO 27005
+    \item FAIR (Factor Analysis of Information Risks)
+\end{itemize}
+
+A risk assessment might identify risks such as
+\begin{multicols}{2}
+    \begin{itemize}
+        \item Ransomware
+        \item Data leaks
+        \item Phishing
+        \item Malware
+        \item Insider Threats
+        \item Denial of Service
+        \item Unauthorised access
+        \item Misuse of information by authorised users
+        \item Weaknesses in organisational security controls
+        \item Data leaks and breaches
+        \item Service disruption
+    \end{itemize}
+\end{multicols}
+
+A risk assessment is carried out by a team of people who have knowledge of specific areas of the business. Membership of the team may vary over time as different parts of the business are assessed. The assessment may use a subjective qualitative analysis based on informed opinion, or where reliable monetary figures and historical information is available - the analysis might use quantitative analysis. 
+
+For a given risk, Management can choose to accept the risk based on one of three options (or some combination):
+\begin{itemize}
+    \item the relative low value of the asset
+    \item the relative low frequency of occurrence
+    \item the relative low impact on the business
+\end{itemize}
+
+However, management might choose to release the proverbial purse strings and relinquish some cash to mitigate the risk. They'll select and implement the appropriate control measures to reduce the risk. In some cases the risk can be transferred (banished) to another business by buying insurance or out-sourcing the risk inducing activity to another business.
+
+\subsection{Risk Management}
+A key part of risk management is to identify the assets and estimated values, including the people, buildings, hardware, software, and data supplies. Then a threat assessment is conducted which includes acts of nature, accidents and malicious acts originating from inside or outside the organisation. A vulnerability assessment is also conducted, where for each vulnerability - the probability it will be exploited is calculated through evaluating policies, procedures, standards, training, and physical security.
+
+This data is then used either in a qualitative or quantitative way to calculate the impact each threat would have on each asset. From which the appropriate controls can be identified and implemented. This process has to consider the productivity, const effectiveness and value of the asset.
+
+The Single Loss Expectancy (SLE) is a value which is calculated by multiplying the Asset's Value by the Exposure Factor (as a percentage of the assets value). The SLE can then be multiplied by the Annual Rate of Occurrence (ARO) which is the number of times per year that an incident is likely to occur to find the Annual Loss Expectancy (ALE). 
+
+\section{Trusted Systems}
+A Trusted System is a platform designed to reliably enforce a specific security policy, ensuring it functions as intended without unauthorised modifications. Access is granted through an access right - which is a way in which an object can be accessed by a subject; typically this is granted as `read', `write' and `execute'. 
+
+\section{Formal Evaluation}
+Formal Evaluation is a method to achieve \textit{trust}. It is not a guarantee of security. These methods are formal, which doesn't mean auditors in smart suits and little bow ties - it means the results have been found using the \textit{language of mathematics}, logic and proof. The formal outcome should be able to be verified. 
+
+The formal evaluation process looks at the security requirements; if the assurance requirements showing how to establish the security requirements have been met; what the procedures to demonstrate the system meets the requirements look like; and outputs some metrics for the results. The products passing a formal evaluation are trusted, and often some level of formal evaluation will be required for an organisation to do business with another organisation. 
+
+Due to the complex requirements, it is often not feasible to formally verify an entire system. However discreet components are often verified. 
+
+There are a number of different specifications for formal evaluation, the first and most well known being produced by the US Department of Defence, called the \textit{Trusted Computer System Evaluation Criteria} (TCSEC) but colloquially known (and feared) as the \textit{Orange Book}. 
+
+\subsection{TCSEC}
+The TCSES emphasises confidentiality. It has seven levels: D, C1, C2, B1, B2, B3, A1 where D is failed and A1 is perfect.
+
+\begin{itemize}
+    \item C1 (discretionary protection) ensures appropriate identification and authentication are in place within the system, as well as discretionary access control is implemented. 
+    \item C2 (controlled access protection) validates that object reuse and auditing is appropriately configured. 
+    \item B1 (labelled security protection) mandates access control on a limited set of objects. It looks for an informal model of the security policy.
+    \item B2 (structured protections) ensure that there is a trusted path for login; the principle of least privilege is followed; that there is a formal model of security policy; covert channel analysis is followed; and that there is configuration management throughout the estate.
+    \item B3 (security domains) look for a full reference validation mechanism at the system architecture level; expects there to be constraints on the code development process; and looks for documentation and testing requirements.
+    \item A1 (verified protection) demands formal methods for analysis and verification as well as trusted distribution. 
+\end{itemize}
+
+\subsection{ITSEC}
+ITSEC is the European answer to TCSEC. It came along a few years after the TCSEC and it's levels are considerably more hand-wavey. 
+\begin{itemize}
+    \item E1: Security target defined and tested; must have informal architecture description
+    \item E2: Informal description of design; configuration control and code distribution
+    \item E3: Correspondence between code and security target
+    \item E4: Formal model of security policy; structured approach to design; design level vulnerability analysis
+    \item E5: Correspondence between design and code; source code vulnerability analysis
+    \item E6: Formal methods for architecture; formal mapping of design to security policy; mapping of executable to source code
+\end{itemize}
+
+\subsection{Common Criteria}
+Eventually, US, UK, France, Canada and the Netherlands came together to produce the \textit{Common Criteria for Information Technology Security Evaluation} (CCITSE or CC). Under the CC, each level of trust rating from the TCSEC can be specified as a protection profile (PP). A PP looks very similar to a level of trust rating but has two fundamental differences:
+\begin{itemize}
+    \item the TCSEC binds sets of features and assurances together - the CC allows PP to combine features and assurances together in any combination
+    \item the TCSEC specifies a fixed set of ratings (profiles) but the CC allows for consumers to write a customised set of requirements in a standard format
+\end{itemize}
+
+The CC is split into functional requirements (362 page document) which is divided into 11 classes with multiple families per class; and assurance requirements (216 page document) which is divided into 10 classes, with several families per class. 
+
+There are over 2200 registered products with the CC, which maintains an online portal of registered products.
