@@ -1,0 +1,120 @@
+\taughtsession{Lecture}{Time \& Coordination}{2026-02-17}{09:00}{Amanda}
+
+Within Distributed Systems, time is crucial. Time underpins operations, ensuring different distributed components are synchronised with each other. However \textit{time} is a reasonably abstract word; so there's a need to define this concept to ensure coordination and interoperability between different systems. 
+
+It's entirely expected for two different components in a DS to have some delay between them. Nothing's perfect, and networks certainly aren't. However this delay is important; while some components have a high tolerance for latency (such as file transfer or email transfer), some components have a low tolerance for latency (such as real-time data transfer or financial transactions). From this delay comes the need to synchronise, so if two systems go `out of sync' - they can be brought back into sync for subsequent operations. 
+
+\section{Synchronisation}
+Synchronisation is needed to order events and to achieve a consistent global state of the system. 
+
+In a simple real-world example, clock synchronisation is especially important in situations such as online bookings, online shopping, stock market transactions, and multiplayer games. In essence - this is anything where there is a finite resource being accessed by multiple users or where the order of operations is vital such as the order in which stocks were bought and sold, or the order in which dragons were slayed.
+
+Synchronisation is a necessary part of cooperation by way of sharing resources, ordering of events and distributed agreements. The possible effects of not synchronising clocks can include issues with elections, mutual exclusions being triggered and distributed transactions failing or becoming out of order.
+
+\section{Clocks Are Inherently Bad At Keeping Time}
+Clocks are not accurate. They like to go out of sync either through speeding up compared to the perfect clock, or slowing down as compared to the perfect clock. Even crystal-based clocks used in computers are subject to \textit{clock drift} which means they count at different rates therefore will eventually diverge. 
+
+The instantaneous difference between the readings of any two clocks is called their \textit{skew}.
+
+Listed below are some examples of how much clocks drift:
+\begin{itemize}
+    \item Standard quartz clocks drift by about 1 second in 11-12 days (approx $10^{-6}$ seconds/second)
+    \item High precision quartz clocks drift by about $10^{-7}$ or $10^{-8}$ seconds/second
+\end{itemize}
+
+The quartz crystals are susceptible to physical variations in the crystals, variations in temperature, etc. The best atomic clocks have a drift rate of one second in $10^{13}$ seconds (about 300,000 years).
+
+\section{Synchronisation Methods}
+There are a number of different methods which can be used to synchronise clocks.
+
+\subsection{Synchronising Physical Clocks}
+A computer's clock $C_i$ is synchronised with an external authoritative time source $S$:
+\[(S(t) - C_i(t)) < D \textrm{ for } i=1, 2, \ldots N \textrm{ and for all real times over an interval } I\]
+
+Alternatively, a pair of clocks can synchronise with each other using \textit{internal synchronisation}:
+\[(C_i(t) - C_j(t)) < D \textrm{ for } i = 1, 2, \ldots, N \textrm{ over an interval } I\]
+
+Clocks which are internally synchronised are not necessarily externally synchronised.
+
+\subsection{Synchronous Systems}
+A \textit{synchronous} distributed system has known bounds for the clock drift rate; the maximum message transmission delay; and the time to execute each step of a system
+
+Synchronisation works as follows:
+\begin{enumerate}
+    \item One process $p_1$ sends its local process time $t$ to process $p_2$ in a message $m$
+    \item $p_2$ could set it's clock to $t+T_{trans}$ where $T_{trans}$ is the time to transmit $m$
+    \item $T_{trans}$ is unknown, but the uncertainty of it can be calculated using $u=(max-min)$ where $min$ is estimated and $max$ is known.
+    \item So if we set the clock to $t+ \frac{(max-min)}{2}$ then the skew is at most $\frac{u}{2}$.
+\end{enumerate}
+
+\subsection{Cristian's Method}
+Cristian's method is a method for synchronising time in an asynchronous system. The algorithm is probabilistic, and only really works well if the round trip time is short.
+
+Cristian's method works by, a time server $S$ receiving a signal from a UTC source. This uses external synchronisation when the time-server process $S$ supplies the time according to it's clock. The round-trip time is used to estimate the delay of the packet and therefore the time. However, Cristian's method is susceptible to a time server failing and it does not deal with faulty servers well. 
+
+The point at which the client sends the request for time to the server is known as $t_0$. The point at which the client receives the response is known as $t_1$. The client also knows the minimum transit time ($min$).
+
+From this information, the client can estimate the time using $\displaystyle \frac{t_1-t_0}{2}$
+
+Which comes with an estimated accuracy of $\displaystyle \Delta = \pm \frac{t_1-t_0}{2} - min$
+
+\subsection{Berkeley Algorithm}
+The Berkeley algorithm works with a master polling to collect clock values from other devices (slaves). The master uses the round trip time to estimate the slave's clock values. The master then computes the average time in the network and sends the required adjustment to the slaves. Forward adjustments can be done with a jump, however backwards adjustments require a gradual slow down. 
+
+\subsection{Network Time Protocol}
+The Network Time Protocol (NTP) uses reference clocks as a baseline. These are in UTC and are often atomic clocks run by government agencies such as the Shortwave Radio Station (WWV) run by the National Institute of Standard Time (NIST). These radio stations broadcast short reference pulses at the start of each UTC second (+/- 10msec resolution).
+
+The hierarchical server structure has a tree-like structure where a primary server exists at the root, with end-devices at the leaves. Each layer in-between is known as a stratum. 
+
+There are three different modes of synchronisation within NTP, all relying on UDP:
+\begin{itemize}
+    \item Multicast: acceptable for high-speed LAN
+    \item Procedure-call: working like Cristian's Algorithm
+    \item Symmetric: between a pair of servers
+\end{itemize}
+
+NTP's connections are re-configurable as required, which increases fault-tolerance. It's scalable for both clients and servers; allowing clients to re-sync frequently to offset drift. NTP also supports authentication of trusted servers, and validation of return addresses to ensure time is only being given to authorised users and authorised users trust where they're getting the time from. 
+
+NTP provides a synchronisation accuracy of tens of milliseconds over Internet paths, and about 1millisecond on LANs. 
+
+\section{Logical Time \& Logical Clocks}
+As we already know - clocks cannot be synchronised perfectly within a distributed system. So an idea: what about if we abandon any idea of physical time? Lamport (1978) explored this concept and from here - logical (virtual) time was born. Logical time provides consistent even ordering. Within logical time, \textit{casual ordering} is used - which makes use of the linear idea where an event happens after another event.
+
+To fully realise this - we must first look at a process interaction model:
+\begin{itemize}
+    \item A distributed system is defined as a collection of $N$ processes ($P$) where $P_i, i = 0, 1,2, \ldots, N-1$. 
+    \item Each process $P-i$ has a state $s_i$ which includes values of all it's variables
+    \item The processes communicate only by messages (via a network)
+    \item Each process can send, receive messages and change it's own state
+\end{itemize}
+
+The \textit{event} is the occurrence of a single action. 
+
+Events at a single process $P_i$ can be placed in a total ordering; which is denoted by the relation $\rightarrow_i$ (happened before) between the events. For example $e \rightarrow_i e'$ if and only if $e$ occurs before $e'$ at $P_i$. A history of process $P_i$ is a series of events ordered by $\rightarrow_i$ for example:
+\[(P_i) = h_i = <e_i^0, e_i^1, e_i^2, \ldots >\]
+
+\begin{extlink}
+There's a graphical example of this in the slides available on Moodle.
+\end{extlink}
+
+\subsection{Lamport's Logical Clocks}
+Okay, so back to Lamport. Lamport explored that a \textit{logical clock} is a monotonically increasing software computer; where each process $P_i$ has a logical clock $L_i$ which can be used to apply logical timestamps to events.
+
+LC1 is where $L_i$ is incremented by 1 before each event at process $P_i$.
+
+LC2 has two options:
+\begin{itemize}
+    \item When process $P_i$ sends message $m$ it piggybacks, therefore $t=L_i$
+    \item When process $P_j$ receives $(m, t)$ it sets $L_j = max (L_j, t)$ and applies LC1 before time-stamping  the event receive $m$. 
+\end{itemize}
+
+A shortcoming with Lamport's clocks is where two events happen concurrently - the Logical clocks may not be equal despite two events taking place at the same time, due to each process having its own logical clock. For example $L_e < L_{e'}$ does not imply $e \rightarrow e'$ which means we cannot spot concurrency. 
+
+\subsection{Vector Clocks}
+Vector Clocks were designed to overcome the shortcomings of Lamport's clock. The Vector clock $V_i$ at process $P_i$ is an array of $n$ integers.
+
+Vector clocks use vectors to store information about preceding operations and current operations timings in the logical vector clocks. 
+
+\begin{extlink}
+Further information on Vector Clocks is available in the slides on Moodle
+\end{extlink}
