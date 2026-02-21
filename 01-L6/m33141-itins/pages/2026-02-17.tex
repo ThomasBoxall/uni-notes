@@ -1,0 +1,114 @@
+\taughtsession{Lecture}{Network Security}{2026-02-17}{14:00}{Shikun}{}
+
+The University is writing some new AI guidelines which will be published in the coming weeks. We can still use AI to generate answers for the blue box tasks (practical tasks) in the Coursework regardless of the new guidance. Using AI for the red box tasks (theoretical tasks) depends on what the new guidelines say. Shikun will be in contact when he has received the new guidelines to mark the line in the sand for us.
+
+\section{Introduction}
+Network Security is the bulk of this module. Network Security is a set of technologies, policies and practices designed to protect the integrity, confidentiality, and accessibility of computer networks and data. It protects against malicious programs, actions and actors through a variety of mechanisms.
+
+\section{Malicious Software}
+Malicious Software can be categorised into one of two categories. It will either need a host program, such as trapdoors, logic bombs, trojan horses or viruses; or run independently such as bacteria or worms. 
+
+There are a number of things to look out for to identify if a machine has been compromised with malicious software:
+\begin{itemize}
+    \item Computer running slowly, or using more resources than normal
+    \item Audible noises, such as a churning drive, or features appearing which user hasn't installed
+    \item Emails sent without users knowledge
+    \item Duplicate services or unknown services appear and run on the system
+    \item New directories or files appear, or old ones appear changed
+    \item Mouse pointer moves unexpectedly or windows open by themselves
+    \item Antivirus software, firewall, or other security products shut down
+\end{itemize}
+
+Spyware is a different type of malicious software which is designed to spy on the users activity, reporting back to a command and control server. There are a number of things which can suggest to a user that their PC may be compromised with Spyware:
+\begin{itemize}
+    \item Web browser opens, after PC has been idle for some time, displaying website ads
+    \item When websites are viewed, other browser windows open and display website ads
+    \item Internet homepage unexpectedly changes
+    \item Web pages are unexpectedly added to Bookmarks bar
+    \item New toolbars are unexpectedly added to web browsers
+    \item Programs cannot be started
+    \item When links are clicked in a program, the link doesn't work
+    \item If a browser suddenly closes or stops responding
+    \item It takes a long time to start using the PC or to resume using the PC
+    \item Program components no longer work
+\end{itemize}
+
+\section{Network Security Architecture}
+There are four key components of the architecture of network security: wired components, wireless components, security domains and Virtual Private Networks (VPN). 
+
+The Internet is a network of networks. Each sub-network (a LAN, MAN, or small WAN) is connected by routers - there is no central command centre for the internet. The different sub-networks connect together using a common set of protocols.
+
+The Transmission Control Protocol / Internet Protocol (TCP/IP) stack are two-level packages of protocols of transmission across the internet. They follow similar principles to the seven-layer OSI model but are much simpler. TCP is responsible for sequencing of series of packets to transmit data reliably over the internet; while IP flexibly routes information from source to destination.
+
+TCP is not the only protocol which runs on top of IP. The Universal Datagram Protocol (UDP) is used for one-directional bursts of data, such as video files where a missing packet or two isn't the end of the world. Internet Control Messaging Protocol (ICMP) is used for network management; the \textit{ping} command uses ICMP. The Unequal Cost Multicast Protocol (UCMP) is a multicast management protocol used for managing multicast groups for multicast transmissions. 
+
+The IP allows for a packet-switched paradigm to bse used. This works by breaking the flow of information into chunks which is then routed independently by the best route to the destination. At the receiving end, the destination device must reassemble the packets into the correct order before passing back up the protocol stack to the application. Missing packets are handled by retransmission.
+
+A packet will have a header which contains a number of information cells for data items such as the source and destination IP addresses, checksums, type of service, length and time to live. The time to live is the time for which that packet can be active on the network. It might be a number of hops between different routers or it might be an actual time. This can be used to prevent playback attacks.
+
+The devices which routes packets through the network are known as routers. They know of a number of routes which they learn through routing protocols such as RIP, OSPF or BGP. These use different metrics to determine the best route for the packets to take looking at the `cost' which may be the speed of the link, the load of the link, the distance, the number of hops, etc. 
+
+There are, however, some issues with this setup. Principally, the client is trusted to embed the correct IP address of the destination (which they may have obtained through DNS). It is easy to override this using raw sockets. IP addresses can easily be overridden by anyone with IT knowledge to make it appear that a packet has come from an arbitrary source IP, which also means the responses will be sent back to the arbitrary source IP. This means it is more possible to launch anonymous denial or service attacks, or anonymous infection attacks (such as the slammer worm). 
+
+At layers 2 and 3 of the TCP model network packets pass by untrusted hosts. This can allow for eavesdropping (packet sniffing), especially when the attacker controls a machine close to a the victim (such as WiFi routers). The TCP state can be easily obtained by eavesdropping, which enables spoofing and session hijacking. TCP layers 2 and 3 are also vulnerable to DoS attacks. 
+
+\section{Alice, Bob, \& Trudy}
+The \textit{Alice, Bob, and Trudy} model is commonly used in Cyber Security to represent a sender, receiver and adversary (of some flavour). Alice and Bob are secure sender and receivers (respectively) while Trudy is an adversary who has tapped the communication channel between Alice and Bob in a hope to either hoover up data packets or inject her own. 
+
+Alice and Bob could represent web browsers / severs for electronic transactions (such as online purchases), on-line banking in the client-server paradigm, DNS Servers, routers exchanging routing table updates, etc. 
+
+Trudy, on the other hand, is up to many things including:
+\begin{itemize}
+    \item Eavesdropping - intercept messages actively or insert messages into connection
+    \item Impersonation - faking (spoofing) source address in packet (or any field in packet) to make it seem like she's not the sender
+    \item Hijacking - taking over an ongoing connection by removing sender or receiver, inserting herself in place
+    \item Denial of Service - preventing service from being used by others (e.g. by overloading resources)
+\end{itemize}
+
+\section{Attacks \& Countermeasures}
+There are a number of different types of attacks which have countermeasures.
+
+\subsection{Mapping}
+Before any attacking can take place, we have to first understand the estate we are trying to attack. This is similar to a burglar walking around a neighbourhood before attacking to see peoples patterns of movement etc, except in networking - we are looking for what services are implemented on the network. We can use pink to determine what hosts have addresses on the network or Port Scanning which tries to establish a TCP connection to each port in sequence and sees what happens. A common tool used for port scanning is \textit{nmap} which was used in the Ethical Hacking module at L5.
+
+There isn't much we can do to stop mapping. We can record all traffic entering the network and seek out suspicious activity (IP addresses, ports being scanned sequentially, etc) but as we know it's easy to spoof IPs so blocking one isn't going to necessarily stop an attacker. 
+
+\subsection{Packet Sniffing}
+Packet Sniffing is the idea where one NIC can read all the packets passing for any broadcast traffic. A NIC is supposed to drop packets broadcast where it is not the intended recipient, so this shouldn't be an issue except for when the NIC is setup to be malicious. 
+
+There are a few countermeasures to sniffing - such as all hosts in an organisation running software that checks regularly if host interfaces are in loose mode; or configuring the network such that there is one host per segment of broadcast media (switched Ethernet as hub). 
+
+\subsection{IP Spoofing}
+It's possible for a device to generate `raw' IP packets directly, putting any vlaue into the source IP address field. The receiver cannot tell if the source IP has been spoofed or not.
+
+Countermeasures wise, routers should be configured to not forward outgoing packets with invalid source addresses (e.g. datagram source address not in the routers network).
+
+\subsection{Denial of Service (DoS)}
+DoS attacks are where a receiver is swamped by a flood of maliciously generated packers. In a simple DoS attack - they would all come from the same host, or same network, so it is simpler to block one IP or a range to prevent the attack.
+
+There is a variant of DoS attacks known as Distributed Denial of Service (DDoS) attacks in which multiple hosts are used to send malicious packets, so it becomes harder to filter these out and block them. 
+
+For both types of attack - the best countermeasure is to trace back to the source of the floods and identify if that machine has been compromised if so remediate or otherwise block. 
+
+\subsection{Network Redirection}
+Network Redirection is an attack type in which intruders can fool routers into sending traffic to unauthorised locations. 
+
+The countermeasures are simple here - routers should only listen to approved information sources. However, many sites cannot afford to sacrifice flexibility like this so there is a need for a compromise to be reached. 
+
+\subsection{Cross-Site Scripting}
+Cross Site Scripting (XSS) is where an intruder sends the victim a link to the trusted site with malicious code embedded.
+
+The countermeasures to this are focused around the users, where they need to be informed to inspect URLs before clicking on them as it is not always possible to identify and block XSS attacks in the email filtering level. 
+
+\section{Defences for Attacks}
+There are a number of defences for attacks. The data flow can be used to identify anomalous patterns which may indicate an attack is taking place. Access rights for individuals should also be monitored and managed to ensure they are appropriate for the individuals current role. Sandboxing can be used as a safe way to explore risky links, or risky applications - allowing Cyber Security professionals to test in a safe way.
+
+\section{Network Security}
+There are lots of security protocols used in network security, which include:
+\begin{itemize}
+    \item Secure Socket Layer / Transport Layer Security (SSL/TLS) - mainly used to secure web traffic
+    \item Secure SHell (SSH) - remote login
+    \item IPsec - IP-level security suite
+\end{itemize}
+
+Wireless connections can be protected using 802.11i / WPA2, wired connections can be protected using IPSEC. The perimeter of a network can be defended using a firewall or Intrusion detection. Network infrastructure can be protected using BGP and S-BGP as well as DNS rebinding and DNSSEC.
