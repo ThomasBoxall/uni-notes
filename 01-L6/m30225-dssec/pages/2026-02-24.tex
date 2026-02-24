@@ -1,0 +1,88 @@
+\taughtsession{Lecture}{Distributed Shared Memory}{2026-02-24}{09:00}{Amanda}{}
+
+There will be an additional lecture and seminar combination added on the Tuesday of Consolidation week to make up for Amanda being unable to teach in the first week of the semester. This can't be in the proper teaching time because timetabling restrictions.
+
+\section{Introduction}
+Distributed Shared Memory (DSM) is a paradigm in which the memory (both the RAM-esque and longer term storage) used by the Distributed System (DS) is distributed between two or more nodes. This is particularly prevalent in cloud computing, or multiprocessor systems. 
+
+This abstraction used for data sharing between different nodes who do not share physical memory allows multiple computers in a distributed network to share memory as if it were a single, unified address space; as well as enabling processes on different machines to read and write to a shared space transparently as if they were running on a single machine. 
+
+This works through instead of passing messages between processes, DSM allows nodes to read and write to a shared memory as though they are accessing local RAM. This simplifies programming, eliminating the need for developers to consider message passing - rather they just have access to the shared space. It also improves resource sharing which can be especially useful when a large data set doesn't have to be duplicated on every node. DSM also reduces communication overhead, mostly achieved through reducing / eliminating message-passing request from the network. 
+
+There are a number of key features of DSM:
+\begin{itemize}
+    \item Transparency - the users don't need to know that the memory is distributed; it also comes up a lot in distributed systems in general
+    \item Scalability - where more nodes can be added or removed without affecting performance
+    \item Consistency Control - ensures all nodes see updated memory values correctly; however this presents some other challenges as we'll see later in this lecture
+    \item Synchronisation - uses locks, semaphores, or barriers to prevent conflicts
+\end{itemize}
+
+We can see DSM in the real world in situations such as Google Drive. This has a number features such as collaborative edits where consistency is crucial, in that all concurrent editors of the same file need to always have the latest version. Alternatively multiplayer games require synchronisation of a shared world state between different users. 
+
+From the above examples - we can see how important consistency is. Consistency, especially how good we make it is one of the grey areas in DSM as there is a tradeoff between performance and consistency. The higher levels of consistency the DSM maintains, the more significant performance implications this has; and vice versa. 
+
+\section{DSM Models \& Architecture}
+DSM models come in two shapes: \textit{centralised} and \textit{decentralised}. The centralised architecture refers to where a single server manages the shared memory. Access to the data on that server is only via that central server as the data is all in one place. This is simple to manage, and offers easier consistency control; however does introduce a significant single point of failure. Meanwhile, decentralised architecture refers to where memory is spread across multiple nodes (which appear as one after abstraction), with each node managing part of the memory. This is better than centralised as there is no bottleneck and higher fault tolerance, however it is harder to manage consistency. 
+
+The decentralised architecture can be seen in a number of models:
+\begin{itemize}
+    \item Page based
+    \item Object based
+    \item Variable based
+    \item Library based
+\end{itemize}
+
+Paged based DSM is the simplest of the models. It works much like virtual RAM in an Operating System; in that pages are mapped across different nodes in the system. Each page is present exactly once on each machine. A reference to a local page is done in hardware which grants it full memory speed, however this is using fixed size pages. Any attempt to reference a non-local page causes a hardware page fault which traps to the OS, which then sends a message to the remote machine which finds the requested page and sends it to the requesting processor. After which the faulting instruction is restarted and it can complete. This is efficient for large data sets, however can exhibit poor performance. There are high overheads especially as pages are sent back and forth and it poses increased complexity for memory synchronisation. The challenge with this model is to minimise the network traffic it generates and to reduce the latency between the moment a memory request is made and the moment it is satisfied.
+
+Object-based DSM works through dividing the memory into user-defined objects instead of pages. These are a collection of language level objects which require serialisation \& synchronisation. The objects are then stored on different nodes, and processes request them as needed. The system ensures that only one copy of an object is updated at a time. Interaction with the objects are limited to the object interface, providing more access control. This is more efficient than page based DSM as it reduces unnecessary data transfers and has more embedded access control. However managing the consistency can be complex. It requires advanced synchronisation mechanisms to reduce errors and using methods such as Java RMI can reduce performance. 
+
+Shared Variable DSM works through sharing only certain variables and data structures that are needed by more than one process. This changes the challenge from how to page over the network, to how to maintain a potentially replicated distributed database consisting of shared variables. This model processes shared specific variables rather than entire memory pages or objects. The variables which are shared are synchronised automatically across the different nodes. Three are three types of variable: ordinary, shared and synchronisation. Shared variables are sequentially consistent if used within critical regions. This model is simple to program and efficient for small amounts of shared data, however it is not scalable and the synchronisation can become complex.
+
+Library Based DSM utilises communication between the instances of the language at run-time. The processors make library calls inserted by a compiler when they access data items in DSM. The libraries access local data items and communicate as necessary to maintain consistency. 
+
+\section{Consistency Models in DSM}
+There are a number of different consistency models, which define the level of consistency required and how that consistency is achieved, within DSM:
+\begin{itemize}
+    \item Strict Consistency
+    \item Sequential Consistency
+    \item Casual Consistency
+    \item Eventual Consistency
+    \item Weak Consistency
+\end{itemize}
+
+All of the models have trade-offs between performance and consistency. With all the models, the goal is to ensure that all nodes have a consistent view of shared data while balancing performance and synchronisation overhead. 
+
+Strict Consistency is where all processes see memory updates immediately. This is the strongest level of consistency and ensures correctness in critical applications. However there are high overheads with this given the constant level synchronisation requirements. 
+
+Sequential Consistency is where all processes see operations in the same order as relative to logical time. This is easier to implement as it is not reliant on physical time and it ensures the correct order of operations. However, it is reliant on synchronisation which may take some (admittedly small) amount of time to take place - so is not ideal for performance sensitive applications. 
+
+Casual Consistency is where related (casually dependent) writes must be seen in order, but independent writes can take place in any order. This means that if A happens before B, then all processes must see A happen before B. This reduces unnecessary synchronisation overheads however still requires tracking of casual relationships and does not guarantee a single order for all operations on all nodes. Casual Consistency is very inefficient in DSM. 
+
+Eventual Consistency is where if no new updates occur - all processes will eventually see the same data. Temporary Inconsistencies are allowed (tolerated) but over time all nodes converge to the correct state. This is best for highly scalable distributed systems as it improves performance by reducing synchronisation overheads. However the temporary inconsistencies may make this unsuitable for some DSM applications. 
+
+Weak Consistency, as the name suggests, is where the system does not guarantee immediate consistency after each write. Instead, consistency is only enforced at synchronisation points (i.e. when a process explicitly requests the latest data). This reduces synchronisation therefore improves the performance and works well when immediate accuracy is not required; however it does introduce the need to handle out-of-date data. It also presents some challenges with predicting the data correctness within the DS. 
+
+With the need for consistency between nodes in DSM, comes the need for synchronisation. As part of the synchronisation process - there needs to be some way for one node to signal to other nodes that it now has either up-to-date data or out of date data so that nodes don't use out of date data.
+
+\section{Implementations of DSM}
+The \textit{hardware-based} implementation of DSM uses specialised hardware to handle load and store instructions applied to addresses in DSM, and to communicate with remote memory modules as necessary in order to implement them.
+
+The \textit{page-based} implementation of DSM implements a region of virtual memory occupying the same address range in the address space of every participating process. 
+
+The \textit{library-based} implementation of DSM is different. In this type of implementation, sharing is not implemented through the virtual memory system but by communication between instances of the language run-time. Processes make library calls inserted by a compiler when they access data items in a DSM. The libraries access local data items and communicate as necessary to maintain consistency. 
+
+It is also be explored to share only selected portions of the entire address spaces, more specifically - just those variables or data structures that need to be used by more than one process. Alternatively to replicate the shared variables on multiple machines, sharing variables instead of pages, which means potentially reads can be done locally without network traffic and writes can be done using multi-copy update protocols. It's also being explored to share encapsulated data types (objects) including methods using Remote Method Invocation. 
+
+\subsection{Ring-based Multi-Processor With Shared Memory}
+The \textit{Ring-Based Multi-Processor With Shared Memory} model has no centralised global memory, rather its divided into private and shared data. Memory is shared between nodes in a token-ring fashion in 32-byte blocks. Each block has a fixed home. 
+
+To read a word from the shared memory, the memory address is passed to the device which checks the block table to see if the block is present; if it is - then the request is satisfied. If not present, then the device waits until it captures the circulating token then puts a request packet onto the ring. As the packet passes around the ring, each device checks if it has the requested block. If it does have the requested block, it provides it and clears the exclusive bit if set, and then when the token returns to the requester - it always has the requested block attached. 
+
+Writing is similar - in that if the block to be written to is present and is the only copy (exclusivity bit is set) the word is written locally; otherwise if it not the only copy, an invalidation packet is sent around the ring to invalidate all other copies then the exclusivity bit is set and the write proceeds. However, if the writing process doesn't have the block at all, they send out a read request and an invalidation request - so by the time the token gets back round to them, they have the only copy of that block so they can set the exclusivity bit and write their word. 
+
+\subsection{NUMA Multi-Processors}
+Caches are a common example of a DSM wherein if the data changes in the master location, all caches have to update to serve the master. This is simply done through a write-invalidate which invalidates the caches, then subsequently a write-update is issued which updates all the caches to be in line with the master.
+
+However, hardware caching in large multi-computer DSs is not simple. This means that large multi-computers are expensive and not in widespread use. An alternative to this is \textit{non-uniform memory access} (NUMA). NUMA machines access remote memory much slower than local memory. This means that a CPU can directly execute a program that resides in remote memory but the program may run slower (than it would in local memory). 
+
+NUMA provides a single virtual address space which is visible to all CPUs. There is no attempt to hide poor performance of non-local memory via caching, however it can replicate read-only pages or migrate read-write pages to local memory. A page-scanner daemon is used to watch references, and it freezes a page in place if it migrates too much. The page is invalidated if it is being accessed much more often by another cluster. 
