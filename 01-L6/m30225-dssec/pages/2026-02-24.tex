@@ -45,7 +45,7 @@ There are a number of different consistency models, which define the level of co
 \begin{itemize}
     \item Strict Consistency
     \item Sequential Consistency
-    \item Casual Consistency
+    \item Causal Consistency
     \item Eventual Consistency
     \item Weak Consistency
 \end{itemize}
@@ -56,9 +56,9 @@ Strict Consistency is where all processes see memory updates immediately. This i
 
 Sequential Consistency is where all processes see operations in the same order as relative to logical time. This is easier to implement as it is not reliant on physical time and it ensures the correct order of operations. However, it is reliant on synchronisation which may take some (admittedly small) amount of time to take place - so is not ideal for performance sensitive applications. 
 
-Casual Consistency is where related (casually dependent) writes must be seen in order, but independent writes can take place in any order. This means that if A happens before B, then all processes must see A happen before B. This reduces unnecessary synchronisation overheads however still requires tracking of casual relationships and does not guarantee a single order for all operations on all nodes. Casual Consistency is very inefficient in DSM. 
+Causal Consistency is where related (casually dependent) writes must be seen in order and immediately, but independent writes can take place in any order. In a single distributed system network it is likely there will be a mix of dependent and independent nodes. The dependent nodes will all get the updates immediately while there might be delays for the independent nodes to receive updates. The independent nodes will eventually update to become synchronised.
 
-Eventual Consistency is where if no new updates occur - all processes will eventually see the same data. Temporary Inconsistencies are allowed (tolerated) but over time all nodes converge to the correct state. This is best for highly scalable distributed systems as it improves performance by reducing synchronisation overheads. However the temporary inconsistencies may make this unsuitable for some DSM applications. 
+Eventual Consistency is where if no new updates occur - all processes will eventually see the same data (this could be a few milliseconds, minutes or longer). Temporary Inconsistencies are allowed (tolerated) but over time all nodes converge to the correct state. This is best for highly scalable distributed systems as it improves performance by reducing synchronisation overheads. However the temporary inconsistencies may make this unsuitable for some DSM applications. 
 
 Weak Consistency, as the name suggests, is where the system does not guarantee immediate consistency after each write. Instead, consistency is only enforced at synchronisation points (i.e. when a process explicitly requests the latest data). This reduces synchronisation therefore improves the performance and works well when immediate accuracy is not required; however it does introduce the need to handle out-of-date data. It also presents some challenges with predicting the data correctness within the DS. 
 
