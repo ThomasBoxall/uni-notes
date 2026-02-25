@@ -113,6 +113,8 @@ A shortcoming with Lamport's clocks is where two events happen concurrently - th
 \subsection{Vector Clocks}
 Vector Clocks were designed to overcome the shortcomings of Lamport's clock. The Vector clock $V_i$ at process $P_i$ is an array of $n$ integers.
 
+The big shortcoming Vector clocks overcome is that in a Lamport clock $L(e) < L(e')$ does not necessarily mean that $e \rightarrow e'$. This can be shown in Vector clocks clearer through the vector representation of each process / event. In the same vain, Lamport clocks cannot spot concurrency; however Vector clocks can do. 
+
 Vector clocks use vectors to store information about preceding operations and current operations timings in the logical vector clocks. 
 
 \begin{extlink}
