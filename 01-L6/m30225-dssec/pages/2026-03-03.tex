@@ -1,0 +1,89 @@
+\taughtsession{Lecture}{Web Services and Naming Systems}{2026-03-03}{09:00}{Amanda}
+
+The make-up lecture taking place next week is at 09:00 in PK 1.23 (same as the standard series). There will only be two seminars next week, both on Tuesday. 
+
+\section{What Is A Web Service?}
+A web service is a collection of independent software components, or nodes, located on different machines that interact via standard web protocols to function as a single, unified system. 
+
+Web services have an abstraction layer which sits between the two devices who are attempting to communicate together. This application layer serves as middleware converting between two (potentially different) platform-specific technology stacks. For example the client might use JavaScript to request some data from a web service who uses PHP to construct the response - the communication between these two services is platform and language agnostic to ensure interoperability between different devices. 
+
+There are three components to a web service:
+\begin{itemize}
+    \item Service Providers create and offer the web service. They describe their web services in a standard format which is published in a service registry.
+    \item Service Registries contain data of the service provider. They contain the address and contact details of the provider as well as technical details for what the provider is and how it should be interfaced with.
+    \item Service Consumers firstly retrieve information from the registry. They then use this information to bind and invoke the web service on the service provider. 
+\end{itemize}
+
+Generally within web services, we'll be talking about decentralised systems - so we should be assuming there are multiple service providers and multiple service registries.
+
+Web Services allow for programs to be written in different languages on different platforms to distribute in a standard base manner. They adapt the loosely coupled web programming module for use in applications that are not application based. The goal is to provide a platform for building distributed systems using software which: runs on different operating systems and devices; has been written using different programming languages and tools from multiple vendors; and where each component can be developed and deployed independently. 
+
+\section{Protocols / Standards for Web Service Communication}
+Naturally, as with any part of computing, there are a smorgasbord of protocols suited for communication: SOAP, XML and WSDL, to name a few (more on these in a bit).
+
+These protocols organise themselves in a stack:
+\begin{itemize}
+    \item The protocols at the top of the stack are web service specific protocols such as SOAP, WSDL, UDDI, etc.
+    \item The second level are more general protocols which underpin the top level protocols such as SQL/XML, XML Transformations, XML APIs, etc.
+    \item The third level are definitions of the second layer protocols, such as XML Vocabularies, XML Constructs, etc.
+    \item The bottom level are generalised protocols / standards which are used in web services such as Unicode, URL, HTTP, etc.
+\end{itemize}
+
+\subsection{Web Service Definition Language}
+The \textit{Web Service Definition Language} (WSDL) tells the client application what the web service does. It gives the client all the information required to connect to the web service and use all the functionality provided by the web service. The short XML messages describe network services operating messages containing document-oriented or procedure-oriented messages. Web services are defined as a collection of network endpoints or ports; specifying the location of the service using element and description.
+
+The definition of messages (the information passed by the SOAP protocol) is defined in the WSDL protocol. The WSDL document actually tells a client application what are the types of SOAP messages which are sent and accepted by the web service. 
+
+WSDL files can be thought of as a postcard, simply containing only the address of the web service and a very short description of the functionality offered by the web service. 
+
+\subsection{Simple Object Access Protocol}
+The \textit{Simple Object Access Protocol} (SOAP) is a definition of how web services talk to each other, or talk to a client application that invokes them. SOAP is a lightweight (XML-based) protocol for exchange of information in a decentralised distributed environment over HTTP.
+
+SOAP consists of:
+\begin{itemize}
+    \item The \textit{SOAP Envelope} that defines a framework for describing what is in a message and how to process it
+    \item A heavy reliance on XML, standards (schemas \& name spaces)
+\end{itemize}
+
+SOAP has been designed to be platform and operating system independent. SOAP works n the HTTP protocol which is the default protocol used by all web applications, hence there is no platform specific configuration required to run web services built on the SOAP protocol to work on the internet. 
+
+SOAP is the ideal medium to communicate between the web service and client, and as such is recommended by the W3C (the governing body for all web standards).
+
+The SOAP message consists of the \textit{SOAP Envelope} which contains the \textit{SOAP Header} and \textit{SOAP Body}. The purpose of the envelope, header and body is similar to that of an Ethernet Frame with some preamble around source \& destination and the payload.
+\begin{itemize}
+    \item The SOAP Envelope identifies the XML document as a SOAP message and and is used to encapsulate all the details in the SOAP message. It is the root element in the SOAP message.
+    \item The SOAP Header contains \textit{header blocks}, each containing information such as authentication credentials which can be used by the calling application, and definition of complex types that are used in the SOAP body. By default the SOAP messages can contain parameters which could be of simple or complex type 
+    \item The SOAP Body contains \textit{body subelements} which contain the call and response information. This is the actual data which needs to be sent between the web service and the calling application. 
+\end{itemize}
+
+
+\section{Naming}
+Naming is crucial within a distributed system. This is so we know exactly what we're talking about when trying to identify resources and ensure efficient access and management. For example, if we referred to our database as `fred' - this isn't very clear as to what `fred' is or does. However, calling it `db-mysql-prd-aws-eu-2' is very clear what it is and where it lives (possibly to it's detriment, however). 
+
+There are three principle types of name:
+\begin{itemize}
+    \item Human Readable Names: URLs, Domain names
+    \item Identifiers: IP addresses, MAC addresses
+    \item Addresses: memory addresses, or server locations (with reference to IP / MAC addresses)
+\end{itemize}
+
+It's important to recognise there may be multiple names pointing to the same resource. For example, a database server might have an IP address, MAC address and one or more DNS names.
+
+Distributed System resources will utilise a naming scheme. This could be a flat scheme, where there is no structure such as that used in peer-to-peer networks; hierarchical naming where names are organised in a tree structure, like DNS; or attribute based naming where names are based on attributes of the resource.
+
+Of course, there are challenges in naming:
+\begin{itemize}
+    \item Scalability - handling growing, or shrinking, numbers of names
+    \item Consistency - ensuring names point to correct resources
+    \item Security - preventing unauthorised access and spoofing
+\end{itemize}
+
+\section{Quality of Service Metrics}
+Within a distributed system, there are a number of Quality of Service (QoS) metrics which are measured:
+\begin{itemize}
+    \item Accessibility - the capability of the system in answering requests 
+    \item Availability - is the system there when the user requests it, what is the time to repair the service. This depends on the wider infrastructure, which can pose a challenge
+    \item Scalability - coping with high and low number of user requests in a particular interval 
+    \item Interoperability - ability to function with different languages and / or platforms; however this relies on web services to conform to protocols
+    \item Security - the non-repudiation, authentication, authorisation, encryption, traceability and access control of a web service. However this relies on the ability of protocols to support security.
+\end{itemize}
