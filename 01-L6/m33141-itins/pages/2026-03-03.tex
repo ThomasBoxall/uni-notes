@@ -1,0 +1,45 @@
+\taughtsession{Lecture}{IDS \& IPS}{2026-03-03}{14:00}{Shikun}{}
+
+\section{Network Intrusion}
+Before we can look at what IDS and IPS are - we must first appreciate the steps for network intrusion.
+
+\subsection{Step 1: Reconnaissance}
+The first step looks at finding out information about the network. Often this is done through scanning the network to locate which IP addresses are in use, which operating systems are used and wht TCP or UDP ports are `open' (meaning they are being listened to by servers). This finds the way into the network, for us to use at a later step.
+
+\subsection{Step 2: Access}
+Now we have identified our `way into' the network, we can run exploit scripts against them and see what works. These scripts insert malicious code, generally at the operating system or shell level. They often try a number of commands until one succeeds, such as trying to change passwords for users, open easier back doors, etc. The goal of this step is to become an insider.
+
+\subsection{Step 3: Elevate}
+Now we're in and we have some credentials - our next goal is to acquire root / system administrator privileges. There are lots of different methods which can be used here, although none divulged during the lecture (something to do with it being problematic for us to know this...). 
+
+\subsection{Step 4: Root Kit}
+The elevated privileges we've just acquired are all well and good, but they're probably an existing admin account - so that's likely to be flagged so its a matter of [seconds/minutes/days/hours/weeks/months] until we get locked out, depending on how effective the Cyber Security team are. So our next step is to install a permanent back door, called a root kit, which allows us to access the system as and when we want to. Hackers will also remove any audit log trails which have been created so far - as to reduce the chance of being noticed by system administrators. 
+
+\subsection{Step 5: Utilise}
+We're in, we have out backdoor, and we haven't been noticed by the system administrators yet. The next step of network intrusion is to utilise this access for bad things. Often this is done through the intruder inviting additional intruders to exploit the access for activities such as ID theft or releasing a botnet. More hackers utilising the access has the added benefit of making it harder to trace individuals due to sheer numbers of them. 
+
+\subsection{Detect \& Overcome}
+System administrators would be able to detect port scanning with ease. This is noticeable behaviour - sequentially scanning through all ports in reasonably quick succession. The normal, expected, behaviour here is to directly connect to the one port that you need access to. 
+
+Two logins form the same user within a short amount of time is also suspicious - it could suggest a compromised account failing to do something, so then having to go all the way out and back in again, or just an actual administrator doing something then rebooting the server and logging back in to it. 
+
+It is impossible for an administrator, or team of administrators to monitor all the requisite logs to identify the issues alone - rather they should utilise tooling (no, not grinders, drills, or spanners - technical tools) to recognise and mitigate threats. 
+
+\section{IDS \& IPS}
+Intrusion Detection System (IDS) is the first generation of tooling that monitors network traffic and system activities for malicious actions, policy violations, or suspicious behaviour. Importantly, IDS only observes - it does not take any action.
+
+Intrusion Prevention System (IPS) is the second generation of tooling which performs all the functions of IDS but is also able to action on the malicious traffic, i.e. re-routing it to a honeypot or blocking it altogether. IPS came about because engineers discovered that if they put the IDS module in a different place within the network - it would also be able to block the traffic, rather than just alert. 
+
+IDS and IPS both use signatures to detect typical intrusive activities. This method is called misuse detection - where the signatures are playbooks of known attacks looking at their network connections. If a network connection is seen which matches that of a known attack - the IDS will report that the misuse has happened. This is similar to the way that Anti-Virus applications work, where they look for known behaviours / changes made to operating systems and detect issues based on this. The signatures are bundled into an update to the IPS which comes from the vendor (or a third party which the vendor contracts). Signatures have a clear criteria for activation - being either atomic (only requiring one packet) or composite (requiring many packets to trigger). 
+
+IDS and IPS can also use anomaly detection. This is where the events taking place on the network are fed into a calculation engine, which also knows some information about unusual words or symptoms, which uses equations / algorithms to generate a score. Depending on what this score is - will decide if the administrator is notified or not. It will mostly generate false alarms. 
+
+IDS is deployed in a network everywhere that traffic might go from one layer to another. In a large, enterprise network, there would most likely be a centralised IDS reporting \& management server which manages the individual IDS nodes. IPS can be deployed as `Network Based IPS' where it is in-line at the border between different networks. 
+
+IDS and IPS complement each other. Both can be setup in the same network at the same time, they are not mutually exclusive. If the organisation is able to afford two - the IPS should be deployed in-line at the entry point to the network, and the IDS should be in passive mode; however if the organisation can only afford one - this should be an IPS which is deployed in inline mode. 
+
+IPS in inline mode does come with some risks, however, in that it introduces a delay in the network while the traffic is examined as well as a failure / overload of the IPS sensor would impact on the network as a whole. IDS in passive mode does not have the same risks however it cannot action responses to malicious packets as well as the fact that it is more vulnerable to evasion tactics. 
+
+\begin{extlink}
+There are some more specifics of Signature Micro Engines and actions taken by signature detection in the slides available on Moodle. These weren't discussed or referenced in the Lecture - so haven't been included here.
+\end{extlink}

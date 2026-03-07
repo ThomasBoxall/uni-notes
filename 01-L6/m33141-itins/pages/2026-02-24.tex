@@ -1,0 +1,109 @@
+\taughtsession{Lecture}{Firewalls}{2026-02-24}{14:00}{Shikun}{}
+
+Within networking, there are often three ``zones'' seen and discussed.
+
+\begin{define}
+    \item[Internet] Outside the network we are thinking about, full of evil stuff.
+    \item[Demilitarized Zone (DMZ)] Services which sit `within' the network, but need some direct exposure to the outside internet and internal access. Often includes services such as mail forwarding, Web Server, DNS servers, etc.
+    \item[Intranet] Entirely within the network, no outside-originating network traffic can access, only people internal to the organisation can access this. 
+\end{define}
+
+Between the boundaries of network segments, there is a need for control over what traffic can get through and what traffic cannot get through. For example, to maintain security in the Intranet - we need to ensure that no outside originating traffic has access; or for the DMZ that only specific traffic can access specific services within it. 
+
+The answer to this need is a \textit{firewall}. A firewall separates two networks, so is in essence a router, and is often deployed to separate the local area network from the internet - therefore all packets between the LAN and the internet are routed through the firewall. 
+
+The name `firewall' comes from the traditional terraced house. In a terraced row, a `firewall' would be erected between each individual house to prevent the spread of fire, prevent intrusion, and stop noise leaking from one property to another. The Cyber Security firewall we're discussing is similar to this, in that it sits between adjoining properties (networks) but it only selectively blocks rather than blocking everything.
+
+Firewalls focus on confidentiality and availability, they let legitimate traffic through while blocking suspicious / actually malicious packets. Firewalls can be placed at layer 2 or 3 of the OSI model or within the application layer.
+
+Firewalls operate in one of two modes. The most common mode is ``block by default, allow some'' which is where the network administrator has to add explicit allow rules to the ruleset for all the traffic they want to allow on their network. The less common, and significantly less secure mode, is ``allow by default, block some'' which is the inverse of the previous method - where the firewall allows everything by default and the network administrator has to block everything they do not want coming into the network; this obviously leaves a much larger chance for incorrectly configured rules leaving a backdoor into the network.
+
+\section{Basic Packet Filtering}
+At their core, firewalls work through filtering the packets using transport layer information only. This is looking at attributes such as the following:
+\begin{itemize}
+    \item Source IP Address or Destination IP Address
+    \item Protocol (i.e. TCP, UDP, ICMP, etc)
+    \item TCP or UDP source \& destination ports
+    \item TCP Flags (SYN, ACK, FIN, RST, PSH, etc)
+    \item ICMP Message Type
+\end{itemize}
+
+The port number used is quite a common way of filtering packets. Specific applications will use a specific port for their communications. Within TCP connections - servers use port numbers less than 1024 and clients use port numbers between 1024 and 16383 (the highest possible number). Ports less than 1024 are permanently assigned, some examples below:
+\begin{multicols}{2}
+    \begin{itemize}
+        \item 20 and 21 for FTP
+        \item 22 for SSH
+        \item 23 for Telnet
+        \item 25 for SMTP (sending emails)
+        \item 52 for DNS
+        \item 80 for HTTP
+        \item 110 for POP3 (collecting emails)
+        \item 143 for IMAP (collecting emails)
+        \item 443 for HTTPS
+    \end{itemize}
+\end{multicols}
+
+As the port number grows to 1024 and above, they are not statically assigned. These are used for the client to make connections. Within stateless packet filtering - this is a disadvantage as if the client wants port 2048 the firewall must allow incoming traffic on that port; however it is better in stateful filtering as it can be est to only allow incoming traffic on high port to a machine that has initiated a request to a machine on a low port. 
+
+\section{Proxying Firewalls}
+A Proxying Firewall works at the application layer to inspect traffic hitting the application and preventing direct connections between internal clients and external servers. It masks internal IP addresses and blocks malicious content before it reaches the network. 
+
+The proxies can be tailored to specific protocols, for example HTTP, FTP, SMTP, etc; with some protocols easier to proxy than others. This is a flexible approach to firewalls, however it does introduce some delays with the packets being inspected and then reconstructed. ``Batch'' based protocols are natural to proxy, such as SMTP, NNTP, DNS or NTP. 
+
+Their core function is to protect the host running the required protocol stack. To aid this, all other services which are not needed should be disabled and security audits should be run to establish the baseline security of the system. Administrators should generally be prepared for the system to be compromised. 
+
+Web traffic (HTTP or HTTPS) can be scanned. This can be intercepted and proxied, which is usually host-based and done at enterprise gateways. Known bad sites can be blocked, along with those with known attacks. Attachments can be scanned to look for threats such as viruses, worms and malware. 
+
+\section{Type of Firewall}
+There are four key different types of firewall.
+
+\subsection{Packet Filter}
+Rules defined on the firewall specify which packets are allowed in through the firewall and which are dropped. Rules must be configured to allow for packets to pass in both directions. Rules may specify source / destination IP addresses as well as source / destination TCP / UDP port numbers. Certain (common) protocols are very difficult to support securely (e.g. FTP). They provide a low level of security.
+
+\subsection{Circuit Level Proxy}
+This is similar to a packet filter except that packets are not routed by the proxy. THe proxy accepts incoming TCP/IP packets and uses rules to determine which connections will be allowed and which will be blocked. The connections which it has allowed generate new connections from the firewall to the server. The rules are specified in a similar way to a packet filter. It provides a low-to-medium level of security. 
+
+\subsection{Stateful Packet Filter}
+This is a packet filter which understands requests and replies - such as TCP SYN, SYN-ACK and ACK. The rules only need to specify packet sin one direction (from client to server) as in the first packet in the connection with the subsequent replies and further packets in the communication being automatically processed. Stateful packet filters support a wider range of protocols than simple packet filters, such as FTP, IRC, H323. They provide a medium-to-high level of security.
+
+\subsection{Application Level Proxy}
+This provides a complete client \& server implementation in one box for every protocol which can be expected to pass through it. It works by the client connecting to the firewall which validates the request. The firewall then connects to the server. The response comes back through the firewall and is also processed through the client/server. This uses a large amount of processing per connection. It provides a high level of security. 
+
+\subsection{Bonus Fifth Classification}
+There is a fifth category of firewall - `Personal Firewalls.' These are applications which run on end-users personal computers. They are most often of the packet filter type, sometimes stateful. They automatically configure themselves, for the most part, learning which applications are permitted to make which type of connections outbound. Generally they will block inbound access unless it is a reply. 
+
+\section{Why Do We Need Firewalls?}
+Firewalls control network traffic to and from the protected network. They can allow / block access to services (both internal and external) as well as enforcing authentication before allowing access to services. Firewalls monitor traffic in \& out of the network.
+
+Firewalls are deployed to defend a protected network against an attacker which tries to access vulnerable services which should not be available from outside the network. For example a Microsoft Exchange server running SMTP probably shouldn't be able to be accessed using HTTP, FTP or SMB; alternatively a Linux Web or Mail server shouldn't be able to be accessed using Telnet or rlogin. 
+
+Firewalls also provide the ability to restrict internal access to internal services. Sometimes this would be for security reasons - not waning people to download and install unknown applications, or for productivity reasons - not wanting people wasting time on non-work related websites. They may also be cost related, such as not wanting to pay the ISP for large amounts of data transfer where it may not all be necessary. 
+
+\section{Limitations of Firewalls}
+Firewalls do not do content-based filtering of packets. This means that if emails are allowed through, then emails containing viruses are also allowed through; or if web access is permitted, indecent websites are permitted, etc. 
+
+This lack of content filtering extends to application-proxy firewalls. There is an increasing number of services being offered across the internet using TCP port 80 (HTTP) which are no longer just web pages. This makes it increasingly difficult for firewalls to simply allow or block access to different services based on port and protocol. 
+
+Firewalls can most certainly not examine any form of encrypted traffic such as HTTPS or SSH. This is becoming a more widespread problem as encrypted network traffic is everywhere. These encryption systems (such as SSH or TLS) are end-to-end encrypted and designed as such that no system in the middle can decode the data. 
+
+It is possible to bypass firewalls. For example through directly connecting to the outside network rather than the intranet. Alternatively through poor configuration - such as allowing access to any machine inside or outside the network on TCP/UDP port 53; or through misconfiguration with in-bound/out-bound filtering where inbound traffic may be blocked but outbound initiated links work both ways. 
+
+Firewalls are susceptible to IP Spoofing - where they don't have a way of telling if the data really claimed from the same source. They also do not handle multiple applications which require special treatment very well, where each application might have it's own gateway. Client software must also know how to contact the gateway, for example through setting the IP of the proxy in the web browsers. 
+
+There is always a trade-off with Firewalls - what is the right balance of allowed communication with the outside world vs what level of security is needed. Many highly protected sites still suffer from attacks. 
+
+\section{Real-World Firewalls}
+Firewalls take a number of different form factors. Enterprise firewalls will often come as rack-mountable units so they can be put in comms racks, but there's nothing stopping them being a small box which has to be put on a shelf in a rack. 
+
+Firewalls can be deployed in a of different scenarios. The Cisco ASA can be deployed in two modes:
+\begin{itemize}
+    \item Routed mode - where it sits on the border between two networks acting as a Layer 3 NAT boundary.
+    \item Transparent mode (bump in the wire or stealth firewall) - where it operates inline to the rest of the network, i.e. there are two routers and the firewall is between them. The firewall is not a NAT boundary, therefore the existing IP addresses cannot be altered.
+\end{itemize}
+
+There are three deployment scenarios Cisco uses for the ASA 5505 firewall:
+\begin{itemize}
+    \item Small branch - where the firewall sits in the centre of a `branch office' where there two VLANs - Outside \& Inside, all internal devices within the Inside VLAN.
+    \item Small Business - where the firewall sits in the centre of a `small business office' where there are now three VLANs - Outside (internet only), Inside (end user workstations \& phones), and DMZ where a web server resides.
+    \item Enterprise - where there is a corporate headquarters connecting to two Telecommuter each over an IPsec VPN (more on this in a later week) with both the headquarters and telecommuters having an ASA Firewall at the boundary between them and the Internet.
+\end{itemize}
