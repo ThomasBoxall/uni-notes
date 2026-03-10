@@ -1,0 +1,66 @@
+\taughtsession{Lecture}{Mobile \& Ubiquitous computing}{2026-03-10}{09:00}{Amanda}
+
+Happy Consolidation Week! This lecture is the make-up lecture for Amanda being unable to teach during the first week of TB2. 
+
+\section{Mobile \& Ubiquitous Systems}
+Ubiquitous, meaning to be found everywhere, Computing was introduced to the Palo Alto Research centre in the late 1980s. It was predicted that computational devices would multiply in `form and function,' not just in number, to suit different tasks. Since the 1980s this has happened - with the psychological notion that computers are embedded in everyday life. 
+
+Ubiquitous computing is the concept of integrating computing capabilities into everyday objects and environments, making technology seamlessly available and accessible anytime anywhere, and without requiring user interaction. A typical example of this is Internet of Things (IoT) devices interacting with more traditional computational devices, often providing realtime information to users without their demand. A use-case of this context-based action may be that a user enters a room wearing an active badge; which is detected by infrared sensors and then a display responds to the user's presence to display custom content etc. 
+
+Wearable computing is where users carry wearable computing devices on their person, either attached to or within the fabric of their clothes, or warn like jewellery. This is unlike the handheld devices as wearable technology often operates without users directly interacting with them. One of the most common examples of wearable computers is smartwatches, but other examples include glasses, jewellery or chips embedded in clothing. Often they are used for data collection, are read only and are programmed to specific requirements - so are not general purpose devices. 
+
+A Smart Space is a physical place with embedded services, meaning any services provided which is only or principally provided within that physical space. Typically smart spaces contain relatively stable computing infrastructure, which may include conventional servers, end user devices (printers, laptops, etc) as well as wireless networking infrastructure. Smart spaces act as environments for devices that visit and leave them - users can bring in and depart with devices they carry or wear; this is both in the physical and logical domains wherein a user may physically enter a smart space with their smartphone which would cause the device to move logically between command components within the space. 
+
+Devices are limited in energy and processing power. We have an expectation of devices that they are able to interface with the world, but this presents challenges: computation power, memory and storage limits, and network bandwidth. Increasing the capabilities of any of these presents an increase in energy consumption, which itself is a challenge as there is a trade-off between battery power for devices where it may be limited or run out, and mains-powering devices where the portability of them is considerably reduced. 
+
+Due to the highly dynamic and unpredictable changes in the set of users, hardware and software in ubiquitous computing - much of the networking is described as spontaneous networking. This presents a level of volatility in the networking including failures of devices and communication links, power failure for power-dependent devices, changes in the network characteristics (i.e. bandwidth), and creation and deletion of associations between software components residing on the device. 
+
+A key component of ubiquitous systems is the ability to interact with the real physical world. This takes place through sensors measuring physical parameters, such as orientation, load, light, or sounds. This data is then computed by a computational unit. Directly or indirectly - an actuator, software controllable device, may be instructed to make a change to the air conditioning, smart home devices, motors, etc. 
+
+Distributed Systems are based on the trust of sharing information, functionality, etc, with multiple different systems. The public perception of sensing devices is to not trust them - due to privacy concerns of tracking the users, discovering routines of the uses, impacting online purchases, etc. 
+
+\section{Association Problems \& Discovery Services}
+Volatile Components need to interoperate. Their access to the network is essential for communication. Components either associate to the services in their smart space and/or provide services elsewhere. This presents a challenge of scale and scope, in that there may end up being a large number of devices and software components in a single space. Associates are not constrained by boundaries - they can use discovery services to aid the process. 
+
+There are two types of association - pre-configured and spontaneous. Pre-configured association is commonly service driven, such as the association between an email client and server. Spontaneous association may be human driven, as in the association between web browsers and web servers; data-drive as in the association between P2P file sharing applications; or physically driven as in the association between mobile and ubiquitous systems. 
+
+Within smart spaces - it is common for there to be a server providing discovery services, this provides a service lookup for devices \& services which can register and de-register. There are, however, a number of challenges with the implementation of such as a service - in that the client needs are determined at runtime. 
+
+There exist two models for getting the information to clients about what services exist. The Push Model advertises services through multicast which client devices pick up and cache, they can then query their own caches when they need to discover a service; this does present a challenge that the service update multicasts need to be transmitted at a reasonable frequency. Alternatively, the Pull Model is where client devices transmit multicast messages requesting services, and the devices providing those services respond. 
+
+There are two implementations of discovery services. The server based implementation uses a centralised directory, similar to the pull model discussed above. While the serverless implementation (decentralised P2P architecture) does not contain a central directory, rather each device maintains their own directory in their own cache. Both of these implementations have challenges around clients managing volatile services.
+
+There are, of course, challenged with discovery services:
+\begin{itemize}
+    \item Bandwidth usage
+    \item Push model advertising is wasteful of network resources
+    \item Pull model is more efficient - but may need more responses
+    \item Management of volatile services: clients lease a service for a length of time so the clients need to renew the lease for continued use as if the service is not renewed it is released
+    \item Scale
+    \item Defining and enforcing the boundaries of smart spaces 
+\end{itemize}
+
+Of course, it is possible to get the human to do the association. The user can select the scope identifier (i.e. room number), for example. It is also possible to use sensing and physically constrained channels to keep discovery within a manageable scope; such as reading the code for a smart space identifier or using an infrared transmitter to propagate the space identifier. Direct association, using address sensing or physical correlation is also an option. 
+
+\section{Programming Models for Volatile Systems}
+There must be a standardised interface between devices and services, to ensure interoperability. This relies on the use of protocols and programming models being followed, with the aim of avoiding the `lost opportunity problem.' However this presents some challenges - to improve software interfaces compatibility; interfaces should be heterogeneous; and for every $N$ interfaces, $N^2$ adapters are needed to be determined at runtime. 
+
+Data oriented programming is an unvarying service interface, for example Unix pipes. This is used in event driven systems wherein the event service itself provides the interfaces for publishers to publish and subscribers to consume events; naturally there are challenges with discovery and agreement on the event service instance \& service scope. The Tuple Space model allows exchange of application specific structured between different components. 
+
+To ensure interoperability between different services - interfaces are constrained to be of one (or two) types which are globally recognised as standards. If smart spaces had their own programming interface, this would inhibit mobility. Components moving in the smart space needs to communicate via adapting to interoperate with services, which requires complex runtime support. Alternatively - some services are self-describing via data oriented systems using XML or JSON. 
+
+\section{Sensing \& Context Awareness}
+There are a number of challenges with context aware systems:
+\begin{itemize}
+    \item Integration of sensors - specialised knowledge may be required
+    \item Abstraction from sensor data - applications will need to abstract from raw sensor data (e.g. location)
+    \item Sensor fusion - multiple sensors data need to be combined and interpreted to perform a complex sensing task such as detecting the presence of a human
+    \item Context is dynamic - applications typically need to respond to changes in context
+\end{itemize}
+
+There are a number of different architectures for software used in wireless sensor networks:
+\begin{itemize}
+    \item In-network processing - processing on the sensor nodes or aggregating from nearby nodes
+    \item Disruption tolerant networking - no end-to-end exists continuously, so communication is handled opportunisticly
+    \item Data oriented programming - directed diffusion takes place where tasks are injected into the system at sinks (specific nodes) and then runtime system diffuses the tasks in the system; or through data query processing
+\end{itemize}
