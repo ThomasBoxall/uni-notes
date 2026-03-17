@@ -1,0 +1,56 @@
+\taughtsession{Seminar}{Introduction to DS}{2026-02-04}{11:00}{Amanda}{}
+
+The second session each week of this module will take the form of a `Seminar.' Amanda introduced this as a new concept where we are expected to discuss and engage in conversations surrounding the topics rather than cracking on with exercises - as has been seen in most smaller-than-lecture timetabled sessions until now.
+
+Each week, a Question of the Week will be released - this will be a longer-form question to consolidate understanding of the weeks topic. They will be released at some point during the week on Moodle and then discussed at the start of the following week's seminar.
+
+\textbf{What are the Key Goals of a Distributed System?}
+\begin{multicols}{2}
+    \begin{itemize}
+        \item Scalability (size; geography; administration)
+        \item Fault Tolerance (reliability; tolerance)
+        \item Efficiency
+        \item Performance (latency; throughput; resource allocation)
+        \item Data Integrity
+        \item Concurrency
+        \item Transparency (location; replication; failure)
+        \item Replication
+        \item Availability (accessible; replication; fault tolerance)
+        \item Security (authentication; authorisation; encryption; auditing)
+        \item Maintainability
+    \end{itemize}
+\end{multicols}
+
+\textbf{What are the Challenges with Distributed Systems}
+\begin{itemize}
+    \item Heterogeneity (Variety and Difference)
+    \begin{itemize}
+        \item Networks and protocols
+        \item Computer hardware
+        \item Operating systems
+        \item Programming languages
+        \item Implementation by different developers (compatibility)
+    \end{itemize}
+    \item Openness
+    \item Security (bottlenecks; decentralised systems; metadata growth)
+    \item Scalability (both scaling up and scaling down)
+    \item Fault tolerance (failure handling e.g. node crashes)
+    \item Concurrency and Synchronisation
+    \item Transparency (Access; location; concurrency; replication; failure; scaling)
+    \item Consistency and replication
+    \item Resource Management
+    \item Scheduling (load balancing; synchronisation; clock drift)
+    \item Maintenance (monitoring; debugging)
+\end{itemize}
+
+
+\section*{Question of the Week}
+\textbf{Host Computers used in a peer-to-peer network, in this case traditional desktop computers, are based in users homes or offices.
+\begin{enumerate}
+    \item What are the implications of this for the availability and security for any shared data objects they hold?
+    \item To what extent can any weaknesses be overcome through the use of replication?
+\end{enumerate}}
+
+\textbf{Q1.} People turn off their computers when not using them; and while even if they are on for most of the time - there will be periods of time when they are off, either when the user is away or in transit. The owner of the participating computer is unlikely to know the other participants so in turn their trustworthiness is unknown. With the current hardware and operating system for this sort of communication - the owner has control over the data on it and may change or delete it. The first issues, around downtime, may be non-issues depending on what the data is that is to be shared over the P2P network; for example music or other media may not be required immediately - so it may be acceptable to wait for the host machine to come back up before the data can be downloaded, although obviously this isn't suitable for all download types.
+
+\textbf{Q2.} If the data replicas are sufficiently widespread and numerous, the probability that all are unavailable simultaneously can be reduced to a negligible level. This still leaves security concerns, however. To ensure integrity of the data objects at multiple hosts (against intentional tampering or accidental error), it's good to perform an algorithm to establish a consensus about the value of of the data, suc as comparing the object's hash value. Therefore then when the object is received by a client - the hash can be checked for correspondence with the object's ID. 

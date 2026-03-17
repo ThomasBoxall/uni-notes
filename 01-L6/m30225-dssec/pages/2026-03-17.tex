@@ -1,0 +1,96 @@
+\taughtsession{Lecture}{Fault Tolerance}{2026-03-17}{09:00}{Amanda}{}
+
+This is the final lecture with new content before the exam next week. This exam will cover everything up to this point, and after that we will be done with Distributed Systems (the `and Security' still to come after Easter...). 
+
+This lecture won't paint the full picture of Fault Tolerance, the seminar will fill in the blanks. 
+
+\section{Introduction to Fault Tolerance}
+\begin{define}
+\item[Fault Tolerance] The system's ability to continue operating correctly despite failures.
+\end{define}
+
+Fault Tolerance isn't so much about eliminating failures, this is computing after all so we can never achieve that, but more looking at how we can handle the failures efficiently to maintain system reliability. Generally it's aimed for systems to have a 99.999\% uptime. At first this may seem like a weird number, given 100\% is so close, but it represents the reality that there will be some amount of downtime, either for scheduled activities or for unplanned outages. 
+
+Distributed Systems consist of multiple nodes and networks where failures are inevitable due to hardware issues, software bugs or network disruptions. The swan analogy is relevant here - in that under the surface the different nodes may be working hard to maintain the reliability and availability expected of the distributed system but above the surface (where the users see it) - the system is operating as expected with no degradation. 
+
+Fault Tolerance isn't just about the ongoing use of a system. It has to be factored in at the design and implementation stages as well. For example considering any external influences on the system, such as an us-east-1 outage or power failure in an on-prem data centre. 
+
+\section{Failures Within Distributed Systems}
+There are a number of types of failure within distributed systems. This is not an exhaustive list of them. It's important to recognise that there are more types of failure than ``it crashed'' or ``I can't access it.''
+
+A \textit{crash failure} is where a completely stops responding, for example due to a power failure or process crashing. This halt in responding could be for a long time (until the power is restored or an operator fingers the power button), or for a shorter `blip'. This can affect data integrity - such as if a database server crashes mid transaction.
+
+The \textit{omission failures} are failures which happen when messages are lost or dropped during transmission. For example, network congestion may lead to requests to an API being dropped. 
+
+\textit{Timing failures} are categorised as when a system responds too early or too late. This is highly problematic in time-sensitive applications such as financial transactions; where if a banking system fails to process transactions in real-time there may be a backlog building up which can lead to incorrect data being processed. 
+
+A \textit{Byzantine Failure} is a failure which has come about as a result of a node behaving incorrectly or maliciously (such as sending false data). This can cause problems in distributed systems where the other nodes do not know that a node has failed and so believe that the data it is producing is the truth, such as a hacked node in blockchain broadcasting fake transactions. 
+
+\textit{Network Partitioning} failures are failures related to the network, not necessarily a component of the distributed system itself. This could be caused by a node being isolated due to network issues such as a cloud region disconnecting from a global system. 
+
+Failures are detected, and sometimes compensated for, using a number of methods:
+\begin{itemize}
+    \item Heartbeat Mechanisms - nodes send periodic `heartbeat' signals and the lack of these suggests failure
+    \item Timeout-Based detection - if no response is received within a time limit, the node is marked as failed
+    \item Gossip Protocols - Nodes spread failure information throughout the system
+\end{itemize}
+
+Some failures are pre-empted and auto recovered. For example Amazon EC2 Compute Instances have the ability to auto-scale so by detecting failing servers they can spin up replacements automatically. 
+
+\section{Redundancy, Replication \& Recovery}
+Generally, as we have seen above, a failure is going to lead to some form of data loss. This loss of data is problematic - so we look to minimise the quantity of problem by replicating the data across multiple nodes, ideally across multiple geographical regions. There are a number of different replication / redundancy models:
+\begin{itemize}
+    \item Data Replication - where one server acts as the primary with additional servers holding a replicated copy of the primary. This is the most commonly used backup model for servers.
+    \item Quorum-based replication - where the majority of the nodes have to agree before an update is made to the replicated data
+    \item Process Redundancy - has two modes; Active Replication is where all nodes run in parallel, while Passive Replication is where one node is the primary node with the others acting as backups
+    \item Voting Mechanisms - these are used in databases to ensure consensus before committing transactions to the database
+\end{itemize}
+
+A common example of data replication is that of Google Drive where it stores multiple copies of the data in different locations around the globe. 
+
+After the failure has occurred, we may go to our replicated data or redundancy server and realise it's also failed. When this happens the next logical option is to `roll-back' the system to an earlier state. This is achieved through checkpoints. 
+
+Checkpoints are periodic snapshots of the systems entire state - similar to a full hard drive backup. A checkpoint is restored through \textit{rolling back} which restroes the system state from the checkpoint. Note that this will loose any data between the when the checkpoint was taken and when the system crashed. With checkpoints and other full system backups - there is a need to validate that the checkpoint has saved properly commonly through testing, rather than just assuming it has then having a nasty discovery when a rollback is attempted. 
+
+Log messages can provide valuable insight into what the system was doing when it crashed. These can be examined to understand what happened and what may have lead to the system failing in an attempt to prevent it happening again.
+
+Self Healing Systems are systems which use machine learning to monitor key variables and learn what happens when the data indicates the system is going into a risk of failure then resolving it before the crash happens. 
+
+\section{Consensus Algorithms}
+As we have seen above - there is often some degree of consensus required for making a decision about actioning fault recovery. This begs the question ``How do distributed nodes agree on a single value, even with failures?''
+
+Unlike humans, nodes can't sit around in a circle and raise their hand at the appropriate option in consensus based decision making - that would be a bit strange. So instead there are algorithms used:
+\begin{itemize}
+    \item The \textit{Paxos Algorithm}, developed by Lamport in 1998, ensures agreement in unreliable networks; however does not handle Byzantine Failure.
+    \item The \textit{Raft Algorithm}, developed by Ongaro \& Ousterhout in 2013, is used in Kubernetes for leader election; however does not handle Byzantine Failure.
+    \item The \textit{Byzantine Fault Tolerance (BFT)}, developed by Liskov and Castros, is used in blockchains to handle malicious nodes.
+\end{itemize}
+
+\section{Fog \& Edge Computing}
+This is a departure from the Fault Tolerance we've been discussing so far in this lecture. The topics discussed here very much harp back to last weeks Ubiquitous Computing concepts.
+
+\begin{define}
+    \item[Fog] Computing resources are placed closer to the network edge, often in local gateways or routers. This reduces latency and handles data near the source.
+    \item[Edge] Processing happens directly on the edge devices (such as IoT Sensors, cameras, phones, microcontrollers, etc). This is about as close to the data source as it's feasible to get.
+\end{define}
+
+Edge Computing handles device level decisions. They process the data locally so they can react immediately. Edge devices are useful because of their ultra-low latency, immediate reaction and the fact that there is no need to send everything through the network. For example:
+\begin{itemize}
+    \item Traffic sensor detects a pedestrian and immediately triggers a flashing warning
+    \item Camera identifies a car running a red light and logs the event
+    \item Pollution sensor measures air quality and alerts if the levels spike
+\end{itemize}
+
+Fog Computing coordinates data across a wider area. Fog nodes sit between the edge devices and the cloud. They collect data from multiple sensors across a neighbourhood, junction or district. Fog nodes have more power and can provide localised analytics without having to transmit all the data to the cloud. 
+
+This concept can be thought of as the edge computing makes immediate, local decisions based on the single or very small number of sensors it is connected to. The data from edge nodes is aggregated to fog nodes who will aggregate multiple edge nodes data together. Fog nodes provide regional coordination across their network. Fog nodes then aggregate together to provide information to the cloud which handles the longer-term strategy and storage of the data gathered. 
+
+In a scenario, the edge, fog and cloud paradigms can be applied as follows:
+\begin{itemize}
+    \item A roadside camera detects heavy traffic - edge node
+    \item The edge node sends processed data, such as `traffic density high' to a nearby fog node
+    \item The fog node analyses data from all junctions in the district
+    \item The fog node adjusts traffic light cycles to reduce congestion
+    \item The fog node sends summaries to the cloud for long-term planning
+\end{itemize}
+

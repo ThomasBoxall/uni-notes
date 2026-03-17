@@ -1,0 +1,49 @@
+\taughtsession{Seminar}{Communication Models}{2026-02-11}{11:00}{Amanda}{}
+
+A Synchronous Distributed System has known lower and upper bounds on the: time to execute each step of a process; time receive a message transmitted over a channel; and time by which a local clock will drift from the real time within a process. The sender will wait for the receiver to process and respond before continuing. This is simpler to coordinate however has increased latency. 
+
+An asynchronous DS has no bounds on process execution speeds, message transmission delays or clock drift rates. The sender will proceed without waiting for an immediate response. This is more efficient, however it's harder to handle failures.
+
+
+\textbf{Why is communication critical in Distributed Systems?}
+
+\begin{itemize}
+    \item Data Sharing between processes
+    \item Synchronisation and Coordination
+    \item Fault Tolerance and Consistency
+\end{itemize}
+
+\textbf{What are the advantages of Remote Procedure Call (RPC)?}
+
+\begin{itemize}
+    \item Makes a remote call look local
+    \item Simplifies Distributed Programming
+\end{itemize}
+
+
+\textbf{What are challenges faced by Distributed Systems Communication Models?}
+\begin{itemize}
+    \item Latency (overcome by efficient protocols)
+    \item Fault Tolerance (overcome by replication and retries)
+    \item Security (overcome by encryption and authentication)
+\end{itemize}
+
+\textbf{What communication model(s) does Google Drive use?}
+\begin{itemize}
+    \item Client-Server Model: Primary model for file access and synchronisation
+    \item Message Passing Model: Used for file synchronisation across devices
+    \item Publish-Subscribe Model: Event-based updates for real-time collaboration
+    \item Peer-to-Peer (P2P) Model: Direct Communication in Google Docs collaboration
+    \item Remote Procedure Call Model: Used for efficient communication between services
+\end{itemize}
+
+\section*{Question of the Week \footnote{Paraphrased to reduce repetition}}
+\textbf{A university is developing a cloud-based learning management system (LMS) that allows students and staff to perform a number of tasks.}
+
+\textbf{For the following requirements, identify which communication model(s) would be most suitable for each feature and justify your choices:
+\begin{enumerate}
+    \item Uploading and downloading lecture materials (e.g. PDFs, slides)
+    \item Receiving real-time notifications for new assignments
+    \item Collaborating on shared documents in real time (for group projects, etc)
+    \item Streaming live lectures with interactive participation
+\end{enumerate}}
