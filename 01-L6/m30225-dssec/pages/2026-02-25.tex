@@ -1,0 +1,110 @@
+\taughtsession{Seminar}{DSM}{2026-02-25}{11:00}{Amanda}{}
+
+\section{Seminar Exercises}
+\textbf{Ex. 1: Match the DSM models with their descriptions}
+\begin{itemize}
+    \item Page Based - A reference to a local page is done in hardware at full memory speed
+    \item Object Based - Interaction is limited to the interface which provides more access control
+    \item Library Based - Communication is done at runtime
+    \item Variable Based - Comes in three types, ordinary, shared and synchronisation
+\end{itemize}
+
+\textbf{Ex. 2: Match the DSM models with its application}
+\begin{itemize}
+    \item Page Based - NUMA
+    \item Object Based - Java RMI, Cobra
+    \item Library Based - MPI
+    \item Variable based - Open MP
+\end{itemize}
+
+\textbf{Ex. 3: Which consistency model is best for a global cloud storage system?}
+
+Eventual Consistency is used because it it highly scalable, has high availability, it optimises performance of consistency and reduces overheads. Critically, eventual consistency is the best balance of performance, scalability and consistency for the application.
+
+\section{Question of the Week}
+\textbf{You have been hired as a systems engineer for DataSphere, a company building a globally distributed collaboration platform called CollabCloud. The platform supports real-time document editing, shared dashboards, and distributed analytics services used by teams located across Europe, the US, and Asia.}
+
+\textbf{To support these features, CollabCloud uses a Distributed Shared Memory (DSM) abstraction. Different components of the system use different DSM models depending on performance and consistency needs:
+\begin{itemize}
+    \item A page-based DSM supports large, shared research datasets accessed by geographically distributed analytics clusters.
+    \item A library-based DSM handles replicated Python data structures used by developers during real-time collaborative coding.
+    \item An object-based DSM supports shared document objects (paragraphs, tables, images) edited by users in real time.
+    \item A variable-based DSM handles shared counters, flags, and small metadata values used for coordination.
+\end{itemize}}
+
+\textbf{Because of user expectations for responsiveness and correctness, different consistency models are applied per subsystem:
+\begin{itemize}
+    \item Strict consistency is considered for audit-critical financial data.
+    \item Sequential consistency is used for shared dashboard updates.
+    \item Causal consistency is being evaluated for collaborative editing sessions.
+    \item Eventual consistency is used for user presence and ``who is online'' indicators.
+    \item Weak consistency is used for analytics workloads where full accuracy is not always required.
+\end{itemize}}
+
+\textbf{Questions:
+    \begin{enumerate}
+    \item Explain how strict, sequential, causal, eventual, and weak consistency differ in terms of: visibility of writes; ordering guarantees; typical network assumptions; performance implications in a wide-area distributed system such as CollabCloud.
+    Use examples from the scenario to illustrate your points.
+    \item For each DSM model used in CollabCloud (page-based, library-based, object-based, variable-based), identify one appropriate consistency model and justify your choice. Your justification should consider: granularity of sharing; access patterns; communication overhead; potential for false sharing; user expectations for accuracy vs. performance.
+    \item During testing, analytics clusters running on the page-based DSM experience severe performance issues due to excessive page thrashing1 whenever sequential consistency is enforced. Explain:
+    \begin{itemize}
+        \item Why page-based DSMs are particularly sensitive to consistency traffic.
+        \item Why sequential consistency may be contributing to the observed performance degradation.
+        \item Which weaker consistency model would improve performance while keeping data ``usefully correct'' and why.
+    \end{itemize}
+    \item The collaborative document editing feature uses object-based DSM. Management has asked whether causal consistency is strong enough for real-time editing. Discuss whether causal consistency is suitable, by considering: the causal ordering of edits; the potential for conflicting concurrent operations; perceptions of consistency; whether a stronger or different model (e.g., CRDT-based eventual consistency) might be more appropriate.
+    \item The variable-based DSM is used for global counters (e.g., ``total edits today''), feature flags, and distributed configuration values. Evaluate the risks of using eventual consistency or weak consistency for these metadata variables. Provide concrete examples from the scenario where these risks could cause operational problems.
+\end{enumerate}}
+
+\textbf{Q1.} Strict Consistency:
+\begin{itemize}
+    \item Visibility / ordering - every read returns the value of the msot recent write according to a real-time global clock order
+    \item Network assumptions - requires globally synchronous clocks and instantaneous propagation which is impractical in real DS
+    \item Performance - extremely expensive due to coordination, unsuitable for wide area network like CollabCloud
+    \item Example - financial audit data might need this in theory but the global distribution makes it unrealistic
+\end{itemize}
+
+Sequential Consistency:
+\begin{itemize}
+    \item Visibility / ordering - all processes observe writes in the same order but not necessarily real-time order
+    \item Network assumptions - does not require global clocks but requires global agreement on write order
+    \item Performance - high communication costs, global ordering reduces concurrency
+    \item Example - dashboard updates must appear in a consistent order to all users
+\end{itemize}
+
+Causal Consistency:
+\begin{itemize}
+    \item Visibility / ordering - operations that are causally related must be seen in the same order everywhere, but concurrent operations may be observed in different orders
+    \item Network assumptions - tracks causal dependencies, allows more concurrency
+    \item Performance - more efficient than sequential as it avoids unnecessary synchronisation
+    \item Example - document edits; if user A writes a sentence and user B edits it, all users must see A's edit before B's edit
+\end{itemize}
+
+Eventual Consistency:
+\begin{itemize}
+    \item Visibility / ordering - no guarantees about ordering, replicas will converge eventually once updates stop
+    \item Network assumptions - designed for highly distributed, weakly connected systems
+    \item Performance - very high availability and low latency
+    \item Example - `who is online' indicators which can tolerate temporary inconsistencies
+\end{itemize}
+
+Weak Consistency:
+\begin{itemize}
+    \item Visibility / ordering - no ordering guarantees at all, updates will propagate whenever the system decides
+    \item Performance - fastest but least intuitive
+    \item Example - background analytics where exact intermediate results are not critical
+\end{itemize}
+
+\textbf{Q2.} Page-Based DSM would best suit Eventual or Weak consistency models because large pages cause false sharing and the requirements for higher consistency models would trigger frequent invalidations. This works because analytic workloads often tolerate slightly stale data and the performance requirements outweigh the strict ordering.
+
+Library-Based DSM would best suit Sequential Consistency because where the developers use shared data structures requiring predictable semantics, the library DSM gives fine control over read/write functions.
+
+Object-Base DSM would best suit Causal Consistency because edits to shared document objects often have meaningful causal relationships therefore there is a need for the edits to propagate correctly without imposing a global total order. 
+
+Variable-Based DSM would best suit Eventual Consistency for non-critical metadata because small variables like presence flags or counters have relaxed correctness requirements and they are naturally convergent and low-risk. 
+
+\textbf{Q3.} Page-based DSMs are sensitive to consistency traffic because large blocks of memory are moved at a time, even if only one byte changes - the entire page has to be invalidated and retransferred. Distributed analytics jobs often perform fine-grained updates on shared pages which cause heavy ``page thrashing.'' Performance issues are made worse by sequential consistency because every write must be seen globally in the same order, which is implemented as every replica must invalidate or update all copies of the page. Given the large geographical span between Europe - US - Asia, this problem is amplified. A better choice would be eventual or weak consistency, especially because analytics tasks can tolerate slightly stale data, therefore reducing page transfers and improving throughput while preserving `useful correctness.'
+
+\textbf{Q4.} Causal Consistency is good because it guarantees that causally dependent edits are applied in the correct order and avoids heavy global synchronisation. However concurrent updates to the same object may conflict and causal consistency alone does not give deterministic conflict resolution; users may therefore see temporary divergence. A more appropriate alternative would be to use eventual consistency where real-time editors use conflict-free replication data types, allowing concurrent edits to automatically converge without conflict; this provides a strong user-perceived consistency without enforcing global ordering.
+
+\textbf{Q5.} Eventual / weak consistency may lead to inaccuracies on analytic dashboards or billing systems due to data divergence. Similarly, flags enabling new features may not propagate before the corresponding configuration value has arrived, which may lead to some nodes enabling a feature without the required dependencies which would lead to a system crash. Updating configuration variables using eventual consistency can cause nodes to run incompatible settings, which could lead to instability or inconsistent document processing behaviour. Critical Metadata should use sequential consistency, or at least causal consistency.

@@ -1,0 +1,116 @@
+\taughtsession{Seminar}{Time}{2026-02-18}{11:00}{Amanda}{}
+
+\textit{Mutual Exclusion} ensures that only one process can access a shared resource (e.g. a file, database, or printer) at a time which prevents conflicts. In a centralised system, this is simple to manage - a central coordinator server manages access to the resource as follows:
+\begin{enumerate}
+    \item A process sends a request to the coordinator
+    \item If the resource is free, the coordinator grants access; otherwise it queues the request
+    \item Once the process finishes, it notifies the coordinator, when when grants access to the next process in the queue
+\end{enumerate}
+
+This simple method is fair and avoids conflicts. It's reasonably easy to implement and maintain which is a key strength. However, due to the nature of a single coordinator - this is single point of failure; which means that if the coordinator fails, then the entire system stops working.
+
+\begin{example}{Centralised Coordination}
+In this example we see three processes: $P_A$, $P_B$, and $P_C$ and one coordinator: $C$.
+
+At first the three processes request in turn to the coordinator to access the shared resource:
+\begin{align*}
+    P_A & \xrightarrow{request} C\\
+    P_B & \xrightarrow{request} C\\
+    P_C & \xrightarrow{request} C
+\end{align*}
+
+As $P_A$ reached the coordinator first, it is granted access to the resource first. Processes $P_B$ and $P_C$ are enqueued onto the waiting queue $Q$.
+
+\begin{align*}
+    C & \xrightarrow{grant} P_A\\
+    Q &= P_B, P_C
+\end{align*}
+
+Once $P_A$ has finished with the resource, it notifies the coordinator to release the mutual exclusion. The coordinator then identifies the process at the front of the queue and grants that access to the resource and removes them from the queue.
+
+\begin{align*}
+    P_A & \xrightarrow{release} C\\
+    C & \xrightarrow{grant} P_B\\
+    Q &= P_C
+\end{align*}
+
+This cycle repeats unendingly.
+\end{example}
+
+In a decentralised system, there is no single coordinator to control access to shared resources. In this paradigm - multiple nodes work together using distributed algorithms to enforce mutual exclusions. There are two different approaches to how this could work:
+\begin{itemize}
+    \item Voting Based Approach - Processes send requests to multiple nodes and they must receive a majority vote (which means they are granted permission) before accessing the resource
+    \item Token Based Approach - A unique token is passed between processes, and only the process holding the token can access the resource.
+\end{itemize}
+
+This is better than a centralised system's approach as there is no single point of failure which makes it more reliable; however the decentralised systems approach is more complex and additionally requires synchronisation between nodes which adds overhead to the performance. 
+
+\begin{example}{Voting-Based Mutual Exclusion}
+In this example we have four processes: $P_A$, $P_B$, $P_C$, and $P_D$.
+
+When a process, $P_A$ in this example wants to access the resource - it sends a request to all other nodes:
+
+\begin{align*}
+    P_A & \xrightarrow{request} P_B\\
+    P_A & \xrightarrow{request} P_C\\
+    P_A & \xrightarrow{request} P_D
+\end{align*}
+
+If the majority agree, in this case that's $P_B$ and $P_C$, then $P_A$ gets access to the resource.
+
+\begin{align*}
+    P_B & \xrightarrow{grant} P_A\\
+    P_C & \xrightarrow{grant} P_A
+\end{align*}
+
+However if the majority does not agree - in the event that there are multiple nodes all wanting to access the resource and each voting node votes for a different node; no nodes get access and a second round of voting is used. This is a uncommon but likely scenario to be in. 
+
+The voting based approach is slow due to the multiple approvals required for a node to be granted access to the resource.
+\end{example}
+
+\begin{example}{Token-Based Mutual Exclusion}
+In this example we see three processes $P_A$, $P_B$, and $P_C$. 
+
+This example starts with $P_A$ having the token which it then passes to $P_B$.
+\[P_A \xrightarrow{pass\ token} P_B\]
+
+This process uses the resource which is token locked then once it's completed its computation - it passes the token to $P_C$.
+\[P_B \xrightarrow{pass\ token} P_C\]
+
+Token-Based MutEx is faster than Voting-Based MutEx as processes only need to pass the token between them. However if the token is lost - mechanisms are needed to validate this loss and then recover the token.
+\end{example}
+
+\section{Question of the Week}
+\textbf{NovaTrade is a global, real time electronic trading platform with servers located in London, New York, Tokyo, and Sydney. Each data centre runs multiple distributed services that must agree on the ordering of events, maintain consistent timestamps for financial transactions, and ensure mutual exclusion when updating shared ledgers.}
+
+\textbf{The following constraints apply:
+\begin{itemize}
+    \item Each server maintains its own hardware clock with clock drift and clock skew (as discussed in Lecture 3).
+    \item Network latency between regions varies and cannot be perfectly predicted.
+    \item NovaTrade must maintain:
+    \begin{itemize}
+        \item Accurate physical timestamps for auditing and regulatory requirements.
+        \item Consistent ordering of events even when physical clocks disagree.
+        \item Safe mutual exclusion for updates to shared global assets (e.g., account balances, order books).
+    \end{itemize}
+\end{itemize}}
+
+\textbf{Recently, several issues have emerged:
+\begin{itemize}
+    \item Trades executed in Tokyo appear (based on timestamps) to occur before earlier trades from London.
+    \item A leader node responsible for time synchronization in the London region crashed, disrupting timestamp accuracy.
+    \item Occasional conflicts arise when simultaneous write requests are sent from multiple regions to the global ledger.
+\end{itemize}}
+
+\textbf{Questions
+\begin{enumerate}
+    \item Recommend which time algorithm (Cristian's, Berkley, NTP) the system would benefit more from and justify your answer.
+    \item Because physical synchronization is imperfect, NovaTrade wants to ensure that all trades are consistently ordered, even when clocks drift apart. Discuss whether NovaTrade should use Lamport or Vector clocks for transaction ordering, considering overhead and accuracy.
+    \item Recommend the most appropriate method for NovaTrade's global ledger, considering network latency, fault tolerance requirements, and fairness
+\end{enumerate}}
+
+\textbf{Q1.} NPT. This is too high-risk of a system for the time to go out of sync within in regards to the damage that inaccurate timestamps would cause. Due to the large geographical areas between the different locations - there will be a large amount of latency which means Crisitan's algorithm isn't suitable. As there are concerns that a node has the wrong time and is using this as the truth - this would make Berkley's algorithm useless too as the one time which is incorrect would skew the algorithm and cause the other clocks to go out of sync.
+
+\textbf{Q2.} Vector clocks would be better than Lamport clocks as they can accurately convey the order of two concurrent processes where Lamport clocks cant. This is better for financial transactions as the order of operations is vital. There is, however, a larger overhead to be contended with as each vector have to be transmitted and may be substantial in size if there are multiple process. This tradeoff is worth it for the increased accuracy. 
+
+\textbf{Q3.} The global ledger would need to be a central object which all nodes can interact with. This would best fit the Message Passing paradigm where the clients send the ledger server update or read requests which the server processes. The time synchronisation between the clients and server would be of vital importance here to ensure that the ledger is in the correct order, especially given this is handling financial transactions. 

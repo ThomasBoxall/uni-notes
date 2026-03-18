@@ -4,8 +4,8 @@ A Synchronous Distributed System has known lower and upper bounds on the: time t
 
 An asynchronous DS has no bounds on process execution speeds, message transmission delays or clock drift rates. The sender will proceed without waiting for an immediate response. This is more efficient, however it's harder to handle failures.
 
-
-\textbf{Why is communication critical in Distributed Systems?}
+\section{Seminar Exercises}
+\textbf{Ex. 1: Why is communication critical in Distributed Systems?}
 
 \begin{itemize}
     \item Data Sharing between processes
@@ -13,7 +13,7 @@ An asynchronous DS has no bounds on process execution speeds, message transmissi
     \item Fault Tolerance and Consistency
 \end{itemize}
 
-\textbf{What are the advantages of Remote Procedure Call (RPC)?}
+\textbf{Ex. 2: What are the advantages of Remote Procedure Call (RPC)?}
 
 \begin{itemize}
     \item Makes a remote call look local
@@ -21,14 +21,14 @@ An asynchronous DS has no bounds on process execution speeds, message transmissi
 \end{itemize}
 
 
-\textbf{What are challenges faced by Distributed Systems Communication Models?}
+\textbf{Ex. 3: What are challenges faced by Distributed Systems Communication Models?}
 \begin{itemize}
     \item Latency (overcome by efficient protocols)
     \item Fault Tolerance (overcome by replication and retries)
     \item Security (overcome by encryption and authentication)
 \end{itemize}
 
-\textbf{What communication model(s) does Google Drive use?}
+\textbf{Ex. 4: What communication model(s) does Google Drive use?}
 \begin{itemize}
     \item Client-Server Model: Primary model for file access and synchronisation
     \item Message Passing Model: Used for file synchronisation across devices
@@ -37,7 +37,7 @@ An asynchronous DS has no bounds on process execution speeds, message transmissi
     \item Remote Procedure Call Model: Used for efficient communication between services
 \end{itemize}
 
-\section*{Question of the Week \footnote{Paraphrased to reduce repetition}}
+\section{Question of the Week}
 \textbf{A university is developing a cloud-based learning management system (LMS) that allows students and staff to perform a number of tasks.}
 
 \textbf{For the following requirements, identify which communication model(s) would be most suitable for each feature and justify your choices:
@@ -45,5 +45,13 @@ An asynchronous DS has no bounds on process execution speeds, message transmissi
     \item Uploading and downloading lecture materials (e.g. PDFs, slides)
     \item Receiving real-time notifications for new assignments
     \item Collaborating on shared documents in real time (for group projects, etc)
-    \item Streaming live lectures with interactive participation
+    \item Streaming live lectures with interactive participation  \footnote{QotW paraphrased to reduce repetition}
 \end{enumerate}}
+
+\textbf{Q1.} Uploading and downloading lecture materials would use the client-server communication model. This is because the LMS needs a centralised cloud storage which both students and staff can access. The client-server model would be utilised as the staff \& students acting as clients while the LMS itself is the server.
+
+\textbf{Q2.} Realtime notifications would use the Pub/Sub model. This works because students would be able to receive an instant update when a member of staff posts a new assignment. The Pub/Sub model is implemented with the LMS publishing to the broker when a new assignment is published which then the subscribers (students) are subscribed to so they can see the notification.
+
+\textbf{Q3.} Collaborating on shared documents in real-time would use the peer-to-peer model. This method works because it is more efficient than constantly requesting updates from a central server enabling a more real-time shared document experience. 
+
+\textbf{Q4.} Streaming live lectures with interactive participation would use the message passing model. THis works because the live streaming element requires a continuous data exchange between the presenter (lecturer) and the student. The message passing model is suited for this because it uses data packets. There may be bi-directional information exchange for example lecturer streaming video content to students while students respond with chat messages and/or reactions. The live lectures might also use Pub/Sub to notify when a live lecture is starting or alternatively use the client-server model for the live video streaming component. 
