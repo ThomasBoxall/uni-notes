@@ -1,0 +1,134 @@
+\taughtsession{Seminar}{Web Services \& Naming Conventions}{2026-03-04}{11:00}{Amanda}{}
+
+\section{SOAP vs. REST}
+The \textit{Simple Object Access Protocol} (SOAP) uses XML for communication. It requires a supplementary Web Services Description Language (WSDL) to define the XML structure and parameters and works over HTTP, SMTP and TCP. SOAP is slower than REST but is more secure than REST. Commonly SOAP is seen in sensitive industries such as banking.
+
+The \textit{Representational State Transfer} (REST) protocol uses standard HTTP methods (including GET, POST, PUT, and DELETE). The data transferred is formatted in JSON or XML. REST is faster and simpler than SOAP and is used in modern web and mobile applications. An example of REST in action is a weather app retrieving data from a RESTful API. 
+
+\section{Naming}
+Names facilitate communication and resource sharing. For example, processes need to know the name of the resource which they wish to access.
+
+There are a four main categories of names we use in daily computing.
+
+Human Readable:
+\begin{itemize}
+    \item URLs
+    \item Email Addresses
+    \item File Names
+    \item User Names
+\end{itemize}
+
+Identifiers (to identify resources):
+\begin{itemize}
+    \item IP addresses
+    \item MAC addresses
+    \item Process IDs 
+    \item Universally Unique Identifiers (UUID)
+\end{itemize}
+
+Addresses:
+\begin{itemize}
+    \item Memory addresses
+    \item Device paths
+    \item Network file paths
+    \item Local file paths
+\end{itemize}
+
+Attribute based names:
+\begin{itemize}
+    \item Database tables names
+    \item Tags in cloud storage
+    \item Hashtags in social media
+\end{itemize}
+
+Naming Schemes can come in a few varieties. A \textit{flat} scheme has no structure, such as in P2P networks. A \textit{hierarchical} scheme is organised in a tree structure, such as in DNS.
+
+\section{Distributed Computing}
+Distributed Computing is a use of distributed systems where multiple autonomous nodes work together on a single task and communicate via message passing. This is highly scalable where additional nodes can easily be added. This flexibility enables them to handle increased workloads without significant reconfiguration. 
+
+The distributed nature of the system enhances fault tolerance; if one node fails - the others can continue ot operate which minimises system downtime. Through the distributed paradigm, resources such as CPU, power, memory and storage, can be used efficiently across the network which optimises overall performance. Organisations can also make use of existing hardware and resources instead of investing in expensive supercomputers, or higher power machines, which makes distributed computing a more cost-effective solution. 
+
+Distributed Computing has a number of applications:
+\begin{itemize}
+    \item Web Services - Many web applications distribute processes across multiple servers to enhance performance and availability
+    \item Online Gaming - Multiplayer online games use distributed computing to synchronise real-time actions between players, providing a smooth experience
+    \item Cloud Computing - Cloud services leverage distributed systems to deliver scalable and reliable resources to users on demand
+    \item Scientific Research - Distributed computing supports complex simulations and data analysis in fields like genomics, physics and climate modelling
+    \item Big Data Processing - Frameworks like Apache Hadoop utilize distributed computing to process large datasets across clusters, improving efficiency and speed
+\end{itemize}
+
+\subsection{Grid Computing}
+Grid Computing is a specialised form of distributed computing that connects heterogeneous systems to work on large-scale tasks. This enables organisations to pool resources across various locations, allowing them to process massive amounts of data more efficiently. An example of Grid Computing in action is World Community Grid or Folding@Home. 
+
+Grid computing offers reliability with redundant resources, ensuring that the system remains operational even during failures. An example of this would be where a computation task is given to two machines and the results compared to attempt to establish if one is miscalculating the results. 
+
+Another benefit of Grid Computing is the fact that it allows different systems and technologies to work together seamlessly, enabling collaboration across various platforms and organisations. By harnessing spare computing resources, grid computing reduces costs associated with acquiring new hardware. 
+
+Grid Computing is particularly well suited for handling extensive datasets, making it ideal for scientific simulations and complex analysis. 
+
+There are a number of applications of Grid Computing:
+\begin{itemize}
+    \item Biomedical Research - Grid Computing enables large-scale simulations in drug discovery and genomics, facilitating faster research outcomes
+    \item Weather Forecasting - Meteorological models utilize grid resources to enhance the accuracy of climate predictions and weather forecasts
+    \item Financial Modelling - Grid systems analyse complex financial data, enabling the simulation of market scenarios and risk assessments
+    \item Engineering Simulations - Engineers use grid computing for extensive simulations and analyses, optimising the design process
+    \item Collaborative Research - Researchers across institutions use grid computing to share data and computational resources, especially useful in collaborative projects. 
+\end{itemize}
+
+\section{Seminar Exercises}
+\textbf{Ex. 1: Match the Service Component with its correct description}
+\begin{itemize}
+    \item Service Provider - Offers the service
+    \item Service Requester - Calls the service 
+    \item Service Registry - Lists the service
+\end{itemize}
+
+\textbf{Ex. 2: Which web service (SOAP or REST) is better for a social media app?}
+
+REST. This is because it's lightweight and fast, scalable, easy to integrate and supports multiple platforms.
+
+\textbf{Ex. 3: Why is Naming important in Distributed Systems}
+
+Naming enables resource sharing, simplifies systems management and supports user friendly interaction through the use of meaningful names. 
+
+\textbf{Ex. 4: Match the name to their correct type}
+\begin{itemize}
+    \item MAC Address - 00:1A:2B:3C:4D:5E
+    \item IP Address - 192.168.1.2
+    \item Universal Unique Identifier - 550e8400-e29b-41d4-a716-446655440000
+    \item Email Address - user@example.com
+    \item Memory address used in RAM - 0x7FFF5A1B3C
+\end{itemize}
+
+\textbf{Ex. 5: Compare Distributed Computing \& Grid Computing}
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.3\textwidth} p{0.3\textwidth} p{0.3\textwidth}}
+    \thead{Feature} & \thead{Distributed Computing} & \thead{Grid Computing}\\
+    Architecture & Independent nodes & Networked, heterogeneous resources \\
+    \hline
+    Task Management & Centralised or decentralised & Generally decentralised  \\
+    \hline
+    Resource Ownership & Often owned by a single entity & Resources can be owned by multiple entities\\
+    \hline
+    Scalability & Highly scalable with added nodes & Very scalable across networks\\
+    \hline
+    Fault Tolerance & Fault tolerance can vary & High fault tolerance due to redundancy\\
+    \hline
+    Performance Optimisation & Optimises local resources & Optimises global resources \\
+    \hline
+    Use Cases & Real-time applications, gaming etc & Scientific research, simulations, etc \\
+    \hline
+    Network dependency & Less dependent on network reliability & Highly dependent on network availability \\
+    \hline
+    Complexity & Generally less complex & can be complex due to diverse resources\\ 
+    \hline
+    User Control & More control over resources & Limited control due to resource sharing\\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{Comparison of Distributed Computing and Grid Computing}
+    \label{tab:example-table}
+\end{table}
