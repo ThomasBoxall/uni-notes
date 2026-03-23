@@ -1,0 +1,148 @@
+\taughtsession{Seminar}{Fault Tolerance}{2026-03-18}{11:00}{Amanda}{}
+
+In the exam, next week, there will be between 15 and 20 Multiple Choice Questions. They do not use negative marking and there will be 5 answers to choose from, it should be reasonably easy to pick out the right answer. The MCQs alone should be enough to get 40\% overall in the exam. 
+
+After the MCQs there will be two scenario based questions. These will be similar to what we've experienced in the Seminars and QotW but will draw in knowledge from the last 8 weeks, not just 1 week. The scenario questions will be composed of different sub-questions with some being dropdown and some being unlimited-sized free text boxes. If the dropdown option is selected incorrectly but a sufficient justification is put in the free text box following it - it's possible to get some marks still. We don't need to write lengthy essays - bullet points will suffice.
+
+Next weeks's Seminar \& Lecture will take place as usual - although the Seminar will be literal hours before the exam... 
+
+\section{Replication}
+\begin{define}
+    \item[Active Replication] All nodes run in parallel, with data instantaneously being replicated to the node / process
+    \item[Passive Replication] One node runs as the primary, with others running as backups - data not instantaneously replicated to the backups 
+\end{define}
+
+The trade-offs between active and passive replication in process redundancy are based on: performance, fault tolerance, and consistency. Active replication is used when strong consistency and fast failover is needed such as within banking or real-time trading systems. Passive replication is used when performance and resource efficiency are required, such as in cloud services or web applications. 
+
+Often in a real-world scenario there would be a hybrid deployment with some active replication which replicates to some passive replication. This hybrid option gives the benefits of both systems while saving some money. 
+
+\section{Consensus Algorithms}
+Further to the discussion in the lecture around consensus algorithms - we'll now see how they work in detail. 
+
+\subsection{Paxos Algorithm}
+The \textit{Paxos Algorithm} aims to ensure consensus in unreliable networks where nodes may crash or messages may be lost. It works using a three-phase protocol which involves three different types of nodes (Proposers, Acceptors and Learners):
+\begin{enumerate}
+    \item \textbf{Prepare Phase:} A proposer sends a proposal with a unique number to the acceptors. If the acceptors haven't already accepted a higher-numbered proposal, they respond with the last accepted value. 
+    \item \textbf{Accept Phase:} The proposer selects the most recently accepted value and sends an accept request. Acceptors acknowledge it if no higher proposal exists.
+    \item \textbf{Learn Phase:} If a majority of Acceptors accept a proposal, it becomes the agreed value. The decision is sent to Learners who apply the decision. 
+\end{enumerate}
+
+Paxos Algorithm is used where durability is needed to replicate large datasets such as a file or database and works in asynchronous networks. Paxos selects a single value from one or more of the values that are proposed and then broadcasts that value to all of the cooperating computers.
+
+After it has run - all of the nodes agree upon the proposed value and the cluster clocks forward. It is possible for a single node to be all three roles. 
+
+\subsection{Raft Algorithm}
+The \textit{Raft Algorithm} improves over the Paxos Algorithm. There are still three types of node involved:
+\begin{itemize}
+    \item Leader - Only the server elected leader can interact with the client. All other servers sync themselves with the leader. At any given point in time there can either be 1 or 0 leaders. Throughout the lifespan of a distributed system, it is possible for the leader role to change between nodes.
+    \item Follower - These servers sync their copy of the data with the leader at regular time intervals. If the leader server goes down, one of the followers can contest an election and become the leader.
+    \item Candidate - At the time of contesting for leader status, an election to become the leader server takes place. Each server can ask otehr servers for votes (hence where the name Candidate comes from). Initially all servers are in the candidate state. The candidate with the most votes will become the new leader server.
+\end{itemize}
+
+Using the Raft Algorithm, the Leader ensures that all servers maintain the same sequence of data with the following steps:
+\begin{enumerate}
+    \item Client sends a request to the leader
+    \item Leader appends the request to its log  and sends an AppendEntries message to its followers
+    \item Followers copy the entry and send an acknowledgement back to the leader
+    \item When a majority acknowledges, the leader commits the entry and apples it to the system
+    \item The leader notifies the client of the successful operation
+\end{enumerate}
+
+\subsection{Byzantine Fault Tolerance}
+Byzantine Fault Tolerance (BFT) is used with nodes exhibit arbitrary or malicious behaviour. It employs cryptographic methods, redundancy and quorum systems to ensure the integrity and consistency of the system despite the presence of faulty nodes. In the event of nodes failures or malicious behaviour, the system can identify and isolate the faulty nodes while continuing to operate normally. 
+
+A byzantine fault is a type of failure where a node: crashes or stops responding; sends conflicting or incorrect information to different parts of the system due to corruption, hacking or intentional attacks; or acts maliciously to disrupt the system (e.g., lying about the state of data). BFT Is named after the Byzantine General's Problem which describes the difficulty of achieving consensus when some participants may be unreliable. 
+
+A BFT system operates under the assumption that at most $\displaystyle \frac{n-1}{3}$ nodes can be fault, when $n$ is the total number of nodes in the system. This means for the system to function correctly:
+\begin{itemize}
+    \item At least $3f+1$ nodes are needed to tolerate $f$ Byzantine failures
+    \item At least $2f+1$ honest nodes must reach consensus to outvote malicious nodes
+\end{itemize}
+
+To achieve BFT, the system will follow these steps:
+\begin{enumerate}
+    \item Nodes exchange messages to verify information from others
+    \item Majority agreement (consensus) is required before a decision is finalised
+    \item Verification ensures that faulty of malicious nodes cannot influence the system
+\end{enumerate}
+
+There are three different types of BFT algorithms:
+\begin{itemize}
+    \item Practical BFT - uses a leader-based approach to reach consensus among nodes. The leader isolates a node if they begin to misbehave.
+    \item Federated BFT - used in decentralised networks where each participant chooses whom to trust (or not). If a node's trusted comrade begins misbehaving - they get isolated. 
+    \item Proof of Work - used in Bitcoin and other blockchains.
+\end{itemize}
+
+BFT can be seen in a number of different applications; it tends to be seen predominantly in financial or critical systems where a fault presents significant issues:
+\begin{itemize}
+    \item \textbf{Blockchain Networks:} BFT is crucial in permissioned blockchains such as Hyperledger Fabric and PBFT-based consensus models to prevent malicious ctors from tampering with transactions.
+    \item \textbf{Aerospace and Autonomous Systems:} Spacecraft, satellites and self-driving cars use BFT to handle faults or cyber attacks in mission-critical environments.
+    \item \textbf{Financial Systems:} Distributed banking and payment networks required BFT to prevent fraudulent transactions and ensure ledger integrity.
+    \item \textbf{Critical Infrastructure:} Smart grids and Industrial Control Systems (ICS) use BFT to prevent system failures due to malicious nodes or cyber threats. 
+\end{itemize}
+
+\section{Seminar Exercises}
+
+\textbf{Ex. 1: What fault tolerance mechanisms would be executed when a server crashes in an e-commerce platform?}
+\begin{itemize}
+    \item Detection - through a server heartbeat or timeout
+    \item Automated reporting in a timely manner to surrounding servers through the gossip protocol
+    \item Automatic failover to redundancy server
+    \item Possibly some amount of self-healing even after the server has gone down
+    \item Alert a human to investigate / resolve
+    \item Failure must be transparent to the end-user
+\end{itemize}
+
+\textbf{Ex. 2: What failure type would buffering issues fall under if you were managing a video streaming service?}
+\begin{itemize}
+    \item Video streaming service would use UDP, so there is some level of fault built into the protocol (i.e. dropped packets are handled without retransmission)
+    \item Could be Timing Failure (UDP doesn't reorder packets on receipt so if packets are received in the wrong order, there's a risk of them being displayed in the wrong order) or Crash Failure
+    \item There is a chance Network Partitioning could play into it - if a change is made to the network which restricts access to some component of the video streaming platform, however this is less likely than Timing or Crash failures. 
+\end{itemize}
+
+\textbf{Ex. 3: What are the trade-offs between active and passive replication?}
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.3\textwidth} p{0.3\textwidth} p{0.3\textwidth}}
+    \thead{Criteria} & \thead{Active Replication} & \thead{Passive Replication}\\
+    Performance & Higher overheads (request by replicas) & Lower overheads \\
+    \hline
+    Consistency & Strong (depends on synchronisation accuracy) & Potential data loss (if primary fails) \\
+    \hline
+    Speed (failover) & Fast (any replicas can takeover) & Slower (backup must detect failure) \\
+    \hline
+    Complexity & More complex (needs consensus algorithms) & Simpler (primary to back up) \\
+    \hline
+    Scalability & Limited due to synchronisation overhead & Scalable for heavy write systems \\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{Comparison of Active and Passive Replication}
+\end{table}
+
+
+\textbf{Ex. 4: Compare the Raft and Paxos Algorithms}
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.3\textwidth} p{0.3\textwidth} p{0.3\textwidth}}
+    \thead{Feature} & \thead{Raft} & \thead{Paxos}\\
+    Understanding & Simple, well-structured & Complex to implement \\
+    \hline
+    Leader Elections & Explicit Leader & Implicit Leader \\
+    \hline
+    Log Structure & Sequential log replication & Flexible but complex \\
+    \hline
+    Performance & Efficient with clear roles & Complexity causes a slower performance overall\\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{Comparison of Raft and Paxos Algorithms}
+\end{table}
+
+\textbf{Ex. 5: A banking system crashes in the middle of a transaction. How does checkpointing help in recovery?}
+\begin{itemize}
+    \item A checkpoint taken before starting the transaction gives the state of the system before the transaction begins. Then if something goes wrong with the transaction (such as money not leaving the sender, or arriving at the receiver) - the checkpoint can be rolled back to ensure that there are no double-sends or receives of the money. 
+    \item Multiple checkpoints can be used throughout the transaction - to allow rolling back of a single stage rather than just the transaction as a whole; for example `has the money left the sender's account?' or `has the money arrived at the receiver's account?'
+\end{itemize}
