@@ -1,0 +1,184 @@
+\taughtsession{Lecture}{AAA In Network Servers and Services}{2026-03-17}{14:00}{Shikun}{}
+
+\section{Introduction to AAA}
+\textit{AAA} stands for \textit{Authentication, Authorisation, and Accounting}. 
+
+\begin{define}
+\item[Authentication] The process of verifying the digital identity of an entity (is the entity who the entity says the entity is)
+\item[Authorisation] Determines who the entity is and what level of access the entity should have (does the entity need basic user access or admin level access)
+\item[Accounting] Keeps track of what the entities did while using the system  
+\end{define}
+
+The idea of AAA can be translated to a Credit Card. In that the Authentication is the credit card number; the authorisation is the limit applied to the card; and the accounting is the statement.
+
+\subsection{Authentication}
+There are two \textit{Authentication Modes}:
+\begin{itemize}
+    \item Local AAA Authentication
+    \item Server-Based AAA Authentication
+\end{itemize}
+
+\subsubsection{Local AAA Authentication}
+In this paradigm, the remote client communicates directly with an AAA Router. The AAA router connects to the wider network.
+\begin{enumerate}
+    \item The client establishes a connection with the router
+    \item The AAA router prompts the user for a username and password
+    \item The router authenticates the username and password using the local database and the user is authorised to access the network based on information in the local database
+\end{enumerate}
+
+This paradigm is most commonly seen in one-to-one devices such as personal computers or mobile phones.
+
+\subsubsection{Server-Based AAA Authentication}
+In this paradigm, the remote client communicates with an AAA Router who authenticates against an ACS Server (Cisco Secure ACS Server to be precise).
+\begin{enumerate}
+    \item The client establishes a connection with the router
+    \item The AAA router prompts the user for a username and password
+    \item The router authenticates the username and password using a remote AAA server
+    \item The user is authorised to access the network based on information on the remote AAA server
+\end{enumerate}
+
+This paradigm does not use the local authentication daemon on the AAA router, rather it passes the request to a third party server to complete the authentication.
+
+\subsection{Authorisation}
+Once a user has been authenticated, the process of authorisation begins - this is understanding what permissions the user should have.
+\begin{enumerate}
+    \item When a user has been authenticated, a session is established with the AAA server
+    \item The router requests authorisation for the requested services from the AAA server
+    \item The AAA server returns a PASS / FAIL for authorisation
+\end{enumerate}
+
+\subsection{Accounting}
+All actions within the network should be logged through an accounting mechanism - this ensures actions are recorded should they need to be investigated in the future.
+\begin{enumerate}
+    \item When a user has been authenticated, the AAA accounting process generates a start message to begin the accounting process
+    \item When the user finishes, a stop message is recorded and the accounting process ends
+\end{enumerate}
+
+\section{Authentication}
+
+\subsection{Authentication Factors}
+Authentication factors are factors which can be used to prove who you are. In an insecure system only one factor will be used, but in a secure system: two or more factors will be used. 
+
+\begin{itemize}
+    \item What You Know: An answer to a question that only you know, for example `What is your password?'
+    \item Where You Are: An IP address or Geolocation which your account is restricted to access from only, for example `You may only login to your Microsoft account from the corporate IP range.'
+    \item What You Are: A physical factor which only you possess, for example biometrics
+    \item What You Have: A physical, or virtual, device which only you have, for example secure tokens or mobile devices with the Microsoft Authenticator App
+\end{itemize}
+
+\subsection{Password Based Authentication}
+Passwords should be secret. Known only to you, and the hacking group which compromised the service you use it on. This is the sad reality of passwords; as found in 2012 over 75\% of network intrusions exploited weak or stolen credentials, and on average 8 out of every 9 exploits involve password stealing and / or cracking\footnote{Verizon Data Breach Investigations Report}. 
+
+There are numerous ways to crack passwords, whether this be human error such as:
+\begin{itemize}
+    \item allowing shoulder surfing
+    \item using the same password on multiple services
+    \item being vulnerable to social engineering
+    \item using a password which is adjacent to the place the password is being used at (such as company name, etc)
+\end{itemize}
+
+or technical, with issues such as:
+\begin{itemize}
+    \item broken implementations
+    \item bugs which expose passwords
+    \item keyloggers or sniffers used
+    \item dictionary attacks exploited on username and password input fields
+\end{itemize}
+
+The most we can do to secure our passwords is to hash or encrypt them in some way, but even this can be problematic if the hash is released as these can be cracked. There has been a significant amount of research conducted as to what passwords are being used, and from this databases of commonly used has been produced.
+
+A key issue with password based authentication is default passwords on devices. For example routers commonly come with the credentials admin/admin. 
+
+\textit{Personal Identification Number} (PINs) are just as bad as passwords. There are even less combinations so it is even more likely that the same PIN will be used more commonly. 
+
+This is all before we get to the issues with resetting passwords through forgotten password sequences. There are the common security questions (Mothers Maiden Name; First Car; First Pet; etc). But there's only so many answers to these. For example `What was the make of your first car?' will commonly be answered by `Ford' as they had a greater than 25\% market share until the late 1990s. Information relating to these questions is also likely to be available from public social media profiles - LinkedIn is great at leaking your schools, universities, areas you lived, worked; Facebook is wonderful at leaking what you do in pastimes, hobbies, and friends names etc.
+
+While saying all this, there are some things we can do to strengthen passwords:
+\begin{itemize}
+    \item Transformed passwords
+    \item Time stamps
+    \item One Time Passwords
+    \item Zero-knowledge techniques
+    \item Digital Signatures
+    \item Personal Tokens
+\end{itemize}
+
+But it is possible to take this too far, for the average users at least. For example going through two, three or four different authentication and security measures before doing something mundane like accessing emails. Users won't do all this, they'll avoid setting them up, or actively disable them - making their account less secure and more vulnerable to attacks. 
+
+\subsection{Biometric Authentication}
+In contrast to the above Password Based Authentication shenanigans, \textit{biometric authentication} sounds wonderful. There's nothing for users to remember (and therefore forget); they're often passive (i.e. not needing to type something or carry a device around); usually they can't be shared; and usually biometrics are unique (if measurements are taken sufficiently). 
+
+But there are issues with Biometrics:
+\begin{itemize}
+    \item They're private, not secret. Consider a fingerprint - this gets left everywhere you touch
+    \item Even random looking biometrics may not be sufficiently unique for authentication (consider birthdays)
+    \item They're potentially forgeable (consider handwriting)
+    \item Revocation of them is difficult or impossible (without cutting someone's eyes out or fingers off)
+\end{itemize}
+
+Poor quality biometrics also simply don't work at times. Face recognition (by a computer algorithm) experiences an error rate of up-to 20\% given variations in lighting, viewpoint, and expressions. This is hugely frustrating for users if for one in every five times they try to unlock their phone, it doesn't work.
+
+Fingerprints are the traditional method for identification. These use a 16-point match, which gives the probability for a false match of 1 in 10 billion. There were no successful challenges with this until 2000. However, fingerprint damage impairs recognition - such as a scar on the fingerprint of the user. 
+
+Alternatively to faces or fingers, it is possible to use irises to identify individuals. Irises are random when grown but stable throughout life. It is possible to generate a 256-byte iris code based on concentric rings between the pupil and the outside of the iris. The error rate is better than 1 in 1 million. 
+
+It is also possible to hand geometry, voice, ear shape, vein pattern and face temperature.
+
+It is possible to obtain copies of biometrics using scientific techniques, or simply play-doh. 
+
+\subsection{Authentication Alternatives}
+There are a number of alternative authentication methods which can be used instead of the traditional password-based or biometric-based authentication.
+
+Graphical passwords are images-based authentication methods where the user clicks on screen in a particular pattern. This is especially vulnerable to shoulder surfing, however, as while hands can cover most of the keyboard to obfuscate which key is being typed - the movement of a mouse and pointer on screen is much more obvious.
+
+Electronic Tattoos can also be used, where a small NFC-esque circuit is tattooed onto the user. This is vulnerable to sweat which may move or distort the circuit.
+
+Chip filled pills (no not potato chip, electronic chips) can be swallowed which react with the stomach acid inside the users stomach to activate an 18-bit ECG-like signal inside your body.
+
+Another alternative could be to use a SecurID token which is a small key-fob that generates a 6-digit Time-based One Time Passcode that can be used to login. Obviously apps like Ente Auth, Google Authenticator or even the dreaded Microsoft Authenticator exist to generate TOTP codes - but it's more annoying to users to have to lug a fob around with them. And that's our goal, right? 
+
+\section{Distributed Authentication}
+Businesses have a problem: authentication. They have lots of users and lots of servers (or services) and users need authenticated access to these servers. The Naive solution to this might look like every server having a copy of every user's passwords. But this is insecure: if a threat actor can break into one server, they can compromise all users; and inefficient: to change a users password, the user must contract every server and ensure it's updated there.
+
+We need a better solution than the naive solution above as that's pants. Our solution needs:
+\begin{itemize}
+    \item to be secure against attacks by passive eavesdroppers and actively malicious users
+    \item to be transparent: users shouldn't notice authentication taking place; and users should only be asked to enter their password rarely
+    \item to be scalable so it is able to support a large number of users and servers
+\end{itemize}
+
+\subsection{Kerberos}
+Kerberos was developed at MIT in the 1980s. It is a distributed authentication method which works as follows:
+\begin{enumerate}
+    \item User contacts Key Distribution Centre (KDC) with their user identifier
+    \item KDC responds to user with an encrypted Ticket Granting Service (TGS) ticket
+    \item The user sends the TGS ticket to the TGS
+    \item The TGS returns an encrypted service ticket to the user
+    \item The user uses the Encrypted service ticket to access network services such as a file server, printer, etc
+\end{enumerate}
+
+This two-step authentication process allows the users to prove their identity once to obtain a TGS ticket. They can then transparently use this TGS ticket to get tickets for any network service.
+
+The TGS ticket contains data fields:
+\begin{itemize}
+    \item User's name
+    \item Server name
+    \item Address of user's workstation (otherwise a user on another workstation can steal the ticket and use it to gain access to the server)
+    \item Ticket lifetime
+    \item A few other things (session key, etc)
+\end{itemize}
+
+A key threat with Kerberos is Ticket Hijacking - where malicious users may steal the service ticket of another user on the same workstation and try to use it. The network address verification of the malicious user does not help, as this can always be spoofed. Servers must verify that the user who is presenting the ticket is the same user to whom the ticket was issued.
+
+Another key threat is that of not having a server to authenticate against. In this situation an attacker may misconfigure the network sto that they receive the messages addressed to a legitimate server. It is possible for the attacker to capture private information from users and / or deny services. To circumvent this, the servers must prove their identities to users.
+
+Kerberos Version 5 provides better user-server authentication. It generates a separate subkey for each user-server session instead of re-using the session key contained in the ticket. Authentication to servers is then done using subkeys not timestamp increments. V5 also includes authentication forwarding (delegation) where servers can access other servers on a user's behalf, ie the print server can access the email server to fetch an email. Realm hierarchies for inter-realm authentication are new as well as explicit integrity checking and standard CBC modes. V5 also now supports multiple encryption schemes, not just DES. 
+
+\subsection{Multiple Administration Domains}
+An Administrative domain is a service provider holding a security repository permitting easy authentication and authorisation with clients using their credentials. They are a solution for managing many users with different security requirements.
+
+The solution often takes the form of a hierarchical domain in a tree-shape.
+
+X.500 is a series of standards for electronic directory services. The application uses Directory User Agent to access a Directory Access Point. All objects in the directory contain a Distinguished Name (DN). X.511 defines standard directory operations including read, compare, list, search and modification requests. This is an incredibly complex series of standards and suite of protocols.
+
+The \textit{Lightweight Directory Access Protocol} (LDAP) is a simplified version of X.500. It is widely used for internet services and is an application level protocol which uses TCP. LDAP lookups and updates can use strings instead of OSI encoding and uses master servers and replica servers for performance improvements. There are numerous example implementations including Active Directory, Novell Directory Services, Linux / Unix, and iPlanet Directory Services (Netscape). Typical use-cases for LDAP include user profile management, access privilege management, and network resource management. 
