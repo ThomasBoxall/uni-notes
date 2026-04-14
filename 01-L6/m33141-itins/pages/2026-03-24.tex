@@ -1,0 +1,210 @@
+\taughtsession{Lecture}{IPSec, VPN \& MPLS}{2026-03-24}{14:00}{Shikun}{}
+
+\section{Internet Protocol: A Recap}
+The \textit{Internet Protocol} (IP) is implemented in every end user device and in routers. It is an unreliable protocol as IP datagrams may be lost and may arrive out of order. The \textit{Transmission Control Protocol} (TCP) takes care of the problems. There are two versions of IP: IPv4 and IPv6. Both versions map to a variant of the IP address - which is an identifier used to identify a network connected device during data transmission. 
+
+IP, on it's own, is insecure. The content of an IP datagram is not encrypted, therefore confidentiality is not provided; this makes it easy to `sniff' the payload. There are IP sniffers available on the Internet. IP addresses may spoofed which can break authentication based on IP addresses. 
+
+\section{IPSec}
+\textit{IPSec}, or to use it's full name \textit{Internet Protocol Security}, is a suite of protocols designed to secure internet communication by authenticating and encrypting each IP packet in a data stream. This provides authentication and confidentiality, which we know make up two thirds of the CIA triangle - so must be a good thing. IPSec also has key management features.
+
+IPSec is not bound to any specific encryption algorithms, authentication algorithms, keying technology or security algorithms. Rather it is a framework to ensure flexible yet thorough standards for security. It protects and authenticates IP packets between source and destination. IPSec can protect nearly all traffic from Layer 4 through to Layer 7 of the OSI model. 
+
+At it's core - IPSec has five main components:
+\begin{itemize}
+    \item IPSec Protocol 
+    \item Confidentiality using encryption
+    \item Integrity using hashing algorithms
+    \item Authentication using Internet Key Exchange (IKE)
+    \item Secure key exchange using the Diffie-Hellman (DH) algorithm
+\end{itemize}
+
+IPSec supports:
+\begin{itemize}
+    \item Access ControlAuthentication
+    \item Data Encryption
+    \item Data Integrity
+    \item Nonrepuditation
+\end{itemize}
+
+IPSec works at layer 3 of the OSI model (network layer) and can encrypt an entire TCP/IP packet. It was originally for use with IPv6 although supports IPv4. IPSec can provide authentication before the data is transmitted.
+
+\subsection{IPSec Protocol}
+The IPSec Protocol is responsible for sending data packets securely. These packets a format similar to that of an IP packet so consist of a header, payload, and trailer:
+\begin{itemize}
+    \item Header: a preceding section that contains instructional information for routing the data packet to the correct destination
+    \item Payload: the actual information contained within a data packet
+    \item Trailer: additional data appended to the tail of the payload to indicate the end of the data packet
+\end{itemize}
+
+There are two main protocols used: Authentication Header (AH) and Encapsulating Security Payload (ESP). The choice of which protocol to use establishes which other building blocks are available to flesh out the framework.
+
+The \textit{Authentication Header} (AH) IPSec Protocol achieves authenticity by applying a keyed one-way hash function to the packet to create a hash or message digest. The hash is combined with the text and transmitted in plain sight. On the receiving end - the hash is recomputed and the authenticity of the original message is based on if the received and recomputed hashes match.
+
+The \textit{Encapsulating Security Payload} (ESP) IPSec protocol provides confidentiality by encrypting the payload, and can also provide integrity and authentication using either MD5 or SHA. This works through encapsulating the original IP packet by authentication or encryption headers and trailers. When both authentication and encryption are selected - encryption is performed first. 
+
+\subsection{IPSec Uses}
+IPSec is commonly seen used in Virtual Private Networks (VPNs) which allow for interconnected LANs over the insecure internet in a router-to-router paradigm. Alternatively IPSec VPNs can be seen in a secure remote access paradigm where an individual, and therefore a single device, is connected to the corporate network.
+
+\subsection{IPSec Usage Modes}
+There are two usage modes that IPSec can operate in. 
+
+\subsubsection{Transport Mode}
+Security is provided only for the transport layer and above; it protects the payload but leaves the original IP address in plaintext. ESP transport mode is used between hosts where an encrypted TCP session forms. 
+
+For example, a packet may consist of: the IP header with the real destination shown; the IPSec header; and then the TCP/UDP header \& data. Where only the final section (TCP/UDP header \& data) is encrypted.
+
+\subsubsection{Tunnel Mode}
+Security is provided for the complete original IP packet. This is achieved through encrypting the original IP packet then encapsulating this in another IP packet (IP-in-IP encryption). ESP tunnel mode is used in remote access and site-to-site implementations where the secure tunnel is formed between \textit{Security Gateways}. 
+
+For example, a packet may consist of: IP Header (gateway address); IPSec header; IP header (real destination); and then TCP/UDP header \& data. Where the IP header as well as TCP/UDP header \& data sections are both encrypted.
+
+\subsection{Security Association}
+\textit{Security Association} (SA) is a one-way sender-recipient relationship. It determines how packets are processed; including details such as cryptographic algorithms, keys, IVs, lifetimes, sequence numbers, mode (transport or tunnel). Each SA is uniquely identified by a Security Parameter Index (SPI); and each IPSec keeps a database of SAs. A SPI is sent with packets which tells the recipient what SA to use. 
+
+SA defines:
+\begin{itemize}
+    \item The protocol used (AH or ESP)
+    \item Mode (transport or tunnel)
+    \item Encryption or Hashing algorithm to be used
+    \item Negotiated keys and key lifetimes
+    \item Lifetime of this SA
+    \item And more non-detailed information in the slides
+\end{itemize}
+
+\subsection{Authentication Header Implementation}
+The Authentication Header (AH) provides sender authentication and therefore integrity for packet contents and IP header. Before an AH can be used - the sender and receiver must share a secret key.
+
+In transport mode - an additional AH header is added between the original IP header and the TCP header, recalling that these won't be encrypted as only the data gets encrypted.
+
+In tunnel mode - an AH header is prepended with the new IP header prepended onto that; so that everything from the original IP header to the end of the original trailer components can be encrypted.
+
+\subsection{Internet Key Exchange}
+The goal of the \textit{Internet Key Exchange} (IKE) is to establish security association for AH and ESP. If IKE is broken then AH and ESP provide no protection. 
+
+The IKE is used as follows when negotiating an IPSec Tunnel VPN connection:
+\begin{enumerate}
+    \item Host A sends interesting traffic to Host B.
+    \item R1 and R2 negotiate and IKE Phase 1 session
+    \begin{enumerate}
+        \item Negotiate ISAKMP policy (relating to Encryption, Authentication, etc for that connection)
+        \item DH Key Exchange
+        \item Verify peer identity
+    \end{enumerate}
+    \item R1 and R2 negotiate an IKE phase 2 session
+    \begin{enumerate}
+        \item Negotiate IPSec policy
+    \end{enumerate}
+    \item Information is exchanged via IPSec tunnel
+    \item The IPSec tunnel is terminated
+\end{enumerate}
+
+
+\section{SSL/TLS}
+SSL or TLS are above the TCP socket, so they form part of the Application Layer. This is the inverse of IPSec which sits below the TCP layer.
+
+\textit{Transport Layer Security} (TLS) is used for emails. \textit{Secure Socket Layer} (SSL) is used for a number of different applications, including: HTTPS (Secure Web Access), SSH (Secure Shell), SCP (Secure Copy), and SFTP (Secure File Transfer).
+
+\subsection{Certificates}
+There is a need for the browsers on users devices who are attempting to access resources to be able to obtain the certificate of the resource they are trying to access. This will likely come from a certificate authority.
+
+The process of signing a new certificate works something like the following:
+\begin{enumerate}
+    \item The applicant compiles the identifying information and a public key into a \textit{Certificate Signing Request} (CSR).
+    \item The CSR is sent to the Certificate Authority.
+    \item The Certificate Authority validates that the applicant is who the applicant says they are
+    \item The Certificate Authority then generates the signed certificate and sends it to the applicant, as part of this process - the CA includes it's own private key to verify the originality of the certificate.
+\end{enumerate}
+
+The CA structure is hierarchical. There are approximately 60 top level CAs, with 1200 intermediate CAs actually issuing the certificates. 
+
+When a browser first contacts a server with a `client-hello' message the browser responds with the `server-hello' and `server-cert'. This leads into a key exchange, where the server sends it's keys to the client and the client responds with it's keys; this now creates trust between the browser and client so they can communicate using encrypted HTTPS traffic.
+
+
+\section{Virtual Private Networks}
+A \textit{Virtual Private Network} (VPN) is an encrypted tunnel between two (or more) devices. This may be seen in the paradigm of a single end user remotely connecting into the office network while they telework, or between different sites; in either case the connection uses the public internet infrastructure and uses the encrypted VPN tunnel to secure the connection. 
+
+A \textit{Remote Access VPN} is typically enabled by the user when required. They can be created using either IPSec or SSL. The remote user must initiate a remote access VPN connection - which could take place in a clientless and client-based connection. 
+
+A \textit{site-to-site} VPN is where the VPN gateway encapsulates and encrypts outbound traffic. This traffic is then sent through a VPN tunnel over the internet to a VPN gateway at the target site. Upon receipt, the receiving VPN gateway strips the headers, decrypts the content and relays the packet towards the target host inside its private network. Site-to-site VPNs are typically created and secured using IPSec. 
+
+\section{MPLS}
+\textit{Multiprotocol Label Switching} (MPLS) is a networking technology that directs data using labels rather than long network addresses, enabling faster, reliable, and prioritized traffic flow. This is currently only defined for IP. A MPLS path can be considered as a tunnel which goes from a MPLS ingress point to an egress point.
+
+\subsection{Motivation}
+As we've already seen today and in the years preceding this; IP was the first defined and used networking protocol. That's made it the de-facto protocol for global internet connectivity. However, it has some disadvantages. IP is a connectionless protocol which means each router has to make independent forwarding decisions based on the IP address; there's a large IP header; routing is done in the network layer which is slower than switching; and it is usually designed to obtain the shortest path regardless of how good those paths actually are.
+
+An alternative protocol used is the \textit{Asynchronous Transfer Mode} (ATM) which is connection oriented, and therefore maintains higher QoS; has fast packet switching with fixed length packets (called cells); and integrates different types of traffic (voice, data and video). However there are disadvantages: it's complex, expensive and not widely adopted.
+
+So this brings us to the idea of MPLS: combine the forwarding algorithm used in ATM with IP.
+
+\subsection{Basics}
+MPLS sits between layer 2 and layer 3 of the OSI model; this means it sits between IP (L3) and ATM (L2). MPLS includes mechanisms to manage traffic flows in a number of granularities (flow management). It maps IP addresses to fixed length labels and has interfaces to existing routing protocols (such as RSVP or OSPF). MPLS supports ATM, Frame-Relay and Ethernet.
+
+\subsection{Labels}
+The MPLS shim slots in between the Link Layer header and the Network layer header in the packet as it travels down the OSI model; it takes a generic format:
+\begin{itemize}
+    \item 20 bits for the label itself
+    \item 3 experimental bits, often used for class of service
+    \item 1 bottom of stack (BS) bit, which is set if no label follows
+    \item 8 Time to leave (TTL) bits used in the same way IP uses TTL bits
+\end{itemize}
+
+When the BS bit is set to 1, the current label is on the bottom of the stack. This is important as multiple labels can be encoded into the same packet to form a label stack. 
+
+MPLS does not specify a single method for label distribution. The BGP protocol has been enhanced to piggyback the label information within the contents of the protocol; similarly the RSVP protocol has been extended to support piggybacked exchange of labels.
+
+IETF has defined a new protocol known as the label distribution protocol (LDP) for explicit signalling and management. Extensions to the base LDP protocol have also bene defined to support explicit routing based on QoS requirements. 
+
+A \textit{Label Edge Router} (LER) (or Edge label Switch Router) resides at the edge of an MPLS network and assigns and removes the labels from packets. LERs support multiple ports connected to dissimilar networks, such as Frame Relay, ATM and Ethernet.
+
+A \textit{Label Switching Router} (LSR) is a high speed router in the core of an MPLS network. ATM switches can be used as LSRs without changing their hardware. 
+
+A \textit{Forward Equivalence Class} (FEC) is a representation of a group of packets that share the same requirements for their transport. The assignment of a particular packet to a particular FEC is done just once, when the packet enters the network. 
+
+A \textit{Label Switched Path} (LSP) is a path established before the data transmission starts. A path is a representation of a FEC. MPLS provides two options to setup an LSP. Option one is hop-by-hop routing where each LSR independently selects the next hop for a given FEC; LSRs may support any available routing protocols (OSPF, ATM, etc). Option two is explicit routing which is similar to source routing where the ingress LSR specifies the list of nodes through which the packet traverses.
+
+Traffic Engineering is inherently provided using explicitly routed paths in MPLS. The LSPs are created independently, specifying different paths that are based on user-defined policies; however this may require extensive operator intervention. RSVP-TE and CR-LDP are two possible approaches to supply dynamic traffic engineering and QoS in MPLS. 
+
+\textit{RSVP-TE} requests bandwidth and traffic conditions on a defined path. This has the drawback of requiring regular refreshes and not being scalable. \textit{CR-LDP} takes into account parameters such as link characteristics (bandwidth, delay, etc), hop count and QoS. It is entirely possible that a longer (by means of cost) but less loaded path is selected; however this does add complexities to routing calculations.
+
+\subsection{Operation}
+The following steps must be taken for a data packet to travel through a MPLS domain:
+\begin{enumerate}
+    \item label creation and distribution
+    \item table creation at each router
+    \item label-switched path creation
+    \item label insertion / table lookup
+    \item packet forwarding
+\end{enumerate}
+
+\subsubsection{Step 1: Label Creation and Label Distribution}
+Before any traffic begins moving on the network, the routers make the decision to bind a label to a specific FEC and build their tables. In LDP, downstream routers initiate the distribution of labels and the label / FEC binding. Additionally, traffic related characteristics and MPLS capabilities are negotiated using LDP. A reliable and ordered transport protocol should be used for the signalling protocol.
+
+\subsubsection{Step 2: Table Creation}
+On receipt of label bindings, each LSR creates entries in the \textit{Label Information Base} (LIB). The contents of the table will specify the mapping between a label and a FEC. This mapping maps between the input port and the input label table to the output port and output label table. The entries are updated whenever renegotiation of the label binding occurs.
+
+\subsubsection{Step 3: Label Switched Path Creation}
+The LSPs are created in the reverse direction to the creation of the entries in the LIBs.
+
+\subsubsection{Step 4: Label Insertion / Table Lookup}
+The first router uses the LIB table to find the next hop and request a label for the specific FEC. Subsequent routers just use the label to find the next hop. Once the packet reaches the egress LSR, the label is removed and the packet supplied to it's destination.
+
+\subsubsection{Step 5: Packet Forwarding}
+The first router may not have any labels for a packet as it is the first occurrence of the request. In an IP network, it will find the longest address match to find the next hop; in this case that's a hop towards a LSR. The reqeust propagates through the network with each intermediary router receiving a label from its downstream router. If traffic engineering is required, CR-LDP will be used in determining the actual path setup to ensure the QoS / CoS requirements are complied with. Eventually the edge router handling the packet will receive it's label and this will be forwarded to the first LSR in sequence. Each subsequent LSR will examine the label in the received packet and replace it with the outgoing label and forward it. When the packet reaches the LER on the other edge of the network, it will remove the label because the packet is departing from the MPLS domain and deliver it to the destination. 
+
+\subsection{Advantages and Disadvantages}
+MPLS improves packet forwarding performance in the network. It supports QoS and CoS for service differentiation. MPLS supports networks scalability and integrates IP and ATM in the network. It builds interoperable networks.
+
+However, an additional layer is added and the router has to understand MPLS. 
+
+\subsection{MPLS VPN}
+There are four components to a MPLS VPN:
+\begin{itemize}
+    \item CE Router: Customer Edge routers
+    \item PE Router: Provider Edge routers
+    \item P Router: Provider Router
+    \item ASBR Router: AS border router
+\end{itemize}
+
+The CE routers connect to the PE routers at the borders, with the CE routers providing the VPN interface to the customer. Inside the MPLS network, the PE routers connect to P routers which transmit the packets through ASBR routers (if needed to cross ASs) to other P routers.
