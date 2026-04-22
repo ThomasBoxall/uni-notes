@@ -1,0 +1,180 @@
+\taughtsession{Lecture}{Foundations of Distributed Systems Security}{2026-04-21}{09:00}{Fahad}{}
+
+Today marks the beginning of the second part of this two-part module. \textit{Fahad Ahmad} will take us through four lectures focusing on the security of Distributed Systems. The Seminars from before Easter will become Tutorials in a computer lab. These four weeks will be assessed during the May assessment period in a single CBT with 24 Multi-Choice Questions and 1 long question consisting of three parts with an equal weighting between MCQs and long. A mock exam will be released during week 4. 
+
+\section{Security: What Is It?}
+Information Security is the preservation of confidentiality, integrity and availability of information (the CIA triad we've seen before).
+
+\begin{define}
+\item[Confidentiality] The property that information is not disclosed to unauthorised individuals, entities or processes
+\item[Integrity] The property of safeguarding the accuracy and completeness of assets
+\item[Availability] The property of being accessible and usable upon demand by authorised entity
+\end{define}
+
+There are also a number of other essential definitions we will need for this module.
+
+\begin{define}
+\item[Authentication] Provision of assurance that a claimed characteristic of an entity is correct
+\item[Threat] A potential cause of an unwanted incident, which can result in harm to a system or organisation
+\item[Vulnerability] A weakness of an asset or control that can be exploited by one or more threats
+\item[Impact] The result of an information security incident, caused by a threat, which affects assets
+\item[Risk] Expressed in terms of a combination of the consequences of an event and the associated likelihood of occurrence
+\item[Control] Any process, policy, device, practice, or other action which can modify networks
+\end{define}
+
+Security has always been needed in distributed systems and computer networks. Historically a network would have been a private entity, where all connected devices either are hard-wired to the same central point, or use local wireless connections. This was reasonably easy to secure as there are minimal points of data entry \& exit, and these often would go through enterprise hardware which supports security. 
+
+In the more-recent times, teleworking has become fashionable. This is where one or more users requires remote access to the corporate network, which has to be provided in a safe and secure manner. This principle can be extended to see that remote sites have to be connected to the primary corporate site; again in a safe and secure manner. 
+
+The more devices we want to connect to our network, the bigger risks we face. The more devices, connections, interfaces, etc, provide a greater surface area for attacks to be launched on; that is each external-facing connection, web-service, etc will come with it's own set of vulnerabilities which have to be managed. 
+
+There are three new problems introduced with opening the network:
+\begin{itemize}
+    \item How do I know who I'm talking to?
+    \item How can I ensure nobody else hears our conversation?
+    \item How can I be sure that what I've said is heard (correctly)?
+\end{itemize}
+
+Returning back to the CIA triangle, this is pretty simple. We can apply: Authentication to know who we're talking to; Confidentiality to prevent conversations being listened in on; and Integrity to ensure that the message is received correctly. 
+
+There are a number of definitions related to threats and attacks which will come up in this module.
+
+\begin{define}
+    \item[Leakage] Acquisition of information by unauthorised recipients
+    \item[Tampering] Unauthorised alteration of information
+    \item[Vandalism] Interference with the proper operation of a system without gain to the perpetrator
+    \item[Eavesdropping] Obtaining copies of messages without authority
+    \item[Masquerading] Sending or receiving messages using the identity of another principal without their authority
+    \item[Message Tampering] Intercepting messages and altering their contents before passing them onto the intended recipient 
+    \item[Replaying] Storing intercepted messages and sending them at a later date
+    \item[Denial of Service] Flooding a channel or other resource with messages in order to deny access for others
+\end{define}
+
+
+Obviously this is bad, and we need to solve this. To do so, we introduce the concept of \textit{Cryptography}.
+
+\section{Cryptography}
+Cryptography is a technical control used to reduce information security risks. It turns plaintext (the readable version of the message) into ciphertext (the unreadable version of the message) and then back again, on demand. There are five elements to cryptography:
+\begin{itemize}
+    \item The ciphertext: $c$
+    \item The encryption algorithm $E$
+    \item The plaintext: $m$
+    \item The key $K$ (sometimes represented differently depending on the type of key, more on this later)
+    \item The decryption algorithm: $D$
+\end{itemize}
+
+Encryption links four of these together; where the ciphertext is constructed by applying the encryption algorithm to encipher the plaintext using the key. Or mathematically:
+\[E_k(m) = c \textrm{\quad or \quad } E(k,m) = c \textrm{\quad or even \quad } c=\{m\}_k\]
+
+Decryption reverses the process; where the plaintext is recovered by applying the decryption algorithm to decipher the plaintext using the appropriate key. Or mathematically:
+\[D_{k'}(c) = m \textrm{\quad or \quad } D(k',c)=m\]
+
+Modern cryptographic algorithms abide by the following principles:
+\begin{itemize}
+    \item They have a large enough key space to resist exhaustive searches
+    \item They are resistant to frequency analysis
+    \item A small change in the plaintext should result in a large change in the ciphertext
+    \item Their security depends only on the secrecy of the key, and not on the secrecy of the algorithm
+\end{itemize}
+
+There are two broad forms of cryptographic algorithms used.
+
+\subsection{Symmetric Encryption}
+Symmetric encryption uses the same secret key to encipher and decipher the message (meaning $k=k'$). The encryption methods can be extremely efficient as they require minimal processing, however both the sender and receiver must possess the same encryption key, which means that if either copy of the key is compromised, an intermeidary can decrypt and read messages.
+
+It would be great if we can just use pre-shared symmetric keys with everyone that we need to communicate with. However this presents a significant problem, in that for 2 or 3 communicators, the number of keys required is low; however this number grows quickly. Where there are 5 people communicating, 10 keys needed; 6 communicating, 15 keys needed; 7 communicating, 21 keys; or 8 people communicating, means 28 keys are needed. The number of keys needed can be calculated using $n \times (n-1)/2$ where $n$ is the number of people trying to communicate. 
+
+Common symmetric algorithms are: DES, IDEA, RC4, AES.
+
+\subsubsection{XOR Cipher}
+At it's simplest, a symmetric algorithm may simply XOR a binary sequence (key) with the binary representation of the message wishing to be transmitted. Then the key and received message can be XOR'd together to result in the originating message. 
+
+\subsubsection{AES Encryption}
+Symmetric Encryption can also exist in a more complex algorithm, for example AES. AES works in a series of rounds.
+
+In the first round, the entire cipher key is XOR'd with the input in a step called AddRoundKey. The output from this is fed into the main rounds.
+
+Each of the 9 main rounds consist of the same four steps:
+\begin{enumerate}
+    \item SubBytes
+    \item ShiftRows
+    \item MixColumns
+    \item AddRoundKey - except this time, a round-specific key is used which is derived from the main cipher key
+\end{enumerate}
+The output from the 9th main round is fed into the output of the final round.
+
+The final round completes three steps to produce the final output from the AES algorithm:
+\begin{enumerate}
+    \item SubBytes
+    \item ShiftRows
+    \item AddRoundKey - again, this is a round-specific key derived from the cipher key
+\end{enumerate}
+
+\subsection{Asymmetric Encryption}
+Asymmetric encryption (sometimes known as public-key encryption) enciphers and deciphers using two different, but related keys (meaning $k \neq k'$). If key $k$ encrypts the message, only the key $k'$ can decrypt it. Generally one key will serve as a public key, which is known to all who wish to communicate with the sender, and one serve as a private key, which is known only to the sender. 
+
+Common asymmetric algorithms are: RSA and ECC. 
+
+\subsubsection{Textbook RSA}
+The `Textbook' RSA algorithm is a textbook-suitable version of the RSA algorithm. It has five steps:
+\begin{itemize}
+    \item Choose two large primes $p$ and $q$, and calculate $n=p\times q$
+    \item From $n$, follow some maths steps to calculate the value $e$ and $d$
+    \item Publish $n$ and $e$, keep $d$ a secret, and destroy $p$ \& $q$
+    \item Encryption of $m$ is now $c=m^e (mod n)$
+    \item Decryption of $c$ is then $m = c^d (mod n)$
+\end{itemize}
+
+\begin{example}{Textbook RSA}
+If we take the string `DSS' that we ant to encrypt, we can first turn it into ASCII: `86 83 83'
+
+We can now encrypt them in turn, knowing $e=131$, and $n=323$:
+\begin{itemize}
+    \item $68^{131} (mod\ 232) = 102$
+    \item $83^{131} (mod\ 323) = 315$
+\end{itemize}
+
+This means our transmitted message is `102 315 315'.
+
+On the receiver's end, we receive the message (`102 315 315'). We also know that $d=11$ and $n=323$, which means we can decrypt as follows:
+\begin{itemize}
+    \item $102^{11} (mod\ 323) = 68 =$ D
+    \item $315^{11} (mod\ 323) = 83 =$ S
+\end{itemize}
+
+From this we can reconstruct our string `DSS'. 
+\end{example}
+
+\section{Digital Signatures}
+Asymmetric cryptography provides a built-in technique to sign messages with non-repudiation. If we take the scenario that Alice encrypts a message with her private key $E_{sk_{A}}(m)$ and then anyone who receives this can decrypt using $pk_A$ which everyone has. Everyone knows that only Alice could have created the cyphertext as that requires the use of $sk_A$ which Alice is the only person to have.
+
+Digital Signatures are an extension of the above - the idea that we can tack something onto a digital message to validate it's authentic, unforgeable and non-repudiable.
+
+\begin{define}
+\item[Authentic] It convinces the recipient that the signer deliberately signed the document and it has not been altered by anyone else
+\item[Unforgeable] It provides proof that the signer, and no one else, deliberately signed the document. The signature cannot be copied and placed on another document
+\item[Non-repudiable] The signer cannot credibly deny that the document was signed by them
+\end{define}
+
+This brings us onto Digital Signatures with secret / symmetric key. This is considerably simpler than asymmetric as A \& B both use $k_{AB}$ to communicate and they are the only ones to have this key. Therefore no other entity cannot claim to have created the ciphertext received by B. The issue of key exchange, distribution and management remains an issue however.
+
+\subsection{Hash Functions}
+A \textit{hash} function is an algorithm which produces a fixed-length bit pattern that characterises an arbitrary-length message. They are another important cryptographic primitive. Popular hash algorithms include SHA-1, MD5 and SHA-2. 
+
+They are also known as one-way functions, or trapdoor functions, that should satisfy the following conditions:
+\begin{itemize}
+    \item Given $M$, it is easy to compute $H(M)$
+    \item Given $H(M)$, it is hard to compute $M$
+    \item Given $M$, it is hard to find another message $M'$, such that $H(M) = H(M')$
+    \item it is hard to find two messages $M$ and $M'$ such that $H(M) = H(M')$
+\end{itemize}
+
+The last two look similar, however they're different. 
+
+\begin{extlink}
+There's an explanation on the slides as to why they're different to do with birthdays. This wasn't discussed in the lecture.
+\end{extlink}
+
+In reality, a digital signature of a document is generated by using a hash function to generate the document's hash then encrypting that with the senders private key. On the receiver's end - they can use the senders public key to decrypt the hash and compare this with with their own hash generated from the received document. If the two hashes match then the document hasn't been tampered with.
+
+\textcolor{red}{Continue here after the tutorial. Digital Certificates up next, which weren't covered (yet) in the lecture.}
