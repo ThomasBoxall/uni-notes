@@ -1,0 +1,224 @@
+\taughtsession{Lecture}{Network Layer Security}{2026-04-28}{09:00}{Fahad}{}
+
+Some content in this lecture overlaps significantly with an \textit{IT \& Internetworking Security} lecture from a few weeks ago.
+
+\section{IPsec}
+The \textit{Internet Protocol security} framework is a security architecture for IP. There are three key components, some of which each have options for implementations, these are used in combination to build up the framework:
+\begin{itemize}
+    \item Security Protocol: Either Authentication Header (AH) or Encapsulating Security Payload (ESP)
+    \item Key Management: manual or automated (using the Internet Key Exchange)
+    \item Cryptographic Algorithms, for authentication and encryption
+\end{itemize}
+
+As we can predict, IPsec provides confidentiality, integrity, authentication and anti-replay mechanisms. \textit{Confidentiality} is provided through encryption of data meaning only the sender and receiver can read the data. \textit{Integrity} is provided by calculating and verifying hashes to enable the receiver to check the packet was not modified in transit. \textit{Authentication} is enabled through ensuring that the sender and receiver authenticate each other to make sure that they are communicating with the intended entity. \textit{Anti-replay} prevents duplicate packet transmission, and is supported in IPsec through assigning each packet a sequence number. 
+
+The cryptographic algorithms, as mentioned above, are not explicitly stated in the IPsec framework. Rather the framework leaves space for a modular system of protocols to be inserted depending on the requirements of the network. However, the selected algorithms must come from a list of approved algorithms such that they work with AH and ESP; similarly for IKEv2.
+
+Due to each component of IPsec being specified under separate intertwined specifications, a single component can be updated without the entire specification having to be re-written.
+
+IPsec creates a boundary between unprotected and protected interfaces for a host or a network. For example on a edge router between a LAN and the Internet.  Then when traffic wants to cross this boundary, one of three things happens:
+\begin{itemize}
+    \item traffic passes unimpeded
+    \item traffic is afforded security services via AH or ESP and sent on its merry way
+    \item traffic is discarded
+\end{itemize}
+
+IPsec is used to protect traffic in numerous different scenarios:
+\begin{itemize}
+    \item between a pair of hosts
+    \item between a pair of security gateways - as in a site-to-site connection over the internet
+    \item between a security gateway and a host - as in a teleworker connecting to the head office
+\end{itemize}
+
+
+\subsection{Security Protocols}
+\textit{Authentication Header} (AH) provides data integrity, authentication of IP packets, and protection against replay attacks. The first two are achieved through the use of a Message Authentication Code (MAC), i.e. HMAC-SHA1-96. IP packets expand when AH added with item such as:
+\begin{itemize}
+    \item next header - type of the header following this header
+    \item payload length - length of AH
+    \item Security Parameter Index (SPI) - identifies a SA
+    \item sequence number
+    \item authentication data
+\end{itemize}
+
+\textit{Encapsulating Security Protocol} (ESP) provides the functionality of AH, plus confidentiality. When applied to an IP packet, ESP adds an ESP header, encrypts the payload, and adds an ESP trailer. An ESP packet contains:
+\begin{itemize}
+    \item security parameter index (SPI)
+    \item sequence number
+    \item payload data (encrypted)
+    \item padding - to achieve data length that is a multiple of 32 bits (encrypted)
+    \item padding length (encrypted)
+    \item next header (encrypted)
+    \item (optional) authentication header
+\end{itemize}
+
+\subsection{Modes of Operation}
+There are two modes of operation: \textit{transport mode} and \textit{tunnel mode}. A host implementation of IPsec must support both transport and tunnel modes; while a security gateway implementation must support tunnel mode and may support transport mode.
+
+\textit{Transport mode} is the least secure of the two. Only the payload of the IP packet is always protected; with the header not encrypted in ESP, but some components of it encrypted in AH. The data is protected from source to destination, but the header information is transmitted as cleartext. This is used predominantly between hosts. 
+
+\textit{Tunnel Mode} is the more secure of the options. The entire IP packet is encrypted (this meaning both the IP header and payload), and this becomes the payload of a new IP packet. The new (outer) IP packet may contain different source and destination addresses, obfuscating the original source and destination data. This provides data flow confidentiality to some extent and can be used in gateway-gateway, host-host, or host-gateway paradigms. 
+
+\subsection{Methods of IPsec}
+
+There are four combinations of security protocol and operating mode. These all come in context of the original IP packet, as below.
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \node[name=data, rectangle split, 
+         rectangle split horizontal, 
+         rectangle split parts=3, 
+         rectangle split draw splits=true, 
+         draw,
+         text width=2.5cm,
+         align=center,
+         font=\strut
+         ] (main) 
+        {IP Header \nodepart{two} TCP Header 
+              \nodepart{three} Data};
+
+    \end{tikzpicture}
+    \caption{Original IP Packet}
+\end{figure}
+
+\subsubsection{Authentication Header: Transport Mode}
+In transport mode, while using AH, the HMAC is computed over:
+\begin{itemize}
+    \item immutable header fields (the fields that do not change in transit) which include source address, IP header length
+    \item the AH (except authentication data field)
+    \item IP data
+\end{itemize}
+The values for the excluded fields are set to zero during HMAC computation.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \node[name=data, rectangle split, 
+         rectangle split horizontal, 
+         rectangle split parts=4, 
+         rectangle split draw splits=true, 
+         draw,
+         text width=2.5cm,
+         align=center,
+         font=\strut
+         ] (main) 
+        {IP Header \nodepart{two} AH Header 
+              \nodepart{three} TCP Header
+              \nodepart{four} Data};
+
+        \draw[<->, >=stealth, thick] 
+            ([yshift=-2mm]main.south west) -- 
+            ([yshift=-2mm]main.south east) 
+            node[midway, below] {Authenticated};
+
+    \end{tikzpicture}
+    \caption{AH Transport Mode}
+\end{figure}
+
+\subsubsection{Authentication Header: Tunnel Mode}
+In tunnel mode while using AH, the HMAC is computed over:
+\begin{itemize}
+    \item immutable header fields (fields that do not change in transit) which include source address, IP header length
+    \item the AH (except authentication data fields)
+    \item IP data
+\end{itemize}
+The values for excluded fields are set to zero during HMAC computation.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \node[name=data, rectangle split, 
+         rectangle split horizontal, 
+         rectangle split parts=5, 
+         rectangle split draw splits=true, 
+         draw,
+         text width=2.5cm,
+         align=center,
+         font=\strut
+         ] (main) 
+        {New IP Header \nodepart{two} AH Header
+              \nodepart{three} IP Header 
+              \nodepart{four} TCP Header
+              \nodepart{five} Data};
+
+        \draw[<->, >=stealth, thick] 
+            ([yshift=-2mm]main.south west) -- 
+            ([yshift=-2mm]main.south east) 
+            node[midway, below] {Authenticated};
+
+    \end{tikzpicture}
+    \caption{AH Tunnel Mode}
+\end{figure}
+
+\subsubsection{Encapsulating Security Payload: Transport Mode}
+Authentication is only provided over ESP header and data fields. Only the data is encrypted, meaning the source and destination are clear.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \node[name=data, rectangle split, 
+         rectangle split horizontal, 
+         rectangle split parts=6, 
+         rectangle split draw splits=true, 
+         draw,
+         text width=2.5cm,
+         align=center,
+         font=\strut
+         ] (main) 
+        {IP Header \nodepart{two} ESP Header
+              \nodepart{three} TCP Header 
+              \nodepart{four} Data
+              \nodepart{five} ESP Trailer
+              \nodepart{six} ESP Auth};
+
+        \draw[<->, >=stealth, thick] 
+            ([yshift=-2mm]main.two split south) -- 
+            ([yshift=-2mm]main.five split south) 
+            node[midway, below] {Encrypted};
+
+        \draw[<->, >=stealth, thick] 
+            ([yshift=-8mm]main.one split south) -- 
+            ([yshift=-8mm]main.five split south) 
+            node[midway, below] {Authenticated};
+
+    \end{tikzpicture}
+    \caption{ESP Transport Mode}
+\end{figure}
+
+\subsubsection{Encapsulting Security Payload: Tunnel Mode}
+Authentication is only provided over ESP Header and Data, not over IP header fields. The entire payload is encrypted, meaning that the real source and destination addresses are hidden. 
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \node[name=data, rectangle split, 
+         rectangle split horizontal, 
+         rectangle split parts=7, 
+         rectangle split draw splits=true, 
+         draw,
+         text width=2cm,
+         align=center,
+         font=\strut
+         ] (main) 
+        {New IP Header \nodepart{two} ESP Header
+              \nodepart{three} IP Header
+              \nodepart{four} TCP Header 
+              \nodepart{five} Data
+              \nodepart{six} ESP Trailer
+              \nodepart{seven} ESP Auth};
+
+        \draw[<->, >=stealth, thick] 
+            ([yshift=-2mm]main.two split south) -- 
+            ([yshift=-2mm]main.six split south) 
+            node[midway, below] {Encrypted};
+
+        \draw[<->, >=stealth, thick] 
+            ([yshift=-8mm]main.one split south) -- 
+            ([yshift=-8mm]main.six split south) 
+            node[midway, below] {Authenticated};
+
+    \end{tikzpicture}
+    \caption{ESP Tunnel Mode}
+\end{figure}
+
+\textcolor{red}{Continue here. See WO notes to see order of lecture}
