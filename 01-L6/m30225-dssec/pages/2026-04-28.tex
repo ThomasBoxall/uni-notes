@@ -221,4 +221,153 @@ Authentication is only provided over ESP Header and Data, not over IP header fie
     \caption{ESP Tunnel Mode}
 \end{figure}
 
-\textcolor{red}{Continue here. See WO notes to see order of lecture}
+\section{Virtual Private Networks}
+A \textit{Virtual Private Network} (VPN) is a method of securely communicating data over an unsecured (or public) network. They are used in enterprise to extend connections to locations beyond the corporate trusted network. For example a teleworker uses a VPN to connect to the corporate network to access the file server, meaning the file server then doesn't have to be directly exposed to the internet. 
+
+VPNs must accomplish three things:
+\begin{itemize}
+    \item Encapsulation of incoming and outgoing data
+    \item Encryption of incoming and outgoing data (for secure VPNs)
+    \item Authentication of remote computers and remote users
+\end{itemize}
+
+Similar to IPsec, a VPN can operate in either transport or tunnel mode.
+
+\subsection{Transport Mode VPN}
+Transport mode VPNs encrypt the data within the IP packet, but not the header of the packet; meaning that the origin and destination addresses are visible should the packet be inspected. 
+
+These VPNs allow for users to connect to a remote network directly from their workstation, with the network acting as though their workstation is directly connected to the remote network. This is the popular paradigm for remote access workers to use when connecting to their office network over the Internet, by connecting to a VPN server on the perimeter of the corporate network.
+
+The VPN server acts as intermediate client and decrypts traffic coming from the client / encrypts traffic going to the client. The destination machine on the corporate network receives encrypted data and decrypts it.
+
+\subsection{Tunnel Mode VPN}
+Tunnel mode VPNs operate between two perimeter tunnel servers. These act as encryption points, encrypting all traffic that will traverse the unsecure network. On the receiving network, all traffic is decrypted by the perimeter tunnel server and released into the network in a decrypted state. This means that the end stations receive decrypted data. 
+
+The primary benefit of this model is that an intercepted packet reveals nothing about the true destination system. 
+
+\section{Internet Key Exchange}
+The \textit{Internet Key Exchange} (IKE) is a protocol used within IPsec to set up authenticated and encrypted communication channels between two devices which is used for VPN traffic. IKE is used to agree the parameters used in an IPsec communication - AH vs ESP, establish symmetric key, and cryptographic parameters used. IKE is the key management layer of IPsec. There are two versions: IKEv1 and IKEv2.
+
+\subsection{IKEv1}
+IKEv1 has two phases - the first creating the \textit{IKE SA} (IKE Phase 1) tunnel between the two connected devices. The second creates an inner \textit{IPsec SA} (IKE Phase 2) tunnel within the IKE Phase 1 tunnel. The data travels through this inner tunnel. 
+
+Phase 1 has two methods of operation: main mode and aggressive mode.
+
+\begin{extlink}
+There are diagrams showing what is written out below available in the slides available on Moodle.
+\end{extlink}
+
+\subsubsection{Phase 1: Main Mode}
+Main mode of phase 1 establishes a secure, authenticated and encrypted channel between peers using a six-message exchange:
+\begin{enumerate}
+    \item A $\rightarrow$ B: Send the local IKE proposal
+    \item B $\rightarrow$ A: Confirm the IKE proposal
+    \item A $\rightarrow$ B: Send key-related information
+    \item B $\rightarrow$ A: Send key-related information
+    \item A $\rightarrow$ B: Send identity information
+    \item B $\rightarrow$ A: Send identity information
+\end{enumerate}
+
+The first two messages are used to negotiate the parameters for establishing the IKE SA. A sends B the proposal of how it would like to communicate, offering a number of options, to which B responds with the chosen SA. 
+
+The third and fourth messages are used to exchange key related information and generate the key. 
+
+The final pair of messages, fifth and sixth, are used to exchange identity information to authenticate the peer.
+
+See below `\textit{Security Associations}' for more information on the HAGLE mnemonic and the process it outlines.
+
+\subsubsection{Phase 1: Aggressive Mode}
+Aggressive mode of phase 1 accelerates the same activities that main mode uses. This is used to establish tunnels faster, as it cuts down the number of required packets from 6 to 3. Commonly seen in the scenario where one peer has a dynamic IP address or where multiple clients connect to a single VPN gateway. 
+
+\begin{enumerate}
+    \item A $\rightarrow$ B: Send the local IKE proposal, key related information and identity information
+    \item B $\rightarrow$ A: Search for the matching IKE proposal. Sends the matching IKE proposal, key-related information, identity information and local authentication information
+    \item A $\rightarrow$ B: Responds with the local authentication information to implement authentication
+\end{enumerate}
+
+Aggressive mode is less secure than main mode as it transmits identification information in plain text without encryption.
+
+\subsubsection{Phase 2}
+IKEv1 Phase 2, known as quick mode, is used to negotiate the security parameters of the inner IPsec tunnel which is used to protect the user data passing through the tunnels. It is a three-packet configuration:
+\begin{enumerate}
+    \item A $\rightarrow$ B: Sends the IPsec parameters adn identity authentication information
+    \item B $\rightarrow$ A: Sends the matching IPsec parameters and identity information and generates keys
+    \item A $\rightarrow$ B: Sends the confirmation information and complete phase 2 negotiation
+\end{enumerate}
+
+\subsection{Security Associations}
+During phase 1 of establishing a tunnel between two peers, there are 5 steps which must be undertaken. The steps can be remembered with the HAGLE mnemonic.
+\begin{itemize}
+    \item[H] Hash Algorithm - HMAC or Hashed Message Authentication Mode
+    \item[A] Authentication Method - how peers prove their identity (more below)
+    \item[G] Diffie-Hellman Group - determines the strength of the keys used in the key exchange process
+    \item[L] Lifetime - Defines how long the Phase 1 SA remains active before it must be re-negotiated
+    \item[E] Encryption Algorithm - Specifies the algorithm used to encrypt the data 
+\end{itemize}
+
+Both sides must agree on the parameters to use and they must match, else the IPsec tunnel will fail to establish. This only applies to the Phase 1 connection - creating the management tunnel, not the phase 2 data tunnel. 
+
+\subsubsection{Diffie-Hellman Key Exchange}
+The Diffie-Hellman (DH) key exchange uses a series of mathematical operations to identity a shared secret key. It uses the modular exponentiation (power mod), represented as MODP.
+
+\begin{enumerate}
+    \item A and B agree modulus $p$ and base $g$
+    \item A chooses secret integer $a$, then sends B: $X=g^a \mod p$
+    \item B chooses secret integer $b$, then sends A: $Y=g^b \mod p$
+    \item A computes $Z=Y^a \mod p$
+    \item B computes $Z=X^b \mod p$
+    \item A and B now share the secret $Z$
+\end{enumerate}
+
+This works because $X^b \mod p = g^{ab} \mod p = g^{ba} \mod p = Y^a \mod p$
+
+\begin{example}{DH Key Exchange}
+A and B agree modulus $p=23$ and base $g=5$
+
+A chooses secret integer $a=6$ then sends B:
+\[X = g^a \mod p = 5^6 \mod 23 = 8\]
+
+B chooses secret integer $b=15$, then sends A:
+\[Y=g^b \mod p = 5^{15} \mod 23 = 19\]
+
+A computes:
+\[Z=Y^a \mod p = 19^6 \mod 23 = 2\]
+
+B computes:
+\[Z=X^b \mod p = 8^{15} \mod 23 = 2\]
+
+A and b now share a secret (the number 2).
+\end{example}
+
+\subsubsection{Authentication}
+
+\begin{todo}
+Come back to this, look at `diagrams' on Moodle slides and videos to make sense of it.
+\end{todo}
+
+\subsection{IKEv2}
+IKEv2 is a revised version of IKEv1. It revises 12 things:
+\begin{enumerate}
+    \item Define entire protocol in 1 document, replacing 2 RFCs; incorporate changes to support NAT Traversal, Extensible Authentication and remote address acquisition
+    \item Simplify IKE by replacing the eight different initial exchanges with single four-message exchange
+    \item Remove the domain of interpretation, situation and labelled domain identifier fields, and the commit and authentication bits
+    \item Decrease IKE's latency in the common case by making the initial exchange 4 messages, and allowing piggybacking setup of Child SA on that exchange
+    \item Replace the cryptographic syntax for protecting IKE messages with one based closely on ESP to simplify implementation and security analysis
+    \item Reduce the number of possible error states by making the protocol reliable (i.e. all messages are acknowledges) and sequenced; has allowed for shortening creation of a child SA from 3 messages to 2
+    \item Increase robustness by allowing the responder to do not significant processing until it receives a message providing that the initiator can received messages at its claimed IP address
+    \item Fix cryptographic weaknesses such as the problem with symmetries in hashes used for authentication
+    \item To specify Traffic Selectors in their own payload type rather than overloading ID payloads; making more flexible the required Traffic Selectors
+    \item Specify required behaviors under certain error conditions or when data that is not understood is received in order to make it easier to make future revisions in a way that does not break backwards compatibility
+    \item Simplify and clarify how shared state is maintained in the presence of network failures and DoS attacks
+    \item Maintain existing syntax and magic numbers to the extent possible to make it likely that implementations of IKEv1 can be enhances to support IKEv2 with minimum effort.
+\end{enumerate}
+
+The IKEv2 tunnel is a single layered tunnel and is established through a single four-message exchange:
+\begin{enumerate}
+    \item A $\rightarrow$ B: IKE SA initial exchange
+    \item B $\rightarrow$ A: IKE SA initial exchange
+    \item A $\rightarrow$ B: Authentication exchange
+    \item B $\rightarrow$ A: Authentication exchange
+\end{enumerate}
+
+The firs two messages are used for IKE SA establishment and key generation. The final two messages are usd to identify authentication and the establishment of rhe first pair of IPsec SAs. 
