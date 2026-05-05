@@ -1,0 +1,229 @@
+\taughtsession{Lecture}{Transport Layer Security}{2026-05-05}{09:00}{Fahad}{}
+
+\section{SSL/TLS}
+
+The \textit{Secure Socket Layer} (SSL) aims to provide confidentiality and integrity between two communicating applications. \textit{Transport Layer Security} (TLS) ia a variant of SSLv3. SSL was originally designed for web environments by Netscape. 
+
+In this module, we'll focus on TLS 1.2 and 1.3. 
+
+These protocols provide a secure channel between the server and client. They provide server (and optionally client) authentication, confidentiality and message integrity. They run on top of the existing TCP protocol, making them transparent for application layer protocols. SSL/TLS connections act like secured TCP connections. Most protocols which run over TCP can be run over SSL/TLS instead, for example HTTP can be run on HTTPS, or SMTP can be run on SMTPS.
+
+\section{TLS}
+TLS provides a practical implementation of a hybrid encryption scheme with authentication and key exchange based on public keys. As the ciphers are negotiated in the handshake, it does not depend on the availability of any particular algorithms; nor does it depend on any secure services at the time of session establishment. The only requirement is that the public-key certificates are issued by an authority recognised by both parties. 
+
+\subsection{Maintaining Security}
+As we have already seen, to implement and maintain security - we look for the modified CIA triad, this is no different within TLS. 
+
+Authentication is provided through ensuring that the server side of the channel is always authenticated; with the client side optionally authenticated. Authentication can happen via asymmetric cryptography using RSA, Elliptic Curve Digital Signature Algorithm (ECDSA), or Edwards-Curve Digital Signature Algorithm (EdDSA); or alternatively a symmetric pre-shared key (PSK).
+
+Confidentiality is ensured through obfuscating the data while in transit so it is only visible to the endpoints. This can only happen after channel establishment, however. The data is obfuscated through tactics such as padding the TLS payload to obscure the length and improve protection against traffic analysis. The length is displayed to any threat actors, so padding is a good countermeasure especially when combined with authentication meaning the threat actor cannot see the length of the messages.
+
+Through authentication and confidentiality comes integrity. The data sent over the channel after establishment cannot be modified by attackers without detection. 
+
+\subsection{Components of TLS: A Summary}
+TLS consists of two key components, a handshake protocol and record protocol.
+
+A \textit{handshake protocol} covers the following:
+\begin{itemize}
+    \item establishes and maintains a TLS session (a secure channel) between a client and a server
+    \item authenticates the communicating parties (the client \& server)
+    \item negotiates cryptographic modes and parameters
+    \item establishes shared keying material
+\end{itemize}
+
+The handshake protocol is designed to resist tampering. This means that an attacker should not be able to force the peers to negotiate different parameters than they would if the connection were not under attack.
+
+A \textit{record protocol} covers the following:
+\begin{itemize}
+    \item data transfer, compute MAC for integrity and encrypt MAC and data for confidentiality
+    \item use parameters established by handshake protocol to protect traffic between the communicating peers
+\end{itemize}
+
+The record protocol divides traffic into a series of records, each of which are independently protected using the traffic keys.
+
+\subsection{Record Protocol}
+The TLS record protocol is a session-level protocol. It transport the application data transparently between a pair of processes, guaranteeing the confidentiality, integrity and authenticity of the data. The communicating peers can deploy decryption and authentication of messages in each direction, with each peer being able to store session identifiers for subsequent reuse, avoiding the overhead of establishing a new session.
+
+The record protocol adds a secure comms layer below existing application-level protocols which is typically used to secure HTTP interactions for internet commerce and other security-sensitive applications. It is implemented by virtually all web browsers and web servers.
+
+The protocol prefix \verb|https:| in URLs initiates the establishment of a TLS secure channel between a browser and a web server.
+
+When transmitting, the message size for transmission is first fragmented into blocks of a manageable size, then the blocks are optionally compressed. Compression is not strictly a feature of secure communication, but it is provided here because a compression algorithm can usefully share some of the work of processing the bulk data with the encryption and digital signature algorithms. 
+
+A pipeline of data transformations is set up within the TLS record layer that performs required transformations more efficiently than could be done independently. Then \textit{encryption and message authentication} (MAC) transformations deploy agreed cipher suite algorithms (see below for more on this). Finally, the signed and encrypted block is transmitted to the peer through associated TCP connection, where transformations are reversed to produce original block data. 
+
+\subsection{Master Secret}
+Regardless of which key exchange method is used in TLS, the same function calculates the `pre\_master\_secret' into the 48 byte `master\_secret'. 
+\begin{center}
+PRF(pre\_master\_secret, `master secret', ClientHello.random + ServerHello.random) [0..47];
+\end{center}
+
+When using RSA (TLS\_RSA\_), a `pre\_master\_secret' is generated by the client which is then encrypted by the server's public key and send to the server. The server uses its private key to decrypt the `pre\_master\_key'. 
+
+When using Diffie-Hellman (TLS\_DHE\_, TLS\_ECDHE\_, etc), the DH negotiated shared secret is used as the `pre\_master\_secret'. DH parameters are specified by the server and may either be ephemeral or fixed and certified.
+
+\subsection{TLS Cipher Suites}
+TLS supports a variety of options for the cryptographic functions to be used. Collectively known as a `cipher suite,' they include a single choice for each of the following:
+\begin{itemize}
+    \item Key Exchange Algorithm (and means of authentication) which establishes bulk encryption key
+    \item Bulk Encryption Algorithm - encrypts application data following handshake
+    \item MAC algorithm - used to authenticate and integrity check the message
+\end{itemize}
+
+\begin{example}{TLS Cipher Suite}
+For example, the suite:
+\begin{center}
+`TLS\_RSA\_WITH\_3DES\_EDE\_CBC\_SHA'
+\end{center}
+specifies:
+\begin{itemize}
+    \item Key Exchange - RSA
+    \item Bulk Encryption - Triple DES - Cipher Block Chaining Mode
+    \item MAC - Secure Hash Algorithm 1
+\end{itemize}
+
+Alternatively, the suite:
+\begin{center}
+`TLS\_DHE\_RSA\_WITH\_AES\_256\_CBC\_SHA256'
+\end{center}
+specifies:
+\begin{itemize}
+    \item Key Exchange - Ephemeral Diffie-Hellman with RSA signature
+    \item Bulk Encryption - Advanced Encryption Standard - Cipher Block Chaining mode
+    \item MAC - SHA256
+\end{itemize}
+\end{example}
+
+A variety of popular cipher suites are preloaded with standard identifiers in the client and the server. During the handshake, the client lists a preference of accepted cipher suites and the server responds by selecting one of them (or giving an error indication if it has none that match). The client and server also agree on a (optional) compression method and a random start value for CBC block encryption functions.
+
+Upon completion of the handshake, subsequent communication is encrypted and singed according to the agreed cipher suite and key. 
+
+\subsection{TLS Handshake}
+The TLS handshake protocol is performed over an existing connection and begins in the clear (i.e. not encrypted) with the aim of establishing a TLS session by exchanging options / parameters needed to perform encryption and authentication. The handshake sequence varies depending on what / how authentication and key exchange are achieved.
+
+The handshake protocol can also be invoked at a later time to change the specification of a secure channel. For example, communication may begin with message authentication using MACs only and then later encryption needs to be added. This is achieved by performing the handshake protocol again to negotiate a new cipher specification using the existing channel. 
+
+The message flow for a full handshake can be seen below:
+\begin{enumerate}
+    \item Client $\rightarrow$ Server: ClientHello
+    \item Server $\rightarrow$ Client: ServerHello
+    \item Server $\rightarrow$ Client: Certificate
+    \item Server $\rightarrow$ Client: CertificateRequest*
+    \item Server $\rightarrow$ Client: ServerHelloDone
+    \item Client $\rightarrow$ Server: Certificate*
+    \item Client $\rightarrow$ Server: CertificateVerify*
+    \item Client $\rightarrow$ Server: Change Cipher Spec
+    \item Client $\rightarrow$ Server: Finished
+    \item Server $\rightarrow$ Client: Change Cipher Spec
+    \item Server $\rightarrow$ Client: Finished
+\end{enumerate}
+
+The first two messages establish the protocol version, session ID, cipher suite, compression method and exchange random values used in the cryptography. The third, fourth and fifth messages optionally send the server certificate and request the client certificate then the server confirms it's done sending. The sixth and seventh messages are used for the client to respond with it's certificate and verify the server's provided certificate. The final four messages then change the cipher suite to the suite established during the handshake and confirm the handshake is finished handshake.
+
+The steps of the TLS handshake are shown below, including parameters of each step.
+
+Client $\rightarrow$ Server: ClientHello
+\begin{itemize}
+    \item Version: highest TLS protocol version supported by the client
+    \item ClientRandom: random number
+    \item Session ID: when resuming a session [optional]
+    \item Cipher suites: prioritised list of all supported cipher suites
+\end{itemize}
+
+Server $\rightarrow$ Client: ServerHello
+\begin{itemize}
+    \item Version: highest TLS version supported by the server (and client)
+    \item ServerRandom: random number
+    \item Session ID: implementation specific, random number
+    \item Cipher Suite: Chosen by server from list sent by client. The single strongest cipher suite supported by both server and client (else a handshake failure alert is created)
+\end{itemize}
+
+Server $\rightarrow$ Client: Certificate
+\begin{itemize}
+    \item Server sends certificate to client, client obtains server's public key and verifies certificate
+\end{itemize}
+
+Server $\rightarrow$ Client: ServerKeyExchange
+\begin{itemize}
+    \item for DHE: modulus, generator, public value
+    \item for ECDHE: prime, constants, base, order and cofactor [optional]
+    \item for RSA: none
+\end{itemize}
+
+Server $\rightarrow$ Client: Certificate Request [optional]
+
+Server $\rightarrow$ Client: ServerHelloDone
+\begin{itemize}
+    \item Marks the end of server messages
+\end{itemize}
+
+Client $\rightarrow$ Server: ClientKeyExchange
+\begin{itemize}
+    \item for DHE: modulus, generator, public value
+    \item for ECDHE: prime, constants, base, order and cofactor [optional]
+    \item for RSA: random value encrypted with server public key
+\end{itemize}
+
+Client $\rightarrow$ Server: CertificateVerify [optional]
+
+Client $\rightarrow$ Server: ChangeCipherSpec
+\begin{itemize}
+    \item Notify that the client switched to the new CipherSuite
+\end{itemize}
+
+Client $\rightarrow$ Server: Finished
+\begin{itemize}
+    \item Encrypted final message containing hash over the previous handshake message
+\end{itemize}
+
+For DHE and ECDHE both the client and server compute the joint session key based on the parameters provided. For RSA - this value is provided by the client to the server.
+
+Server $\rightarrow$ Client: ChangeCipherSpec
+\begin{itemize}
+    \item notify that server switched to a new CipherSuite
+\end{itemize}
+
+Server $\rightarrow$ Client: Finished
+\begin{itemize}
+    \item Encrypted final message containing the hash over the previous handshake message
+\end{itemize}
+
+\subsection{Resuming an Interrupted TLS Session}
+Interrupted sessions can resume if needed. The client and server store both the session ID and MasterSecret. Then the following steps can be undertaken:
+\begin{itemize}
+    \item Client sends session ID in ClientHello
+    \item Reduced protocol followed: Hello, ChangeCipherSpec and Finished messages used only (they already have encryption established previously)
+    \item New keying data is exchanged
+    \item New session keys are derived
+\end{itemize}
+
+\subsection{Vulnerabilities in TLS}
+There have been a number of vulnerabilities in TLS over the years including Heartbleed, POODLE, FREAK, SKIP-TLS, Logjam. 
+
+Heatbleed plays on the fact that the TLS heartbeat extension keeps the client and server connected even if the connection isn't currently being actively used. Occasionally, one peer will send an encrypted piece of data (called a heartbeat) to the other peer. The receiver will reply with the same encrypted piece of data, proving that the connection is still in place. The heartbeat request includes information about it's own length. 
+
+It's in this `information about it's own length' we find the flaw. OpenSSL's implementation failed to check that the request was the claimed length. if a request claimed to be 40KB but was only 20KB, the receiver would set aside 40KB of memory buffer then store the 20KB that it actually received. It would then return the 20KB of data it received, plus whatever happened to be in the next 20KB of memory. This had the potential to spill secrets from the contents of memory.
+
+\begin{extlink}
+There are links to information about the other vulnerabilities in the slides on Moodle.
+\end{extlink}
+
+\subsection{TLS 1.3 Differences to TLS 1.2}
+\begin{itemize}
+    \item Support for legacy symmetric encryption algorithms has been pruned 
+    \item Cipher suite concept changed to separate the authentication and key exchange mechanisms from the record protection algorithm, and a hash to be used with both the key derivation function and handshake message authentication code (MAC)
+    \item A zero round-trip time (0-RTT) mode was added, saving a round trip at connection setup for some application data, at the cost of certain security properties
+    \item Static RSA and DH cipher suites have been removed. All public-key based key exchange mechanisms now provide forward secrecy
+    \item All handshake messages after the ServerHello are now encrypted. The newly introduced EncryptedExtensions message allows various extensions previously sent in the clear int he ServerHello to be protected 
+    \item The key derivation functions have been redesigned - allowing easier analysis by cryptographers due to their new key separation properties. The HMAC-based Extract-and-Expand Key Derivation Function (HKDF) is used as an underlying primitive
+    \item The handshake state machine has been significantly restructured to be more consistent and to remove superfluous messages such as ChangeCipherSpec
+    \item Elliptic curve algorithms are now in the base spec
+    \item Other miscellaneous cryptographic improvements including changing the RSA padding to use the RSA Probabilistic Signature Scheme (RSASA-PSS) and the removal of compression, the Digital Signature Algorithm and custom Ephemeral DH groups
+    \item TLS 1.2 version negotiation mechanism has been deprecated in favour of a version list in an extension
+    \item Session resumption with and without server-side state as well as the PSK based cipher suites of earlier TLS versions have been replaced by a single new PSK exchange
+    \item References have been updated to point to the updated versions of RFC
+\end{itemize}
+
+\begin{extlink}
+The TLS message flow for a full handshake can be found in the slides on Moodle.
+\end{extlink}
