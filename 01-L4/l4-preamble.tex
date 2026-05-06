@@ -68,15 +68,18 @@ marginparsep=0mm,
 \makeatother
 
 % Reformat the chapter header so it can be used within the \lecture command
-\usepackage[raggedright,bf,sf]{titlesec}
+% titlesec import altered, original below (mods for aesthetics, May26)
+\usepackage[raggedright,bf]{titlesec}
+% \usepackage[raggedright,bf,sf]{titlesec}
 \titlespacing*{\chapter}{0pt}{5pt}{10pt}
 \renewcommand*{\chaptername}{Page}
 
 %%%%%%%%%%%%%%%%%%%%% FONTS %%%%%%%%%%%%%%%%%%%%%%%%
 
-\usepackage{fontspec}
-\setmainfont[Ligatures=TeX]{Montserrat}
-\setsansfont[Ligatures=TeX]{Montserrat}
+% Below commented out (mods for aesthetics, May26)
+% \usepackage{fontspec}
+% \setmainfont[Ligatures=TeX]{Montserrat}
+% \setsansfont[Ligatures=TeX]{Montserrat}
 % \usepackage{titlesec}
 
 %%%%%%%%%%%%%%%%%%%%% PDF METADATA & TITLE %%%%%%%%%%%%%%%%%%%%%%

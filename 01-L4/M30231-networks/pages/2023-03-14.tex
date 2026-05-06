@@ -3,39 +3,39 @@
 \textit{NB: This lecture was cut short due to Amanda needing to get to the other side of the Uni for a meeting. To be continued in next weeks lecture}
 
 
-\section{UDP or TCP}
-\subsection{User Datagram Protocol}
+\section*{UDP or TCP}
+\subsection*{User Datagram Protocol}
 User Datagram Protocol (UDP) is jokingly known as \textit{Unreliable Datagram Protocol}. This is due to the fact that there is no guarantee of delivery of the packets. UDP will treat packets a bit like a hot potato, in that it passes it onto the next node without performing any checks on the contents of the packet. This can result in undetected corruption of data (which could manifest as pixelation of media or drop in quality of streamed content etc).
 
 UDP passes the packet down to the IP layer and sends it onto the next node, with a slight modification. It doesn't care if the next node doesn't exist or if it does exist but isn't running the service request, the packet will still be sent. UDP will not request packets to be re-transmitted if they get lost and it will discard packets if they arrive late.
 
-\subsection{Transmission Control Protocol}
+\subsection*{Transmission Control Protocol}
 Transmission Control Protocol (TCP) provides reliable data communication. TCP performs integrity checking, retransmission of lost data, reordering of lost packets, etc. This means when the application receives the data, it is all correct, in the right order and not corrupt.
 
 TCP is connection oriented, which means before transmission can begin a connection must first be established which is generally done using a three-way handshake. TCP uses this connection to not only receive the data but also to notify the sender of \textit{every} packet received and its status (good, corrupt, missing, etc). This allows the sender to know if re-transmission is required or not. 
 
 If TCP receives a later packet before an earlier packet, it waits to have them in the right order before passing them up the layers. TCP uses virtual channels. 
 
-\subsection{When To Use Which?}
+\subsection*{When To Use Which?}
 UDP is the best to use for voice/ video applications as it has low delay (the only delay is the time it takes for the packets to cross the network, no delay is injected from error checking etc). TCP would re-transmit lost data which causes delay, despite a better QoS being achieved, there would be lots of delay for the end user.
 
 For the majority of other transmissions (transferring files, web pages, MSN, etc) TCP is the better to use as it has a higher QoS. 
 
-\section{Multiplexing in TCP/ UDP}
+\section*{Multiplexing in TCP/ UDP}
 Each packet is tagged with a different data type. This allows a PC to determine between web traffic and video conference data.
-\subsection{Ports}
+\subsection*{Ports}
 Every computer has 65535 ports and each TCP or UDP packet stores the port we're using as part of it's headers. Applications have ports assigned to them (for example port 80 is assigned to HTTP, port 21 assigned to FTP etc). Ports work a bit like virtual channels, in that traffic on one port is independent of traffic on another port - there is no interference between them. 
 
 As packets come into the PC the transport layer will inspect each packet and determine which port the packet needs to enter the computer on.
 
-\section{Layer 6: Presentation}
+\section*{Layer 6: Presentation}
 The presentation layer is concerned with interpreting data before the application gets it. It uses a number of techniques to achieve this.
-\subsection{Data Abstraction}
+\subsection*{Data Abstraction}
 This is concerned with taking the raw data (0s and 1s) that come into the machine nd interpreting it. For example, decoding binary to ASCII characters. 
 
 Data abstraction also converts between character sets, which can be defined in application protocols.
 
-\subsection{Secure Socket Layer}
+\subsection*{Secure Socket Layer}
 \define{Socket}{An abstraction, a means of making connections. Opens a socket to a remote host or open a socket to listen on a local port}
 
 Secure Socket Layer (SSL) encrypts data between two ends. It provides the same abstraction and can mostly slot in-between traditional sockets and the application. SSL doesn't have its own transmission medium, it uses the same as non-SSL packets.
@@ -44,13 +44,13 @@ If a SSL packet is ``picked up'' then it cannot be interrogated without the encr
 
 It is used anytime we want to send anything secure over the internet or outside our network and offers encryption and digital signatures (provides confidentiality of who we are sending to). 
 
-\section{Application Layer}
-\subsection{Client-Server Model}
+\section*{Application Layer}
+\subsection*{Client-Server Model}
 The clients take inputs from the users and send instructions to the server. The server processes the requests and produces data to send back to the client. 
-\subsection{Peer to Peer}
+\subsection*{Peer to Peer}
 Peers have information which they are willing to share with other peers and private information which they do not want to share. This makes the peers both clients and servers.
 
-\section{Domain Name Systems}
+\section*{Domain Name Systems}
 DNS is a directory of all IP addresses.
 
 Port 53 is used by UDP for queries and TCP for transfers.
@@ -65,31 +65,31 @@ There are several types of records in a DNS
 
 \marginNote{contd from here in 2023-03-26 lect}
 
-\section{HyperText Transfer Protocol}
+\section*{HyperText Transfer Protocol}
 HyperText Transfer Protocol (HTTP) is one of the standard protocols used on the web for web-browsing etc. It works by requesting one file at a time, beginning with the web-page, then any additional resources such as images/ music, etc. 
 
 \verb|http://| uses port 80 for \verb|POST| (sending data back to a webserver) and \verb|GET| (retrieving data from a webserver to a client). 
 
-\section{Email}
+\section*{Email}
 When we send an email, we need to find out the IP address of the mail server. This is done by the application requesting the XM record for the domain - eg \verb|myport.ac.uk| for a University student email.
 
 Now that we have an IP address, we can use Simple Mail Transfer Protocol (SMTP) which uses port 25. 
-\subsection{SMTP}
+\subsection*{SMTP}
 After connecting to port 25, the sender has to identify themself and that they are sending a message. The sender also has to say who they are sending to. Now the data can be sent, the headers are sent first, followed by the message body and finally the attachment. The sender then signals that they are finished. 
 
 We can also use anti-spam measures. Standard practice is to use closed relays where we only accept mail destined for that mail server and only send mail out from the mail server when the client requesting mail to be sent has an IP within a certain range, or is authenticated with a certificate or password. Another option is to use real0time blackhole lists (RBL), which automatically blocks reported email addresses which are then blocked; however this can be annoying for people who have been inadvertently placed on the list. Content scanners can be employed to block spam messages, however these are often seen as a breach of privacy.
 
 It is possible to impersonate someone by replacing the from/ to addresses in SMTP messages to whoever you wish. However, anti-spam measures exist and many mail servers reject messages not from the correct mail server for an originating domain. 
 
-\subsection{POP3}
+\subsection*{POP3}
 The Post Office Protocol v3 (POP3) is used to request mail from the server (which has been delivered to the server by SMTP). POP3 is another simple text-based protocol, which requires authorisation with username and password first then allows the user to request total messages then retrieve a single message in turn. Optionally, the messages can be deleted from the server when a client device has downloaded them. 
 
 Unfortunately, POP3 transmits the passwords in cleartext to the server (there is an extension which can be used to encrypt this) as well as transmitting the email in cleartext. 
 
-\section{The Real World}
+\section*{The Real World}
 The various things which all use the domain name, all interact through the DNS records. Typically a larger business will have one or more DNS servers on their network which handles internal domains or subdomains. This will usually include a HTTP server (running Apache, IIS, Nginx, etc) and a mail server (running Exchange, Sendmail etc).
 
 In smaller businesses, all of these services could be running on one machine but it is often better to split them up to improve redundancy, performance and ensure there is enough network capability. 
 
-\section{HTTPS}
+\section*{HTTPS}
 HyperText Transfer Protocol Secure is used for banks and other secure transactions. Server certificates are provided by the server which prove the authenticity of the server. However, they are susceptible to impersonation and the server certificates can be expensive. 

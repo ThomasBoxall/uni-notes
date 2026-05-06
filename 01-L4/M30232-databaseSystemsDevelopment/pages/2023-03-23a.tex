@@ -1,9 +1,9 @@
 \lecture{LECTURE: JSON in PostgreSQL}{2023-03-23}{13:00}{Mark}{RB LT1}
 
-\section{PostgreSQL and JSON}
+\section*{PostgreSQL and JSON}
 PostgreSQL can deal with JSON files. There are a number of differences in table creation \& other queries which have to be observed however it is not much more complex than normal database. The ability to store and query JSON in PostgreSQL was added in 2012, which means it was added after PSQL was released so JSON processing is not as native as for another NOSQL database.
 
-\section{JSON}
+\section*{JSON}
 JavaScript Object Notation (JSON) is an open format standard which consists of key \& value pairs. An example is shown below.
 \begin{pseudo}
 {"menu": {
@@ -25,10 +25,10 @@ The main usage of JSON is to transfer data between servers and web applications,
 
 A JSON record can exist within another JSON record. See \verb|menuitems| in the example above. 
 
-\subsection{Main Differences Between JSON Type Data and Traditional Data}
+\subsection*{Main Differences Between JSON Type Data and Traditional Data}
 When creating a JSON data structure, we do not know the structure of each record. This is also the case in a PostgreSQL database, we do not have a known schema or know what the data types of each value will be. 
 
-\section{Creating a Table with JSON data}
+\section*{Creating a Table with JSON data}
 A table containing JSON data still has to conform to standard rules of a PostgreSQL table. This means we have to have a primary key. This can simply be done with a ID column. An example of a simple table with an ID column and a JSON data column being created is shown below.
 \begin{sql}
 CREATE TABLE json_data(
@@ -37,14 +37,14 @@ CREATE TABLE json_data(
 );
 \end{sql}
 
-\section{Inserting data}
+\section*{Inserting data}
 \begin{sql}
 INSERT INTO json_data (data) VALUES ('{"fname" : "John", "lname" : "Doe", "order" :{"Item" : "IPA", "QTY" : 6}}');
 \end{sql}
 
 We can insert more rows using the same syntax. Note that this isn't any different from any other data-type other than the data we insert. 
 
-\section{Reading Data from table}
+\section*{Reading Data from table}
 We can read data in the same way that we would any other table.
 \begin{sql}
 SELECT data FROM json_data;
@@ -61,7 +61,7 @@ This is all well and good, we have data. We can send this off to our frontend wh
 
 PostgreSQL includes two operators to help get data from JSON documents. The \verb|-->| operator returns data by key and \verb|->| returns data by text. Which one to use depends on what you are planning on doing with the data once you get it from the database. 
 
-\subsection{Raw Values}
+\subsection*{Raw Values}
 If you want the raw values returned, you need to use the \verb|->| operator. 
 \begin{sql}
 SELECT data -> 'customer'  AS customer FROM json_data;
@@ -78,7 +78,7 @@ customer
 
 Note that the row which doesn't have a \verb|customer| key is outputted as a blank row and its existence is included in row count at the end.
 
-\subsection{Text version of the data}
+\subsection*{Text version of the data}
 The \verb|->>| operator returns the text value of the data, which will still return an empty row where the key doesn't exist. 
 \begin{sql}
 SELECT data ->> 'customer' AS customer FROM json_data;
@@ -93,7 +93,7 @@ Josh Green-Gardner
 (4 rows)
 \end{pseudo}
 
-\subsection{Which To Use?}
+\subsection*{Which To Use?}
 Exactly which of the operators you want to use depends on what you want to do with the data. The \verb|->| operator can give a JSON result and the \verb|->>| operator can be used to search inside it. An example can be seen below.
 \begin{sql}
 SELECT data -> 'items' ->> 'product' as product
