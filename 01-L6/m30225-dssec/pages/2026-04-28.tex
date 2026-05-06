@@ -340,10 +340,44 @@ A and b now share a secret (the number 2).
 \end{example}
 
 \subsubsection{Authentication}
+There are three different authentication options used.
 
-\begin{todo}
-Come back to this, look at `diagrams' on Moodle slides and videos to make sense of it.
-\end{todo}
+The \textit{Pre-Shared Key} option requires the two peers to have already established a shared key which they both know. They then undergo a six-message exchange to generate the session key and authenticate each other:
+\begin{enumerate}
+    \item Initiator $\rightarrow$ Responder: HDR, SA
+    \item Responder $\rightarrow$ Initiator: HDR, SA
+    \item Initiator $\rightarrow$ Responder: HDR, KE, Ni
+    \item Responder $\rightarrow$ Initiator: HDR, KE, Nr
+    \item Initiator $\rightarrow$ Responder: HDR*, IDii, HASH-I
+    \item Responder $\rightarrow$ Initiator: HDR*, IDir, HASH-R
+\end{enumerate}
+
+The first two messages are used for Initiator to tell the responder what possible Security Association (SA) options it can use, with the responder responding to confirm which of the options are suitable for it. The third and fourth messages contain the DH public keys (KE) and nonces (Ni and Nr) which are random numbers. This allows each side to then generate the shared secret without ever sending that over the connection. The final two messages are encrypted, hence the *, and contain the IDs (IDii and IDir) and a hash to prove they both know the pre-shared key (HASH-I and HASH-R). 
+
+An alternative to using pre-shared keys is to use \textit{Signatures} for authentication. In a similar way to above, this operates a six-message exchange to authenticate each peer:
+\begin{enumerate}
+    \item Initiator $\rightarrow$ Responder: HDR, SA
+    \item Responder $\rightarrow$ Initiator: HDR, SA
+    \item Initiator $\rightarrow$ Responder: HDR, KE, Ni
+    \item Responder $\rightarrow$ Initiator: HDR, KE, Nr
+    \item Initiator $\rightarrow$ Responder: HDR*, IDii, [CERT], SIG-I
+    \item Responder $\rightarrow$ Initiator: HDR*, IDir, [CERT], SIG-R
+\end{enumerate}
+
+The first four messages are the same, it's the final two where there are differences. In message 5 and 6, a signature (SIG-I and SIG-R) are exchanged. This is the alternative to proving that they know the pre-shared key (i.e. by hashing it) as was completed above. The signature should match a hash which has been digitally signed using an agreed algorithm and the public key of the non-sending peer; so then the peer which receives the signature can decrypt using it's private key to then verify the sender. The optional certificate gets transmitted when the receiving peer doesn't already have the sending peer's public key. A peer is authenticated by extracting the public key from the certificate (or it's memory), validating that the certificate is signed by a trusted CA, then using that public key to decrypt the signature; if it matches then responder knows that the initiator is who the initiator says they are.
+
+The third and final authentication method is using \textit{Public Key Encryption}. This also uses a six-message exchange, however it is advances the identity proving to the third and fourth steps:
+\begin{enumerate}
+    \item Initiator $\rightarrow$ Responder: HDR, SA
+    \item Responder $\rightarrow$ Initiator: HDR, SA
+    \item Initiator $\rightarrow$ Responder: HDR, KE, [HASH(1)], <IDii-b>PubKey-r, <Ni-b>PubKey-r
+    \item Responder $\rightarrow$ Initiator: HDR, KE, HDR, KE, <IDir-b>PubKey-r, <Nr-b>PubKey-i
+    \item Initiator $\rightarrow$ Responder: HDR*, HASH-I
+    \item Responder $\rightarrow$ Initiator: HDR*, HASH-R
+\end{enumerate}
+
+The first two messages remain the same, with the initiator and responder negotiating parameters for the communication. The third message is different, however; the initiator takes the responders public key and uses it to encrypt it's own identity (IDii-b) and it's nonce (Ni-b). The responder echos this in message four, using the initiator's public key to encrypt it's own identity and nonce. This works here due to the fact that the responder (message 3) and initiator (message 4) are the only people holding the private key needed to decrypt the body of the message, and therefore this inherently proves their identity. Message 5 \& 6 are used to transmit the hashes (HASH-I and HASH-R) of the keys to confirm both sides have derived the same key.
+
 
 \subsection{IKEv2}
 IKEv2 is a revised version of IKEv1. It revises 12 things:
