@@ -1,0 +1,115 @@
+\taughtsession{Lecture}{Auditing}{2026-04-21}{14:00}{Shikun}{}
+
+\textit{NB. This is an abridged version of the lecture. Materials were only published for some of the content covered, it is assumed the content without published materials will not be included in the final exam.}
+
+\section{Introduction}
+\textit{Audit} is derived from the Latin word `audire' which means to hear authenticity of accounts is assured with the help of independent review. 
+
+This is a concept which originated in the world of finances, where accounts would be scrutinised to ensure their authenticity, accuracy and legality. This concept has leached into cyber security as reporting on activities is also a vital activity. The concept of auditing has also percolated into other areas of society, for example a University module having an external examiner to validate the work of the internal module team.
+
+Auditing provides an intelligent an critical examination and exhibits an accurate and fair view of the state of affairs of concern. Within cyber security, an audit is performed to ascertain the validity and reliability of Security Policy and its enforcements. This is used to detect and prevent error \& fraud, and to check the effectiveness of security systems.
+
+The systematic evaluation of IT infrastructure involved in auditing can detect high-risk activities, threats and vulnerabilities. This ensures that security measures are either in place, or identifies gaps, to protect against cyber attacks. 
+
+\section{Types of Audits}
+There are a number of different types of audits, used in different scenarios.
+
+\subsection{Process Audit}
+A \textit{process audit} verifies that processes are working within established limits. They evaluate the an operator or method against the written security policy to measure conformance to said policy and to record the effectiveness of a security system. 
+
+A process audit can also examine the resources, the environment, the method followed and the measurements collected to determine process performance. This information is then used to check the adequacy and effectiveness of the process controls established by procedures and instructions, flowcharts as well as training and process specification.
+
+For example an audit may examine the process followed when an employee laterally moves within a company, to ensure access to systems they no longer require access to is revoked.
+
+\subsection{Product Audit}
+A \textit{product audit} is an examination of a particular security product or service. It may look at hardware, software or servers. Product audits seek to evaluate whether said product or service conforms to security requirements.
+
+For example, a product audit may explore a piece of software to seek out vulnerabilities which expose sensitive data in an unauthenticated way or allow an adversary to access components of the system they should not have access to.
+
+\subsection{System Audit}
+A \textit{system audit} is an audit conducted specifically on a management system. They manifest as a documented activity performed to verify, by examination and evaluation of objective evidence, that applicable elements of the system are appropriate and effective, and have been developed, documented, and implemented in accordance and conjunction with specified requirements. This may be seen as an audit to verify compliance with ISO 27001 or SOC 2.
+
+For example, taking a list of users and permissions in the ERP and identifying who has access to approve spend (on paperclips) that they shouldn't.
+
+\section{Auditing Process}
+There are three key sections to the auditing process:
+\begin{enumerate}
+    \item Reviewing Security Policies - This ensures the policies are written in a way such that they align with the industry standards, or good practice guidelines.
+    \item Evaluating Security Practices - Checking if the defined security protocols are being followed.
+    \item Assessing Risk Management - Identifying potential threats and their impact.
+\end{enumerate}
+
+\section{Logging}
+Much of modern auditing is automated - for example notifications sent to all Administrators for a system when a significant change is made, or when a suspicious login is detected. Even if no alerts are sent, activities conducted by users and administrators will commonly be logged. \textit{Logging} is the idea of recording system events and interactions. Having this data available is a useful concept for auditing where analysis of log records form a type of logging. 
+
+So this automated logging and notification system, as part of an auditing system, would have three components:
+\begin{itemize}
+    \item Logger - to capture the data as it happens
+    \item Analyser - to review the log entries and flag anomalies / high risk activities
+    \item Notifier - to send notification to the relevant people(s).
+\end{itemize}
+
+\subsection{Logging on Single Workstations}
+In Linux \& Unix derived systems system logs are captured in the \verb|/var/log/| directory using daemons such as \verb|klogd| and \verb|syslogd|. In Windows logs are confined to the Event Viewer where they can be reviewed with great pain and suffering. However in more complex setups, beyond a single workstation, \textit{Syslog} can be used as a central logging tooling.
+
+\subsection{Syslog}
+Syslog is used to collect log messages generated by a device or an application and report to a centralised \textit{syslog server}. This server may collect logs from different network devices (routers, switches, servers, firewalls, etc) and archives them in a secure location where they can be processed. The UI for the syslog server will provide searching and sorting capabilities on the logs for ease of access. 
+
+Syslog messages are assigned as severity level as can be seen below.
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.1\textwidth} p{0.2\textwidth} p{0.4\textwidth}}
+    \thead{Code} & \thead{Severity} & \thead{Description}\\
+    0 & Emergencies & System inoperable\\
+    \hline
+    1 & Alerts & An immediate intervention is required \\
+    \hline
+    2 & Critical & Critical System Error \\
+    \hline
+    4 & Warnings & Warning (an error may occur if no action is taken) \\
+    \hline
+    5 & Notifications & Normal event that must be reported \\
+    \hline 
+    6 & Informative & For information \\
+    \hline 
+    7 & Debug & Debugging message\\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{Syslog severity levels}
+\end{table}
+
+An example Syslog message is shown below, conveying that the state of S0/0/1 has changed to down. 
+
+\textit{39345: May 22 13:56:35.811: \%LINEPROTO-5-UPDOWN: Line protocol on Interface Serial0/0/1, changed state to down}
+
+\section{Simple Network Management Protocol}
+\textit{Simple Network Management Protocol} (SNMP) is used to monitor the performance of the network and know the overall state of devices (active, inactive, partially operational, network gridlocked, etc); to detect problems on the network equipment nd manage exceptional events (such as loss of a network link, equipment suddenly ceasing to function, etc); and to configure equipment.
+
+SNMP works on the application layer and uses UDP on port 162 to communicate. 
+
+SNMP provides an integrated collection of tools for network monitoring and control, with a single operator interface. There is a minimal amount of separate equipment as the software and network communications capability is built into the existing equipment. 
+
+The key elements of SNMP are listed below:
+\begin{itemize}
+    \item Management station
+    \item Management agent
+    \item Management information base
+    \item Network management protocol (get, set and notify)
+\end{itemize}
+
+The \textit{SNMP manager} is the host that executes the SNMP management software. Commonly this is a computer that is used to monitor the network. The \textit{SNMP agent} is the software running on the network device (router, switch, etc) that allows it to be monitored. The \textit{management information base} (MIB) is a set of object collections management by the SNMP agent; each collection contains a certain number of variables that may be consulted or modified by the SNMP manager. 
+
+There are multiple version of SNMP - SNMPv1, SNMPv2 and SNMPv3. SNMPv1 is `connectionless' as it uses UDP; while SNMPv2 is `connection-oriented' as it uses TCP.
+
+SNMPv1 has a community facility which manages the relationship between a SNMP agent and SNMP manager. There are three aspects of agent control:
+\begin{itemize}
+    \item authentication service
+    \item access policy
+    \item proxy service
+\end{itemize}
+
+SNMPv3 defines a security capability to be used in conjunction with SNMPv1 or v2. This is provided through the \textit{User-based Security Model} (USM) which provides authentication, integrity and encryption for network messages. USM is designed to secure against modification of information, masquerade attacks, message stream notification and disclosure. However it is not intended to secure against DoS attacks or traffic analysis.
+
+SNMP data can be secured further using \textit{View-based Access Control Model} (VACM) which has two characteristics we care about. VACM determines whether access to a managed object should be allowed; and also makes use of a MIB that defines the access control policy for the agent and makes it possible for remote configuration to be used. 
