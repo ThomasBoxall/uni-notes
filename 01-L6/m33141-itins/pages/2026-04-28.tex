@@ -33,7 +33,17 @@ There have been a number of Wireless standards over the years, with the base sta
     \caption{802.11 standards}
 \end{table}
 
-It's worth noting that some standards are backwards compatible with other standards. For example 802.11g is backwards compatible with 802.11b.
+It's worth noting that some standards are backwards compatible with other standards. For example 802.11g is backwards compatible with 802.11b. There are many revisions of the 802.11 standard, not just the simple `Wi-Fi' revisions we all know and love:
+\begin{itemize}
+    \item 802.11a/b/g/n/ac/ax: 2.4 GHz, 5 GHz, 11 Mbps to 11 Gbps
+    \item 802.11d: Multiple regulatory domains
+    \item 802.11e: Quality of Service
+    \item 802.11f: Inter-Access Point Protocol (IAPP)
+    \item 802.11h: Dynamic Frequency Selection (DFS) \& Transmit Power Control (TPC)
+    \item 802.11i: Security
+    \item 802.11j: Japan 5 GHz Channels (4.9 - 5.1 GHz)
+    \item 802.11k: Measurements
+\end{itemize}
 
 Wi-Fi isn't the only wireless communication method we have and use daily. We are familiar with cellular, Bluetooth (with the network created known as a Personal Area Network, or PAN), Ultra-Wide-Band (UWB) and Free-Space-Optics (where a laser beam is shone from transmitter to receiver through thin air). These have all evolved over the years, similar to Wi-Fi, and aren't covered in detail in this module. 
 
@@ -42,4 +52,81 @@ The wireless networks we'll be talking about in this lecture fit within the LAN 
 When in a LAN, the wireless component is conveniently dubbed a WLAN (Wireless Local Area Network). 
 
 \section{Wireless Local Area Network Components}
-sl15-31
+There are lots of components used in a WLAN. 
+
+The most visible component is the `Wireless Access Point' - which is the antenna-d thing that broadcasts the wireless signals. These may have internal or external antenna depending on the model; which also can dictate their transmit and receive power. Antenna come in pairs with different ones being used for transmit and receive. 
+
+The client devices also have to have an adapter to enable them to communicate on the network. This may either be fully integrated as a chip directly soldered onto the motherboard, a separate removable chip, or as some external device connecting over either specialist connectors or a more conventional connector such as USB. Fully integrated client adapters, such as those found in mobile phones, are able to be very small as they utilise the phone's case as the antenna, reducing the chips footprint. It can also be commonly found that the client adapter may contain the circuitry for more than one wireless communication medium - with Bluetooth and Wi-Fi being bundled into a single chip commonly. 
+
+Where it is impractical to run a cable between two different locations, a wireless bridge can be used. This is a very specifically angled unit which points to another specifically angled unit and they beam the LAN between them. The achieved range can be anywhere between 1 and 10 km depending on the units used and the line-of-sight conditions, as well as weather. 
+
+There are many other devices which are enabled for use on WLANs. These can include cars which use home Wi-Fi to update their software; fridges which generate smart shopping lists; doorbells who stream over Wi-Fi the live feed of who is at the door; or printers, who still refuse to print.
+
+There is, however, a more dangerous side to wireless connected devices; in that the more devices we connect to the Wi-Fi, the more attack vectors there are on our internal network and clues into our lives. Take, for example, a smart, autonomous vacuum cleaner who can pootle around and suck up dust. This device may have a camera as part of it's mapping and collision detection software. This camera may inadvertently capture something such as where valuables are kept which is highly valuable information for burglars. Alternatively, they may map the property and transmit this over the internet, showing the burglars a floor plan of the property - enabling them to plan a more sophisticated attack. 
+
+The network industry has segmented consumer and business products into two different categories and different price ranges. Yes, `prosumer' does exist - but that's not talked about here... Cisco only offers business class products. 
+
+\section{WLAN Solutions}
+\subsection{Requirements}
+There are four main requirements for a WLAN solution:
+\begin{itemize}
+    \item High Availability - the WLAN should be available with as much time as possible, striving for 99.99\% uptime
+    \item Scalability - the WLAN should be able to be expanded and contracted as needed to suit changes in the organisation
+    \item Manageability - the WLAN should be easy to manage in a cohesive way
+    \item Open Architecture - the WLAN should use disaggregated hardware where possible as this breaks the reliance on proprietary single-vendor systems
+\end{itemize}
+
+\subsection{Challenges}
+The biggest challenge faced by WLAN solutions is radio signal interference. Interference cannot always be detected by the radios, which means radios may continue to transmit in a feedback loop, while the receivers cannot make sense of the garbled nonsense received. Some newer systems include precautions against this, however they're not perfect. The interference issues stem from the fact that the 802.11 standards use an unlicensed spectrum to transmit within. 
+
+The biggest interference inducing devices can be baby monitors, mobile phones, and microwaves.
+
+\subsection{Health Issues}
+WLAN devices can pose health issues. High power radio waves are not good for the human body, as they can do things to cells. Wireless access points contain high power radios and therefore can do bad things to the body. 
+
+\section{Threats, Vulnerabilities \& Attacks}
+Security will be discussed at length further down the page, but for now let's look at some threats and vulnerabilities... 
+
+One of the biggest issues within WLAN environments isn't technical - it's human. Not turning on authentication for the network is surprisingly common, with some routers defaulting to this setting. Not having authentication requirements allows anyone and everyone to connect to the wireless network and access all the devices inside it. It would be almost like having an ethernet port on the outside of a secure building allowing access to the inner-sanctum to anyone who plugged into it. 
+
+\subsection{Vulnerabilities}
+There are four major vulnerabilities within WLAN environments:
+\begin{itemize}
+    \item Specialised attacks - more on this below.
+    \item Technology weakness - this is some issue with the technology, such as signals extending too far, using a shares spectrum or client isolation being incorrectly configured.
+    \item Configuration weakness - this is some setting which has been set incorrectly, or in an insecure way within the WLAN environment. It could include using outdated or insecure encryption or lack of guest isolation. 
+    \item Default administrator password - this enables anyone (good or bad) connected to the network to easily guess and access the administrative controls and change settings, often for their personal gain such as adding backdoors or bypassing security configuration to gather information on the users of the network.
+\end{itemize}
+
+\subsection{Threats}
+There are four major threat classes within the WLAN environment:
+\begin{itemize}
+    \item Unstructured threats - making use of easily available hacking tools
+    \item Structured threats - making use of more sophisticated hacking tools, or bespoke tooling created by a hacker.
+    \item External threats - someone external to the organisation
+    \item Internal threats - someone internal to the organisation, reportedly this is between 60\% to 80\% of incidents
+\end{itemize}
+
+\subsection{Attacks}
+The aim of an attack is for an unauthorised intruder to gain access to a WLAN. This often involves running a \textit{hack script} or \textit{tool}. These scripts can include:
+\begin{itemize}
+    \item exploiting a weak or non-existent password
+    \item exploiting services such as HTTP, FTP, SNMP, CDP or Telnet
+\end{itemize}
+
+The first type of attack is a \textit{Reconnaissance} attack. This is the unauthorised discovery and mapping of systems, services, or vulnerabilities. This is not usually illegal, but is illegal in some countries. Reconnaissance of a wireless system is often called \textit{wardriving}. There are commercial wireless analysers which can be used to facilitate this attack. A common reconnaissance attack is to identify Wi-Fi networks with no password protection. This can be achieved using specialist software while driving or walking around a neighbourhood, which can even geographically map the networks with no security.
+
+\begin{extlink}
+The slides on Moodle include a list of tools for wardriving. 
+\end{extlink}
+
+The second flavour of attack is a \textit{rogue access point (AP) attack}. In this attack, an unauthorised AP is introduced into the physical environment. This has a strong signal, often-times stronger than the legitimate network, and tricks users into connecting to it and therefore sharing their passwords and sensitive information with the attackers. Some specialist software, such as CiscoWorks WLSE can detect rogue APs and report to network administrators.
+
+\textit{Wired Equivalent Privacy} (WEP) attacks can include bit flipping, replay attacks and weak IV collection. WEP is a Wi-Fi security protocol (covered a bit later). Bit flipping relates to modification of encrypted messages because the messages are encrypted using a simple XOR operation. Replay attacks relates to replaying a message at a later time, where the receiver will assume these are legitimate packets and process them. Weak Initialisation Vector (IV) collection can be used to capture data packets and use the weak keys within them to reconstruct the original WEP password. 
+
+\textit{Denial of Service} attacks work much like they do with wired networks where an attacker floods a device with many packets so it becomes overwhelmed and unable to process or respond to them. In the wireless environment this uses a specialised device which can often provide this packet flooding for many different wireless protocols. 
+
+The final attack covered here is \textit{WLAN Jack} which is a piece of software that sends fake disassociation packets to the access point, masquerading as the target device on the network. This disassociates the target device from the access point and therefore means the target device has to reconnect to the AP. 
+
+\section{WLAN Security}
+58-116
