@@ -129,4 +129,307 @@ The second flavour of attack is a \textit{rogue access point (AP) attack}. In th
 The final attack covered here is \textit{WLAN Jack} which is a piece of software that sends fake disassociation packets to the access point, masquerading as the target device on the network. This disassociates the target device from the access point and therefore means the target device has to reconnect to the AP. 
 
 \section{WLAN Security}
-58-116
+As with all security we have seen so far, WLAN security forms a similar cyclical structure: secure, monitor, test, repeat.
+
+\subsection{First Generation Wireless Security}
+In early WLAN environments, security was considered less than it is in modern environments. First generation wireless security was considered `secure' if the SSID (Service Set Identifier) was hidden; and/or if MAC (Media Access Control) address allowlisting was enabled on the wireless network. The later only allowed `approved' devices to connect to the wireless network. There were no passwords and therefore minimal authentication.
+
+Neither of these options were secure. Due to the fact that the wireless signals were still broadcasted through the air, anyone could `sniff' them and see the names of the SSIDs and MACs of the allowlisted devices. From this a threat actor could spoof a MAC address and connect to the network.
+
+The obfuscation of the SSID would be a setting to be configured on an AP where the administrator would intentionally disable the advertisement of the SSID and therefore make it harder for anyone to connect. However as above - this doesn't stop intentional hackers from compromising the network. 
+
+\subsection{Wired Equivalent Privacy}
+The \textit{Wired Equivalent Privacy} (WEP) protocol was introduced to combat the security issues with the first generation of WLANs. WEP was architecturally vulnerable and has been phased out, but is still relevant to learn about.
+
+When WEP was introduced, the 802.11 WEP standard specified the use of a 40-bit key. This was extended by vendors to use 128-bits or more. The encryption used in WEP is based upon an existing type - Rivest Cipher 4 (RC4). The goal of WEP was to be as secure as a wired LAN. 
+
+WEP offered services including access control, message confidentiality and message integrity. The access control took form as a challenge-response protocol:
+\begin{enumerate}
+    \item Client $\rightarrow$ AP: authenticate request
+    \item AP $\rightarrow$ Client: authenticate challenge, $r$ [where $r$ is 128 bits long]
+    \item Client $\rightarrow$ AP: authenticate response, $e_K(r)$
+    \item AP $\rightarrow$ Client: authenticate success / failure
+\end{enumerate}
+
+There are two kinds of keys used within WEP. A \textit{default key} (also known as a \textit{shared key}, \textit{group key}, \textit{multicast key}, \textit{broadcast key}, or simply \textit{key}) is an alphanumeric key which must be entered into every device attempting to use the wireless network. Some wireless routers can support up to four default keys. The second type of key used is called a \textit{key mapping key} (or \textit{individual key}, \textit{per-station key}, or \textit{unique key}) which is a key that is only used to connect a single client device to the network. Whereas a default key would be used by all the client devices on the network, a unique key is only used for a single client device. In reality, it is common for only default keys to be supported.
+
+WEP is flawed. The authentication is only one way, with the client providing it's authenticity to the AP but not the AP proving anything to the client. The same shared secret key is used for all authentication and encryption meaning it is very easy, once the key has been cracked, to decrypt all communications. There is also no session key established during authentication - this means that the replay of client messages is possible. Once a session between Client and AP has been authenticated, there is no ongoing authentication / validation of the client. This means that it would be entirely possible for a session to be hijacked and not noticed until that session comes to an end. 
+
+\section{Authentication and Association}
+\textit{Open Authentication} and \textit{Shared Key Authentication} are the two methods that the 802.11 standard defines for clients to connect to an access point. There are three elements to the `connection' process:
+\begin{enumerate}
+    \item Probe 
+    \item Authentication
+    \item Association
+\end{enumerate}
+
+The \textit{probe} stage of joining the network allows the client to identify what APs are suitable for it to use and to select the most suitable. The \textit{authentication} stage of joining a wireless network verifies the identity of the client who is attempting to join the network. The \textit{association} stage establishes the data link between the client and AP to enable them to access the network. 
+
+After the probe process, the client is in state 1: unauthenticated and unassociated. After a successful authentication process, the client is in state 2: authenticated and unassociated. After a successful association process, the client is in state 3: authenticated and associated.
+
+This process, obviously, is more complex than three states - below is an example of the probe, authentication and association process for a single client and two access points within it's reach:
+\begin{enumerate}
+    \item Client $\rightarrow$ AP A \& AP B: Probe
+    \item AP A \& AP B $\rightarrow$ Client: Probe response, client evaluates response and selects best AP
+    \item Client $\rightarrow$ AP A: Authentication request
+    \item AP A $\rightarrow$ Client: Confirms authentication
+    \item Client $\rightarrow$ AP A: Association request
+    \item AP A $\rightarrow$ Client: Confirms association and registers client
+\end{enumerate}
+
+\subsection{Open Authentication}
+\textit{Open Authentication}, in reality, means `no authentication.' In the real world, this would look like a network with no authentication requirements to be able to join it - meaning no password or certificate needed. The frame used for authentication will include the following fields:
+\begin{enumerate}
+    \item Frame control
+    \item Duration
+    \item DA
+    \item SA
+    \item BSSID
+    \item Sequence Control
+    \item Authentication Algorithm Number Field
+    \item Authentication Transaction Sequence Number Field
+    \item Status Code Field
+    \item Challenge Text IE (optional)
+\end{enumerate}
+
+The authentication process for open authentication is simple:
+\begin{enumerate}
+    \item Client $\rightarrow$ AP: Authentication request
+    \item AP $\rightarrow$ Client: Authentication response
+\end{enumerate}
+
+This process involves the client:
+\begin{itemize}
+    \item Sets the `Authentication Algorithm Number' to \verb|0| meaning open system
+    \item Sets the `Authentication Transaction Sequence Number' to \verb|1|
+\end{itemize}
+
+And involves the AP:
+\begin{itemize}
+    \item Sets the `Authentication Algorithm Number' to \verb|0|
+    \item Sets the `Authentication Transaction Sequence Number' to \verb|2|
+    \item Sets the `Status Code' to \verb|0| meaning successful
+\end{itemize}
+
+Authentication and data encryption are two different things. Authentication is concerned with proving who you say you are and data encryption is ensuring that your messages can't be read in transit by third parties. This `Open Authentication' malarkey doesn't exactly achieve either of these. Going back to WEP, from earlier, we see that it is only concerned with encryption, it is not an authentication method natively, however can be used as a crude form of shared-key authentication. For WEP to be at all effective with encryption - both the client and the AP must be associated and use the same WEP key, as this is the foundations of the encryption algorithm used to encrypt and decrypt the messages. 
+
+\subsection{Shared Key Authentication}
+\textit{Shared Key Authentication} is the idea of using a pre-shared WEP key as an authentication mechanism during the authentication stage of connection.
+
+This, obviously, can only be used on devices that support WEP due to it's reliance on WEP keys. This process does not use WEP itself, as WEP is an encryption method, but it relies on the WEP keys. In theory it could use any pre-shared secret key, 
+
+Shared key authentication uses the following process:
+\begin{enumerate}
+    \item Client $\rightarrow$ AP A: Authentication request
+    \item AP A $\rightarrow$ Client: Authentication response containing the unencrypted `challenge' text
+    \item Client $\rightarrow$ AP A: Encrypted `challenge' text using one of the WEP keys
+    \item AP A $\rightarrow$ Client: Authentication response with status code (AP validates client's attempt at encrypting the `challenge' text against it's own attempt and only allows client onto WLAN if they match)
+\end{enumerate}
+
+
+\subsection{Authentication Framework}
+\begin{define}
+\item[Supplicant] Operates on the client
+\item[Authenticator] Operates on devices at network edge like APs and switches
+\item[Authentication Server] EAP Plug-in goes in radius server  
+\end{define}
+
+\subsection{Wi-Fi Protected Access}
+The WLAN industry recognises the vulnerabilities of the so-far existing authentication and data privacy. WEP is \textit{not safe}! The Wi-Fi Alliance took it upon themselves to make it better, and from here \textit{Wi-Fi Protected Access} (WPA) was born. WPA can also be known as Simple Secure Networking (SSN).
+
+WPA comes with many improvements over WEP:
+\begin{itemize}
+    \item Access control model is based on 802.1X
+    \item Flexible authentication framework which is based on EAP
+    \item Authentication can be based on strong protocols, including TLS
+    \item Authentication process results in a shared session key which prevents session hijacking
+    \item Different functions (encryption, integrity) use different keys derived from the session key using a one-way function
+    \item Integrity of the payload protection is improved
+    \item Encryption of the payload functions have been improved
+\end{itemize}
+
+One of the biggest differences between WEP and WPA, is that WPA uses the \textit{Temporal Key Integrity Protocol} (TKIP). TKIP dynamically changes the keys as the system is used. This defeats the well-known key recovery attacks which were commonly deployed against WEP. TKIP changes the WEP keys on a per-frame basis, and employs a check which provides effective data-frame integrity. TKIP also solves statistical attacks including Airsnort and the IV vulnerability. 
+
+The most significant point is the per-frame keying. This has been adopted by the IEEE and may also be known as \textit{per-packet keying} or \textit{fast packet keying}. 
+
+\begin{extlink}
+There are diagrams in the slides available on Moodle which show the way the per-frame keying works on a technical level.
+\end{extlink}
+
+Deploying WPA to existing hardware and NICs which only had support for WEP was as simple as running a software / firmware update. This made it inexpensive by way of both time and cost to implement, suitable for different users and compatible with pre-existing vendor environments.
+
+WPA can run in either enterprise mode or pre-shared key (PSK) mode. \textit{Pre-shared key mode} does not require an authentication server and uses a `shared secret' for authentication to access point; this would be a common paradigm for home Wi-Fi networks. \textit{Enterprise mode} requires an authentication server using the RADIUS protocol that enables centralised management of user credentials. 
+
+The migration from WEP to WPA is a straightforward process. Existing authentication systems in the WEP world can be used in the WPA world. However all access points and clients will need new firmware and drivers, with some older NICs and access points being unable to be upgraded. Once enterprise access points are upgraded, home units will also need to be if they are using WEP. In a small office / the home - the migration may require configuring PSK or master passwords on the AP and configuring the PSK on all clients. In an enterprise - the migration may require selecting EAP types and 802.1X supplicants to be supported on stations, APs, and authentication servers; and selecting and deploying RADIUS-based authentication servers.
+
+\subsection{WPA2}
+\textit{Wi-Fi Protected Access 2} (WPA2) was introduced in the 802.11i amendment to the 802.11 standard. This introduced AES encryption and CCMP data integrity, which replaces the TKIP system and RC4 ciphers. 
+
+The \textit{Advanced Encryption Standard} (AES) selected by NIST as a replacement for DES. It is a symmetric block cipher using 128-bit keys. AES is used to generate \textit{Cipher Block Chaining Message Authentication Code Protocol} (CCMP). CCMP is comprised from the \textit{Counter Mode Encryption} (CTR), the \textit{Cipher Block Chaining} (CBC), and \textit{Message Authentication Control} (MAC). 
+
+The migration from WPA to WPA2 is more significant and included changes in hardware requirements.
+
+\subsection{WEP vs. WPA vs. WPA2}
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.22\textwidth} p{0.22\textwidth} p{0.22\textwidth} p{0.22\textwidth}}
+    \thead{Factor} & \thead{WEP} & \thead{WPA} & \thead{WPA2}\\
+    Cipher & RC4 & 128 bits encryption & AES \\
+    \hline
+    Key size & 40 bits & 64-bits authentication & 128 bits \\
+    \hline 
+    Key life & 24 bits IV & 24 bits IV & 24 bits IV \\
+    \hline
+    Packet key & Concatenated & Mixing function & Not Needed \\
+    \hline
+    Data integrity & CRC-32 & Michael & CCMP \\
+    \hline
+    Header integrity & none & Michael & CCMP \\
+    \hline
+    Replay attack & none & IV sequence & IV sequence \\
+    \hline
+    Management key & none & EAP-based & EAP-based \\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{Encryption method comparison}
+\end{table}
+
+WEP is insufficient. WPA is a dramatic improvement in Wi-Fi security and is expected to maintain forward compatibility. WPA2 provides even stronger security. The journey doesn't stop here. While not covered in this module, WPA3 was introduced 8 years ago which strengthens networks against brute-force attacks and safeguards data further.
+
+\subsection{Modern Authentication Methods}
+\begin{define}
+    \item[EAP] Extensible Authentication Protocol - a secure authentication framework used to verify the identity of a device or user before granting them access a network (defined in RFC 3748)
+    \item[EAPOL] EAP over LAN (defined in 802.1X)
+    \item[RADIUS] Remote Access Dial In User Service - used to carry EAP messages between the AP and authentication server and is mandated by WPA (defined in RFC 2865-2869 \& RFC 2548)
+    \item[LEAP] Light EAP - developed by Cisco, similar to MS-CHAP
+    \item[EAP-TLS] TLS over EAP - only the TLS Handshake protocol is used for the server and client authentication and generation of the master secret where the TLS master secret then becomes the session key; mandated by WPA, optional in RSN
+    \item[PEAP] Protected EAP - Phase 1 contains TLS handshake without client authentication, phase 2 contains client authentication  
+    \item[EAP-SIM] Extended GSM authentication in Wi-Fi context     
+\end{define}
+
+The new security standard for Wi-Fi is 802.11i. This uses an access control model based on 802.1X but with flexible authentication based on EAP and upper layer authentication protocols (e.g. TLS, or GSM authentication). It has improved key management.
+
+Many different environments can make use of EAP and 802.1X as their authentication framework, regardless or the authentication method (EAP-Cisco, EAP-TLS, EAP-PEAP, etc) and access mechanism (802.3, 802.5, 802.11, etc). 
+
+\subsection{EAP}
+The EAP authentication process is shown below:
+\begin{enumerate}
+    \item Wireless computer with EAP Supplicant (client) associates with Access Point with EAP/802.1X Support (AP)
+    \item AP blocks all user requests to access LAN
+    \item Client provides login authentication credentials which are sent to the RADIUS server
+    \item RADIUS server authenticates user
+    \item User Authenticates RADIUS server
+    \item RADIUS server and client derive unicast WEP key
+    \item RADIUS server delivers unicast WEP key to access point
+    \item AP delivers broadcast WEP key encrypted with unicast WEP key to Client
+    \item Client and AP activate WEP and use unicast and broadcast WEP keys for transmission
+\end{enumerate}
+Depending on the EAP type - steps 4 and 5 may be reversed. 
+
+\begin{extlink}
+There is a very similar, yet subtly different, representation of the above in Microsoft language available in the slides on Moodle.
+\end{extlink}
+
+\subsection{802.1X}
+802.1X provides mutual authentication, meaning authenticating the client to the AP (and rest of network), and authenticating the AP (and rest of the network) to the client. It is part of the 802.11i standard and has been supported by Cisco since 2000. Despite this, it is extensible and interoperable with support for different authentication methods and types and new encryption algorithms including AES. The keys used are static and shared among devices and APs. If an adapter or device is stolen, all devices and APs must have new keys issued. 
+
+Any client that does not have built in 802.1X support mut use a piece of software called a supplicant. This enables the client to prove their identity.
+
+The 802.1X authentication flow is shown below:
+\begin{enumerate}
+    \item Client $\rightarrow$ AP: Start (client now blocks all requests until Authentication complete)
+    \item AP $\rightarrow$ Client: Request Identity
+    \item Client $\rightarrow$ AP $\rightarrow$ RADIUS Server: Identity
+    \item RADIUS Server $\rightarrow$ AP $\rightarrow$ Client: RADIUS Server authenticates Client
+    \item Client $\rightarrow$ AP $\rightarrow$ RADIUS Server: RADIUS Server authenticates Client
+    \item RADIUS Server $\rightarrow$ AP $\rightarrow$ Client: Client authenticates RADIUS Server
+    \item Client $\rightarrow$ AP $\rightarrow$ RADIUS Server: Client authenticates RADIUS Server
+    \item RADIUS Server $\rightarrow$ AP $\rightarrow$ Client: Success
+\end{enumerate}
+
+Within 802.1X, it is common for authentication to be able to use certificates and the Public Key Infrastructure (Certs/PKI) or passwords. The authentication types are explored in the table below.
+
+\begin{table}[H]
+    \centering
+    {\RaggedRight
+    \begin{tabular}{p{0.22\textwidth} p{0.22\textwidth} p{0.22\textwidth} p{0.22\textwidth}}
+    \thead{Factor} & \thead{LEAP} & \thead{EAP-TLS} & \thead{EAP-PEAP}\\
+    Server Authentication & Password & Certs/PKI & Certs/PKI \\
+    \hline
+    Client Authentication & Password & Certs/PKI & Password \\
+    \hline
+    Single Sign On & Yes & Yes & No \\
+    \hline
+    Vulnerable to Password Attack & No & No & No \\ 
+    \hline
+    OTP/LDAP Support & No & N/A & Yes \\
+    \hline
+    Additional Infrastructure & No & Certificate Authority & Certificate Authority \\
+    \hline
+    \end{tabular}
+    } % end of rr     
+    \caption{802.1X Authentication Types}
+\end{table}
+
+\section{Wireless LAN Controllers}
+A \textit{Wireless LAN Controller} (WLC) is commonly found in enterprise networks as they provide centralised management for a fleet of Wireless Access Points (WAPs). A WLC can manage properties including: channel assignment, AP power management, roaming functions, rogue AP detection \& mitigation, and security functions. WLCs can also provide services such as traffic filtering, rate limiting, packet inspection, QoS marking, and supporting wireless discovery services for Apple Bonjour and Chromecasts where the devices may be in different VLANs. 
+
+WLCs work at the distribution layer (layer 3). The APs tunnel to the WLC using a GRE or CAPWAP tunnel. These concepts aren't explored in this module, just knowing they exist is enough.
+
+\subsection{Why Do We Need WLCs?}
+In the very early days of WLANs, the networks were smaller and there were much smaller numbers of APs. They were easier to administer and had low numbers of users and small amounts of traffic. There was little to no security imposed.
+
+Now, in the year 2026, the demand for wireless has grown massively. There are more and more APs in networks, all with lots of users and higher data throughputs. There is greater physical coverage of the wireless networks within enterprise settings. However, security is of greater concern while administrators face more and more demands of them.
+
+WLCs have come about to provide centralised management and coordinated control of APs. This provides a richer, coordinated set of services which can be scaled from 10s of APs to 100s or even 1000s of APs. 
+
+Using WLCs enable enterprises to replace fat APs with thin APs and manage their fleet of APs from a single administration point, often on an easy-to-use web GUI. 
+
+\subsection{Types of WAP}
+There are two main types of WAP. 
+
+A \textit{Fat AP} (alternatively known as \textit{autonomous APs}) is the more traditional approach. These earlier models were completely stand-alone. Each fat AP has to be individually configured, holding their own operating code and configuration. They have no knowledge of other APs in the WLAN, no coordination of resources, radio frequencies or clients. They are still available, however they are used in very small networks or niche applications, for example bridge links.
+
+By contrast, a \textit{Thin AP} is still an access point providing that wireless gateway to the network for wireless devices. However they only contain the minimal code to get the AP onto the network. Thin APs form a layer 3 connection back to the WLC where the running configuration is provided from. In large deployments, this is the more common type of WAP to see. 
+
+\subsection{WLC Planes}
+The Wireless LAN controller makes use of three different planes for communications: control, management, and data.
+
+The control plane is used for decision making, co-ordination, signalling (i.e. co-ordination of AP channel assignments, co-ordination of client roaming including making keys available, and client load balancing).
+
+The management plane is used for administration and monitoring of devices. This can include changing configuration of devices using the management system via SNMP, SSH, etc. 
+
+The data plane is the actual physical and logical path taken by user traffic.
+
+\subsection{Physical Representation}
+WLCs used to predominantly be 19" rack mount hardware appliances that were deployed at the core of networks. However with the rise of virtualisation and virtualisation services, it is now common to see a WLC deployed as a VM, for example Cisco's vWLC.
+
+Virtualised WLCs can also be provided as a cloud service. This can be a much more scalable approach than a physical solution. Cisco's Meraki product range is a popular example of this, where the management and control function is provided as a service. However this does require all the APs to have internet access, but similar to the on-prem options provides an easy to use web UI. These cloud services are easy to understand and administer via one central entity and provide a global view of the WLAN; however they introduce a single point of failure, require ongoing support contracts and expensive licenses. Virtual WLCs are not expected to replace hardware controllers.
+
+Another paradigm which the WLC may exist in is as a \textit{dual function AP}. This is often seen for smaller sites / branches and is where one fat AP is nominated as the controller. This has the key advantage that a failure of the controller is limited to one site / area, is scalable and easy to deploy and keeps control and management traffic internal to the network. However it does mean there is are more controllers to manage, and the APs that the controller can manage will most likely be limited. 
+
+It is possible for some switches to perform the WLC function natively, built into the switch in the \textit{unified access} paradigm. This is a native function of some switches.
+
+Finally, it is possible with solutions such as \textit{Aerohive} to not need a controller. In this paradigm, all the APs take on some amount of distributed control function between them. 
+
+\subsection{WLC Topologies}
+In the \textit{Central Switching} WLC Topology, all traffic is switched by the WLC. A tunnel is formed between the AP and the WLC, which will include some number of switches. All data from the client devices is wirelessly transmitted to the AP who then use the wired LAN to transmit to the WLC which then directs the traffic in the appropriate direction - either out of the network, or to another device on the LAN.
+
+By contrast, in the \textit{Central vs. Local Switching} WLC Topology, a second location is introduced which is connected to the head office site via the WAN. In the branch location there is an AP connected to a LAN switch. The AP is also connected to a tunnel back to the head office site via the WAN link, which goes through the branch office switch. The AP is then able to determine which traffic to tunnel back to the head office, and therefore out to the wider internet, and which traffic needs to stay within the branch location to hit the branch server.
+
+The tunnels formed in the second topology are constructed by the AP as the WLC cannot discover the APs: the APs have to `call home.' This connection is at layer 3. 
+
+\begin{extlink}
+There are example diagrams of these topologies in the slides on Moodle - that's far too much TikZ...
+\end{extlink}
+
+\subsection{Guest Portals}
+Another function of the WLC is to provide a `Captive Portal' for guest networks. This provides the experience akin to connecting to the public Wi-Fi network on a train, or at a coffee shop, where users are asked to enter some small amount of basic information such as an email address, or a password into the webpage to allow connection.
+
+These portals may be hosted on a dedicated on-prem server, or may be part of a cloud-based service or managed entirely by a 3rd party company. 
+
+\subsection{Wireless Intrusion Detection System}
+The \textit{Wireless Intrusion Detection System} (WIDS) / \textit{Wireless Intrusion prevention System} (WIPS) is wireless IPS / IDS. It is built into WLCs. WIDS enables monitoring or rogue APs. WIPS allows proactive action to deny services which can lead to the rogue devices being `contained.'

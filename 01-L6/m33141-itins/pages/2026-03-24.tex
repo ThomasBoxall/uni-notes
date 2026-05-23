@@ -1,25 +1,25 @@
-\taughtsession{Lecture}{IPSec, VPN \& MPLS}{2026-03-24}{14:00}{Shikun}{}
+\taughtsession{Lecture}{IPsec, VPN \& MPLS}{2026-03-24}{14:00}{Shikun}{}
 
 \section{Internet Protocol: A Recap}
 The \textit{Internet Protocol} (IP) is implemented in every end user device and in routers. It is an unreliable protocol as IP datagrams may be lost and may arrive out of order. The \textit{Transmission Control Protocol} (TCP) takes care of the problems. There are two versions of IP: IPv4 and IPv6. Both versions map to a variant of the IP address - which is an identifier used to identify a network connected device during data transmission. 
 
 IP, on it's own, is insecure. The content of an IP datagram is not encrypted, therefore confidentiality is not provided; this makes it easy to `sniff' the payload. There are IP sniffers available on the Internet. IP addresses may spoofed which can break authentication based on IP addresses. 
 
-\section{IPSec}
-\textit{IPSec}, or to use it's full name \textit{Internet Protocol Security}, is a suite of protocols designed to secure internet communication by authenticating and encrypting each IP packet in a data stream. This provides authentication and confidentiality, which we know make up two thirds of the CIA triangle - so must be a good thing. IPSec also has key management features.
+\section{IPsec}
+\textit{IPsec}, or to use it's full name \textit{Internet Protocol Security}, is a suite of protocols designed to secure internet communication by authenticating and encrypting each IP packet in a data stream. This provides authentication and confidentiality, which we know make up two thirds of the CIA triangle - so must be a good thing. IPsec also has key management features.
 
-IPSec is not bound to any specific encryption algorithms, authentication algorithms, keying technology or security algorithms. Rather it is a framework to ensure flexible yet thorough standards for security. It protects and authenticates IP packets between source and destination. IPSec can protect nearly all traffic from Layer 4 through to Layer 7 of the OSI model. 
+IPsec is not bound to any specific encryption algorithms, authentication algorithms, keying technology or security algorithms. Rather it is a framework to ensure flexible yet thorough standards for security. It protects and authenticates IP packets between source and destination. IPsec can protect nearly all traffic from Layer 4 through to Layer 7 of the OSI model. 
 
-At it's core - IPSec has five main components:
+At it's core - IPsec has five main components:
 \begin{itemize}
-    \item IPSec Protocol 
+    \item IPsec Protocol 
     \item Confidentiality using encryption
     \item Integrity using hashing algorithms
     \item Authentication using Internet Key Exchange (IKE)
     \item Secure key exchange using the Diffie-Hellman (DH) algorithm
 \end{itemize}
 
-IPSec supports:
+IPsec supports:
 \begin{itemize}
     \item Access ControlAuthentication
     \item Data Encryption
@@ -27,10 +27,10 @@ IPSec supports:
     \item Nonrepuditation
 \end{itemize}
 
-IPSec works at layer 3 of the OSI model (network layer) and can encrypt an entire TCP/IP packet. It was originally for use with IPv6 although supports IPv4. IPSec can provide authentication before the data is transmitted.
+IPsec works at layer 3 of the OSI model (network layer) and can encrypt an entire TCP/IP packet. It was originally for use with IPv6 although supports IPv4. IPsec can provide authentication before the data is transmitted.
 
-\subsection{IPSec Protocol}
-The IPSec Protocol is responsible for sending data packets securely. These packets a format similar to that of an IP packet so consist of a header, payload, and trailer:
+\subsection{IPsec Protocol}
+The IPsec Protocol is responsible for sending data packets securely. These packets a format similar to that of an IP packet so consist of a header, payload, and trailer:
 \begin{itemize}
     \item Header: a preceding section that contains instructional information for routing the data packet to the correct destination
     \item Payload: the actual information contained within a data packet
@@ -39,28 +39,28 @@ The IPSec Protocol is responsible for sending data packets securely. These packe
 
 There are two main protocols used: Authentication Header (AH) and Encapsulating Security Payload (ESP). The choice of which protocol to use establishes which other building blocks are available to flesh out the framework.
 
-The \textit{Authentication Header} (AH) IPSec Protocol achieves authenticity by applying a keyed one-way hash function to the packet to create a hash or message digest. The hash is combined with the text and transmitted in plain sight. On the receiving end - the hash is recomputed and the authenticity of the original message is based on if the received and recomputed hashes match.
+The \textit{Authentication Header} (AH) IPsec Protocol achieves authenticity by applying a keyed one-way hash function to the packet to create a hash or message digest. The hash is combined with the text and transmitted in plain sight. On the receiving end - the hash is recomputed and the authenticity of the original message is based on if the received and recomputed hashes match.
 
-The \textit{Encapsulating Security Payload} (ESP) IPSec protocol provides confidentiality by encrypting the payload, and can also provide integrity and authentication using either MD5 or SHA. This works through encapsulating the original IP packet by authentication or encryption headers and trailers. When both authentication and encryption are selected - encryption is performed first. 
+The \textit{Encapsulating Security Payload} (ESP) IPsec protocol provides confidentiality by encrypting the payload, and can also provide integrity and authentication using either MD5 or SHA. This works through encapsulating the original IP packet by authentication or encryption headers and trailers. When both authentication and encryption are selected - encryption is performed first. 
 
-\subsection{IPSec Uses}
-IPSec is commonly seen used in Virtual Private Networks (VPNs) which allow for interconnected LANs over the insecure internet in a router-to-router paradigm. Alternatively IPSec VPNs can be seen in a secure remote access paradigm where an individual, and therefore a single device, is connected to the corporate network.
+\subsection{IPsec Uses}
+IPsec is commonly seen used in Virtual Private Networks (VPNs) which allow for interconnected LANs over the insecure internet in a router-to-router paradigm. Alternatively IPsec VPNs can be seen in a secure remote access paradigm where an individual, and therefore a single device, is connected to the corporate network.
 
-\subsection{IPSec Usage Modes}
-There are two usage modes that IPSec can operate in. 
+\subsection{IPsec Usage Modes}
+There are two usage modes that IPsec can operate in. 
 
 \subsubsection{Transport Mode}
 Security is provided only for the transport layer and above; it protects the payload but leaves the original IP address in plaintext. ESP transport mode is used between hosts where an encrypted TCP session forms. 
 
-For example, a packet may consist of: the IP header with the real destination shown; the IPSec header; and then the TCP/UDP header \& data. Where only the final section (TCP/UDP header \& data) is encrypted.
+For example, a packet may consist of: the IP header with the real destination shown; the IPsec header; and then the TCP/UDP header \& data. Where only the final section (TCP/UDP header \& data) is encrypted.
 
 \subsubsection{Tunnel Mode}
 Security is provided for the complete original IP packet. This is achieved through encrypting the original IP packet then encapsulating this in another IP packet (IP-in-IP encryption). ESP tunnel mode is used in remote access and site-to-site implementations where the secure tunnel is formed between \textit{Security Gateways}. 
 
-For example, a packet may consist of: IP Header (gateway address); IPSec header; IP header (real destination); and then TCP/UDP header \& data. Where the IP header as well as TCP/UDP header \& data sections are both encrypted.
+For example, a packet may consist of: IP Header (gateway address); IPsec header; IP header (real destination); and then TCP/UDP header \& data. Where the IP header as well as TCP/UDP header \& data sections are both encrypted.
 
 \subsection{Security Association}
-\textit{Security Association} (SA) is a one-way sender-recipient relationship. It determines how packets are processed; including details such as cryptographic algorithms, keys, IVs, lifetimes, sequence numbers, mode (transport or tunnel). Each SA is uniquely identified by a Security Parameter Index (SPI); and each IPSec keeps a database of SAs. A SPI is sent with packets which tells the recipient what SA to use. 
+\textit{Security Association} (SA) is a one-way sender-recipient relationship. It determines how packets are processed; including details such as cryptographic algorithms, keys, IVs, lifetimes, sequence numbers, mode (transport or tunnel). Each SA is uniquely identified by a Security Parameter Index (SPI); and each IPsec keeps a database of SAs. A SPI is sent with packets which tells the recipient what SA to use. 
 
 SA defines:
 \begin{itemize}
@@ -82,7 +82,7 @@ In tunnel mode - an AH header is prepended with the new IP header prepended onto
 \subsection{Internet Key Exchange}
 The goal of the \textit{Internet Key Exchange} (IKE) is to establish security association for AH and ESP. If IKE is broken then AH and ESP provide no protection. 
 
-The IKE is used as follows when negotiating an IPSec Tunnel VPN connection:
+The IKE is used as follows when negotiating an IPsec Tunnel VPN connection:
 \begin{enumerate}
     \item Host A sends interesting traffic to Host B.
     \item R1 and R2 negotiate and IKE Phase 1 session
@@ -93,15 +93,15 @@ The IKE is used as follows when negotiating an IPSec Tunnel VPN connection:
     \end{enumerate}
     \item R1 and R2 negotiate an IKE phase 2 session
     \begin{enumerate}
-        \item Negotiate IPSec policy
+        \item Negotiate IPsec policy
     \end{enumerate}
-    \item Information is exchanged via IPSec tunnel
-    \item The IPSec tunnel is terminated
+    \item Information is exchanged via IPsec tunnel
+    \item The IPsec tunnel is terminated
 \end{enumerate}
 
 
 \section{SSL/TLS}
-SSL or TLS are above the TCP socket, so they form part of the Application Layer. This is the inverse of IPSec which sits below the TCP layer.
+SSL or TLS are above the TCP socket, so they form part of the Application Layer. This is the inverse of IPsec which sits below the TCP layer.
 
 \textit{Transport Layer Security} (TLS) is used for emails. \textit{Secure Socket Layer} (SSL) is used for a number of different applications, including: HTTPS (Secure Web Access), SSH (Secure Shell), SCP (Secure Copy), and SFTP (Secure File Transfer).
 
@@ -124,9 +124,9 @@ When a browser first contacts a server with a `client-hello' message the browser
 \section{Virtual Private Networks}
 A \textit{Virtual Private Network} (VPN) is an encrypted tunnel between two (or more) devices. This may be seen in the paradigm of a single end user remotely connecting into the office network while they telework, or between different sites; in either case the connection uses the public internet infrastructure and uses the encrypted VPN tunnel to secure the connection. 
 
-A \textit{Remote Access VPN} is typically enabled by the user when required. They can be created using either IPSec or SSL. The remote user must initiate a remote access VPN connection - which could take place in a clientless and client-based connection. 
+A \textit{Remote Access VPN} is typically enabled by the user when required. They can be created using either IPsec or SSL. The remote user must initiate a remote access VPN connection - which could take place in a clientless and client-based connection. 
 
-A \textit{site-to-site} VPN is where the VPN gateway encapsulates and encrypts outbound traffic. This traffic is then sent through a VPN tunnel over the internet to a VPN gateway at the target site. Upon receipt, the receiving VPN gateway strips the headers, decrypts the content and relays the packet towards the target host inside its private network. Site-to-site VPNs are typically created and secured using IPSec. 
+A \textit{site-to-site} VPN is where the VPN gateway encapsulates and encrypts outbound traffic. This traffic is then sent through a VPN tunnel over the internet to a VPN gateway at the target site. Upon receipt, the receiving VPN gateway strips the headers, decrypts the content and relays the packet towards the target host inside its private network. Site-to-site VPNs are typically created and secured using IPsec. 
 
 \section{MPLS}
 \textit{Multiprotocol Label Switching} (MPLS) is a networking technology that directs data using labels rather than long network addresses, enabling faster, reliable, and prioritized traffic flow. This is currently only defined for IP. A MPLS path can be considered as a tunnel which goes from a MPLS ingress point to an egress point.
