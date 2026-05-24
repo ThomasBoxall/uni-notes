@@ -132,7 +132,7 @@ A \textit{site-to-site} VPN is where the VPN gateway encapsulates and encrypts o
 \textit{Multiprotocol Label Switching} (MPLS) is a networking technology that directs data using labels rather than long network addresses, enabling faster, reliable, and prioritized traffic flow. This is currently only defined for IP. A MPLS path can be considered as a tunnel which goes from a MPLS ingress point to an egress point.
 
 \subsection{Motivation}
-As we've already seen today and in the years preceding this; IP was the first defined and used networking protocol. That's made it the de-facto protocol for global internet connectivity. However, it has some disadvantages. IP is a connectionless protocol which means each router has to make independent forwarding decisions based on the IP address; there's a large IP header; routing is done in the network layer which is slower than switching; and it is usually designed to obtain the shortest path regardless of how good those paths actually are.
+As we've already seen today and in the years preceding this: IP was the first defined and used networking protocol. That's made it the de-facto protocol for global internet connectivity. However, it has some disadvantages. IP is a connectionless protocol which means each router has to make independent forwarding decisions based on the IP address; there's a large IP header; routing is done in the network layer which is slower than switching; and it is usually designed to obtain the shortest path regardless of how good those paths actually are.
 
 An alternative protocol used is the \textit{Asynchronous Transfer Mode} (ATM) which is connection oriented, and therefore maintains higher QoS; has fast packet switching with fixed length packets (called cells); and integrates different types of traffic (voice, data and video). However there are disadvantages: it's complex, expensive and not widely adopted.
 
@@ -154,9 +154,9 @@ When the BS bit is set to 1, the current label is on the bottom of the stack. Th
 
 MPLS does not specify a single method for label distribution. The BGP protocol has been enhanced to piggyback the label information within the contents of the protocol; similarly the RSVP protocol has been extended to support piggybacked exchange of labels.
 
-IETF has defined a new protocol known as the label distribution protocol (LDP) for explicit signalling and management. Extensions to the base LDP protocol have also bene defined to support explicit routing based on QoS requirements. 
+IETF has defined a new protocol known as the label distribution protocol (LDP) for explicit signalling and management. Extensions to the base LDP protocol have also been defined to support explicit routing based on QoS requirements. 
 
-A \textit{Label Edge Router} (LER) (or Edge label Switch Router) resides at the edge of an MPLS network and assigns and removes the labels from packets. LERs support multiple ports connected to dissimilar networks, such as Frame Relay, ATM and Ethernet.
+A \textit{Label Edge Router} (LER) (or Edge Label Switch Router) resides at the edge of an MPLS network and assigns and removes the labels from packets. LERs support multiple ports connected to dissimilar networks, such as Frame Relay, ATM and Ethernet.
 
 A \textit{Label Switching Router} (LSR) is a high speed router in the core of an MPLS network. ATM switches can be used as LSRs without changing their hardware. 
 

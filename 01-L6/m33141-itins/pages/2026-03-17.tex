@@ -4,8 +4,8 @@
 \textit{AAA} stands for \textit{Authentication, Authorisation, and Accounting}. 
 
 \begin{define}
-\item[Authentication] The process of verifying the digital identity of an entity (is the entity who the entity says the entity is)
-\item[Authorisation] Determines who the entity is and what level of access the entity should have (does the entity need basic user access or admin level access)
+\item[Authentication] The process of verifying the digital identity of an entity (is the entity who the entity says the entity is?)
+\item[Authorisation] Determines who the entity is and what level of access the entity should have (does the entity need basic user access or admin level access?)
 \item[Accounting] Keeps track of what the entities did while using the system  
 \end{define}
 
@@ -91,7 +91,7 @@ A key issue with password based authentication is default passwords on devices. 
 
 \textit{Personal Identification Number} (PINs) are just as bad as passwords. There are even less combinations so it is even more likely that the same PIN will be used more commonly. 
 
-This is all before we get to the issues with resetting passwords through forgotten password sequences. There are the common security questions (Mothers Maiden Name; First Car; First Pet; etc). But there's only so many answers to these. For example `What was the make of your first car?' will commonly be answered by `Ford' as they had a greater than 25\% market share until the late 1990s. Information relating to these questions is also likely to be available from public social media profiles - LinkedIn is great at leaking your schools, universities, areas you lived, worked; Facebook is wonderful at leaking what you do in pastimes, hobbies, and friends names etc.
+This is all before we get to the issues with resetting passwords through forgotten password sequences. There are the common security questions (mothers maiden name; first car; first pet; etc). But there's only so many answers to these. For example `What was the make of your first car?' will commonly be answered by `Ford' as they had a greater than 25\% market share until the late 1990s. Information relating to these questions is also likely to be available from public social media profiles - LinkedIn is great at leaking your schools, universities, areas you lived, worked; Facebook is wonderful at leaking what you do in pastimes, hobbies, and friends names etc.
 
 While saying all this, there are some things we can do to strengthen passwords:
 \begin{itemize}
@@ -124,7 +124,7 @@ Alternatively to faces or fingers, it is possible to use irises to identify indi
 
 It is also possible to hand geometry, voice, ear shape, vein pattern and face temperature.
 
-It is possible to obtain copies of biometrics using scientific techniques, or simply play-doh. 
+However, it is possible to obtain copies of biometrics using scientific techniques, or simply play-doh. 
 
 \subsection{Authentication Alternatives}
 There are a number of alternative authentication methods which can be used instead of the traditional password-based or biometric-based authentication.
@@ -150,14 +150,14 @@ We need a better solution than the naive solution above as that's pants. Our sol
 \subsection{Kerberos}
 Kerberos was developed at MIT in the 1980s. It is a distributed authentication method which works as follows:
 \begin{enumerate}
-    \item User contacts Key Distribution Centre (KDC) with their user identifier
-    \item KDC responds to user with an encrypted Ticket Granting Service (TGS) ticket
-    \item The user sends the TGS ticket to the TGS
+    \item User contacts Authentication Server (AS) within the Key Distribution Centre (KDC) with their user identifier
+    \item AS responds to user with an encrypted Ticket Granting Service (TGS) Ticket (TGT)
+    \item The user sends the TGT ticket to the TGS
     \item The TGS returns an encrypted service ticket to the user
-    \item The user uses the Encrypted service ticket to access network services such as a file server, printer, etc
+    \item The user uses the encrypted service ticket to access network services such as a file server, printer, etc
 \end{enumerate}
 
-This two-step authentication process allows the users to prove their identity once to obtain a TGS ticket. They can then transparently use this TGS ticket to get tickets for any network service.
+This two-step authentication process allows the users to prove their identity once to obtain a TGS ticket. They can then transparently use this TGS ticket to get service tickets for any network service.
 
 The TGS ticket contains data fields:
 \begin{itemize}

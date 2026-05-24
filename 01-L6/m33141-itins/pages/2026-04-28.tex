@@ -56,13 +56,13 @@ There are lots of components used in a WLAN.
 
 The most visible component is the `Wireless Access Point' - which is the antenna-d thing that broadcasts the wireless signals. These may have internal or external antenna depending on the model; which also can dictate their transmit and receive power. Antenna come in pairs with different ones being used for transmit and receive. 
 
-The client devices also have to have an adapter to enable them to communicate on the network. This may either be fully integrated as a chip directly soldered onto the motherboard, a separate removable chip, or as some external device connecting over either specialist connectors or a more conventional connector such as USB. Fully integrated client adapters, such as those found in mobile phones, are able to be very small as they utilise the phone's case as the antenna, reducing the chips footprint. It can also be commonly found that the client adapter may contain the circuitry for more than one wireless communication medium - with Bluetooth and Wi-Fi being bundled into a single chip commonly. 
+The client devices also have to have an adapter to enable them to communicate on the network. This may either be fully integrated as a chip directly soldered onto the motherboard, a separate removable chip, or as some external device connecting over either specialist connectors or a more conventional connector such as USB. Fully integrated client adapters, such as those found in mobile phones, are able to be very small as they utilise the phone's case as the antenna, reducing the chips footprint. It can also be commonly found that the client adapter may contain the circuitry for more than one wireless communication medium - with Bluetooth and Wi-Fi being bundled into a single chip frequently. 
 
 Where it is impractical to run a cable between two different locations, a wireless bridge can be used. This is a very specifically angled unit which points to another specifically angled unit and they beam the LAN between them. The achieved range can be anywhere between 1 and 10 km depending on the units used and the line-of-sight conditions, as well as weather. 
 
 There are many other devices which are enabled for use on WLANs. These can include cars which use home Wi-Fi to update their software; fridges which generate smart shopping lists; doorbells who stream over Wi-Fi the live feed of who is at the door; or printers, who still refuse to print.
 
-There is, however, a more dangerous side to wireless connected devices; in that the more devices we connect to the Wi-Fi, the more attack vectors there are on our internal network and clues into our lives. Take, for example, a smart, autonomous vacuum cleaner who can pootle around and suck up dust. This device may have a camera as part of it's mapping and collision detection software. This camera may inadvertently capture something such as where valuables are kept which is highly valuable information for burglars. Alternatively, they may map the property and transmit this over the internet, showing the burglars a floor plan of the property - enabling them to plan a more sophisticated attack. 
+There is, however, a more dangerous side to wireless connected devices; in that the more devices we connect to the Wi-Fi, the more attack vectors there are on our internal network and clues into our lives. Take, for example, a smart, autonomous vacuum cleaner who can pootle around and suck up dust. This device may have a camera as part of it's mapping and collision detection equipment. This camera may inadvertently capture something such as where valuables are kept which is highly valuable information for burglars. Alternatively, they may map the property and transmit this over the internet, showing the burglars a floor plan of the property - enabling them to plan a more sophisticated attack. 
 
 The network industry has segmented consumer and business products into two different categories and different price ranges. Yes, `prosumer' does exist - but that's not talked about here... Cisco only offers business class products. 
 
@@ -82,7 +82,7 @@ The biggest challenge faced by WLAN solutions is radio signal interference. Inte
 The biggest interference inducing devices can be baby monitors, mobile phones, and microwaves.
 
 \subsection{Health Issues}
-WLAN devices can pose health issues. High power radio waves are not good for the human body, as they can do things to cells. Wireless access points contain high power radios and therefore can do bad things to the body. 
+WLAN devices can pose health issues. High power radio waves are not good for the human body, as they can do bad things to cells. Wireless access points contain high power radios and therefore can do bad things to the body. 
 
 \section{Threats, Vulnerabilities \& Attacks}
 Security will be discussed at length further down the page, but for now let's look at some threats and vulnerabilities... 
@@ -93,7 +93,7 @@ One of the biggest issues within WLAN environments isn't technical - it's human.
 There are four major vulnerabilities within WLAN environments:
 \begin{itemize}
     \item Specialised attacks - more on this below.
-    \item Technology weakness - this is some issue with the technology, such as signals extending too far, using a shares spectrum or client isolation being incorrectly configured.
+    \item Technology weakness - this is some issue with the technology, such as signals extending too far, using a shared spectrum or client isolation being incorrectly configured.
     \item Configuration weakness - this is some setting which has been set incorrectly, or in an insecure way within the WLAN environment. It could include using outdated or insecure encryption or lack of guest isolation. 
     \item Default administrator password - this enables anyone (good or bad) connected to the network to easily guess and access the administrative controls and change settings, often for their personal gain such as adding backdoors or bypassing security configuration to gather information on the users of the network.
 \end{itemize}
@@ -155,7 +155,7 @@ There are two kinds of keys used within WEP. A \textit{default key} (also known 
 
 WEP is flawed. The authentication is only one way, with the client providing it's authenticity to the AP but not the AP proving anything to the client. The same shared secret key is used for all authentication and encryption meaning it is very easy, once the key has been cracked, to decrypt all communications. There is also no session key established during authentication - this means that the replay of client messages is possible. Once a session between Client and AP has been authenticated, there is no ongoing authentication / validation of the client. This means that it would be entirely possible for a session to be hijacked and not noticed until that session comes to an end. 
 
-\section{Authentication and Association}
+\subsection{Authentication and Association}
 \textit{Open Authentication} and \textit{Shared Key Authentication} are the two methods that the 802.11 standard defines for clients to connect to an access point. There are three elements to the `connection' process:
 \begin{enumerate}
     \item Probe 
@@ -179,7 +179,7 @@ This process, obviously, is more complex than three states - below is an example
 
 \subsection{Open Authentication}
 \textit{Open Authentication}, in reality, means `no authentication.' In the real world, this would look like a network with no authentication requirements to be able to join it - meaning no password or certificate needed. The frame used for authentication will include the following fields:
-\begin{enumerate}
+\begin{itemize}
     \item Frame control
     \item Duration
     \item DA
@@ -190,7 +190,7 @@ This process, obviously, is more complex than three states - below is an example
     \item Authentication Transaction Sequence Number Field
     \item Status Code Field
     \item Challenge Text IE (optional)
-\end{enumerate}
+\end{itemize}
 
 The authentication process for open authentication is simple:
 \begin{enumerate}
@@ -231,11 +231,11 @@ Shared key authentication uses the following process:
 \begin{define}
 \item[Supplicant] Operates on the client
 \item[Authenticator] Operates on devices at network edge like APs and switches
-\item[Authentication Server] EAP Plug-in goes in radius server  
+\item[Authentication Server] EAP Plug-in within radius server  
 \end{define}
 
 \subsection{Wi-Fi Protected Access}
-The WLAN industry recognises the vulnerabilities of the so-far existing authentication and data privacy. WEP is \textit{not safe}! The Wi-Fi Alliance took it upon themselves to make it better, and from here \textit{Wi-Fi Protected Access} (WPA) was born. WPA can also be known as Simple Secure Networking (SSN).
+The WLAN industry recognises the vulnerabilities of the so-far existing authentication and data privacy. WEP is not safe! The Wi-Fi Alliance took it upon themselves to make it better, and from here \textit{Wi-Fi Protected Access} (WPA) was born. WPA can also be known as Simple Secure Networking (SSN).
 
 WPA comes with many improvements over WEP:
 \begin{itemize}
@@ -253,7 +253,7 @@ One of the biggest differences between WEP and WPA, is that WPA uses the \textit
 The most significant point is the per-frame keying. This has been adopted by the IEEE and may also be known as \textit{per-packet keying} or \textit{fast packet keying}. 
 
 \begin{extlink}
-There are diagrams in the slides available on Moodle which show the way the per-frame keying works on a technical level.
+There are diagrams in the slides available on Moodle which show the way the per-frame keying works on a technical level. This is ``too mathematical'' so will not be included in the Exam.
 \end{extlink}
 
 Deploying WPA to existing hardware and NICs which only had support for WEP was as simple as running a software / firmware update. This made it inexpensive by way of both time and cost to implement, suitable for different users and compatible with pre-existing vendor environments.
@@ -265,7 +265,7 @@ The migration from WEP to WPA is a straightforward process. Existing authenticat
 \subsection{WPA2}
 \textit{Wi-Fi Protected Access 2} (WPA2) was introduced in the 802.11i amendment to the 802.11 standard. This introduced AES encryption and CCMP data integrity, which replaces the TKIP system and RC4 ciphers. 
 
-The \textit{Advanced Encryption Standard} (AES) selected by NIST as a replacement for DES. It is a symmetric block cipher using 128-bit keys. AES is used to generate \textit{Cipher Block Chaining Message Authentication Code Protocol} (CCMP). CCMP is comprised from the \textit{Counter Mode Encryption} (CTR), the \textit{Cipher Block Chaining} (CBC), and \textit{Message Authentication Control} (MAC). 
+The \textit{Advanced Encryption Standard} (AES) was selected by NIST as a replacement for DES. It is a symmetric block cipher using 128-bit keys. AES is used to generate \textit{Cipher Block Chaining Message Authentication Code Protocol} (CCMP). CCMP is comprised from the \textit{Counter Mode Encryption} (CTR), the \textit{Cipher Block Chaining} (CBC), and \textit{Message Authentication Control} (MAC). 
 
 The migration from WPA to WPA2 is more significant and included changes in hardware requirements.
 
@@ -432,4 +432,4 @@ Another function of the WLC is to provide a `Captive Portal' for guest networks.
 These portals may be hosted on a dedicated on-prem server, or may be part of a cloud-based service or managed entirely by a 3rd party company. 
 
 \subsection{Wireless Intrusion Detection System}
-The \textit{Wireless Intrusion Detection System} (WIDS) / \textit{Wireless Intrusion prevention System} (WIPS) is wireless IPS / IDS. It is built into WLCs. WIDS enables monitoring or rogue APs. WIPS allows proactive action to deny services which can lead to the rogue devices being `contained.'
+The \textit{Wireless Intrusion Detection System} (WIDS) / \textit{Wireless Intrusion Prevention System} (WIPS) is wireless IPS / IDS. It is built into WLCs. WIDS enables monitoring of rogue APs. WIPS allows proactive action to deny services which can lead to the rogue devices being `contained.'

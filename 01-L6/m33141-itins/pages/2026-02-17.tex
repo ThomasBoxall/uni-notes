@@ -38,7 +38,7 @@ There are four key components of the architecture of network security: wired com
 
 The Internet is a network of networks. Each sub-network (a LAN, MAN, or small WAN) is connected by routers - there is no central command centre for the internet. The different sub-networks connect together using a common set of protocols.
 
-The Transmission Control Protocol / Internet Protocol (TCP/IP) stack are two-level packages of protocols of transmission across the internet. They follow similar principles to the seven-layer OSI model but are much simpler. TCP is responsible for sequencing of series of packets to transmit data reliably over the internet; while IP flexibly routes information from source to destination.
+The Transmission Control Protocol / Internet Protocol (TCP/IP) stack is a four-layered, two protocol stack encapsulation and data manipulation to enable transmission across the internet. They follow similar principles to the seven-layer OSI model but are much simpler. TCP is responsible for sequencing of series of packets to transmit data reliably over the internet; while IP flexibly routes information from source to destination.
 
 TCP is not the only protocol which runs on top of IP. The Universal Datagram Protocol (UDP) is used for one-directional bursts of data, such as video files where a missing packet or two isn't the end of the world. Internet Control Messaging Protocol (ICMP) is used for network management; the \textit{ping} command uses ICMP. The Unequal Cost Multicast Protocol (UCMP) is a multicast management protocol used for managing multicast groups for multicast transmissions. 
 
@@ -69,7 +69,7 @@ Trudy, on the other hand, is up to many things including:
 There are a number of different types of attacks which have countermeasures.
 
 \subsection{Mapping}
-Before any attacking can take place, we have to first understand the estate we are trying to attack. This is similar to a burglar walking around a neighbourhood before attacking to see peoples patterns of movement etc, except in networking - we are looking for what services are implemented on the network. We can use pink to determine what hosts have addresses on the network or Port Scanning which tries to establish a TCP connection to each port in sequence and sees what happens. A common tool used for port scanning is \textit{nmap} which was used in the Ethical Hacking module at L5.
+Before any attacking can take place, we have to first understand the estate we are trying to attack. This is similar to a burglar walking around a neighbourhood before attacking to see peoples patterns of movement etc, except in networking - we are looking for what services are implemented on the network. We can use ping to determine what hosts have addresses on the network or Port Scanning which tries to establish a TCP connection to each port in sequence and sees what happens. A common tool used for port scanning is \textit{nmap} which was used in the Ethical Hacking module at L5.
 
 There isn't much we can do to stop mapping. We can record all traffic entering the network and seek out suspicious activity (IP addresses, ports being scanned sequentially, etc) but as we know it's easy to spoof IPs so blocking one isn't going to necessarily stop an attacker. 
 
@@ -111,4 +111,4 @@ There are lots of security protocols used in network security, which include:
     \item IPsec - IP-level security suite
 \end{itemize}
 
-Wireless connections can be protected using 802.11i / WPA2, wired connections can be protected using IPSEC. The perimeter of a network can be defended using a firewall or Intrusion detection. Network infrastructure can be protected using BGP and S-BGP as well as DNS rebinding and DNSSEC.
+Wireless connections can be protected using 802.11i / WPA2, wired connections can be protected using IPsec. The perimeter of a network can be defended using a firewall or Intrusion detection. Network infrastructure can be protected using BGP and S-BGP as well as DNS rebinding and DNSSEC.

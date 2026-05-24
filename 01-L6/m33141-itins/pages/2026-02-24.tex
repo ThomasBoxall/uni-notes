@@ -43,12 +43,12 @@ The port number used is quite a common way of filtering packets. Specific applic
     \end{itemize}
 \end{multicols}
 
-As the port number grows to 1024 and above, they are not statically assigned. These are used for the client to make connections. Within stateless packet filtering - this is a disadvantage as if the client wants port 2048 the firewall must allow incoming traffic on that port; however it is better in stateful filtering as it can be est to only allow incoming traffic on high port to a machine that has initiated a request to a machine on a low port. 
+As the port number grows to 1024 and above, they are not statically assigned. These are used for the client to make connections. Within stateless packet filtering - this is a disadvantage as if the client wants port 2048 the firewall must allow incoming traffic on that port; however it is better in stateful filtering as it can be set to only allow incoming traffic on high port to a machine that has initiated a request to a machine on a low port. 
 
 \section{Proxying Firewalls}
 A Proxying Firewall works at the application layer to inspect traffic hitting the application and preventing direct connections between internal clients and external servers. It masks internal IP addresses and blocks malicious content before it reaches the network. 
 
-The proxies can be tailored to specific protocols, for example HTTP, FTP, SMTP, etc; with some protocols easier to proxy than others. This is a flexible approach to firewalls, however it does introduce some delays with the packets being inspected and then reconstructed. ``Batch'' based protocols are natural to proxy, such as SMTP, NNTP, DNS or NTP. 
+The proxies can be tailored to specific protocols, for example HTTP, FTP, SMTP, etc; with some protocols easier to proxy than others. This is a flexible approach to firewalls, however it does introduce some delays with the packets being inspected and then reconstructed. ``Batch'' based protocols are natural to proxy, such as SMTP, NTP, DNS or NTP. 
 
 Their core function is to protect the host running the required protocol stack. To aid this, all other services which are not needed should be disabled and security audits should be run to establish the baseline security of the system. Administrators should generally be prepared for the system to be compromised. 
 
@@ -61,10 +61,10 @@ There are four key different types of firewall.
 Rules defined on the firewall specify which packets are allowed in through the firewall and which are dropped. Rules must be configured to allow for packets to pass in both directions. Rules may specify source / destination IP addresses as well as source / destination TCP / UDP port numbers. Certain (common) protocols are very difficult to support securely (e.g. FTP). They provide a low level of security.
 
 \subsection{Circuit Level Proxy}
-This is similar to a packet filter except that packets are not routed by the proxy. THe proxy accepts incoming TCP/IP packets and uses rules to determine which connections will be allowed and which will be blocked. The connections which it has allowed generate new connections from the firewall to the server. The rules are specified in a similar way to a packet filter. It provides a low-to-medium level of security. 
+This is similar to a packet filter except that packets are not routed by the proxy. The proxy accepts incoming TCP/IP packets and uses rules to determine which connections will be allowed and which will be blocked. The connections which it has allowed generate new connections from the firewall to the server. The rules are specified in a similar way to a packet filter. It provides a low-to-medium level of security. 
 
 \subsection{Stateful Packet Filter}
-This is a packet filter which understands requests and replies - such as TCP SYN, SYN-ACK and ACK. The rules only need to specify packet sin one direction (from client to server) as in the first packet in the connection with the subsequent replies and further packets in the communication being automatically processed. Stateful packet filters support a wider range of protocols than simple packet filters, such as FTP, IRC, H323. They provide a medium-to-high level of security.
+This is a packet filter which understands requests and replies - such as TCP SYN, SYN-ACK and ACK. The rules only need to specify packets in one direction (from client to server) as in the first packet in the connection with the subsequent replies and further packets in the communication being automatically processed. Stateful packet filters support a wider range of protocols than simple packet filters, such as FTP, IRC, H323. They provide a medium-to-high level of security.
 
 \subsection{Application Level Proxy}
 This provides a complete client \& server implementation in one box for every protocol which can be expected to pass through it. It works by the client connecting to the firewall which validates the request. The firewall then connects to the server. The response comes back through the firewall and is also processed through the client/server. This uses a large amount of processing per connection. It provides a high level of security. 
@@ -75,7 +75,7 @@ There is a fifth category of firewall - `Personal Firewalls.' These are applicat
 \section{Why Do We Need Firewalls?}
 Firewalls control network traffic to and from the protected network. They can allow / block access to services (both internal and external) as well as enforcing authentication before allowing access to services. Firewalls monitor traffic in \& out of the network.
 
-Firewalls are deployed to defend a protected network against an attacker which tries to access vulnerable services which should not be available from outside the network. For example a Microsoft Exchange server running SMTP probably shouldn't be able to be accessed using HTTP, FTP or SMB; alternatively a Linux Web or Mail server shouldn't be able to be accessed using Telnet or rlogin. 
+Firewalls are deployed to defend a protected network against an attacker who tries to access vulnerable services which should not be available from outside the network. For example a Microsoft Exchange server running SMTP probably shouldn't be able to be accessed using HTTP, FTP or SMB; alternatively a Linux Web or Mail server shouldn't be able to be accessed using Telnet or rlogin. 
 
 Firewalls also provide the ability to restrict internal access to internal services. Sometimes this would be for security reasons - not waning people to download and install unknown applications, or for productivity reasons - not wanting people wasting time on non-work related websites. They may also be cost related, such as not wanting to pay the ISP for large amounts of data transfer where it may not all be necessary. 
 
