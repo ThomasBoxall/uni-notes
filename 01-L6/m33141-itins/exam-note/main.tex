@@ -1,12 +1,6 @@
 \documentclass[a4paper, 9pt]{article}
 
-\usepackage{geometry}
-\geometry{
-a4paper,
-total={190mm,267mm},
-left=10mm,
-top=10mm
-}
+\usepackage[margin=5mm]{geometry}
 \setlength\parindent{0pt} % get rid of the stupid indent
 \usepackage[skip=0.5em]{parskip}
 
@@ -17,7 +11,7 @@ pdfauthor={Thomas Boxall},
 }
 
 \begin{document}
-\textbf{ITINS Exam Note - May 2026 - 2108121}
+\textbf{ITINS Exam Note - 2108121 - May 2026}
 
 \textsc{Introduction}\\
 \textit{Threat:} potential for violation of security; \textit{vulnerability:} way by which loss can happen; \textit{attack:} assault on security system.\\
@@ -26,26 +20,30 @@ pdfauthor={Thomas Boxall},
 Policy enforcement: \textit{Secure:} reachable entirely in secure states with buffer; \textit{precise:} reachable entirely in secure, no buffer; \textit{board:} some reachable in secure, some not.
 
 \textsc{Threats, Risk Assessment \& Trust}\\
-\textit{Trust:}  assumption system is secure; \textit{assurance:} degree of confidence that a system or service meets requirements. \\
+\textit{Trust:}  assumption system is secure; \textit{Assurance:} degree of confidence that a system or service meets requirements. \\
 \textit{Risk} likelihood something bad happens \& causes harm. \textit{Ass. Steps:} 1. identify risks; 2. analyse likelihood; 3. formulate solutions for reducing; 4. continuously monitor. \textit{Risk accepted:} low value, low frequency, low impact.\\
 \textit{Single Loss Expectancy} = Assets Value $\times$ Exposure Factor. SLE $\times$ Annual Rate Occurrence = Annual Loss Expectancy.\\
-\textit{TCSEC} (Orange Book): C1 discretionary protection; C2 controlled access protection; B1 labelled security protection; B2 structured protections; B3 security domains; A1 verified protection.\\
+\textit{TCSEC} (Orange Book): D minimal protection (fail / off the shelf); C1 discretionary protection (identification \& authen. deployed \& access control); C2 controlled access protection (object reuse \& auditing configured); B1 labelled security protection (access control on limited objects, informal model of sec. pol.); B2 structured protections (trusted path for login, principl. least priv., formal sec. pol. model, config mgmt.); B3 security domains (full validation mechanism at arch. level, constraints on code devel., documentation \& testing); A1 verified protection (formal methods analysis \& verification, trusted distribution).\\
 \textit{ITSEC} E1 informal architecture, security target defined \& tested; E2 informal descr. design, config control; E3 correspondence between code \& sec. target; E4 formal model sec. pol. structured design, vulnerability analysis; E5 code matches design, code vuln. analysis; E6 formal architecture, formal design map to sec. pol., executable maps to source.
 
 \textsc{Firewalls}\\
+Types (in sec order): Basic Packet Filter, Circuit Level Proxy, Stateful PF, Application Level Proxy, Personal. \\
 Ports: 20, 21 FTP; 22 SSH; 23 Telnet; 25 SMTP (send email); 52 DNS; 80 HTTP; 110 POP3 (col. email); 143 IMAP (col. email); 443 HTTPS. \textgreater 1024 dynamically assigned. \textless 1024 statically assigned to appl. Max no. 16383. \\
 \textit{Routed mode:} border between 2 networks, L3 NAT boundary; \textit{Transparent mode:} between two existing routers, no NAT boundary, no IP altering.\\
 Cisco Scenarios: \textit{Small Branch:} 2 VLANS inside \& outside; \textit{Small Business:} 3 VLANS inside, outside, DMZ; \textit{Enterprise:} corp hq, 2 remote wrks. IPsec VPN, ASA fw at boundaries of 3x network.
 
 \textsc{Intrusion \{Detection/Prevention\} Service}\\
 \textit{Network Intrusion:} 1. reconnaissance; 2. access; 3. elevate; 4. root kit; 5. utilise.\\
-IDS before IPS. IDS only observe, IPS take action. IPS introduce slight delay when in-line.\\
+\textit{IDS:} out-of-band; passive inspection only; triggers logs / alerts after detection. Invented first.\\
+\textit{IPS:} physically in-line with core traffic flow path; active mitigation; drops packets; can introduce slight delay for pkt. inspection.
 IDS deploy where traffic go from one layer to another. IPS deploy in-line at border between diff. networks. IDS \& IPS not mutex.\\
-Detection rules = signatures, like AV signatures. \textit{Atomic} 1 packet; \textit{composite} many packets.
+Detection rules = signatures, like AV signatures. \textit{Atomic} 1 packet; \textit{composite} many packets. High accuracy for known exploits, blind to zero-days exploits. \textit{Anomaly Based:} uses baseline of normal network behaviour patterns over time, flags metrics outside this, can identify zero-days, notorious for high false-positive rates\\
+\textit{Cisco IPS Actions:} Drop, alert, reset TCP connection, isolate
 
 \textsc{Authentication, Authorisation and Accounting}\\
+\textit{Methods:} What you know, are, have. PWs, PINs, Biom. Alts: Graphical, Elec. Tattoos, Chip filled pills, SecurID. \\
 \textit{Kerberos:} User contacts Auth. Server (within Key Distribution Centre). AS responds with encrypted Ticket Granting Service Ticket. User sends TGT to TGS. TGS returns encrypted service ticket to user. User uses service ticket to access network service.\\
-\textit{Kerberos v5:} separate subkey for each session; authen. uses subkeys; authen.fwd. (ie print server can access email server on users behalf etc); realm hierarchies; multiple encryption schemes.\\
+\textit{Kerberos v5:} separate subkey for each session; authen. uses subkeys; authen. fwd. (ie print server can access email server on users behalf etc); realm hierarchies; multiple encryption schemes.\\
 \textit{Administrative Domains:} X.500 series of standards; X.511 defines standard operations\\
 \textit{LDAP} is simplified X.500; LDAP uses TCP
 
@@ -69,10 +67,12 @@ ESP, Tun: New IP header, \underline{ESP header, \{IP header, TCP header, Data, E
 \textit{VPN:} Remote access: IPsec or SSL, user initiated, from client to server. Site-to-Site: VPN gateway encapsulates all outgoing traffic, and decrypted on receiving site, IPsec.
 
 \textsc{MPLS}\\
-between layer 2 and 3 of OSI. Maps IP addresses to fixed-length labels. Interfaces with RSVP and OSPF.\\
+Between layer 2 and 3 of OSI. Maps IP addresses to fixed-length labels. Interfaces with RSVP and OSPF.\\
 \textit{Shim:} between link layer header \& network layer header. Generic format: 20 bits label; 3 experimental bits (used as class of service); 1 bottom of stack; 8 TTL.\\
 \textit{Components:} Label Edge Router (edge of MPLS, assign and remove labels); Label Switching Router (high speed router in core of MPLS network); Forward Equivalence Class (representation of group of packets sharing same requirements, pkts assigned to FEC once when they enter network); Label Switched Path (path is representation of FEC, established before routing starts. Ether hop-by-hop (LSR independently selects next hop) or ingress LSR specifies nodes).\\
-\textit{Operation:} label creation and distribution; table creation at each router (making entries in label information base); label-switched path creation (done in reverse direction to entries in LIBs); label insertion / table lookup; packet forwarding. 
+\textit{Operation:} label creation and distribution; table creation at each router (making entries in label information base); label-switched path creation (done in reverse direction to entries in LIBs); label insertion / table lookup; packet forwarding. \\
+\textit{Adv.:} improves packet fwd. performance,; supports QoS \& CoS; scalable; intergrates IP \& ATM; interoperable. \textit{Disadv.:} additional complexity for router \& additional layer in packet.\\
+\textit{MPLS VPN:} Customer Edge Router, Provider Edge Router, Provider Router, AS Border Router
 
 \textsc{Auditing}\\
 \textit{Types:} Process, Product, System\\
@@ -81,10 +81,15 @@ between layer 2 and 3 of OSI. Maps IP addresses to fixed-length labels. Interfac
 
 \textsc{Wi-Fi}\\
 \textit{802.11:} a 54M@5G; b 11M@2.4G; g 45M@2.4G; n(4) 600M@2.4,5G; ac(5) 6.933G@5G; ax(6) 9.6078G@2.4,5G; d regulatory domains; e QoS; f IAPP; g DSS \& TPC; i security; j Japan 5GHz; k measurements\\
+\textit{Challenges:} interference (unlicensed spectrum, blame baby monitors, mobile phones, microwaves); health issues. \\ 
 \textit{Attacks:} Reconnaissance; Rogue AP; WEP bit flipping; DoS; WLAN Jack\\
-\textit{WEP:} single shared key between AP and all devices.\\
 \textit{Authen. \& Assoc.:} Probe, Authentication, Association. S1: Unauth. \& Unassoc.; S2: Auth. \& Unassoc.; S3: Auth. \& Assoc.\\
 \textit{Open Auth.:} On success, client \& AP: Auth Algorithm No: 0; Authn Trans. Seq. No.: 1; AP only: Status Code: 0\\
+\textit{Hierarchy:} 802.11i (WPA2 Full std.) \textgreater WPA2 \textgreater WPA \textgreater WEP.\\
+\textit{WEP:} Static key, short 24-bit Initialisation Vector with RC4 cipher. Weak IVs repeat quickly, allows packet capture and decrypt root key.\\
+\textit{WPA:} Stopgap for WEP. Same hardware as WEP but needs firmware update. Replaces RC4 with TKIP and adds per-packet key hashing.\\
+\textit{WPA2:} Robust. Advanced CCMP (counter mode cipher block chaining message authentication code protocol), uses AES. \\
+\textit{WPA vs. 802.11i:} Common: OPeration within BSS, cipher \& authentication negotiation during initial association, dynamic keys (temp. session keys), key hierarchy (pairwise master key produces pairwise transient key). Different: WPA no pre-authentication (802.11i has it which means client complete 802.1X auth. to new ap before disconnecting from current)
 \textit{EAP Process:} EAP supplicant associates with AP; AP blocks all requests to LAN; client provides login credentials, sent to RADIUS; client auth. RADIUS server; RADIUS server auth. client; RADIUS server \& client derive unicast WEP keys; RADIUS server delivers unicast WEP key to AP; AP delivers broadcast WEP key encrypted with unicast WEP key to client; client and AP activate WEP and use keys for transmission.\\
 \textit{WLC Topology:} Central switching: WLC switches all WLC traffic; Central vs. Local switching: branch site switch does local switching, all other traffic sent over WAN link to HQ for WLC switching. APs have to contact WLC over Layer 3. 
 
