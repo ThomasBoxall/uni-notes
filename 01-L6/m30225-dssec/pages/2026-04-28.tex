@@ -387,7 +387,7 @@ IKEv2 is a revised version of IKEv1. It revises 12 things:
     \item Remove the domain of interpretation, situation and labelled domain identifier fields, and the commit and authentication bits
     \item Decrease IKE's latency in the common case by making the initial exchange 4 messages, and allowing piggybacking setup of Child SA on that exchange
     \item Replace the cryptographic syntax for protecting IKE messages with one based closely on ESP to simplify implementation and security analysis
-    \item Reduce the number of possible error states by making the protocol reliable (i.e. all messages are acknowledges) and sequenced; has allowed for shortening creation of a child SA from 3 messages to 2
+    \item Reduce the number of possible error states by making the protocol reliable (i.e. all messages are acknowledged) and sequenced; has allowed for shortening creation of a child SA from 3 messages to 2
     \item Increase robustness by allowing the responder to do not significant processing until it receives a message providing that the initiator can received messages at its claimed IP address
     \item Fix cryptographic weaknesses such as the problem with symmetries in hashes used for authentication
     \item To specify Traffic Selectors in their own payload type rather than overloading ID payloads; making more flexible the required Traffic Selectors
@@ -404,4 +404,4 @@ The IKEv2 tunnel is a single layered tunnel and is established through a single 
     \item B $\rightarrow$ A: Authentication exchange
 \end{enumerate}
 
-The firs two messages are used for IKE SA establishment and key generation. The final two messages are usd to identify authentication and the establishment of rhe first pair of IPsec SAs. 
+The first two messages are used for IKE SA establishment and key generation. The final two messages are used to identify authentication and the establishment of the first pair of IPsec SAs. 

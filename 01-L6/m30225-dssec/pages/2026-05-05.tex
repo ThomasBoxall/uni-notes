@@ -44,9 +44,9 @@ The record protocol divides traffic into a series of records, each of which are 
 \subsection{Record Protocol}
 The TLS record protocol is a session-level protocol. It transport the application data transparently between a pair of processes, guaranteeing the confidentiality, integrity and authenticity of the data. The communicating peers can deploy decryption and authentication of messages in each direction, with each peer being able to store session identifiers for subsequent reuse, avoiding the overhead of establishing a new session.
 
-The record protocol adds a secure comms layer below existing application-level protocols which is typically used to secure HTTP interactions for internet commerce and other security-sensitive applications. It is implemented by virtually all web browsers and web servers.
+The record protocol adds a secure communications layer below existing application-level protocols which is typically used to secure HTTP interactions for internet commerce and other security-sensitive applications. It is implemented by virtually all web browsers and web servers.
 
-The protocol prefix \verb|https:| in URLs initiates the establishment of a TLS secure channel between a browser and a web server.
+The protocol prefix \verb|https://| in URLs initiates the establishment of a TLS secure channel between a browser and a web server.
 
 When transmitting, the message size for transmission is first fragmented into blocks of a manageable size, then the blocks are optionally compressed. Compression is not strictly a feature of secure communication, but it is provided here because a compression algorithm can usefully share some of the work of processing the bulk data with the encryption and digital signature algorithms. 
 
@@ -214,7 +214,7 @@ There are links to information about the other vulnerabilities in the slides on 
     \item Cipher suite concept changed to separate the authentication and key exchange mechanisms from the record protection algorithm, and a hash to be used with both the key derivation function and handshake message authentication code (MAC)
     \item A zero round-trip time (0-RTT) mode was added, saving a round trip at connection setup for some application data, at the cost of certain security properties
     \item Static RSA and DH cipher suites have been removed. All public-key based key exchange mechanisms now provide forward secrecy
-    \item All handshake messages after the ServerHello are now encrypted. The newly introduced EncryptedExtensions message allows various extensions previously sent in the clear int he ServerHello to be protected 
+    \item All handshake messages after the ServerHello are now encrypted. The newly introduced EncryptedExtensions message allows various extensions previously sent in the clear in the ServerHello to be protected 
     \item The key derivation functions have been redesigned - allowing easier analysis by cryptographers due to their new key separation properties. The HMAC-based Extract-and-Expand Key Derivation Function (HKDF) is used as an underlying primitive
     \item The handshake state machine has been significantly restructured to be more consistent and to remove superfluous messages such as ChangeCipherSpec
     \item Elliptic curve algorithms are now in the base spec

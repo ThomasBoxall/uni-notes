@@ -10,10 +10,10 @@ NSSK uses a \textit{Key Distribution Centre} (KDC) to distribute shared session 
 Then when $A$ and $B$ want to communicate, the KDC helps establish a fresh shared key between them, $K_{ab}$. This is generated using single-use random number (Nonces), $N_a$ and $N_b$, which are used to help authenticate the parties. The message flow can be seen below:
 
 \begin{enumerate}
-    \item $A \rightarrow S$: $A$, $B$, $N_A$\\
+    \item $A \rightarrow S$: $A$, $B$, $N_a$\\
     $A$ requests $S$ to supply a key for communication with $B$.
     \item $S \rightarrow A$: $\{N_a, B, K_{ab}, \{K_{ab}, A\}_{K_{bs}}\}_{K_{as}}$\\
-    $S$ returns a message encrypted in $A$'s secret key ($K_a$) containing the newly generated $K_{ab}$ and a ticket encrypted in $B$'s secret key. The nonce $N_a$ demonstrates that the message was sent in response to the preceding one. $A$ believes that $S$ sent the message because only $S$ knows $A$'s secret key.
+    $S$ returns a message encrypted in $A$'s secret key ($K_a$) containing the newly generated $K_{ab}$ and a ticket encrypted with $B$'s secret key. The nonce $N_a$ demonstrates that the message was sent in response to the preceding one. $A$ believes that $S$ sent the message because only $S$ knows $A$'s secret key.
     \item $A \rightarrow B$: $\{K_{ab}, A\}_{K_{bs}}$\\
     $A$ sends the ticket to $B$.
     \item $B \rightarrow A$: $\{N_b\}_{K_{ab}}$\\
@@ -43,7 +43,7 @@ A client must possess a ticket and session key for each server that they use. Th
 Each \textit{Key Distribution Centre} (KDC) contains within it an \textit{Authentication Service} (AS) and a \textit{Ticket Granting Service} (TGS). On login, users are authenticated by the AS. The client is supplied with a TGS ticket and a session key for subsequent communication with the TGS. The client can use the TGS ticket to obtain tickets and session keys for specific services, called \textit{server keys}, from the TGS.
 
 \subsection{Kerberos' Relationship to NSSK}
-As alluded to above, Kerberos is related to NSSK. Kerberos follows NSSK quite closely, however Kerberos adds more Nonces which serves two purposes:
+As alluded to above, Kerberos is related to NSSK. Kerberos follows NSSK quite closely, however Kerberos adds more Nonces which serve two purposes:
 \begin{itemize}
     \item To guard against replays of old messages intercepted in the network or the reuse of old tickets found in the memory of machines from which the authorised user has logged out; and
     \item To apply a lifetime to tickets, enabling the system to revoke user's rights if they cease to be authorised users of the system.
@@ -61,7 +61,7 @@ The below steps show how Kerberos works:
     \item $C \rightarrow A$: $C, T, n$\\
     Client $C$ requests the Kerberos authentication server $A$ to supply a ticket for communicating with the ticket-granting service $T$. 
     \item $A \rightarrow C$: $\{K_{ct}, n\}_{K_{c}}, \{ticket(C,T)\}_{K_{t}}$\\
-    $AS$ returns a message containing a ticket encrypted in it's secret key and a session key for $C$ to use with $T$. The inclusion of nonce $n$ encrypted in $K_c$ shows that the message comes from the recipient of message 1, who must know $K_c$. The ticket contains $C, T, T_1, t_2, K_{ct}$ where $t_1$ and $t_2$ are the start and end time for the ticket to be valid.
+    $A$ returns a message containing a ticket encrypted in it's secret key and a session key for $C$ to use with $T$. The inclusion of nonce $n$ encrypted in $K_c$ shows that the message comes from the recipient of message 1, who must know $K_c$. The ticket contains $C, T, t_1, t_2, K_{ct}$ where $t_1$ and $t_2$ are the start and end time for the ticket to be valid.
 \end{enumerate}
 
 \textbf{Part B: Obtain ticket for a server, once per client-server session}
@@ -77,7 +77,7 @@ The below steps show how Kerberos works:
 \begin{enumerate}
     \setcounter{enumi}{4}
     \item $C \rightarrow T$: $\{auth(C)\}_{K_{cs}}, \{ticket(C,S)\}_{K_{s}}, request, n$\\
-    $C$ sends teh ticket to $S$ with a newly generated authenticator for $C$ and a request. The request would be encrypted in $K_{cs}$ if secrecy of the data is required.
+    $C$ sends the ticket to $S$ with a newly generated authenticator for $C$ and a request. The request would be encrypted in $K_{cs}$ if secrecy of the data is required.
 \end{enumerate}
 
 \textbf{Part D: Client authenticates server [optional]}
@@ -113,7 +113,7 @@ Access privileges are specified and subjects' access to objects are determined t
 \end{define}
 
 \section{SAML}
-The OASIS \textit{Security Association Markup Language} (SAML) standard defines an XML-based framework for describing and exchanging security information between online business partners. This security information is expressed in the form of portable SAML assertions that applications working across the boundaries of security domains can trust. The OASIS SAML standard defines precise syntax and rules for requesting, creating, communicating and using these SAML assertions. SAML is behind many `single sign on' applications. It can be seen with the \verb|sso.port.ac.uk| authentication method which UoP uses.
+The OASIS \textit{Security Association Markup Language} (SAML) standard defines an XML-based framework for describing and exchanging security information between online business partners. This security information is expressed in the form of portable SAML assertions that applications working across the boundaries of security domains can trust. The OASIS SAML standard defines precise syntax and rules for requesting, creating, communicating and using these SAML assertions. SAML is behind many `single sign on' applications.
 
 \subsection{Single Sign On}
 \textit{Single Sign On} (SSO) is the idea of logging in once and this identity being usable across multiple different applications, websites, or service. 
@@ -146,13 +146,8 @@ SAML can dynamically establish a federated identity during web SSO. Local identi
 
 The process of associating a federated identifier with the local identity at a partner is called account linking.
 
-\begin{example}{Federated Identity Management}
-In this example there is one IdP: airline.example.com, and two SPs: cars.example.com and hotels.example.com. The user is registered on all three provider sites but the local accounts all have different account identifiers:
-\begin{itemize}
-    \item airlines.example.com - John is registered as \textit{johndoe}
-    \item cars.example.com - John is registered as \textit{jdoe}
-    \item hotels.example.com - John is registered as \textit{johnd}
-\end{itemize}
+\begin{example}{Federated Identity Management \& Account Linking}
+In this example there is one IdP: airline.example.com, and two SPs: cars.example.com and hotels.example.com. The user, John Doe, is registered on all three provider sites but the local accounts all have different account identifiers \textit{johndoe}, \textit{jdoe}, and \textit{johnd} respectively.
 
 The sites have agreed to use persistent privacy-preserving pseudonyms for the user's federated identities. John hasn't previously federated identities between these sites.
 
@@ -166,7 +161,7 @@ After reserving a car, John heads to hotels.example.com in order to book a hotel
 
 John is redirected back to the hotels.example.com SP with a new SAML assertion. The SP requires John to log into his local \textit{johnd} user account and adds the pseudonym as the federated name identifier for future use with the IdP airline.example.com. The user accounts at the IdP and this SP are now linked using the federated name identifier \textit{f78q9C0}.
 
-hotels.example.com does not know about the federation with, or John's account on, cars.example.com. Equivalently, cars.example.com does not know about John's account on or federation with hotels.example.com. 
+hotels.example.com does not know about the federation with, or John's account on, cars.example.com. Equivalently, cars.example.com does not know about John's account on, or federation with, hotels.example.com. 
 
 In the future, when John needs to make another booking, he will only need to log in once at airline.example.com.
 

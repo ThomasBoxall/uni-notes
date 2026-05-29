@@ -19,10 +19,10 @@ There are also a number of other essential definitions we will need for this mod
 \item[Vulnerability] A weakness of an asset or control that can be exploited by one or more threats
 \item[Impact] The result of an information security incident, caused by a threat, which affects assets
 \item[Risk] Expressed in terms of a combination of the consequences of an event and the associated likelihood of occurrence
-\item[Control] Any process, policy, device, practice, or other action which can modify networks
+\item[Control] Any process, policy, device, practice, or other action which can modify risk
 \end{define}
 
-Security has always been needed in distributed systems and computer networks. Historically a network would have been a private entity, where all connected devices either are hard-wired to the same central point, or use local wireless connections. This was reasonably easy to secure as there are minimal points of data entry \& exit, and these often would go through enterprise hardware which supports security. 
+Security has always been needed in distributed systems and computer networks. Historically a network would have been a private entity, where all connected devices either are hard-wired to the same central point, or use local wireless connections. This was reasonably easy to secure as there are minimal points of data entry \& exit, and these often would go through enterprise hardware which support security. 
 
 In the more-recent times, teleworking has become fashionable. This is where one or more users requires remote access to the corporate network, which has to be provided in a safe and secure manner. This principle can be extended to see that remote sites have to be connected to the primary corporate site; again in a safe and secure manner. 
 
@@ -59,7 +59,7 @@ Cryptography is a technical control used to reduce information security risks. I
     \item The ciphertext: $c$
     \item The encryption algorithm $E$
     \item The plaintext: $m$
-    \item The key $K$ (sometimes represented differently depending on the type of key, more on this later)
+    \item The key $K$ (sometimes represented differently depending on the type of key, more on this later), alternatively shown as $k$ in these notes
     \item The decryption algorithm: $D$
 \end{itemize}
 
@@ -121,8 +121,8 @@ The `Textbook' RSA algorithm is a textbook-suitable version of the RSA algorithm
     \item Choose two large primes $p$ and $q$, and calculate $n=p\times q$
     \item From $n$, follow some maths steps to calculate the value $e$ and $d$
     \item Publish $n$ and $e$, keep $d$ a secret, and destroy $p$ \& $q$
-    \item Encryption of $m$ is now $c=m^e (mod n)$
-    \item Decryption of $c$ is then $m = c^d (mod n)$
+    \item Encryption of $m$ is now $c=m^e (mod\ n)$
+    \item Decryption of $c$ is then $m = c^d (mod\ n)$
 \end{itemize}
 
 \begin{example}{Textbook RSA}
@@ -156,7 +156,7 @@ Digital Signatures are an extension of the above - the idea that we can tack som
 \item[Non-repudiable] The signer cannot credibly deny that the document was signed by them
 \end{define}
 
-This brings us onto Digital Signatures with secret / symmetric key. This is considerably simpler than asymmetric as A \& B both use $k_{AB}$ to communicate and they are the only ones to have this key. Therefore no other entity cannot claim to have created the ciphertext received by B. The issue of key exchange, distribution and management remains an issue however.
+This brings us onto Digital Signatures with secret / symmetric keys. This is considerably simpler than asymmetric as A \& B both use $k_{AB}$ to communicate and they are the only ones to have this key. Therefore no other entity cannot claim to have created the ciphertext received by B. The issue of key exchange, distribution and management remains an issue however.
 
 \subsection{Hash Functions}
 A \textit{hash} function is an algorithm which produces a fixed-length bit pattern that characterises an arbitrary-length message. They are another important cryptographic primitive. Popular hash algorithms include SHA-1, MD5 and SHA-2. 
@@ -166,7 +166,7 @@ They are also known as one-way functions, or trapdoor functions, that should sat
     \item Given $M$, it is easy to compute $H(M)$
     \item Given $H(M)$, it is hard to compute $M$
     \item Given $M$, it is hard to find another message $M'$, such that $H(M) = H(M')$
-    \item it is hard to find two messages $M$ and $M'$ such that $H(M) = H(M')$
+    \item It is hard to find two messages $M$ and $M'$ such that $H(M) = H(M')$
 \end{itemize}
 
 The last two look similar, however they're different. 
@@ -208,7 +208,7 @@ Alternatively, the certification path may be longer:
 
 Both of these work in the same way that when a resource is attempted to be accessed, it's root certificate is verified. For example, accessing \verb|google.com| through a web browser: the web browser receives the certificate for \verb|google.com| and verifies that it's trust anchor is in date, not revoked, and trusted by the web browser. This is the same for other uses of certificates, just that the trust list may be in a different place.
 
-There are approximately 60 Root CAs in the world, which all public certificates are derived from. An enterprise may also have their own Root CA and therefore their own PKI infrastructure which is used to manage internal trust to internal resources. Obviously in the later scenario, any devices which needs to trust the resources needs to trust the organisations Root CA. 
+There are approximately 60 Root CAs in the world, which all public certificates are derived from. An enterprise may also have their own Root CA and therefore their own PKI which is used to manage internal trust to internal resources. Obviously in the later scenario, any devices which needs to trust the resources needs to trust the organisations Root CA. 
 
 A Public Key Infrastructure (PKI) is a framework that manages digital certificates and public-key encryption. It addresses security requirements, including authentication via a framework for public key certificates. The framework specifies the information objects including data types for a PKI including:
 \begin{itemize}
